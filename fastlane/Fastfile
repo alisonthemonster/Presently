@@ -24,7 +24,7 @@ platform :android do
   end
 
   desc "Run unit tests and generate coverage report"
-  lane unit_tests do
+  lane :unit_tests do
     gradle(task: "testCoverage")
   end
 
