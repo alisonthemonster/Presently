@@ -4,6 +4,10 @@ default_platform(:android)
 
 platform :android do
 
+  before_all do
+    setup_circle_ci
+  end
+
   desc "Clean up workspace"
   lane :cleanup do
     gradle(task: "clean")
