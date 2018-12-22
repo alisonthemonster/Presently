@@ -1,17 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.71'
     repositories {
+        apply from: 'versions.gradle'
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath "org.jacoco:org.jacoco.core:$jacoco_version"
     }
 }
 
@@ -20,8 +18,32 @@ allprojects {
         google()
         jcenter()
     }
+
+    project.ext.androidVersionName = createVersionName()
+    project.ext.buildNumber = getBuildNumber()
+    project.ext.branchName = getBranchName()
+}
+
+def createVersionName() {
+    def buildNumber = getBuildNumber()
+    def patchNumber = 0
+    if (getBranchName().startsWith("release/")) {
+        patchNumber = buildNumber - 1
+    }
+    return major + "." + minor + "." + patchNumber
+}
+
+String getBranchName() {
+    return project.hasProperty("branchName") ? ((String) project.properties['branchName']).toString() : ""
+}
+
+//get the build number from the build server
+String getBuildNumber() {
+    return project.hasProperty("buildNumber") ? ((String) project.properties['buildNumber']).toString() : ""
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+// TODO add detekt

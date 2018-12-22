@@ -1,0 +1,13 @@
+ext {
+    major = 0
+    minor = 1
+
+    androidCompileSdk = 28
+    androidTargetSdk = 28
+    androidMinSdk = 23
+
+    gradle_version = "3.2.1"
+    kotlin_version = "1.3.11"
+
+    jacoco_version = "0.8.2"
+}
