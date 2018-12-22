@@ -16,7 +16,6 @@ platform :android do
   desc "Run static code analysis"
   lane :static_analysis do
     gradle(task: "lint")
-    //gradle(task: "ktlint") // TODO
   end
 
   desc "Build variants of the app"
@@ -27,7 +26,6 @@ platform :android do
   desc "Run unit tests and generate coverage report"
   lane unit_tests do
     gradle(task: "testCoverage")
-    // TODO add danger reporting
   end
 
   error do [lane, exception, options|
