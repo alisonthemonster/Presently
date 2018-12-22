@@ -8,7 +8,6 @@ jobs:
       JVM_OPTS: -Xmx3200m
       FL_OUTPUT_DIR: output
       FASTLANE_LANE: test
-    shell: /bin/bash --login -o pipefail
     steps:
       - checkout
       - restore_cache:
