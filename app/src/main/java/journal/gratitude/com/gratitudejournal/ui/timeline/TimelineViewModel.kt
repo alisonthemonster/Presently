@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal
+package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.arch.lifecycle.ViewModel;
 
