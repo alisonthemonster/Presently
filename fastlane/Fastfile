@@ -28,8 +28,4 @@ platform :android do
     gradle(task: "testCoverage")
   end
 
-  error do [lane, exception, options|
-    puts "Failed to execute lane #{lane_context[SharedValues::LANE_NAME]}"
-  end
-
 end
