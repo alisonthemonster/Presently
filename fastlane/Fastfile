@@ -29,7 +29,7 @@ platform :android do
   end
 
   error do [lane, exception, options|
-    puts "Failed to execute lane #{lane_context[SharedValues::LANE_NAME}"
+    puts "Failed to execute lane #{lane_context[SharedValues::LANE_NAME]}"
   end
 
 end
