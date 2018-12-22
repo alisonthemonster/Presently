@@ -1,37 +1,6 @@
 version: 2
 
 references:
-  # Reusable references that will be used in the jobs
-
-jobs:
-  ## Run unit tests
-  test_unit:
-    <<: *android_config
-    steps:
-      - checkout
-      - *restore_gradle_cache
-      - *restore_gems_cache
-      - *ruby_dependencies
-      - *android_dependencies
-      - *save_gradle_cache
-      - *save_gems_cache
-      - run:
-          name: Run unit tests
-          command: bundle exec fastlane unit_tests
-      - store_artifacts:
-          path: app/build/reports/
-          destination: /reports/
-      - store_test_results:
-          path: app/build/test-results/
-          destination: /test-results/
-
-workflows:
-  version: 2
-  workflow:
-    jobs:
-      - test_unit
-
-references:
   workspace: &workspace
     ~/src
 
@@ -80,3 +49,32 @@ references:
       key: *gems_key
       paths:
         - vendor/bundle
+
+jobs:
+  ## Run unit tests
+  test_unit:
+    <<: *android_config
+    steps:
+      - checkout
+      - *restore_gradle_cache
+      - *restore_gems_cache
+      - *ruby_dependencies
+      - *android_dependencies
+      - *save_gradle_cache
+      - *save_gems_cache
+      - run:
+          name: Run unit tests
+          command: bundle exec fastlane unit_tests
+      - store_artifacts:
+          path: app/build/reports/
+          destination: /reports/
+      - store_test_results:
+          path: app/build/test-results/
+          destination: /test-results/
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - test_unit
+
