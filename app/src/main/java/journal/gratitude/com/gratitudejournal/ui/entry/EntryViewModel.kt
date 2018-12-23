@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import journal.gratitude.com.gratitudejournal.util.SingleLiveEvent
+import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import org.threeten.bp.LocalDate
 
@@ -22,16 +23,18 @@ class EntryViewModel(dateString: String) : ViewModel() {
         return when (date) {
             today -> "Today" //TODO move to resources
             today.minusDays(1) -> "Yesterday"
-            else -> date.toString()
+            else -> date.toFullString()
         }
     }
 
     fun fetchEntryContent() {
-        val content = "OMG WE GOT SOME STUFF. What a time to be alive"
+        isSaving.set(true)
 
         //TODO get real content
+        val content = "OMG WE GOT SOME STUFF. What a time to be alive"
 
         isSaved.set(true)
+        isSaving.set(false)
         entryContent.set(content)
     }
 
