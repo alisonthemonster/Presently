@@ -19,7 +19,9 @@ def fileFilter = ['**/R.class',
                   '**/Manifest*.*',
                   '**/*Test*.*',
                   'android/**/*.*',
+                  '**/SingleLiveEvent*',
                   '**/*Fragment*',
+                  '**/*Application*',
                   '**/model/*.*',
                   '**/*Binding*.*',
                   '**/*adapter*.*',
@@ -78,9 +80,9 @@ def printReport(task) {
             'instruction': percentage(counters.find { it.'@type'.equals('INSTRUCTION') }),
             'branch'     : percentage(counters.find { it.'@type'.equals('BRANCH') }),
             'complexity' : percentage(counters.find { it.'@type'.equals('COMPLEXITY') }),
-            'line' : percentage(counters.find { it.'@type'.equals('LINE') }),
-            'method' : percentage(counters.find { it.'@type'.equals('METHOD') }),
-            'class' : percentage(counters.find { it.'@type'.equals('CLASS') })
+            'line'       : percentage(counters.find { it.'@type'.equals('LINE') }),
+            'method'     : percentage(counters.find { it.'@type'.equals('METHOD') }),
+            'class'      : percentage(counters.find { it.'@type'.equals('CLASS') })
     ]
 
     def failures = []
@@ -89,11 +91,11 @@ def printReport(task) {
     // Fail the task if the coverage is below these numbers
     def minTestCoverage = [
             'instruction': 70,
-            'branch': 70,
-            'line': 70,
-            'complexity': 70,
-            'method': 70,
-            'class': 70
+            'branch'     : 70,
+            'line'       : 70,
+            'complexity' : 70,
+            'method'     : 70,
+            'class'      : 70
     ]
 
     metrics.each {
