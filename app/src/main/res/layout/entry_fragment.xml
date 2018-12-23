@@ -28,7 +28,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"
                 android:textAppearance="@style/TextAppearance.Title"
-                android:text="September 29, 2018"/>
+                android:text="@{viewModel.dateString}"/>
         <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 android:layout_marginEnd="16dp"
                 tools:text="I was thankful for"
                 android:textAppearance="@style/TextAppearance.Title"
-                android:text="I was thankful for"/>
+                android:text="@{viewModel.thankfulString}"/>
 
         <View
                 android:layout_width="0dp"

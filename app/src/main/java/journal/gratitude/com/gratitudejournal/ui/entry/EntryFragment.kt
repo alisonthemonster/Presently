@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
 
 class EntryFragment : Fragment() {
 
@@ -25,10 +27,27 @@ class EntryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(EntryViewModel::class.java)
+
+        val passedInDate = arguments?.getString(DATE) ?: LocalDate.now().toString()
+
+        viewModel = ViewModelProviders.of(
+            this,
+            EntryViewModelFactory(passedInDate)
+        ).get(EntryViewModel::class.java)
     }
 
     companion object {
-        fun newInstance() = EntryFragment()
+        const val DATE = "date_key"
+
+        fun newInstance(date: LocalDate = LocalDate.now()): EntryFragment {
+            val fragment = EntryFragment()
+
+            val bundle = Bundle()
+            bundle.putString(DATE, date.toString())
+            fragment.arguments = bundle
+
+            return fragment
+        }
+
     }
 }
