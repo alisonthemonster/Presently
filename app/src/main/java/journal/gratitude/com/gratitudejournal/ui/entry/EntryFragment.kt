@@ -6,27 +6,29 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
 
 class EntryFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = EntryFragment()
-    }
-
     private lateinit var viewModel: EntryViewModel
+    private lateinit var binding: EntryFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.entry_fragment, container, false)
+        binding = EntryFragmentBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
+
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(EntryViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
+    companion object {
+        fun newInstance() = EntryFragment()
+    }
 }
