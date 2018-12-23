@@ -12,4 +12,9 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
+    <style name="TextAppearance.Title" parent="android:TextAppearance">
+        <item name="android:textSize">36sp</item>
+        <item name="fontPath">fonts/value-serif.ttf</item>
+    </style>
+
 </resources>

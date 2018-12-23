@@ -9,13 +9,76 @@
         tools:context=".ui.entry.EntryFragment">
 
     <TextView
-            android:id="@+id/message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/date_string"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            tools:text="September 29, 2018"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="@style/TextAppearance.Title"
+            android:text="September 29, 2018"/>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/thankful_for"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/date_string"
+            app:layout_constraintStart_toStartOf="@+id/date_string"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            tools:text="I was thankful for"
+            android:textAppearance="@style/TextAppearance.Title"
+            android:text="I was thankful for"/>
+
+    <View
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:background="@color/colorAccent"
+            app:layout_constraintTop_toBottomOf="@+id/thankful_for"
+            app:layout_constraintStart_toStartOf="@+id/thankful_for"
+            app:layout_constraintEnd_toEndOf="@+id/thankful_for"
+            android:id="@+id/divider_line"
+            android:layout_marginTop="16dp"/>
+
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:hint="What are you thankful for today?"
+            app:layout_constraintStart_toStartOf="@+id/thankful_for"
+            android:singleLine="false"
+            android:inputType="textCapSentences"
+            android:gravity="top|start"
+            app:layout_constraintEnd_toEndOf="@+id/thankful_for"
+            android:id="@+id/entry_text"
+            app:layout_constraintTop_toBottomOf="@+id/divider_line"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/divider_line2"
+            android:layout_marginBottom="8dp"/>
+    <View
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:background="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="@+id/thankful_for"
+            app:layout_constraintEnd_toEndOf="@+id/thankful_for"
+            android:id="@+id/divider_line2"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/saved_text"/>
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Entry"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/saved_text"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Saved"
+            android:text="Saved"/>
 
 </android.support.constraint.ConstraintLayout>
