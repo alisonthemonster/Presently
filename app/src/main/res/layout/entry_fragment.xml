@@ -5,6 +5,9 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View"/>
+
         <variable name="viewModel"
                   type="journal.gratitude.com.gratitudejournal.ui.entry.EntryViewModel"/>
 
@@ -56,13 +59,15 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@android:color/transparent"
-                android:hint="What are you thankful for today?"
+                android:hint="@string/what_are_you_thankful_for"
                 app:layout_constraintStart_toStartOf="@+id/thankful_for"
                 android:singleLine="false"
-                android:inputType="textCapSentences"
+                android:inputType="textCapSentences|textMultiLine"
+                android:scrollHorizontally="false"
                 android:gravity="top|start"
                 app:layout_constraintEnd_toEndOf="@+id/thankful_for"
                 android:id="@+id/entry_text"
+                android:text="@={viewModel.entryContent}"
                 app:layout_constraintTop_toBottomOf="@+id/divider_line"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/divider_line2"
@@ -87,7 +92,7 @@
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:text="Saved"
-                android:text="Saved"/>
+                android:text="@{viewModel.getSavingString}"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

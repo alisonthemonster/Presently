@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -34,6 +35,20 @@ class EntryFragment : Fragment() {
             this,
             EntryViewModelFactory(passedInDate)
         ).get(EntryViewModel::class.java)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        observeErrors()
+
+        viewModel.fetchEntryContent()
+    }
+
+    private fun observeErrors() {
+        viewModel.errorLiveEvent.observe(this, Observer {
+            // TODO handleErrorState(it ?: "Unknown Error", context!!)
+        })
     }
 
     companion object {
