@@ -20,7 +20,7 @@ class TimelineEntryViewModel(
     }
 
     @Visibility
-    fun isTodayWritten(): Int {
+    fun isCurrentDate(): Int {
         return if (timelineItem.entryDate == LocalDate.now()) {
             View.VISIBLE
         } else {
