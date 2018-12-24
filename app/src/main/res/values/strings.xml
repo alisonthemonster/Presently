@@ -2,4 +2,5 @@
     <string name="app_name">GratitudeJournal</string>
     <string name="what_are_you_thankful_for">What are you thankful for?</string>
     <string name="add_your_thoughts_for_today">Add your thoughts for today</string>
+    <string name="what_are_you_thankful_for_today">What are you thankful for today?</string>
 </resources>

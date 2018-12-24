@@ -21,7 +21,7 @@
         <View
             android:id="@+id/timeline_line"
             android:layout_width="3dp"
-            android:layout_height="200dp"
+            android:layout_height="160dp"
             android:layout_marginStart="32dp"
             android:layout_marginBottom="8dp"
             android:background="@color/colorAccent"
@@ -35,6 +35,17 @@
             android:layout_height="14dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/shape_circle"
+            app:layout_constraintEnd_toEndOf="@+id/timeline_line"
+            app:layout_constraintStart_toStartOf="@+id/timeline_line"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/timeline_circle_filled"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/shape_circle_full"
+            android:visibility="@{entryViewModel.isTodayWritten()}"
             app:layout_constraintEnd_toEndOf="@+id/timeline_line"
             app:layout_constraintStart_toStartOf="@+id/timeline_line"
             app:layout_constraintTop_toTopOf="parent" />
@@ -75,6 +86,18 @@
             app:layout_constraintEnd_toEndOf="@+id/timeline_line"
             app:layout_constraintStart_toStartOf="@+id/timeline_line"
             app:layout_constraintTop_toBottomOf="@+id/timeline_line" />
+
+        <TextView
+            android:id="@+id/empty_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/what_are_you_thankful_for_today"
+            android:textColor="@color/colorAccentLight"
+            android:textSize="16sp"
+            android:visibility="@{entryViewModel.isEmptyState()}"
+            app:layout_constraintStart_toStartOf="@+id/date_string"
+            app:layout_constraintTop_toBottomOf="@+id/date_string" />
 
     </android.support.constraint.ConstraintLayout>
 

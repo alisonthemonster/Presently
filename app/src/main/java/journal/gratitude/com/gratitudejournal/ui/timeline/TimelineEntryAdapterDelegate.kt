@@ -15,7 +15,8 @@ class TimelineEntryAdapterDelegate(activity: Activity, private val clickListener
     private val inflater = activity.layoutInflater
 
     override fun isForViewType(items: List<Entry>, position: Int): Boolean {
-        return items[position].entryContent.isNotEmpty()
+        //until there are more view types this will be really simple
+        return items[position] is Entry
     }
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {

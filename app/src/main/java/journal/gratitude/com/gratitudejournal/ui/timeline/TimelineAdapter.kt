@@ -15,7 +15,6 @@ class TimelineAdapter(activity: Activity, onClickListener: OnClickListener) : Re
     private val delegatesManager = AdapterDelegatesManager<List<Entry>>()
 
     init {
-        delegatesManager.addDelegate(EmptyTimelineEntryAdapterDelegate(activity, onClickListener))
         delegatesManager.addDelegate(TimelineEntryAdapterDelegate(activity, onClickListener))
     }
 
