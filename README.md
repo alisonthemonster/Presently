@@ -10,3 +10,9 @@ A journal to write what you're thankful for [IN PROGRESS]
 - CircleCI
 - Fastlane
 - Jacoco coverage reports
+
+##### Timeline View (In progress!)
+<img src="https://i.imgur.com/9AXyeGx.png" width="250"> 
+
+#### Entry View (In progress!)
+<img src="https://i.imgur.com/lb2O1VC.png" width="250"> 
