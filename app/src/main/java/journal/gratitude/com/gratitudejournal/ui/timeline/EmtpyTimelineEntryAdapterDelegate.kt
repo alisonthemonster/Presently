@@ -16,7 +16,7 @@ class EmptyTimelineEntryAdapterDelegate(activity: Activity) : AdapterDelegate<Li
     private val inflater = activity.layoutInflater
 
     override fun isForViewType(items: List<Entry>, position: Int): Boolean {
-        return items[position].entryDate == LocalDate.now()
+        return items[position].entryDate == LocalDate.now() && items[position].entryContent.isEmpty()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {

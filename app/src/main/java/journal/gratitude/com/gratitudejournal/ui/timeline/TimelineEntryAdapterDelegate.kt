@@ -9,15 +9,13 @@ import com.hannesdorfmann.adapterdelegates3.AdapterDelegate
 import journal.gratitude.com.gratitudejournal.BR
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
-import org.threeten.bp.LocalDate
 
 class TimelineEntryAdapterDelegate(activity: Activity) : AdapterDelegate<List<Entry>>() {
-
 
     private val inflater = activity.layoutInflater
 
     override fun isForViewType(items: List<Entry>, position: Int): Boolean {
-        return items[position].entryDate != LocalDate.now()
+        return items[position].entryContent.isNotEmpty()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -37,7 +35,7 @@ class TimelineEntryAdapterDelegate(activity: Activity) : AdapterDelegate<List<En
     inner class TimelineEntryViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(timelineEntry: Entry) {
-            binding.setVariable(BR.viewModel, TimelineEntryViewModel(timelineEntry))
+            binding.setVariable(BR.entryViewModel, TimelineEntryViewModel(timelineEntry))
             binding.executePendingBindings()
         }
     }

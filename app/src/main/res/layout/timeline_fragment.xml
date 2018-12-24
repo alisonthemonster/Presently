@@ -15,10 +15,10 @@
         tools:context=".ui.timeline.TimelineFragment">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/timeline_recycler_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:data="@{viewModel.getEntriesList()}" />
+                android:id="@+id/timeline_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:data="@{viewModel.getEntriesList()}"/>
 
     </FrameLayout>
 </layout>
