@@ -10,7 +10,7 @@ import journal.gratitude.com.gratitudejournal.BR
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 
-class TimelineEntryAdapterDelegate(activity: Activity) : AdapterDelegate<List<Entry>>() {
+class TimelineEntryAdapterDelegate(activity: Activity, private val clickListener: TimelineAdapter.OnClickListener) : AdapterDelegate<List<Entry>>() {
 
     private val inflater = activity.layoutInflater
 
@@ -29,13 +29,14 @@ class TimelineEntryAdapterDelegate(activity: Activity) : AdapterDelegate<List<En
         holder: RecyclerView.ViewHolder,
         payloads: MutableList<Any>
     ) {
-        (holder as TimelineEntryViewHolder).bind(items[position])
+        val isLastItem = position == items.size - 1
+        (holder as TimelineEntryViewHolder).bind(items[position], isLastItem)
     }
 
     inner class TimelineEntryViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(timelineEntry: Entry) {
-            binding.setVariable(BR.entryViewModel, TimelineEntryViewModel(timelineEntry))
+        fun bind(timelineEntry: Entry, isLastItem: Boolean) {
+            binding.setVariable(BR.entryViewModel, TimelineEntryViewModel(timelineEntry, isLastItem, clickListener))
             binding.executePendingBindings()
         }
     }

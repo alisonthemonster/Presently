@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="journal.gratitude.com.gratitudejournal.ui.timeline.TimelineViewModel" />
@@ -15,28 +16,10 @@
         tools:context=".ui.timeline.TimelineFragment">
 
         <android.support.v7.widget.RecyclerView
-                android:id="@+id/timeline_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:data="@{viewModel.getEntriesList()}"/>
-
-        <View
-                android:id="@+id/timeline_line"
-                android:layout_width="3dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="32dp"
-                android:background="@color/colorAccent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/timeline_recycler_view"/>
-
-        <View
-                android:id="@+id/timeline_circle"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:background="@drawable/shape_circle_full"
-                app:layout_constraintEnd_toEndOf="@+id/timeline_line"
-                app:layout_constraintStart_toStartOf="@+id/timeline_line"
-                app:layout_constraintTop_toBottomOf="@+id/timeline_line"/>
+            android:id="@+id/timeline_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:data="@{viewModel.getEntriesList()}" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

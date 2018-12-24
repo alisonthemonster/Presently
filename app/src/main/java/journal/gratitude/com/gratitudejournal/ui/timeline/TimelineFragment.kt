@@ -12,7 +12,9 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import kotlinx.android.synthetic.main.timeline_fragment.*
+import org.threeten.bp.LocalDate
 
 
 class TimelineFragment : Fragment() {
@@ -48,7 +50,15 @@ class TimelineFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         timeline_recycler_view.layoutManager = LinearLayoutManager(context)
-        adapter = TimelineAdapter(activity!!)
+        adapter = TimelineAdapter(activity!!, object : TimelineAdapter.OnClickListener {
+            override fun onClick(clickedDate: LocalDate) {
+                fragmentManager!!
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, EntryFragment.newInstance(clickedDate), "Blerg")
+                    .commitAllowingStateLoss()
+            }
+
+        })
         timeline_recycler_view.adapter = adapter
 
         viewModel.entries.observe(this, Observer {

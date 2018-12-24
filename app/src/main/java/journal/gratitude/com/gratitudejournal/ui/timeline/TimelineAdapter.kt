@@ -6,16 +6,17 @@ import android.view.ViewGroup
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegatesManager
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.ui.bindingadapter.BindableAdapter
+import org.threeten.bp.LocalDate
 
-class TimelineAdapter(activity: Activity) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BindableAdapter<List<Entry>> {
+class TimelineAdapter(activity: Activity, onClickListener: OnClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BindableAdapter<List<Entry>> {
 
     private lateinit var entries: List<Entry>
 
     private val delegatesManager = AdapterDelegatesManager<List<Entry>>()
 
     init {
-        delegatesManager.addDelegate(EmptyTimelineEntryAdapterDelegate(activity))
-        delegatesManager.addDelegate(TimelineEntryAdapterDelegate(activity))
+        delegatesManager.addDelegate(EmptyTimelineEntryAdapterDelegate(activity, onClickListener))
+        delegatesManager.addDelegate(TimelineEntryAdapterDelegate(activity, onClickListener))
     }
 
     override fun setData(data: List<Entry>) {
@@ -38,5 +39,9 @@ class TimelineAdapter(activity: Activity) : RecyclerView.Adapter<RecyclerView.Vi
 
     override fun getItemViewType(position: Int): Int {
         return delegatesManager.getItemViewType(entries, position)
+    }
+
+    interface OnClickListener {
+        fun onClick(clickedDate: LocalDate)
     }
 }

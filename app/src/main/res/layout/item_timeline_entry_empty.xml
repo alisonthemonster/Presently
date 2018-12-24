@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="viewModel"
             type="journal.gratitude.com.gratitudejournal.ui.timeline.TimelineEntryViewModel" />
@@ -18,10 +20,10 @@
         <View
             android:id="@+id/timeline_line"
             android:layout_width="3dp"
-            android:layout_height="0dp"
+            android:layout_height="200dp"
             android:layout_marginStart="32dp"
             android:background="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/empty_cta"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,14 +55,22 @@
             android:id="@+id/empty_cta"
             android:layout_width="0dp"
             android:layout_height="70dp"
-            android:layout_marginBottom="32dp"
             android:gravity="bottom|end"
             android:onClick="@{viewModel::onClick}"
             android:text="@string/add_your_thoughts_for_today"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/date_string"
             app:layout_constraintStart_toStartOf="@+id/date_string"
             app:layout_constraintTop_toBottomOf="@+id/date_string" />
+
+        <View
+            android:id="@+id/tail_circle"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:background="@drawable/shape_circle_full"
+            android:visibility="@{viewModel.isTailVisible}"
+            app:layout_constraintEnd_toEndOf="@+id/timeline_line"
+            app:layout_constraintStart_toStartOf="@+id/timeline_line"
+            app:layout_constraintTop_toBottomOf="@+id/timeline_line" />
 
     </android.support.constraint.ConstraintLayout>
 

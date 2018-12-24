@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="entryViewModel"
             type="journal.gratitude.com.gratitudejournal.ui.timeline.TimelineEntryViewModel" />
@@ -18,10 +21,11 @@
         <View
             android:id="@+id/timeline_line"
             android:layout_width="3dp"
-            android:layout_height="0dp"
+            android:layout_height="200dp"
             android:layout_marginStart="32dp"
+            android:layout_marginBottom="8dp"
             android:background="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,25 +46,35 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="24dp"
             android:text="@{entryViewModel.date}"
-            tools:text="January 19th, 2018"
             android:textAppearance="@style/TextAppearance.Date"
             app:layout_constraintBottom_toBottomOf="@+id/timeline_circle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/timeline_circle"
-            app:layout_constraintTop_toTopOf="@+id/timeline_circle" />
+            app:layout_constraintTop_toTopOf="@+id/timeline_circle"
+            tools:text="January 19th, 2018" />
 
         <TextView
-                android:id="@+id/content"
-                android:layout_width="0dp"
-                android:layout_height="70dp"
-                android:layout_marginBottom="16dp"
-                android:text="@{entryViewModel.content}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/date_string"
-                app:layout_constraintStart_toStartOf="@+id/date_string"
-                app:layout_constraintTop_toBottomOf="@+id/date_string" android:layout_marginTop="8dp"
-                tools:text="Hello there this is some hot content." android:textSize="16sp"
-                android:textColor="@color/colorAccent"/>
+            android:id="@+id/content"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="8dp"
+            android:text="@{entryViewModel.content}"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/date_string"
+            app:layout_constraintStart_toStartOf="@+id/date_string"
+            app:layout_constraintTop_toBottomOf="@+id/date_string"
+            tools:text="Hello there this is some hot content." />
+
+        <View
+            android:id="@+id/tail_circle"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:background="@drawable/shape_circle_full"
+            android:visibility="@{entryViewModel.isTailVisible()}"
+            app:layout_constraintEnd_toEndOf="@+id/timeline_line"
+            app:layout_constraintStart_toStartOf="@+id/timeline_line"
+            app:layout_constraintTop_toBottomOf="@+id/timeline_line" />
 
     </android.support.constraint.ConstraintLayout>
 
