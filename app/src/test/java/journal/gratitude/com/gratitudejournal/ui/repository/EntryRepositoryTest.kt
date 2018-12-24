@@ -44,11 +44,21 @@ class EntryRepositoryTest {
     @Test
     fun addEntry_CallsDaoOnce() {
         runBlocking {
-            repository.addEntry(Entry(LocalDate.now(), ""))
+            repository.addEntry(Entry(LocalDate.now(), "Henlo!"))
 
         }
 
         verify(entryDao, times(1)).insertEntry(any())
+    }
+
+    @Test
+    fun addEntryEmpty_CallsDaoDelete() {
+        runBlocking {
+            repository.addEntry(Entry(LocalDate.now(), ""))
+
+        }
+
+        verify(entryDao, times(1)).delete(any())
     }
 
     @Test
