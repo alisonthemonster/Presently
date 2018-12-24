@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
+import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 
@@ -31,24 +33,24 @@ class EntryFragment : Fragment() {
 
         val passedInDate = arguments?.getString(DATE) ?: LocalDate.now().toString()
 
+        val entryDao = EntryDatabase.getDatabase(activity!!.application).entryDao()
+        val repository = EntryRepository(entryDao)
+
         viewModel = ViewModelProviders.of(
             this,
-            EntryViewModelFactory(passedInDate)
+            EntryViewModelFactory(passedInDate, repository)
         ).get(EntryViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeErrors()
-
-        viewModel.fetchEntryContent()
-    }
-
-    private fun observeErrors() {
-        viewModel.errorLiveEvent.observe(this, Observer {
-            // TODO handleErrorState(it ?: "Unknown Error", context!!)
+        viewModel.entry.observe(this, Observer {
+            binding.viewModel = viewModel
         })
+
+        // when text changes
+            // entryViewModel.addEntry(entry)
     }
 
     companion object {

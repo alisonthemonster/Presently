@@ -23,6 +23,7 @@ def fileFilter = ['**/R.class',
                   '**/*Fragment*',
                   '**/*Application*',
                   '**/model/*.*',
+                  '**/room/*.*',
                   '**/*Binding*.*',
                   '**/*adapter*.*',
                   '**/*Activity*.*']
@@ -78,7 +79,6 @@ def printReport(task) {
     def metrics = [:]
     metrics << [
             'instruction': percentage(counters.find { it.'@type'.equals('INSTRUCTION') }),
-            'branch'     : percentage(counters.find { it.'@type'.equals('BRANCH') }),
             'complexity' : percentage(counters.find { it.'@type'.equals('COMPLEXITY') }),
             'line'       : percentage(counters.find { it.'@type'.equals('LINE') }),
             'method'     : percentage(counters.find { it.'@type'.equals('METHOD') }),
@@ -90,12 +90,11 @@ def printReport(task) {
 
     // Fail the task if the coverage is below these numbers
     def minTestCoverage = [
-            'instruction': 70,
-            'branch'     : 70,
-            'line'       : 70,
-            'complexity' : 70,
-            'method'     : 70,
-            'class'      : 70
+            'instruction': 60,
+            'line'       : 80,
+            'complexity' : 60,
+            'method'     : 80,
+            'class'      : 80
     ]
 
     metrics.each {

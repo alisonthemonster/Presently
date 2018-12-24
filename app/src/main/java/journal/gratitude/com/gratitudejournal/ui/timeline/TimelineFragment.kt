@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -28,6 +29,14 @@ class TimelineFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(TimelineViewModel::class.java)
         // TODO: Use the ViewModel
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+//        timelineViewModel.allEntries.observe(this, Observer { entries ->
+//            entries?.let { adapter.setWords(it) }
+//        })
     }
 
 }

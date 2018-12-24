@@ -3,6 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: '../versions.gradle'
 apply from: 'jacoco.gradle'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-allopen'
+
+allOpen {
+    annotation 'journal.gratitude.com.gratitudejournal.util.OpenClass'
+}
 
 android {
     compileSdkVersion project.ext.androidCompileSdk
@@ -40,9 +46,19 @@ dependencies {
     implementation 'io.github.inflationx:viewpump:1.0.0'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.1'
 
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    kapt "android.arch.lifecycle:compiler:$lifecycle_version"
+
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.threeten:threetenbp:1.3.7'
+    testImplementation "android.arch.persistence.room:testing:$room_version"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_version"
+    testImplementation "android.arch.core:core-testing:$core_testing_version"
 
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation "android.arch.persistence.room:testing:$room_version"
 }

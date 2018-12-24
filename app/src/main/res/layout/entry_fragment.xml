@@ -79,20 +79,17 @@
                 app:layout_constraintStart_toStartOf="@+id/thankful_for"
                 app:layout_constraintEnd_toEndOf="@+id/thankful_for"
                 android:id="@+id/divider_line2"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/saved_text"/>
-        <TextView
+                tools:layout_editor_absoluteY="620dp"/>
+        <Button
+                android:text="Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/saved_text"
+                android:id="@+id/button"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="32dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="Saved"
-                android:text="@{viewModel.getSavingString}"/>
+                android:onClick="@{() -> viewModel.addNewEntry()}"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>
