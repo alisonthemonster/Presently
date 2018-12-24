@@ -19,43 +19,29 @@ import kotlin.coroutines.CoroutineContext
 
 class EntryViewModel(dateString: String, private val repository: EntryRepository) : ViewModel() {
 
-    private val date = dateString.toLocalDate()
-
-    var entry: LiveData<Entry>
-
+    val entry: LiveData<Entry>
     val entryContent = ObservableField<String>("")
-    private val isSaved = ObservableBoolean()
-    private val isSaving = ObservableBoolean()
-
     val errorLiveEvent = SingleLiveEvent<String>()
 
     private var parentJob = Job()
     private val coroutineContext: CoroutineContext
         get() = parentJob + Dispatchers.Main
     private val scope = CoroutineScope(coroutineContext)
+    private val date: LocalDate = dateString.toLocalDate()
 
     init {
-        entry = Transformations.map(repository.getEntry(date)) {entry ->
+        entry = Transformations.map(repository.getEntry(date)) { entry ->
             if (entry != null) {
-                if (entry.entryContent.isEmpty()) {
-                    isSaved.set(false)
-                    isSaving.set(false)
-                    entryContent.set("")
-                } else {
-                    isSaved.set(true)
-                    isSaving.set(false)
-                    entryContent.set(entry.entryContent)
-                }
+                entryContent.set(entry.entryContent)
             }
             entry
         }
+
     }
 
     fun addNewEntry() = scope.launch(Dispatchers.IO) {
         val entry = Entry(date, entryContent.get() ?: "")
-
         repository.addEntry(entry)
-        isSaved.set(true)
     }
 
     fun getDateString(): String {
@@ -72,14 +58,6 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
             "I am thankful for"
         } else {
             "I was thankful for"
-        }
-    }
-
-    fun getSavingString(): String {
-        return when {
-            isSaving.get() -> "Saving"
-            isSaved.get() -> "Saved"
-            else -> ""
         }
     }
 
