@@ -11,7 +11,7 @@ A journal to write what you're thankful for [IN PROGRESS]
 - Fastlane
 - Jacoco coverage reports
 
-##### Timeline View (In progress!)
+#### Timeline View (In progress!)
 <img src="https://i.imgur.com/9AXyeGx.png" width="250"> 
 
 #### Entry View (In progress!)
