@@ -3,7 +3,6 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
-import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
@@ -36,7 +35,6 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
             }
             entry
         }
-
     }
 
     fun addNewEntry() = scope.launch(Dispatchers.IO) {

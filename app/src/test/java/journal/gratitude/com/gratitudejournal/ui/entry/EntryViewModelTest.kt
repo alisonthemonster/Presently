@@ -62,21 +62,25 @@ class EntryViewModelTest {
     }
 
     @Test
-    fun addNewEntry_callsRepository() = runBlocking {
+    fun addNewEntry_callsRepository() {
         viewModel = EntryViewModel(todayString, repository)
 
         viewModel.addNewEntry()
 
-        verify(repository).addEntry(any())
+        runBlocking {
+            verify(repository).addEntry(any())
+        }
     }
 
     @Test
-    fun addNewEntry_callsRepository_withCorrectEntry() = runBlocking {
+    fun addNewEntry_callsRepository_withCorrectEntry() {
         viewModel = EntryViewModel(todayString, repository)
 
         viewModel.addNewEntry()
 
-        verify(repository).addEntry(Entry(todayString.toLocalDate(), ""))
+        runBlocking {
+            verify(repository).addEntry(Entry(todayString.toLocalDate(), ""))
+        }
     }
 
     @Test
