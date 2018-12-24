@@ -7,7 +7,7 @@ import org.threeten.bp.LocalDate
 
 @Dao
 interface EntryDao {
-    @Query("SELECT * FROM entries ORDER BY datetime(entryDate)")
+    @Query("SELECT * FROM entries ORDER BY datetime(entryDate) DESC")
     fun getEntries(): LiveData<List<Entry>>
 
     @Query("SELECT * FROM entries WHERE entryDate LIKE :date")
