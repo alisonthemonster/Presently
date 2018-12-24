@@ -6,6 +6,7 @@ A journal to write what you're thankful for [IN PROGRESS]
 ### Tech Stack [So far...]
 - MVVM with architecture components
    - ViewModels
+   - Room
 - CircleCI
 - Fastlane
 - Jacoco coverage reports
