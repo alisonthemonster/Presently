@@ -45,20 +45,12 @@ class EntryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeErrors()
-
         viewModel.entry.observe(this, Observer {
             binding.viewModel = viewModel
         })
 
         // when text changes
             // entryViewModel.addEntry(entry)
-    }
-
-    private fun observeErrors() {
-        viewModel.errorLiveEvent.observe(this, Observer {
-            // TODO handleErrorState(it ?: "Unknown Error", context!!)
-        })
     }
 
     companion object {

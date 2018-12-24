@@ -79,7 +79,6 @@ def printReport(task) {
     def metrics = [:]
     metrics << [
             'instruction': percentage(counters.find { it.'@type'.equals('INSTRUCTION') }),
-            'branch'     : percentage(counters.find { it.'@type'.equals('BRANCH') }),
             'complexity' : percentage(counters.find { it.'@type'.equals('COMPLEXITY') }),
             'line'       : percentage(counters.find { it.'@type'.equals('LINE') }),
             'method'     : percentage(counters.find { it.'@type'.equals('METHOD') }),
@@ -91,8 +90,7 @@ def printReport(task) {
 
     // Fail the task if the coverage is below these numbers
     def minTestCoverage = [
-            'instruction': 70,
-            'branch'     : 50, //had to lower because of coroutines
+            'instruction': 60,
             'line'       : 80,
             'complexity' : 60,
             'method'     : 80,

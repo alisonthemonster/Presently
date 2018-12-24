@@ -62,17 +62,6 @@ class EntryViewModelTest {
     }
 
     @Test
-    fun addNewEntry_callsRepository() {
-        viewModel = EntryViewModel(todayString, repository)
-
-        viewModel.addNewEntry()
-
-        runBlocking {
-            verify(repository).addEntry(any())
-        }
-    }
-
-    @Test
     fun getDateString_Today_returnsToday() {
         val expected = "Today"
 

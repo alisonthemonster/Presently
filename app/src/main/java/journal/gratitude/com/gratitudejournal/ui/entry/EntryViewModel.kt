@@ -20,7 +20,6 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
 
     val entry: LiveData<Entry>
     val entryContent = ObservableField<String>("")
-    val errorLiveEvent = SingleLiveEvent<String>()
 
     private var parentJob = Job()
     private val coroutineContext: CoroutineContext
