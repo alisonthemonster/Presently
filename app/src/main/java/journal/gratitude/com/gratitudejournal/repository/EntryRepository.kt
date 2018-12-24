@@ -20,7 +20,11 @@ class EntryRepository(private val entryDao: EntryDao) {
 
     @WorkerThread
     suspend fun addEntry(entry: Entry) {
-        entryDao.insertEntry(entry)
+        if (entry.entryContent.isEmpty()) {
+            entryDao.delete(entry)
+        } else {
+            entryDao.insertEntry(entry)
+        }
     }
 
 

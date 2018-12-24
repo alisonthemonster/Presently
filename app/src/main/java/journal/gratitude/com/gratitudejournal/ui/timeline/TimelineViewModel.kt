@@ -5,7 +5,11 @@ import android.arch.lifecycle.ViewModel
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 
-class TimelineViewModel(private val repository: EntryRepository) : ViewModel() {
+class TimelineViewModel(repository: EntryRepository) : ViewModel() {
 
-    val allEntries: LiveData<List<Entry>> = repository.getAllEntries()
+    val entries: LiveData<List<Entry>> = repository.getAllEntries()
+
+    fun getEntriesList(): List<Entry> {
+        return entries.value ?: emptyList()
+    }
 }

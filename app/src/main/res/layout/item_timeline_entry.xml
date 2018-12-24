@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="journal.gratitude.com.gratitudejournal.ui.timeline.TimelineEntryViewModel" />
+    </data>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{viewModel::onClick}">
+
+        <View
+            android:id="@+id/timeline_line"
+            android:layout_width="3dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:background="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/timeline_circle"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/shape_circle"
+            app:layout_constraintEnd_toEndOf="@+id/timeline_line"
+            app:layout_constraintStart_toStartOf="@+id/timeline_line"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/date_string"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="24dp"
+            android:text="@{viewModel.date}"
+            tools:text="January 19th, 2018"
+            android:textAppearance="@style/TextAppearance.Date"
+            app:layout_constraintBottom_toBottomOf="@+id/timeline_circle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/timeline_circle"
+            app:layout_constraintTop_toTopOf="@+id/timeline_circle" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="32dp"
+            android:text="@{viewModel.content}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/date_string"
+            app:layout_constraintStart_toStartOf="@+id/date_string"
+            app:layout_constraintTop_toBottomOf="@+id/date_string" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

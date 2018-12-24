@@ -17,4 +17,9 @@
         <item name="fontPath">fonts/value-serif.ttf</item>
     </style>
 
+    <style name="TextAppearance.Date" parent="android:TextAppearance">
+        <item name="android:textSize">20sp</item>
+        <item name="fontPath">fonts/value-serif.ttf</item>
+    </style>
+
 </resources>
