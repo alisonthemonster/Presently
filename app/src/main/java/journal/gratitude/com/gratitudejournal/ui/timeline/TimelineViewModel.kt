@@ -1,8 +1,8 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Transformations
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import org.threeten.bp.LocalDate

@@ -10,16 +10,16 @@
             type="journal.gratitude.com.gratitudejournal.ui.timeline.TimelineViewModel" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.timeline.TimelineFragment">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/timeline_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:data="@{viewModel.getEntriesList()}" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

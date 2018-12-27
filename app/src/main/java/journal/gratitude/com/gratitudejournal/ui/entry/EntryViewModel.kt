@@ -1,12 +1,11 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Transformations
-import android.arch.lifecycle.ViewModel
-import android.databinding.ObservableField
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+import androidx.databinding.ObservableField
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.util.SingleLiveEvent
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.coroutines.CoroutineScope

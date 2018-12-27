@@ -1,14 +1,14 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.app.Activity
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegatesManager
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.ui.bindingadapter.BindableAdapter
 import org.threeten.bp.LocalDate
 
-class TimelineAdapter(activity: Activity, onClickListener: OnClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BindableAdapter<List<Entry>> {
+class TimelineAdapter(activity: Activity, onClickListener: OnClickListener) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>(), BindableAdapter<List<Entry>> {
 
     private lateinit var entries: List<Entry>
 
@@ -24,7 +24,7 @@ class TimelineAdapter(activity: Activity, onClickListener: OnClickListener) : Re
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         return delegatesManager.onCreateViewHolder(viewGroup, viewType)
     }
 
@@ -32,7 +32,7 @@ class TimelineAdapter(activity: Activity, onClickListener: OnClickListener) : Re
         return entries.size
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         return delegatesManager.onBindViewHolder(entries, position, holder)
     }
 

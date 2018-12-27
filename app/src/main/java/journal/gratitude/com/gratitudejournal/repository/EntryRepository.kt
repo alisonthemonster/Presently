@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal.repository
 
-import android.arch.lifecycle.LiveData
-import android.support.annotation.WorkerThread
+import androidx.lifecycle.LiveData
+import androidx.annotation.WorkerThread
 import android.util.Log
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.room.EntryDao

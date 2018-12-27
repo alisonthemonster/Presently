@@ -1,8 +1,8 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.nhaarman.mockitokotlin2.*
 import journal.gratitude.com.gratitudejournal.LiveDataTestUtil
 import journal.gratitude.com.gratitudejournal.model.Entry
