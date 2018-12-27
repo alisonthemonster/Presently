@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-selector xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:targetApi="16">
+
+    <!-- provide a different drawable for each state-->
+    <item android:id="@+id/state_on"
+        android:drawable="@drawable/avd_account"
+        android:state_checked="true"/>
+    <item android:id="@+id/state_off"
+        android:drawable="@drawable/ic_account"/>
+    <!-- specify transitions -->
+    <transition
+        android:drawable="@drawable/avd_account"
+        android:fromId="@id/state_off"
+        android:toId="@id/state_on" />
+</animated-selector>

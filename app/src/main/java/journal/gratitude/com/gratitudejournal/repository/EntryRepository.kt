@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.repository
 
 import android.arch.lifecycle.LiveData
 import android.support.annotation.WorkerThread
+import android.util.Log
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.room.EntryDao
 import org.threeten.bp.LocalDate
@@ -21,8 +22,10 @@ class EntryRepository(private val entryDao: EntryDao) {
     @WorkerThread
     suspend fun addEntry(entry: Entry) {
         if (entry.entryContent.isEmpty()) {
+            Log.d("blerg", "deleting!")
             entryDao.delete(entry)
         } else {
+            Log.d("blerg", "adding!")
             entryDao.insertEntry(entry)
         }
     }

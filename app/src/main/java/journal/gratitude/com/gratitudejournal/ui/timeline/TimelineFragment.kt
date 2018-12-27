@@ -54,7 +54,7 @@ class TimelineFragment : Fragment() {
             override fun onClick(clickedDate: LocalDate) {
                 fragmentManager!!
                     .beginTransaction()
-                    .replace(R.id.fragment_container, EntryFragment.newInstance(clickedDate), "Blerg")
+                    .replace(R.id.content_frame, EntryFragment.newInstance(clickedDate), "Blerg")
                     .commitAllowingStateLoss()
             }
 

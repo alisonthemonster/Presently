@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/timeline_button"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/timeline" />
+    <item
+        android:id="@+id/entry_button"
+        android:icon="@drawable/ic_edit"
+        android:title="@string/write" />
+    <item
+        android:id="@+id/account_button"
+        android:icon="@drawable/anim_account"
+        android:title="@string/account" />
+</menu>
