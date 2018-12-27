@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal.model
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import org.threeten.bp.LocalDate
 
 @Entity(tableName = "entries")

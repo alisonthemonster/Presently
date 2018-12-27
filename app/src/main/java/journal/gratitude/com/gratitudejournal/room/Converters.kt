@@ -1,6 +1,6 @@
 package journal.gratitude.com.gratitudejournal.room
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate

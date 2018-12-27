@@ -2,9 +2,9 @@ package journal.gratitude.com.gratitudejournal
 
 import android.content.Context
 import android.graphics.Typeface
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.text.SpannableStringBuilder
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
