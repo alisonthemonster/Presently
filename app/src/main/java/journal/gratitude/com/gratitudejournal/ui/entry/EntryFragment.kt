@@ -4,21 +4,16 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
-import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import kotlinx.android.synthetic.main.entry_fragment.*
-import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import java.util.concurrent.TimeUnit
 
@@ -66,7 +61,6 @@ class EntryFragment : Fragment() {
             .skip(1)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                Log.d("blerg", "bout to save")
                 viewModel.addNewEntry()
             }
 

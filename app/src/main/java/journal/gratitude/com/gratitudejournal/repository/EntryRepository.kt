@@ -22,10 +22,8 @@ class EntryRepository(private val entryDao: EntryDao) {
     @WorkerThread
     suspend fun addEntry(entry: Entry) {
         if (entry.entryContent.isEmpty()) {
-            Log.d("blerg", "deleting!")
             entryDao.delete(entry)
         } else {
-            Log.d("blerg", "adding!")
             entryDao.insertEntry(entry)
         }
     }
