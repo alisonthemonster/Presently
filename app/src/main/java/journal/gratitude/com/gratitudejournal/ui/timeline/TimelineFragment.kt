@@ -1,9 +1,12 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -63,10 +66,59 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         })
         timeline_recycler_view.adapter = adapter
 
+        overflow_button.setOnClickListener{
+            PopupMenu(context, it).apply {
+                setOnMenuItemClickListener {item ->
+                    when (item.itemId) {
+                        R.id.notification_settings -> {
+                            openNotificationSettings()
+                            true
+                        }
+                        R.id.privacy_policy -> {
+                            openPrivacyPolicy()
+                            true
+                        }
+                        R.id.terms_conditions -> {
+                            openTermsAndConditions()
+                            true
+                        }
+                        R.id.contact_us -> {
+                            openContactForm()
+                            true
+                        }
+                        else -> false
+                    }
+                }
+                inflate(R.menu.overflow_menu)
+                show()
+            }
+        }
+
         viewModel.entries.observe(this, Observer {
             binding.viewModel = viewModel
         })
 
     }
+
+    private fun openContactForm() {
+        val intent = Intent(Intent.ACTION_VIEW)
+        val subject = "In App Feedback"
+        val data = Uri.parse("mailto:gratitude.journal.app@gmail.com?subject=$subject")
+        intent.data = data
+        startActivity(intent)
+    }
+
+    private fun openTermsAndConditions() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun openPrivacyPolicy() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun openNotificationSettings() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
 }
