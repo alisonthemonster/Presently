@@ -1,10 +1,10 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 
 
-class TimelineFragment : Fragment() {
+class TimelineFragment : androidx.fragment.app.Fragment() {
 
     companion object {
         fun newInstance() = TimelineFragment()
@@ -49,7 +49,8 @@ class TimelineFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        timeline_recycler_view.layoutManager = LinearLayoutManager(context)
+        timeline_recycler_view.layoutManager =
+                androidx.recyclerview.widget.LinearLayoutManager(context)
         adapter = TimelineAdapter(activity!!, object : TimelineAdapter.OnClickListener {
             override fun onClick(clickedDate: LocalDate) {
                 fragmentManager!!

@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal.room
 
-import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.*
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import journal.gratitude.com.gratitudejournal.model.Entry
 import org.threeten.bp.LocalDate
 

@@ -13,7 +13,7 @@
     </data>
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{entryViewModel::onClick}">
@@ -102,6 +102,6 @@
             app:layout_constraintStart_toStartOf="@+id/date_string"
             app:layout_constraintTop_toBottomOf="@+id/date_string" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

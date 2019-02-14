@@ -1,9 +1,9 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.app.Activity
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate
 import journal.gratitude.com.gratitudejournal.BR
@@ -19,7 +19,7 @@ class TimelineEntryAdapterDelegate(activity: Activity, private val clickListener
         return items[position] is Entry
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, R.layout.item_timeline_entry, parent, false)
         return TimelineEntryViewHolder(binding)
     }
@@ -27,14 +27,14 @@ class TimelineEntryAdapterDelegate(activity: Activity, private val clickListener
     override fun onBindViewHolder(
         items: List<Entry>,
         position: Int,
-        holder: RecyclerView.ViewHolder,
+        holder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
         payloads: MutableList<Any>
     ) {
         val isLastItem = position == items.size - 1
         (holder as TimelineEntryViewHolder).bind(items[position], isLastItem)
     }
 
-    inner class TimelineEntryViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class TimelineEntryViewHolder(private val binding: ViewDataBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
 
         fun bind(timelineEntry: Entry, isLastItem: Boolean) {
             binding.setVariable(BR.entryViewModel, TimelineEntryViewModel(timelineEntry, isLastItem, clickListener))

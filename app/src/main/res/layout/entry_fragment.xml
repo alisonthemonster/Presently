@@ -13,7 +13,7 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/entry"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -84,5 +84,5 @@
             app:layout_constraintEnd_toEndOf="@+id/thankful_for"
             app:layout_constraintStart_toStartOf="@+id/thankful_for" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
