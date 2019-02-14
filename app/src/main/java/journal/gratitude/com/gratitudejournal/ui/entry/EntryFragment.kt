@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.entry_fragment.*
 import org.threeten.bp.LocalDate
 import java.util.concurrent.TimeUnit
 
-class EntryFragment : androidx.fragment.app.Fragment() {
+class EntryFragment : Fragment() {
 
     private lateinit var viewModel: EntryViewModel
     private lateinit var binding: EntryFragmentBinding

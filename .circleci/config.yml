@@ -50,12 +50,18 @@ references:
       paths:
         - vendor/bundle
 
+  decrypt_google_services_json: &decrypt_google_services_json
+    run:
+      name: Decrypt the google-services.json file and put it in the right spot
+      command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
+
 jobs:
   ## Run unit tests
   test_unit:
     <<: *android_config
     steps:
       - checkout
+      - *decrypt_google_services_json
       - *restore_gradle_cache
       - *restore_gems_cache
       - *ruby_dependencies
