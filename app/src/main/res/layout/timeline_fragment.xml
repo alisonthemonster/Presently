@@ -25,7 +25,7 @@
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.Date"
             android:textColor="@color/backgroundColor"
-            android:textSize="30sp"
+            android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
