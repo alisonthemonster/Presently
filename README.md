@@ -10,6 +10,7 @@ A journal to write what you're thankful for [IN PROGRESS]
 - CircleCI
 - Fastlane
 - Jacoco coverage reports
+- Firebase Crashlytics Crash Reporting
 
 #### Timeline View (In progress!)
 <img src="https://i.imgur.com/9AXyeGx.png" width="250"> 
