@@ -7,6 +7,7 @@ A journal to write what you're thankful for [IN PROGRESS]
 - MVVM with architecture components
    - ViewModels
    - Room
+- Navigation Component
 - CircleCI
 - Fastlane
 - Jacoco coverage reports
