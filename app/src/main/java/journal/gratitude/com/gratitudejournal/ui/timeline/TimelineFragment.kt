@@ -12,6 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.WebViewActivity
+import journal.gratitude.com.gratitudejournal.WebViewActivity.Companion.WEBVIEW_URL
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
@@ -109,15 +111,21 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun openTermsAndConditions() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val intent = Intent(context, WebViewActivity::class.java).apply {
+            putExtra(WEBVIEW_URL, "https://cdn.jsdelivr.net/gh/alisonthemonster/GratitudeJournal@develop/terms_and_conditions.html")
+        }
+        startActivity(intent)
     }
 
     private fun openPrivacyPolicy() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val intent = Intent(context, WebViewActivity::class.java).apply {
+            putExtra(WEBVIEW_URL, "https://cdn.jsdelivr.net/gh/alisonthemonster/GratitudeJournal@develop/privacy_policy.html")
+        }
+        startActivity(intent)
     }
 
     private fun openNotificationSettings() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO
     }
 
 
