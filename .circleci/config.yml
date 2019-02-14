@@ -53,7 +53,7 @@ references:
   decrypt_google_services_json: &decrypt_google_services_json
     run:
       name: Decrypt the google-services.json file and put it in the right spot
-      command: echo GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
+      command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
 
 jobs:
   ## Run unit tests
