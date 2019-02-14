@@ -3,7 +3,8 @@
     <string name="what_are_you_thankful_for">What are you thankful for?</string>
     <string name="add_your_thoughts_for_today">Add your thoughts for today</string>
     <string name="what_are_you_thankful_for_today">What are you thankful for today?</string>
-    <string name="timeline">Timeline</string>
-    <string name="write">Write</string>
-    <string name="account">Account</string>
+    <string name="notification_settings">Notification Settings</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="terms_conditions">Terms &amp; Conditions</string>
 </resources>

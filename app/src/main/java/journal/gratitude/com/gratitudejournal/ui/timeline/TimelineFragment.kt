@@ -1,14 +1,19 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.WebViewActivity
+import journal.gratitude.com.gratitudejournal.WebViewActivity.Companion.WEBVIEW_URL
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
@@ -63,10 +68,65 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         })
         timeline_recycler_view.adapter = adapter
 
+        overflow_button.setOnClickListener{
+            PopupMenu(context, it).apply {
+                setOnMenuItemClickListener {item ->
+                    when (item.itemId) {
+                        R.id.notification_settings -> {
+                            openNotificationSettings()
+                            true
+                        }
+                        R.id.privacy_policy -> {
+                            openPrivacyPolicy()
+                            true
+                        }
+                        R.id.terms_conditions -> {
+                            openTermsAndConditions()
+                            true
+                        }
+                        R.id.contact_us -> {
+                            openContactForm()
+                            true
+                        }
+                        else -> false
+                    }
+                }
+                inflate(R.menu.overflow_menu)
+                show()
+            }
+        }
+
         viewModel.entries.observe(this, Observer {
             binding.viewModel = viewModel
         })
 
     }
+
+    private fun openContactForm() {
+        val intent = Intent(Intent.ACTION_VIEW)
+        val subject = "In App Feedback"
+        val data = Uri.parse("mailto:gratitude.journal.app@gmail.com?subject=$subject")
+        intent.data = data
+        startActivity(intent)
+    }
+
+    private fun openTermsAndConditions() {
+        val intent = Intent(context, WebViewActivity::class.java).apply {
+            putExtra(WEBVIEW_URL, "https://cdn.jsdelivr.net/gh/alisonthemonster/GratitudeJournal@develop/terms_and_conditions.html")
+        }
+        startActivity(intent)
+    }
+
+    private fun openPrivacyPolicy() {
+        val intent = Intent(context, WebViewActivity::class.java).apply {
+            putExtra(WEBVIEW_URL, "https://cdn.jsdelivr.net/gh/alisonthemonster/GratitudeJournal@develop/privacy_policy.html")
+        }
+        startActivity(intent)
+    }
+
+    private fun openNotificationSettings() {
+        //TODO
+    }
+
 
 }
