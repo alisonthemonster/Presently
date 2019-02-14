@@ -15,11 +15,42 @@
         android:layout_height="match_parent"
         tools:context=".ui.timeline.TimelineFragment">
 
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:padding="8dp"
+            android:text="Presently"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Date"
+            android:textColor="@color/backgroundColor"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/timeline_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:data="@{viewModel.getEntriesList()}" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:data="@{viewModel.getEntriesList()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_entry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/backgroundColor" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

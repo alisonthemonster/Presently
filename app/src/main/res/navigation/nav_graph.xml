@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/timelineFragment">
+
+    <fragment
+        android:id="@+id/timelineFragment"
+        android:name="journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment"
+        android:label="TimelineFragment" >
+        <action
+            android:id="@+id/action_timelineFragment_to_entryFragment"
+            app:destination="@id/entryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/entryFragment"
+        android:name="journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment"
+        android:label="EntryFragment" >
+        <argument
+            android:name="date"
+            app:argType="string" />
+    </fragment>
+</navigation>

@@ -4,13 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 
@@ -51,10 +53,11 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
                 androidx.recyclerview.widget.LinearLayoutManager(context)
         adapter = TimelineAdapter(activity!!, object : TimelineAdapter.OnClickListener {
             override fun onClick(clickedDate: LocalDate) {
-                fragmentManager!!
-                    .beginTransaction()
-                    .replace(R.id.content_frame, EntryFragment.newInstance(clickedDate), "Blerg")
-                    .commitAllowingStateLoss()
+                val bundle = bundleOf(DATE to clickedDate.toString())
+                findNavController().navigate(
+                    R.id.action_timelineFragment_to_entryFragment,
+                    bundle
+                )
             }
 
         })

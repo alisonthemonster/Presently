@@ -21,11 +21,10 @@
         <View
             android:id="@+id/timeline_line"
             android:layout_width="3dp"
-            android:layout_height="125dp"
+            android:layout_height="0dp"
             android:layout_marginStart="32dp"
-            android:layout_marginBottom="8dp"
             android:background="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="@+id/content"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -101,6 +100,20 @@
             android:visibility="@{entryViewModel.isEmptyState()}"
             app:layout_constraintStart_toStartOf="@+id/date_string"
             app:layout_constraintTop_toBottomOf="@+id/date_string" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            android:scaleType="centerCrop"
+            android:visibility="@{entryViewModel.isTailVisible()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/content"
+            app:layout_constraintStart_toStartOf="@+id/content"
+            app:layout_constraintTop_toBottomOf="@+id/content"
+            app:srcCompat="@drawable/ic_presently" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
