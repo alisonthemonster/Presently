@@ -5,6 +5,7 @@ apply from: '../versions.gradle'
 apply from: 'jacoco.gradle'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-allopen'
+apply plugin: 'io.fabric'
 
 allOpen {
     annotation 'journal.gratitude.com.gratitudejournal.util.OpenClass'
