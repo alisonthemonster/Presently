@@ -125,7 +125,8 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun openNotificationSettings() {
-        //TODO
+        findNavController().navigate(
+            R.id.action_timelineFragment_to_settingsFragment)
     }
 
 
