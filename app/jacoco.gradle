@@ -26,6 +26,7 @@ def fileFilter = ['**/R.class',
                   '**/*Application*',
                   '**/model/*.*',
                   '**/room/*.*',
+                  '**/reminders/*.*',
                   '**/*Binding*.*',
                   '**/*adapter*.*',
                   '**/*Activity*.*']

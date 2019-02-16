@@ -7,4 +7,6 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="contact_us">Contact Us</string>
     <string name="terms_conditions">Terms &amp; Conditions</string>
+    <string name="channel_name">PresentlyChannel</string>
+    <string name="channel_description">Presently Channel</string>
 </resources>

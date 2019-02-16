@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="journal.gratitude.com.gratitudejournal">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:name=".GratitudeApplication"
         android:allowBackup="true"
@@ -20,6 +22,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".WebViewActivity"></activity>
+
+        <receiver android:name=".util.reminders.ReminderReceiver" />
+
+        <receiver android:name=".util.reminders.AlarmBootReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
