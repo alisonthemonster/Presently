@@ -78,11 +78,22 @@
             android:id="@+id/divider_line2"
             android:layout_width="0dp"
             android:layout_height="3dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:background="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/inspiration"
             app:layout_constraintEnd_toEndOf="@+id/thankful_for"
             app:layout_constraintStart_toStartOf="@+id/thankful_for" />
+
+        <TextView
+            android:id="@+id/inspiration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@{viewModel.inspirationString}"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/divider_line2"
+            app:layout_constraintStart_toStartOf="@+id/divider_line2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

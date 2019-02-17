@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.repository
 import androidx.lifecycle.LiveData
 import androidx.annotation.WorkerThread
 import android.util.Log
+import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.room.EntryDao
 import org.threeten.bp.LocalDate
@@ -27,6 +28,5 @@ class EntryRepository(private val entryDao: EntryDao) {
             entryDao.insertEntry(entry)
         }
     }
-
 
 }
