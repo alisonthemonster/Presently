@@ -45,7 +45,7 @@ class EntryFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(
             this,
-            EntryViewModelFactory(passedInDate, repository)
+            EntryViewModelFactory(passedInDate, repository, activity!!.application)
         ).get(EntryViewModel::class.java)
     }
 

@@ -1,9 +1,12 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.databinding.ObservableField
+import androidx.lifecycle.AndroidViewModel
+import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.toFullString
@@ -15,7 +18,7 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import kotlin.coroutines.CoroutineContext
 
-class EntryViewModel(dateString: String, private val repository: EntryRepository) : ViewModel() {
+class EntryViewModel(dateString: String, private val repository: EntryRepository, application: Application) : AndroidViewModel(application) {
 
     val entry: LiveData<Entry>
     val entryContent = ObservableField<String>("")
@@ -43,17 +46,21 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
     fun getDateString(): String {
         val today = LocalDate.now()
         return when (date) {
-            today -> "Today" //TODO move to resources
-            today.minusDays(1) -> "Yesterday"
+            today -> getApplication<Application>().resources.getString(R.string.today)
+            today.minusDays(1) -> getApplication<Application>().resources.getString(R.string.yesterday)
             else -> date.toFullString()
         }
     }
 
+    fun getInspirationString(): String {
+        return inspirations.random()
+    }
+
     fun getThankfulString(): String {
         return if (date == LocalDate.now()) {
-            "I am thankful for"
+            getApplication<Application>().resources.getString(R.string.iam)
         } else {
-            "I was thankful for"
+            getApplication<Application>().resources.getString(R.string.iwas)
         }
     }
 
@@ -61,5 +68,7 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
         super.onCleared()
         parentJob.cancel()
     }
+
+    private val inspirations = application.resources.getStringArray(R.array.inspirations)
 
 }
