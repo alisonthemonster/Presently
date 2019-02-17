@@ -9,4 +9,9 @@
     <string name="terms_conditions">Terms &amp; Conditions</string>
     <string name="channel_name">PresentlyChannel</string>
     <string name="channel_description">Presently Channel</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="iwas">I was grateful for</string>
+    <string name="iam">I am grateful for</string>
+
 </resources>

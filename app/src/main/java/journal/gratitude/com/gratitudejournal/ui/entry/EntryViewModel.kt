@@ -46,8 +46,8 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
     fun getDateString(): String {
         val today = LocalDate.now()
         return when (date) {
-            today -> "Today" //TODO move to resources
-            today.minusDays(1) -> "Yesterday"
+            today -> getApplication<Application>().resources.getString(R.string.today)
+            today.minusDays(1) -> getApplication<Application>().resources.getString(R.string.yesterday)
             else -> date.toFullString()
         }
     }
@@ -58,9 +58,9 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
 
     fun getThankfulString(): String {
         return if (date == LocalDate.now()) {
-            "I am thankful for"
+            getApplication<Application>().resources.getString(R.string.iam)
         } else {
-            "I was thankful for"
+            getApplication<Application>().resources.getString(R.string.iwas)
         }
     }
 

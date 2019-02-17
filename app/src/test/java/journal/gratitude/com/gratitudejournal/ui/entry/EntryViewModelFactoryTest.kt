@@ -22,6 +22,7 @@ class EntryViewModelFactoryTest {
                 "InspirationalQuote"
             )
         )
+        whenever(application.resources.getString(ArgumentMatchers.anyInt())).thenReturn("")
     }
 
     @Test

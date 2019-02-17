@@ -69,6 +69,7 @@ class EntryViewModelTest {
     @Test
     fun getDateString_Today_returnsToday() {
         val expected = "Today"
+        whenever(application.resources.getString(anyInt())).thenReturn(expected)
 
         viewModel = EntryViewModel(LocalDate.now().toString(), repository, application)
 
@@ -79,6 +80,7 @@ class EntryViewModelTest {
     fun getDateString_Yesterday_returnsYesterday() {
         val expected = "Yesterday"
         val yesterday = LocalDate.now().minusDays(1)
+        whenever(application.resources.getString(anyInt())).thenReturn(expected)
 
         viewModel = EntryViewModel(yesterday.toString(), repository, application)
 
@@ -96,7 +98,8 @@ class EntryViewModelTest {
 
     @Test
     fun getThankfulString_Today_returnsPresentTense() {
-        val expected = "I am thankful for"
+        val expected = "I am grateful for"
+        whenever(application.resources.getString(anyInt())).thenReturn(expected)
 
         viewModel = EntryViewModel(LocalDate.now().toString(), repository, application)
         assertEquals(expected, viewModel.getThankfulString())
@@ -104,7 +107,8 @@ class EntryViewModelTest {
 
     @Test
     fun getThankfulString_PastDay_returnsPastTense() {
-        val expected = "I was thankful for"
+        val expected = "I was grateful for"
+        whenever(application.resources.getString(anyInt())).thenReturn(expected)
 
         viewModel = EntryViewModel(todayString, repository, application)
 
