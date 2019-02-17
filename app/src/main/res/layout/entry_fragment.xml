@@ -95,5 +95,16 @@
             app:layout_constraintEnd_toEndOf="@+id/divider_line2"
             app:layout_constraintStart_toStartOf="@+id/divider_line2" />
 
+        <ImageView
+            android:id="@+id/share_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/divider_line2"
+            app:layout_constraintEnd_toEndOf="@+id/entry_text"
+            app:srcCompat="@drawable/ic_share"
+            android:contentDescription="@string/share_your_gratitude" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

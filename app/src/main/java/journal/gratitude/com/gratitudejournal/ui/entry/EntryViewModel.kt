@@ -64,6 +64,19 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
         }
     }
 
+    fun getShareContent(): String {
+        return "${getDateString()} ${getThankfulString()} ${entryContent.get()?.decapitalize()}"
+    }
+
+    private fun String.decapitalize(): String {
+        if (this.isEmpty()) {
+            return this
+        }
+        val chars = this.toCharArray()
+        chars[0] = Character.toLowerCase(chars[0])
+        return String(chars)
+    }
+
     override fun onCleared() {
         super.onCleared()
         parentJob.cancel()
