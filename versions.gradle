@@ -16,7 +16,6 @@ ext {
 
     nav_version = "1.0.0-beta02"
 
-
     //testing
     mockito_version = "2.0.0"
     core_testing_version = "1.1.1"
@@ -25,4 +24,6 @@ ext {
     //firebase stuff
     google_services_version = "4.0.1"
     fabric_version = "1.26.1"
+
+    lottieVersion = "3.0.0-beta1"
 }
