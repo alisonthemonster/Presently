@@ -134,6 +134,24 @@ class EntryViewModelTest {
     }
 
     @Test
+    fun getShareStringEmptyContent_returnsShareString() {
+        val expectedContent = ""
+        val liveData = MutableLiveData<Entry>()
+        liveData.postValue(Entry(LocalDate.now(), expectedContent))
+        val expectedPhrase = "I am grateful for"
+        whenever(application.resources.getString(R.string.today)).thenReturn("Today")
+        whenever(application.resources.getString(R.string.iam)).thenReturn(expectedPhrase)
+        whenever(repository.getEntry(any())).thenReturn(liveData)
+
+        val expected = "Today I am grateful for "
+
+        viewModel = EntryViewModel(LocalDate.now().toString(), repository, application)
+        LiveDataTestUtil.getValue(viewModel.entry)
+
+        assertEquals(expected, viewModel.getShareContent())
+    }
+
+    @Test
     fun getInspirationalQuote_returnsQuote() {
         viewModel = EntryViewModel(todayString, repository, application)
 

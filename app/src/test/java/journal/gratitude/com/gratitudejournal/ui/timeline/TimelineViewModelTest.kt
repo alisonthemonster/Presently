@@ -30,7 +30,9 @@ class TimelineViewModelTest {
     }
 
     @Test
-    fun init_emptyList_returnEmptyList() {
+    fun init_emptyList_returnListWithTodayEntry() {
+        val todayEntry = Entry(LocalDate.now(), "")
+
         val expectedLiveData = MutableLiveData<List<Entry>>()
         expectedLiveData.postValue(emptyList())
         whenever(repository.getAllEntries()).thenReturn(expectedLiveData)
@@ -38,7 +40,7 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository)
         val actual = LiveDataTestUtil.getValue(viewModel.entries)
 
-        assertEquals(expectedLiveData.value, actual)
+        assertEquals(listOf(todayEntry), actual)
     }
 
     @Test

@@ -7,7 +7,7 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import org.threeten.bp.LocalDate
 
-class TimelineViewModel(private val repository: EntryRepository) : ViewModel() {
+class TimelineViewModel(repository: EntryRepository) : ViewModel() {
 
     val entries: LiveData<List<Entry>>
 
@@ -15,7 +15,7 @@ class TimelineViewModel(private val repository: EntryRepository) : ViewModel() {
         entries = Transformations.map(repository.getAllEntries()) { list ->
             val today = LocalDate.now()
             if (list.isEmpty()) {
-                emptyList()
+                listOf(Entry(today, ""))
             } else if (list[0].entryDate != today) {
                 val newList = mutableListOf<Entry>()
                 newList.add(Entry(today, ""))
