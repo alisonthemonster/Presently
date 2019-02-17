@@ -68,11 +68,14 @@ class EntryFragment : Fragment() {
             startActivity(Intent.createChooser(share, "Share your gratitude"))
         }
 
+        loading_indicator.progress = 1f
+
         val disposable = RxTextView.afterTextChangeEvents(entry_text)
             .debounce(500, TimeUnit.MILLISECONDS)
             .skip(1)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
+                loading_indicator.playAnimation()
                 viewModel.addNewEntry()
             }
 
