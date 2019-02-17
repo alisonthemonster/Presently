@@ -28,6 +28,7 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
         get() = parentJob + Dispatchers.Main
     private val scope = CoroutineScope(coroutineContext)
     private val date: LocalDate = dateString.toLocalDate()
+    private val inspiration = application.resources.getStringArray(R.array.inspirations).random()
 
     init {
         entry = Transformations.map(repository.getEntry(date)) { entry ->
@@ -53,7 +54,7 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
     }
 
     fun getInspirationString(): String {
-        return inspirations.random()
+        return inspiration
     }
 
     fun getThankfulString(): String {
@@ -81,7 +82,4 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
         super.onCleared()
         parentJob.cancel()
     }
-
-    private val inspirations = application.resources.getStringArray(R.array.inspirations)
-
 }
