@@ -16,6 +16,9 @@ import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import kotlinx.android.synthetic.main.entry_fragment.*
 import org.threeten.bp.LocalDate
 import java.util.concurrent.TimeUnit
+import android.content.Intent
+
+
 
 class EntryFragment : Fragment() {
 
@@ -55,6 +58,15 @@ class EntryFragment : Fragment() {
         viewModel.entry.observe(this, Observer {
             binding.viewModel = viewModel
         })
+
+        share_button.setOnClickListener {
+            val message = viewModel.getShareContent()
+            val share = Intent(Intent.ACTION_SEND)
+            share.type = "text/plain"
+            share.putExtra(Intent.EXTRA_TEXT, message)
+
+            startActivity(Intent.createChooser(share, "Share your gratitude"))
+        }
 
         val disposable = RxTextView.afterTextChangeEvents(entry_text)
             .debounce(500, TimeUnit.MILLISECONDS)
