@@ -7,8 +7,8 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="contact_us">Contact Us</string>
     <string name="terms_conditions">Terms &amp; Conditions</string>
-    <string name="channel_name">PresentlyChannel</string>
-    <string name="channel_description">Presently Channel</string>
+    <string name="channel_name">Presently Reminder</string>
+    <string name="channel_description">Daily reminders to note what you\'re grateful for</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="iwas">I was grateful for</string>
