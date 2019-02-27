@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.view.View
+import androidx.databinding.ObservableInt
+import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.ui.bindingadapter.Visibility
 import journal.gratitude.com.gratitudejournal.util.toFullString
@@ -14,6 +16,16 @@ class TimelineEntryViewModel(
 
     val date = timelineItem.entryDate.toFullString()
     val content = timelineItem.entryContent
+    val hintText = ObservableInt()
+
+    init {
+        val today = LocalDate.now()
+        if (timelineItem.entryDate == today) {
+            hintText.set(R.string.what_are_you_thankful_for_today)
+        } else if (timelineItem.entryDate == today.minusDays(1)) {
+            hintText.set(R.string.what_are_you_thankful_for_yesterday)
+        }
+    }
 
     fun onClick(view: View) {
         clickListener.onClick(timelineItem.entryDate)

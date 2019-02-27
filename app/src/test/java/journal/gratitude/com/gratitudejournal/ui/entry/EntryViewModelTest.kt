@@ -77,6 +77,30 @@ class EntryViewModelTest {
     }
 
     @Test
+    fun getHintString_Today_returnsPresentTense() {
+        val expected = "What are you grateful for?"
+        whenever(application.resources.getString(anyInt())).thenReturn(expected)
+
+        viewModel = EntryViewModel(LocalDate.now().toString(), repository, application)
+
+        assertEquals(expected, viewModel.getHintString())
+        verify(application.resources).getString(R.string.what_are_you_thankful_for)
+
+    }
+
+    @Test
+    fun getHintString_Past_returnsPastTense() {
+        val expected = "What were you grateful for?"
+        val yesterday = LocalDate.now().minusDays(1)
+        whenever(application.resources.getString(anyInt())).thenReturn(expected)
+
+        viewModel = EntryViewModel(yesterday.toString(), repository, application)
+
+        assertEquals(expected, viewModel.getHintString())
+        verify(application.resources).getString(R.string.what_were_you_thankful_for)
+    }
+
+    @Test
     fun getDateString_Yesterday_returnsYesterday() {
         val expected = "Yesterday"
         val yesterday = LocalDate.now().minusDays(1)

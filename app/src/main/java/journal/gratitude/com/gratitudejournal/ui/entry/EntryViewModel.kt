@@ -53,6 +53,14 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
         }
     }
 
+    fun getHintString(): String {
+        val today = LocalDate.now()
+        return when (date) {
+            today -> getApplication<Application>().resources.getString(R.string.what_are_you_thankful_for)
+            else -> getApplication<Application>().resources.getString(R.string.what_were_you_thankful_for)
+        }
+    }
+
     fun getInspirationString(): String {
         return inspiration
     }

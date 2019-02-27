@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.journal.gratitude.com.gratitudejo
 import android.view.View
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
+import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineAdapter
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineEntryViewModel
@@ -16,10 +17,10 @@ class TimelineEntryViewModelTest {
     private val date = LocalDate.of(2011, 11, 11)
     private val content = "hiiiiiiii"
     private val viewModel = TimelineEntryViewModel(
-            Entry(date, content),
-            false,
-            onClickListener)
-
+        Entry(date, content),
+        false,
+        onClickListener
+    )
 
     @Test
     fun onClick_callsClickListener() {
@@ -31,12 +32,44 @@ class TimelineEntryViewModelTest {
     @Test
     fun isCurrentDate_currentDate_visible() {
         val today = LocalDate.now()
-        val viewModel = TimelineEntryViewModel(Entry(today, content),
-                false,
-                onClickListener)
+        val viewModel = TimelineEntryViewModel(
+            Entry(today, content),
+            false,
+            onClickListener
+        )
 
         val actual = viewModel.isCurrentDate()
         val expected = View.VISIBLE
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun getHintText_currentDate_presentTense() {
+        val today = LocalDate.now()
+        val viewModel = TimelineEntryViewModel(
+            Entry(today, content),
+            false,
+            onClickListener
+        )
+
+        val actual = viewModel.hintText.get()
+        val expected = R.string.what_are_you_thankful_for_today
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun getHintText_yesterday_pastTense() {
+        val yesterday = LocalDate.now().minusDays(1)
+        val viewModel = TimelineEntryViewModel(
+            Entry(yesterday, content),
+            false,
+            onClickListener
+        )
+
+        val actual = viewModel.hintText.get()
+        val expected = R.string.what_are_you_thankful_for_yesterday
 
         assertEquals(expected, actual)
     }
@@ -52,9 +85,11 @@ class TimelineEntryViewModelTest {
     @Test
     fun isEmptyState_emptyState_visible() {
         val content = ""
-        val viewModel = TimelineEntryViewModel(Entry(date, content),
-                false,
-                onClickListener)
+        val viewModel = TimelineEntryViewModel(
+            Entry(date, content),
+            false,
+            onClickListener
+        )
 
         val actual = viewModel.isEmptyState()
         val expected = View.VISIBLE
@@ -81,9 +116,11 @@ class TimelineEntryViewModelTest {
 
     @Test
     fun isTailVisible_LastItem_visible() {
-        val viewModel = TimelineEntryViewModel(Entry(date, content),
-                true,
-                onClickListener)
+        val viewModel = TimelineEntryViewModel(
+            Entry(date, content),
+            true,
+            onClickListener
+        )
 
         val actual = viewModel.isTailVisible()
         val expected = View.VISIBLE

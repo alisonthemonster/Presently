@@ -10,11 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import journal.gratitude.com.gratitudejournal.util.reminders.AlarmBootReceiver
+import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 
 class ContainerActivity : AppCompatActivity() {
 
     companion object {
-        const val CHANNEL_ID = "PresentlyChannel"
+        const val CHANNEL_ID = "Presently Gratitude Reminder"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +32,7 @@ class ContainerActivity : AppCompatActivity() {
             PackageManager.DONT_KILL_APP
         )
 
-        //NotificationScheduler().setReminderNotification(this)
+        NotificationScheduler().setReminderNotification(this)
     }
 
     override fun attachBaseContext(newBase: Context) {
@@ -47,6 +48,7 @@ class ContainerActivity : AppCompatActivity() {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance)
             channel.description = description
+            channel.enableVibration(true)
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             val notificationManager = getSystemService(NotificationManager::class.java)

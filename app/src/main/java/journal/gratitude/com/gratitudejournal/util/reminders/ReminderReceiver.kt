@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.util.reminders
 
+import android.app.Notification
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -26,21 +27,18 @@ class ReminderReceiver : BroadcastReceiver() {
 
         //Build notification
         createLocalNotification(context, pendingIntent)
-
-        //TODO check intent action
-
     }
 
     private fun createLocalNotification(context: Context, pendingIntent: PendingIntent) {
 
         val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_app_icon)
             .setContentTitle("Presently Gratitude Reminder")
             .setContentText("What are you grateful for today?")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
-            .setAutoCancel(true) //removes notif when tapped
-
+            .setCategory(Notification.CATEGORY_REMINDER)
+            .setAutoCancel(true)
 
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(ALARM_TYPE_RTC, notificationBuilder.build())
