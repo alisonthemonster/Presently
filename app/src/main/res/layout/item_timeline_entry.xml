@@ -94,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/what_are_you_thankful_for_today"
+            android:text="@{entryViewModel.hintText}"
             android:textColor="@color/colorAccentLight"
             android:textSize="16sp"
             android:visibility="@{entryViewModel.isEmptyState()}"
