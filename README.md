@@ -1,7 +1,9 @@
 # Presently: A Gratitude Journal
 [![CircleCI](https://circleci.com/gh/alisonthemonster/Presently/tree/master.svg?style=svg)](https://circleci.com/gh/alisonthemonster/Presently/tree/master)
 
-A journal to write what you're thankful for [IN PROGRESS]
+A journal to write what you're thankful for
+
+[Google Play Posting](https://play.google.com/store/apps/details?id=journal.gratitude.com.gratitudejournal&hl=en)
 
 ### Tech Stack [So far...]
 - MVVM with architecture components
