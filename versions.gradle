@@ -24,6 +24,4 @@ ext {
     //firebase stuff
     google_services_version = "4.0.1"
     fabric_version = "1.26.1"
-
-    lottieVersion = "3.0.0-beta1"
 }
