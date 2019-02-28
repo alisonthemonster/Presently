@@ -45,16 +45,36 @@ class TimelineViewModelTest {
     }
 
     @Test
-    fun init_listWithoutTodayOrYesterdayWritten_addsEmptyTodayAndYesterdayEntries() {
+    fun init_emptylistWithoutTodayOrYesterdayWritten_addsEmptyTodayAndYesterdayEntries() {
         val todayEntry = Entry(LocalDate.now(), "")
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-        val oldEntry = Entry(LocalDate.of(2011, 11, 11), "")
-        val list = listOf(oldEntry)
+        val list = emptyList<Entry>()
         val expectedLiveData = MutableLiveData<List<Entry>>()
         expectedLiveData.postValue(list)
         whenever(repository.getAllEntries()).thenReturn(expectedLiveData)
 
-        val expectedList = listOf(todayEntry, yesterdayEntry, oldEntry)
+        val expectedList = listOf(todayEntry, yesterdayEntry)
+
+        val viewModel = TimelineViewModel(repository)
+
+        val actual = LiveDataTestUtil.getValue(viewModel.entries)
+        assertEquals(expectedList, actual)
+    }
+
+    @Test
+    fun init_listWithoutTodayOrYesterdayWritten_addsEmptyTodayAndYesterdayEntriesToList() {
+        val todayEntry = Entry(LocalDate.now(), "")
+        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
+        val oldEntry = Entry(LocalDate.of(2011, 11, 11), "")
+        val oldEntry1 = Entry(LocalDate.of(2011, 11, 10), "")
+        val oldEntry2 = Entry(LocalDate.of(2011, 11, 9), "")
+
+        val list = listOf(oldEntry, oldEntry1, oldEntry2)
+        val expectedLiveData = MutableLiveData<List<Entry>>()
+        expectedLiveData.postValue(list)
+        whenever(repository.getAllEntries()).thenReturn(expectedLiveData)
+
+        val expectedList = listOf(todayEntry, yesterdayEntry, oldEntry, oldEntry1, oldEntry2)
 
         val viewModel = TimelineViewModel(repository)
 

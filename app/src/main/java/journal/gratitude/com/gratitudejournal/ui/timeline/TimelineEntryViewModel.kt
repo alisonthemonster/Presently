@@ -22,7 +22,7 @@ class TimelineEntryViewModel(
         val today = LocalDate.now()
         if (timelineItem.entryDate == today) {
             hintText.set(R.string.what_are_you_thankful_for_today)
-        } else if (timelineItem.entryDate == today.minusDays(1)) {
+        } else {
             hintText.set(R.string.what_are_you_thankful_for_yesterday)
         }
     }
