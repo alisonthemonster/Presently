@@ -30,6 +30,7 @@ import journal.gratitude.com.gratitudejournal.util.backups.parseCsv
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 import java.io.File
+import java.io.IOException
 import java.io.InputStream
 
 
@@ -77,7 +78,6 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
                         bundle
                 )
             }
-
         })
         timeline_recycler_view.adapter = adapter
 
@@ -146,16 +146,19 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         when (requestCode) {
             IMPORT_CSV -> {
                 if (resultCode == RESULT_OK){
-                    //TODO check file is CSV
                     val uri = data?.data
-                    if (uri?.scheme.equals("content")) {
-                        val inputStream = context?.contentResolver?.openInputStream(uri)
-                        if (inputStream != null) {
-                            importFromCsv(inputStream)
-                        } else {
-                            Toast.makeText(context, "Error parsing file", Toast.LENGTH_SHORT).show()
-                        }
+                    if (uri!= null) {
+                        if (uri.scheme == "content") {
+                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            if (inputStream != null) {
+                                importFromCsv(inputStream)
+                            } else {
+                                Toast.makeText(context, "Error parsing file", Toast.LENGTH_SHORT).show()
+                            }
 
+                        }
+                    } else {
+                        Toast.makeText(context, "File must be a CSV", Toast.LENGTH_SHORT).show()
                     }
 
                 }
@@ -165,8 +168,13 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
 
     private fun importFromCsv(inputStream: InputStream) {
         // parse file to get List<Entry>
-        val entries = parseCsv(inputStream)
-        viewModel.addEntries(entries)
+        try {
+            val entries = parseCsv(inputStream)
+            viewModel.addEntries(entries)
+        } catch (exception: IOException) {
+            Toast.makeText(context, "Error parsing file", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun exportData() {

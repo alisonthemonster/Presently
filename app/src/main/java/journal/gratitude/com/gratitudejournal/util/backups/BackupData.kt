@@ -33,16 +33,18 @@ fun exportDB(entries: List<Entry>, exportCallback: ExportCallback) {
 }
 
 fun parseCsv(inputStream: InputStream): List<Entry> {
+    val entries = mutableListOf<Entry>()
 
     val csvReader = CSVReader(inputStream.bufferedReader())
     val titles = csvReader.readNext()
-    val entries = mutableListOf<Entry>()
-    while (csvReader.hasNext) {
-        val row = csvReader.readNext()
-        val date = row?.get(0)?.toLocalDate()
-        val content = row?.get(1)
-        if (!content.isNullOrEmpty() && date != null) {
-            entries.add(Entry(date, content))
+    if (titles != null && titles.contentEquals(arrayOf("entryDate", "entryContent"))) {
+        while (csvReader.hasNext) {
+            val row = csvReader.readNext()
+            val date = row?.get(0)?.toLocalDate()
+            val content = row?.get(1)
+            if (!content.isNullOrEmpty() && date != null) {
+                entries.add(Entry(date, content))
+            }
         }
     }
 
