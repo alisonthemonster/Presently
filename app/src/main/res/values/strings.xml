@@ -17,5 +17,8 @@
     <string name="iam">I am grateful for</string>
     <string name="share_your_gratitude">Share your gratitude</string>
     <string name="save">Save</string>
+    <string name="back_up_entries_to_csv">Export entries to CSV</string>
+    <string name="export_success">Entries exported</string>
+    <string name="open">Open</string>
 
 </resources>
