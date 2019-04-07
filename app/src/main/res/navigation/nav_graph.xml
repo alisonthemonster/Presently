@@ -11,7 +11,8 @@
         android:label="TimelineFragment" >
         <action
             android:id="@+id/action_timelineFragment_to_entryFragment"
-            app:destination="@id/entryFragment" />
+            app:destination="@id/entryFragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
         <action
             android:id="@+id/action_timelineFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
