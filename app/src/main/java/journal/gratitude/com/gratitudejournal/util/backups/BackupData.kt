@@ -1,7 +1,8 @@
-package journal.gratitude.com.gratitudejournal.util
+package journal.gratitude.com.gratitudejournal.util.backups
 
 import android.os.Environment
 import journal.gratitude.com.gratitudejournal.model.Entry
+import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import java.io.File
 import java.io.FileWriter
 

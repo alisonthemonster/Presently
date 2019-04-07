@@ -24,8 +24,8 @@ import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBindin
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
-import journal.gratitude.com.gratitudejournal.util.ExportCallback
-import journal.gratitude.com.gratitudejournal.util.exportDB
+import journal.gratitude.com.gratitudejournal.util.backups.ExportCallback
+import journal.gratitude.com.gratitudejournal.util.backups.exportDB
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 import java.io.File
@@ -107,7 +107,8 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
                                 ActivityCompat.requestPermissions(activity!!,
                                         arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL)
                             } else {
-                                exportDB(viewModel.entries.value ?: emptyList(), exportCallback)
+                                exportDB(viewModel.entries.value
+                                        ?: emptyList(), exportCallback)
                             }
                             true
                         }
@@ -131,7 +132,8 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL -> {
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    exportDB(viewModel.entries.value ?: emptyList(), exportCallback)
+                    exportDB(viewModel.entries.value
+                            ?: emptyList(), exportCallback)
                 } else {
                     Toast.makeText(context, "Permission is needed to export data", Toast.LENGTH_SHORT).show()
                 }

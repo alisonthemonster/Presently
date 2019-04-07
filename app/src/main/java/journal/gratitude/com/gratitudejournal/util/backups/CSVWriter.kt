@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.util
+package journal.gratitude.com.gratitudejournal.util.backups
 
 import java.io.IOException
 import java.io.PrintWriter
@@ -20,11 +20,11 @@ class CSVWriter
  * the line feed terminator to use
  */
 @JvmOverloads constructor(
-    writer: Writer,
-    private val separator: Char = DEFAULT_SEPARATOR,
-    private val quotechar: Char = DEFAULT_QUOTE_CHARACTER,
-    private val escapechar: Char = DEFAULT_ESCAPE_CHARACTER,
-    private val lineEnd: String = DEFAULT_LINE_END
+        writer: Writer,
+        private val separator: Char = DEFAULT_SEPARATOR,
+        private val quotechar: Char = DEFAULT_QUOTE_CHARACTER,
+        private val escapechar: Char = DEFAULT_ESCAPE_CHARACTER,
+        private val lineEnd: String = DEFAULT_LINE_END
 ) {
 
     private val pw: PrintWriter = PrintWriter(writer)
