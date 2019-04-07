@@ -18,6 +18,7 @@ class ReminderReceiver : BroadcastReceiver() {
 
         val intentToRepeat = Intent(context, ContainerActivity::class.java)
         intentToRepeat.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP //set flag to restart/relaunch the app
+        intentToRepeat.putExtra(fromNotification, true)
         val pendingIntent = PendingIntent.getActivity(
             context,
             ALARM_TYPE_RTC,
@@ -42,6 +43,10 @@ class ReminderReceiver : BroadcastReceiver() {
 
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(ALARM_TYPE_RTC, notificationBuilder.build())
+    }
+
+    companion object {
+        const val fromNotification = "fromNotification"
     }
 
 }
