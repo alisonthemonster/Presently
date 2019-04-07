@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
@@ -106,8 +108,7 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
                             true
                         }
                         R.id.import_data -> {
-                            //TODO show warning that this may override their old data
-                            selectCSVFile()
+                            importData()
                             true
                         }
                         else -> false
@@ -122,6 +123,23 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             binding.viewModel = viewModel
         })
 
+    }
+
+    private fun importData() {
+        val alertDialog: AlertDialog? = activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.apply {
+                setTitle(R.string.import_data_dialog)
+                setMessage(R.string.import_data_dialog_message)
+                setPositiveButton(R.string.ok) { dialog, id ->
+                    selectCSVFile()
+                }
+                setNegativeButton(R.string.cancel) { _, _ -> }
+            }
+            // Create the AlertDialog
+            builder.create()
+        }
+        alertDialog?.show()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,
@@ -145,9 +163,9 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             IMPORT_CSV -> {
-                if (resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     val uri = data?.data
-                    if (uri!= null) {
+                    if (uri != null) {
                         if (uri.scheme == "content") {
                             val inputStream = context?.contentResolver?.openInputStream(uri)
                             if (inputStream != null) {
@@ -182,10 +200,10 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL)
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL)
         } else {
             exportDB(viewModel.entries.value
-                ?: emptyList(), exportCallback)
+                    ?: emptyList(), exportCallback)
         }
     }
 

@@ -21,5 +21,9 @@
     <string name="export_success">Entries exported</string>
     <string name="open">Open</string>
     <string name="import_entries_from_backup">Import entries from backup</string>
+    <string name="ok">Import</string>
+    <string name="cancel">Cancel</string>
+    <string name="import_data_dialog">Are you sure you want to import?</string>
+    <string name="import_data_dialog_message">Imported data could overwrite existing entries.</string>
 
 </resources>
