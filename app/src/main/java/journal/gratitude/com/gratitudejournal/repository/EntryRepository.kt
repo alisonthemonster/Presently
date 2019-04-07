@@ -29,4 +29,9 @@ class EntryRepository(private val entryDao: EntryDao) {
         }
     }
 
+    @WorkerThread
+    suspend fun addEntries(entries: List<Entry>) {
+        entryDao.insertEntries(entries)
+    }
+
 }

@@ -5,11 +5,21 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
+import kotlin.coroutines.CoroutineContext
 
-class TimelineViewModel(repository: EntryRepository) : ViewModel() {
+class TimelineViewModel(val repository: EntryRepository) : ViewModel() {
 
     val entries: LiveData<List<Entry>>
+
+    private var parentJob = Job()
+    private val coroutineContext: CoroutineContext
+        get() = parentJob + Dispatchers.Main
+    private val scope = CoroutineScope(coroutineContext)
 
     init {
         entries = Transformations.map(repository.getAllEntries()) { list ->
@@ -51,5 +61,9 @@ class TimelineViewModel(repository: EntryRepository) : ViewModel() {
 
     fun getEntriesList(): List<Entry> {
         return entries.value ?: emptyList()
+    }
+
+    fun addEntries(entries: List<Entry>) = scope.launch(Dispatchers.IO) {
+        repository.addEntries(entries)
     }
 }
