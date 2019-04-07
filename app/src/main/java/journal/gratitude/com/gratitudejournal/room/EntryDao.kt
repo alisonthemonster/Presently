@@ -23,4 +23,9 @@ interface EntryDao {
         onConflict = OnConflictStrategy.REPLACE
     )
     fun insertEntry(entry: Entry)
+
+    @Insert(
+        onConflict = OnConflictStrategy.REPLACE
+    )
+    fun insertEntries(entry: List<Entry>)
 }
