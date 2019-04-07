@@ -12,4 +12,7 @@
     <item
         android:id="@+id/contact_us"
         android:title="@string/contact_us" />
+    <item
+        android:id="@+id/export_data"
+        android:title="@string/back_up_entries_to_csv" />
 </menu>
