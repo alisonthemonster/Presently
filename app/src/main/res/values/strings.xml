@@ -20,5 +20,6 @@
     <string name="back_up_entries_to_csv">Export entries to CSV</string>
     <string name="export_success">Entries exported</string>
     <string name="open">Open</string>
+    <string name="import_entries_from_backup">Import entries from backup</string>
 
 </resources>

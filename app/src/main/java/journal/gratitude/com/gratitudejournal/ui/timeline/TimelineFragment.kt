@@ -1,6 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.Manifest
+import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -24,10 +26,11 @@ import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
 import journal.gratitude.com.gratitudejournal.util.backups.ExportCallback
 import journal.gratitude.com.gratitudejournal.util.backups.exportDB
+import journal.gratitude.com.gratitudejournal.util.backups.parseCsv
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 import java.io.File
-import androidx.core.content.FileProvider
+import java.io.InputStream
 
 
 class TimelineFragment : androidx.fragment.app.Fragment() {
@@ -35,6 +38,7 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
     companion object {
         fun newInstance() = TimelineFragment()
         const val MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 512
+        const val IMPORT_CSV = 206
     }
 
     private lateinit var viewModel: TimelineViewModel
@@ -98,16 +102,12 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
                             true
                         }
                         R.id.export_data -> {
-                            //CHECK IF YOU HAVE WRITE PERMISSIONS OR RETURN
-                            val permission = ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
-                            if (permission != PackageManager.PERMISSION_GRANTED) {
-                                ActivityCompat.requestPermissions(activity!!,
-                                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL)
-                            } else {
-                                exportDB(viewModel.entries.value
-                                        ?: emptyList(), exportCallback)
-                            }
+                            exportData()
+                            true
+                        }
+                        R.id.import_data -> {
+                            //TODO show warning that this may override their old data
+                            selectCSVFile()
                             true
                         }
                         else -> false
@@ -140,6 +140,60 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             else -> {
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            IMPORT_CSV -> {
+                if (resultCode == RESULT_OK){
+                    //TODO check file is CSV
+                    val uri = data?.data
+                    if (uri?.scheme.equals("content")) {
+                        val inputStream = context?.contentResolver?.openInputStream(uri)
+                        if (inputStream != null) {
+                            importFromCsv(inputStream)
+                        } else {
+                            Toast.makeText(context, "Error parsing file", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
+                }
+            }
+        }
+    }
+
+    private fun importFromCsv(inputStream: InputStream) {
+        // parse file to get List<Entry>
+        val entries = parseCsv(inputStream)
+        viewModel.addEntries(entries)
+    }
+
+    private fun exportData() {
+        val permission = ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL)
+        } else {
+            exportDB(viewModel.entries.value
+                ?: emptyList(), exportCallback)
+        }
+    }
+
+    private fun selectCSVFile() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "*/*"
+        val mimeTypes = arrayOf("text/*")
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+        try {
+            startActivityForResult(Intent.createChooser(intent, "Select"), IMPORT_CSV)
+        } catch (ex: android.content.ActivityNotFoundException) {
+            // Potentially direct the user to the Market with a Dialog
+            Toast.makeText(context, "File viewer not found", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun openContactForm() {
