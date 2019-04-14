@@ -106,17 +106,16 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp"
-            android:scaleType="centerCrop"
             android:visibility="@{entryViewModel.isTailVisible()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/content"
             app:layout_constraintStart_toStartOf="@+id/content"
             app:layout_constraintTop_toBottomOf="@+id/content"
-            app:srcCompat="@drawable/ic_presently" />
+            app:srcCompat="?attr/timelineIcon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
