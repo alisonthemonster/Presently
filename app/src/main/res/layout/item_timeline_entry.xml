@@ -90,16 +90,17 @@
             app:layout_constraintTop_toBottomOf="@+id/timeline_line" />
 
         <TextView
-            android:id="@+id/empty_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@{entryViewModel.hintText}"
-            android:textColor="@color/colorAccentLight"
-            android:textSize="16sp"
-            android:visibility="@{entryViewModel.isEmptyState()}"
-            app:layout_constraintStart_toStartOf="@+id/date_string"
-            app:layout_constraintTop_toBottomOf="@+id/date_string" />
+                android:id="@+id/empty_state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{entryViewModel.hintText}"
+                android:textColor="@color/colorAccentLight"
+                android:textSize="16sp"
+                android:visibility="@{entryViewModel.isEmptyState()}"
+                app:layout_constraintStart_toStartOf="@+id/date_string"
+                app:layout_constraintTop_toBottomOf="@+id/date_string" android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/content" android:textAlignment="viewStart"/>
 
         <ImageView
             android:id="@+id/imageView"
