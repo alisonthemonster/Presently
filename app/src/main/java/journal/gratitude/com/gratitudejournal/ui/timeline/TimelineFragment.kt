@@ -99,14 +99,6 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
                             openNotificationSettings()
                             true
                         }
-                        R.id.privacy_policy -> {
-                            openPrivacyPolicy()
-                            true
-                        }
-                        R.id.terms_conditions -> {
-                            openTermsAndConditions()
-                            true
-                        }
                         R.id.contact_us -> {
                             openContactForm()
                             true
@@ -241,16 +233,6 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         val data = Uri.parse("mailto:gratitude.journal.app@gmail.com?subject=$subject")
         intent.data = data
         startActivity(intent)
-    }
-
-    private fun openTermsAndConditions() {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-terms-conditions/home"))
-        startActivity(browserIntent)
-    }
-
-    private fun openPrivacyPolicy() {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-privacy-policy/home"))
-        startActivity(browserIntent)
     }
 
     private fun openNotificationSettings() {
