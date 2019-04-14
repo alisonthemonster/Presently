@@ -5,8 +5,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
-import android.util.Log
 import androidx.preference.PreferenceManager
+import com.google.firebase.analytics.FirebaseAnalytics
+import journal.gratitude.com.gratitudejournal.model.CANCELLED_NOTIFS
 import org.threeten.bp.LocalTime
 import java.util.*
 
@@ -22,8 +23,7 @@ class NotificationScheduler {
     private lateinit var alarmIntent: PendingIntent
 
     fun setReminderNotification(context: Context) {
-
-        Log.d("blerg", "setReminderNotification")
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -69,6 +69,7 @@ class NotificationScheduler {
                 alarmIntent
             )
         } else {
+            firebaseAnalytics.logEvent(CANCELLED_NOTIFS, null)
             cancelNotifications(context)
         }
     }

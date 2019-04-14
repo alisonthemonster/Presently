@@ -21,8 +21,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
+import journal.gratitude.com.gratitudejournal.model.EXPORTED_DATA
+import journal.gratitude.com.gratitudejournal.model.IMPORTED_DATA
+import journal.gratitude.com.gratitudejournal.model.LOOKED_FOR_DATA
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
@@ -47,6 +51,8 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
     private lateinit var viewModel: TimelineViewModel
     private lateinit var adapter: TimelineAdapter
     private lateinit var binding: TimelineFragmentBinding
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +75,8 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
 
         timeline_recycler_view.layoutManager =
                 androidx.recyclerview.widget.LinearLayoutManager(context)
@@ -185,6 +193,7 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun importFromCsv(inputStream: InputStream) {
+        firebaseAnalytics.logEvent(IMPORTED_DATA, null)
         // parse file to get List<Entry>
         try {
             val entries = parseCsv(inputStream)
@@ -196,6 +205,8 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun exportData() {
+        firebaseAnalytics.logEvent(EXPORTED_DATA, null)
+
         val permission = ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
@@ -208,6 +219,8 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun selectCSVFile() {
+        firebaseAnalytics.logEvent(LOOKED_FOR_DATA, null)
+
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.type = "*/*"
