@@ -23,7 +23,9 @@ fun exportDB(entries: List<Entry>, exportCallback: ExportCallback) {
         csvWrite.writeNext(arrayOf("entryDate", "entryContent"))
 
         for (entry in entries) {
-            csvWrite.writeNext(arrayOf(entry.entryDate.toDatabaseString(), entry.entryContent))
+            if (entry.entryContent.isNotEmpty()) {
+                csvWrite.writeNext(arrayOf(entry.entryDate.toDatabaseString(), entry.entryContent))
+            }
         }
         csvWrite.close()
         exportCallback.onSuccess(file)
