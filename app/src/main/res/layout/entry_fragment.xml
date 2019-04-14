@@ -55,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="3dp"
             android:layout_marginTop="16dp"
-            android:background="@color/colorAccent"
+            android:background="?android:attr/colorAccent"
             app:layout_constraintEnd_toEndOf="@+id/thankful_for"
             app:layout_constraintStart_toStartOf="@+id/thankful_for"
             app:layout_constraintTop_toBottomOf="@+id/thankful_for" />
@@ -72,6 +72,7 @@
             android:inputType="textCapSentences|textMultiLine"
             android:scrollHorizontally="false"
             android:singleLine="false"
+            android:textColorHint="?android:attr/colorPrimaryDark"
             android:text="@={viewModel.entryContent}"
             app:layout_constraintBottom_toTopOf="@+id/save_button"
             app:layout_constraintEnd_toEndOf="@+id/thankful_for"
@@ -83,7 +84,7 @@
             android:layout_width="0dp"
             android:layout_height="3dp"
             android:layout_marginBottom="8dp"
-            android:background="@color/colorAccent"
+            android:background="?android:attr/colorAccent"
             app:layout_constraintBottom_toTopOf="@+id/inspiration"
             app:layout_constraintEnd_toEndOf="@+id/thankful_for"
             app:layout_constraintStart_toStartOf="@+id/thankful_for" />
@@ -95,6 +96,7 @@
             android:layout_marginBottom="8dp"
             android:text="@{viewModel.inspirationString}"
             android:textAlignment="center"
+            android:textColor="?android:attr/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/divider_line2"
             app:layout_constraintStart_toStartOf="@+id/divider_line2" />
@@ -114,9 +116,9 @@
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="?android:attr/colorAccent"
             android:text="@string/save"
-            android:textColor="@color/backgroundColor"
+            android:textColor="?android:attr/android:colorBackground"
             app:layout_constraintBottom_toTopOf="@+id/divider_line2"
             app:layout_constraintEnd_toEndOf="@+id/entry_text" />
 

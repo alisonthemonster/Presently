@@ -4,12 +4,24 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorAccentLight</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorAccent</item>
         <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.SUNSET" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimarySunset</item>
+        <item name="colorPrimaryDark">@color/colorAccentLightSunset</item>
+        <item name="colorAccent">@color/colorAccentSunset</item>
+        <item name="android:colorBackground">@color/backgroundColorSunset</item>
+        <item name="android:colorAccent">@color/colorAccentSunset</item>
+        <item name="android:textColorPrimary">@color/colorAccentSunset</item>
+        <item name="android:textColorSecondary">@color/colorAccentLightSunset</item>
+        <item name="android:statusBarColor">@color/colorAccentSunset</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="TextAppearance.Title" parent="android:TextAppearance">

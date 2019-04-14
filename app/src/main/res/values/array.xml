@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ThemeList">
+        <item>Original</item>
+        <item>Sunset</item>
+        <item>Sunrise</item>
+        <item>Ocean</item>
+        <item>Rose</item>
+    </string-array>
+</resources>

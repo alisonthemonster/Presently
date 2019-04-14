@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Original Theme-->
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#000000</color>
-
     <color name="colorAccentLight">#79736a</color>
-
-
     <color name="backgroundColor">#dbd1c7</color>
+
+    <!--Sunset Theme-->
+    <color name="colorPrimarySunset">#008577</color>
+    <color name="colorPrimaryDarkSunset">#00574B</color>
+    <color name="colorAccentSunset">#A47272</color>
+    <color name="colorAccentLightSunset">#5B4E4E</color>
+    <color name="backgroundColorSunset">#303030</color>
 </resources>

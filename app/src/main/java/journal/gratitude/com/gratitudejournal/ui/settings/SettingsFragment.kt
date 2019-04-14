@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.preference.Preference
@@ -8,10 +9,18 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            "current_theme" -> {
+                activity?.recreate()
+            }
+        }
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
@@ -32,8 +41,19 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
     companion object {
-       @JvmStatic
+        @JvmStatic
         fun newInstance() =
             SettingsFragment()
     }

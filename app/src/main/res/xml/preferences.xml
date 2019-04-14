@@ -2,17 +2,23 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreference
+        android:defaultValue="true"
         android:key="notif_parent"
-        android:title="Daily Reminder Notifications"
         android:summaryOff="Daily reminder notifications are off"
         android:summaryOn="Daily reminder notifications are on"
-        android:defaultValue="true"/>
+        android:title="Daily Reminder Notifications" />
 
     <journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
-        android:key="pref_time"
+        android:defaultValue="21:00"
         android:dependency="notif_parent"
-        android:title="Adjust Reminder Notifications"
-        android:summary="Change your daily reminder time"
         android:dialogTitle=""
-        android:defaultValue="21:00" />
+        android:key="pref_time"
+        android:summary="Change your daily reminder time"
+        android:title="Adjust Reminder Notifications" />
+
+    <ListPreference
+        android:entries="@array/ThemeList"
+        android:entryValues="@array/ThemeList"
+        android:key="current_theme"
+        android:title="Theme" />
 </PreferenceScreen>
