@@ -8,9 +8,12 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.google.firebase.analytics.FirebaseAnalytics
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
+import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
 import journal.gratitude.com.gratitudejournal.util.reminders.AlarmBootReceiver
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
+import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
 
 class ContainerActivity : AppCompatActivity() {
 
@@ -31,6 +34,14 @@ class ContainerActivity : AppCompatActivity() {
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
             PackageManager.DONT_KILL_APP
         )
+
+        intent.extras?.let {
+            val cameFromNotification = it.getBoolean(fromNotification, false)
+            if (cameFromNotification) {
+                val mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+                mFirebaseAnalytics.logEvent(CAME_FROM_NOTIFICATION, null)
+            }
+        }
 
         NotificationScheduler().setReminderNotification(this)
     }
