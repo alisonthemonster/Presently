@@ -10,8 +10,7 @@ interface EntryDao {
     @Query("SELECT * FROM entries ORDER BY datetime(entryDate) DESC")
     fun getEntries(): LiveData<List<Entry>>
 
-    //TODO why is this LIKE instead of WHERE?
-    @Query("SELECT * FROM entries WHERE entryDate LIKE :date")
+    @Query("SELECT * FROM entries WHERE entryDate = :date")
     fun getEntry(date: LocalDate): LiveData<Entry>
 
     @Delete

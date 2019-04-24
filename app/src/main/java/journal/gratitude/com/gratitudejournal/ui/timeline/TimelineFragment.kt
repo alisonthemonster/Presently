@@ -19,6 +19,7 @@ import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -131,10 +132,13 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             binding.viewModel = viewModel
         })
 
-
-        val results = viewModel.search("").observe(this, Observer {
-            print(it)
-        })
+        search_icon.setOnClickListener {
+            val action = TimelineFragmentDirections.actionTimelineFragmentToSearchFragment()
+            val extras = FragmentNavigatorExtras(
+                search_icon to "search_transition"
+            )
+            findNavController().navigate(action, extras)
+        }
     }
 
     private fun importData() {

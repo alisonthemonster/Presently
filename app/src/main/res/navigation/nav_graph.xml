@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_timelineFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_timelineFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/entryFragment"
@@ -30,4 +33,12 @@
         android:name="journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="journal.gratitude.com.gratitudejournal.ui.search.SearchFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_entryFragment"
+            app:destination="@id/entryFragment" />
+    </fragment>
 </navigation>
