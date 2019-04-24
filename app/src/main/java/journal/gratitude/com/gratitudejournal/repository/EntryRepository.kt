@@ -1,13 +1,11 @@
 package journal.gratitude.com.gratitudejournal.repository
 
-import androidx.lifecycle.LiveData
 import androidx.annotation.WorkerThread
-import android.util.Log
-import journal.gratitude.com.gratitudejournal.R
+import androidx.lifecycle.LiveData
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.room.EntryDao
-import org.threeten.bp.LocalDate
 import journal.gratitude.com.gratitudejournal.util.OpenForTesting
+import org.threeten.bp.LocalDate
 
 @OpenForTesting
 class EntryRepository(private val entryDao: EntryDao) {
@@ -32,6 +30,10 @@ class EntryRepository(private val entryDao: EntryDao) {
     @WorkerThread
     suspend fun addEntries(entries: List<Entry>) {
         entryDao.insertEntries(entries)
+    }
+
+    fun searchEntries(query: String): LiveData<List<Entry>> {
+        return entryDao.searchAllEntries(query) //TODO look into LivePagedListBuilder
     }
 
 }

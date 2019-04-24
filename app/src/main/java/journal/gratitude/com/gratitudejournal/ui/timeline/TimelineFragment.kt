@@ -131,6 +131,10 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             binding.viewModel = viewModel
         })
 
+
+        val results = viewModel.search("").observe(this, Observer {
+            print(it)
+        })
     }
 
     private fun importData() {
