@@ -1,11 +1,13 @@
 package journal.gratitude.com.gratitudejournal.ui.search
 
+import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -64,6 +66,9 @@ class SearchFragment : Fragment() {
         search_text.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                    imm?.hideSoftInputFromWindow(search_text.windowToken, 0)
+
                     viewModel.search(v.text.toString())
                     return true
                 }
@@ -71,8 +76,16 @@ class SearchFragment : Fragment() {
             }
         })
 
+        back_icon.setOnClickListener {
+            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            imm?.hideSoftInputFromWindow(search_text.windowToken, 0)
+
+            findNavController().navigateUp()
+        }
+
         val adapter = SearchAdapter(activity!!, object : TimelineAdapter.OnClickListener {
             override fun onClick(clickedDate: LocalDate) {
+
                 val bundle = bundleOf(EntryFragment.DATE to clickedDate.toString())
                 findNavController().navigate(
                         R.id.action_searchFragment_to_entryFragment,
@@ -86,6 +99,10 @@ class SearchFragment : Fragment() {
         viewModel.results.observe(this, Observer {
             adapter.submitList(it)
         })
+
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        search_text.requestFocus()
+        imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
 
 
