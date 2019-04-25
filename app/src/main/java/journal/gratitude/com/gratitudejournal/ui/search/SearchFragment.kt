@@ -32,9 +32,6 @@ import java.util.concurrent.TimeUnit
 
 class SearchFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = SearchFragment()
-    }
     private lateinit var binding: SearchFragmentBinding
     private lateinit var viewModel: SearchViewModel
 
@@ -59,7 +56,7 @@ class SearchFragment : Fragment() {
 
         sharedElementEnterTransition = ChangeBounds().apply {
             sharedElementEnterTransition = transition
-            duration = 200
+            duration = 300
         }
 
         return binding.root
@@ -114,6 +111,8 @@ class SearchFragment : Fragment() {
             binding.viewModel = viewModel
             adapter.submitList(it)
         })
+
+        openKeyboard()
     }
 
     override fun onDestroyView() {
@@ -130,6 +129,12 @@ class SearchFragment : Fragment() {
         if (query.isNotEmpty()) {
             viewModel.search(query)
         }
+    }
+
+    private fun openKeyboard() {
+        search_text.requestFocus()
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm?.showSoftInput(search_text, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun dismissKeyboard() {
