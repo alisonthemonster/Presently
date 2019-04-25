@@ -45,6 +45,11 @@ class SearchEntryViewModelTest {
     }
 
     @Test
+    fun getContent_returnsTheContent() {
+        assertEquals(expectedContent, viewModel.content)
+    }
+
+    @Test
     fun onClick_callsTheClickListener() {
         viewModel.onClick(mock())
 
