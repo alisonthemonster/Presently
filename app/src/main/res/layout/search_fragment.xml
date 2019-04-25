@@ -88,5 +88,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_text" />
 
+        <ImageView
+            android:id="@+id/no_results_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_presently"
+            android:visibility="@{viewModel.noResults()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/search_results" />
+
+        <TextView
+            android:id="@+id/no_results"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No results"
+            android:visibility="@{viewModel.noResults()}"
+            app:layout_constraintEnd_toEndOf="@+id/no_results_icon"
+            app:layout_constraintStart_toStartOf="@+id/no_results_icon"
+            app:layout_constraintTop_toBottomOf="@+id/no_results_icon" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

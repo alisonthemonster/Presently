@@ -22,4 +22,7 @@
         <item name="fontPath">fonts/value-serif.ttf</item>
     </style>
 
+    <style name="TextAppearance.SearchDate" parent="android:TextAppearance">
+        <item name="fontPath">fonts/value-serif.ttf</item>
+    </style>
 </resources>

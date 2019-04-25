@@ -25,6 +25,7 @@ import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineAdapter
 import kotlinx.android.synthetic.main.search_fragment.*
 import org.threeten.bp.LocalDate
+import android.view.WindowManager
 
 
 class SearchFragment : Fragment() {
@@ -66,15 +67,16 @@ class SearchFragment : Fragment() {
         search_text.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-                    imm?.hideSoftInputFromWindow(search_text.windowToken, 0)
-
-                    viewModel.search(v.text.toString())
+                    search(v.text.toString())
                     return true
                 }
                 return false
             }
         })
+
+        search_icon.setOnClickListener {
+           search(search_text.text.toString())
+        }
 
         back_icon.setOnClickListener {
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
@@ -97,12 +99,18 @@ class SearchFragment : Fragment() {
         search_results.adapter = adapter
 
         viewModel.results.observe(this, Observer {
+            binding.viewModel = viewModel
             adapter.submitList(it)
         })
+    }
 
-        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-        search_text.requestFocus()
-        imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+    private fun search(query: String) {
+        if (query.isNotEmpty()) {
+            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            imm?.hideSoftInputFromWindow(search_text.windowToken, 0)
+
+            viewModel.search(query)
+        }
     }
 
 
