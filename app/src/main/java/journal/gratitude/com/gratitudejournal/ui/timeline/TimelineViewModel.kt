@@ -59,10 +59,6 @@ class TimelineViewModel(val repository: EntryRepository) : ViewModel() {
         }
     }
 
-    fun search(query: String): LiveData<List<Entry>> {
-        return repository.searchEntries(query)
-    }
-
     fun getEntriesList(): List<Entry> {
         return entries.value ?: emptyList()
     }

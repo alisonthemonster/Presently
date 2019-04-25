@@ -59,7 +59,7 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         super.onCreate(savedInstanceState)
 
         val entryDao = EntryDatabase.getDatabase(activity!!.application).entryDao()
-        val repository = EntryRepository(entryDao) //TODO look into sharing across both fragments
+        val repository = EntryRepository(entryDao) //TODO look into sharing across all fragments
 
         viewModel = ViewModelProviders.of(this, TimelineViewModelFactory(repository)).get(TimelineViewModel::class.java)
     }

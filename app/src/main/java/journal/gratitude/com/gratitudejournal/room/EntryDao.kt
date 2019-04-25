@@ -1,6 +1,7 @@
 package journal.gratitude.com.gratitudejournal.room
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import journal.gratitude.com.gratitudejournal.model.Entry
 import org.threeten.bp.LocalDate
@@ -20,7 +21,7 @@ interface EntryDao {
     fun deleteByDate(date: String)
 
     @Query("SELECT entries.* FROM entries JOIN entriesFts ON (entries.`rowid` = entriesFts.`rowid`) WHERE entriesFts MATCH :query")
-    fun searchAllEntries(query: String): LiveData<List<Entry>>
+    fun searchAllEntries(query: String): DataSource.Factory<Int, Entry>
 
     @Insert(
         onConflict = OnConflictStrategy.REPLACE

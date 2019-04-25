@@ -44,7 +44,7 @@
             app:srcCompat="@android:drawable/ic_menu_search" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/search_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -52,6 +52,7 @@
             android:layout_marginEnd="8dp"
             android:ems="10"
             android:hint="Search"
+            android:imeOptions="actionSearch"
             android:singleLine="true"
             android:textColor="@color/colorAccent"
             android:textColorHint="@color/colorAccentLight"
