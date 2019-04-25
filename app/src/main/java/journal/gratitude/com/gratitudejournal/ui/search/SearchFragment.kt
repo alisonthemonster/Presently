@@ -7,15 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionInflater
+import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineAdapter
 import kotlinx.android.synthetic.main.search_fragment.*
+import org.threeten.bp.LocalDate
 
 
 class SearchFragment : Fragment() {
@@ -25,7 +32,6 @@ class SearchFragment : Fragment() {
     }
     private lateinit var binding: SearchFragmentBinding
     private lateinit var viewModel: SearchViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,12 +71,21 @@ class SearchFragment : Fragment() {
             }
         })
 
-        viewModel.results.observe(this, Observer {
-            //showEmptyList(it?.size == 0)
-            val results = it
-            //adapter.submitList(it)
+        val adapter = SearchAdapter(activity!!, object : TimelineAdapter.OnClickListener {
+            override fun onClick(clickedDate: LocalDate) {
+                val bundle = bundleOf(EntryFragment.DATE to clickedDate.toString())
+                findNavController().navigate(
+                        R.id.action_searchFragment_to_entryFragment,
+                        bundle
+                )
+            }
         })
+        search_results.layoutManager = LinearLayoutManager(context)
+        search_results.adapter = adapter
 
+        viewModel.results.observe(this, Observer {
+            adapter.submitList(it)
+        })
     }
 
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="searchEntryViewModel"
+            type="journal.gratitude.com.gratitudejournal.ui.search.SearchEntryViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{searchEntryViewModel::onClick}">
+
+        <TextView
+            android:id="@+id/date_string"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:text="@{searchEntryViewModel.date}"
+            android:textAppearance="@style/TextAppearance.Date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="January 19th, 2018" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:minLines="3"
+            android:maxLines="5"
+            android:text="@{searchEntryViewModel.content}"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/date_string"
+            app:layout_constraintStart_toStartOf="@+id/date_string"
+            app:layout_constraintTop_toBottomOf="@+id/date_string"
+            tools:text="Hello there this is some hot content." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
