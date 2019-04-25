@@ -141,7 +141,7 @@ class CSVReader
                     } else {
                         inQuotes = !inQuotes
                         // the tricky case of an embedded quote in the middle: a,bc"d"ef,g
-                        if (i > 2 //not on the begining of the line
+                        if (i > 2 //not on the beginning of the line
 
                             && nextLine[i - 1] != this.separator //not at the begining of an escape sequence
 
@@ -154,6 +154,8 @@ class CSVReader
                 } else if (c == separator && !inQuotes) {
                     tokensOnThisLine.add(sb.toString())
                     sb = StringBuffer() // start work on next token
+                } else if (c == '\u0012') {
+                    sb.append('\n')
                 } else {
                     sb.append(c)
                 }
