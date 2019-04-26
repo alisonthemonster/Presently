@@ -4,7 +4,7 @@ import android.os.Environment
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
-import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
 import java.io.File
 import java.io.FileWriter
 import java.io.InputStream
@@ -16,10 +16,9 @@ fun exportDB(entries: List<Entry>, exportCallback: ExportCallback) {
     val dir = File(sdCard.absolutePath + "/PresentlyBackups")
     dir.mkdirs()
 
-    val date = LocalDate.now()
-    val dateString = date.toDatabaseString()
+    val date = LocalDateTime.now()
 
-    val file = File(dir, "PresentlyBackup$dateString.csv")
+    val file = File(dir, "PresentlyBackup$date.csv")
     return try {
         file.createNewFile()
         val csvWrite = CSVWriter(FileWriter(file))
