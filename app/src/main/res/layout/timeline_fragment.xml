@@ -56,15 +56,15 @@
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <ImageView
-            android:id="@+id/search_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="16dp"
-            android:transitionName="search_transition"
-            app:layout_constraintBottom_toBottomOf="@+id/overflow_button"
-            app:layout_constraintStart_toStartOf="@+id/title"
-            app:layout_constraintTop_toTopOf="@+id/overflow_button"
-            app:srcCompat="@drawable/ic_search" />
+                android:id="@+id/search_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="24dp"
+                android:transitionName="search_transition"
+                app:layout_constraintBottom_toBottomOf="@+id/overflow_button"
+                app:layout_constraintStart_toStartOf="@+id/title"
+                app:layout_constraintTop_toTopOf="@+id/overflow_button"
+                app:srcCompat="@drawable/ic_search"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
