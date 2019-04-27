@@ -48,7 +48,7 @@ class CSVWriter
                 sb.append(separator)
             }
 
-            val nextElement = nextLine[i] ?: continue
+            val nextElement = nextLine[i]
             if (quotechar != NO_QUOTE_CHARACTER)
                 sb.append(quotechar)
             for (j in 0 until nextElement.length) {
@@ -57,7 +57,10 @@ class CSVWriter
                     sb.append(escapechar).append(nextChar)
                 } else if (escapechar != NO_ESCAPE_CHARACTER && nextChar == escapechar) {
                     sb.append(escapechar).append(nextChar)
-                } else {
+                } else if (nextChar == '\n') {
+                    sb.append('\u0012')
+                }
+                else {
                     sb.append(nextChar)
                 }
             }
