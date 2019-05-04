@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
 
 @RunWith(AndroidJUnit4::class)
-class DatabaseTest {
+class EntryDaoTest {
 
     private lateinit var database: EntryDatabase
     private lateinit var entryDao: EntryDao
@@ -39,7 +39,6 @@ class DatabaseTest {
         database.close()
     }
 
-
     @Test
     @Throws(Exception::class)
     fun writeEntryAndReadInList() {
@@ -50,6 +49,39 @@ class DatabaseTest {
         val actualEntry = LiveDataTestUtil.getValue(entryDao.getEntry(date))
         assertEquals(expectedEntry, actualEntry)
     }
+
+    @Test
+    fun writeMultipleEntries() {
+        entryDao.insertEntries(mockEntriesSorted)
+
+        val actualEntry = LiveDataTestUtil.getValue(entryDao.getEntries())
+        assertEquals(mockEntriesSorted, actualEntry)
+    }
+
+    @Test
+    fun getEntriesReturnsEntries() {
+        entryDao.insertEntry(entryTwo)
+        entryDao.insertEntry(entryThree)
+        entryDao.insertEntry(entryOne)
+
+        val actualEntry = LiveDataTestUtil.getValue(entryDao.getEntries())
+        assertEquals(mockEntriesSorted, actualEntry)
+    }
+
+    @Test
+    fun deleteEntryRemovesEntry() {
+        entryDao.insertEntries(mockEntriesSorted)
+        entryDao.delete(entryTwo)
+
+        val actualEntry = LiveDataTestUtil.getValue(entryDao.getEntries())
+        assertEquals(listOf(entryOne, entryThree), actualEntry)
+    }
+
+    private val entryOne = Entry(LocalDate.of(2013, 1, 1), "Test content")
+    private val entryTwo = Entry(LocalDate.of(2012, 1, 1), "Test content1")
+    private val entryThree = Entry(LocalDate.of(2011, 1, 1), "Test content2")
+
+    private val mockEntriesSorted = listOf(entryOne, entryTwo, entryThree)
 
 }
 

@@ -25,6 +25,12 @@ android {
         //buildConfigField 'int', 'BUILD_NUMBER', "${project.ext.buildNumber}"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
     }
     dataBinding {
         enabled = true
@@ -34,6 +40,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 }
 
@@ -54,7 +63,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     kapt 'androidx.room:room-compiler:2.1.0-alpha07'
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha04'
-    implementation 'com.facebook.stetho:stetho:1.5.0'
     kapt 'androidx.room:room-compiler:2.1.0-alpha07'
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha04'
     implementation 'com.hannesdorfmann:adapterdelegates3:3.0.1'
