@@ -1,0 +1,55 @@
+package journal.gratitude.com.gratitudejournal
+
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import journal.gratitude.com.gratitudejournal.model.Entry
+import journal.gratitude.com.gratitudejournal.room.EntryDao
+import journal.gratitude.com.gratitudejournal.room.EntryDatabase
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.threeten.bp.LocalDate
+
+@RunWith(AndroidJUnit4::class)
+class DatabaseTest {
+
+    private lateinit var database: EntryDatabase
+    private lateinit var entryDao: EntryDao
+
+    @Rule
+    @JvmField
+    val rule = InstantTaskExecutorRule()
+
+    @Before
+    fun initDb() {
+        database = Room.inMemoryDatabaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            EntryDatabase::class.java
+        ).allowMainThreadQueries().build()
+        entryDao = database.entryDao()
+    }
+
+    @After
+    fun closeDb() {
+        database.close()
+    }
+
+
+    @Test
+    @Throws(Exception::class)
+    fun writeEntryAndReadInList() {
+        val date = LocalDate.of(2012, 1, 1)
+        val expectedEntry = Entry(date, "Test content")
+        entryDao.insertEntry(expectedEntry)
+
+        val actualEntry = LiveDataTestUtil.getValue(entryDao.getEntry(date))
+        assertEquals(expectedEntry, actualEntry)
+    }
+
+}
+

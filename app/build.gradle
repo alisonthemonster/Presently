@@ -40,23 +40,22 @@ dependencies {
     // TODO move these versions to versions.gradle
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha02'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'io.github.inflationx:calligraphy3:3.0.0'
     implementation 'io.github.inflationx:viewpump:1.0.0'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
-    implementation 'androidx.room:room-runtime:2.1.0-alpha04'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha02'
+    implementation 'androidx.room:room-runtime:2.1.0-alpha07'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
     implementation 'androidx.paging:paging-runtime:2.1.0'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha04'
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha02'
-    implementation 'com.facebook.stetho:stetho:1.5.0'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha07'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha04'
     implementation 'com.hannesdorfmann:adapterdelegates3:3.0.1'
-    implementation "com.google.android.material:material:1.1.0-alpha03"
-    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation "com.google.android.material:material:1.1.0-alpha05"
+    implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
@@ -64,14 +63,23 @@ dependencies {
     implementation 'androidx.preference:preference:1.0.0'
 
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.threeten:threetenbp:1.3.7'
-    testImplementation 'androidx.room:room-testing:2.1.0-alpha04'
+    testImplementation 'org.threeten:threetenbp:1.3.8'
+    testImplementation 'androidx.room:room-testing:2.1.0-alpha07'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_version"
-    testImplementation 'androidx.arch.core:core-testing:2.0.0'
+    testImplementation 'androidx.arch.core:core-testing:2.0.1'
 
     androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.arch.core:core-testing:2.0.1'
+
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    androidTestImplementation 'androidx.room:room-testing:2.1.0-alpha03'
+    androidTestImplementation 'androidx.room:room-testing:2.1.0-alpha07'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test.ext:truth:1.1.0'
+
+    debugImplementation 'androidx.fragment:fragment-testing:1.1.0-alpha07'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
