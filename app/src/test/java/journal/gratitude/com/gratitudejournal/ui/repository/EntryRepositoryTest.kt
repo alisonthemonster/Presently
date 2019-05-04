@@ -16,6 +16,8 @@ class EntryRepositoryTest {
 
     @Before
     fun before() {
+        whenever(entryDao.searchAllEntries(any())).thenReturn(mock())
+
         repository = EntryRepository(entryDao)
     }
 
@@ -70,5 +72,21 @@ class EntryRepositoryTest {
         }
 
         verify(entryDao).insertEntry(expectedEntry)
+    }
+
+    @Test
+    fun searchEntries_callsDaoSearch() {
+        repository.searchEntries("Howdy!")
+
+        verify(entryDao, times(1)).searchAllEntries(any())
+    }
+
+    @Test
+    fun searchEntries_callsDaoWithCorrectQuery() {
+        val query = "Howdy!"
+        val expectedQuery = "*$query*"
+        repository.searchEntries(query)
+
+        verify(entryDao).searchAllEntries(expectedQuery)
     }
 }
