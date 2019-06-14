@@ -15,8 +15,4 @@ A journal to write what you're thankful for
 - Jacoco coverage reports (integrated with CI)
 - Firebase Crashlytics Crash Reporting
 
-<img src="https://i.imgur.com/Im3maBV.png" width="220"> 
-
-<img src="https://i.imgur.com/O4J2yru.png" width="220"> 
-
-<img src="https://i.imgur.com/TDCxl3N.png" width="220"> 
+<img src="https://i.imgur.com/Im3maBV.png" width="220">  <img src="https://i.imgur.com/O4J2yru.png" width="220">  <img src="https://i.imgur.com/TDCxl3N.png" width="220"> 
