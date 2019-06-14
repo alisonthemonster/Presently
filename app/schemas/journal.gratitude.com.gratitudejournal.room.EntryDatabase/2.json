@@ -1,0 +1,89 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "70d0d7e51ce9e8feb6e11bbd680ab192",
+    "entities": [
+      {
+        "tableName": "entries",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`entryDate` TEXT NOT NULL, `entryContent` TEXT NOT NULL, PRIMARY KEY(`entryDate`))",
+        "fields": [
+          {
+            "fieldPath": "entryDate",
+            "columnName": "entryDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entryContent",
+            "columnName": "entryContent",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "entryDate"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "ftsVersion": "FTS4",
+        "ftsOptions": {
+          "tokenizer": "simple",
+          "tokenizerArgs": [],
+          "contentTable": "entries",
+          "languageIdColumnName": "",
+          "matchInfo": "FTS4",
+          "notIndexedColumns": [],
+          "prefixSizes": [],
+          "preferredOrder": "ASC"
+        },
+        "contentSyncTriggers": [
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_entriesFts_BEFORE_UPDATE BEFORE UPDATE ON `entries` BEGIN DELETE FROM `entriesFts` WHERE `docid`=OLD.`rowid`; END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_entriesFts_BEFORE_DELETE BEFORE DELETE ON `entries` BEGIN DELETE FROM `entriesFts` WHERE `docid`=OLD.`rowid`; END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_entriesFts_AFTER_UPDATE AFTER UPDATE ON `entries` BEGIN INSERT INTO `entriesFts`(`docid`, `entryDate`, `entryContent`) VALUES (NEW.`rowid`, NEW.`entryDate`, NEW.`entryContent`); END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_entriesFts_AFTER_INSERT AFTER INSERT ON `entries` BEGIN INSERT INTO `entriesFts`(`docid`, `entryDate`, `entryContent`) VALUES (NEW.`rowid`, NEW.`entryDate`, NEW.`entryContent`); END"
+        ],
+        "tableName": "entriesFts",
+        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`entryDate` TEXT NOT NULL, `entryContent` TEXT NOT NULL, content=`entries`)",
+        "fields": [
+          {
+            "fieldPath": "rowId",
+            "columnName": "rowid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entryDate",
+            "columnName": "entryDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entryContent",
+            "columnName": "entryContent",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "rowid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"70d0d7e51ce9e8feb6e11bbd680ab192\")"
+    ]
+  }
+}
