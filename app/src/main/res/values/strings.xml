@@ -25,5 +25,6 @@
     <string name="cancel">Cancel</string>
     <string name="import_data_dialog">Are you sure you want to import?</string>
     <string name="import_data_dialog_message">Imported data could overwrite existing entries.</string>
+    <string name="search">Search</string>
 
 </resources>

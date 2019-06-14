@@ -11,37 +11,39 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/container"
         tools:context=".ui.timeline.TimelineFragment">
 
         <TextView
-                android:id="@+id/title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:padding="10dp"
-                android:text="Presently"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.Date"
-                android:textColor="@color/backgroundColor"
-                android:textSize="32sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:padding="10dp"
+            android:text="Presently"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Date"
+            android:textColor="@color/backgroundColor"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-                android:id="@+id/overflow_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/timeline_recycler_view"
-                app:layout_constraintEnd_toEndOf="@+id/title"
-                app:layout_constraintTop_toTopOf="@+id/title"
-                app:srcCompat="@drawable/ic_overflow" android:padding="4dp" android:cropToPadding="false"/>
+            android:id="@+id/overflow_button"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:cropToPadding="false"
+            android:padding="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/timeline_recycler_view"
+            app:layout_constraintEnd_toEndOf="@+id/title"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:srcCompat="@drawable/ic_overflow" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/timeline_recycler_view"
@@ -52,6 +54,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />
+
+        <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="24dp"
+                android:transitionName="search_transition"
+                app:layout_constraintBottom_toBottomOf="@+id/overflow_button"
+                app:layout_constraintStart_toStartOf="@+id/title"
+                app:layout_constraintTop_toTopOf="@+id/overflow_button"
+                app:srcCompat="@drawable/ic_search"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
