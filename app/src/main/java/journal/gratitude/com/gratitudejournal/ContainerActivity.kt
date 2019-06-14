@@ -1,13 +1,16 @@
 package journal.gratitude.com.gratitudejournal
 
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
@@ -44,6 +47,23 @@ class ContainerActivity : AppCompatActivity() {
         }
 
         NotificationScheduler().setReminderNotification(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isGooglePlayServicesAvailable(this)
+    }
+
+    private fun isGooglePlayServicesAvailable(activity: Activity): Boolean {
+        val googleApiAvailability = GoogleApiAvailability.getInstance()
+        val status = googleApiAvailability.isGooglePlayServicesAvailable(activity)
+        if (status != ConnectionResult.SUCCESS) {
+            if (googleApiAvailability.isUserResolvableError(status)) {
+                googleApiAvailability.getErrorDialog(activity, status, 2404).show()
+            }
+            return false
+        }
+        return true
     }
 
     override fun attachBaseContext(newBase: Context) {
