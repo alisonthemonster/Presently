@@ -8,15 +8,15 @@ A journal to write what you're thankful for
 ### Tech Stack [So far...]
 - MVVM with architecture components
    - ViewModel
-   - Room
+   - Room (with FTS)
 - Navigation Component
 - CircleCI
 - Fastlane
 - Jacoco coverage reports (integrated with CI)
 - Firebase Crashlytics Crash Reporting
 
-#### Timeline View
-<img src="https://i.imgur.com/Im3maBV.png" width="250"> 
+<img src="https://i.imgur.com/Im3maBV.png" width="220"> 
 
-#### Entry View
-<img src="https://i.imgur.com/O4J2yru.png" width="250"> 
+<img src="https://i.imgur.com/O4J2yru.png" width="220"> 
+
+<img src="https://i.imgur.com/TDCxl3N.png" width="220"> 
