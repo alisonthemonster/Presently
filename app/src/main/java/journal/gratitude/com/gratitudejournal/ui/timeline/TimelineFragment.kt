@@ -26,9 +26,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
-import journal.gratitude.com.gratitudejournal.model.EXPORTED_DATA
-import journal.gratitude.com.gratitudejournal.model.IMPORTED_DATA
-import journal.gratitude.com.gratitudejournal.model.LOOKED_FOR_DATA
+import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
@@ -208,13 +206,13 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             val entries = parseCsv(inputStream)
             viewModel.addEntries(entries)
         } catch (exception: IOException) {
+            firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
+
             Toast.makeText(context, "Error parsing file", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     private fun exportData() {
-        firebaseAnalytics.logEvent(EXPORTED_DATA, null)
 
         val permission = ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
@@ -222,6 +220,7 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             requestPermissions(
                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL)
         } else {
+            firebaseAnalytics.logEvent(EXPORTED_DATA, null)
             exportDB(viewModel.entries.value
                     ?: emptyList(), exportCallback)
         }
@@ -241,28 +240,39 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             // Potentially direct the user to the Market with a Dialog
             Toast.makeText(context, "File viewer not found", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     private fun openContactForm() {
+        firebaseAnalytics.logEvent(OPENED_CONTACT_FORM, null)
+
         val intent = Intent(Intent.ACTION_VIEW)
         val subject = "In App Feedback"
         val data = Uri.parse("mailto:gratitude.journal.app@gmail.com?subject=$subject")
         intent.data = data
-        startActivity(intent)
+        try {
+            startActivity(intent)
+        } catch (activityNotFoundException: ActivityNotFoundException) {
+            Toast.makeText(context, "Email client not found", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun openTermsAndConditions() {
+        firebaseAnalytics.logEvent(OPENED_TERMS_CONDITIONS, null)
+
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-terms-conditions/home"))
         startActivity(browserIntent)
     }
 
     private fun openPrivacyPolicy() {
+        firebaseAnalytics.logEvent(OPENED_PRIVACY_POLICY, null)
+
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-privacy-policy/home"))
         startActivity(browserIntent)
     }
 
     private fun openNotificationSettings() {
+        firebaseAnalytics.logEvent(LOOKED_AT_SETTINGS, null)
+
         findNavController().navigate(
                 R.id.action_timelineFragment_to_settingsFragment)
     }

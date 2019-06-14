@@ -11,7 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
+import journal.gratitude.com.gratitudejournal.model.EXPORTED_DATA
+import journal.gratitude.com.gratitudejournal.model.SAVED_ENTRY
+import journal.gratitude.com.gratitudejournal.model.SHARED_ENTRY
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import kotlinx.android.synthetic.main.entry_fragment.*
@@ -22,6 +26,7 @@ class EntryFragment : Fragment() {
 
     private lateinit var viewModel: EntryViewModel
     private lateinit var binding: EntryFragmentBinding
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,11 +56,15 @@ class EntryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+
         viewModel.entry.observe(this, Observer {
             binding.viewModel = viewModel
         })
 
         share_button.setOnClickListener {
+            firebaseAnalytics.logEvent(SHARED_ENTRY, null)
+
             val message = viewModel.getShareContent()
             val share = Intent(Intent.ACTION_SEND)
             share.type = "text/plain"
@@ -65,6 +74,8 @@ class EntryFragment : Fragment() {
         }
 
         save_button.setOnClickListener {
+            firebaseAnalytics.logEvent(SAVED_ENTRY, null)
+
             viewModel.addNewEntry()
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
             imm?.hideSoftInputFromWindow(entry_text.windowToken, 0)
