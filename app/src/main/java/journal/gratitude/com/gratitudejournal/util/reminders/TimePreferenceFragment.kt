@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.View
 import android.widget.TimePicker
 import androidx.preference.PreferenceDialogFragmentCompat
+import com.google.firebase.analytics.FirebaseAnalytics
+import journal.gratitude.com.gratitudejournal.model.NOTIF_TIME
 import org.threeten.bp.LocalTime
 
 class TimePreferenceFragment: PreferenceDialogFragmentCompat() {
@@ -31,6 +33,10 @@ class TimePreferenceFragment: PreferenceDialogFragmentCompat() {
             pref.minute = timePicker?.minute!!
 
             val time = LocalTime.of(pref.hour, pref.minute)
+
+            val firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+            firebaseAnalytics.setUserProperty(NOTIF_TIME, time.toString())
+
             if (pref.callChangeListener(time)) {
                 pref.persistStringValue(time.toString())
                 NotificationScheduler().setReminderNotification(context!!)

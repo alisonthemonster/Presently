@@ -11,6 +11,7 @@ import org.threeten.bp.LocalDate
 class TimelineEntryViewModel(
         private val timelineItem: Entry,
         private val isLastItem: Boolean,
+        private val numEntries: Int,
         private val clickListener: TimelineAdapter.OnClickListener
 ) {
 
@@ -28,7 +29,7 @@ class TimelineEntryViewModel(
     }
 
     fun onClick(view: View) {
-        clickListener.onClick(timelineItem.entryDate)
+        clickListener.onClick(timelineItem.entryDate, timelineItem.entryContent == "", numEntries)
     }
 
     @Visibility

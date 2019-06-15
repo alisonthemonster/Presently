@@ -3,7 +3,6 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -11,7 +10,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -30,6 +28,8 @@ import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.IS_NEW_ENTRY
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.NUM_ENTRIES
 import journal.gratitude.com.gratitudejournal.util.backups.ExportCallback
 import journal.gratitude.com.gratitudejournal.util.backups.exportDB
 import journal.gratitude.com.gratitudejournal.util.backups.parseCsv
@@ -64,8 +64,8 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         binding = TimelineFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
@@ -79,13 +79,27 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
 
         timeline_recycler_view.layoutManager =
-                androidx.recyclerview.widget.LinearLayoutManager(context)
+            androidx.recyclerview.widget.LinearLayoutManager(context)
         adapter = TimelineAdapter(activity!!, object : TimelineAdapter.OnClickListener {
-            override fun onClick(clickedDate: LocalDate) {
-                val bundle = bundleOf(DATE to clickedDate.toString())
+            override fun onClick(
+                clickedDate: LocalDate,
+                isNewEntry: Boolean,
+                numEntries: Int
+            ) {
+                if (isNewEntry) {
+                    firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY, null)
+                } else {
+                    firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY, null)
+                }
+
+                val bundle = bundleOf(
+                    DATE to clickedDate.toString(),
+                    IS_NEW_ENTRY to isNewEntry,
+                    NUM_ENTRIES to numEntries
+                )
                 findNavController().navigate(
-                        R.id.action_timelineFragment_to_entryFragment,
-                        bundle
+                    R.id.action_timelineFragment_to_entryFragment,
+                    bundle
                 )
             }
         })
@@ -132,6 +146,8 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         })
 
         search_icon.setOnClickListener {
+            firebaseAnalytics.logEvent(CLICKED_SEARCH, null)
+
             val action = TimelineFragmentDirections.actionTimelineFragmentToSearchFragment()
             val extras = FragmentNavigatorExtras(
                 search_icon to "search_transition"
@@ -157,14 +173,18 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         alertDialog?.show()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL -> {
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    exportDB(viewModel.entries.value
-                            ?: emptyList(), exportCallback)
+                    exportDB(
+                        viewModel.entries.value
+                            ?: emptyList(), exportCallback
+                    )
                 } else {
                     Toast.makeText(context, "Permission is needed to export data", Toast.LENGTH_SHORT).show()
                 }
@@ -200,11 +220,11 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun importFromCsv(inputStream: InputStream) {
-        firebaseAnalytics.logEvent(IMPORTED_DATA, null)
         // parse file to get List<Entry>
         try {
             val entries = parseCsv(inputStream)
             viewModel.addEntries(entries)
+            firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
         } catch (exception: IOException) {
             firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
 
@@ -218,11 +238,14 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL)
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
+            )
         } else {
             firebaseAnalytics.logEvent(EXPORTED_DATA, null)
-            exportDB(viewModel.entries.value
-                    ?: emptyList(), exportCallback)
+            exportDB(
+                viewModel.entries.value
+                    ?: emptyList(), exportCallback
+            )
         }
     }
 
@@ -259,14 +282,16 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
     private fun openTermsAndConditions() {
         firebaseAnalytics.logEvent(OPENED_TERMS_CONDITIONS, null)
 
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-terms-conditions/home"))
+        val browserIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-terms-conditions/home"))
         startActivity(browserIntent)
     }
 
     private fun openPrivacyPolicy() {
         firebaseAnalytics.logEvent(OPENED_PRIVACY_POLICY, null)
 
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-privacy-policy/home"))
+        val browserIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-privacy-policy/home"))
         startActivity(browserIntent)
     }
 
@@ -274,24 +299,27 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         firebaseAnalytics.logEvent(LOOKED_AT_SETTINGS, null)
 
         findNavController().navigate(
-                R.id.action_timelineFragment_to_settingsFragment)
+            R.id.action_timelineFragment_to_settingsFragment
+        )
     }
 
     private val exportCallback: ExportCallback = object : ExportCallback {
         override fun onSuccess(file: File) {
             Snackbar.make(container, R.string.export_success, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.open) {
-                        try {
-                            val intent = Intent(Intent.ACTION_VIEW)
-                            val apkURI = FileProvider.getUriForFile(context!!,
-                                    context?.applicationContext?.packageName + ".provider", file)
-                            intent.setDataAndType(apkURI, "text/csv")
-                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            startActivity(intent)
-                        } catch (e: ActivityNotFoundException) {
-                            Toast.makeText(context, "No app found to open this file", Toast.LENGTH_SHORT).show()
-                        }
-                    }.show()
+                .setAction(R.string.open) {
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        val apkURI = FileProvider.getUriForFile(
+                            context!!,
+                            context?.applicationContext?.packageName + ".provider", file
+                        )
+                        intent.setDataAndType(apkURI, "text/csv")
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        Toast.makeText(context, "No app found to open this file", Toast.LENGTH_SHORT).show()
+                    }
+                }.show()
         }
 
         override fun onFailure(message: String) {

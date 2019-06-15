@@ -13,8 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
-import journal.gratitude.com.gratitudejournal.model.EXPORTED_DATA
-import journal.gratitude.com.gratitudejournal.model.SAVED_ENTRY
+import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
 import journal.gratitude.com.gratitudejournal.model.SHARED_ENTRY
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
@@ -42,7 +41,6 @@ class EntryFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         val passedInDate = arguments?.getString(DATE) ?: LocalDate.now().toString()
-
         val entryDao = EntryDatabase.getDatabase(activity!!.application).entryDao()
 
         val repository = EntryRepository(entryDao)
@@ -74,7 +72,15 @@ class EntryFragment : Fragment() {
         }
 
         save_button.setOnClickListener {
-            firebaseAnalytics.logEvent(SAVED_ENTRY, null)
+            val numEntries = arguments?.getInt(NUM_ENTRIES) ?: 0
+            val isNewEntry = arguments?.getBoolean(IS_NEW_ENTRY) ?: false
+            if (isNewEntry) {
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.LEVEL, (numEntries + 1).toString())
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle)
+            } else {
+                firebaseAnalytics.logEvent(EDITED_EXISTING_ENTRY, null)
+            }
 
             viewModel.addNewEntry()
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
@@ -85,6 +91,8 @@ class EntryFragment : Fragment() {
 
     companion object {
         const val DATE = "date_key"
+        const val IS_NEW_ENTRY = "is_new_entry"
+        const val NUM_ENTRIES = "num_entries"
 
         fun newInstance(date: LocalDate = LocalDate.now()): EntryFragment {
             val fragment = EntryFragment()
