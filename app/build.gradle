@@ -88,6 +88,7 @@ dependencies {
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_version"
     testImplementation 'androidx.arch.core:core-testing:2.0.1'
 
+    androidTestImplementation 'com.google.code.findbugs:jsr305:3.0.2'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.arch.core:core-testing:2.0.1'
 
