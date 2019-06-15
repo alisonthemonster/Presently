@@ -17,7 +17,7 @@ import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
 import journal.gratitude.com.gratitudejournal.model.SHARED_ENTRY
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
-import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialog
+import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
 import kotlinx.android.synthetic.main.entry_fragment.*
 import org.threeten.bp.LocalDate
 
@@ -29,8 +29,8 @@ class EntryFragment : Fragment() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = EntryFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
@@ -47,8 +47,8 @@ class EntryFragment : Fragment() {
         val repository = EntryRepository(entryDao)
 
         viewModel = ViewModelProviders.of(
-            this,
-            EntryViewModelFactory(passedInDate, repository, activity!!.application)
+                this,
+                EntryViewModelFactory(passedInDate, repository, activity!!.application)
         ).get(EntryViewModel::class.java)
     }
 
@@ -78,14 +78,14 @@ class EntryFragment : Fragment() {
             if (isNewEntry) {
                 val bundle = Bundle()
                 bundle.putString(FirebaseAnalytics.Param.LEVEL, (numEntries + 1).toString())
+                val milestones = arrayOf(5, 10, 25, 50, 100, 150, 200, 250, 300)
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle)
-//                if (numEntries+1 == 2) {
-//                    CelebrateDialog.newInstance(numEntries+1).show(fragmentManager!!, "NoticeDialogFragment")
-//                }
+                if (milestones.contains(numEntries + 1)) {
+                    CelebrateDialogFragment.newInstance(numEntries + 1).show(fragmentManager!!, "NoticeDialogFragment")
+                }
             } else {
                 firebaseAnalytics.logEvent(EDITED_EXISTING_ENTRY, null)
             }
-            CelebrateDialog.newInstance(numEntries+1).show(fragmentManager!!, "NoticeDialogFragment")
 
             viewModel.addNewEntry()
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
