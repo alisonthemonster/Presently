@@ -17,6 +17,7 @@ import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
 import journal.gratitude.com.gratitudejournal.model.SHARED_ENTRY
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
+import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialog
 import kotlinx.android.synthetic.main.entry_fragment.*
 import org.threeten.bp.LocalDate
 
@@ -78,9 +79,13 @@ class EntryFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putString(FirebaseAnalytics.Param.LEVEL, (numEntries + 1).toString())
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle)
+//                if (numEntries+1 == 2) {
+//                    CelebrateDialog.newInstance(numEntries+1).show(fragmentManager!!, "NoticeDialogFragment")
+//                }
             } else {
                 firebaseAnalytics.logEvent(EDITED_EXISTING_ENTRY, null)
             }
+            CelebrateDialog.newInstance(numEntries+1).show(fragmentManager!!, "NoticeDialogFragment")
 
             viewModel.addNewEntry()
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?

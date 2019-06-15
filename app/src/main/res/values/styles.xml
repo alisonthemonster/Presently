@@ -25,4 +25,9 @@
     <style name="TextAppearance.SearchDate" parent="android:TextAppearance">
         <item name="fontPath">fonts/value-serif.ttf</item>
     </style>
+
+    <style name="MilestoneDialog" parent="android:Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
 </resources>
