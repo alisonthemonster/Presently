@@ -68,12 +68,12 @@ jobs:
     steps:
       - checkout
       - *decrypt_google_services_json
-      - *restore_gradle_cache
+#      - *restore_gradle_cache
       - *restore_gems_cache
       - *ruby_dependencies
       - *gradle_clean
       - *android_dependencies
-      - *save_gradle_cache
+#      - *save_gradle_cache
       - *save_gems_cache
       - run:
           name: Run unit tests
