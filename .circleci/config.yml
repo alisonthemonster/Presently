@@ -23,6 +23,12 @@ references:
       name: Download Android Dependencies
       command: ./gradlew androidDependencies
 
+
+  gradle_clean: &gradle_clean
+    run:
+      name: Run gradle clean
+      command: ./gradlew clean
+
   gradle_key: &gradle_key
     jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
@@ -65,6 +71,7 @@ jobs:
       - *restore_gradle_cache
       - *restore_gems_cache
       - *ruby_dependencies
+      - *gradle_clean
       - *android_dependencies
       - *save_gradle_cache
       - *save_gems_cache
