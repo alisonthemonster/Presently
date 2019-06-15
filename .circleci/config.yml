@@ -30,7 +30,7 @@ references:
       command: ./gradlew clean
 
   gradle_key: &gradle_key
-    v2-jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+    v3-jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
   gems_key: &gems_key
     gems-{{ checksum "Gemfile.lock" }}
@@ -68,12 +68,12 @@ jobs:
     steps:
       - checkout
       - *decrypt_google_services_json
-#      - *restore_gradle_cache
+      - *restore_gradle_cache
       - *restore_gems_cache
       - *ruby_dependencies
       - *gradle_clean
       - *android_dependencies
-#      - *save_gradle_cache
+      - *save_gradle_cache
       - *save_gems_cache
       - run:
           name: Run unit tests
