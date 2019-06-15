@@ -17,14 +17,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionInflater
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
+import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH_ITEM
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineAdapter
 import kotlinx.android.synthetic.main.search_fragment.*
 import org.threeten.bp.LocalDate
 import java.util.concurrent.TimeUnit
@@ -34,6 +35,7 @@ class SearchFragment : Fragment() {
 
     private lateinit var binding: SearchFragmentBinding
     private lateinit var viewModel: SearchViewModel
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private val disposables = CompositeDisposable()
 
@@ -65,11 +67,17 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+
         val obs = RxTextView.textChanges(search_text)
             .debounce(300, TimeUnit.MILLISECONDS)
+            .filter { charSequence -> charSequence.isNotBlank() }
             .map<Any> { charSequence -> charSequence.toString() }
             .subscribe {
-                search(it as String)
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, it as String)
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
+                search(it)
             }
         disposables.add(obs)
 
@@ -94,8 +102,11 @@ class SearchFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        val adapter = SearchAdapter(activity!!, object : TimelineAdapter.OnClickListener {
-            override fun onClick(clickedDate: LocalDate) {
+        val adapter = SearchAdapter(activity!!, object : SearchAdapter.OnClickListener {
+            override fun onClick(
+                clickedDate: LocalDate
+            ) {
+                firebaseAnalytics.logEvent(CLICKED_SEARCH_ITEM, null)
 
                 val bundle = bundleOf(EntryFragment.DATE to clickedDate.toString())
                 findNavController().navigate(

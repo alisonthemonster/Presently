@@ -16,9 +16,11 @@ class TimelineEntryViewModelTest {
     private val onClickListener = mock<TimelineAdapter.OnClickListener>()
     private val date = LocalDate.of(2011, 11, 11)
     private val content = "hiiiiiiii"
+    private val numEntries = 1
     private val viewModel = TimelineEntryViewModel(
         Entry(date, content),
         false,
+        numEntries,
         onClickListener
     )
 
@@ -26,7 +28,20 @@ class TimelineEntryViewModelTest {
     fun onClick_callsClickListener() {
         viewModel.onClick(mock())
 
-        verify(onClickListener).onClick(date)
+        verify(onClickListener).onClick(date, false, numEntries)
+    }
+
+    @Test
+    fun onClick_callsClickListener_withEmptyContent() {
+        val viewModel = TimelineEntryViewModel(
+            Entry(date, ""),
+            false,
+            numEntries,
+            onClickListener
+        )
+        viewModel.onClick(mock())
+
+        verify(onClickListener).onClick(date, true, numEntries)
     }
 
     @Test
@@ -35,6 +50,7 @@ class TimelineEntryViewModelTest {
         val viewModel = TimelineEntryViewModel(
             Entry(today, content),
             false,
+            numEntries,
             onClickListener
         )
 
@@ -50,6 +66,7 @@ class TimelineEntryViewModelTest {
         val viewModel = TimelineEntryViewModel(
             Entry(today, content),
             false,
+            numEntries,
             onClickListener
         )
 
@@ -65,6 +82,7 @@ class TimelineEntryViewModelTest {
         val viewModel = TimelineEntryViewModel(
             Entry(yesterday, content),
             false,
+            numEntries,
             onClickListener
         )
 
@@ -88,6 +106,7 @@ class TimelineEntryViewModelTest {
         val viewModel = TimelineEntryViewModel(
             Entry(date, content),
             false,
+            numEntries,
             onClickListener
         )
 
@@ -119,6 +138,7 @@ class TimelineEntryViewModelTest {
         val viewModel = TimelineEntryViewModel(
             Entry(date, content),
             true,
+            numEntries,
             onClickListener
         )
 

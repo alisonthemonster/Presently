@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegatesManager
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineAdapter
+import org.threeten.bp.LocalDate
 
-class SearchAdapter(activity: Activity, onClickListener: TimelineAdapter.OnClickListener) : PagedListAdapter<Entry, RecyclerView.ViewHolder>(COMPARATOR) {
+class SearchAdapter(activity: Activity, onClickListener: OnClickListener) : PagedListAdapter<Entry, RecyclerView.ViewHolder>(COMPARATOR) {
 
     private val delegatesManager = AdapterDelegatesManager<List<Entry>>()
 
@@ -35,5 +35,9 @@ class SearchAdapter(activity: Activity, onClickListener: TimelineAdapter.OnClick
             override fun areContentsTheSame(oldItem: Entry, newItem: Entry): Boolean =
                     oldItem == newItem
         }
+    }
+
+    interface OnClickListener {
+        fun onClick(clickedDate: LocalDate)
     }
 }

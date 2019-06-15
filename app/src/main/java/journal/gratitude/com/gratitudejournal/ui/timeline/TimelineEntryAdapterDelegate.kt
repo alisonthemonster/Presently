@@ -31,13 +31,16 @@ class TimelineEntryAdapterDelegate(activity: Activity, private val clickListener
         payloads: MutableList<Any>
     ) {
         val isLastItem = position == items.size - 1
-        (holder as TimelineEntryViewHolder).bind(items[position], isLastItem)
+        var numItems = items.size
+        if (items[0].entryContent == "") numItems--
+        if (items[1].entryContent == "") numItems--
+        (holder as TimelineEntryViewHolder).bind(items[position], isLastItem, numItems)
     }
 
     inner class TimelineEntryViewHolder(private val binding: ViewDataBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(timelineEntry: Entry, isLastItem: Boolean) {
-            binding.setVariable(BR.entryViewModel, TimelineEntryViewModel(timelineEntry, isLastItem, clickListener))
+        fun bind(timelineEntry: Entry, isLastItem: Boolean, numEntries: Int) {
+            binding.setVariable(BR.entryViewModel, TimelineEntryViewModel(timelineEntry, isLastItem, numEntries, clickListener))
             binding.executePendingBindings()
         }
     }

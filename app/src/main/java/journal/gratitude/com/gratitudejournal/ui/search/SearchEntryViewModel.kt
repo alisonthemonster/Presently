@@ -8,7 +8,7 @@ import java.util.*
 
 class SearchEntryViewModel(
         private val entry: Entry,
-        private val clickListener: TimelineAdapter.OnClickListener
+        private val clickListener: SearchAdapter.OnClickListener
 ) {
 
     val content = entry.entryContent

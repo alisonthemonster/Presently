@@ -8,9 +8,8 @@ import com.hannesdorfmann.adapterdelegates3.AdapterDelegate
 import journal.gratitude.com.gratitudejournal.BR
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineAdapter
 
-class SearchEntryAdapterDelegate(activity: Activity, private val clickListener: TimelineAdapter.OnClickListener) : AdapterDelegate<List<Entry>>() {
+class SearchEntryAdapterDelegate(activity: Activity, private val clickListener: SearchAdapter.OnClickListener) : AdapterDelegate<List<Entry>>() {
 
     private val inflater = activity.layoutInflater
 
