@@ -93,6 +93,7 @@ dependencies {
 
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.google.code.findbugs'
     })
     androidTestImplementation 'androidx.room:room-testing:2.1.0-alpha07'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
