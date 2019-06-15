@@ -65,7 +65,6 @@ class CelebrateDialogFragment : DialogFragment() {
 
     override fun onDestroyView() {
         val dialog = dialog
-        // handles https://code.google.com/p/android/issues/detail?id=17423
         if (dialog != null && retainInstance) {
             dialog.setDismissMessage(null)
         }
@@ -79,7 +78,6 @@ class CelebrateDialogFragment : DialogFragment() {
             val dialog = CelebrateDialogFragment()
             dialog.retainInstance = true
 
-            // Supply num input as an argument.
             val args = Bundle()
             args.putInt(NUM_ENTRIES, numberEntries)
             dialog.arguments = args
