@@ -28,3 +28,7 @@ const val CLICKED_SEARCH_ITEM = "clickedSearchItem"
 //USER PROPERTIES
 const val HAS_NOTIFICATIONS_TURNED_ON = "hasNotificationsTurnedOn"
 const val NOTIF_TIME = "notifTime"
+
+//DIALOG EVENTS
+const val CLICKED_RATE = "clickedRate"
+const val CLICKED_SHARE_MILESTONE= "clickedShareMilestone"
