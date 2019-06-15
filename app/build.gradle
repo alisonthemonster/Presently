@@ -96,7 +96,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
+    androidTestImplementation ("androidx.test.ext:truth:1.1.0") {
+        exclude group: "com.google.truth", module: "truth"
+    }
 
     debugImplementation 'androidx.fragment:fragment-testing:1.1.0-beta01'
 
