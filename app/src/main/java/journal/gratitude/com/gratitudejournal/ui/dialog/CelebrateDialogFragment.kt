@@ -13,9 +13,10 @@ import androidx.fragment.app.DialogFragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.CLICKED_RATE
+import journal.gratitude.com.gratitudejournal.model.CLICKED_SHARE_MILESTONE
 import kotlinx.android.synthetic.main.dialog_fragment.*
 
-class CelebrateDialog : DialogFragment() {
+class CelebrateDialogFragment : DialogFragment() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -29,7 +30,7 @@ class CelebrateDialog : DialogFragment() {
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
 
-        val numEntries = arguments?.getInt("NUM_ENTRIES")
+        val numEntries = arguments?.getInt(NUM_ENTRIES)
         num_entries.text = numEntries.toString()
 
         rate_presently.setOnClickListener {
@@ -40,6 +41,16 @@ class CelebrateDialog : DialogFragment() {
             } catch (exception: android.content.ActivityNotFoundException) {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
             }
+        }
+
+        share_presently.setOnClickListener {
+            firebaseAnalytics.logEvent(CLICKED_SHARE_MILESTONE, null)
+
+            val share = Intent(Intent.ACTION_SEND)
+            share.type = "text/plain"
+            share.putExtra(Intent.EXTRA_TEXT, "I completed $numEntries days of gratitude journaling! Join me using the Presently App.")
+
+            startActivity(Intent.createChooser(share, "Share your gratitude"))
         }
 
     }
@@ -62,13 +73,15 @@ class CelebrateDialog : DialogFragment() {
     }
 
     companion object {
-        fun newInstance(numberEntries: Int): CelebrateDialog {
-            val dialog = CelebrateDialog()
+        const val NUM_ENTRIES = "NUM_ENTRIES"
+
+        fun newInstance(numberEntries: Int): CelebrateDialogFragment {
+            val dialog = CelebrateDialogFragment()
             dialog.retainInstance = true
 
             // Supply num input as an argument.
             val args = Bundle()
-            args.putInt("NUM_ENTRIES", numberEntries)
+            args.putInt(NUM_ENTRIES, numberEntries)
             dialog.arguments = args
 
             return dialog
