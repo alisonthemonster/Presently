@@ -46,6 +46,10 @@ android {
     }
 }
 
+configurations {
+    all*.exclude group: 'com.google.guava', module: 'listenablefuture'
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
