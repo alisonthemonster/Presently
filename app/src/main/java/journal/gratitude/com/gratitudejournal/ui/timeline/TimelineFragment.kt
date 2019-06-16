@@ -283,7 +283,7 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         firebaseAnalytics.logEvent(OPENED_TERMS_CONDITIONS, null)
 
         val browserIntent =
-            Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-terms-conditions/home"))
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html"))
         startActivity(browserIntent)
     }
 
@@ -291,7 +291,7 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         firebaseAnalytics.logEvent(OPENED_PRIVACY_POLICY, null)
 
         val browserIntent =
-            Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-privacy-policy/home"))
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html"))
         startActivity(browserIntent)
     }
 
