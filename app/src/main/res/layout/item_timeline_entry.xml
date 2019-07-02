@@ -23,7 +23,7 @@
             android:layout_width="3dp"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
-            android:background="?android:attr/colorAccent"
+            android:background="?android:attr/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

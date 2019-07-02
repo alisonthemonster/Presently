@@ -98,6 +98,7 @@ class ContainerActivity : AppCompatActivity() {
             "Sunrise" -> setTheme(R.style.AppTheme_SUNRISE)
             "Dusty Rose" -> setTheme(R.style.AppTheme_DUSTYROSE)
             "Moonlight" -> setTheme(R.style.AppTheme_MOONLIGHT)
+            "Midnight" -> setTheme(R.style.AppTheme_MIDNIGHT)
             else -> setTheme(R.style.AppTheme)
         }
     }

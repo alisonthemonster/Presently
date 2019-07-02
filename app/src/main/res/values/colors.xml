@@ -18,6 +18,7 @@
     <!-- hint text color, quote text color -->
     <color name="sunsetLighterTextColor">#5B4E4E</color>
     <color name="sunsetToolbarColor">#A47272</color>
+    <color name="sunsetToolbarItemColor">#303030</color>
     <color name="sunsetStatusBarColor">#A47272</color>
 
     <!-- ~~~~SUNRISE THEME~~~~ -->
@@ -30,6 +31,7 @@
     <!-- hint text color, quote text color -->
     <color name="sunriseLighterTextColor">#B37A60</color>
     <color name="sunriseToolbarColor">#9C5736</color>
+    <color name="sunriseToolbarItemColor">#FFD6BB</color>
     <color name="sunriseStatusBarColor">#9C5736</color>
 
 
@@ -43,8 +45,23 @@
     <!-- hint text color, quote text color -->
     <color name="moonLighterTextColor">#616161</color>
     <color name="moonToolbarColor">#838383</color>
+    <color name="moonToolbarItemColor">#091016</color>
     <color name="moonStatusBarColor">#838383</color>
 
+
+    <!-- ~~~~MIDNIGHT THEME~~~~ -->
+    <color name="midnightAndroidWidgetColor">#ABA9AC</color>
+    <color name="midnightBackgroundColor">#28262C</color>
+    <!-- main text color, timeline color, button color -->
+    <color name="midnightPrimaryColor">#8A878B</color>
+    <!-- date text color, entry screen text -->
+    <color name="midnightSecondaryTextColor">#7E7B7F</color>
+    <color name="midnightTimelineColor">#484349</color>
+    <!-- hint text color, quote text color -->
+    <color name="midnightLighterTextColor">#484349</color>
+    <color name="midnightToolbarColor">#484349</color>
+    <color name="midnightToolbarItemColor">#7E7B7F</color>
+    <color name="midnightStatusBarColor">#484349</color>
 
     <!--Dusty Rose Theme-->
     <color name="colorAccentDustyRose">#A47272</color>

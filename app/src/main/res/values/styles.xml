@@ -8,6 +8,7 @@
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorAccent</item>
+        <item name="android:textColorHighlight">@color/colorAccentLight</item>
         <item name="timelineIcon">@drawable/ic_flower</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
@@ -20,6 +21,7 @@
         <item name="android:colorPrimary">@color/sunsetToolbarColor</item>
         <item name="android:textColorPrimary">@color/sunsetSecondaryTextColor</item>
         <item name="android:textColorSecondary">@color/sunsetLighterTextColor</item>
+        <item name="android:textColorHighlight">@color/sunsetToolbarItemColor</item>
         <item name="android:statusBarColor">@color/sunsetStatusBarColor</item>
         <item name="timelineIcon">@drawable/ic_sun_icon</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -33,9 +35,25 @@
         <item name="android:colorPrimary">@color/moonToolbarColor</item>
         <item name="android:textColorPrimary">@color/moonSecondaryTextColor</item>
         <item name="android:textColorSecondary">@color/moonLighterTextColor</item>
+        <item name="android:textColorHighlight">@color/moonToolbarItemColor</item>
         <item name="android:statusBarColor">@color/moonStatusBarColor</item>
         <item name="timelineIcon">@drawable/ic_moon</item>
         <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="AppTheme.MIDNIGHT" parent="AppTheme">
+        <item name="colorAccent">@color/midnightAndroidWidgetColor</item>
+        <item name="colorPrimaryDark">@color/midnightLighterTextColor</item>
+        <item name="android:colorBackground">@color/midnightBackgroundColor</item>
+        <item name="android:colorAccent">@color/midnightPrimaryColor</item>
+        <item name="android:colorPrimary">@color/midnightToolbarColor</item>
+        <item name="android:textColorPrimary">@color/midnightSecondaryTextColor</item>
+        <item name="android:textColorSecondary">@color/midnightLighterTextColor</item>
+        <item name="android:textColorHighlight">@color/midnightToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/midnightTimelineColor</item>
+        <item name="android:statusBarColor">@color/midnightStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_moon</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="AppTheme.SUNRISE" parent="AppTheme">
@@ -45,6 +63,7 @@
         <item name="android:colorAccent">@color/sunrisePrimaryColor</item>
         <item name="android:colorPrimary">@color/sunriseToolbarColor</item>
         <item name="android:textColorPrimary">@color/sunriseSecondaryTextColor</item>
+        <item name="android:textColorHighlight">@color/sunriseToolbarItemColor</item>
         <item name="android:textColorSecondary">@color/sunriseLighterTextColor</item>
         <item name="android:statusBarColor">@color/sunriseStatusBarColor</item>
         <item name="timelineIcon">@drawable/ic_sun_icon</item>
@@ -57,6 +76,7 @@
         <item name="android:colorBackground">@color/backgroundColorDustyRose</item>
         <item name="android:colorAccent">@color/colorAccentDustyRose</item>
         <item name="android:colorPrimary">@color/colorAccentDustyRose</item>
+        <item name="android:textColorHighlight">@color/sunsetToolbarItemColor</item>
         <item name="android:textColorPrimary">@color/colorAccentDustyRose</item>
         <item name="android:textColorSecondary">@color/colorAccentLightDustyRose</item>
         <item name="android:statusBarColor">@color/colorAccentDustyRose</item>
