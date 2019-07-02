@@ -36,7 +36,6 @@ import journal.gratitude.com.gratitudejournal.util.backups.parseCsv
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 import java.io.File
-import java.io.IOException
 import java.io.InputStream
 
 
@@ -111,14 +110,6 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
                     when (item.itemId) {
                         R.id.notification_settings -> {
                             openNotificationSettings()
-                            true
-                        }
-                        R.id.privacy_policy -> {
-                            openPrivacyPolicy()
-                            true
-                        }
-                        R.id.terms_conditions -> {
-                            openTermsAndConditions()
                             true
                         }
                         R.id.contact_us -> {
@@ -225,7 +216,7 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             val entries = parseCsv(inputStream)
             viewModel.addEntries(entries)
             firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
-        } catch (exception: IOException) {
+        } catch (exception: Exception) {
             firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
 
             Toast.makeText(context, "Error parsing file", Toast.LENGTH_SHORT).show()
@@ -277,22 +268,6 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         } catch (activityNotFoundException: ActivityNotFoundException) {
             Toast.makeText(context, "Email client not found", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun openTermsAndConditions() {
-        firebaseAnalytics.logEvent(OPENED_TERMS_CONDITIONS, null)
-
-        val browserIntent =
-            Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html"))
-        startActivity(browserIntent)
-    }
-
-    private fun openPrivacyPolicy() {
-        firebaseAnalytics.logEvent(OPENED_PRIVACY_POLICY, null)
-
-        val browserIntent =
-            Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html"))
-        startActivity(browserIntent)
     }
 
     private fun openNotificationSettings() {

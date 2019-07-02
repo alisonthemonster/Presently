@@ -1,5 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.preference.Preference
@@ -10,8 +12,7 @@ import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragm
 import android.content.SharedPreferences
 import android.view.View
 import com.google.firebase.analytics.FirebaseAnalytics
-import journal.gratitude.com.gratitudejournal.model.CANCELLED_NOTIFS
-import journal.gratitude.com.gratitudejournal.model.HAS_NOTIFICATIONS_TURNED_ON
+import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -27,6 +28,17 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
+
+        val privacy = findPreference("privacy_policy")
+        privacy.setOnPreferenceClickListener {
+            openPrivacyPolicy()
+            true
+        }
+        val terms = findPreference("terms_conditions")
+        terms.setOnPreferenceClickListener {
+            openTermsAndConditions()
+            true
+        }
     }
 
     override fun onResume() {
@@ -42,15 +54,26 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (key == "notif_parent") {
-            val notifsTurnedOn = sharedPreferences.getBoolean(key, true)
-            if (notifsTurnedOn) {
-                NotificationScheduler().setReminderNotification(context!!)
-                firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "true")
-            } else {
-                NotificationScheduler().cancelNotifications(context!!)
-                firebaseAnalytics.logEvent(CANCELLED_NOTIFS, null)
-                firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "false")
+        when (key) {
+            "current_theme" -> {
+                val theme = sharedPreferences.getString("current_theme", "original")
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, theme)
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, theme)
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "theme")
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+                activity?.recreate()
+            }
+            "notif_parent" -> {
+                val notifsTurnedOn = sharedPreferences.getBoolean(key, true)
+                if (notifsTurnedOn) {
+                    NotificationScheduler().setReminderNotification(context!!)
+                    firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "true")
+                } else {
+                    NotificationScheduler().cancelNotifications(context!!)
+                    firebaseAnalytics.logEvent(CANCELLED_NOTIFS, null)
+                    firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "false")
+                }
             }
         }
     }
@@ -73,8 +96,24 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
     }
 
+    private fun openTermsAndConditions() {
+        firebaseAnalytics.logEvent(OPENED_TERMS_CONDITIONS, null)
+
+        val browserIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html"))
+        startActivity(browserIntent)
+    }
+
+    private fun openPrivacyPolicy() {
+        firebaseAnalytics.logEvent(OPENED_PRIVACY_POLICY, null)
+
+        val browserIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html"))
+        startActivity(browserIntent)
+    }
+
     companion object {
-       @JvmStatic
+        @JvmStatic
         fun newInstance() =
             SettingsFragment()
     }

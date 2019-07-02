@@ -5,7 +5,7 @@
     <string name="add_your_thoughts_for_today">Add your thoughts for today</string>
     <string name="what_are_you_thankful_for_today">What are you grateful for today?</string>
     <string name="what_are_you_thankful_for_yesterday">What were you grateful for yesterday?</string>
-    <string name="notification_settings">Notification Settings</string>
+    <string name="notification_settings">Settings</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="contact_us">Contact Us</string>
     <string name="terms_conditions">Terms &amp; Conditions</string>
@@ -25,10 +25,11 @@
     <string name="cancel">Cancel</string>
     <string name="import_data_dialog">Are you sure you want to import?</string>
     <string name="import_data_dialog_message">Imported data could overwrite existing entries.</string>
-    <string name="search">Search</string>
     <string name="days_of_gratitude">days of gratitude!</string>
     <string name="rate_presently">Rate Presently</string>
     <string name="share_your_achievement">Share your achievement</string>
     <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">Congratulations! We\'re so proud of you and so grateful you chose Presently to record your gratitude.</string>
+    <string name="search">Search</string>
+    <string name="presently">Presently</string>
 
 </resources>
