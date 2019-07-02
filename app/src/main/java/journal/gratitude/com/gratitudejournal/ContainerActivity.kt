@@ -11,6 +11,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import androidx.preference.PreferenceManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
@@ -25,6 +26,10 @@ class ContainerActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val currentTheme = sharedPref.getString("current_theme", "original")
+        setAppTheme(currentTheme)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_activity)
 
@@ -84,6 +89,16 @@ class ContainerActivity : AppCompatActivity() {
             // or other notification behaviors after this
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun setAppTheme(currentTheme: String) {
+        when (currentTheme) {
+            "Sunset" -> setTheme(R.style.AppTheme_SUNSET)
+            "Sunrise" -> setTheme(R.style.AppTheme_SUNRISE)
+            "Dusty Rose" -> setTheme(R.style.AppTheme_DUSTYROSE)
+            "Moonlight" -> setTheme(R.style.AppTheme_MOONLIGHT)
+            else -> setTheme(R.style.AppTheme)
         }
     }
 

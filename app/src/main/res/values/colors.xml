@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Original Theme-->
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#000000</color>
-
     <color name="colorAccentLight">#79736a</color>
-
-
     <color name="backgroundColor">#dbd1c7</color>
+
+    <!--Sunset Theme-->
+    <color name="colorAccentSunset">#A47272</color>
+    <color name="colorAccentLightSunset">#5B4E4E</color>
+    <color name="backgroundColorSunset">#303030</color>
+
+    <!--Sunrise Theme-->
+    <color name="colorAccentSunrise">#9C5736</color>
+    <color name="colorAccentLightSunrise">#B37A60</color>
+    <color name="backgroundColorSunrise">#FFD6BB</color>
+
+    <!--Dusty Rose Theme-->
+    <color name="colorAccentDustyRose">#A47272</color>
+    <color name="colorAccentLightDustyRose">#8A6060</color>
+    <color name="backgroundColorDustyRose">#5F3B3B</color>
+
+    <!--Moon Theme-->
+    <color name="colorAccentMoon">#838383</color>
+    <color name="colorAccentLightMoon">#616161</color>
+    <color name="backgroundColorMoon">#091016</color>
 </resources>

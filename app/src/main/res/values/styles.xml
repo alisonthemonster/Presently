@@ -4,11 +4,60 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorAccentLight</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorAccent</item>
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.SUNSET" parent="AppTheme">
+        <item name="colorPrimaryDark">@color/colorAccentLightSunset</item>
+        <item name="colorAccent">@color/colorAccentSunset</item>
+        <item name="android:colorBackground">@color/backgroundColorSunset</item>
+        <item name="android:colorAccent">@color/colorAccentSunset</item>
+        <item name="android:textColorPrimary">@color/colorAccentSunset</item>
+        <item name="android:textColorSecondary">@color/colorAccentLightSunset</item>
+        <item name="android:statusBarColor">@color/colorAccentSunset</item>
+        <item name="timelineIcon">@drawable/ic_sun_icon</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="AppTheme.MOONLIGHT" parent="AppTheme">
+        <item name="colorPrimaryDark">@color/colorAccentLightMoon</item>
+        <item name="colorAccent">@color/colorAccentMoon</item>
+        <item name="android:colorBackground">@color/backgroundColorMoon</item>
+        <item name="android:colorAccent">@color/colorAccentMoon</item>
+        <item name="android:textColorPrimary">@color/colorAccentMoon</item>
+        <item name="android:textColorSecondary">@color/colorAccentLightMoon</item>
+        <item name="android:statusBarColor">@color/colorAccentMoon</item>
+        <item name="timelineIcon">@drawable/ic_moon</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="AppTheme.SUNRISE" parent="AppTheme">
+        <item name="colorPrimaryDark">@color/colorAccentLightSunrise</item>
+        <item name="colorAccent">@color/colorAccentSunrise</item>
+        <item name="android:colorBackground">@color/backgroundColorSunrise</item>
+        <item name="android:colorAccent">@color/colorAccentSunrise</item>
+        <item name="android:textColorPrimary">@color/colorAccentSunrise</item>
+        <item name="android:textColorSecondary">@color/colorAccentLightSunrise</item>
+        <item name="android:statusBarColor">@color/colorAccentSunrise</item>
+        <item name="timelineIcon">@drawable/ic_sun_icon</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.DUSTYROSE" parent="AppTheme">
+        <item name="colorPrimaryDark">@color/colorAccentLightDustyRose</item>
+        <item name="colorAccent">@color/colorAccentDustyRose</item>
+        <item name="android:colorBackground">@color/backgroundColorDustyRose</item>
+        <item name="android:colorAccent">@color/colorAccentDustyRose</item>
+        <item name="android:textColorPrimary">@color/colorAccentDustyRose</item>
+        <item name="android:textColorSecondary">@color/colorAccentLightDustyRose</item>
+        <item name="android:statusBarColor">@color/colorAccentDustyRose</item>
+        <item name="timelineIcon">@drawable/ic_presently</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
 

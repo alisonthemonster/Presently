@@ -23,7 +23,7 @@
             android:layout_width="3dp"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
-            android:background="@color/colorAccent"
+            android:background="?android:attr/colorAccent"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -69,10 +69,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
-            android:minLines="3"
             android:maxLines="5"
+            android:minLines="3"
             android:text="@{entryViewModel.content}"
-            android:textColor="@color/colorAccent"
+            android:textColor="?android:attr/colorAccent"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/date_string"
             app:layout_constraintStart_toStartOf="@+id/date_string"
@@ -90,31 +90,32 @@
             app:layout_constraintTop_toBottomOf="@+id/timeline_line" />
 
         <TextView
-                android:id="@+id/empty_state"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@{entryViewModel.hintText}"
-                android:textColor="@color/colorAccentLight"
-                android:textSize="16sp"
-                android:visibility="@{entryViewModel.isEmptyState()}"
-                app:layout_constraintStart_toStartOf="@+id/date_string"
-                app:layout_constraintTop_toBottomOf="@+id/date_string" android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/content" android:textAlignment="viewStart"/>
+            android:id="@+id/empty_state"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@{entryViewModel.hintText}"
+            android:textAlignment="viewStart"
+            android:textColor="?android:attr/colorPrimaryDark"
+            android:textSize="16sp"
+            android:visibility="@{entryViewModel.isEmptyState()}"
+            app:layout_constraintEnd_toEndOf="@+id/content"
+            app:layout_constraintStart_toStartOf="@+id/date_string"
+            app:layout_constraintTop_toBottomOf="@+id/date_string" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp"
-            android:scaleType="centerCrop"
             android:visibility="@{entryViewModel.isTailVisible()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/content"
             app:layout_constraintStart_toStartOf="@+id/content"
             app:layout_constraintTop_toBottomOf="@+id/content"
-            app:srcCompat="@drawable/ic_presently" />
+            app:srcCompat="?attr/timelineIcon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

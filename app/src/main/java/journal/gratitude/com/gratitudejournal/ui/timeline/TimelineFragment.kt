@@ -36,7 +36,6 @@ import journal.gratitude.com.gratitudejournal.util.backups.parseCsv
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 import java.io.File
-import java.io.IOException
 import java.io.InputStream
 
 
@@ -111,14 +110,6 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
                     when (item.itemId) {
                         R.id.notification_settings -> {
                             openNotificationSettings()
-                            true
-                        }
-                        R.id.privacy_policy -> {
-                            openPrivacyPolicy()
-                            true
-                        }
-                        R.id.terms_conditions -> {
-                            openTermsAndConditions()
                             true
                         }
                         R.id.contact_us -> {

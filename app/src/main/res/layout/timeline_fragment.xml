@@ -17,19 +17,19 @@
         tools:context=".ui.timeline.TimelineFragment">
 
         <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
-            android:padding="10dp"
-            android:text="Presently"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Date"
-            android:textColor="@color/backgroundColor"
-            android:textSize="32sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/colorAccent"
+                android:padding="10dp"
+                android:text="Presently"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.Date"
+                android:textColor="?android:attr/android:colorBackground"
+                android:textSize="32sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/overflow_button"

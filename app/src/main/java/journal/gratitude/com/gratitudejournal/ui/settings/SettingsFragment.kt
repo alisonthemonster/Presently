@@ -1,5 +1,8 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
+import android.content.Intent
+import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.preference.Preference
@@ -27,6 +30,25 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
+
+        val privacy = findPreference("privacy_policy")
+        privacy.setOnPreferenceClickListener {
+            openPrivacyPolicy()
+            true
+        }
+        val terms = findPreference("terms_conditions")
+        terms.setOnPreferenceClickListener {
+            openTermsAndConditions()
+            true
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            "current_theme" -> {
+                activity?.recreate()
+            }
+        }
     }
 
     override fun onResume() {
@@ -73,8 +95,18 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
     }
 
+    private fun openTermsAndConditions() {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-terms-conditions/home"))
+        startActivity(browserIntent)
+    }
+
+    private fun openPrivacyPolicy() {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-privacy-policy/home"))
+        startActivity(browserIntent)
+    }
+
     companion object {
-       @JvmStatic
+        @JvmStatic
         fun newInstance() =
             SettingsFragment()
     }
