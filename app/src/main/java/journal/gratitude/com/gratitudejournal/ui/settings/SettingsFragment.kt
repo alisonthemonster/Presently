@@ -12,10 +12,7 @@ import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragm
 import android.content.SharedPreferences
 import android.view.View
 import com.google.firebase.analytics.FirebaseAnalytics
-import journal.gratitude.com.gratitudejournal.model.CANCELLED_NOTIFS
-import journal.gratitude.com.gratitudejournal.model.HAS_NOTIFICATIONS_TURNED_ON
-import journal.gratitude.com.gratitudejournal.model.OPENED_PRIVACY_POLICY
-import journal.gratitude.com.gratitudejournal.model.OPENED_TERMS_CONDITIONS
+import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -59,6 +56,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             "current_theme" -> {
+                val theme = sharedPreferences.getString("current_theme", "original")
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, theme)
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, theme)
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "theme")
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
                 activity?.recreate()
             }
             "notif_parent" -> {
