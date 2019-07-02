@@ -77,7 +77,7 @@ class EntryFragment : Fragment() {
             val isNewEntry = arguments?.getBoolean(IS_NEW_ENTRY) ?: false
             if (isNewEntry) {
                 val bundle = Bundle()
-                bundle.putString(FirebaseAnalytics.Param.LEVEL, (numEntries + 1).toString())
+                bundle.putInt(FirebaseAnalytics.Param.LEVEL, (numEntries + 1))
                 val milestones = arrayOf(5, 10, 25, 50, 100, 150, 200, 250, 300)
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle)
                 if (milestones.contains(numEntries + 1)) {

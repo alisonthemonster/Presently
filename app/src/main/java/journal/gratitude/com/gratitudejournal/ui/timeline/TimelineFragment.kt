@@ -225,7 +225,7 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             val entries = parseCsv(inputStream)
             viewModel.addEntries(entries)
             firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
-        } catch (exception: IOException) {
+        } catch (exception: Exception) {
             firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
 
             Toast.makeText(context, "Error parsing file", Toast.LENGTH_SHORT).show()
