@@ -7,23 +7,48 @@
     <color name="colorAccentLight">#79736a</color>
     <color name="backgroundColor">#dbd1c7</color>
 
-    <!--Sunset Theme-->
-    <color name="colorAccentSunset">#A47272</color>
-    <color name="colorAccentLightSunset">#5B4E4E</color>
-    <color name="backgroundColorSunset">#303030</color>
 
-    <!--Sunrise Theme-->
-    <color name="colorAccentSunrise">#9C5736</color>
-    <color name="colorAccentLightSunrise">#B37A60</color>
-    <color name="backgroundColorSunrise">#FFD6BB</color>
+    <!-- ~~~~SUNSET THEME~~~~ -->
+    <color name="sunsetAndroidWidgetColor">#A47272</color>
+    <color name="sunsetBackgroundColor">#303030</color>
+    <!-- main text color, timeline color, button color -->
+    <color name="sunsetPrimaryColor">#A47272</color>
+    <!-- date text color, entry screen text -->
+    <color name="sunsetSecondaryTextColor">#A47272</color>
+    <!-- hint text color, quote text color -->
+    <color name="sunsetLighterTextColor">#5B4E4E</color>
+    <color name="sunsetToolbarColor">#A47272</color>
+    <color name="sunsetStatusBarColor">#A47272</color>
+
+    <!-- ~~~~SUNRISE THEME~~~~ -->
+    <color name="sunriseAndroidWidgetColor">#9C5736</color>
+    <color name="sunriseBackgroundColor">#FFD6BB</color>
+    <!-- main text color, timeline color, button color -->
+    <color name="sunrisePrimaryColor">#9C5736</color>
+    <!-- date text color, entry screen text -->
+    <color name="sunriseSecondaryTextColor">#B37A60</color>
+    <!-- hint text color, quote text color -->
+    <color name="sunriseLighterTextColor">#B37A60</color>
+    <color name="sunriseToolbarColor">#9C5736</color>
+    <color name="sunriseStatusBarColor">#9C5736</color>
+
+
+    <!-- ~~~~MOON THEME~~~~ -->
+    <color name="moonAndroidWidgetColor">#838383</color>
+    <color name="moonBackgroundColor">#091016</color>
+    <!-- main text color, timeline color, button color -->
+    <color name="moonPrimaryColor">#838383</color>
+    <!-- date text color, entry screen text -->
+    <color name="moonSecondaryTextColor">#838383</color>
+    <!-- hint text color, quote text color -->
+    <color name="moonLighterTextColor">#616161</color>
+    <color name="moonToolbarColor">#838383</color>
+    <color name="moonStatusBarColor">#838383</color>
+
 
     <!--Dusty Rose Theme-->
     <color name="colorAccentDustyRose">#A47272</color>
     <color name="colorAccentLightDustyRose">#8A6060</color>
     <color name="backgroundColorDustyRose">#5F3B3B</color>
 
-    <!--Moon Theme-->
-    <color name="colorAccentMoon">#838383</color>
-    <color name="colorAccentLightMoon">#616161</color>
-    <color name="backgroundColorMoon">#091016</color>
 </resources>
