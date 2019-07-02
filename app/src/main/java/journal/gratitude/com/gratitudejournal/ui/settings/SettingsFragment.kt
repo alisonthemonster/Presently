@@ -1,7 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
@@ -15,6 +14,8 @@ import android.view.View
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.model.CANCELLED_NOTIFS
 import journal.gratitude.com.gratitudejournal.model.HAS_NOTIFICATIONS_TURNED_ON
+import journal.gratitude.com.gratitudejournal.model.OPENED_PRIVACY_POLICY
+import journal.gratitude.com.gratitudejournal.model.OPENED_TERMS_CONDITIONS
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -43,14 +44,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when (key) {
-            "current_theme" -> {
-                activity?.recreate()
-            }
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         // Set up a listener whenever a key changes
@@ -64,15 +57,20 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (key == "notif_parent") {
-            val notifsTurnedOn = sharedPreferences.getBoolean(key, true)
-            if (notifsTurnedOn) {
-                NotificationScheduler().setReminderNotification(context!!)
-                firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "true")
-            } else {
-                NotificationScheduler().cancelNotifications(context!!)
-                firebaseAnalytics.logEvent(CANCELLED_NOTIFS, null)
-                firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "false")
+        when (key) {
+            "current_theme" -> {
+                activity?.recreate()
+            }
+            "notif_parent" -> {
+                val notifsTurnedOn = sharedPreferences.getBoolean(key, true)
+                if (notifsTurnedOn) {
+                    NotificationScheduler().setReminderNotification(context!!)
+                    firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "true")
+                } else {
+                    NotificationScheduler().cancelNotifications(context!!)
+                    firebaseAnalytics.logEvent(CANCELLED_NOTIFS, null)
+                    firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "false")
+                }
             }
         }
     }
@@ -96,12 +94,18 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     private fun openTermsAndConditions() {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-terms-conditions/home"))
+        firebaseAnalytics.logEvent(OPENED_TERMS_CONDITIONS, null)
+
+        val browserIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html"))
         startActivity(browserIntent)
     }
 
     private fun openPrivacyPolicy() {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/presently-privacy-policy/home"))
+        firebaseAnalytics.logEvent(OPENED_PRIVACY_POLICY, null)
+
+        val browserIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html"))
         startActivity(browserIntent)
     }
 

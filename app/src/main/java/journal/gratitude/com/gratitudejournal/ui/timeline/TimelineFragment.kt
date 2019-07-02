@@ -270,22 +270,6 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         }
     }
 
-    private fun openTermsAndConditions() {
-        firebaseAnalytics.logEvent(OPENED_TERMS_CONDITIONS, null)
-
-        val browserIntent =
-            Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html"))
-        startActivity(browserIntent)
-    }
-
-    private fun openPrivacyPolicy() {
-        firebaseAnalytics.logEvent(OPENED_PRIVACY_POLICY, null)
-
-        val browserIntent =
-            Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html"))
-        startActivity(browserIntent)
-    }
-
     private fun openNotificationSettings() {
         firebaseAnalytics.logEvent(LOOKED_AT_SETTINGS, null)
 
