@@ -25,22 +25,37 @@
         <item name="android:textColorSecondary">@color/sunsetLighterTextColor</item>
         <item name="android:textColorHighlight">@color/sunsetToolbarItemColor</item>
         <item name="android:statusBarColor">@color/sunsetStatusBarColor</item>
+        <item name="android:colorPrimaryDark">@color/sunsetTimelineColor</item>
         <item name="timelineIcon">@drawable/ic_sun_icon</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="AppTheme.MOONLIGHT" parent="AppTheme">
-        <item name="colorPrimaryDark">@color/moonLighterTextColor</item>
-        <item name="colorAccent">@color/moonAndroidWidgetColor</item>
-        <item name="android:colorBackground">@color/moonBackgroundColor</item>
-        <item name="android:colorAccent">@color/moonPrimaryColor</item>
-        <item name="android:colorPrimary">@color/moonToolbarColor</item>
-        <item name="android:textColorPrimary">@color/moonSecondaryTextColor</item>
-        <item name="android:textColorSecondary">@color/moonLighterTextColor</item>
-        <item name="android:textColorHighlight">@color/moonToolbarItemColor</item>
-        <item name="android:statusBarColor">@color/moonStatusBarColor</item>
+        <item name="colorAccent">@color/moonlightAndroidWidgetColor</item>
+        <item name="android:colorBackground">@color/moonlightBackgroundColor</item>
+        <item name="android:colorAccent">@color/moonlightMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/moonlightToolbarColor</item>
+        <item name="android:textColorPrimary">@color/moonlightDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/moonlightHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/moonlightToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/moonlightTimelineColor</item>
+        <item name="android:statusBarColor">@color/moonlightStatusBarColor</item>
         <item name="timelineIcon">@drawable/ic_moon</item>
         <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="AppTheme.DAWN" parent="AppTheme">
+        <item name="colorAccent">@color/dawnAndroidWidgetColor</item>
+        <item name="android:colorBackground">@color/dawnBackgroundColor</item>
+        <item name="android:colorAccent">@color/dawnMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/dawnToolbarColor</item>
+        <item name="android:textColorPrimary">@color/dawnDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/dawnHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/dawnToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/dawnTimelineColor</item>
+        <item name="android:statusBarColor">@color/dawnStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_sun_icon</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="AppTheme.MIDNIGHT" parent="AppTheme">
@@ -57,18 +72,18 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <style name="AppTheme.SUNRISE" parent="AppTheme">
-        <item name="colorPrimaryDark">@color/sunriseLighterTextColor</item>
-        <item name="colorAccent">@color/sunriseAndroidWidgetColor</item>
-        <item name="android:colorBackground">@color/sunriseBackgroundColor</item>
-        <item name="android:colorAccent">@color/sunrisePrimaryColor</item>
-        <item name="android:colorPrimary">@color/sunriseToolbarColor</item>
-        <item name="android:textColorPrimary">@color/sunriseSecondaryTextColor</item>
-        <item name="android:textColorHighlight">@color/sunriseToolbarItemColor</item>
-        <item name="android:textColorSecondary">@color/sunriseLighterTextColor</item>
-        <item name="android:statusBarColor">@color/sunriseStatusBarColor</item>
-        <item name="timelineIcon">@drawable/ic_sun_icon</item>
-        <item name="android:windowLightStatusBar">true</item>
+    <style name="AppTheme.IVY" parent="AppTheme">
+        <item name="colorAccent">@color/ivyAndroidWidgetColor</item>
+        <item name="android:colorBackground">@color/ivyBackgroundColor</item>
+        <item name="android:colorAccent">@color/ivyMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/ivyToolbarColor</item>
+        <item name="android:textColorPrimary">@color/ivyDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/ivyHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/ivyToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/ivyTimelineColor</item>
+        <item name="android:statusBarColor">@color/ivyStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="AppTheme.DUSTYROSE" parent="AppTheme">

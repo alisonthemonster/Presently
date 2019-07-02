@@ -3,8 +3,9 @@
     <string-array name="ThemeList">
         <item>Original</item>
         <item>Sunset</item>
-        <item>Sunrise</item>
         <item>Moonlight</item>
         <item>Midnight</item>
+        <item>Dusk</item>
+        <item>Ivy</item>
     </string-array>
 </resources>
