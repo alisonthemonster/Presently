@@ -97,7 +97,7 @@
             android:layout_marginEnd="8dp"
             android:text="@{entryViewModel.hintText}"
             android:textAlignment="viewStart"
-            android:textColor="?android:attr/colorPrimaryDark"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="16sp"
             android:visibility="@{entryViewModel.isEmptyState()}"
             app:layout_constraintEnd_toEndOf="@+id/content"

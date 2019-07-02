@@ -96,7 +96,7 @@
             android:layout_marginBottom="8dp"
             android:text="@{viewModel.inspirationString}"
             android:textAlignment="center"
-            android:textColor="?android:attr/colorPrimaryDark"
+            android:textColor="?android:attr/textColorSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/divider_line2"
             app:layout_constraintStart_toStartOf="@+id/divider_line2" />

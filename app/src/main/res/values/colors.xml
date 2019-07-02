@@ -52,13 +52,13 @@
     <!-- ~~~~MIDNIGHT THEME~~~~ -->
     <color name="midnightAndroidWidgetColor">#ABA9AC</color>
     <color name="midnightBackgroundColor">#28262C</color>
-    <!-- main text color, timeline color, button color -->
-    <color name="midnightPrimaryColor">#8A878B</color>
+    <!-- main text color, button color -->
+    <color name="midnightMainTextAndButtonColor">#8A878B</color>
     <!-- date text color, entry screen text -->
-    <color name="midnightSecondaryTextColor">#7E7B7F</color>
+    <color name="midnightDateTextEntryScreenTextColor">#7E7B7F</color>
     <color name="midnightTimelineColor">#484349</color>
     <!-- hint text color, quote text color -->
-    <color name="midnightLighterTextColor">#484349</color>
+    <color name="midnightHintQuoteTextColor">#484349</color>
     <color name="midnightToolbarColor">#484349</color>
     <color name="midnightToolbarItemColor">#7E7B7F</color>
     <color name="midnightStatusBarColor">#484349</color>
