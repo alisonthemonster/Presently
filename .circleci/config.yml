@@ -23,8 +23,14 @@ references:
       name: Download Android Dependencies
       command: ./gradlew androidDependencies
 
+
+  gradle_clean: &gradle_clean
+    run:
+      name: Run gradle clean
+      command: ./gradlew clean
+
   gradle_key: &gradle_key
-    jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+    v3-jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
   gems_key: &gems_key
     gems-{{ checksum "Gemfile.lock" }}
@@ -50,15 +56,22 @@ references:
       paths:
         - vendor/bundle
 
+  decrypt_google_services_json: &decrypt_google_services_json
+    run:
+      name: Decrypt the google-services.json file and put it in the right spot
+      command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
+
 jobs:
   ## Run unit tests
   test_unit:
     <<: *android_config
     steps:
       - checkout
+      - *decrypt_google_services_json
       - *restore_gradle_cache
       - *restore_gems_cache
       - *ruby_dependencies
+      - *gradle_clean
       - *android_dependencies
       - *save_gradle_cache
       - *save_gems_cache

@@ -1,13 +1,27 @@
 ext {
-    major = 0
-    minor = 1
+    major = 1
+    minor = 18
 
     androidCompileSdk = 28
     androidTargetSdk = 28
     androidMinSdk = 23
 
     gradle_version = "3.2.1"
-    kotlin_version = "1.3.11"
+    kotlin_version = "1.3.20"
 
     jacoco_version = "0.8.2"
+    lifecycle_version = "1.1.1"
+    room_version = "1.1.1"
+    coroutine_version = "0.26.1"
+
+    nav_version = "1.0.0"
+
+    //testing
+    mockito_version = "2.0.0"
+    core_testing_version = "1.1.1"
+    paging_version = "1.0.1"
+
+    //firebase stuff
+    google_services_version = "4.0.1"
+    fabric_version = "1.26.1"
 }

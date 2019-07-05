@@ -5,11 +5,18 @@ buildscript {
         apply from: 'versions.gradle'
         google()
         jcenter()
+        maven {
+            url 'https://maven.fabric.io/public'
+        }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:$gradle_version"
+        classpath "com.android.tools.build:gradle:3.3.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
+        classpath "com.google.gms:google-services:$google_services_version"
+        classpath "io.fabric.tools:gradle:$fabric_version"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0-alpha02"
     }
 }
 
@@ -17,6 +24,9 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url 'https://maven.google.com/'
+        }
     }
 
     project.ext.androidVersionName = createVersionName()

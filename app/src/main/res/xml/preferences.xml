@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Notifications">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="notif_parent"
+            android:summaryOff="Daily reminder notifications are off"
+            android:summaryOn="Daily reminder notifications are on"
+            android:title="Daily Reminder Notifications" />
+
+        <journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
+            android:defaultValue="21:00"
+            android:dependency="notif_parent"
+            android:dialogTitle=""
+            android:key="pref_time"
+            android:summary="Change your daily reminder time"
+            android:title="Adjust Reminder Notifications" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Appearance">
+
+        <ListPreference
+            android:entries="@array/ThemeList"
+            android:entryValues="@array/ThemeList"
+            android:key="current_theme"
+            android:summary="Change the theme of Presently"
+            android:title="Theme" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="App Information">
+
+        <Preference
+            android:key="privacy_policy"
+            android:summary="Read Presently's privacy policy"
+            android:title="@string/privacy_policy" />
+
+        <Preference
+            android:key="terms_conditions"
+            android:title="@string/terms_conditions"
+            android:summary="Read our terms &amp; conditions"/>
+    </PreferenceCategory>
+</PreferenceScreen>

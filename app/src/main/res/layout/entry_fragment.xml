@@ -1,21 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="journal.gratitude.com.gratitudejournal.ui.entry.EntryViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/entry"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.entry.EntryFragment">
 
-    <TextView
-            android:id="@+id/message"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/date_string"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Entry"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.dateString}"
+            android:textAppearance="@style/TextAppearance.Title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="September 29, 2018" />
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/thankful_for"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.thankfulString}"
+            android:textAppearance="@style/TextAppearance.Title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/date_string"
+            app:layout_constraintTop_toBottomOf="@+id/date_string"
+            tools:text="I was thankful for" />
+
+        <View
+            android:id="@+id/divider_line"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="16dp"
+            android:background="?android:attr/colorAccent"
+            app:layout_constraintEnd_toEndOf="@+id/thankful_for"
+            app:layout_constraintStart_toStartOf="@+id/thankful_for"
+            app:layout_constraintTop_toBottomOf="@+id/thankful_for" />
+
+        <EditText
+            android:id="@+id/entry_text"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@android:color/transparent"
+            android:gravity="top|start"
+            android:hint="@{viewModel.hintString}"
+            android:inputType="textCapSentences|textMultiLine"
+            android:scrollHorizontally="false"
+            android:singleLine="false"
+            android:textColorHint="?android:attr/colorPrimaryDark"
+            android:text="@={viewModel.entryContent}"
+            app:layout_constraintBottom_toTopOf="@+id/save_button"
+            app:layout_constraintEnd_toEndOf="@+id/thankful_for"
+            app:layout_constraintStart_toStartOf="@+id/thankful_for"
+            app:layout_constraintTop_toBottomOf="@+id/divider_line" />
+
+        <View
+            android:id="@+id/divider_line2"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:layout_marginBottom="8dp"
+            android:background="?android:attr/colorAccent"
+            app:layout_constraintBottom_toTopOf="@+id/inspiration"
+            app:layout_constraintEnd_toEndOf="@+id/thankful_for"
+            app:layout_constraintStart_toStartOf="@+id/thankful_for" />
+
+        <TextView
+            android:id="@+id/inspiration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@{viewModel.inspirationString}"
+            android:textAlignment="center"
+            android:textColor="?android:attr/textColorSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/divider_line2"
+            app:layout_constraintStart_toStartOf="@+id/divider_line2" />
+
+        <ImageView
+            android:id="@+id/share_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/share_your_gratitude"
+            app:layout_constraintBottom_toBottomOf="@+id/save_button"
+            app:layout_constraintStart_toStartOf="@+id/entry_text"
+            app:layout_constraintTop_toTopOf="@+id/save_button"
+            app:srcCompat="@drawable/ic_share" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?android:attr/colorAccent"
+            android:text="@string/save"
+            android:textColor="?android:attr/android:colorBackground"
+            app:layout_constraintBottom_toTopOf="@+id/divider_line2"
+            app:layout_constraintEnd_toEndOf="@+id/entry_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
