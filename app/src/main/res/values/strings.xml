@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Presently</string>
+    <string name="app_name" translatable="false">Presently</string>
     <string name="what_are_you_thankful_for">What are you grateful for?</string>
     <string name="what_were_you_thankful_for">What were you grateful for?</string>
     <string name="add_your_thoughts_for_today">Add your thoughts for today</string>
@@ -30,6 +30,6 @@
     <string name="share_your_achievement">Share your achievement</string>
     <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">Congratulations! We\'re so proud of you and so grateful you chose Presently to record your gratitude.</string>
     <string name="search">Search</string>
-    <string name="presently">Presently</string>
+    <string name="presently" translatable="false">Presently</string>
 
 </resources>
