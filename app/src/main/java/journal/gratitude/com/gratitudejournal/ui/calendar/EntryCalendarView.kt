@@ -1,7 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.calendar
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -15,6 +14,8 @@ import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.android.synthetic.main.calendar_fragment.view.*
 import org.threeten.bp.LocalDate
 import java.util.*
+import android.util.TypedValue
+
 
 class EntryCalendarView : ConstraintLayout {
 
@@ -29,8 +30,8 @@ class EntryCalendarView : ConstraintLayout {
     }
 
     constructor(
-        context: Context,
-        attrs: AttributeSet
+            context: Context,
+            attrs: AttributeSet
     ) : super(context, attrs) {
         init()
     }
@@ -41,8 +42,7 @@ class EntryCalendarView : ConstraintLayout {
         calendar = view.compactcalendar_view
         view.month_year.text = monthString
 
-        //TODO clicking outside of the calendar closes it
-        //and clicking back closes calendar
+        //TODO clicking back closes calendar
 
         view.compactcalendar_view.setListener(object : CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date) {
@@ -72,18 +72,18 @@ class EntryCalendarView : ConstraintLayout {
 
     fun setWrittenDates(dates: List<LocalDate>) {
         calendar.removeAllEvents()
-       for (date in dates) {
-           calendar.addEvent(Event(Color.WHITE, date.toDate().time))
-       }
+        for (date in dates) {
+            calendar.addEvent(Event(getBackgroundColorForTheme(), date.toDate().time))
+        }
     }
 
-    //click close
-    //click date
+    private fun getBackgroundColorForTheme(): Int {
+        val typedValue = TypedValue()
+        val a = context.obtainStyledAttributes(typedValue.data, intArrayOf(android.R.attr.windowBackground))
+        val color = a.getColor(0, 0)
+        a.recycle()
 
-
-    fun setDate(date: Date) {
-        monthString = "${date.getMonthString()} ${date.getYearString()}"
-        compactcalendar_view.setCurrentDate(date)
+        return color
     }
 
 }
