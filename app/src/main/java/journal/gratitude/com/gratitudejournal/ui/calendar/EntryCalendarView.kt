@@ -41,14 +41,13 @@ class EntryCalendarView : ConstraintLayout {
         calendar = view.compactcalendar_view
         view.month_year.text = monthString
 
-        //TODO disable dates in the future
-
         //TODO clicking outside of the calendar closes it
         //and clicking back closes calendar
-
         view.compactcalendar_view.setListener(object : CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date) {
-                entryCalendarListener?.onDateClicked(dateClicked, !writtenDates.contains(dateClicked.toLocalDate()), writtenDates.size)
+                if (!dateClicked.after(Date())) {
+                    entryCalendarListener?.onDateClicked(dateClicked, !writtenDates.contains(dateClicked.toLocalDate()), writtenDates.size)
+                }
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date) {
