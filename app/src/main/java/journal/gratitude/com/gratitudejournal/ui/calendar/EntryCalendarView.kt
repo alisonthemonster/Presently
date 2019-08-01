@@ -43,6 +43,7 @@ class EntryCalendarView : ConstraintLayout {
 
         //TODO clicking outside of the calendar closes it
         //and clicking back closes calendar
+
         view.compactcalendar_view.setListener(object : CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date) {
                 if (!dateClicked.after(Date())) {
@@ -57,6 +58,10 @@ class EntryCalendarView : ConstraintLayout {
         })
 
         view.close_button.setOnClickListener {
+            entryCalendarListener?.onCloseClicked()
+        }
+
+        view.calendar_screen_background.setOnClickListener {
             entryCalendarListener?.onCloseClicked()
         }
     }
