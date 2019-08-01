@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.util
 
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.*
@@ -33,5 +35,5 @@ fun Date.getYearString(): String {
 }
 
 fun Date.toLocalDate(): LocalDate {
-    return LocalDate.now() //TODO
+    return Instant.ofEpochMilli(this.time).atZone(ZoneId.systemDefault()).toLocalDate()
 }

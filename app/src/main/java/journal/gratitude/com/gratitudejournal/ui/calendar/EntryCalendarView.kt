@@ -17,7 +17,7 @@ import java.util.*
 
 class EntryCalendarView : ConstraintLayout {
 
-    private var monthString = "MONTH YEAR"
+    private var monthString = "${Date().getMonthString()} ${Date().getYearString()}"
     private var dayClickedListener: DayClickedListener? = null
     private var writtenDates = mutableListOf<LocalDate>()
 
@@ -38,6 +38,7 @@ class EntryCalendarView : ConstraintLayout {
         val view = View.inflate(context, R.layout.calendar_fragment, this)
 
         calendar = view.compactcalendar_view
+        view.month_year.text = monthString
 
         view.compactcalendar_view.setListener(object : CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date) {

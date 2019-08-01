@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/calendar"
@@ -25,7 +24,6 @@
 
     <TextView
         android:id="@+id/month_year"
-        tools:text="Month YEAR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -34,7 +32,8 @@
         android:textColor="?android:attr/textColorHighlight"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Month YEAR" />
 
     <com.github.sundeepk.compactcalendarview.CompactCalendarView
         android:id="@+id/compactcalendar_view"
@@ -46,6 +45,9 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         app:compactCalendarBackgroundColor="?android:attr/colorPrimary"
+        app:compactCalendarCurrentDayBackgroundColor="?android:attr/textColorHighlight"
+        app:compactCalendarCurrentDayTextColor="?android:attr/colorPrimary"
+        app:compactCalendarCurrentSelectedDayTextColor="?android:attr/colorPrimary"
         app:compactCalendarMultiEventIndicatorColor="?android:attr/textColorHighlight"
         app:compactCalendarTargetHeight="250dp"
         app:compactCalendarTextColor="?android:attr/textColorHighlight"
