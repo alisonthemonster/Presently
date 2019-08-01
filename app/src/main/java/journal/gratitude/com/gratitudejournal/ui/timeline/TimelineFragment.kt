@@ -27,16 +27,20 @@ import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBindin
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
+import journal.gratitude.com.gratitudejournal.ui.calendar.DayClickedListener
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.IS_NEW_ENTRY
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.NUM_ENTRIES
 import journal.gratitude.com.gratitudejournal.util.backups.ExportCallback
 import journal.gratitude.com.gratitudejournal.util.backups.exportDB
 import journal.gratitude.com.gratitudejournal.util.backups.parseCsv
+import journal.gratitude.com.gratitudejournal.util.toLocalDate
+import kotlinx.android.synthetic.main.entry_fragment.*
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 import java.io.File
 import java.io.InputStream
+import java.util.*
 
 
 class TimelineFragment : androidx.fragment.app.Fragment() {
@@ -85,21 +89,7 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
                 isNewEntry: Boolean,
                 numEntries: Int
             ) {
-                if (isNewEntry) {
-                    firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY, null)
-                } else {
-                    firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY, null)
-                }
-
-                val bundle = bundleOf(
-                    DATE to clickedDate.toString(),
-                    IS_NEW_ENTRY to isNewEntry,
-                    NUM_ENTRIES to numEntries
-                )
-                findNavController().navigate(
-                    R.id.action_timelineFragment_to_entryFragment,
-                    bundle
-                )
+               navigateToDate(clickedDate, isNewEntry, numEntries)
             }
         })
         timeline_recycler_view.adapter = adapter
@@ -136,6 +126,10 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             binding.viewModel = viewModel
         })
 
+        viewModel.datesWritten.observe(this, Observer {dates ->
+            entry_calendar.setWrittenDates(dates)
+        })
+
         search_icon.setOnClickListener {
             firebaseAnalytics.logEvent(CLICKED_SEARCH, null)
 
@@ -145,6 +139,34 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             )
             findNavController().navigate(action, extras)
         }
+
+        entry_calendar.setDayClickedListener(object : DayClickedListener {
+            override fun onDateClicked(date: Date, isNewDate: Boolean, numberOfEntries: Int) {
+                navigateToDate(date.toLocalDate(), isNewDate, numberOfEntries)
+            }
+        })
+
+        fab.setOnClickListener {
+            //TODO open calendar
+        }
+    }
+
+    private fun navigateToDate(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int) {
+        if (isNewEntry) {
+            firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY, null)
+        } else {
+            firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY, null)
+        }
+
+        val bundle = bundleOf(
+                DATE to clickedDate.toString(),
+                IS_NEW_ENTRY to isNewEntry,
+                NUM_ENTRIES to numEntries
+        )
+        findNavController().navigate(
+                R.id.action_timelineFragment_to_entryFragment,
+                bundle
+        )
     }
 
     private fun importData() {

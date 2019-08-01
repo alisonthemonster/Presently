@@ -78,6 +78,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation "io.reactivex.rxjava2:rxjava:2.2.4"
     implementation 'com.google.firebase:firebase-messaging:18.0.0'
+    implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
+
 //    implementation ('com.google.firebase:firebase-inappmessaging-display:17.2.0', {
 //        exclude group: 'com.google.guava'
 //    })
