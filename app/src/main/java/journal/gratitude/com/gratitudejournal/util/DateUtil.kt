@@ -37,3 +37,9 @@ fun Date.getYearString(): String {
 fun Date.toLocalDate(): LocalDate {
     return Instant.ofEpochMilli(this.time).atZone(ZoneId.systemDefault()).toLocalDate()
 }
+
+fun LocalDate.toDate(): Date {
+    val cal = Calendar.getInstance()
+    cal.set(this.year, this.monthValue - 1, this.dayOfMonth)
+    return cal.time
+}

@@ -10,6 +10,7 @@ import com.github.sundeepk.compactcalendarview.domain.Event
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.getMonthString
 import journal.gratitude.com.gratitudejournal.util.getYearString
+import journal.gratitude.com.gratitudejournal.util.toDate
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.android.synthetic.main.calendar_fragment.view.*
 import org.threeten.bp.LocalDate
@@ -58,7 +59,7 @@ class EntryCalendarView : ConstraintLayout {
 
     fun setWrittenDates(dates: List<LocalDate>) {
        for (date in dates) {
-           calendar.addEvent(Event(Color.WHITE, date.toEpochDay())) //TODO this event date might be wrong
+           calendar.addEvent(Event(Color.WHITE, date.toDate().time)) //TODO this event date might be wrong
        }
     }
 
