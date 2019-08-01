@@ -13,8 +13,8 @@ class CalendarAnimation(private val fabView: FloatingActionButton, private val c
     fun openCalendar() {
 
         //move fab to center
-        val deltaX = calendarView.pivotX - fabView.left
-        val deltaY = calendarView.pivotY - fabView.top
+        val deltaX = calendarView.pivotX - fabView.x - fabView.width/2
+        val deltaY = calendarView.pivotY - fabView.y - fabView.height/2
 
         val translateX = ObjectAnimator.ofFloat(fabView, View.TRANSLATION_X, deltaX)
         val translateY = ObjectAnimator.ofFloat(fabView, View.TRANSLATION_Y, deltaY)
@@ -23,8 +23,8 @@ class CalendarAnimation(private val fabView: FloatingActionButton, private val c
 
         //make calendar visible
         //grow calendar to full size
-        val scaleUpX = ObjectAnimator.ofFloat(calendarView, View.SCALE_X, 1f)
-        val scaleUpY = ObjectAnimator.ofFloat(calendarView, View.SCALE_Y, 1f)
+        val scaleUpX = ObjectAnimator.ofFloat(calendarView, View.SCALE_X, 0f, 1f)
+        val scaleUpY = ObjectAnimator.ofFloat(calendarView, View.SCALE_Y, 0f, 1f)
         val growCalAnimation = AnimatorSet()
         growCalAnimation.playTogether(scaleUpX, scaleUpY)
         growCalAnimation.addListener(object: AnimatorListenerAdapter() {
