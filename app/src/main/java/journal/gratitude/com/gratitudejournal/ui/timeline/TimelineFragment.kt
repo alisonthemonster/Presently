@@ -27,7 +27,8 @@ import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBindin
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
-import journal.gratitude.com.gratitudejournal.ui.calendar.DayClickedListener
+import journal.gratitude.com.gratitudejournal.ui.calendar.CalendarAnimation
+import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.IS_NEW_ENTRY
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.NUM_ENTRIES
@@ -35,7 +36,6 @@ import journal.gratitude.com.gratitudejournal.util.backups.ExportCallback
 import journal.gratitude.com.gratitudejournal.util.backups.exportDB
 import journal.gratitude.com.gratitudejournal.util.backups.parseCsv
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
-import kotlinx.android.synthetic.main.entry_fragment.*
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 import java.io.File
@@ -55,7 +55,6 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
     private lateinit var adapter: TimelineAdapter
     private lateinit var binding: TimelineFragmentBinding
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,14 +139,20 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             findNavController().navigate(action, extras)
         }
 
-        entry_calendar.setDayClickedListener(object : DayClickedListener {
+        entry_calendar.setDayClickedListener(object : EntryCalendarListener {
+            override fun onCloseClicked() {
+                val animation = CalendarAnimation(fab, entry_calendar)
+                animation.closeCalendar()
+            }
+
             override fun onDateClicked(date: Date, isNewDate: Boolean, numberOfEntries: Int) {
                 navigateToDate(date.toLocalDate(), isNewDate, numberOfEntries)
             }
         })
 
         fab.setOnClickListener {
-            //TODO open calendar
+            val animation = CalendarAnimation(fab, entry_calendar)
+            animation.openCalendar()
         }
     }
 

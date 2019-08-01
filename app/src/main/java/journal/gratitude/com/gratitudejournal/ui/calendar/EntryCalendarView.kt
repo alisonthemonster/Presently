@@ -19,7 +19,7 @@ import java.util.*
 class EntryCalendarView : ConstraintLayout {
 
     private var monthString = "${Date().getMonthString()} ${Date().getYearString()}"
-    private var dayClickedListener: DayClickedListener? = null
+    private var entryCalendarListener: EntryCalendarListener? = null
     private var writtenDates = mutableListOf<LocalDate>()
 
     private lateinit var calendar: CompactCalendarView
@@ -41,9 +41,14 @@ class EntryCalendarView : ConstraintLayout {
         calendar = view.compactcalendar_view
         view.month_year.text = monthString
 
+        //TODO disable dates in the future
+
+        //TODO clicking outside of the calendar closes it
+        //and clicking back closes calendar
+
         view.compactcalendar_view.setListener(object : CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date) {
-                dayClickedListener?.onDateClicked(dateClicked, !writtenDates.contains(dateClicked.toLocalDate()), writtenDates.size)
+                entryCalendarListener?.onDateClicked(dateClicked, !writtenDates.contains(dateClicked.toLocalDate()), writtenDates.size)
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date) {
@@ -51,15 +56,20 @@ class EntryCalendarView : ConstraintLayout {
                 month_year.text = monthString
             }
         })
+
+        view.close_button.setOnClickListener {
+            entryCalendarListener?.onCloseClicked()
+        }
     }
 
-    fun setDayClickedListener(dayClickedListener: DayClickedListener) {
-        this.dayClickedListener = dayClickedListener
+    fun setDayClickedListener(entryCalendarListener: EntryCalendarListener) {
+        this.entryCalendarListener = entryCalendarListener
     }
 
     fun setWrittenDates(dates: List<LocalDate>) {
+        calendar.removeAllEvents()
        for (date in dates) {
-           calendar.addEvent(Event(Color.WHITE, date.toDate().time)) //TODO this event date might be wrong
+           calendar.addEvent(Event(Color.WHITE, date.toDate().time))
        }
     }
 
@@ -74,8 +84,10 @@ class EntryCalendarView : ConstraintLayout {
 
 }
 
-interface DayClickedListener {
+interface EntryCalendarListener {
     fun onDateClicked(date: Date, isNewDate: Boolean, numberOfEntries: Int)
+
+    fun onCloseClicked()
 }
 
 interface CalendarClosedListener {
