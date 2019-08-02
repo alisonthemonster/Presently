@@ -175,4 +175,11 @@ class TimelineViewModelTest {
 
         assertEquals(expectedList, actual)
     }
+
+    @Test
+    fun init_callsGetWrittenDates() {
+        val viewModel = TimelineViewModel(repository)
+
+        verify(repository, times(1)).getWrittenDates()
+    }
 }
