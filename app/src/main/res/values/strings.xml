@@ -31,5 +31,6 @@
     <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">Congratulations! We\'re so proud of you and so grateful you chose Presently to record your gratitude.</string>
     <string name="search">Search</string>
     <string name="presently" translatable="false">Presently</string>
+    <string name="close">Close</string>
 
 </resources>
