@@ -67,7 +67,7 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         viewModel = ViewModelProviders.of(this, TimelineViewModelFactory(repository)).get(TimelineViewModel::class.java)
 
 
-        val callback = object: OnBackPressedCallback(true) {
+        val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (entry_calendar?.isVisible != true) {
                     if (!findNavController().navigateUp()) {
@@ -107,7 +107,12 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
                 isNewEntry: Boolean,
                 numEntries: Int
             ) {
-               navigateToDate(clickedDate, isNewEntry, numEntries)
+                if (isNewEntry) {
+                    firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY, null)
+                } else {
+                    firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY, null)
+                }
+                navigateToDate(clickedDate, isNewEntry, numEntries)
             }
         })
         timeline_recycler_view.adapter = adapter
@@ -144,7 +149,7 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             binding.viewModel = viewModel
         })
 
-        viewModel.datesWritten.observe(this, Observer {dates ->
+        viewModel.datesWritten.observe(this, Observer { dates ->
             entry_calendar.setWrittenDates(dates)
         })
 
@@ -165,31 +170,33 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
             }
 
             override fun onDateClicked(date: Date, isNewDate: Boolean, numberOfEntries: Int) {
+                if (isNewDate) {
+                    firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY_CALENDAR, null)
+                } else {
+                    firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY_CALENDAR, null)
+                }
+
                 navigateToDate(date.toLocalDate(), isNewDate, numberOfEntries)
             }
         })
 
         fab.setOnClickListener {
+            firebaseAnalytics.logEvent(OPENED_CALENDAR, null)
+
             val animation = CalendarAnimation(fab, entry_calendar)
             animation.openCalendar()
         }
     }
 
     private fun navigateToDate(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int) {
-        if (isNewEntry) {
-            firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY, null)
-        } else {
-            firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY, null)
-        }
-
         val bundle = bundleOf(
-                DATE to clickedDate.toString(),
-                IS_NEW_ENTRY to isNewEntry,
-                NUM_ENTRIES to numEntries
+            DATE to clickedDate.toString(),
+            IS_NEW_ENTRY to isNewEntry,
+            NUM_ENTRIES to numEntries
         )
         findNavController().navigate(
-                R.id.action_timelineFragment_to_entryFragment,
-                bundle
+            R.id.action_timelineFragment_to_entryFragment,
+            bundle
         )
     }
 

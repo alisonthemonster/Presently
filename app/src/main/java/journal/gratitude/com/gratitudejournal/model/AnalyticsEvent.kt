@@ -18,6 +18,10 @@ const val CLICKED_SEARCH = "clickedSearch"
 const val CLICKED_NEW_ENTRY = "clickedNewEntry"
 const val CLICKED_EXISTING_ENTRY = "clickedExistingEntry"
 
+const val OPENED_CALENDAR = "clickedCalendar"
+const val CLICKED_NEW_ENTRY_CALENDAR = "clickedNewEntryFromCal"
+const val CLICKED_EXISTING_ENTRY_CALENDAR = "clickedExistingEntryFromCal"
+
 //ENTRY EVENTS
 const val SHARED_ENTRY = "sharedEntry"
 const val EDITED_EXISTING_ENTRY = "editedExistingEntry"
