@@ -25,7 +25,7 @@ fun LocalDate.toFullString(): String {
 fun Date.getMonthString(): String {
     val cal = Calendar.getInstance()
     cal.time = this
-    return SimpleDateFormat("MMM", Locale.getDefault()).format(cal.time)
+    return SimpleDateFormat("MMMM", Locale.getDefault()).format(cal.time)
 }
 
 fun Date.getYearString(): String {
