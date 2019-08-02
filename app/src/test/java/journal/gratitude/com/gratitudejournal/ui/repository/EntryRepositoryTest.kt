@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.journal.gratitude.com.gratitudejournal.ui.repository
+package journal.gratitude.com.gratitudejournal.ui.repository
 
 import com.nhaarman.mockitokotlin2.*
 import journal.gratitude.com.gratitudejournal.model.Entry
@@ -88,5 +88,12 @@ class EntryRepositoryTest {
         repository.searchEntries(query)
 
         verify(entryDao).searchAllEntries(expectedQuery)
+    }
+
+    @Test
+    fun getWrittenDates_callsDaoGetWrittenDates() {
+        repository.getWrittenDates()
+
+        verify(entryDao, times(1)).getWrittenDates()
     }
 }
