@@ -12,10 +12,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -63,6 +65,23 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         val repository = EntryRepository(entryDao) //TODO look into sharing across all fragments
 
         viewModel = ViewModelProviders.of(this, TimelineViewModelFactory(repository)).get(TimelineViewModel::class.java)
+
+
+        val callback = object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (entry_calendar?.isVisible != true) {
+                    if (!findNavController().navigateUp()) {
+                        //nothing left in back stack we can finish the activity
+                        requireActivity().finish()
+                    }
+                } else {
+                    val animation = CalendarAnimation(fab, entry_calendar)
+                    animation.closeCalendar()
+                }
+            }
+
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onCreateView(
