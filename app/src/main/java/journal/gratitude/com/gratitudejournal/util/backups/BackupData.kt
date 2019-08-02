@@ -16,7 +16,7 @@ fun exportDB(entries: List<Entry>, exportCallback: ExportCallback) {
     val dir = File(sdCard.absolutePath + "/PresentlyBackups")
     dir.mkdirs()
 
-    val date = LocalDateTime.now()
+    val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
 
     val file = File(dir, "PresentlyBackup$date.csv")
     return try {

@@ -72,7 +72,7 @@
             android:inputType="textCapSentences|textMultiLine"
             android:scrollHorizontally="false"
             android:singleLine="false"
-            android:textColorHint="?android:attr/colorPrimaryDark"
+            android:textColorHint="?android:attr/textColorSecondary"
             android:text="@={viewModel.entryContent}"
             app:layout_constraintBottom_toTopOf="@+id/save_button"
             app:layout_constraintEnd_toEndOf="@+id/thankful_for"

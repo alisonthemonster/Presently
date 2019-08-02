@@ -25,6 +25,10 @@ class EntryRepository(private val entryDao: EntryDao) {
         return entryDao.getEntries()
     }
 
+    fun getWrittenDates(): LiveData<List<LocalDate>> {
+        return entryDao.getWrittenDates()
+    }
+
     @WorkerThread
     suspend fun addEntry(entry: Entry) {
         if (entry.entryContent.isEmpty()) {

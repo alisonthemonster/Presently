@@ -15,6 +15,7 @@ import kotlin.coroutines.CoroutineContext
 class TimelineViewModel(val repository: EntryRepository) : ViewModel() {
 
     val entries: LiveData<List<Entry>>
+    val datesWritten: LiveData<List<LocalDate>> = repository.getWrittenDates()
 
     private var parentJob = Job()
     private val coroutineContext: CoroutineContext

@@ -60,12 +60,38 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="24dp"
+            android:contentDescription="@string/search"
             android:transitionName="search_transition"
             app:layout_constraintBottom_toBottomOf="@+id/overflow_button"
             app:layout_constraintStart_toStartOf="@+id/title"
             app:layout_constraintTop_toTopOf="@+id/overflow_button"
-            app:srcCompat="@drawable/ic_search"
-            android:contentDescription="@string/search" />
+            app:srcCompat="@drawable/ic_search" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_calendar"
+            app:backgroundTint="?android:attr/colorPrimary"
+            app:tint="?android:attr/textColorHighlight"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarView
+            android:id="@+id/entry_calendar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:elevation="12dp"
+            android:focusable="true"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

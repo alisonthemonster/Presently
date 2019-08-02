@@ -30,7 +30,8 @@ def fileFilter = ['**/R.class',
                   '**/backups/*.*',
                   '**/*Binding*.*',
                   '**/*adapter*.*',
-                  '**/*Activity*.*']
+                  '**/*Activity*.*',
+                  '**/calendar/*.*',]
 
 task testCoverage(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
