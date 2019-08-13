@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prompts">
+        <item>What is something that made you smile?</item>
+        <item>What is something to be grateful for in this room?</item>
+        <item>What makes you happy to be alive?</item>
+        <item>Who is someone that helped you?</item>
+        <item>Who is someone that has mentored you?</item>
+        <item>Who is someone that taught you something?</item>
+        <item>Who is someone that you love?</item>
+        <item>Who is someone that loves you?</item>
+        <item>Who is a friend that you are grateful for?</item>
+        <item>What in nature are you grateful for?</item>
+        <item>What talent or skill are you grateful for?</item>
+        <item>What memory are you grateful for?</item>
+        <item>Did someone help you on this day?</item>
+        <item>What made you feel happy on this day?</item>
+        <item>What memory are you grateful for?</item>
+        <item>What are you proud of yourself for?</item>
+        <item>What about your upbringing are you thankful for?</item>
+        <item>What about your career or work are you grateful for?</item>
+        <item>What freedoms are you grateful for?</item>
+        <item>What is something that made you laugh?</item>
+        <item>What is one thing you are grateful for about yourself?</item>
+        <item>What was the most beautiful thing you saw on this day?</item>
+        <item>What book are you grateful for?</item>
+        <item>What song or music are you grateful for?</item>
+        <item>What is something that makes your life easier?</item>
+        <item>What is something that always cheers you up?</item>
+        <item>Who inspires you?</item>
+        <item>What technology or tool are you grateful for?</item>
+        <item>What opportunity are you grateful for?</item>
+        <item>What is something about your body or your health that you are grateful for?</item>
+        <item>What place are you grateful for?</item>
+        <item>What smell are you grateful for?</item>
+        <item>What taste are you grateful for?</item>
+        <item>What knowledge are you grateful for?</item>
+        <item>What is a simple pleasure you\'re grateful for?</item>
+        <item>What hobbies are you grateful for?</item>
+        <item>What sound are you grateful for?</item>
+        <item>What small thing are you grateful for?</item>
+        <item>What is something you are grateful to have learned?</item>
+        <item>What are you grateful for in your city or town?</item>
+        <item>What are you grateful for about your home?</item>
+        <item>What advice are you grateful to have heard?</item>
+        <item>What are you grateful for about your family?</item>
+        <item>What are you grateful for about the current season?</item>
+        <item>What activity are you grateful for?</item>
+    </string-array>
+</resources>

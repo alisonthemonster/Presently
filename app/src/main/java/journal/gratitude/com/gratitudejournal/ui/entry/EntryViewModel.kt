@@ -28,6 +28,7 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
     private val scope = CoroutineScope(coroutineContext)
     private val date: LocalDate = dateString.toLocalDate()
     private val inspiration = application.resources.getStringArray(R.array.inspirations).random()
+    private var promptString = ""
 
     init {
         entry = Transformations.map(repository.getEntry(date)) { entry ->
@@ -53,11 +54,19 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
     }
 
     fun getHintString(): String {
-        val today = LocalDate.now()
-        return when (date) {
-            today -> getApplication<Application>().resources.getString(R.string.what_are_you_thankful_for)
-            else -> getApplication<Application>().resources.getString(R.string.what_were_you_thankful_for)
+        return if (promptString.isEmpty()) {
+            val today = LocalDate.now()
+            when (date) {
+                today -> getApplication<Application>().resources.getString(R.string.what_are_you_thankful_for)
+                else -> getApplication<Application>().resources.getString(R.string.what_were_you_thankful_for)
+            }
+        } else {
+            promptString
         }
+    }
+
+    fun getRandomPromptHintString() {
+        promptString = getApplication<Application>().applicationContext.resources.getStringArray(R.array.prompts).random()
     }
 
     fun getInspirationString(): String {
@@ -70,19 +79,6 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
         } else {
             getApplication<Application>().resources.getString(R.string.iwas)
         }
-    }
-
-    fun getShareContent(): String {
-        return "${getDateString()} ${getThankfulString()} ${entryContent.get()?.decapitalize()}"
-    }
-
-    private fun String.decapitalize(): String {
-        if (this.isEmpty()) {
-            return this
-        }
-        val chars = this.toCharArray()
-        chars[0] = Character.toLowerCase(chars[0])
-        return String(chars)
     }
 
     override fun onCleared() {

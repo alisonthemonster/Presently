@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
+import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
 import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
 import journal.gratitude.com.gratitudejournal.model.SHARED_ENTRY
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
@@ -20,6 +22,8 @@ import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
 import kotlinx.android.synthetic.main.entry_fragment.*
 import org.threeten.bp.LocalDate
+import android.graphics.drawable.Drawable
+import android.widget.ImageView
 
 
 class EntryFragment : Fragment() {
@@ -61,15 +65,13 @@ class EntryFragment : Fragment() {
             binding.viewModel = viewModel
         })
 
-        share_button.setOnClickListener {
-            firebaseAnalytics.logEvent(SHARED_ENTRY, null)
-
-            val message = viewModel.getShareContent()
-            val share = Intent(Intent.ACTION_SEND)
-            share.type = "text/plain"
-            share.putExtra(Intent.EXTRA_TEXT, message)
-
-            startActivity(Intent.createChooser(share, "Share your gratitude progress"))
+        prompt_button.setOnClickListener {
+            firebaseAnalytics.logEvent(CLICKED_PROMPT, null)
+            viewModel.getRandomPromptHintString()
+            val v = it as ImageView
+            val d = v.drawable as AnimatedVectorDrawable
+            d.start()
+            binding.viewModel = viewModel
         }
 
         save_button.setOnClickListener {

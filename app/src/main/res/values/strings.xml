@@ -15,7 +15,6 @@
     <string name="yesterday">Yesterday</string>
     <string name="iwas">I was grateful for</string>
     <string name="iam">I am grateful for</string>
-    <string name="share_your_gratitude">Share your gratitude</string>
     <string name="save">Save</string>
     <string name="back_up_entries_to_csv">Backup entries</string>
     <string name="export_success">Entries exported</string>
@@ -32,5 +31,6 @@
     <string name="search">Search</string>
     <string name="presently" translatable="false">Presently</string>
     <string name="close">Close</string>
+    <string name="get_a_new_prompt">Get a new prompt</string>
 
 </resources>

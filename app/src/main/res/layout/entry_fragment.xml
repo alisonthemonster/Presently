@@ -102,15 +102,15 @@
             app:layout_constraintStart_toStartOf="@+id/divider_line2" />
 
         <ImageView
-            android:id="@+id/share_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:contentDescription="@string/share_your_gratitude"
-            app:layout_constraintBottom_toBottomOf="@+id/save_button"
-            app:layout_constraintStart_toStartOf="@+id/entry_text"
-            app:layout_constraintTop_toTopOf="@+id/save_button"
-            app:srcCompat="@drawable/ic_share" />
+                android:id="@+id/prompt_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:contentDescription="@string/get_a_new_prompt"
+                app:layout_constraintBottom_toBottomOf="@+id/save_button"
+                app:layout_constraintStart_toStartOf="@+id/entry_text"
+                app:srcCompat="@drawable/avd_idea" android:paddingRight="20dp" android:cropToPadding="true"
+                android:paddingTop="20dp"/>
 
         <Button
             android:id="@+id/save_button"
