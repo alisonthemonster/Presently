@@ -31,6 +31,7 @@
     <string name="search">Search</string>
     <string name="presently" translatable="false">Presently</string>
     <string name="close">Close</string>
-    <string name="get_a_new_prompt">Get a new prompt</string>
+    <string name="get_a_new_prompt">Get a prompt</string>
+    <string name="share_your_gratitude">Share your gratitude</string>
 
 </resources>

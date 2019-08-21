@@ -8,7 +8,7 @@
           android:drawable="@drawable/avd_idea"
           android:state_checked="true"/>
     <item android:id="@+id/state_off"
-          android:drawable="@drawable/ic_idea_filled"/>
+          android:drawable="@drawable/ic_idea_empty"/>
     <!-- specify transitions -->
     <transition
             android:drawable="@drawable/avd_idea"

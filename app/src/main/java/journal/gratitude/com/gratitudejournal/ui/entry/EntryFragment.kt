@@ -74,6 +74,17 @@ class EntryFragment : Fragment() {
             binding.viewModel = viewModel
         }
 
+        share_button.setOnClickListener {
+            firebaseAnalytics.logEvent(SHARED_ENTRY, null)
+
+            val message = viewModel.getShareContent()
+            val share = Intent(Intent.ACTION_SEND)
+            share.type = "text/plain"
+            share.putExtra(Intent.EXTRA_TEXT, message)
+
+            startActivity(Intent.createChooser(share, "Share your gratitude progress"))
+        }
+
         save_button.setOnClickListener {
             val numEntries = arguments?.getInt(NUM_ENTRIES) ?: 0
             val isNewEntry = arguments?.getBoolean(IS_NEW_ENTRY) ?: false

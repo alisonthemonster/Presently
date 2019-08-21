@@ -1,6 +1,9 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
 import android.app.Application
+import androidx.databinding.Observable
+import androidx.databinding.Observable.OnPropertyChangedCallback
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -17,10 +20,12 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import kotlin.coroutines.CoroutineContext
 
+
 class EntryViewModel(dateString: String, private val repository: EntryRepository, application: Application) : AndroidViewModel(application) {
 
     val entry: LiveData<Entry>
     val entryContent = ObservableField<String>("")
+    val isEmpty = ObservableBoolean(true)
 
     private var parentJob = Job()
     private val coroutineContext: CoroutineContext
@@ -31,6 +36,20 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
     private var promptString = ""
 
     init {
+
+        entryContent.addOnPropertyChangedCallback(object : OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable, propertyId: Int) {
+                if (sender == entryContent) {
+                    val content = entryContent.get() ?: ""
+                    if (content.isEmpty()) {
+                        isEmpty.set(true)
+                    } else {
+                        isEmpty.set(false)
+                    }
+                }
+            }
+        })
+
         entry = Transformations.map(repository.getEntry(date)) { entry ->
             if (entry != null) {
                 entryContent.set(entry.entryContent)
@@ -71,6 +90,19 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
 
     fun getInspirationString(): String {
         return inspiration
+    }
+
+    fun getShareContent(): String {
+        return "${getDateString()} ${getThankfulString()} ${entryContent.get()?.decapitalize()}"
+    }
+
+    private fun String.decapitalize(): String {
+        if (this.isEmpty()) {
+            return this
+        }
+        val chars = this.toCharArray()
+        chars[0] = Character.toLowerCase(chars[0])
+        return String(chars)
     }
 
     fun getThankfulString(): String {
