@@ -34,6 +34,7 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
     private val date: LocalDate = dateString.toLocalDate()
     private val inspiration = application.resources.getStringArray(R.array.inspirations).random()
     private var promptString = ""
+    private val prompts = application.resources.getStringArray(R.array.prompts)
 
     init {
 
@@ -85,7 +86,7 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
     }
 
     fun getRandomPromptHintString() {
-        promptString = getApplication<Application>().applicationContext.resources.getStringArray(R.array.prompts).random()
+        promptString = prompts.random()
     }
 
     fun getInspirationString(): String {
