@@ -2,12 +2,13 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -22,8 +23,6 @@ import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
 import kotlinx.android.synthetic.main.entry_fragment.*
 import org.threeten.bp.LocalDate
-import android.graphics.drawable.Drawable
-import android.widget.ImageView
 
 
 class EntryFragment : Fragment() {
@@ -69,7 +68,7 @@ class EntryFragment : Fragment() {
             firebaseAnalytics.logEvent(CLICKED_PROMPT, null)
             viewModel.getRandomPromptHintString()
             val v = it as ImageView
-            val d = v.drawable as AnimatedVectorDrawable
+            val d = v.drawable as Animatable
             d.start()
             binding.viewModel = viewModel
         }
