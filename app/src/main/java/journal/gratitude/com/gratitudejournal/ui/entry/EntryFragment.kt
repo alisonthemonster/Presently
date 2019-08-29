@@ -2,17 +2,20 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
+import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
 import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
 import journal.gratitude.com.gratitudejournal.model.SHARED_ENTRY
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
@@ -60,6 +63,15 @@ class EntryFragment : Fragment() {
         viewModel.entry.observe(this, Observer {
             binding.viewModel = viewModel
         })
+
+        prompt_button.setOnClickListener {
+            firebaseAnalytics.logEvent(CLICKED_PROMPT, null)
+            viewModel.getRandomPromptHintString()
+            val v = it as ImageView
+            val d = v.drawable as Animatable
+            d.start()
+            binding.viewModel = viewModel
+        }
 
         share_button.setOnClickListener {
             firebaseAnalytics.logEvent(SHARED_ENTRY, null)

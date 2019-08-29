@@ -40,6 +40,7 @@ class EntryCalendarView : ConstraintLayout {
         val view = View.inflate(context, R.layout.calendar_fragment, this)
 
         calendar = view.compactcalendar_view
+        calendar.shouldDrawIndicatorsBelowSelectedDays(true)
         view.month_year.text = monthString
 
         view.compactcalendar_view.setListener(object : CompactCalendarView.CompactCalendarViewListener {
@@ -90,8 +91,4 @@ interface EntryCalendarListener {
     fun onDateClicked(date: Date, isNewDate: Boolean, numberOfEntries: Int)
 
     fun onCloseClicked()
-}
-
-interface CalendarClosedListener {
-    fun onCalendarClosed(date: Date)
 }

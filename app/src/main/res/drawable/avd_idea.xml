@@ -1,0 +1,72 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="26dp"
+            android:height="25dp"
+            android:viewportWidth="26"
+            android:viewportHeight="25">
+            <group android:name="group">
+                <path
+                    android:pathData="M11,24C10.6,24 10.1667,23.3333 10,23V19.3264C7.635,18.2029 6,15.7924 6,13C6,9.134 9.134,6 13,6C16.866,6 20,9.134 20,13C20,15.7924 18.3649,18.2029 16,19.3264M11,24C11.4,24 13.8333,24 15,24M11,24H15M15,24C15.3333,23.8333 16,23.4 16,23M16,23C16,22.6 16,20.3842 16,19.3264M16,23V19.3264M4.5,4.5L6.5,6.5M1.5,13H3.5M6.5,19.5L4.5,21.5M19.5,19.5L21.5,21.5M22.5,13H24.5M19.5,6.5L21.5,4.5M13,3.5V1.5"
+                    android:strokeLineJoin="round"
+                    android:strokeWidth="1.8"
+                    android:fillColor="#00000000"
+                    android:strokeColor="?android:attr/colorAccent"
+                    android:strokeLineCap="round"/>
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="group">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="100"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="rotation"
+                    android:valueFrom="0"
+                    android:valueTo="15"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="400"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pivotX"
+                    android:valueFrom="12"
+                    android:valueTo="12"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="400"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="pivotY"
+                    android:valueFrom="12"
+                    android:valueTo="12"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="100"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="rotation"
+                    android:startOffset="100"
+                    android:valueFrom="15"
+                    android:valueTo="0"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="100"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="rotation"
+                    android:startOffset="200"
+                    android:valueFrom="0"
+                    android:valueTo="15"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="100"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="rotation"
+                    android:startOffset="300"
+                    android:valueFrom="15"
+                    android:valueTo="0"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

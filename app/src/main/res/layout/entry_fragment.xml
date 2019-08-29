@@ -72,8 +72,8 @@
             android:inputType="textCapSentences|textMultiLine"
             android:scrollHorizontally="false"
             android:singleLine="false"
-            android:textColorHint="?android:attr/textColorSecondary"
             android:text="@={viewModel.entryContent}"
+            android:textColorHint="?android:attr/textColorSecondary"
             app:layout_constraintBottom_toTopOf="@+id/save_button"
             app:layout_constraintEnd_toEndOf="@+id/thankful_for"
             app:layout_constraintStart_toStartOf="@+id/thankful_for"
@@ -103,14 +103,33 @@
 
         <ImageView
             android:id="@+id/share_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
             android:contentDescription="@string/share_your_gratitude"
+            android:paddingTop="20dp"
+            android:paddingEnd="20dp"
+            android:visibility="@{viewModel.isEmpty() ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/save_button"
             app:layout_constraintStart_toStartOf="@+id/entry_text"
-            app:layout_constraintTop_toTopOf="@+id/save_button"
             app:srcCompat="@drawable/ic_share" />
+
+        <ImageView
+            android:id="@+id/prompt_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="@string/get_a_new_prompt"
+            android:cropToPadding="true"
+            android:paddingTop="20dp"
+            android:paddingEnd="20dp"
+            android:scaleType="fitCenter"
+            android:visibility="@{viewModel.isEmpty() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/save_button"
+            app:layout_constraintStart_toStartOf="@+id/entry_text"
+            app:srcCompat="@drawable/avd_idea" />
 
         <Button
             android:id="@+id/save_button"

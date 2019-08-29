@@ -101,6 +101,20 @@ class EntryViewModelTest {
     }
 
     @Test
+    fun getHintString_withNewHint() {
+        val expected = arrayOf("prompt one")
+        val yesterday = LocalDate.now().minusDays(1)
+        whenever(application.resources.getStringArray(anyInt())).thenReturn(expected)
+
+        viewModel = EntryViewModel(yesterday.toString(), repository, application)
+
+        viewModel.getRandomPromptHintString()
+
+        assertEquals(expected[0], viewModel.getHintString())
+        verify(application.resources).getStringArray(R.array.prompts)
+    }
+
+    @Test
     fun getDateString_Yesterday_returnsYesterday() {
         val expected = "Yesterday"
         val yesterday = LocalDate.now().minusDays(1)
@@ -109,6 +123,16 @@ class EntryViewModelTest {
         viewModel = EntryViewModel(yesterday.toString(), repository, application)
 
         assertEquals(expected, viewModel.getDateString())
+    }
+
+    @Test
+    fun deletingEntryContent_updatesIsEmpty() {
+        viewModel = EntryViewModel(todayString, repository, application)
+
+        viewModel.entryContent.set("hellooooo") //write content
+        viewModel.entryContent.set("") //empty the contents
+
+        assertEquals(true, viewModel.isEmpty.get())
     }
 
     @Test
