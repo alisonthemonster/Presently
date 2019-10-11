@@ -14,46 +14,21 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?android:attr/colorPrimary"
         tools:context=".ui.timeline.TimelineFragment">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/colorPrimary"
-            android:padding="10dp"
-            android:text="@string/presently"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Date"
-            android:textColor="?android:attr/colorForeground"
-            android:textSize="32sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/overflow_button"
             android:layout_width="40dp"
             android:layout_height="35dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
             android:cropToPadding="false"
             android:padding="4dp"
-            app:layout_constraintBottom_toTopOf="@+id/timeline_recycler_view"
-            app:layout_constraintEnd_toEndOf="@+id/title"
-            app:layout_constraintTop_toTopOf="@+id/title"
-            app:srcCompat="@drawable/ic_overflow" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/timeline_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:data="@{viewModel.getEntriesList()}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:srcCompat="@drawable/ic_overflow"
+            android:contentDescription="@string/settings" />
 
         <ImageView
             android:id="@+id/search_icon"
@@ -62,10 +37,35 @@
             android:layout_marginStart="24dp"
             android:contentDescription="@string/search"
             android:transitionName="search_transition"
-            app:layout_constraintBottom_toBottomOf="@+id/overflow_button"
-            app:layout_constraintStart_toStartOf="@+id/title"
-            app:layout_constraintTop_toTopOf="@+id/overflow_button"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_search" />
+
+        <ImageView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/presently"
+            android:padding="13dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toStartOf="@+id/overflow_button"
+            app:layout_constraintStart_toEndOf="@+id/search_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/timeline_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:data="@{viewModel.getEntriesList()}"
+            android:background="?android:attr/colorBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -76,14 +76,15 @@
             android:layout_marginBottom="8dp"
             android:src="@drawable/ic_calendar"
             app:backgroundTint="?android:attr/colorPrimary"
-            app:tint="?android:attr/colorForeground"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="?android:attr/colorForeground" />
 
         <journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarView
             android:id="@+id/entry_calendar"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             android:clickable="true"
             android:elevation="12dp"
             android:focusable="true"
@@ -91,7 +92,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/overflow_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
