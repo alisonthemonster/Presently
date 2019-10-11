@@ -39,7 +39,7 @@ class TimePreferenceFragment: PreferenceDialogFragmentCompat() {
 
             if (pref.callChangeListener(time)) {
                 pref.persistStringValue(time.toString())
-                NotificationScheduler().setReminderNotification(context!!)
+                NotificationScheduler().setNotificationTime(context!!, time)
             }
         }
     }

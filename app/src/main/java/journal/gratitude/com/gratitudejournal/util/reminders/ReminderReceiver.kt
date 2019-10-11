@@ -12,17 +12,19 @@ import journal.gratitude.com.gratitudejournal.ContainerActivity.Companion.CHANNE
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler.Companion.ALARM_TYPE_RTC
 
+/**
+ *  Receives broadcasts from an alarm and creates notifications
+ */
 class ReminderReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-
-        val intentToRepeat = Intent(context, ContainerActivity::class.java)
-        intentToRepeat.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP //set flag to restart/relaunch the app
-        intentToRepeat.putExtra(fromNotification, true)
+        val openActivityIntent = Intent(context, ContainerActivity::class.java)
+        openActivityIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP //set flag to restart/relaunch the app
+        openActivityIntent.putExtra(fromNotification, true)
         val pendingIntent = PendingIntent.getActivity(
             context,
             ALARM_TYPE_RTC,
-            intentToRepeat,
+            openActivityIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
