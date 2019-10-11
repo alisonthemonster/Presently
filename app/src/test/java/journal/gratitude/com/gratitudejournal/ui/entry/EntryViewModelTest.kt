@@ -115,6 +115,39 @@ class EntryViewModelTest {
     }
 
     @Test
+    fun getHintString_withQueueStyle() {
+        val expected = arrayOf("prompt one", "prompt two")
+        val yesterday = LocalDate.now().minusDays(1)
+        whenever(application.resources.getStringArray(anyInt())).thenReturn(expected)
+
+        viewModel = EntryViewModel(yesterday.toString(), repository, application)
+
+        viewModel.getRandomPromptHintString()
+        val first = viewModel.getHintString()
+        viewModel.getRandomPromptHintString()
+        val second = viewModel.getHintString()
+
+        assert(first != second)
+    }
+
+    @Test
+    fun getHintString_withPromptRecycling() {
+        val expected = arrayOf("prompt one", "prompt two")
+        val yesterday = LocalDate.now().minusDays(1)
+        whenever(application.resources.getStringArray(anyInt())).thenReturn(expected)
+
+        viewModel = EntryViewModel(yesterday.toString(), repository, application)
+
+        viewModel.getRandomPromptHintString()
+        val first = viewModel.getHintString()
+        viewModel.getRandomPromptHintString()
+        viewModel.getRandomPromptHintString()
+        val third = viewModel.getHintString()
+
+        assertEquals(first, third)
+    }
+
+    @Test
     fun getDateString_Yesterday_returnsYesterday() {
         val expected = "Yesterday"
         val yesterday = LocalDate.now().minusDays(1)
