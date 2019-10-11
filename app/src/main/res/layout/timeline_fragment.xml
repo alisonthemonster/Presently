@@ -25,7 +25,7 @@
             android:text="@string/presently"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.Date"
-            android:textColor="?android:attr/textColorHighlight"
+            android:textColor="?android:attr/colorForeground"
             android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
             android:layout_marginBottom="8dp"
             android:src="@drawable/ic_calendar"
             app:backgroundTint="?android:attr/colorPrimary"
-            app:tint="?android:attr/textColorHighlight"
+            app:tint="?android:attr/colorForeground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
