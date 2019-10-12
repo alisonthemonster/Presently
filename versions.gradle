@@ -1,6 +1,6 @@
 ext {
     major = 1
-    minor = 20
+    minor = 21
 
     androidCompileSdk = 28
     androidTargetSdk = 28
