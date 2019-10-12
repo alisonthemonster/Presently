@@ -24,9 +24,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
+            android:gravity="bottom"
             android:maxLines="1"
             android:text="@{viewModel.dateString}"
             android:textAppearance="@style/TextAppearance.Title"
@@ -47,6 +48,7 @@
             android:layout_height="0dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
+            android:gravity="top"
             android:maxLines="1"
             android:text="@{viewModel.thankfulString}"
             android:textAppearance="@style/TextAppearance.Title"
@@ -65,14 +67,14 @@
             android:id="@+id/divider_line"
             android:layout_width="0dp"
             android:layout_height="3dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="?android:attr/colorAccent"
-            app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintBottom_toTopOf="@+id/entry_text"
             app:layout_constraintEnd_toEndOf="@+id/thankful_for"
             app:layout_constraintStart_toStartOf="@+id/thankful_for"
-            app:layout_constraintTop_toBottomOf="@+id/thankful_for" />
+            app:layout_constraintTop_toBottomOf="@+id/thankful_for"
+            app:layout_constraintVertical_chainStyle="spread" />
 
         <EditText
             android:id="@+id/entry_text"
@@ -92,7 +94,7 @@
             app:layout_constraintStart_toStartOf="@+id/thankful_for"
             app:layout_constraintTop_toBottomOf="@+id/divider_line"
             app:layout_constraintVertical_chainStyle="spread"
-            app:layout_constraintVertical_weight="6" />
+            app:layout_constraintVertical_weight="5" />
 
         <ImageView
             android:id="@+id/share_button"
@@ -157,19 +159,19 @@
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
+            android:gravity="center"
             android:text="@{viewModel.inspirationString}"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Title"
             android:textColor="?android:attr/textColorSecondary"
-            app:autoSizeMaxTextSize="14sp"
-            app:autoSizeMinTextSize="8sp"
+            app:autoSizeMaxTextSize="15sp"
+            app:autoSizeMinTextSize="9sp"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/divider_line2"
             app:layout_constraintStart_toStartOf="@+id/divider_line2"
             app:layout_constraintTop_toBottomOf="@id/divider_line2"
             app:layout_constraintVertical_chainStyle="spread"
-            app:layout_constraintVertical_weight="1.5" />
+            app:layout_constraintVertical_weight="1.35" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
