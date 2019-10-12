@@ -22,7 +22,7 @@
         <TextView
             android:id="@+id/date_string"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
@@ -30,24 +30,35 @@
             android:maxLines="1"
             android:text="@{viewModel.dateString}"
             android:textAppearance="@style/TextAppearance.Title"
+            app:autoSizeMaxTextSize="36sp"
+            app:autoSizeMinTextSize="16sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toTopOf="@+id/thankful_for"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_weight="1"
             tools:text="September 29, 2018" />
 
         <TextView
             android:id="@+id/thankful_for"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_height="0dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{viewModel.thankfulString}"
             android:textAppearance="@style/TextAppearance.Title"
+            app:autoSizeMaxTextSize="36sp"
+            app:autoSizeMinTextSize="16sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toTopOf="@+id/divider_line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/date_string"
             app:layout_constraintTop_toBottomOf="@+id/date_string"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_weight="1"
             tools:text="I was thankful for" />
 
         <View
@@ -55,7 +66,10 @@
             android:layout_width="0dp"
             android:layout_height="3dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:background="?android:attr/colorAccent"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintBottom_toTopOf="@+id/entry_text"
             app:layout_constraintEnd_toEndOf="@+id/thankful_for"
             app:layout_constraintStart_toStartOf="@+id/thankful_for"
             app:layout_constraintTop_toBottomOf="@+id/thankful_for" />
@@ -64,7 +78,6 @@
             android:id="@+id/entry_text"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="@android:color/transparent"
             android:gravity="top|start"
@@ -77,29 +90,9 @@
             app:layout_constraintBottom_toTopOf="@+id/save_button"
             app:layout_constraintEnd_toEndOf="@+id/thankful_for"
             app:layout_constraintStart_toStartOf="@+id/thankful_for"
-            app:layout_constraintTop_toBottomOf="@+id/divider_line" />
-
-        <View
-            android:id="@+id/divider_line2"
-            android:layout_width="0dp"
-            android:layout_height="3dp"
-            android:layout_marginBottom="8dp"
-            android:background="?android:attr/colorAccent"
-            app:layout_constraintBottom_toTopOf="@+id/inspiration"
-            app:layout_constraintEnd_toEndOf="@+id/thankful_for"
-            app:layout_constraintStart_toStartOf="@+id/thankful_for" />
-
-        <TextView
-            android:id="@+id/inspiration"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@{viewModel.inspirationString}"
-            android:textAlignment="center"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/divider_line2"
-            app:layout_constraintStart_toStartOf="@+id/divider_line2" />
+            app:layout_constraintTop_toBottomOf="@+id/divider_line"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_weight="6" />
 
         <ImageView
             android:id="@+id/share_button"
@@ -111,6 +104,7 @@
             android:paddingTop="20dp"
             android:paddingEnd="20dp"
             android:visibility="@{viewModel.isEmpty() ? View.GONE : View.VISIBLE}"
+            app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintBottom_toBottomOf="@+id/save_button"
             app:layout_constraintStart_toStartOf="@+id/entry_text"
             app:srcCompat="@drawable/ic_share" />
@@ -127,6 +121,7 @@
             android:paddingEnd="20dp"
             android:scaleType="fitCenter"
             android:visibility="@{viewModel.isEmpty() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintBottom_toBottomOf="@+id/save_button"
             app:layout_constraintStart_toStartOf="@+id/entry_text"
             app:srcCompat="@drawable/avd_idea" />
@@ -135,11 +130,46 @@
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:backgroundTint="?android:attr/colorAccent"
             android:text="@string/save"
             android:textColor="?android:attr/android:colorBackground"
+            app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintBottom_toTopOf="@+id/divider_line2"
-            app:layout_constraintEnd_toEndOf="@+id/entry_text" />
+            app:layout_constraintEnd_toEndOf="@+id/entry_text"
+            app:layout_constraintTop_toBottomOf="@+id/entry_text" />
+
+        <View
+            android:id="@+id/divider_line2"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:layout_marginBottom="8dp"
+            android:background="?android:attr/colorAccent"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintBottom_toTopOf="@+id/inspiration"
+            app:layout_constraintEnd_toEndOf="@+id/thankful_for"
+            app:layout_constraintStart_toStartOf="@+id/thankful_for"
+            app:layout_constraintTop_toBottomOf="@+id/save_button" />
+
+        <TextView
+            android:id="@+id/inspiration"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            android:text="@{viewModel.inspirationString}"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Title"
+            android:textColor="?android:attr/textColorSecondary"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="8sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/divider_line2"
+            app:layout_constraintStart_toStartOf="@+id/divider_line2"
+            app:layout_constraintTop_toBottomOf="@id/divider_line2"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_weight="1.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
