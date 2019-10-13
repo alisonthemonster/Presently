@@ -33,5 +33,7 @@
     <string name="close">Close</string>
     <string name="get_a_new_prompt">Get a prompt</string>
     <string name="share_your_gratitude">Share your gratitude</string>
+    <string name="no_results">No results</string>
+    <string name="settings">Settings</string>
 
 </resources>

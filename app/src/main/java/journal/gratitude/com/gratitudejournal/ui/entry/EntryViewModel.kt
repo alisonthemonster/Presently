@@ -18,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
+import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 
@@ -34,7 +35,8 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
     private val date: LocalDate = dateString.toLocalDate()
     private val inspiration = application.resources.getStringArray(R.array.inspirations).random()
     private var promptString = ""
-    private val prompts = application.resources.getStringArray(R.array.prompts)
+    private val promptsArray = application.resources.getStringArray(R.array.prompts)
+    private val prompts = getPromptsQueue(promptsArray)
 
     init {
 
@@ -86,7 +88,7 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
     }
 
     fun getRandomPromptHintString() {
-        promptString = prompts.random()
+        promptString = getPrompt()
     }
 
     fun getInspirationString(): String {
@@ -112,6 +114,21 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
         } else {
             getApplication<Application>().resources.getString(R.string.iwas)
         }
+    }
+
+    private fun getPromptsQueue(prompts: Array<String>): LinkedList<String> {
+        val shuffled = prompts.toMutableList().shuffled()
+        val queue = LinkedList<String>()
+        for (prompt in shuffled) {
+            queue.add(prompt)
+        }
+        return queue
+    }
+
+    private fun getPrompt(): String {
+        val next = prompts.remove()
+        prompts.add(next)
+        return next
     }
 
     override fun onCleared() {

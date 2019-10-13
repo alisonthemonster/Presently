@@ -78,11 +78,4 @@
     <color name="ivyToolbarItemColor">#374F4B</color>
     <color name="ivyStatusBarColor">#131515</color>
 
-
-
-    <!--Dusty Rose Theme-->
-    <color name="colorAccentDustyRose">#A47272</color>
-    <color name="colorAccentLightDustyRose">#8A6060</color>
-    <color name="backgroundColorDustyRose">#5F3B3B</color>
-
 </resources>

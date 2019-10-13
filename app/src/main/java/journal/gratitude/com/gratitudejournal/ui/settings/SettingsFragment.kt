@@ -67,10 +67,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             "notif_parent" -> {
                 val notifsTurnedOn = sharedPreferences.getBoolean(key, true)
                 if (notifsTurnedOn) {
-                    NotificationScheduler().setReminderNotification(context!!)
+                    NotificationScheduler().configureNotifications(context!!)
                     firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "true")
                 } else {
-                    NotificationScheduler().cancelNotifications(context!!)
+                    NotificationScheduler().disableNotifications(context!!)
                     firebaseAnalytics.logEvent(CANCELLED_NOTIFS, null)
                     firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "false")
                 }
