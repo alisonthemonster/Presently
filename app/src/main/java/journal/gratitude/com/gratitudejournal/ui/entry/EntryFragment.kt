@@ -82,7 +82,6 @@ class EntryFragment : Fragment() {
             share.type = "text/plain"
             share.putExtra(Intent.EXTRA_TEXT, message)
 
-            //TODO hard coded english string
             startActivity(Intent.createChooser(share, getString(R.string.share_progress)))
         }
 
