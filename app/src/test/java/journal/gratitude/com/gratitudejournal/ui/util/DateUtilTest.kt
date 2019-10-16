@@ -43,7 +43,7 @@ class DateUtilTest {
 
         val date = cal.time
 
-        assertEquals(expected, date.getMonthString())
+        assertEquals(expected, date.toMonthString())
     }
 
     @Test

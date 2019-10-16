@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
+import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
 import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
@@ -81,7 +82,7 @@ class EntryFragment : Fragment() {
             share.type = "text/plain"
             share.putExtra(Intent.EXTRA_TEXT, message)
 
-            startActivity(Intent.createChooser(share, "Share your gratitude progress"))
+            startActivity(Intent.createChooser(share, getString(R.string.share_progress)))
         }
 
         save_button.setOnClickListener {

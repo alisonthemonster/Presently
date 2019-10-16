@@ -2,9 +2,7 @@ package journal.gratitude.com.gratitudejournal.ui.search
 
 import android.view.View
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineAdapter
-import org.threeten.bp.format.TextStyle
-import java.util.*
+import journal.gratitude.com.gratitudejournal.util.toShortMonthString
 
 class SearchEntryViewModel(
         private val entry: Entry,
@@ -22,7 +20,7 @@ class SearchEntryViewModel(
     }
 
     fun getMonth(): String {
-        return entry.entryDate.month.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
+        return entry.entryDate.month.toShortMonthString()
     }
 
     fun onClick(view: View) {
