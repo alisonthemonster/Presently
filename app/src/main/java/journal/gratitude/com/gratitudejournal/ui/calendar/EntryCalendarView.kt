@@ -7,7 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.github.sundeepk.compactcalendarview.domain.Event
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.util.getMonthString
+import journal.gratitude.com.gratitudejournal.util.toMonthString
 import journal.gratitude.com.gratitudejournal.util.getYearString
 import journal.gratitude.com.gratitudejournal.util.toDate
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
@@ -19,7 +19,7 @@ import android.util.TypedValue
 
 class EntryCalendarView : ConstraintLayout {
 
-    private var monthString = "${Date().getMonthString()} ${Date().getYearString()}"
+    private var monthString = "${Date().toMonthString()} ${Date().getYearString()}"
     private var entryCalendarListener: EntryCalendarListener? = null
     private var writtenDates = mutableListOf<LocalDate>()
 
@@ -51,7 +51,7 @@ class EntryCalendarView : ConstraintLayout {
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date) {
-                monthString = "${firstDayOfNewMonth.getMonthString()} ${firstDayOfNewMonth.getYearString()}"
+                monthString = "${firstDayOfNewMonth.toMonthString()} ${firstDayOfNewMonth.getYearString()}"
                 month_year.text = monthString
             }
         })
