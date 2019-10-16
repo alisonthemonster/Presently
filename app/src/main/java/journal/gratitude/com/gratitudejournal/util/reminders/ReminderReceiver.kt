@@ -33,11 +33,13 @@ class ReminderReceiver : BroadcastReceiver() {
     }
 
     private fun createLocalNotification(context: Context, pendingIntent: PendingIntent) {
+        val title = context.getString(R.string.reminder_title)
+        val content =  context.getString(R.string.what_are_you_thankful_for_today)
 
         val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_app_icon)
-            .setContentTitle("Presently Gratitude Reminder")
-            .setContentText("What are you grateful for today?")
+            .setContentTitle(title)
+            .setContentText(content)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setCategory(Notification.CATEGORY_REMINDER)
