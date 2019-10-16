@@ -12,9 +12,7 @@ import java.io.InputStream
 
 fun exportDB(entries: List<Entry>, exportCallback: ExportCallback) {
 
-    val sdCard = Environment.getExternalStorageDirectory()
-    val dir = File(sdCard.absolutePath + "/PresentlyBackups")
-    dir.mkdirs()
+    val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
 
     val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
 
