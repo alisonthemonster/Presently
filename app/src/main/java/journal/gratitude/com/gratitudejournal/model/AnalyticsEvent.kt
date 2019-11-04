@@ -13,6 +13,7 @@ const val LOOKED_AT_SETTINGS = "lookedAtSettings"
 const val OPENED_CONTACT_FORM = "openedContactForm"
 const val OPENED_PRIVACY_POLICY = "openedPrivacyPolicy"
 const val OPENED_TERMS_CONDITIONS = "openedTermsAndConditions"
+const val OPENED_THEMES = "openedThemes"
 
 const val CLICKED_SEARCH = "clickedSearch"
 const val CLICKED_NEW_ENTRY = "clickedNewEntry"

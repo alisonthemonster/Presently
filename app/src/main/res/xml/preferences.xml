@@ -22,9 +22,7 @@
 
     <PreferenceCategory android:title="Appearance">
 
-        <ListPreference
-            android:entries="@array/ThemeList"
-            android:entryValues="@array/ThemeList"
+        <Preference
             android:key="current_theme"
             android:summary="Change the theme of Presently"
             android:title="Theme" />

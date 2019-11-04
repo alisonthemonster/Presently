@@ -11,8 +11,12 @@ import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
 import android.content.SharedPreferences
 import android.view.View
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.model.*
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -37,6 +41,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         val terms = findPreference("terms_conditions")
         terms.setOnPreferenceClickListener {
             openTermsAndConditions()
+            true
+        }
+        val theme = findPreference("current_theme")
+        theme.setOnPreferenceClickListener {
+            openThemes()
             true
         }
     }
@@ -96,6 +105,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
     }
 
+    private fun openThemes() {
+        firebaseAnalytics.logEvent(OPENED_THEMES, null)
+
+        findNavController().navigate(
+                R.id.action_settingsFragment_to_themeFragment)
+    }
+
     private fun openTermsAndConditions() {
         firebaseAnalytics.logEvent(OPENED_TERMS_CONDITIONS, null)
 
@@ -110,11 +126,5 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         val browserIntent =
             Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html"))
         startActivity(browserIntent)
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            SettingsFragment()
     }
 }
