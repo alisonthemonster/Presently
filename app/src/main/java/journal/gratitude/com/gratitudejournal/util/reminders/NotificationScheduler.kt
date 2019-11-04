@@ -40,7 +40,7 @@ class NotificationScheduler {
                 context,
                 PENDING_INTENT,
                 it,
-                PendingIntent.FLAG_CANCEL_CURRENT
+                0 //implicitly cancel the existing alarm and then set it for the newly-specified time
             )
         }
 
