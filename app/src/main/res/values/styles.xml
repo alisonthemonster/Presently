@@ -103,8 +103,83 @@
         <item name="android:colorForeground">@color/wesleyToolbarItemColor</item>
         <item name="android:colorPrimaryDark">@color/wesleyTimelineColor</item>
         <item name="android:statusBarColor">@color/wesleyStatusBarColor</item>
-        <item name="timelineIcon">@drawable/ic_moon</item>
+        <item name="timelineIcon">@drawable/ic_cube</item>
         <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="AppTheme.MOSS" parent="AppTheme">
+        <item name="colorAccent">@color/mossAndroidWidgetColor</item>
+        <item name="android:colorBackground">@color/mossBackgroundColor</item>
+        <item name="android:colorAccent">@color/mossMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/mossToolbarColor</item>
+        <item name="android:textColorPrimary">@color/mossDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/mossHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/mossHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/mossToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/mossTimelineColor</item>
+        <item name="android:statusBarColor">@color/mossStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.CLEAN" parent="AppTheme">
+        <item name="colorAccent">@color/cleanAndroidWidgetColor</item>
+        <item name="android:colorBackground">@color/cleanBackgroundColor</item>
+        <item name="android:colorAccent">@color/cleanMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/cleanToolbarColor</item>
+        <item name="android:textColorPrimary">@color/cleanDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/cleanHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/cleanHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/cleanToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/cleanTimelineColor</item>
+        <item name="android:statusBarColor">@color/cleanStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.GLACIER" parent="AppTheme">
+        <item name="colorAccent">@color/glacierAndroidWidgetColor</item>
+        <item name="android:colorBackground">@color/glacierBackgroundColor</item>
+        <item name="android:colorAccent">@color/glacierMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/glacierToolbarColor</item>
+        <item name="android:textColorPrimary">@color/glacierDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/glacierHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/glacierHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/glacierToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/glacierTimelineColor</item>
+        <item name="android:statusBarColor">@color/glacierStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_cube</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.GELATO" parent="AppTheme">
+        <item name="colorAccent">@color/gelatoAndroidWidgetColor</item>
+        <item name="android:colorBackground">@color/gelatoBackgroundColor</item>
+        <item name="android:colorAccent">@color/gelatoMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/gelatoToolbarColor</item>
+        <item name="android:textColorPrimary">@color/gelatoDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/gelatoHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/gelatoHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/gelatoToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/gelatoTimelineColor</item>
+        <item name="android:statusBarColor">@color/gelatoStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.WAVES" parent="AppTheme">
+        <item name="colorAccent">@color/wavesAndroidWidgetColor</item>
+        <item name="android:colorBackground">@color/wavesBackgroundColor</item>
+        <item name="android:colorAccent">@color/wavesMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/wavesToolbarColor</item>
+        <item name="android:textColorPrimary">@color/wavesDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/wavesHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/wavesHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/wavesToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/wavesTimelineColor</item>
+        <item name="android:statusBarColor">@color/wavesStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_wave</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="TextAppearance.Title" parent="android:TextAppearance">
