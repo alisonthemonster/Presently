@@ -57,18 +57,14 @@ class ThemeListAdapter(private val listener: ThemeFragment.OnThemeSelectedListen
             oldItem: Theme,
             newItem: Theme
         ): Boolean {
-            TODO(
-                "not implemented"
-            )
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(
             oldItem: Theme,
             newItem: Theme
         ): Boolean {
-            TODO(
-                "not implemented"
-            )
+            return oldItem.name == newItem.name
         }
     }
 }

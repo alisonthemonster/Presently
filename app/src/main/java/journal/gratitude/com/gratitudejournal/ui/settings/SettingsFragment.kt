@@ -1,23 +1,20 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.model.*
+import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
-import android.content.SharedPreferences
-import android.view.View
-import androidx.core.os.bundleOf
-import androidx.navigation.fragment.findNavController
-import com.google.firebase.analytics.FirebaseAnalytics
-import journal.gratitude.com.gratitudejournal.model.*
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
-import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
-import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
