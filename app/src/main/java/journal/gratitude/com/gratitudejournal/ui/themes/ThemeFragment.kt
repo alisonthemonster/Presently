@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Theme
+import kotlinx.android.synthetic.main.fragment_theme.*
 
 
 class ThemeFragment : Fragment() {
@@ -42,15 +42,7 @@ class ThemeFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_theme, container, false)
-
-        // Set the adapter
-        if (view is RecyclerView) {
-            view.layoutManager = GridLayoutManager(context, 3)
-            view.adapter = adapter
-        }
-
-        return view
+        return inflater.inflate(R.layout.fragment_theme, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,7 +50,7 @@ class ThemeFragment : Fragment() {
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
 
-        val themes: List<Theme> = listOf(
+        val themeList: List<Theme> = listOf(
                 Theme("Original",
                         ContextCompat.getColor(context!!, R.color.colorAccent),
                         ContextCompat.getColor(context!!, R.color.backgroundColor),
@@ -129,7 +121,15 @@ class ThemeFragment : Fragment() {
                         R.drawable.ic_flower
                 )
         )
-        adapter.addData(themes)
+
+        adapter.addData(themeList)
+        // Set the adapter
+        themes.layoutManager = GridLayoutManager(context, 3)
+        themes.adapter = adapter
+
+        back_icon.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     interface OnThemeSelectedListener {

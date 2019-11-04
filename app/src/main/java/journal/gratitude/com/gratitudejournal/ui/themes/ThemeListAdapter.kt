@@ -47,8 +47,6 @@ class ThemeListAdapter(private val listener: ThemeFragment.OnThemeSelectedListen
             header.setBackgroundColor(item.headerColor)
             icon.setImageResource(item.icon)
             icon.setColorFilter(item.iconColor)
-
-            //TODO icon color tint needs to be done
         }
     }
 

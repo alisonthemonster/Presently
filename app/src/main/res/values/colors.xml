@@ -94,7 +94,7 @@
     <color name="wesleyStatusBarColor">#FFFFFF</color>
 
     <!-- ~~~~MOSS THEME~~~~ -->
-    <color name="mossAndroidWidgetColor">#7F9975</color>
+    <color name="mossAndroidWidgetColor">#464E42</color>
     <color name="mossBackgroundColor">#7F9975</color>
     <!-- main text color, button color -->
     <color name="mossMainTextAndButtonColor">#000000</color>
