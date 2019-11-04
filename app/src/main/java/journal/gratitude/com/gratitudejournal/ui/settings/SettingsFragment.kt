@@ -43,6 +43,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             openTermsAndConditions()
             true
         }
+        val faq = findPreference("faq")
+        faq.setOnPreferenceClickListener {
+            openFaq()
+            true
+        }
         val theme = findPreference("current_theme")
         theme.setOnPreferenceClickListener {
             openThemes()
@@ -125,6 +130,14 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
         val browserIntent =
             Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html"))
+        startActivity(browserIntent)
+    }
+
+    private fun openFaq() {
+        firebaseAnalytics.logEvent(OPENED_FAQ, null)
+
+        val browserIntent =
+                Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/faq.html"))
         startActivity(browserIntent)
     }
 }
