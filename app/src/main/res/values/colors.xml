@@ -78,4 +78,20 @@
     <color name="ivyToolbarItemColor">#374F4B</color>
     <color name="ivyStatusBarColor">#131515</color>
 
+    <!-- ~~~~WESLEY THEME~~~~ -->
+    <color name="wesleyAndroidWidgetColor">#FFFFFF</color>
+    <color name="wesleyBackgroundColor">#000000</color>
+    <!-- main text color, button color -->
+    <color name="wesleyMainTextAndButtonColor">#FFFFFF</color>
+    <!-- date text color, entry screen text -->
+    <color name="wesleyDateTextEntryScreenTextColor">#FFFFFF</color>
+    <color name="wesleyTimelineColor">#FFFFFF</color>
+    <!-- hint text color, quote text color -->
+    <color name="wesleyHintQuoteTextColor">#8A878B</color>
+    <!-- Toolbar and Fab color -->
+    <color name="wesleyToolbarColor">#FFFFFF</color>
+    <color name="wesleyToolbarItemColor">#000000</color>
+    <color name="wesleyStatusBarColor">#FFFFFF</color>
+
+
 </resources>

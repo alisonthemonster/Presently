@@ -92,6 +92,21 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
+    <style name="AppTheme.WESLEY" parent="AppTheme">
+        <item name="colorAccent">@color/wesleyAndroidWidgetColor</item>
+        <item name="android:colorBackground">@color/wesleyBackgroundColor</item>
+        <item name="android:colorAccent">@color/wesleyMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/wesleyToolbarColor</item>
+        <item name="android:textColorPrimary">@color/wesleyDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/wesleyHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/wesleyHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/wesleyToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/wesleyTimelineColor</item>
+        <item name="android:statusBarColor">@color/wesleyStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_moon</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
     <style name="TextAppearance.Title" parent="android:TextAppearance">
         <item name="android:textSize">36sp</item>
         <item name="fontPath">fonts/value-serif.ttf</item>
