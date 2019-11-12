@@ -7,7 +7,7 @@
             android:defaultValue="true"
             android:key="notif_parent"
             android:summaryOff="@string/notifs_off"
-            android:summaryOn="@string/notifs_off"
+            android:summaryOn="@string/notifs_on"
             android:title="@string/notifs" />
 
         <journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
