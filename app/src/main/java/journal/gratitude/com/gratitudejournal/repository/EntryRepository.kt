@@ -8,10 +8,11 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.room.EntryDao
 import journal.gratitude.com.gratitudejournal.util.OpenForTesting
 import org.threeten.bp.LocalDate
+import javax.inject.Inject
 
 
 @OpenForTesting
-class EntryRepository(private val entryDao: EntryDao) {
+class EntryRepository @Inject constructor(private val entryDao: EntryDao) {
 
     companion object {
         private const val PAGE_SIZE = 20

@@ -10,9 +10,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class TimelineViewModel(val repository: EntryRepository) : ViewModel() {
+class TimelineViewModel @Inject constructor(val repository: EntryRepository) : ViewModel() {
 
     val entries: LiveData<List<Entry>>
     val datesWritten: LiveData<List<LocalDate>> = repository.getWrittenDates()

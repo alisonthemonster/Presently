@@ -43,6 +43,7 @@ import org.threeten.bp.LocalDate
 import java.io.File
 import java.io.InputStream
 import java.util.*
+import javax.inject.Inject
 
 
 class TimelineFragment : androidx.fragment.app.Fragment() {
@@ -53,19 +54,13 @@ class TimelineFragment : androidx.fragment.app.Fragment() {
         const val IMPORT_CSV = 206
     }
 
-    private lateinit var viewModel: TimelineViewModel
+    @Inject lateinit var viewModel: TimelineViewModel
     private lateinit var adapter: TimelineAdapter
     private lateinit var binding: TimelineFragmentBinding
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val entryDao = EntryDatabase.getDatabase(activity!!.application).entryDao()
-        val repository = EntryRepository(entryDao) //TODO look into sharing across all fragments
-
-        viewModel = ViewModelProviders.of(this, TimelineViewModelFactory(repository)).get(TimelineViewModel::class.java)
-
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
