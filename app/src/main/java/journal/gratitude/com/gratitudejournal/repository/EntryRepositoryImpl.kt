@@ -11,7 +11,7 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 
-class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): EntryRepository {
+class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao) : EntryRepository {
 
     companion object {
         private const val PAGE_SIZE = 20
@@ -19,6 +19,10 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
 
     override fun getEntry(date: LocalDate): LiveData<Entry> {
         return entryDao.getEntry(date)
+    }
+
+    override fun entryCount(date: LocalDate): LiveData<Int> {
+        return entryDao.getCountForDate(date)
     }
 
     override fun getAllEntries(): LiveData<List<Entry>> {

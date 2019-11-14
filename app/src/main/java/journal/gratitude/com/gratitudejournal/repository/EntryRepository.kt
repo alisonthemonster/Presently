@@ -18,4 +18,6 @@ interface EntryRepository {
     suspend fun addEntries(entries: List<Entry>)
 
     fun searchEntries(query: String): LiveData<PagedList<Entry>>
+
+    fun entryCount(date: LocalDate): LiveData<Int>
 }
