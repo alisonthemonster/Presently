@@ -5,9 +5,7 @@ import androidx.databinding.Observable
 import androidx.databinding.Observable.OnPropertyChangedCallback
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.*
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
@@ -18,13 +16,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
+import java.io.IOException
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 
-class EntryViewModel(dateString: String, private val repository: EntryRepository, application: Application) : AndroidViewModel(application) {
+class EntryViewModel(private val repository: EntryRepository, application: Application) :
+    AndroidViewModel(application) {
 
     val entry: LiveData<Entry>
+    private val dateLiveData = MutableLiveData<LocalDate>()
     val entryContent = ObservableField<String>("")
     val isEmpty = ObservableBoolean(true)
 
@@ -32,7 +33,6 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
     private val coroutineContext: CoroutineContext
         get() = parentJob + Dispatchers.Main
     private val scope = CoroutineScope(coroutineContext)
-    private val date: LocalDate = dateString.toLocalDate()
     private val inspiration = application.resources.getStringArray(R.array.inspirations).random()
     private var promptString = ""
     private val promptsArray = application.resources.getStringArray(R.array.prompts)
@@ -53,20 +53,33 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
             }
         })
 
-        entry = Transformations.map(repository.getEntry(date)) { entry ->
-            if (entry != null) {
-                entryContent.set(entry.entryContent)
+        entry = MediatorLiveData()
+
+        entry.addSource(dateLiveData) { date ->
+            entry.addSource(repository.getEntry(date)) { data ->
+                if (data != null) {
+                    entryContent.set(data.entryContent)
+                }
+                entry.value = data
             }
-            entry
         }
+
+    }
+
+    fun setDate(passedInDate: String) {
+        val date = passedInDate.toLocalDate()
+        dateLiveData.value = date
     }
 
     fun addNewEntry() = scope.launch(Dispatchers.IO) {
+        val date = dateLiveData.value ?: throw IOException("Date was not provided")
         val entry = Entry(date, entryContent.get() ?: "")
         repository.addEntry(entry)
+
     }
 
     fun getDateString(): String {
+        val date = dateLiveData.value ?: throw IOException("Date was not provided")
         val today = LocalDate.now()
         return when (date) {
             today -> getApplication<Application>().resources.getString(R.string.today)
@@ -76,6 +89,7 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
     }
 
     fun getHintString(): String {
+        val date = dateLiveData.value ?: throw IOException("Date was not provided")
         return if (promptString.isEmpty()) {
             val today = LocalDate.now()
             when (date) {
@@ -109,6 +123,7 @@ class EntryViewModel(dateString: String, private val repository: EntryRepository
     }
 
     fun getThankfulString(): String {
+        val date = dateLiveData.value ?: throw IOException("Date was not provided")
         return if (date == LocalDate.now()) {
             getApplication<Application>().resources.getString(R.string.iam)
         } else {
