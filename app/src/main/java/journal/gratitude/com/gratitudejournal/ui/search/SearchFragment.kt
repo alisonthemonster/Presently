@@ -11,7 +11,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,7 @@ import androidx.transition.ChangeBounds
 import androidx.transition.TransitionInflater
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.jakewharton.rxbinding2.widget.RxTextView
+import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
@@ -27,27 +30,23 @@ import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.repository.EntryRepositoryImpl
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineViewModel
 import kotlinx.android.synthetic.main.search_fragment.*
 import org.threeten.bp.LocalDate
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 
-class SearchFragment : Fragment() {
+class SearchFragment : DaggerFragment() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel by viewModels<SearchViewModel> { viewModelFactory }
     private lateinit var binding: SearchFragmentBinding
-    private lateinit var viewModel: SearchViewModel
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private val disposables = CompositeDisposable()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val entryDao = EntryDatabase.getDatabase(activity!!.application).entryDao()
-        val repository = EntryRepositoryImpl(entryDao) //TODO look into sharing across all fragments
-
-        viewModel = ViewModelProviders.of(this, SearchViewModelFactory(repository)).get(SearchViewModel::class.java)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
