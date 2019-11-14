@@ -44,6 +44,9 @@ android {
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
+    kapt {
+        generateStubs = true
+    }
 }
 
 dependencies {

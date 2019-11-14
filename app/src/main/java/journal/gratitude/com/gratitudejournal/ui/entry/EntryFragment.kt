@@ -20,6 +20,7 @@ import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
 import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
 import journal.gratitude.com.gratitudejournal.model.SHARED_ENTRY
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.repository.EntryRepositoryImpl
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
 import kotlinx.android.synthetic.main.entry_fragment.*
@@ -48,7 +49,7 @@ class EntryFragment : Fragment() {
         val passedInDate = arguments?.getString(DATE) ?: LocalDate.now().toString()
         val entryDao = EntryDatabase.getDatabase(activity!!.application).entryDao()
 
-        val repository = EntryRepository(entryDao)
+        val repository = EntryRepositoryImpl(entryDao)
 
         viewModel = ViewModelProviders.of(
                 this,

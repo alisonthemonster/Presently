@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.repository.EntryRepositoryImpl
 import journal.gratitude.com.gratitudejournal.room.EntryDao
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import javax.inject.Singleton
@@ -12,6 +13,8 @@ import javax.inject.Singleton
 
 @Module(includes = [ApplicationModuleBinds::class])
 object ApplicationModule {
+
+
     @JvmStatic
     @Singleton
     @Provides
@@ -35,5 +38,5 @@ abstract class ApplicationModuleBinds {
 
     @Singleton
     @Binds
-    abstract fun bindRepository(repo: EntryRepository): EntryRepository
+    abstract fun bindRepository(repo: EntryRepositoryImpl): EntryRepository
 }

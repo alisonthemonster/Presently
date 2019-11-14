@@ -4,17 +4,22 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 import journal.gratitude.com.gratitudejournal.GratitudeApplication
+import javax.inject.Singleton
 
 // Definition of a Dagger component
-@Component(modules = [ApplicationModule::class])
-interface AppComponent : AndroidInjector<GratitudeApplication> {
+@Singleton
+@Component(
+    modules = [
+        ApplicationModule::class,
+        TimelineModule::class,
+        AndroidSupportInjectionModule::class
+    ])
+interface ApplicationComponent : AndroidInjector<GratitudeApplication> {
 
-    // Factory to create instances of the AppComponent
     @Component.Factory
     interface Factory {
-        // With @BindsInstance, the Context passed in will be available in the graph
-        fun create(@BindsInstance applicationContext: Context): AppComponent
+        fun create(@BindsInstance applicationContext: Context): ApplicationComponent
     }
-
 }

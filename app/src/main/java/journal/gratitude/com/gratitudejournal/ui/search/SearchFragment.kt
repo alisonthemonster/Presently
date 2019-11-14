@@ -24,6 +24,7 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH_ITEM
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.repository.EntryRepositoryImpl
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import kotlinx.android.synthetic.main.search_fragment.*
@@ -43,7 +44,7 @@ class SearchFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         val entryDao = EntryDatabase.getDatabase(activity!!.application).entryDao()
-        val repository = EntryRepository(entryDao) //TODO look into sharing across all fragments
+        val repository = EntryRepositoryImpl(entryDao) //TODO look into sharing across all fragments
 
         viewModel = ViewModelProviders.of(this, SearchViewModelFactory(repository)).get(SearchViewModel::class.java)
     }
