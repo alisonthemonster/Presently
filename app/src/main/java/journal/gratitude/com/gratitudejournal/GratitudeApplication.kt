@@ -11,7 +11,7 @@ import journal.gratitude.com.gratitudejournal.di.DaggerApplicationComponent
 class GratitudeApplication: DaggerApplication() {
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerApplicationComponent.factory().create(applicationContext)
+        return DaggerApplicationComponent.factory().create(applicationContext, this)
     }
 
     override fun onCreate() {

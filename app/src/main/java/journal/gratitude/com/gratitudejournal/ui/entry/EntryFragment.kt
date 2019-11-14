@@ -32,9 +32,12 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 
-class EntryFragment : Fragment() {
+class EntryFragment : DaggerFragment() {
 
-    private lateinit var viewModel: EntryViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel by viewModels<EntryViewModel> { viewModelFactory }
     private lateinit var binding: EntryFragmentBinding
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -52,14 +55,6 @@ class EntryFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         val passedInDate = arguments?.getString(DATE) ?: LocalDate.now().toString()
-        val entryDao = EntryDatabase.getDatabase(activity!!.application).entryDao()
-
-        val repository = EntryRepositoryImpl(entryDao)
-
-        viewModel = ViewModelProviders.of(
-                this,
-                EntryViewModelFactory(repository, activity!!.application)
-        ).get(EntryViewModel::class.java)
         viewModel.setDate(passedInDate)
     }
 
@@ -98,7 +93,7 @@ class EntryFragment : Fragment() {
             if (isNewEntry) {
                 val bundle = Bundle()
                 bundle.putInt(FirebaseAnalytics.Param.LEVEL, (numEntries + 1))
-                val milestones = arrayOf(5, 10, 25, 50, 100, 150, 200, 250, 300)
+                val milestones = arrayOf(5, 10, 25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500)
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle)
                 if (milestones.contains(numEntries + 1)) {
                     CelebrateDialogFragment.newInstance(numEntries + 1).show(fragmentManager!!, "CelebrateDialogFragment")

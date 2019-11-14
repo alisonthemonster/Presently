@@ -18,10 +18,11 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import java.io.IOException
 import java.util.*
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 
-class EntryViewModel(private val repository: EntryRepository, application: Application) :
+class EntryViewModel @Inject constructor(private val repository: EntryRepository, application: Application) :
     AndroidViewModel(application) {
 
     val entry: LiveData<Entry>
