@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.ui.repository
 import com.nhaarman.mockitokotlin2.*
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.repository.EntryRepositoryImpl
 import journal.gratitude.com.gratitudejournal.room.EntryDao
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -18,7 +19,7 @@ class EntryRepositoryTest {
     fun before() {
         whenever(entryDao.searchAllEntries(any())).thenReturn(mock())
 
-        repository = EntryRepository(entryDao)
+        repository = EntryRepositoryImpl(entryDao)
     }
 
     @Test

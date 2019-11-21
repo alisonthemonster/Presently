@@ -40,14 +40,20 @@ class EntryViewModelTest {
 
     @Test
     fun initViewModel_CallsRepository_getEntry() {
-        viewModel = EntryViewModel(todayString, repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(todayString)
+
+        LiveDataTestUtil.getValue(viewModel.entry)
 
         verify(repository, times(1)).getEntry(any())
     }
 
     @Test
     fun initViewModel_CallsRepository_getEntry_withDate() {
-        viewModel = EntryViewModel(todayString, repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(todayString)
+
+        LiveDataTestUtil.getValue(viewModel.entry)
 
         verify(repository, times(1)).getEntry(todayString.toLocalDate())
     }
@@ -60,7 +66,8 @@ class EntryViewModelTest {
 
         whenever(repository.getEntry(any())).thenReturn(liveData)
 
-        viewModel = EntryViewModel(todayString, repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(todayString)
         LiveDataTestUtil.getValue(viewModel.entry)
 
         assertEquals(expectedContent, viewModel.entryContent.get())
@@ -71,7 +78,8 @@ class EntryViewModelTest {
         val expected = "Today"
         whenever(application.resources.getString(anyInt())).thenReturn(expected)
 
-        viewModel = EntryViewModel(LocalDate.now().toString(), repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(LocalDate.now().toString())
 
         assertEquals(expected, viewModel.getDateString())
     }
@@ -81,7 +89,8 @@ class EntryViewModelTest {
         val expected = "What are you grateful for?"
         whenever(application.resources.getString(anyInt())).thenReturn(expected)
 
-        viewModel = EntryViewModel(LocalDate.now().toString(), repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(LocalDate.now().toString())
 
         assertEquals(expected, viewModel.getHintString())
         verify(application.resources).getString(R.string.what_are_you_thankful_for)
@@ -94,7 +103,8 @@ class EntryViewModelTest {
         val yesterday = LocalDate.now().minusDays(1)
         whenever(application.resources.getString(anyInt())).thenReturn(expected)
 
-        viewModel = EntryViewModel(yesterday.toString(), repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(yesterday.toString())
 
         assertEquals(expected, viewModel.getHintString())
         verify(application.resources).getString(R.string.what_were_you_thankful_for)
@@ -106,7 +116,8 @@ class EntryViewModelTest {
         val yesterday = LocalDate.now().minusDays(1)
         whenever(application.resources.getStringArray(anyInt())).thenReturn(expected)
 
-        viewModel = EntryViewModel(yesterday.toString(), repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(yesterday.toString())
 
         viewModel.getRandomPromptHintString()
 
@@ -120,7 +131,8 @@ class EntryViewModelTest {
         val yesterday = LocalDate.now().minusDays(1)
         whenever(application.resources.getStringArray(anyInt())).thenReturn(expected)
 
-        viewModel = EntryViewModel(yesterday.toString(), repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(yesterday.toString())
 
         viewModel.getRandomPromptHintString()
         val first = viewModel.getHintString()
@@ -136,7 +148,8 @@ class EntryViewModelTest {
         val yesterday = LocalDate.now().minusDays(1)
         whenever(application.resources.getStringArray(anyInt())).thenReturn(expected)
 
-        viewModel = EntryViewModel(yesterday.toString(), repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(yesterday.toString())
 
         viewModel.getRandomPromptHintString()
         val first = viewModel.getHintString()
@@ -153,14 +166,15 @@ class EntryViewModelTest {
         val yesterday = LocalDate.now().minusDays(1)
         whenever(application.resources.getString(anyInt())).thenReturn(expected)
 
-        viewModel = EntryViewModel(yesterday.toString(), repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(yesterday.toString())
 
         assertEquals(expected, viewModel.getDateString())
     }
 
     @Test
     fun deletingEntryContent_updatesIsEmpty() {
-        viewModel = EntryViewModel(todayString, repository, application)
+        viewModel = EntryViewModel(repository, application)
 
         viewModel.entryContent.set("hellooooo") //write content
         viewModel.entryContent.set("") //empty the contents
@@ -172,7 +186,8 @@ class EntryViewModelTest {
     fun getDateString_OldDate_returnsOldDate() {
         val expected = "November 11, 2011"
 
-        viewModel = EntryViewModel(todayString, repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(todayString)
 
         assertEquals(expected, viewModel.getDateString())
     }
@@ -182,7 +197,8 @@ class EntryViewModelTest {
         val expected = "I am grateful for"
         whenever(application.resources.getString(anyInt())).thenReturn(expected)
 
-        viewModel = EntryViewModel(LocalDate.now().toString(), repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(LocalDate.now().toString())
         assertEquals(expected, viewModel.getThankfulString())
     }
 
@@ -191,7 +207,8 @@ class EntryViewModelTest {
         val expected = "I was grateful for"
         whenever(application.resources.getString(anyInt())).thenReturn(expected)
 
-        viewModel = EntryViewModel(todayString, repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(todayString)
 
         assertEquals(expected, viewModel.getThankfulString())
     }
@@ -208,7 +225,8 @@ class EntryViewModelTest {
 
         val expected = "Today I am grateful for my dear friends"
 
-        viewModel = EntryViewModel(LocalDate.now().toString(), repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(LocalDate.now().toString())
         LiveDataTestUtil.getValue(viewModel.entry)
 
         assertEquals(expected, viewModel.getShareContent())
@@ -226,7 +244,8 @@ class EntryViewModelTest {
 
         val expected = "Today I am grateful for "
 
-        viewModel = EntryViewModel(LocalDate.now().toString(), repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(LocalDate.now().toString())
         LiveDataTestUtil.getValue(viewModel.entry)
 
         assertEquals(expected, viewModel.getShareContent())
@@ -234,7 +253,8 @@ class EntryViewModelTest {
 
     @Test
     fun getInspirationalQuote_returnsQuote() {
-        viewModel = EntryViewModel(todayString, repository, application)
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(LocalDate.now().toString())
 
         assertEquals("InspirationalQuote", viewModel.getInspirationString())
     }

@@ -44,6 +44,9 @@ android {
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
+    kapt {
+        generateStubs = true
+    }
 }
 
 dependencies {
@@ -78,6 +81,11 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.firebase:firebase-messaging:18.0.0'
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
+    def dagger_version = "2.25.2"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
 //    implementation ('com.google.firebase:firebase-inappmessaging-display:17.2.0', {
 //        exclude group: 'com.google.guava'

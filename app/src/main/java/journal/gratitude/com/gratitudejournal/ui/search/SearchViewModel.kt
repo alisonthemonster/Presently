@@ -9,8 +9,9 @@ import androidx.paging.PagedList
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.ui.bindingadapter.Visibility
+import javax.inject.Inject
 
-class SearchViewModel(val repository: EntryRepository) : ViewModel() {
+class SearchViewModel @Inject constructor(val repository: EntryRepository) : ViewModel() {
 
     private val queryLiveData = MutableLiveData<String>()
     private val searchResult: LiveData<LiveData<PagedList<Entry>>> = Transformations.map(queryLiveData) {
