@@ -17,9 +17,6 @@ interface EntryDao {
     @Query("SELECT * FROM entries WHERE entryDate = :date")
     fun getEntry(date: LocalDate): LiveData<Entry>
 
-    @Query("SELECT COUNT(*) FROM entries WHERE entryDate = :date")
-    fun getCountForDate(date: LocalDate): LiveData<Int>
-
     @Delete
     fun delete(entry: Entry)
 

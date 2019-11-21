@@ -7,12 +7,15 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
+import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
 
