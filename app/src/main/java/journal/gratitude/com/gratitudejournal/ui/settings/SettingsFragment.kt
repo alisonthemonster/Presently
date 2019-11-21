@@ -1,19 +1,20 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
-import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
-import android.content.SharedPreferences
-import android.view.View
 import com.google.firebase.analytics.FirebaseAnalytics
+import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
+import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
+import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -37,6 +38,16 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         val terms = findPreference("terms_conditions")
         terms.setOnPreferenceClickListener {
             openTermsAndConditions()
+            true
+        }
+        val faq = findPreference("faq")
+        faq.setOnPreferenceClickListener {
+            openFaq()
+            true
+        }
+        val theme = findPreference("current_theme")
+        theme.setOnPreferenceClickListener {
+            openThemes()
             true
         }
     }
@@ -67,10 +78,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             "notif_parent" -> {
                 val notifsTurnedOn = sharedPreferences.getBoolean(key, true)
                 if (notifsTurnedOn) {
-                    NotificationScheduler().setReminderNotification(context!!)
+                    NotificationScheduler().configureNotifications(context!!)
                     firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "true")
                 } else {
-                    NotificationScheduler().cancelNotifications(context!!)
+                    NotificationScheduler().disableNotifications(context!!)
                     firebaseAnalytics.logEvent(CANCELLED_NOTIFS, null)
                     firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "false")
                 }
@@ -96,6 +107,13 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
     }
 
+    private fun openThemes() {
+        firebaseAnalytics.logEvent(OPENED_THEMES, null)
+
+        findNavController().navigate(
+                R.id.action_settingsFragment_to_themeFragment)
+    }
+
     private fun openTermsAndConditions() {
         firebaseAnalytics.logEvent(OPENED_TERMS_CONDITIONS, null)
 
@@ -112,9 +130,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         startActivity(browserIntent)
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            SettingsFragment()
+    private fun openFaq() {
+        firebaseAnalytics.logEvent(OPENED_FAQ, null)
+
+        val browserIntent =
+                Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/faq.html"))
+        startActivity(browserIntent)
     }
 }

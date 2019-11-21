@@ -3,19 +3,19 @@ package journal.gratitude.com.gratitudejournal
 import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.ComponentName
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import androidx.preference.PreferenceManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
-import journal.gratitude.com.gratitudejournal.util.reminders.AlarmBootReceiver
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
+import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
 
@@ -27,21 +27,13 @@ class ContainerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-        val currentTheme = sharedPref.getString("current_theme", "original")
+        val currentTheme = sharedPref.getString("current_theme", "original") ?: "original"
         setAppTheme(currentTheme)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_activity)
 
         createNotificationChannel()
-
-        val receiver = ComponentName(this, AlarmBootReceiver::class.java)
-
-        packageManager.setComponentEnabledSetting(
-            receiver,
-            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-            PackageManager.DONT_KILL_APP
-        )
 
         intent.extras?.let {
             val cameFromNotification = it.getBoolean(fromNotification, false)
@@ -51,7 +43,7 @@ class ContainerActivity : AppCompatActivity() {
             }
         }
 
-        NotificationScheduler().setReminderNotification(this)
+        NotificationScheduler().configureNotifications(this)
     }
 
     override fun onResume() {
@@ -98,7 +90,13 @@ class ContainerActivity : AppCompatActivity() {
             "Moonlight" -> setTheme(R.style.AppTheme_MOONLIGHT)
             "Midnight" -> setTheme(R.style.AppTheme_MIDNIGHT)
             "Ivy" -> setTheme(R.style.AppTheme_IVY)
-            "Dusk" -> setTheme(R.style.AppTheme_DAWN)
+            "Dawn" -> setTheme(R.style.AppTheme_DAWN)
+            "Wesley" -> setTheme(R.style.AppTheme_WESLEY)
+            "Moss" -> setTheme(R.style.AppTheme_MOSS)
+            "Clean" -> setTheme(R.style.AppTheme_CLEAN)
+            "Glacier" -> setTheme(R.style.AppTheme_GLACIER)
+            "Gelato" -> setTheme(R.style.AppTheme_GELATO)
+            "Waves" -> setTheme(R.style.AppTheme_WAVES)
             else -> setTheme(R.style.AppTheme)
         }
     }

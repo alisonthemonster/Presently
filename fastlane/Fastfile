@@ -22,6 +22,10 @@ platform :android do
   desc "Run unit tests and generate coverage report"
   lane :unit_tests do
     gradle(task: "testCoverage")
+    danger(
+      danger_id: "unit-tests",
+      dangerfile: "Dangerfile",
+      verbose: true)
   end
 
 end

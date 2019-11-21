@@ -32,7 +32,9 @@
         android:id="@+id/settingsFragment"
         android:name="journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action android:id="@+id/action_settingsFragment_to_themeFragment" app:destination="@id/themeFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="journal.gratitude.com.gratitudejournal.ui.search.SearchFragment"
@@ -41,4 +43,6 @@
             android:id="@+id/action_searchFragment_to_entryFragment"
             app:destination="@id/entryFragment" />
     </fragment>
+    <fragment android:id="@+id/themeFragment" android:name="journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment"
+              android:label="fragment_theme" tools:layout="@layout/fragment_theme"/>
 </navigation>

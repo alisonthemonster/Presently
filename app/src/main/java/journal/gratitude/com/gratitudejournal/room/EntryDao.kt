@@ -11,6 +11,9 @@ interface EntryDao {
     @Query("SELECT * FROM entries ORDER BY datetime(entryDate) DESC")
     fun getEntries(): LiveData<List<Entry>>
 
+    @Query("SELECT entryDate FROM entries ORDER BY datetime(entryDate) DESC")
+    fun getWrittenDates(): LiveData<List<LocalDate>>
+
     @Query("SELECT * FROM entries WHERE entryDate = :date")
     fun getEntry(date: LocalDate): LiveData<Entry>
 

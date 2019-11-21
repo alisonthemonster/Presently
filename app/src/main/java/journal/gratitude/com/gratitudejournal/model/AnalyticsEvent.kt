@@ -13,13 +13,20 @@ const val LOOKED_AT_SETTINGS = "lookedAtSettings"
 const val OPENED_CONTACT_FORM = "openedContactForm"
 const val OPENED_PRIVACY_POLICY = "openedPrivacyPolicy"
 const val OPENED_TERMS_CONDITIONS = "openedTermsAndConditions"
+const val OPENED_THEMES = "openedThemes"
+const val OPENED_FAQ = "openedFaq"
 
 const val CLICKED_SEARCH = "clickedSearch"
 const val CLICKED_NEW_ENTRY = "clickedNewEntry"
 const val CLICKED_EXISTING_ENTRY = "clickedExistingEntry"
 
+const val OPENED_CALENDAR = "clickedCalendar"
+const val CLICKED_NEW_ENTRY_CALENDAR = "clickedNewEntryFromCal"
+const val CLICKED_EXISTING_ENTRY_CALENDAR = "clickedExistingEntryFromCal"
+
 //ENTRY EVENTS
 const val SHARED_ENTRY = "sharedEntry"
+const val CLICKED_PROMPT = "clickedNewPrompt"
 const val EDITED_EXISTING_ENTRY = "editedExistingEntry"
 
 //SEARCH EVENTS
