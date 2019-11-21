@@ -1,10 +1,12 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
 import android.app.Application
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers
 
@@ -12,7 +14,11 @@ class EntryViewModelFactoryTest {
 
     private val dateString = "2011-11-11"
     private val application = mock<Application>()
-    private val factory = EntryViewModelFactory(dateString, mock(), application)
+    private val factory = EntryViewModelFactory(mock(), application)
+
+    @Rule
+    @JvmField
+    val rule = InstantTaskExecutorRule()
 
     @Before
     fun before() {
@@ -28,8 +34,10 @@ class EntryViewModelFactoryTest {
     @Test
     fun create_createsAViewModel() {
         val actual = factory.create(EntryViewModel::class.java)
-        val expected = EntryViewModel(dateString, mock(), application)
+        actual.setDate(dateString)
+        val expected = EntryViewModel(mock(), application)
+        expected.setDate(dateString)
 
-        assertEquals(expected.getThankfulString(), actual.getThankfulString())
+        assertEquals(expected.getDateString(), actual.getDateString())
     }
 }
