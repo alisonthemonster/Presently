@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prompts">
+        <item>¿Qué te ha hecho sonreír?</item>
+        <item>¿Qué cosa en esta habitación hace que te sientas agradecido?</item>
+        <item>¿Qué te hace feliz de estar vivo?</item>
+        <item>¿Quién es alguien que te haya ayudado?</item>
+        <item>¿Quién es alguien que te haya orientado?</item>
+        <item>¿Quién te ha enseñado algo?</item>
+        <item>¿A quién quieres?</item>
+        <item>¿Quién te quiere?</item>
+        <item>¿Quién es un amigo por el que estés agradecido?</item>
+        <item>¿Qué cosas de la naturaleza hace que te sientas agradecido?</item>
+        <item>¿Qué talento o habilidad hace que te sientas agradecido?</item>
+        <item>¿Por qué recuerdo agradeces?</item>
+        <item>¿Te ayudó alguien hoy?</item>
+        <item>¿Qué te hizo feliz hoy?</item>
+        <item>What memory are you grateful for?</item>
+        <item>¿De qué cosas te enorgulleces?</item>
+        <item>¿Por qué cosas de tu crianza te sientes agradecido?</item>
+        <item>¿Qué cosas de tu carrera o trabajo hace que te sientas agradecido?</item>
+        <item>¿Por qué libertades te sientes agradecido?</item>
+        <item>¿Qué te ha hecho reír?</item>
+        <item>¿Qué cosa acerca de tí hace que te sientas agradecido?</item>
+        <item>¿Qué es lo más hermoso que viste hoy?</item>
+        <item>¿Por qué libro das las gracias?</item>
+        <item>¿Qué canción o música hace que te sientas agradecido?</item>
+        <item>¿Qué hace tu vida más fácil?</item>
+        <item>¿Qué es lo que siempre te alegra?</item>
+        <item>¿Quién te inspira?</item>
+        <item>¿Qué tecnología o herramienta hace que te sientas agradecido?</item>
+        <item>¿Por qué oportunidad das las gracias?</item>
+        <item>¿Qué cosa de tu cuerpo o de tu salud hace que te sientas agradecido?</item>
+        <item>¿Qué lugar hace que te sientas agradecido?</item>
+        <item>¿Qué aroma hace que te sientas agradecido?</item>
+        <item>¿Qué sabor hace que te sientas agradecido?</item>
+        <item>¿Por qué conocimientos das las gracias?</item>
+        <item>¿Cuál es un placer simple por el que das las gracias?</item>
+        <item>¿Qué pasatiempos hacen que te sientas agradecido?</item>
+        <item>¿Qué sonido hace que te sientas agradecido?</item>
+        <item>¿Qué cosa pequeña hace que te sientas agradecido?</item>
+        <item>¿Qué es algo que hayas aprendido por lo que das las gracias?</item>
+        <item>¿Qué cosas en tu ciudad o pueblo hacen que te sientas agradecido?</item>
+        <item>¿Qué cosas en tu hogar hacen que te sientas agradecido?</item>
+        <item>¿Por qué consejos das las gracias?</item>
+        <item>¿Qué cosas acerca de tu familia hacen que te sientas agradecido?</item>
+        <item>¿Qué cosas acerca de la estación actual hacen que te sientas agradecido?</item>
+        <item>¿Por qué actividad das las gracias?</item>
+    </string-array>
+</resources>
