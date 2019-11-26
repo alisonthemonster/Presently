@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Presently</string>
     <string name="what_are_you_thankful_for">¿Por qué estás agradecido?</string>
     <string name="what_were_you_thankful_for">¿Por qué estuviste agradecido?</string>
     <string name="what_are_you_thankful_for_today">¿Por qué das las gracias hoy?</string>
@@ -35,7 +34,6 @@
         ¡Felicitaciones! Estamos orgullosos y agradecidos de que hayas elegido Presently para registrar tu gratitud.
     </string>
     <string name="search">Buscar</string>
-    <string name="presently" translatable="false">Presently</string>
     <string name="close">Cerrar</string>
     <string name="get_a_new_prompt">Obtener una idea</string>
     <string name="share_your_gratitude">Compartir tu gratitud</string>
