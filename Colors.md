@@ -2,104 +2,187 @@
 
 Here are the current attributes and their mappings to the app. This is a work in progress and a more robust theming ruleset is in the works.
 
-    
-### `colorAccent`
-- Search View
-    - Line under EditText to search
-    - Cursor color
-- Entry View
-    - Cursor coloron
-- Settings View
-    - Switch for setting
-- Time Picker View
-    - Selected hour color
-    
-### `android:colorAccent`
-- Timeline View
-    - Date Text
-    - Entry text
-    - Icon at bottom of timeline
-- Search View
-    - No results text
-    - Date for search item
-- Entry View
-    - Date
-    - "I am/was grateful for"
-    - Divider lines
-    - Button color
-    - Share/idea button
-- Settings View
-    - Settings item title
-    - Settings item icon
-- Time Picker View
-    - Header color
-    
-### `android:colorBackground`
-- Timeline View
-    - Background color
-- Search View
-    - Background color
-- Entry View
-    - Background color
-- Settings View
-    - Background color
-
-### `android:textColor`
-- Timeline View
-    - Date Text
-    - Entry text
-    - Icon at bottom of timeline
-- Search View
-    - No results text
-    - Date for search item
-- Entry View
-    - Date
-    - "I am/was grateful for"
-    - Divider lines
-    - Button color
-    - Share/idea button
-- Settings View
-    - Settings item title
-    - Settings item icon
-    
-### `android:colorPrimary`
-- Timeline View
-    - Toolbar color
-    - Fab color
-    - Calendar background color
-- Search View
-    - Toolbar color
-    
-### `android:textColorPrimary`
-- Search View
-    - Search result text
-- Entry View
-    - Entry content text
-    
-### `android:textColorSecondary`
-- Timeline View
-    - Hint text
-- Entry View
-    - Hint text for entry content
-    - Quote text
-- Settings View
-    - Settings item description text
-    
-### `android:textColorHighlight`
-- Search View
-    - Search hint text
-    //TODO check this one
-    
-### `android:colorForeground`
-- Timeline View
-    - Presently Logo
-    - Search + Settings icons
-    - Fab button icon
-    - Calendar text
-- Search View
-    - Search + Back buttons
-    - Search query text
-    
-### `android:colorPrimaryDark`
-- Timeline View
-    - Timeline line and circles
+<table>
+  <tbody>
+    <tr>
+      <th align="center">Attribute</th>
+      <th align="center">Timeline</th>
+      <th align="center">Search</th>
+      <th align="center">Entry</th>
+      <th align="center">Settings</th>
+    <tr>
+      <td>`colorAccent`</td>
+      <td> </td>
+      <td>
+          <ul>
+            <li>Line under EditText to search</li>
+            <li>Cursor color</li>
+          </ul>
+      </td>
+      <td>
+                <ul>
+                  <li>Cursor color</li>
+                </ul>
+            </td>
+        <td>
+                  <ul>
+                    <li>Switch for setting</li>
+                    <li>Selected hour color</li>
+                  </ul>
+              </td>
+    <tr>
+      <td>android:colorAccent</td>
+      <td>   </td>
+      <td>
+          <ul>
+            <li>Presently icon for no results</li>
+          </ul>
+      </td>
+      <td>   </td>
+      <td>
+        <ul>
+          <li>Settings section header text</li>
+        </ul>
+      </td>
+    <tr>
+      <td>android:colorBackground</td>
+      <td> 
+          <ul>
+            <li>Background color</li>
+          </ul> 
+      </td>
+      <td>
+          <ul>
+            <li>Background color</li>
+          </ul> 
+      </td>
+      <td>
+          <ul>
+            <li>Background color</li>
+          </ul> 
+      </td>
+      <td>
+        <ul>
+            <li>Background color</li>
+          </ul> 
+      </td>
+    <tr>
+      <td>android:textColor</td>
+      <td> 
+         <ul>
+            <li>Date text</li>
+            <li>Entry text</li>
+            <li>Icon at bottom of timeline</li>
+          </ul>
+      </td>
+      <td>
+          <ul>
+            <li>No results text</li>
+            <li>Date for search item</li>
+          </ul>
+      </td>
+      <td>
+          <ul>
+            <li>Date</li>
+            <li>"I am/was grateful for"</li>
+            <li>Divider lines</li>
+            <li>Button color</li>
+            <li>Share/idea button</li>
+          </ul>
+      </td>
+      <td>
+        <ul>
+          <li>Settings item title</li>
+          <li>Settings item icon</li>
+          <li>TimePicker header background</li>
+        </ul>
+      </td>
+    <tr>
+      <td>android:colorPrimary</td>
+      <td> 
+         <ul>
+            <li>Toolbar color</li>
+            <li>FAB color</li>
+            <li>Calendar background color</li>
+          </ul>
+      </td>
+      <td>
+          <ul>
+            <li>Toolbar color</li>
+          </ul>
+      </td>
+      <td>      </td>
+      <td>      </td>
+    <tr>
+      <td>android:textColorPrimary</td>
+      <td>      </td>
+      <td> 
+         <ul>
+            <li>Search result text</li>
+          </ul>
+      </td>
+      <td>
+          <ul>
+            <li>Entry content text</li>
+          </ul>
+      </td>
+      <td>      </td>
+    <tr>
+      <td>android:textColorSecondary</td>
+      <td> 
+         <ul>
+            <li>Hint text</li>
+          </ul>
+      </td>
+      <td>      </td>
+      <td>
+          <ul>
+            <li>Hint text for entry content</li>
+            <li>Quote text</li>
+          </ul>
+      </td>
+      <td>
+          <ul>
+            <li>Settings item description text</li>
+          </ul>
+      </td>
+    <tr>
+      <td>android:textColorHighlight</td>
+      <td>      </td>
+      <td> 
+         <ul>
+            <li>Search hint text</li>
+          </ul>
+      </td>
+      <td>      </td>
+      <td>      </td>
+    <tr>
+      <td>android:colorForeground</td>
+      <td> 
+         <ul>
+            <li>Presently Logo</li>
+            <li>Search + Settings icons</li>
+            <li>Fab button icon</li>
+            <li>Calendar text</li>
+          </ul>
+      </td>
+      <td> 
+         <ul>
+            <li>Search + Back buttons</li>
+            <li>Search query text</li>
+          </ul>
+      </td>
+      <td>      </td>
+      <td>      </td>
+    <tr>
+      <td>android:colorPrimaryDark</td>
+      <td> 
+         <ul>
+            <li>Timeline line and circles</li>
+          </ul>
+      </td>
+      <td>      </td>
+      <td>      </td>
+      <td>      </td>
+  </tbody>
+</table>
