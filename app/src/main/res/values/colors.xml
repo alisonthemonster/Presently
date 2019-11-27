@@ -143,9 +143,10 @@
     <color name="glacierToolbarColor">#000000</color>
     <color name="glacierStatusBarColor">#000000</color>
     <color name="glacierToolbarItemColor">#F9F6EF</color>
+    <color name="glacierHeaderColor">#F94C61</color>
 
     <!-- ~~~~GELATO THEME~~~~ -->
-    <color name="gelatoAndroidWidgetColor">#FD6574</color>
+    <color name="gelatoAndroidWidgetColor">#65E6FD</color>
     <color name="gelatoBackgroundColor">#C7A8A8</color>
     <!-- main text color, button color -->
     <color name="gelatoMainTextAndButtonColor">#000000</color>

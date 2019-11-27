@@ -42,6 +42,7 @@ Here are the current attributes and their mappings to the app. This is a work in
       <td>
         <ul>
           <li>Settings section header text</li>
+          <li>TimePicker header background</li>
         </ul>
       </td>
     <tr>
@@ -94,7 +95,6 @@ Here are the current attributes and their mappings to the app. This is a work in
         <ul>
           <li>Settings item title</li>
           <li>Settings item icon</li>
-          <li>TimePicker header background</li>
         </ul>
       </td>
     <tr>
