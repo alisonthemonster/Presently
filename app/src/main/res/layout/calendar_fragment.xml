@@ -72,7 +72,7 @@
         app:compactCalendarBackgroundColor="?android:attr/colorPrimary"
         app:compactCalendarCurrentDayBackgroundColor="?android:attr/colorPrimary"
         app:compactCalendarCurrentDayTextColor="?android:attr/colorForeground"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="?android:attr/colorPrimary"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="?android:attr/textColorHighlight"
         app:compactCalendarCurrentSelectedDayTextColor="?android:attr/colorForeground"
         app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
         app:compactCalendarTargetHeight="250dp"

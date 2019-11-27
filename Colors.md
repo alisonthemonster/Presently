@@ -148,7 +148,11 @@ Here are the current attributes and their mappings to the app. This is a work in
       </td>
     <tr>
       <td>android:textColorHighlight</td>
-      <td>      </td>
+      <td> 
+               <ul>
+                  <li>Current date in calendar</li>
+                </ul>
+            </td>
       <td> 
          <ul>
             <li>Search hint text</li>
