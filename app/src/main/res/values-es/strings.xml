@@ -16,7 +16,7 @@
     <string name="channel_description">Recordatorios diarios para anotar las cosas que agradeces</string>
     <string name="today">Hoy</string>
     <string name="yesterday">Ayer</string>
-    <string name="iwas">Agredecí por</string>
+    <string name="iwas">Agradecí por</string>
     <string name="iam">Agradezco por</string>
     <string name="save">Guardar</string>
     <string name="back_up_entries_to_csv">Respaldar entradas</string>
