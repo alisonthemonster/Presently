@@ -1,0 +1,56 @@
+<resources>
+    <string name="what_are_you_thankful_for">Qu\'est-ce qui vous emplit de gratitude?</string>
+    <string name="what_were_you_thankful_for">Qu\'est-ce qui vous a empli de gratitude?</string>
+    <string name="what_are_you_thankful_for_today">Pour quelle raison êtes-vous reconnaissant aujourd\'hui?</string>
+    <string name="what_are_you_thankful_for_yesterday">Qu\'est-ce qui vous a rendu reconnaissant hier?</string>
+    <string name="notification_settings">Paramètres</string>
+    <string name="privacy_policy">Politique de respect de la vie privée</string>
+    <string name="read_privacy">Lire la politique de respect de la vie privée de Presently</string>
+    <string name="faq">FAQ</string>
+    <string name="read_faq">Lire la Foire Aux Questions de Presently</string>
+    <string name="contact_us">Nous contacter</string>
+    <string name="terms_conditions">Conditions d\'utilisation</string>
+    <string name="read_tc">Lire nos conditions d\'utilisation</string>
+    <string name="channel_name">Rappels de Presently</string>
+    <string name="channel_description">Un rappel quotidien pour penser à noter ce qui vous emplit de gratitude</string>
+    <string name="today">Aujourd\'hui</string>
+    <string name="yesterday">Hier</string>
+    <string name="iwas">Je me suis senti reconnaissant pour</string>
+    <string name="iam">Je suis reconnaissant pour</string>
+    <string name="save">Sauvegarder</string>
+    <string name="back_up_entries_to_csv">Sauvegarder mes enregistrements</string>
+    <string name="export_success">Enregistrements sauvegardés dans le répertoire Téléchargements</string>
+    <string name="open">Ouvrir</string>
+    <string name="import_entries_from_backup">Importer des enregistrements depuis une sauvegarde</string>
+    <string name="ok">Importer</string>
+    <string name="cancel">Annuler</string>
+    <string name="import_data_dialog">Êtes-vous certain de vouloir importer ces enregistrements?</string>
+    <string name="import_data_dialog_message">L\'importation des enregistrements sauvegardés peut écraser vos enregistrements existants.</string>
+    <string name="days_of_gratitude">jours de gratitude!</string>
+    <string name="rate_presently">Évaluer Presently</string>
+    <string name="share_your_achievement">Partager vos progrès</string>
+    <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">
+        Félicitations! Nous sommes très fiers de vous et très reconnaissants que vous ayez choisi Presently pour tenir votre journal de gratitude.
+    </string>
+    <string name="search">Rechercher</string>
+    <string name="close">Fermer</string>
+    <string name="get_a_new_prompt">Me poser une nouvelle question-guide</string>
+    <string name="share_your_gratitude">Partager votre gratitude</string>
+    <string name="no_results">Aucun résultat</string>
+    <string name="settings">Paramètres</string>
+    <string name="reminder_title">Me rappeler de remplir mon journal de gratitude Presently</string>
+    <string name="share_progress">Partager mes progrès sur le chemin de la gratitude</string>
+    <string name="change_time">Modifier l\'heure du rappel</string>
+    <string name="time_title">Régler les notifications du rappel</string>
+    <string name="theme_change">Modifier le thème visuel de Presently</string>
+    <string name="notifs_off">Les rappels sont désactivés</string>
+    <string name="notifs_on">Les rappels sont activés</string>
+    <string name="notifs">Rappels quotidiens d\'enregistrement de gratitude</string>
+    <string name="notifs_name">Notifications</string>
+    <string name="appearance">Apparence</string>
+    <string name="about">À propos de Presently</string>
+    <string name="select_a_theme">Choisir un thème visuel</string>
+    <string name="theme">Thème visuel</string>
+    <string name="open_source">Licences Open Source</string>
+    <string name="open_source_info">Informations sur les licences des logiciels Open Source</string>
+</resources>
