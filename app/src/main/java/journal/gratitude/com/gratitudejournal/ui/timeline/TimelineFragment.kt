@@ -196,10 +196,13 @@ class TimelineFragment : DaggerFragment() {
             IS_NEW_ENTRY to isNewEntry,
             NUM_ENTRIES to numEntries
         )
-        findNavController().navigate(
-            R.id.action_timelineFragment_to_entryFragment,
-            bundle
-        )
+        val navController = findNavController()
+        if (navController.currentDestination?.id == R.id.timelineFragment) {
+            navController.navigate(
+                R.id.action_timelineFragment_to_entryFragment,
+                bundle
+            )
+        }
     }
 
     private fun importData() {
@@ -328,9 +331,12 @@ class TimelineFragment : DaggerFragment() {
     private fun openNotificationSettings() {
         firebaseAnalytics.logEvent(LOOKED_AT_SETTINGS, null)
 
-        findNavController().navigate(
-            R.id.action_timelineFragment_to_settingsFragment
-        )
+        val navController = findNavController()
+        if (navController.currentDestination?.id == R.id.timelineFragment) {
+            navController.navigate(
+                R.id.action_timelineFragment_to_settingsFragment
+            )
+        }
     }
 
     private val exportCallback: ExportCallback = object : ExportCallback {

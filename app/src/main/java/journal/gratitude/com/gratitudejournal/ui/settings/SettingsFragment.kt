@@ -115,9 +115,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     private fun openThemes() {
         firebaseAnalytics.logEvent(OPENED_THEMES, null)
-
-        findNavController().navigate(
-                R.id.action_settingsFragment_to_themeFragment)
+        val navController = findNavController()
+        if (navController.currentDestination?.id == R.id.settingsFragment) {
+            navController.navigate(
+                R.id.action_settingsFragment_to_themeFragment
+            )
+        }
     }
 
     private fun openTermsAndConditions() {
