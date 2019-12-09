@@ -16,4 +16,13 @@ A journal to write what you're thankful for
 - Firebase Crashlytics Crash Reporting
 - Dagger
 
+Now supporting several languages!
+- English
+- Spanish
+- German
+- French (coming soon)
+- Portuguese (coming soon)
+- Italian (coming soon)
+- Russian (coming soon)
+
 <img src="https://i.imgur.com/Im3maBV.png" width="220">  <img src="https://i.imgur.com/O4J2yru.png" width="220">  <img src="https://i.imgur.com/TDCxl3N.png" width="220"> 
