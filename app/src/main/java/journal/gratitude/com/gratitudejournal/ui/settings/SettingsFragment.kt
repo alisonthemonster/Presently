@@ -15,6 +15,7 @@ import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -48,6 +49,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         val theme = findPreference("current_theme")
         theme.setOnPreferenceClickListener {
             openThemes()
+            true
+        }
+        val oss = findPreference("open_source")
+        oss.setOnPreferenceClickListener {
+            startActivity(Intent(context, OssLicensesMenuActivity::class.java))
             true
         }
     }

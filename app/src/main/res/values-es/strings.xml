@@ -52,4 +52,6 @@
     <string name="about">Información de la aplicación</string>
     <string name="select_a_theme">Elegir un tema</string>
     <string name="theme">Tema</string>
+    <string name="open_source">Licencias de código abierto</string>
+    <string name="open_source_info">Información sobre las licencias de software de código abierto</string>
 </resources>

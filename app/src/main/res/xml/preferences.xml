@@ -49,5 +49,11 @@
                 android:icon="@drawable/ic_terms"
                 android:summary="@string/read_tc"
                 android:title="@string/terms_conditions" />
+
+        <Preference
+                android:key="open_source"
+                android:icon="@drawable/ic_oss"
+                android:summary="@string/open_source_info"
+                android:title="@string/open_source" />
     </PreferenceCategory>
 </PreferenceScreen>
