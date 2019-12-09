@@ -45,7 +45,7 @@
     <string name="theme_change">Modifier le thème visuel de Presently</string>
     <string name="notifs_off">Les rappels sont désactivés</string>
     <string name="notifs_on">Les rappels sont activés</string>
-    <string name="notifs">Rappels quotidiens d'enregistrement de gratitude</string>
+    <string name="notifs">Rappels quotidiens d\'enregistrement de gratitude</string>
     <string name="notifs_name">Notifications</string>
     <string name="appearance">Apparence</string>
     <string name="about">À propos de Presently</string>
