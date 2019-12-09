@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name" translatable="false">Presently</string>
+    <string name="what_are_you_thankful_for">Per che cosa sei riconoscente?</string>
+    <string name="what_were_you_thankful_for">Per che cosa eri riconoscente?</string>
+    <string name="what_are_you_thankful_for_today">Per che cosa sei riconoscente oggi?</string>
+    <string name="what_are_you_thankful_for_yesterday">Per che cosa eri riconoscente ieri?</string>
+    <string name="notification_settings">Impostazioni</string>
+    <string name="privacy_policy">Informativa sulla privacy</string>
+    <string name="read_privacy">Leggi la nostra informativa sulla privacy (in inglese)</string>
+    <string name="faq">FAQ</string>
+    <string name="read_faq">Leggi le domande più frequenti su Presently (in inglese)</string>
+    <string name="contact_us">Contattaci</string>
+    <string name="terms_conditions">Termini e condizioni</string>
+    <string name="read_tc">Consulta i termini e le condizioni</string>
+    <string name="channel_name">Avvisi di Presently</string>
+    <string name="channel_description">Ricordami di scrivere per cosa sono riconoscente ogni giorno.</string>
+    <string name="today">Oggi</string>
+    <string name="yesterday">Ieri</string>
+    <string name="iwas">Ero riconoscente</string>
+    <string name="iam">Sono riconoscente</string>
+    <string name="save">Salva</string>
+    <string name="back_up_entries_to_csv">Backup</string>
+    <string name="export_success">I dati sono stati salvati nella cartella Download</string>
+    <string name="open">Apri</string>
+    <string name="import_entries_from_backup">Ripristina il tuo diario da una copia archiviata</string>
+    <string name="ok">Importa</string>
+    <string name="cancel">Annualla</string>
+    <string name="import_data_dialog">Sei sicuro di volr ripristinare i dati?</string>
+    <string name="import_data_dialog_message">I nuovi dati possono sovrascrivere quelli esistenti.</string>
+    <string name="days_of_gratitude">giorni di gratitude!</string>
+    <string name="rate_presently">Scrivi una recensione</string>
+    <string name="share_your_achievement">Condividi i tuoi risultati</string>
+    <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">
+        Congratulazioni, siamo felici che tu abbia scelto Presently per tenere il tuo diario.
+    </string>
+    <string name="search">Cerca</string>
+    <string name="presently" translatable="false">Presently</string>
+    <string name="close">Chiudi</string>
+    <string name="get_a_new_prompt">Fatti ispirare</string>
+    <string name="share_your_gratitude">Condividi la tua gratitudine</string>
+    <string name="no_results">Nessun risultato</string>
+    <string name="settings">Impostazioni</string>
+    <string name="reminder_title">Presently Gratitude Reminder</string>
+    <string name="share_progress">Condividi i tuoi risultati</string>
+    <string name="change_time">Modifica l'orario del promemoria</string>
+    <string name="time_title">Modifica il promemoria</string>
+    <string name="theme_change">Cambia l'aspetto di Presently</string>
+    <string name="notifs_off">Il promemoria giornaliero e' disattivato</string>
+    <string name="notifs_on">Il promemoria giornaliero e' attivo</string>
+    <string name="notifs">Promemoria giornaliero</string>
+    <string name="notifs_name">Notifiche</string>
+    <string name="appearance">Aspetto</string>
+    <string name="about">Informazioni</string>
+    <string name="select_a_theme">Scegli un aspetto</string>
+    <string name="theme">Grafica</string>
+</resources>
