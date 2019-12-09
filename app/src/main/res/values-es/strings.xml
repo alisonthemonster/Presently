@@ -46,8 +46,8 @@
     <string name="theme_change">Cambiar el tema de Presently</string>
     <string name="notifs_off">Las notificaciones de recordatorios diarios están desactivadas</string>
     <string name="notifs_on">Las notificaciones de recordatorios diarios están activadas</string>
-    <string name="notifs">Notificationes de recordatorios diarios</string>
-    <string name="notifs_name">Notificationes</string>
+    <string name="notifs">Notificaciones de recordatorios diarios</string>
+    <string name="notifs_name">Notificaciones</string>
     <string name="appearance">Apariencia</string>
     <string name="about">Información de la aplicación</string>
     <string name="select_a_theme">Elegir un tema</string>
