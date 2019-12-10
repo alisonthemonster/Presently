@@ -35,12 +35,18 @@ Avec Presently, vous pouvez:
 Presently est 100% gratuit, et ne contient aucune publicité. Tous vos enregistrements restent dans votre appareil, et sous votre contrôle.
 
 ## German
-Einem kostenlosen & privaten Dankbarkeitstagebuch
+Halte die schönen Momente deines Lebens fest mit Presently, der kostenlosen & privaten Dankbarkeits-Tagebuch App!
 
-Übe Dankbarkeit mit dieser einfachen, immer kostenlosen und privaten Tagebuch-App.
+Übe dich darin, die kleinen Dinge des Lebens wertzuschätzen - Presently unterstützt dich dabei mit seiner einfachen Verwendungsweise.
 
-⁕ Lesen Sie Anführungszeichen und Eingabeaufforderungen
-⁕ Tägliche Dankbarkeitserinnerung
-⁕ Suche alte Einträge
-⁕ Teile deine Dankbarkeit
-⁕ Einträge sichern in CSV
+Presently ermöglicht dir folgendes:
+⁕ Verfasse tägliche Dankbarkeitseinträge
+⁕ Reflektiere über Momente der Dankbarkeit die du an vergangenen Tagen empfandest
+⁕ Lass dich durch Zitate und Meldungen motivieren
+⁕ Erstelle tägliche Erinnerungen um deine Dankbarkeitsübung fortzusetzen
+⁕ Durchsuche deine alten Einträge
+⁕ Teile deine Einträge mit deiner Familie und deinen Freunden
+⁕ Exportiere oder importiere deine Einträge
+⁕ Passe das Aussehen der App ganz nach deinem Geschmack an
+
+Presently ist 100% kostenlos und werbefrei. Alle deine Einträge befinden sich nur auf deinem Gerät und stehen unter deiner Kontrolle.
