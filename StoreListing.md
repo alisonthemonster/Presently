@@ -33,3 +33,14 @@ Avec Presently, vous pouvez:
 ⁕ Choisir un thème visuel à votre goût
 
 Presently est 100% gratuit, et ne contient aucune publicité. Tous vos enregistrements restent dans votre appareil, et sous votre contrôle.
+
+## German
+Einem kostenlosen & privaten Dankbarkeitstagebuch
+
+Übe Dankbarkeit mit dieser einfachen, immer kostenlosen und privaten Tagebuch-App.
+
+⁕ Lesen Sie Anführungszeichen und Eingabeaufforderungen
+⁕ Tägliche Dankbarkeitserinnerung
+⁕ Suche alte Einträge
+⁕ Teile deine Dankbarkeit
+⁕ Einträge sichern in CSV
