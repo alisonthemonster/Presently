@@ -50,4 +50,6 @@
     <string name="about">App Information</string>
     <string name="select_a_theme">Wähle ein Theme</string>
     <string name="theme">Aussehen</string>
+    <string name="open_source">Open Source-Lizenzen</string>
+    <string name="open_source_info">Lizenzdetails für Open-Source-Software</string>
 </resources>
