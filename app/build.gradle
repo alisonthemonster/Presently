@@ -38,6 +38,7 @@ android {
     }
     buildTypes {
         debug {
+            testCoverageEnabled true
             versionNameSuffix "-DEBUG"
         }
         release {
@@ -51,6 +52,15 @@ android {
     kapt {
         generateStubs = true
     }
+    testOptions {
+        animationsDisabled true
+
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+//    TODO move this to task
+    kotlinOptions { jvmTarget = "1.8" }
 }
 
 dependencies {
@@ -63,7 +73,7 @@ dependencies {
     implementation 'io.github.inflationx:calligraphy3:3.0.0'
     implementation 'io.github.inflationx:viewpump:1.0.0'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
-    implementation 'androidx.room:room-runtime:2.1.0'
+    implementation 'androidx.room:room-runtime:2.2.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01'
     implementation 'androidx.paging:paging-runtime:2.1.0'
@@ -100,20 +110,21 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.threeten:threetenbp:1.4.0'
-    testImplementation 'androidx.room:room-testing:2.1.0'
+    testImplementation 'androidx.room:room-testing:2.2.2'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_version"
-    testImplementation 'androidx.arch.core:core-testing:2.0.1'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
 
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.arch.core:core-testing:2.0.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    androidTestImplementation 'androidx.room:room-testing:2.1.0-alpha07'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    androidTestImplementation 'androidx.test.ext:truth:1.1.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.room:room-testing:2.2.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
+    androidTestUtil 'com.android.support.test:orchestrator:1.0.2'
 
-    debugImplementation 'androidx.fragment:fragment-testing:1.1.0-beta01'
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.0-rc03'
 
 }
 
