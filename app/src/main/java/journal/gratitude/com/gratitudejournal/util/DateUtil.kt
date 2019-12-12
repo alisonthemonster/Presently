@@ -20,7 +20,12 @@ fun LocalDate.toDatabaseString(): String {
 }
 
 fun LocalDate.toFullString(): String {
-    val formatter = DateTimeFormatter.ofPattern("LLLL dd, yyyy")
+    val datePattern = if (Locale.getDefault().language == "ru") {
+        "dd LLLL, yyyy"
+    } else {
+        "LLLL dd, yyyy"
+    }
+    val formatter = DateTimeFormatter.ofPattern(datePattern)
     return this.format(formatter)
 }
 
@@ -31,7 +36,11 @@ fun Month.toShortMonthString(): String {
 fun Date.toMonthString(): String {
     val cal = Calendar.getInstance()
     cal.time = this
-    return SimpleDateFormat("MMMM", Locale.getDefault()).format(cal.time)
+    return if (Locale.getDefault().language == "ru") {
+        SimpleDateFormat("MMMM", Locale.getDefault()).format(cal.time)
+    } else {
+        SimpleDateFormat("LLLL", Locale.getDefault()).format(cal.time)
+    }
 }
 
 fun Date.getYearString(): String {
