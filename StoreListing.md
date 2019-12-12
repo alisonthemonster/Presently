@@ -16,8 +16,8 @@ Presently lets you:
 
 Presently is 100% free and ad free. All of your entries stay on your device and in your control.
 
-
 ## French
+
 Appréciez votre vie quotidienne avec Presently, journal de gratitude gratuit et privé
 
 Entraînez votre gratitude avec ce journal de gratitude simple, toujours gratuit, et privé.
@@ -35,6 +35,7 @@ Avec Presently, vous pouvez:
 Presently est 100% gratuit, et ne contient aucune publicité. Tous vos enregistrements restent dans votre appareil, et sous votre contrôle.
 
 ## German
+
 Halte die schönen Momente deines Lebens fest mit Presently, der kostenlosen & privaten Dankbarkeits-Tagebuch App!
 
 Übe dich darin, die kleinen Dinge des Lebens wertzuschätzen - Presently unterstützt dich dabei mit seiner einfachen Verwendungsweise.
@@ -50,3 +51,21 @@ Presently ermöglicht dir folgendes:
 ⁕ Passe das Aussehen der App ganz nach deinem Geschmack an
 
 Presently ist 100% kostenlos und werbefrei. Alle deine Einträge befinden sich nur auf deinem Gerät und stehen unter deiner Kontrolle.
+
+## Russian
+
+Запечатлите прекрасные моменты своей жизни с Presently, бесплатным и приватным дневником благодарностей!
+
+Это простое приложение поможет вам научиться ценить мелочи повседневной жизни.
+
+Presently позволит вам:
+⁕ Создавать записи с благодарностями каждый день
+⁕ Вспомнить моменты, в которые вы испытывали благодарность
+⁕ Найти мотивацию с помощью цитат и подсказок
+⁕ Установить ежедневные напоминания, чтобы продолжать практику благодарности
+⁕ Искать ваши старые записи
+⁕ Поделиться своими записями с семьей и друзьями
+⁕ Делать резервные комии и импортировать ваши записи
+⁕ Настроить внешний вид приложения на свой вкус
+
+Приложение на 100% бесплатно и не содержит рекламы. Все ваши записи остаются на вашем устройстве и под вашим контролем.
