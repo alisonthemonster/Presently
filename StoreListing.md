@@ -69,3 +69,18 @@ Presently позволит вам:
 ⁕ Настроить внешний вид приложения на свой вкус
 
 Приложение на 100% бесплатно и не содержит рекламы. Все ваши записи остаются на вашем устройстве и под вашим контролем.
+
+## Finnish
+
+Juhli päivittäistä elämääsi Presentlyhin kanssa ilmaisella ja yksityisellä kiitollisuudella päiväkirja
+
+Harjoittele kiitollisuutta tällä yksinkertaisella, aina ilmaisella ja yksityisellä kiitollisuuteen liittyvällä päiväkirjasovelluksella.
+
+Tällä hetkellä voit: 
+⁕ Tallenna kiitollisuus päivittäin
+⁕ Mieti takaisin menneistä kiitollisuutesi hetkistä ⁕ Löydä motivaatio tarjousten ja ohjeiden avulla
+⁕ Aseta päivittäiset muistutukset jatkaaksesi kiitollisuusharjoitteluasi
+⁕ Etsi vanhoista merkinnöistäsi
+⁕ Jaa merkinnät perheen ja ystävien kanssa 
+⁕ Vie / tuo merkinnät 
+⁕ Vaihda suosikki värimallisi
