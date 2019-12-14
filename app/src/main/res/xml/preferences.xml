@@ -31,6 +31,17 @@
                 android:title="@string/theme" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/security">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_privacy"
+            android:key="fingerprint_lock"
+            android:summary="@string/fingerprint_lock_summary"
+            android:title="@string/fingerprint_lock_title" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/about">
         <Preference
                 android:key="faq"

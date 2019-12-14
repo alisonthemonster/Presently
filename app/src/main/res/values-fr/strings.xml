@@ -53,4 +53,7 @@
     <string name="theme">Thème visuel</string>
     <string name="open_source">Licences Open Source</string>
     <string name="open_source_info">Informations sur les licences des logiciels Open Source</string>
+    <string name="security">Sécurité</string>
+    <string name="fingerprint_lock_title">Empreinte digitale</string>
+    <string name="fingerprint_lock_summary">Utilisez votre empreinte digitale pour déverrouiller</string>
 </resources>

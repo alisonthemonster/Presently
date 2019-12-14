@@ -55,4 +55,7 @@
     <string name="theme">Theme</string>
     <string name="open_source">Open Source Licenses</string>
     <string name="open_source_info">Read open source library licenses</string>
+    <string name="security">Security</string>
+    <string name="fingerprint_lock_title">Fingerprint</string>
+    <string name="fingerprint_lock_summary">Use your fingerprint to unlock</string>
 </resources>

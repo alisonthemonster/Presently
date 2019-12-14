@@ -52,4 +52,7 @@
     <string name="theme">Aussehen</string>
     <string name="open_source">Open Source-Lizenzen</string>
     <string name="open_source_info">Lizenzdetails für Open-Source-Software</string>
+    <string name="security">Sicherheit</string>
+    <string name="fingerprint_lock_title">Fingerabdruck</string>
+    <string name="fingerprint_lock_summary">Verwenden Sie Ihren Fingerabdruck zum Entsperren</string>
 </resources>
