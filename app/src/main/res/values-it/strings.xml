@@ -34,7 +34,6 @@
         Congratulazioni, siamo felici che tu abbia scelto Presently per tenere il tuo diario, e ti ringraziamo.
     </string>
     <string name="search">Cerca</string>
-    <string name="presently" translatable="false">Presently</string>
     <string name="close">Chiudi</string>
     <string name="get_a_new_prompt">Cerca ispirazione</string>
     <string name="share_your_gratitude">Condividi la tua gratitudine</string>
@@ -53,4 +52,6 @@
     <string name="about">Informazioni</string>
     <string name="select_a_theme">Scegli una grafica</string>
     <string name="theme">Grafica</string>
+    <string name="open_source">Licenze open source</string>
+    <string name="open_source_info">Leggi le licenze open source</string>
 </resources>

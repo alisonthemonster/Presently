@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="inspirations">
-        <item>\"Il segreto per riuscire in tutto è sapere che lo fai già.\" \n  Anonimo</item>
+        <item>\"Il segreto per riuscire in tutto è sapere che lo fai già.\" \nAnonimo</item>
         <item>\"Solo chi è capace di esprimere gratitudine è capace di vera grandezza.\" \nSteve Maraboli</item>
         <item>\"Dobbiamo trovare il tempo di fermarci e ringraziare le persone che fanno la differenza nella nostra vita.\" \nJohn F Kennedy</item>
         <item>\"Oggi è un giorno straordinario, è la prima volta che lo vedo.\" \nMaya Angelou</item>
         <item>\"Sii l\'arcobaleno nella nuvola di qualcuno.\" \nMaya Angelou</item>
-        <item>\"Quando ci concentriamo sulla nostra gratitudine, la marea della delusione si abbassa e quella dell'amore si alza.\" \nKristin Armstrong</item>
+        <item>\"Quando ci concentriamo sulla nostra gratitudine, la marea della delusione si abbassa e quella dell\'amore si alza.\" \nKristin Armstrong</item>
         <item>\"Dobbiamo essere grati alle persone che ci rendono felici.\" \nMarcel Proust</item>
         <item>\"Una moltitudine di piccole gioie fanno la felicità.\" \nCharles Baudelaire</item>
         <item>\"La gratitudine è la memoria del cuore.\" \nJean Baptiste Massieu</item>
@@ -35,5 +35,18 @@
         <item>\"La gratitudine trasforma quel che hai in abbondanza.\" \nMelody Beattie</item>
         <item>\"Sii riconoscente per poco e riceverai molto.\" \nHausa Proverb</item>
         <item>\"Hai una sola vita ma, se la vivi nel modo giusto, è sufficiente.\" \nMae West</item>
+        <item>\"When it comes to life the critical thing is whether you take things for granted or take them with gratitude\" \nG. K. Chesterton</item>
+        <item>\"Feeling gratitude and not expressing it is like wrapping a present and not giving it\" \nWilliam Arthur Ward</item>
+        <item>\"There are only two ways to live your life. Ons is as though nothing is a miracle. The other is as though everything is a miracle.\" \nAlbert Einstein</item>
+        <item>\"Gratitude changes the pangs of memory into a tranquil joy\" \nDietrich Bonhoeffer</item>
+        <item>\"We do not need magic to change the word. We carry all the power we need inside ourselves already\" \nJ. K. Rowling</item>
+        <item>\"Gratitude is riches. Complaint is poverty.\" \nDoris Day</item>
+        <item>\"Gratitude is when memory is stored in the heart and not in the mind\" \nLionel Hampton</item>
+        <item>\"Let us swell with gratitude and allow it to overwhelm us\" \nGrace Gealey</item>
+        <item>\"Silent gratitude isn\'t very much to anyone\" \nGertrude Stein</item>
+        <item>\"Fill the earth with your songs of gratitude\" \nCharles Spurgeon</item>
+        <item>\"You cannot do a kindness too soon, for you never know when it will be too late\" \nRalph Waldo Emerson</item>
+        <item>\"No one who achieves success does so without the help of others, the wise and confident acknowledge this help with gratitude\" \nAlfred North Whitehead</item>
+        <item>\"Find the good and praise it\" \nAlex Haley</item>
     </string-array>
 </resources>
