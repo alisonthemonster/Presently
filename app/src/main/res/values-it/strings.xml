@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Presently</string>
     <string name="what_are_you_thankful_for">Di cosa sei grato?</string>
     <string name="what_were_you_thankful_for">Per cosa eri grato?</string>
     <string name="what_are_you_thankful_for_today">Di cosa sei grato oggi?</string>
