@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.journal.gratitude.com.gratitudejournal.ui.util
+package journal.gratitude.com.gratitudejournal.ui.util
 
 import journal.gratitude.com.gratitudejournal.util.*
 import junit.framework.TestCase.assertEquals
@@ -34,6 +34,17 @@ class DateUtilTest {
     }
 
     @Test
+    fun localDateToLongStringRussian() {
+        Locale.setDefault(Locale.forLanguageTag("ru"))
+
+        val expected = "11 ноября, 2011"
+        val actual = LocalDate.of(2011, 11, 11).toFullString()
+
+        assertEquals(expected, actual)
+        Locale.setDefault(Locale.forLanguageTag("en"))
+    }
+
+    @Test
     fun getMonthStringFromDateObject() {
         val expected = "March"
         val cal = Calendar.getInstance()
@@ -44,6 +55,22 @@ class DateUtilTest {
         val date = cal.time
 
         assertEquals(expected, date.toMonthString())
+    }
+
+    @Test
+    fun getMonthStringFromDateObjectRussian() {
+        Locale.setDefault(Locale.forLanguageTag("ru"))
+
+        val expected = "Март"
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.YEAR, 2019)
+        cal.set(Calendar.MONTH, Calendar.MARCH)
+        cal.set(Calendar.DAY_OF_MONTH, 22)
+
+        val date = cal.time
+
+        assertEquals(expected, date.toMonthString())
+        Locale.setDefault(Locale.forLanguageTag("en"))
     }
 
     @Test
