@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prompts">
+        <item>Mikä on jotain, joka sai sinut hymyilemään?</item>
+        <item>Mistä olet kiitollinen tässä huoneessa?</item>
+        <item>Mikä tekee sinusta onnelliseksi olla hengissä?</item>
+        <item>Kuka on auttanut sinua?</item>
+        <item>Kuka on ohjannut sinua?</item>
+        <item>Kuka on opettanut sinulle jotain?</item>
+        <item>Ketä sinä rakastat?</item>
+        <item>Kuka on joku, joka rakastaa sinua?</item>
+        <item>Kuka on ystävä, josta olet kiitollinen?</item>
+        <item>Mistä olet luonnossa kiitollinen?</item>
+        <item>Mistä kyvystä tai taitosta olet kiitollinen?</item>
+        <item>Mistä muistista olet kiitollinen?</item>
+        <item>Onko joku auttanut sinua tänään?</item>
+        <item>Mikä sai sinut tuntemaan olosi onnelliseksi tänään?</item>
+        <item>Mistä olet ylpeä itsestäsi?</item>
+        <item>Mistä olet lapsuudessasi kiitollinen?</item>
+        <item>Mistä urallasi olet onnellinen?</item>
+        <item>Mistä vapauksista olet kiitollinen?</item>
+        <item>Mikä on jotain, joka sai sinut nauramaan?</item>
+        <item>Mikä on yksi asia, josta olet kiitollinen itsestäsi?</item>
+        <item>Mikä näit tänä päivänä joka oli kauneinta?</item>
+        <item>Mistä kirjasta olet kiitollinen?</item>
+        <item>Mistä kappaleesta tai musiikista olet kiitollinen?</item>
+        <item>Mikä on jotain, joka tekee elämästäsi helpompaa?</item>
+        <item>Mikä sinua aina kannustaa?</item>
+        <item>Kuka inspiroi sinua?</item>
+        <item>Mistä tekniikasta tai työkalusta olet kiitollinen?</item>
+        <item>Mistä mahdollisuudesta olet kiitollinen?</item>
+        <item>Mistä fyysisestä piirteestäsi olet kiitollinen?</item>
+        <item>Mistä paikasta olet kiitollinen?</item>
+        <item>Mistä haista olet kiitollinen?</item>
+        <item>Mistä mausta olet kiitollinen?</item>
+        <item>Mistä viisaudesta olet kiitollinen?</item>
+        <item>Mikä on yksinkertainen ilo, josta olet kiitollinen?</item>
+        <item>Mistä harrastuksista olet kiitollinen?</item>
+        <item>Mistä äänestä olet kiitollinen?</item>
+        <item>Mistä pienestä asiasta olet kiitollinen?</item>
+        <item>Mitä olet kiitollinen siitä, että olet oppinut?</item>
+        <item>Mistä olet kiitollinen kaupungissasi?</item>
+        <item>Mistä olet kiitollinen kodistasi?</item>
+        <item>Mitä neuvoja olet kiitollinen kuullessasi?</item>
+        <item>Mistä olet kiitollinen perheestäsi?</item>
+        <item>Mistä olet kiitollinen nykyisestä kaudesta?</item>
+        <item>Mistä toiminnasta olet kiitollinen?</item>
+    </string-array>
+</resources>
