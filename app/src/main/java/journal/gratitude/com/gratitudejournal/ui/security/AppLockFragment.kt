@@ -86,6 +86,7 @@ class AppLockFragment : Fragment() {
             .setTitle(getString(R.string.fingerprint_lock_title))
             .setSubtitle(getString(R.string.fingerprint_lock_summary))
             .setNegativeButtonText(getString(R.string.cancel))
+            .setConfirmationRequired(false)
             .build()
 
         biometricPrompt.authenticate(promptInfo)
