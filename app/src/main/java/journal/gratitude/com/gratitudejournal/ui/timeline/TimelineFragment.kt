@@ -21,7 +21,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -30,8 +29,6 @@ import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.*
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.calendar.CalendarAnimation
 import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
@@ -77,7 +74,7 @@ class TimelineFragment : DaggerFragment() {
                         requireActivity().finish()
                     }
                 } else {
-                    val animation = CalendarAnimation(fab, entry_calendar)
+                    val animation = CalendarAnimation(cal_fab, entry_calendar)
                     animation.closeCalendar()
                 }
             }
@@ -167,7 +164,7 @@ class TimelineFragment : DaggerFragment() {
 
         entry_calendar.setDayClickedListener(object : EntryCalendarListener {
             override fun onCloseClicked() {
-                val animation = CalendarAnimation(fab, entry_calendar)
+                val animation = CalendarAnimation(cal_fab, entry_calendar)
                 animation.closeCalendar()
             }
 
@@ -182,10 +179,10 @@ class TimelineFragment : DaggerFragment() {
             }
         })
 
-        fab.setOnClickListener {
+        cal_fab.setOnClickListener {
             firebaseAnalytics.logEvent(OPENED_CALENDAR, null)
 
-            val animation = CalendarAnimation(fab, entry_calendar)
+            val animation = CalendarAnimation(cal_fab, entry_calendar)
             animation.openCalendar()
         }
     }

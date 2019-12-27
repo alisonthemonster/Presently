@@ -135,7 +135,7 @@
             android:layout_marginTop="8dp"
             android:backgroundTint="?android:attr/textColor"
             android:text="@string/save"
-            android:textColor="?android:attr/android:colorBackground"
+            android:textColor="?android:attr/colorBackground"
             app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintBottom_toTopOf="@+id/divider_line2"
             app:layout_constraintEnd_toEndOf="@+id/entry_text"

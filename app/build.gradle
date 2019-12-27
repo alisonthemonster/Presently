@@ -120,13 +120,13 @@ dependencies {
     androidTestImplementation 'androidx.room:room-testing:2.2.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test.ext:truth:1.2.0'
     androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_version"
+    androidTestImplementation 'org.mockito:mockito-android:2.23.0'
 
     androidTestUtil 'com.android.support.test:orchestrator:1.0.2'
 
-    debugImplementation "androidx.fragment:fragment-testing:1.2.0-rc03"
+    debugImplementation "androidx.fragment:fragment-testing:1.2.0-rc04"
 
 }
 

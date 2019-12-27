@@ -43,6 +43,7 @@ class CelebrateDialogFragment : DialogFragment() {
             }
         }
 
+        //TODO move to strings to be translated!
         share_presently.setOnClickListener {
             firebaseAnalytics.logEvent(CLICKED_SHARE_MILESTONE, null)
 
