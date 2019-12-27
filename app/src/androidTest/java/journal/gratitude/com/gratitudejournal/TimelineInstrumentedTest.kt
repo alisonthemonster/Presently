@@ -1,8 +1,11 @@
 package journal.gratitude.com.gratitudejournal
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -13,11 +16,14 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.nhaarman.mockitokotlin2.mock
+import journal.gratitude.com.gratitudejournal.room.EntryDao
+import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.util.clickXY
 import journal.gratitude.com.gratitudejournal.util.scroll
 import junit.framework.Assert.assertTrue
 import org.hamcrest.CoreMatchers.not
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,13 +37,18 @@ class TimelineInstrumentedTest {
     var mActivityRule =
         ActivityTestRule(ContainerActivity::class.java)
 
+    @Rule
+    @JvmField
+    val rule = InstantTaskExecutorRule()
+
     @Before
-    fun setup() {
+    fun before() {
 
         val mockNavController = mock<NavController>()
 
         val scenario = launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme)
+            themeResId = R.style.AppTheme
+        )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
         }
@@ -45,6 +56,7 @@ class TimelineInstrumentedTest {
 //        launchFragmentInContainer<TimelineFragment>(
 //            themeResId = R.style.AppTheme)
     }
+
 
     @Test
     fun timelineFragment_showsTimeline() {
@@ -102,11 +114,11 @@ class TimelineInstrumentedTest {
     fun timelineFragment_clicksNewEntry_opensEntry() {
 
     }
-//
-//    @Test
-//    fun timelineFragment_clicksExistingEntry_opensEntry() {
-//
-//    }
+
+    @Test
+    fun timelineFragment_clicksExistingEntry_opensEntry() {
+
+    }
 //
 //    @Test
 //    fun timelineFragment_clicksOverflow_opensSettings() {

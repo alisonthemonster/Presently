@@ -7,6 +7,8 @@ import android.os.Bundle
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -24,7 +26,9 @@ import org.junit.runner.RunWith
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import com.nhaarman.mockitokotlin2.mock
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
+import journal.gratitude.com.gratitudejournal.room.EntryDao
+import journal.gratitude.com.gratitudejournal.room.EntryDatabase
+import org.junit.After
 import org.junit.Rule
 
 
