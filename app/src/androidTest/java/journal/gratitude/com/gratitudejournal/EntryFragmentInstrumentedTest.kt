@@ -7,29 +7,30 @@ import android.os.Bundle
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
+import androidx.test.espresso.intent.rule.IntentsTestRule
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
+import journal.gratitude.com.gratitudejournal.model.Entry
+import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.util.saveEntryBlocking
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import androidx.test.espresso.intent.rule.IntentsTestRule
-import androidx.test.espresso.matcher.RootMatchers.isDialog
-import com.nhaarman.mockitokotlin2.mock
-import journal.gratitude.com.gratitudejournal.room.EntryDao
-import journal.gratitude.com.gratitudejournal.room.EntryDatabase
-import org.junit.After
-import org.junit.Rule
+import org.threeten.bp.LocalDate
 
 
 @RunWith(AndroidJUnit4::class)
@@ -38,22 +39,35 @@ class EntryFragmentInstrumentedTest {
     @get:Rule
     var activityRule = IntentsTestRule<ContainerActivity>(ContainerActivity::class.java)
 
+
+    private lateinit var repository: EntryRepository
+
+    @get:Rule
+    val rule = DaggerTestApplicationRule()
+
+    @Before
+    fun setupDaggerComponent() {
+        repository = rule.component.entryRepository
+    }
+
     @Test
     fun writtenEntry_showsShareButton() {
+        val date = LocalDate.of(2019, 3, 22)
+        val mockEntry = Entry(date, "test content")
+        repository.saveEntryBlocking(mockEntry)
+
+        val fragmentArgs = Bundle().apply {
+            putString(EntryFragment.DATE, date.toString())
+        }
         launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.AppTheme,
+            fragmentArgs = fragmentArgs
         )
 
-        onView(withId(R.id.share_button)).check(matches(not(isDisplayed())))
-
-
-        onView(withId(R.id.entry_text)).perform(
-            typeText("Test string!"),
-            closeSoftKeyboard()
-        )
-
-        onView(withId(R.id.share_button)).check(matches(isDisplayed()))
-        onView(withId(R.id.prompt_button)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.share_button))
+            .check(matches(isDisplayed()))
+        onView(withId(R.id.prompt_button))
+            .check(matches(not(isDisplayed())))
 
     }
 
@@ -80,8 +94,16 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun shareButton_opensShareActivity() {
+        val date = LocalDate.of(2019, 3, 22)
+        val mockEntry = Entry(date, "test content")
+        repository.saveEntryBlocking(mockEntry)
+
+        val fragmentArgs = Bundle().apply {
+            putString(EntryFragment.DATE, date.toString())
+        }
         launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.AppTheme,
+            fragmentArgs = fragmentArgs
         )
 
         val intent = Intent()
@@ -89,12 +111,6 @@ class EntryFragmentInstrumentedTest {
 
         intending(anyIntent()).respondWith(intentResult)
 
-        val content = "Test string!"
-
-        onView(withId(R.id.entry_text)).perform(
-            typeText(content),
-            closeSoftKeyboard()
-        )
         onView(withId(R.id.share_button)).perform(click())
 
         intended(
@@ -107,17 +123,12 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun saveButton_navigatesBack() {
-        //TODO when navController bug is fixed
-//        val mockNavController = mock<NavController>()
-//        val scenario = launchFragmentInContainer<TimelineFragment>(
-//            themeResId = R.style.AppTheme)
-//        scenario.onFragment { fragment ->
-//            Navigation.setViewNavController(fragment.requireView(), mockNavController)
-//        }
-
-        launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.AppTheme
-        )
+        val mockNavController = mock<NavController>()
+        val scenario = launchFragmentInContainer<EntryFragment>(
+            themeResId = R.style.AppTheme)
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+        }
 
         onView(withId(R.id.entry_text)).perform(
             typeText("Test string!"),
@@ -126,30 +137,22 @@ class EntryFragmentInstrumentedTest {
 
         onView(withId(R.id.save_button)).perform(click())
 
-        //verify(mockNavController).navigate(R.id.action_title_screen_to_in_game)
+        verify(mockNavController).navigateUp()
     }
 
     @Test
     fun saveButton_onMilestone_showsMilestoneDialog() {
-        //TODO when navController bug is fixed
-//        val mockNavController = mock<NavController>()
-//        val fragmentArgs = Bundle().apply {
-//            putInt(EntryFragment.NUM_ENTRIES, 4)
-//        }
-//        val scenario = launchFragmentInContainer<TimelineFragment>(
-//            fragmentArgs = fragmentArgs,
-//            themeResId = R.style.AppTheme)
-//        scenario.onFragment { fragment ->
-//            Navigation.setViewNavController(fragment.requireView(), mockNavController)
-//        }
-
+        val mockNavController = mock<NavController>()
         val fragmentArgs = Bundle().apply {
             putInt(EntryFragment.NUM_ENTRIES, 4)
+            putBoolean(EntryFragment.IS_NEW_ENTRY, true)
         }
-        launchFragmentInContainer<EntryFragment>(
-            fragmentArgs,
-            themeResId = R.style.AppTheme
-        )
+        val scenario = launchFragmentInContainer<EntryFragment>(
+            fragmentArgs = fragmentArgs,
+            themeResId = R.style.AppTheme)
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+        }
 
         onView(withId(R.id.entry_text)).perform(
             typeText("Test string!"),
