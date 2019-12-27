@@ -40,33 +40,6 @@ class SearchFragmentInstrumentedTest {
     }
 
     @Test
-    fun search_type_pressEnter_dismissKeyboard() {
-        launchFragmentInContainer<SearchFragment>(
-            themeResId = R.style.AppTheme
-        )
-
-        onView(withId(R.id.search_text)).perform(
-            typeText("Test string!")
-        )
-        onView(withId(R.id.search_text)).perform(pressImeActionButton())
-
-        //TODO verify keyboard is dismissed somehow
-    }
-
-//    @Test
-//    fun search_type_clickSearchButton_dismissKeyboard() {
-//        launchFragmentInContainer<SearchFragment>(
-//            themeResId = R.style.AppTheme
-//        )
-//        onView(withId(R.id.search_text)).perform(
-//            typeText("Test string!")
-//        )
-//        onView(withId(R.id.search_icon)).perform(click())
-//
-//        //TODO verify keyboard is dismissed somehow
-//    }
-
-    @Test
     fun search_pressBackButton_navigateUp() {
         val mockNavController = mock<NavController>()
         val scenario = launchFragmentInContainer<SearchFragment>(
@@ -124,17 +97,5 @@ class SearchFragmentInstrumentedTest {
 
         verify(mockNavController).navigate(eq(R.id.action_searchFragment_to_entryFragment), any())
     }
-
-    @Test
-    fun search_noContent_doesNothing() {
-        launchFragmentInContainer<SearchFragment>(
-            themeResId = R.style.AppTheme
-        )
-
-        onView(withId(R.id.search_icon)).perform(click())
-
-        //verify nothing happened
-    }
-
 
 }

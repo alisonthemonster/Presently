@@ -27,6 +27,7 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.util.saveEntryBlocking
+import junit.framework.Assert.assertEquals
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
@@ -169,5 +170,15 @@ class EntryFragmentInstrumentedTest {
         onView(withId(R.id.save_button)).perform(click())
 
         onView(withText("Share your achievement")).inRoot(isDialog()).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun newInstance_makesFragment() {
+        val date = LocalDate.now()
+        val fragment = EntryFragment.newInstance(date)
+
+        val actualDate = fragment.arguments?.get(EntryFragment.DATE)
+
+        assertEquals(date.toString(), actualDate)
     }
 }

@@ -21,20 +21,18 @@ def fileFilter = ['**/R.class',
                   '**/Manifest*.*',
                   '**/*Test*.*',
                   'android/**/*.*',
-
+                  '**/settings/*.*',
                   '**/SingleLiveEvent*',
                   '**/CustomTypefaceSpan*',
-//                  '**/*Fragment*',
-//                  '**/*Adapter*',
-//                  '**/*Application*',
-//                  '**/model/*.*',
+                  '**/*Adapter*',
+                  '**/model/*.*',
                   '**/room/*.*',
                   '**/di/*.*',
                   '**/reminders/*.*',
                   '**/backups/*.*',
                   '**/*Binding*.*',
                   '**/*adapter*.*',
-//                  '**/*Activity*.*',
+                  '**/*Activity*.*',
                   '**/calendar/*.*',]
 
 tasks.withType(Test) {
@@ -67,9 +65,6 @@ task testCoverage(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDe
     executionData = fileTree(dir: "$buildDir", includes: [
             'jacoco/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/**/*.ec'
     ])
-
-
-//    executionData = files("$buildDir/jacoco/testDebugUnitTest.exec")
 
     doLast {
         printReport("testCoverage")

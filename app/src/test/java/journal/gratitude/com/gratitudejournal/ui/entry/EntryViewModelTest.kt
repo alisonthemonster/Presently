@@ -2,7 +2,6 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nhaarman.mockitokotlin2.*
 import journal.gratitude.com.gratitudejournal.LiveDataTestUtil
@@ -258,4 +257,14 @@ class EntryViewModelTest {
 
         assertEquals("InspirationalQuote", viewModel.getInspirationString())
     }
+//
+//    @Test
+//    fun addNewEntry_callsRepo() = runBlocking {
+//        viewModel = EntryViewModel(repository, application)
+//        viewModel.setDate(LocalDate.now().toString())
+//
+//        viewModel.addNewEntry()
+//
+//        verify(repository).addEntry(any())
+//    }
 }
