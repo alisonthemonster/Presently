@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal
+package journal.gratitude.com.gratitudejournal.ui
 
 import android.app.Activity
 import android.app.Instrumentation
@@ -19,6 +19,8 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
+import journal.gratitude.com.gratitudejournal.ContainerActivity
+import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
@@ -37,7 +39,8 @@ import org.threeten.bp.LocalDate
 class EntryFragmentInstrumentedTest {
 
     @get:Rule
-    var activityRule = IntentsTestRule<ContainerActivity>(ContainerActivity::class.java)
+    var activityRule = IntentsTestRule<ContainerActivity>(
+        ContainerActivity::class.java)
 
 
     private lateinit var repository: EntryRepository
@@ -125,7 +128,8 @@ class EntryFragmentInstrumentedTest {
     fun saveButton_navigatesBack() {
         val mockNavController = mock<NavController>()
         val scenario = launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.AppTheme)
+            themeResId = R.style.AppTheme
+        )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
         }
@@ -149,7 +153,8 @@ class EntryFragmentInstrumentedTest {
         }
         val scenario = launchFragmentInContainer<EntryFragment>(
             fragmentArgs = fragmentArgs,
-            themeResId = R.style.AppTheme)
+            themeResId = R.style.AppTheme
+        )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
         }
