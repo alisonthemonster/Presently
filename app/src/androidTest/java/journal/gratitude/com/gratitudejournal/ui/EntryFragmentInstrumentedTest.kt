@@ -10,6 +10,7 @@ import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
@@ -38,9 +39,7 @@ import org.threeten.bp.LocalDate
 @RunWith(AndroidJUnit4::class)
 class EntryFragmentInstrumentedTest {
 
-    @get:Rule
-    var activityRule = IntentsTestRule<ContainerActivity>(
-        ContainerActivity::class.java)
+
 
 
     private lateinit var repository: EntryRepository
@@ -97,6 +96,7 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun shareButton_opensShareActivity() {
+        Intents.init()
         val date = LocalDate.of(2019, 3, 22)
         val mockEntry = Entry(date, "test content")
         repository.saveEntryBlocking(mockEntry)
@@ -122,6 +122,8 @@ class EntryFragmentInstrumentedTest {
                 hasExtra(Intent.EXTRA_TITLE, "Share your gratitude progress")
             )
         )
+
+        Intents.release()
     }
 
     @Test

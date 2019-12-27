@@ -273,6 +273,7 @@ class TimelineFragment : DaggerFragment() {
             firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
         } catch (exception: Exception) {
             firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
+            //TODO look into reporting this to crashlytics
 
             Toast.makeText(context, "Error parsing file", Toast.LENGTH_SHORT).show()
         }
