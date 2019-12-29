@@ -134,8 +134,11 @@ jobs:
           name: What's here?
           command: ls -l firebase
       - run:
+          name: What's in firebase??
+          command: ls -l firebase/sailfish-26-en_US-portrait
+      - run:
           name: Move Firebase coverage report
-          command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/walleye-26-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
+          command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/sailfish-26-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
       - *decrypt_google_services_json
       - run:
           name: Generate JaCoCo report
