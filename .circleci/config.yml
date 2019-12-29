@@ -135,7 +135,7 @@ jobs:
           command: ls -l firebase
       - run:
           name: What's in firebase??
-          command: ls -l firebase/sailfish-26-en_US-portrait
+          command: ls -l firebase/sailfish-26-en_US-portrait/artifacts
       - run:
           name: Move Firebase coverage report
           command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/sailfish-26-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
@@ -166,8 +166,14 @@ jobs:
           name: Create directory to store test results
           command: mkdir firebase
       - run:
+          name: What are we about to copy?
+          command: gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1
+      - run:
           name: Download instrumented test results from Firebase Test Lab
           command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1`*" /root/src/firebase/
+      - run:
+          name: What did we just copy?
+          command: ls -l /root/src/firebase/
       - *persist_firebase_workspace
       - store_artifacts:
           path: firebase/
