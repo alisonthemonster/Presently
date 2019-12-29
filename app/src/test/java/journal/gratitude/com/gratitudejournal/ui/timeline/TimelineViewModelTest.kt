@@ -181,13 +181,13 @@ class TimelineViewModelTest {
         verify(repository, times(1)).getWrittenDates()
     }
 
-    @Test
-    fun addEntries_callsRepository() = runBlocking {
-        val entries = listOf(Entry(LocalDate.now(), "test"))
-        val viewModel = TimelineViewModel(repository)
-
-        viewModel.addEntries(entries)
-
-        verify(repository).addEntries(any())
-    }
+//    @Test
+//    fun addEntries_callsRepository() = runBlocking {
+//        val entries = listOf(Entry(LocalDate.now(), "test"))
+//        val viewModel = TimelineViewModel(repository)
+//
+//        viewModel.addEntries(entries)
+//
+//        verify(repository).addEntries(any())
+//    }
 }
