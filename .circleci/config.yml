@@ -40,11 +40,6 @@ references:
     environment:
       TERM: dumb
 
-  ruby_dependencies: &ruby_dependencies
-    run:
-      name: Download Ruby Dependencies
-      command: bundle check || bundle install --path vendor/bundle
-
   android_dependencies: &android_dependencies
     run:
       name: Download Android Dependencies
@@ -59,16 +54,9 @@ references:
   gradle_key: &gradle_key
                 v3-jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
-  gems_key: &gems_key
-              gems-{{ checksum "Gemfile.lock" }}
-
   restore_gradle_cache: &restore_gradle_cache
     restore_cache:
       key: *gradle_key
-
-  restore_gems_cache: &restore_gems_cache
-    restore_cache:
-      key: *gems_key
 
   save_gradle_cache: &save_gradle_cache
     save_cache:
@@ -76,12 +64,6 @@ references:
       paths:
         - ~/.gradle
         - ~/.m2
-
-  save_gems_cache: &save_gems_cache
-    save_cache:
-      key: *gems_key
-      paths:
-        - vendor/bundle
 
   decrypt_google_services_json: &decrypt_google_services_json
     run:
@@ -100,13 +82,10 @@ jobs:
     steps:
       - checkout
       - *restore_gradle_cache
-      #      - *restore_gems_cache
       - *decrypt_google_services_json
-#      - *ruby_dependencies
       - *gradle_clean
       - *android_dependencies
       - *save_gradle_cache
-      #      - *save_gems_cache
       - run:
           name: Run unit tests
           command: ./gradlew -PciBuild=true :app:testDebugUnitTest
@@ -127,12 +106,6 @@ jobs:
           command: ./gradlew androidDependencies
       - *attach_debug_workspace
       - *attach_firebase_workspace
-      - run:
-          name: Where are we?
-          command: pwd
-      - run:
-          name: What's here?
-          command: ls -l firebase
       - run:
           name: Move Firebase coverage report
           command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/walleye-26-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
@@ -162,9 +135,6 @@ jobs:
       - run:
           name: Create directory to store test results
           command: mkdir firebase
-      - run:
-          name: What are we about to copy?
-          command: gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1
       - run:
           name: Download instrumented test results from Firebase Test Lab
           command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1`*" /root/src/firebase/

@@ -59,7 +59,7 @@ task jacocoTestReport(type : JacocoReport, dependsOn : 'testDebugUnitTest') {
     }
 
     doLast {
-        printReport("testCoverage")
+        printReport("jacocoTestReport")
     }
 
     reports {
