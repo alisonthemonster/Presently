@@ -8,7 +8,6 @@ references:
       root: *workspace
       paths:
         - app/build/intermediates
-        #        - app/build/outputs/androidTest-results
         - app/build/outputs/apk
         - app/build/outputs/code-coverage
         - app/build/test-results

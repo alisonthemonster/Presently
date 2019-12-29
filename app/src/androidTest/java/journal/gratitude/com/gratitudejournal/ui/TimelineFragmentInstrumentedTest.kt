@@ -4,6 +4,10 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -14,12 +18,19 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.*
+import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import androidx.test.rule.GrantPermissionRule
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.UiObjectNotFoundException
+import androidx.test.uiautomator.UiSelector
 import com.nhaarman.mockitokotlin2.*
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
@@ -31,13 +42,14 @@ import journal.gratitude.com.gratitudejournal.util.clickXY
 import journal.gratitude.com.gratitudejournal.util.saveEntryBlocking
 import journal.gratitude.com.gratitudejournal.util.scroll
 import org.hamcrest.CoreMatchers.not
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
+
 
 @RunWith(AndroidJUnit4::class)
 class TimelineFragmentInstrumentedTest {
@@ -73,9 +85,16 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_openCalendar_clickingBack_closesCal() {
-        launchFragmentInContainer<TimelineFragment>(
+        val mockNavController = mock<NavController>()
+        val mockNavigationDestination = mock<NavDestination>()
+        mockNavigationDestination.id = R.id.timelineFragment
+        whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
+        val scenario = launchFragmentInContainer<TimelineFragment>(
             themeResId = R.style.AppTheme
         )
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+        }
 
         onView(withId(R.id.cal_fab)).perform(click())
 
@@ -208,7 +227,7 @@ class TimelineFragmentInstrumentedTest {
 
         val intent = Intent()
         val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
+        Intents.intending(anyIntent()).respondWith(intentResult)
 
         onView(withId(R.id.overflow_button)).perform(click())
 
@@ -216,93 +235,210 @@ class TimelineFragmentInstrumentedTest {
             .perform(click())
 
         val subject = "In App Feedback"
-        val uri =  Uri.parse("mailto:gratitude.journal.app@gmail.com?subject=$subject")
+        val uri = Uri.parse("mailto:gratitude.journal.app@gmail.com?subject=$subject")
 
         Intents.intended(
-            Matchers.allOf(
-                IntentMatchers.hasAction(Intent.ACTION_VIEW),
-                IntentMatchers.hasData(uri)
+            allOf(
+                hasAction(Intent.ACTION_VIEW),
+                hasData(uri)
             )
         )
         Intents.release()
 
     }
 
-//    @Test
-//    fun timelineFragment_clicksOverflow_backsUp() {
-//        launchFragmentInContainer<TimelineFragment>(
-//            themeResId = R.style.AppTheme
-//        )
-//
-//        val intent = Intent()
-//        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-//        Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
-//
-//        onView(withId(R.id.overflow_button)).perform(click())
-//
-//        onView(withText("Backup Entries"))
-//            .perform(click())
-//
-//        //TODO find out about testing permissions and looking for toast
-//    }
-//
-//    @Test
-//    fun timelineFragment_clicksOverflow_clicksImport_seesDialog() {
-//        launchFragmentInContainer<TimelineFragment>(
-//            themeResId = R.style.AppTheme
-//        )
-//
-//        val intent = Intent()
-//        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-//        Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
-//
-//        onView(withId(R.id.overflow_button)).perform(click())
-//
-//        onView(withText("Import entries from backup"))
-//            .perform(click())
-//
-//
-//        //TODO check dialog is good
-//    }
-//
-//    @Test
-//    fun timelineFragment_clicksOverflow_clicksImport_cancelsDialog() {
-//        launchFragmentInContainer<TimelineFragment>(
-//            themeResId = R.style.AppTheme
-//        )
-//
-//        val intent = Intent()
-//        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-//        Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
-//
-//        onView(withId(R.id.overflow_button)).perform(click())
-//
-//        onView(withText("Import entries from backup"))
-//            .perform(click())
-//
-//
-//        //TODO click cancel in dialog
-//    }
-//
+    @Test
+    fun timelineFragment_clicksOverflow_backsUp_acceptsPermissionsDialog() {
+        launchFragmentInContainer<TimelineFragment>(
+            themeResId = R.style.AppTheme
+        )
+
+        onView(withId(R.id.overflow_button)).perform(click())
+
+        onView(withText("Backup entries"))
+            .perform(click())
+
+        allowPermissionsIfNeeded()
+
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(withText(R.string.export_success)))
+    }
+
+    @Test
+    fun timelineFragment_clicksOverflow_backsUp_permissionAlreadyGranted_backsUpData() {
+        launchFragmentInContainer<TimelineFragment>(
+            themeResId = R.style.AppTheme
+        )
+
+        onView(withId(R.id.overflow_button)).perform(click())
+
+        onView(withText("Backup entries"))
+            .perform(click())
+
+        //this test runs twice to test the permissions dialog and the case where permissions are accepted
+        allowPermissionsIfNeeded()
+
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(withText(R.string.export_success)))
+    }
+
+
+    @Test
+    fun timelineFragment_clicksOverflow_backsUp_permissionAlreadyGranted_backsUpData_opensExportedData() {
+        Intents.init()
+
+        launchFragmentInContainer<TimelineFragment>(
+            themeResId = R.style.AppTheme
+        )
+
+        val intent = Intent()
+//        intent.data = Uri.parse("blah!")
+        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+        Intents.intending(anyIntent()).respondWith(intentResult)
+
+        onView(withId(R.id.overflow_button)).perform(click())
+
+        onView(withText("Backup entries"))
+            .perform(click())
+
+        allowPermissionsIfNeeded()
+
+        onView(withId(com.google.android.material.R.id.snackbar_action)).perform(click())
+
+        Intents.intended(
+            allOf(
+                hasAction(Intent.ACTION_VIEW)
+            )
+        )
+        Intents.release()
+    }
+
+    @Test
+    fun timelineFragment_clicksOverflow_clicksImport_seesDialog() {
+        launchFragmentInContainer<TimelineFragment>(
+            themeResId = R.style.AppTheme
+        )
+
+        onView(withId(R.id.overflow_button)).perform(click())
+
+        onView(withText("Import entries from backup"))
+            .perform(click())
+
+        onView(withText(R.string.import_data_dialog)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun timelineFragment_clicksOverflow_clicksImport_cancelsDialog() {
+        launchFragmentInContainer<TimelineFragment>(
+            themeResId = R.style.AppTheme
+        )
+
+        onView(withId(R.id.overflow_button)).perform(click())
+
+        onView(withText("Import entries from backup"))
+            .perform(click())
+
+        onView(withId(android.R.id.button2)).perform(click())
+        onView(withText(R.string.import_data_dialog)).check(doesNotExist())
+    }
+
 //    @Test
 //    fun timelineFragment_clicksOverflow_clicksImport_agreesToImport() {
+//        Intents.init()
 //        launchFragmentInContainer<TimelineFragment>(
 //            themeResId = R.style.AppTheme
 //        )
 //
 //        val intent = Intent()
 //        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-//        Intents.intending(IntentMatchers.anyIntent()).respondWith(intentResult)
+//        Intents.intending(anyIntent()).respondWith(intentResult)
 //
 //        onView(withId(R.id.overflow_button)).perform(click())
 //
 //        onView(withText("Import entries from backup"))
 //            .perform(click())
 //
+//        onView(withId(android.R.id.button1)).perform(click())
 //
-//        //TODO verify file picker opens
-//            //TODO how to verify file gets selected properly?
+//        Intents.intended(
+//            allOf(
+//                hasAction(Intent.ACTION_CHOOSER)
+//            )
+//        )
+//        Intents.release()
 //    }
+
+    @Test
+    fun timelineFragment_clicksOverflow_clicksImport_selectsBadFile() {
+        Intents.init()
+
+        val scenario = launchFragmentInContainer<TimelineFragment>(
+            themeResId = R.style.AppTheme
+        )
+        var activity: Activity? = null
+        scenario.onFragment { fragment ->
+            activity = fragment.activity
+        }
+
+        val bundle = Bundle()
+        val parcels = ArrayList<Parcelable>()
+        val resultData = Intent()
+        val uri = Uri.parse("file://mnt/sdcard/img01.jpg")
+        val parcelable = uri as Parcelable
+        parcels.add(parcelable)
+        bundle.putParcelableArrayList(Intent.EXTRA_STREAM, parcels)
+        resultData.putExtras(bundle)
+
+        val activityResult = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
+        Intents.intending(anyIntent()).respondWith(activityResult)
+
+
+        onView(withId(R.id.overflow_button)).perform(click())
+
+        onView(withText("Import entries from backup"))
+            .perform(click())
+
+        onView(withId(android.R.id.button1)).perform(click())
+
+        onView(withText("File must be a CSV")).inRoot(withDecorView(not(activity?.window?.decorView))).check(matches(isDisplayed()))
+
+        Intents.release()
+    }
+
+    //TODO try testing onActivityResult with onFragment from scenario
+
+    @Test
+    fun timelineFragment_clicksOverflow_clicksImport_selectsBadFile_uriError() {
+        Intents.init()
+
+        val scenario = launchFragmentInContainer<TimelineFragment>(
+            themeResId = R.style.AppTheme
+        )
+        var activity: Activity? = null
+        scenario.onFragment { fragment ->
+            activity = fragment.activity
+        }
+
+        val resultData = Intent()
+        val uri = Uri.parse("content://com.android.providers.downloads.documents/document/notrealcsv.csv")
+        resultData.data = uri
+
+        val activityResult = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
+        Intents.intending(anyIntent()).respondWith(activityResult)
+
+
+        onView(withId(R.id.overflow_button)).perform(click())
+
+        onView(withText("Import entries from backup"))
+            .perform(click())
+
+        onView(withId(android.R.id.button1)).perform(click())
+
+        onView(withText("Error parsing file")).inRoot(withDecorView(not(activity?.window?.decorView))).check(matches(isDisplayed()))
+
+        Intents.release()
+    }
+
 
     @Test
     fun timelineFragment_clicksSearch() {
@@ -319,13 +455,49 @@ class TimelineFragmentInstrumentedTest {
 
         onView(withId(R.id.search_icon)).perform(click())
 
-        verify(mockNavController).navigate(eq(TimelineFragmentDirections.actionTimelineFragmentToSearchFragment()), any<Navigator.Extras>())
+        verify(mockNavController).navigate(
+            eq(TimelineFragmentDirections.actionTimelineFragmentToSearchFragment()),
+            any<Navigator.Extras>()
+        )
 
     }
 
     private fun scrollCalendarBackwardsBy(months: Int) {
         for (i in 0 until months) {
-            onView(withId(R.id.compactcalendar_view)).perform(scroll(100, 10, 300, 0))
+            onView(withId(journal.gratitude.com.gratitudejournal.R.id.compactcalendar_view)).perform(
+                scroll(100, 10, 300, 0)
+            )
+        }
+    }
+
+
+    private fun allowPermissionsIfNeeded() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            val device = UiDevice.getInstance(getInstrumentation())
+            val allowPermissions = device.findObject(UiSelector().text("Allow"))
+            if (allowPermissions.exists()) {
+                try {
+                    allowPermissions.click()
+                } catch (e: UiObjectNotFoundException) {
+                    Log.e("blerg", "There is no permissions dialog to interact with ")
+                }
+
+            }
+        }
+    }
+
+    private fun rejectPermissionsIfNeeded() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            val device = UiDevice.getInstance(getInstrumentation())
+            val allowPermissions = device.findObject(UiSelector().text("Deny"))
+            if (allowPermissions.exists()) {
+                try {
+                    allowPermissions.click()
+                } catch (e: UiObjectNotFoundException) {
+                    Log.e("blerg", "There is no permissions dialog to interact with ")
+                }
+
+            }
         }
     }
 

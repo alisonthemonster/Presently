@@ -127,6 +127,7 @@ dependencies {
     androidTestImplementation 'org.mockito:mockito-android:2.23.0'
     androidTestImplementation 'org.threeten:threetenbp:1.4.0'
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.1.1"
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
     kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
 

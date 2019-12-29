@@ -232,6 +232,7 @@ class TimelineFragment : DaggerFragment() {
                             ?: emptyList(), exportCallback
                     )
                 } else {
+                    //TODO move to strings.xml
                     Toast.makeText(context, "Permission is needed to export data", Toast.LENGTH_SHORT).show()
                 }
                 return
@@ -248,15 +249,17 @@ class TimelineFragment : DaggerFragment() {
                     val uri = data?.data
                     if (uri != null) {
                         if (uri.scheme == "content") {
-                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            val inputStream = activity?.contentResolver?.openInputStream(uri)
                             if (inputStream != null) {
                                 importFromCsv(inputStream)
                             } else {
+                                //TODO move to strings.xml
                                 Toast.makeText(context, "Error parsing file", Toast.LENGTH_SHORT).show()
                             }
 
                         }
                     } else {
+                        //TODO move to strings.xml
                         Toast.makeText(context, "File must be a CSV", Toast.LENGTH_SHORT).show()
                     }
 
@@ -275,6 +278,7 @@ class TimelineFragment : DaggerFragment() {
             firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
             //TODO look into reporting this to crashlytics
 
+            //TODO move to strings.xml
             Toast.makeText(context, "Error parsing file", Toast.LENGTH_SHORT).show()
         }
     }
@@ -299,7 +303,7 @@ class TimelineFragment : DaggerFragment() {
     private fun selectCSVFile() {
         firebaseAnalytics.logEvent(LOOKED_FOR_DATA, null)
 
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.type = "*/*"
         val mimeTypes = arrayOf("text/*")
@@ -351,12 +355,15 @@ class TimelineFragment : DaggerFragment() {
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
+                        //TODO move to strings.xml
                         Toast.makeText(context, "No app found to open this file", Toast.LENGTH_SHORT).show()
                     }
                 }.show()
         }
 
         override fun onFailure(message: String) {
+            //TODO move to strings.xml
+            //TODO report with crashlytics
             Toast.makeText(context, "Error exporting: $message", Toast.LENGTH_SHORT).show()
         }
     }
