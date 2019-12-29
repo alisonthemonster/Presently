@@ -117,7 +117,6 @@ jobs:
           path: app/build/test-results/
           destination: /test-results/
 
-
   report_coverage:
     <<: *android_config
     steps:
@@ -139,7 +138,6 @@ jobs:
       - store_artifacts:
           path: app/build/reports/
           destination: /reports/
-
 
   test_instrumented:
     <<: *gcloud_config
@@ -191,11 +189,11 @@ workflows:
       - test_unit:
           requires:
             - build_debug
-            - test_instrumented:
-                requires:
-                  - build_debug
-            - report_coverage:
-                requires:
-                  - test_unit
-                  - test_instrumented
+      - test_instrumented:
+          requires:
+            - build_debug
+      - report_coverage:
+          requires:
+            - test_unit
+            - test_instrumented
 
