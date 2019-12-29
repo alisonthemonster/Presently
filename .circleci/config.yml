@@ -95,27 +95,27 @@ references:
 
 jobs:
   # Run unit tests
-    test_unit:
-      <<: *android_config
-      steps:
-        - checkout
-        - *restore_gradle_cache
-  #      - *restore_gems_cache
-        - *decrypt_google_services_json
-        - *ruby_dependencies
-        - *gradle_clean
-        - *android_dependencies
-        - *save_gradle_cache
-  #      - *save_gems_cache
-        - run:
-            name: Run unit tests
-            command: bundle exec fastlane unit_tests
-        - store_artifacts:
-            path: app/build/reports/
-            destination: /reports/
-        - store_test_results:
-            path: app/build/test-results/
-            destination: /test-results/
+  test_unit:
+    <<: *android_config
+    steps:
+      - checkout
+      - *restore_gradle_cache
+      #      - *restore_gems_cache
+      - *decrypt_google_services_json
+      - *ruby_dependencies
+      - *gradle_clean
+      - *android_dependencies
+      - *save_gradle_cache
+      #      - *save_gems_cache
+      - run:
+          name: Run unit tests
+          command: bundle exec fastlane unit_tests
+      - store_artifacts:
+          path: app/build/reports/
+          destination: /reports/
+      - store_test_results:
+          path: app/build/test-results/
+          destination: /test-results/
 
 
   report_coverage:
