@@ -132,10 +132,10 @@ jobs:
           command: pwd
       - run:
           name: What's here?
-          command: ls
+          command: ls -l firebase
       - run:
           name: Move Firebase coverage report
-          command: mkdir -p app/build/outputs/code-coverage/connected && cp /root/src/firebase/walleye-26-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
+          command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/walleye-26-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
       - *decrypt_google_services_json
       - run:
           name: Generate JaCoCo report
@@ -164,7 +164,7 @@ jobs:
           command: mkdir firebase
       - run:
           name: Download instrumented test results from Firebase Test Lab
-          command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1`*" /root/src/firebase/
+          command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1`*" /root/workspace/firebase/
       - *persist_firebase_workspace
       - store_artifacts:
           path: firebase/
