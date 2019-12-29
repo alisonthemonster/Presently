@@ -2,7 +2,27 @@ version: 2
 
 references:
   workspace: &workspace
-    ~/src
+               ~/src
+  persist_debug_workspace: &persist_debug_workspace
+    persist_to_workspace:
+      root: *workspace
+      paths:
+        - app/build/intermediates
+        #        - app/build/outputs/androidTest-results
+        - app/build/outputs/apk
+        - app/build/outputs/code-coverage
+        - app/build/test-results
+  attach_debug_workspace: &attach_debug_workspace
+    attach_workspace:
+      at: *workspace
+  attach_firebase_workspace: &attach_firebase_workspace
+    attach_workspace:
+      at: *workspace
+  persist_firebase_workspace: &persist_firebase_workspace
+    persist_to_workspace:
+      root: *workspace
+      paths:
+        - firebase
 
   android_config: &android_config
     working_directory: *workspace
@@ -12,6 +32,13 @@ references:
       TERM: dumb
       _JAVA_OPTIONS: "-Xmx2048m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
       GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m"'
+
+  gcloud_config: &gcloud_config
+    working_directory: *workspace
+    docker:
+      - image: google/cloud-sdk:latest
+    environment:
+      TERM: dumb
 
   ruby_dependencies: &ruby_dependencies
     run:
@@ -30,10 +57,10 @@ references:
       command: ./gradlew clean
 
   gradle_key: &gradle_key
-    v3-jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+                v3-jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
   gems_key: &gems_key
-    gems-{{ checksum "Gemfile.lock" }}
+              gems-{{ checksum "Gemfile.lock" }}
 
   restore_gradle_cache: &restore_gradle_cache
     restore_cache:
@@ -61,29 +88,100 @@ references:
       name: Decrypt the google-services.json file and put it in the right spot
       command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
 
+  decrypt_gcloud_key: &decrypt_gcloud_key
+    run:
+      name: Decrypt Google Cloud credentials
+      command: echo $GCLOUD_SERVICE_KEY | base64 -di > ${HOME}/client-secret.json
+
 jobs:
   ## Run unit tests
-  test_unit:
+#  test_unit:
+#    <<: *android_config
+#    steps:
+#      - checkout
+#      - *restore_gradle_cache
+##      - *restore_gems_cache
+#      - *decrypt_google_services_json
+#      - *ruby_dependencies
+#      - *gradle_clean
+#      - *android_dependencies
+#      - *save_gradle_cache
+##      - *save_gems_cache
+#      - run:
+#          name: Run unit tests
+#          command: bundle exec fastlane unit_tests
+#      - store_artifacts:
+#          path: app/build/reports/
+#          destination: /reports/
+#      - store_test_results:
+#          path: app/build/test-results/
+#          destination: /test-results/
+
+
+  report_coverage:
     <<: *android_config
     steps:
       - checkout
-      - *decrypt_google_services_json
       - *restore_gradle_cache
-      - *restore_gems_cache
-      - *ruby_dependencies
-      - *gradle_clean
-      - *android_dependencies
-      - *save_gradle_cache
-      - *save_gems_cache
       - run:
-          name: Run unit tests
-          command: bundle exec fastlane unit_tests
+            name: Download dependencies
+            command: ./gradlew androidDependencies
+      - *attach_debug_workspace
+      - *attach_firebase_workspace
+      - run:
+          name: Move Firebase coverage report
+          command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/walleye-26-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
+      - *decrypt_google_services_json
+      - run:
+          name: Generate JaCoCo report
+          command: ./gradlew -PciBuild=true :app:jacocoTestReport
+#      TODO send coverage report to danger to report
       - store_artifacts:
           path: app/build/reports/
           destination: /reports/
-      - store_test_results:
-          path: app/build/test-results/
-          destination: /test-results/
+
+
+  test_instrumented:
+    <<: *gcloud_config
+    steps:
+      - *attach_debug_workspace
+      - *decrypt_gcloud_key
+      - run:
+          name: Set Google Cloud target project
+          command: gcloud config set project gratitude-journal-app
+      - run:
+          name: Authenticate with Google Cloud
+          command: gcloud auth activate-service-account presently-service-account@presently-263505.iam.gserviceaccount.com --key-file ${HOME}/client-secret.json
+      - run:
+          name: Run instrumented test on Firebase Test Lab
+          command: gcloud firebase test android run --type instrumentation --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk --device model=walleye,version=26,locale=en_US,orientation=portrait --environment-variables coverage=true,coverageFile=/sdcard/tmp/code-coverage/connected/coverage.ec --directories-to-pull=/sdcard/tmp --timeout 20m
+      - run:
+          name: Create directory to store test results
+          command: mkdir firebase
+      - run:
+          name: Download instrumented test results from Firebase Test Lab
+          command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1`*" /root/workspace/firebase/
+      - *persist_firebase_workspace
+      - store_artifacts:
+          path: firebase/
+          destination: /firebase/
+
+  build_debug:
+    <<: *android_config
+    steps:
+      - checkout
+      - *restore_gradle_cache
+      - *android_dependencies
+      - *save_gradle_cache
+      - *decrypt_google_services_json
+      - run:
+          name: Gradle build (debug)
+          command: ./gradlew -PciBuild=true :app:assembleDebug :app:assembleAndroidTest
+      - *persist_debug_workspace
+      - store_artifacts:
+          path: app/build/outputs/apk/
+          destination: /apk/
+
 
 workflows:
   version: 2
