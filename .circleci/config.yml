@@ -102,7 +102,7 @@ jobs:
       - *restore_gradle_cache
       #      - *restore_gems_cache
       - *decrypt_google_services_json
-      - *ruby_dependencies
+#      - *ruby_dependencies
       - *gradle_clean
       - *android_dependencies
       - *save_gradle_cache
@@ -128,8 +128,14 @@ jobs:
       - *attach_debug_workspace
       - *attach_firebase_workspace
       - run:
+          name: Where are we?
+          command: pwd
+      - run:
+          name: What's here?
+          command: ls
+      - run:
           name: Move Firebase coverage report
-          command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/walleye-26-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
+          command: mkdir -p app/build/outputs/code-coverage/connected && cp /root/src/firebase/walleye-26-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
       - *decrypt_google_services_json
       - run:
           name: Generate JaCoCo report
