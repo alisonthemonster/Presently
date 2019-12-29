@@ -94,28 +94,28 @@ references:
       command: echo $GCLOUD_SERVICE_KEY | base64 -di > ${HOME}/client-secret.json
 
 jobs:
-  ## Run unit tests
-#  test_unit:
-#    <<: *android_config
-#    steps:
-#      - checkout
-#      - *restore_gradle_cache
-##      - *restore_gems_cache
-#      - *decrypt_google_services_json
-#      - *ruby_dependencies
-#      - *gradle_clean
-#      - *android_dependencies
-#      - *save_gradle_cache
-##      - *save_gems_cache
-#      - run:
-#          name: Run unit tests
-#          command: bundle exec fastlane unit_tests
-#      - store_artifacts:
-#          path: app/build/reports/
-#          destination: /reports/
-#      - store_test_results:
-#          path: app/build/test-results/
-#          destination: /test-results/
+  # Run unit tests
+    test_unit:
+      <<: *android_config
+      steps:
+        - checkout
+        - *restore_gradle_cache
+  #      - *restore_gems_cache
+        - *decrypt_google_services_json
+        - *ruby_dependencies
+        - *gradle_clean
+        - *android_dependencies
+        - *save_gradle_cache
+  #      - *save_gems_cache
+        - run:
+            name: Run unit tests
+            command: bundle exec fastlane unit_tests
+        - store_artifacts:
+            path: app/build/reports/
+            destination: /reports/
+        - store_test_results:
+            path: app/build/test-results/
+            destination: /test-results/
 
 
   report_coverage:
@@ -124,8 +124,8 @@ jobs:
       - checkout
       - *restore_gradle_cache
       - run:
-            name: Download dependencies
-            command: ./gradlew androidDependencies
+          name: Download dependencies
+          command: ./gradlew androidDependencies
       - *attach_debug_workspace
       - *attach_firebase_workspace
       - run:
@@ -135,7 +135,7 @@ jobs:
       - run:
           name: Generate JaCoCo report
           command: ./gradlew -PciBuild=true :app:jacocoTestReport
-#      TODO send coverage report to danger to report
+      #      TODO send coverage report to danger to report
       - store_artifacts:
           path: app/build/reports/
           destination: /reports/
@@ -187,5 +187,15 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - test_unit
+      - build_debug
+      - test_unit:
+          requires:
+            - build_debug
+            - test_instrumented:
+                requires:
+                  - build_debug
+            - report_coverage:
+                requires:
+                  - test_unit
+                  - test_instrumented
 
