@@ -4,14 +4,8 @@ apply plugin: 'jacoco'
 apply plugin: 'com.android.application'
 
 jacoco {
-    toolVersion = "0.8.2"
-    reportsDir = file("$buildDir/reports")
+    toolVersion '0.8.2'
 }
-
-tasks.withType(Test) {
-    jacoco.includeNoLocationClasses = true
-}
-
 
 // Excluded files
 def fileFilter = ['**/R.class',
@@ -35,16 +29,12 @@ def fileFilter = ['**/R.class',
                   '**/*Activity*.*',
                   '**/calendar/*.*',]
 
-task testCoverage(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-    group = "Reporting"
-    description = "Create jacoco coverage reports for the Debug build"
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
+task jacocoTestReport(type : JacocoReport, dependsOn : 'testDebugUnitTest') {
+    description = 'Generate JaCoCo coverage reports'
+    group       = 'Reporting'
 
 
+    def mainSrc = android.sourceSets.main.java.srcDirs
     def debugTree = fileTree(
             dir: "$buildDir/intermediates/classes/debug",
             excludes: fileFilter
@@ -52,19 +42,34 @@ task testCoverage(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDe
             dir: "$buildDir/tmp/kotlin-classes/debug",
             excludes: fileFilter
     )
-    def mainSrc = android.sourceSets.main.java.srcDirs
-
 
     sourceDirectories = files([mainSrc])
     classDirectories = files([debugTree])
+    executionData     = fileTree(
+            dir     : "$buildDir",
+            include : [ 'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec' ]
+    )
 
-    executionData = fileTree(dir: "$buildDir", includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/**/*.ec'
-    ])
+    doFirst {
+        files('build/intermediates/classes/debug').getFiles().each { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
 
     doLast {
         printReport("testCoverage")
     }
+
+    reports {
+        xml.enabled  = true
+        html.enabled = true
+    }
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
 }
 
 def printReport(task) {
