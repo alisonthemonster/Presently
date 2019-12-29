@@ -109,7 +109,7 @@ jobs:
       #      - *save_gems_cache
       - run:
           name: Run unit tests
-          command: bundle exec fastlane unit_tests
+          command: ./gradlew -PciBuild=true :app:testDebugUnitTest
       - store_artifacts:
           path: app/build/reports/
           destination: /reports/
