@@ -52,4 +52,8 @@
     <string name="theme">Aussehen</string>
     <string name="open_source">Open Source-Lizenzen</string>
     <string name="open_source_info">Lizenzdetails für Open-Source-Software</string>
+    <string name="error_parsing">Fehler beim Parsen der Datei</string>
+    <string name="file_not_csv">Die Datei muss eine CSV sein</string>
+    <string name="no_app_found">Keine App zum Öffnen dieser Datei gefunden</string>
+    <string name="permission_export">Zum Exportieren von Daten ist eine Erlaubnis erforderlich</string>
 </resources>
