@@ -54,48 +54,48 @@ class SearchFragmentInstrumentedTest {
         verify(mockNavController).navigateUp()
     }
 
-//    @Test
-//    fun search_showsResults() {
-//        launchFragmentInContainer<SearchFragment>(
-//            themeResId = R.style.AppTheme
-//        )
-//
-//        onView(withId(R.id.search_text)).perform(
-//            typeText("query!")
-//        )
-//
-//        //wait for debounce to perform search
-//        onView(isRoot()).perform(waitFor(400))
-//
-//        onView(withId(R.id.no_results_icon)).check(ViewAssertions.matches(not(isDisplayed())))
-//        onView(withId(R.id.search_results)).check(withItemCount(2))
-//    }
+    @Test
+    fun search_showsResults() {
+        launchFragmentInContainer<SearchFragment>(
+            themeResId = R.style.AppTheme
+        )
 
-//    @Test
-//    fun search_type_clickEntry_navigateToEntry() {
-//        val mockNavController = mock<NavController>()
-//        val scenario = launchFragmentInContainer<SearchFragment>(
-//            themeResId = R.style.AppTheme
-//        )
-//        scenario.onFragment { fragment ->
-//            Navigation.setViewNavController(fragment.requireView(), mockNavController)
-//        }
-//
-//        onView(withId(R.id.search_text)).perform(
-//            typeText("Test string!")
-//        )
-//
-//        onView(isRoot()).perform(waitFor(400))
-//
-//        onView(withId(R.id.search_results))
-//            .perform(
-//                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-//                    0,
-//                    click()
-//                )
-//            )
-//
-//        verify(mockNavController).navigate(eq(R.id.action_searchFragment_to_entryFragment), any())
-//    }
+        onView(withId(R.id.search_text)).perform(
+            typeText("query!")
+        )
+
+        //wait for debounce to perform search
+        onView(isRoot()).perform(waitFor(400))
+
+        onView(withId(R.id.no_results_icon)).check(ViewAssertions.matches(not(isDisplayed())))
+        onView(withId(R.id.search_results)).check(withItemCount(2))
+    }
+
+    @Test
+    fun search_type_clickEntry_navigateToEntry() {
+        val mockNavController = mock<NavController>()
+        val scenario = launchFragmentInContainer<SearchFragment>(
+            themeResId = R.style.AppTheme
+        )
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+        }
+
+        onView(withId(R.id.search_text)).perform(
+            typeText("Test string!")
+        )
+
+        onView(isRoot()).perform(waitFor(400))
+
+        onView(withId(R.id.search_results))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    click()
+                )
+            )
+
+        verify(mockNavController).navigate(eq(R.id.action_searchFragment_to_entryFragment), any())
+    }
 
 }
