@@ -283,35 +283,35 @@ class TimelineFragmentInstrumentedTest {
     }
 
 
-    @Test
-    fun timelineFragment_clicksOverflow_backsUp_permissionAlreadyGranted_backsUpData_opensExportedData() {
-        Intents.init()
-
-        launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
-        )
-
-        val intent = Intent()
-//        intent.data = Uri.parse("blah!")
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        Intents.intending(anyIntent()).respondWith(intentResult)
-
-        onView(withId(R.id.overflow_button)).perform(click())
-
-        onView(withText("Backup entries"))
-            .perform(click())
-
-        allowPermissionsIfNeeded()
-
-        onView(withId(com.google.android.material.R.id.snackbar_action)).perform(click())
-
-        Intents.intended(
-            allOf(
-                hasAction(Intent.ACTION_VIEW)
-            )
-        )
-        Intents.release()
-    }
+//    @Test
+//    fun timelineFragment_clicksOverflow_backsUp_permissionAlreadyGranted_backsUpData_opensExportedData() {
+//        Intents.init()
+//
+//        launchFragmentInContainer<TimelineFragment>(
+//            themeResId = R.style.AppTheme
+//        )
+//
+//        val intent = Intent()
+////        intent.data = Uri.parse("blah!")
+//        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+//        Intents.intending(anyIntent()).respondWith(intentResult)
+//
+//        onView(withId(R.id.overflow_button)).perform(click())
+//
+//        onView(withText("Backup entries"))
+//            .perform(click())
+//
+//        allowPermissionsIfNeeded()
+//
+//        onView(withId(com.google.android.material.R.id.snackbar_action)).perform(click())
+//
+//        Intents.intended(
+//            allOf(
+//                hasAction(Intent.ACTION_VIEW)
+//            )
+//        )
+//        Intents.release()
+//    }
 
     @Test
     fun timelineFragment_clicksOverflow_clicksImport_seesDialog() {
@@ -407,37 +407,37 @@ class TimelineFragmentInstrumentedTest {
 
     //TODO try testing onActivityResult with onFragment from scenario
 
-    @Test
-    fun timelineFragment_clicksOverflow_clicksImport_selectsBadFile_uriError() {
-        Intents.init()
-
-        val scenario = launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
-        )
-        var activity: Activity? = null
-        scenario.onFragment { fragment ->
-            activity = fragment.activity
-        }
-
-        val resultData = Intent()
-        val uri = Uri.parse("content://com.android.providers.downloads.documents/document/notrealcsv.csv")
-        resultData.data = uri
-
-        val activityResult = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
-        Intents.intending(anyIntent()).respondWith(activityResult)
-
-
-        onView(withId(R.id.overflow_button)).perform(click())
-
-        onView(withText("Import entries from backup"))
-            .perform(click())
-
-        onView(withId(android.R.id.button1)).perform(click())
-
-        onView(withText("Error parsing file")).inRoot(withDecorView(not(activity?.window?.decorView))).check(matches(isDisplayed()))
-
-        Intents.release()
-    }
+//    @Test
+//    fun timelineFragment_clicksOverflow_clicksImport_selectsBadFile_uriError() {
+//        Intents.init()
+//
+//        val scenario = launchFragmentInContainer<TimelineFragment>(
+//            themeResId = R.style.AppTheme
+//        )
+//        var activity: Activity? = null
+//        scenario.onFragment { fragment ->
+//            activity = fragment.activity
+//        }
+//
+//        val resultData = Intent()
+//        val uri = Uri.parse("content://com.android.providers.downloads.documents/document/notrealcsv.csv")
+//        resultData.data = uri
+//
+//        val activityResult = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
+//        Intents.intending(anyIntent()).respondWith(activityResult)
+//
+//
+//        onView(withId(R.id.overflow_button)).perform(click())
+//
+//        onView(withText("Import entries from backup"))
+//            .perform(click())
+//
+//        onView(withId(android.R.id.button1)).perform(click())
+//
+//        onView(withText("Error parsing file")).inRoot(withDecorView(not(activity?.window?.decorView))).check(matches(isDisplayed()))
+//
+//        Intents.release()
+//    }
 
 
     @Test
