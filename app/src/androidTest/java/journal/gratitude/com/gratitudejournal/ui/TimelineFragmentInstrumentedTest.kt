@@ -341,31 +341,31 @@ class TimelineFragmentInstrumentedTest {
         onView(withText(R.string.import_data_dialog)).check(doesNotExist())
     }
 
-//    @Test
-//    fun timelineFragment_clicksOverflow_clicksImport_agreesToImport() {
-//        Intents.init()
-//        launchFragmentInContainer<TimelineFragment>(
-//            themeResId = R.style.AppTheme
-//        )
-//
-//        val intent = Intent()
-//        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-//        Intents.intending(anyIntent()).respondWith(intentResult)
-//
-//        onView(withId(R.id.overflow_button)).perform(click())
-//
-//        onView(withText("Import entries from backup"))
-//            .perform(click())
-//
-//        onView(withId(android.R.id.button1)).perform(click())
-//
-//        Intents.intended(
-//            allOf(
-//                hasAction(Intent.ACTION_CHOOSER)
-//            )
-//        )
-//        Intents.release()
-//    }
+    @Test
+    fun timelineFragment_clicksOverflow_clicksImport_agreesToImport() {
+        Intents.init()
+        launchFragmentInContainer<TimelineFragment>(
+            themeResId = R.style.AppTheme
+        )
+
+        val intent = Intent()
+        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+        Intents.intending(anyIntent()).respondWith(intentResult)
+
+        onView(withId(R.id.overflow_button)).perform(click())
+
+        onView(withText("Import entries from backup"))
+            .perform(click())
+
+        onView(withId(android.R.id.button1)).perform(click())
+
+        Intents.intended(
+            allOf(
+                hasAction(Intent.ACTION_CHOOSER)
+            )
+        )
+        Intents.release()
+    }
 
     @Test
     fun timelineFragment_clicksOverflow_clicksImport_selectsBadFile() {
