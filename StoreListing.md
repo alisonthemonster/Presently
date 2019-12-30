@@ -16,8 +16,8 @@ Presently lets you:
 
 Presently is 100% free and ad free. All of your entries stay on your device and in your control.
 
-
 ## French
+
 Appréciez votre vie quotidienne avec Presently, journal de gratitude gratuit et privé
 
 Entraînez votre gratitude avec ce journal de gratitude simple, toujours gratuit, et privé.
@@ -35,12 +35,70 @@ Avec Presently, vous pouvez:
 Presently est 100% gratuit, et ne contient aucune publicité. Tous vos enregistrements restent dans votre appareil, et sous votre contrôle.
 
 ## German
-Einem kostenlosen & privaten Dankbarkeitstagebuch
 
-Übe Dankbarkeit mit dieser einfachen, immer kostenlosen und privaten Tagebuch-App.
+Halte die schönen Momente deines Lebens fest mit Presently, der kostenlosen & privaten Dankbarkeits-Tagebuch App!
 
-⁕ Lesen Sie Anführungszeichen und Eingabeaufforderungen
-⁕ Tägliche Dankbarkeitserinnerung
-⁕ Suche alte Einträge
-⁕ Teile deine Dankbarkeit
-⁕ Einträge sichern in CSV
+Übe dich darin, die kleinen Dinge des Lebens wertzuschätzen - Presently unterstützt dich dabei mit seiner einfachen Verwendungsweise.
+
+Presently ermöglicht dir folgendes:
+⁕ Verfasse tägliche Dankbarkeitseinträge
+⁕ Reflektiere über Momente der Dankbarkeit die du an vergangenen Tagen empfandest
+⁕ Lass dich durch Zitate und Meldungen motivieren
+⁕ Erstelle tägliche Erinnerungen um deine Dankbarkeitsübung fortzusetzen
+⁕ Durchsuche deine alten Einträge
+⁕ Teile deine Einträge mit deiner Familie und deinen Freunden
+⁕ Exportiere oder importiere deine Einträge
+⁕ Passe das Aussehen der App ganz nach deinem Geschmack an
+
+Presently ist 100% kostenlos und werbefrei. Alle deine Einträge befinden sich nur auf deinem Gerät und stehen unter deiner Kontrolle.
+
+## Russian
+
+Запечатлите прекрасные моменты своей жизни с Presently, бесплатным и приватным дневником благодарностей!
+
+Это простое приложение поможет вам научиться ценить мелочи повседневной жизни.
+
+Presently позволит вам:
+⁕ Создавать записи с благодарностями каждый день
+⁕ Вспомнить моменты, в которые вы испытывали благодарность
+⁕ Найти мотивацию с помощью цитат и подсказок
+⁕ Установить ежедневные напоминания, чтобы продолжать практику благодарности
+⁕ Искать ваши старые записи
+⁕ Поделиться своими записями с семьей и друзьями
+⁕ Делать резервные комии и импортировать ваши записи
+⁕ Настроить внешний вид приложения на свой вкус
+
+Приложение на 100% бесплатно и не содержит рекламы. Все ваши записи остаются на вашем устройстве и под вашим контролем.
+
+## Finnish
+
+Juhli päivittäistä elämääsi Presentlyhin kanssa ilmaisella ja yksityisellä kiitollisuudella päiväkirja
+
+Harjoittele kiitollisuutta tällä yksinkertaisella, aina ilmaisella ja yksityisellä kiitollisuuteen liittyvällä päiväkirjasovelluksella.
+
+Tällä hetkellä voit: 
+⁕ Tallenna kiitollisuus päivittäin
+⁕ Mieti takaisin menneistä kiitollisuutesi hetkistä ⁕ Löydä motivaatio tarjousten ja ohjeiden avulla
+⁕ Aseta päivittäiset muistutukset jatkaaksesi kiitollisuusharjoitteluasi
+⁕ Etsi vanhoista merkinnöistäsi
+⁕ Jaa merkinnät perheen ja ystävien kanssa 
+⁕ Vie / tuo merkinnät 
+⁕ Vaihda suosikki värimallisi
+
+## Italian
+
+Rendi omaggio alla tua vita con Presently, il diario della gratitudine attento alla tua privacy
+
+Allenati alla gratitudine con un diario semplice, privato e gratuito. 
+
+Con Presently puoi:
+⁕ Mettere per iscritto la tua gratitudine ogni giorno 
+⁕ Riflettere sulla gratitudine che hai provato in passato
+⁕ Trovare ispirazione e motivazione grazie una raccolta di idee e citazioni
+⁕ Impostare un promemoria per mantenere l'abitudine alla gratitudine
+⁕ Cercare nel testo del tuo diario
+⁕ Condividere il tuo diario con amici e familiari
+⁕ Esportare e ripristina il tuo diario 
+⁕ Scegliere lo schema di colori che preferisci
+
+Presently è completamente gratuita e priva di pubblicità. Il tuo diario è conservato solo sul tuo telefono, sotto il tuo controllo.

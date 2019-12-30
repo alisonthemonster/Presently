@@ -102,6 +102,16 @@ class EntryRepositoryTest {
         verify(entryDao).searchAllEntries(expectedQuery)
     }
 
+    //Fixes crash with FTS and quotation marks
+    @Test
+    fun searchEntries_removesQuotesFromQuery() {
+        val query = "\"Howdy!\""
+        val expectedQuery = "*Howdy!*"
+        repository.searchEntries(query)
+
+        verify(entryDao).searchAllEntries(expectedQuery)
+    }
+
     @Test
     fun getWrittenDates_callsDaoGetWrittenDates() {
         repository.getWrittenDates()

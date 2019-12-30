@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prompts">
+            <item>Cosa ti fa sorridere?</item>
+            <item>C\'è qualcosa attorno a te per cui sei grato?</item>
+            <item>Cosa ti rende felice di essere vivo?</item>
+            <item>C\'è qualcuno che è sempre al tuo fianco?</item>
+            <item>C\'è qualcuno che ti è stato vicino?</item>
+            <item>C\'è qualcuno che ti ha insegnato qualcosa?</item>
+            <item>C\'è qualcuno che ti ama?</item>
+            <item>C\'è qualcuno che ami?</item>
+            <item>C\'è un amico per cui sei grato?</item>
+            <item>Per cosa sei riconoscente nella natura che ti circonda?</item>
+            <item>Hai una dote o un talento per cui sei riconoscente?</item>
+            <item>C\'è un ricordo per cui sei grato?</item>
+            <item>C\'è qualcuno che ti ha aiutato?</item>
+            <item>Cosa ti ha reso felice?</item>
+            <item>Di cosa sei orgoglioso?</item>
+            <item>Qual è il ricordo più bello della tua infanzia?</item>
+            <item>Qual è l\'aspetto più bello del tuo lavoro?</item>
+            <item>Per quale dei tuoi diritti sei riconoscente?</item>
+            <item>Cosa trovi divertente?</item>
+            <item>C\'è qualcosa di te stesso per cui sei grato?</item>
+            <item>Qual è la cosa più bella che hai visto?</item>
+            <item>C\'è un libro per cui sei grato?</item>
+            <item>Quale una canzone porteresti con te su un\'isola deserta?</item>
+            <item>Cosa rende la tua vita più semplice?</item>
+            <item>Cosa ti mette sempre di buon umore?</item>
+            <item>C\'è qualcuno che ammiri?</item>
+            <item>C\'è uno strumento per cui sei riconoscente?</item>
+            <item>Per quale opportunità sei riconoscente?</item>
+            <item>C\'è qualcosa del tuo corpo per cui sei riconoscente?</item>
+            <item>C\'è un luogo che ti è caro?</item>
+            <item>Qual è l\'odore che ami di più?</item>
+            <item>Hai un cibo preferito?</item>
+            <item>C\'è qualcosa di te stesso per cui sei grato?</item>
+            <item>C\'è una semplice gioia nella tua vita?</item>
+            <item>Hai un hobby?</item>
+            <item>Hai un tuo suono che ami?</item>
+            <item>C\'è un piccolo particolare che per te è estremamente importante?</item>
+            <item>Cosa sei riconoscente di aver imparato?</item>
+            <item>Cosa ami del luogo dove vivi?</item>
+            <item>Qual è l\'aspetto della tua casa che preferisci?</item>
+            <item>C\'è un consiglio che sei grato di aver ricevuto?</item>
+            <item>Cosa ti rende felice della tua famiglia?</item>
+            <item>Cosa ti piace di questo periodo dell\'anno?</item>
+            <item>Hai uno svago preferito?</item>
+    </string-array>
+</resources>

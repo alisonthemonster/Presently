@@ -44,7 +44,8 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
     }
 
     override fun searchEntries(query: String): LiveData<PagedList<Entry>> {
-        val wildcardQuery = String.format("*%s*", query)
+        val escapedQuery = query.replace("\"", "")
+        val wildcardQuery = String.format("*%s*", escapedQuery)
 
         val pagedListConfig = PagedList.Config.Builder()
             .setEnablePlaceholders(true)

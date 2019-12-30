@@ -1,5 +1,5 @@
 # Presently: A Gratitude Journal
-[![CircleCI](https://circleci.com/gh/alisonthemonster/Presently/tree/master.svg?style=svg)](https://circleci.com/gh/alisonthemonster/Presently/tree/master)
+[![CircleCI](https://circleci.com/gh/alisonthemonster/Presently/tree/develop.svg?style=svg)](https://circleci.com/gh/alisonthemonster/Presently/tree/develop)
 
 A journal to write what you're thankful for
 
