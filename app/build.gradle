@@ -60,7 +60,7 @@ android {
             includeAndroidResources = true
         }
     }
-//    TODO move this to task
+
     kotlinOptions { jvmTarget = "1.8" }
 }
 

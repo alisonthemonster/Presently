@@ -27,7 +27,6 @@ import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObjectNotFoundException
 import androidx.test.uiautomator.UiSelector
@@ -118,7 +117,6 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_openCalendar_clicksDate_opensEntry() {
-        //TODO make sure to change calendar back a month to make sure we're selecting a date in the past
         val mockNavController = mock<NavController>()
         val mockNavigationDestination = mock<NavDestination>()
         mockNavigationDestination.id = R.id.timelineFragment
@@ -131,6 +129,7 @@ class TimelineFragmentInstrumentedTest {
         }
 
         onView(withId(R.id.cal_fab)).perform(click())
+        scrollCalendarBackwardsBy(1)
         onView(withId(R.id.compactcalendar_view)).perform(clickXY(150, 300))
 
         verify(mockNavController).navigate(eq(R.id.action_timelineFragment_to_entryFragment), any())
@@ -404,41 +403,6 @@ class TimelineFragmentInstrumentedTest {
         Intents.release()
     }
 
-    //TODO try testing onActivityResult with onFragment from scenario
-
-//    @Test
-//    fun timelineFragment_clicksOverflow_clicksImport_selectsBadFile_uriError() {
-//        Intents.init()
-//
-//        val scenario = launchFragmentInContainer<TimelineFragment>(
-//            themeResId = R.style.AppTheme
-//        )
-//        var activity: Activity? = null
-//        scenario.onFragment { fragment ->
-//            activity = fragment.activity
-//        }
-//
-//        val resultData = Intent()
-//        val uri = Uri.parse("content://com.android.providers.downloads.documents/document/notrealcsv.csv")
-//        resultData.data = uri
-//
-//        val activityResult = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
-//        Intents.intending(anyIntent()).respondWith(activityResult)
-//
-//
-//        onView(withId(R.id.overflow_button)).perform(click())
-//
-//        onView(withText("Import entries from backup"))
-//            .perform(click())
-//
-//        onView(withId(android.R.id.button1)).perform(click())
-//
-//        onView(withText("Error parsing file")).inRoot(withDecorView(not(activity?.window?.decorView))).check(matches(isDisplayed()))
-//
-//        Intents.release()
-//    }
-
-
     @Test
     fun timelineFragment_clicksSearch() {
         val mockNavController = mock<NavController>()
@@ -458,13 +422,12 @@ class TimelineFragmentInstrumentedTest {
             eq(TimelineFragmentDirections.actionTimelineFragmentToSearchFragment()),
             any<Navigator.Extras>()
         )
-
     }
 
     private fun scrollCalendarBackwardsBy(months: Int) {
         for (i in 0 until months) {
-            onView(withId(journal.gratitude.com.gratitudejournal.R.id.compactcalendar_view)).perform(
-                scroll(100, 10, 300, 0)
+            onView(withId(R.id.compactcalendar_view)).perform(
+                scroll(100, 300, 300, 250)
             )
         }
     }
