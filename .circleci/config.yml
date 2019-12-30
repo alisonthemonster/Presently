@@ -3,6 +3,12 @@ version: 2
 references:
   workspace: &workspace
                ~/src
+
+
+  gems_key: &gems_key
+              gems-{{ checksum "Gemfile.lock" }}
+
+
   persist_debug_workspace: &persist_debug_workspace
     persist_to_workspace:
       root: *workspace
@@ -22,6 +28,14 @@ references:
       root: *workspace
       paths:
         - firebase
+  save_gems_cache: &save_gems_cache
+    save_cache:
+      key: *gems_key
+      paths:
+        - vendor/bundle
+  restore_gems_cache: &restore_gems_cache
+    restore_cache:
+      key: *gems_key
 
   android_config: &android_config
     working_directory: *workspace
@@ -99,6 +113,9 @@ jobs:
     <<: *android_config
     steps:
       - checkout
+      - *restore_gems_cache
+      - run: bundle install --path vendor/bundle
+      - *save_gems_cache
       - *restore_gradle_cache
       - run:
           name: Download dependencies
@@ -112,7 +129,7 @@ jobs:
       - run:
           name: Generate JaCoCo report
           command: ./gradlew -PciBuild=true :app:jacocoTestReport
-      #      TODO send coverage report to danger to report
+      - run: bundle exec danger --verbose
       - store_artifacts:
           path: app/build/reports/
           destination: /reports/
