@@ -10,12 +10,13 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 import org.threeten.bp.LocalDate
+import java.io.IOException
+import kotlin.test.assertFailsWith
 
 class EntryViewModelTest {
 
@@ -260,14 +261,29 @@ class EntryViewModelTest {
     }
 
     @Test
-    fun addNewEntry_callsRepo() {
+    fun getDateString_noDate_throwsException() {
         viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(LocalDate.now().toString())
 
-        viewModel.addNewEntry()
+        assertFailsWith<IOException> {
+            viewModel.getDateString()
+        }
+    }
 
-        runBlocking {
-            verify(repository).addEntry(any())
+    @Test
+    fun getHintString_noDate_throwsException() {
+        viewModel = EntryViewModel(repository, application)
+
+        assertFailsWith<IOException> {
+            viewModel.getHintString()
+        }
+    }
+
+    @Test
+    fun getThankfulString_noDate_throwsException() {
+        viewModel = EntryViewModel(repository, application)
+
+        assertFailsWith<IOException> {
+            viewModel.getThankfulString()
         }
     }
 }

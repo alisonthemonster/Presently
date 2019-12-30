@@ -114,6 +114,7 @@ dependencies {
     testImplementation 'androidx.room:room-testing:2.2.2'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_version"
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
