@@ -101,7 +101,7 @@ def printReport(task) {
 
     // Fail the task if the coverage is below these numbers
     def minTestCoverage = [
-            'instruction': 60,
+            'instruction': 80,
             'line'       : 80,
             'complexity' : 60,
             'method'     : 80,

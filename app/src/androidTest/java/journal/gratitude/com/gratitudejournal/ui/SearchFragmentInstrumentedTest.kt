@@ -72,6 +72,20 @@ class SearchFragmentInstrumentedTest {
     }
 
     @Test
+    fun search_doesntSearchEmptyStrings() {
+        launchFragmentInContainer<SearchFragment>(
+            themeResId = R.style.AppTheme
+        )
+
+        onView(withId(R.id.search_text)).perform(
+            typeText("hello"),
+            replaceText("")
+        )
+
+        onView(withId(R.id.search_results)).check(withItemCount(0))
+    }
+
+    @Test
     fun search_type_clickEntry_navigateToEntry() {
         val mockNavController = mock<NavController>()
         val scenario = launchFragmentInContainer<SearchFragment>(
