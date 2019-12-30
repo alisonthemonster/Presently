@@ -96,9 +96,7 @@ class SearchFragment : DaggerFragment() {
         }
 
         back_icon.setOnClickListener {
-            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-            imm?.hideSoftInputFromWindow(search_text.windowToken, 0)
-
+            dismissKeyboard()
             findNavController().navigateUp()
         }
 

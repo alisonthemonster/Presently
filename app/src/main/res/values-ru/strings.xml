@@ -53,4 +53,8 @@
     <string name="theme">Темы</string>
     <string name="open_source">Лицензии исходного кода</string>
     <string name="open_source_info">Ознакомьтесь с лизцензиями открытого исходного кода</string>
+    <string name="error_parsing">Ошибка разбора файла</string>
+    <string name="file_not_csv">Файл должен быть CSV</string>
+    <string name="no_app_found">Не найдено приложение для открытия этого файла</string>
+    <string name="permission_export">Разрешение необходимо для экспорта данных</string>
 </resources>

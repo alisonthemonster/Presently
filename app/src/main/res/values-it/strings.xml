@@ -53,4 +53,8 @@
     <string name="theme">Grafica</string>
     <string name="open_source">Licenze open source</string>
     <string name="open_source_info">Leggi le licenze open source</string>
+    <string name="error_parsing">Errore durante l\'analisi del file</string>
+    <string name="file_not_csv">Il file deve essere un CSV</string>
+    <string name="no_app_found">Nessuna app trovata per aprire questo file</string>
+    <string name="permission_export">È necessaria l\'autorizzazione per esportare i dati</string>
 </resources>

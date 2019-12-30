@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: '../versions.gradle'
 apply from: 'jacoco.gradle'
+apply from: 'coveragereporting.gradle'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-allopen'
 apply plugin: 'io.fabric'
@@ -25,7 +26,7 @@ android {
         //TODO wire up to CI
         //buildConfigField 'int', 'BUILD_NUMBER', "${project.ext.buildNumber}"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "journal.gratitude.com.gratitudejournal.CustomTestRunner"
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation":
@@ -38,6 +39,7 @@ android {
     }
     buildTypes {
         debug {
+            testCoverageEnabled true
             versionNameSuffix "-DEBUG"
         }
         release {
@@ -51,6 +53,15 @@ android {
     kapt {
         generateStubs = true
     }
+    testOptions {
+        animationsDisabled true
+
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+    kotlinOptions { jvmTarget = "1.8" }
 }
 
 dependencies {
@@ -63,7 +74,7 @@ dependencies {
     implementation 'io.github.inflationx:calligraphy3:3.0.0'
     implementation 'io.github.inflationx:viewpump:1.0.0'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
-    implementation 'androidx.room:room-runtime:2.1.0'
+    implementation 'androidx.room:room-runtime:2.2.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01'
     implementation 'androidx.paging:paging-runtime:2.1.0'
@@ -88,7 +99,7 @@ dependencies {
     implementation "androidx.fragment:fragment:1.1.0-alpha07"
     implementation "androidx.fragment:fragment-ktx:1.1.0-rc01"
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
-    def dagger_version = "2.25.2"
+    def dagger_version = "2.23.2"
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
@@ -100,20 +111,30 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.threeten:threetenbp:1.4.0'
-    testImplementation 'androidx.room:room-testing:2.1.0'
+    testImplementation 'androidx.room:room-testing:2.2.2'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_version"
-    testImplementation 'androidx.arch.core:core-testing:2.0.1'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.arch.core:core-testing:2.0.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    androidTestImplementation 'androidx.room:room-testing:2.1.0-alpha07'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    androidTestImplementation 'androidx.test.ext:truth:1.1.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
+    androidTestImplementation 'androidx.room:room-testing:2.2.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_version"
+    androidTestImplementation 'org.mockito:mockito-android:2.23.0'
+    androidTestImplementation 'org.threeten:threetenbp:1.4.0'
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.1.1"
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+    kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
 
-    debugImplementation 'androidx.fragment:fragment-testing:1.1.0-beta01'
+    androidTestUtil 'com.android.support.test:orchestrator:1.0.2'
+
+    debugImplementation "androidx.fragment:fragment-testing:1.2.0-rc04"
 
 }
 

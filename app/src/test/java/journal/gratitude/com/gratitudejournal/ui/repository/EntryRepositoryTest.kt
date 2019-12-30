@@ -76,6 +76,17 @@ class EntryRepositoryTest {
     }
 
     @Test
+    fun addEntries_CallsDaoWithCorrectEntry() {
+        val expectedEntry = listOf(Entry(LocalDate.now(), "Hello!"))
+        runBlocking {
+            repository.addEntries(expectedEntry)
+
+        }
+
+        verify(entryDao).insertEntries(expectedEntry)
+    }
+
+    @Test
     fun searchEntries_callsDaoSearch() {
         repository.searchEntries("Howdy!")
 

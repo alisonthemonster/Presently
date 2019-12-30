@@ -1,12 +1,11 @@
-package journal.gratitude.com.gratitudejournal
+package journal.gratitude.com.gratitudejournal.room
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import journal.gratitude.com.gratitudejournal.LiveDataTestUtil
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.room.EntryDao
-import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -46,7 +45,8 @@ class EntryDaoTest {
         val expectedEntry = Entry(date, "Test content")
         entryDao.insertEntry(expectedEntry)
 
-        val actualEntry = LiveDataTestUtil.getValue(entryDao.getEntry(date))
+        val actualEntry =
+            LiveDataTestUtil.getValue(entryDao.getEntry(date))
         assertEquals(expectedEntry, actualEntry)
     }
 
@@ -54,7 +54,8 @@ class EntryDaoTest {
     fun writeMultipleEntries() {
         entryDao.insertEntries(mockEntriesSorted)
 
-        val actualEntry = LiveDataTestUtil.getValue(entryDao.getEntries())
+        val actualEntry =
+            LiveDataTestUtil.getValue(entryDao.getEntries())
         assertEquals(mockEntriesSorted, actualEntry)
     }
 
@@ -64,7 +65,8 @@ class EntryDaoTest {
         entryDao.insertEntry(entryThree)
         entryDao.insertEntry(entryOne)
 
-        val actualEntry = LiveDataTestUtil.getValue(entryDao.getEntries())
+        val actualEntry =
+            LiveDataTestUtil.getValue(entryDao.getEntries())
         assertEquals(mockEntriesSorted, actualEntry)
     }
 
@@ -73,7 +75,8 @@ class EntryDaoTest {
         entryDao.insertEntries(mockEntriesSorted)
         entryDao.delete(entryTwo)
 
-        val actualEntry = LiveDataTestUtil.getValue(entryDao.getEntries())
+        val actualEntry =
+            LiveDataTestUtil.getValue(entryDao.getEntries())
         assertEquals(listOf(entryOne, entryThree), actualEntry)
     }
 

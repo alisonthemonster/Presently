@@ -21,17 +21,15 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import com.crashlytics.android.Crashlytics
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.*
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 import journal.gratitude.com.gratitudejournal.ui.calendar.CalendarAnimation
 import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
@@ -77,7 +75,7 @@ class TimelineFragment : DaggerFragment() {
                         requireActivity().finish()
                     }
                 } else {
-                    val animation = CalendarAnimation(fab, entry_calendar)
+                    val animation = CalendarAnimation(cal_fab, entry_calendar)
                     animation.closeCalendar()
                 }
             }
@@ -167,7 +165,7 @@ class TimelineFragment : DaggerFragment() {
 
         entry_calendar.setDayClickedListener(object : EntryCalendarListener {
             override fun onCloseClicked() {
-                val animation = CalendarAnimation(fab, entry_calendar)
+                val animation = CalendarAnimation(cal_fab, entry_calendar)
                 animation.closeCalendar()
             }
 
@@ -182,10 +180,10 @@ class TimelineFragment : DaggerFragment() {
             }
         })
 
-        fab.setOnClickListener {
+        cal_fab.setOnClickListener {
             firebaseAnalytics.logEvent(OPENED_CALENDAR, null)
 
-            val animation = CalendarAnimation(fab, entry_calendar)
+            val animation = CalendarAnimation(cal_fab, entry_calendar)
             animation.openCalendar()
         }
     }
@@ -235,7 +233,7 @@ class TimelineFragment : DaggerFragment() {
                             ?: emptyList(), exportCallback
                     )
                 } else {
-                    Toast.makeText(context, "Permission is needed to export data", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.permission_export, Toast.LENGTH_SHORT).show()
                 }
                 return
             }
@@ -251,16 +249,16 @@ class TimelineFragment : DaggerFragment() {
                     val uri = data?.data
                     if (uri != null) {
                         if (uri.scheme == "content") {
-                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            val inputStream = activity?.contentResolver?.openInputStream(uri)
                             if (inputStream != null) {
                                 importFromCsv(inputStream)
                             } else {
-                                Toast.makeText(context, "Error parsing file", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
                             }
 
                         }
                     } else {
-                        Toast.makeText(context, "File must be a CSV", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.file_not_csv, Toast.LENGTH_SHORT).show()
                     }
 
                 }
@@ -276,8 +274,9 @@ class TimelineFragment : DaggerFragment() {
             firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
         } catch (exception: Exception) {
             firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
+            Crashlytics.logException(exception)
 
-            Toast.makeText(context, "Error parsing file", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -301,16 +300,16 @@ class TimelineFragment : DaggerFragment() {
     private fun selectCSVFile() {
         firebaseAnalytics.logEvent(LOOKED_FOR_DATA, null)
 
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.type = "*/*"
         val mimeTypes = arrayOf("text/*")
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
         try {
             startActivityForResult(Intent.createChooser(intent, "Select"), IMPORT_CSV)
-        } catch (ex: android.content.ActivityNotFoundException) {
-            // Potentially direct the user to the Market with a Dialog
-            Toast.makeText(context, "File viewer not found", Toast.LENGTH_SHORT).show()
+        } catch (ex: ActivityNotFoundException) {
+            Crashlytics.logException(ex)
+            Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -324,7 +323,8 @@ class TimelineFragment : DaggerFragment() {
         try {
             startActivity(intent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
-            Toast.makeText(context, "Email client not found", Toast.LENGTH_SHORT).show()
+            Crashlytics.logException(activityNotFoundException)
+            Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -353,13 +353,14 @@ class TimelineFragment : DaggerFragment() {
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
-                        Toast.makeText(context, "No app found to open this file", Toast.LENGTH_SHORT).show()
+                        Crashlytics.logException(e)
+                        Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
                     }
                 }.show()
         }
 
         override fun onFailure(message: String) {
-            Toast.makeText(context, "Error exporting: $message", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Error : $message", Toast.LENGTH_SHORT).show()
         }
     }
 

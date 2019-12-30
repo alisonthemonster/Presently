@@ -2,7 +2,6 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nhaarman.mockitokotlin2.*
 import journal.gratitude.com.gratitudejournal.LiveDataTestUtil
@@ -16,6 +15,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 import org.threeten.bp.LocalDate
+import java.io.IOException
+import kotlin.test.assertFailsWith
 
 class EntryViewModelTest {
 
@@ -257,5 +258,32 @@ class EntryViewModelTest {
         viewModel.setDate(LocalDate.now().toString())
 
         assertEquals("InspirationalQuote", viewModel.getInspirationString())
+    }
+
+    @Test
+    fun getDateString_noDate_throwsException() {
+        viewModel = EntryViewModel(repository, application)
+
+        assertFailsWith<IOException> {
+            viewModel.getDateString()
+        }
+    }
+
+    @Test
+    fun getHintString_noDate_throwsException() {
+        viewModel = EntryViewModel(repository, application)
+
+        assertFailsWith<IOException> {
+            viewModel.getHintString()
+        }
+    }
+
+    @Test
+    fun getThankfulString_noDate_throwsException() {
+        viewModel = EntryViewModel(repository, application)
+
+        assertFailsWith<IOException> {
+            viewModel.getThankfulString()
+        }
     }
 }
