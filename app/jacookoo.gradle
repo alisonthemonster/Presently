@@ -20,7 +20,7 @@ def fileFilter = ['**/R.class',
                   '**/CustomTypefaceSpan*',
                   '**/*Adapter*',
                   '**/model/*.*',
-//                  '**/room/*.*',
+                  '**/room/*.*',
                   '**/di/*.*',
                   '**/reminders/*.*',
                   '**/backups/*.*',
@@ -123,7 +123,7 @@ def printReport(task) {
     }
 
     if (failures) {
-        logger.quiet("\n\n CODE COVERAGE FAILED!!!")
+        logger.log(LogLevel.ERROR, "\n\n CODE COVERAGE FAILED!!!")
         failures.forEach {
             logger.quiet(it)
         }
