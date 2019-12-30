@@ -78,8 +78,7 @@ class SearchFragmentInstrumentedTest {
         )
 
         onView(withId(R.id.search_text)).perform(
-            typeText("hello"),
-            replaceText("")
+            typeText("")
         )
 
         onView(withId(R.id.search_results)).check(withItemCount(0))
