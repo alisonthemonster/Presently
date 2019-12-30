@@ -10,6 +10,7 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -257,14 +258,16 @@ class EntryViewModelTest {
 
         assertEquals("InspirationalQuote", viewModel.getInspirationString())
     }
-//
-//    @Test
-//    fun addNewEntry_callsRepo() = runBlocking {
-//        viewModel = EntryViewModel(repository, application)
-//        viewModel.setDate(LocalDate.now().toString())
-//
-//        viewModel.addNewEntry()
-//
-//        verify(repository).addEntry(any())
-//    }
+
+    @Test
+    fun addNewEntry_callsRepo() {
+        viewModel = EntryViewModel(repository, application)
+        viewModel.setDate(LocalDate.now().toString())
+
+        viewModel.addNewEntry()
+
+        runBlocking {
+            verify(repository).addEntry(any())
+        }
+    }
 }

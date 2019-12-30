@@ -40,9 +40,6 @@ import org.threeten.bp.LocalDate
 @RunWith(AndroidJUnit4::class)
 class EntryFragmentInstrumentedTest {
 
-
-
-
     private lateinit var repository: EntryRepository
 
     @get:Rule
@@ -112,7 +109,6 @@ class EntryFragmentInstrumentedTest {
 
         val intent = Intent()
         val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-
         intending(anyIntent()).respondWith(intentResult)
 
         onView(withId(R.id.share_button)).perform(click())
