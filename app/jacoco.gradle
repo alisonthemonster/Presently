@@ -122,6 +122,9 @@ def printReport(task) {
         failures.forEach {
             logger.quiet(it)
         }
+        passes.each {
+            logger.quiet(it)
+        }
         throw new GradleException("Code coverage failed")
     } else {
         logger.quiet("\n\n Code coverage passed!")
