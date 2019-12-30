@@ -283,35 +283,34 @@ class TimelineFragmentInstrumentedTest {
     }
 
 
-//    @Test
-//    fun timelineFragment_clicksOverflow_backsUp_permissionAlreadyGranted_backsUpData_opensExportedData() {
-//        Intents.init()
-//
-//        launchFragmentInContainer<TimelineFragment>(
-//            themeResId = R.style.AppTheme
-//        )
-//
-//        val intent = Intent()
-////        intent.data = Uri.parse("blah!")
-//        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-//        Intents.intending(anyIntent()).respondWith(intentResult)
-//
-//        onView(withId(R.id.overflow_button)).perform(click())
-//
-//        onView(withText("Backup entries"))
-//            .perform(click())
-//
-//        allowPermissionsIfNeeded()
-//
-//        onView(withId(com.google.android.material.R.id.snackbar_action)).perform(click())
-//
-//        Intents.intended(
-//            allOf(
-//                hasAction(Intent.ACTION_VIEW)
-//            )
-//        )
-//        Intents.release()
-//    }
+    @Test
+    fun timelineFragment_clicksOverflow_backsUp_permissionAlreadyGranted_backsUpData_opensExportedData() {
+        Intents.init()
+
+        launchFragmentInContainer<TimelineFragment>(
+            themeResId = R.style.AppTheme
+        )
+
+        val intent = Intent()
+        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+        Intents.intending(anyIntent()).respondWith(intentResult)
+
+        onView(withId(R.id.overflow_button)).perform(click())
+
+        onView(withText("Backup entries"))
+            .perform(click())
+
+        allowPermissionsIfNeeded()
+
+        onView(withId(com.google.android.material.R.id.snackbar_action)).perform(click())
+
+        Intents.intended(
+            allOf(
+                hasAction(Intent.ACTION_VIEW)
+            )
+        )
+        Intents.release()
+    }
 
     @Test
     fun timelineFragment_clicksOverflow_clicksImport_seesDialog() {
