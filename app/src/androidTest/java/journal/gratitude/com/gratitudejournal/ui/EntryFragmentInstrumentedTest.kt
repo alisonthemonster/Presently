@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -14,18 +15,21 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
-import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.RootMatchers.isDialog
+import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.util.getText
+import journal.gratitude.com.gratitudejournal.util.isEditTextValueEqualTo
 import journal.gratitude.com.gratitudejournal.util.saveEntryBlocking
 import junit.framework.Assert.assertEquals
 import org.hamcrest.CoreMatchers.not
@@ -177,4 +181,39 @@ class EntryFragmentInstrumentedTest {
 
         assertEquals(date.toString(), actualDate)
     }
+
+    @Test
+    fun entryFragment_longPressQuote_copiesToClipboard() {
+        launchFragmentInContainer<EntryFragment>(
+            themeResId = R.style.AppTheme
+        )
+
+        val quote =  getText(withId(R.id.inspiration))
+
+        onView(withId(R.id.inspiration)).perform(longClick())
+        onView(withId(R.id.entry_text)).perform(click())
+        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressKeyCode(KeyEvent.KEYCODE_V, KeyEvent.META_CTRL_MASK)
+
+
+        onView(withId(R.id.entry_text)).check(matches(isEditTextValueEqualTo(quote)))
+    }
+
+    @Test
+    fun entryFragment_longPressQuote_showsToast() {
+        val scenario = launchFragmentInContainer<EntryFragment>(
+            themeResId = R.style.AppTheme
+        )
+
+        var activity: Activity? = null
+        scenario.onFragment { fragment ->
+            activity = fragment.activity
+        }
+
+        onView(withId(R.id.inspiration)).perform(longClick())
+
+        onView(withText(R.string.copied)).inRoot(withDecorView(not((activity?.window?.decorView))))
+            .check(matches(isDisplayed()))
+
+    }
+
 }

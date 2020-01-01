@@ -1,5 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Animatable
@@ -9,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -101,6 +105,16 @@ class EntryFragment : DaggerFragment() {
             imm?.hideSoftInputFromWindow(entry_text.windowToken, 0)
             findNavController().navigateUp()
         }
+
+        inspiration.setOnLongClickListener {
+            val quote = viewModel.getInspirationString()
+            val clipboard =
+                getSystemService<ClipboardManager>(context!!, ClipboardManager::class.java)
+            clipboard?.primaryClip = ClipData.newPlainText("Gratitude quote", quote)
+            Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
+            true
+        }
+
     }
 
     companion object {
