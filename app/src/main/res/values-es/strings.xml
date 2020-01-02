@@ -55,6 +55,6 @@
     <string name="open_source">Licencias de código abierto</string>
     <string name="open_source_info">Información sobre las licencias de software de código abierto</string>
     <string name="security">Privacidad</string>
-    <string name="fingerprint_lock_title">Huella dactilar</string>
-    <string name="fingerprint_lock_summary">Usa tu huella digital para desbloquear</string>
+    <string name="lock_title">Huella dactilar</string>
+    <string name="lock_summary">Usa tu huella digital para desbloquear</string>
 </resources>

@@ -62,7 +62,12 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
         val fingerprint = findPreference("fingerprint_lock")
         val canAuthenticateUsingFingerPrint  = BiometricManager.from(context!!).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
-        fingerprint.parent!!.isVisible = canAuthenticateUsingFingerPrint
+        fingerprint.parent!!.isEnabled = canAuthenticateUsingFingerPrint
+        fingerprint.setOnPreferenceClickListener {
+            //TODO add better analytics tracking here
+            firebaseAnalytics.logEvent(CLICKED_LOCK_SETTING, null)
+            true
+        }
     }
 
     override fun onResume() {

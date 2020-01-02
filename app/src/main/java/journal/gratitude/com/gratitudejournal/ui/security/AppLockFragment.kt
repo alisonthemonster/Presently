@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
+import com.crashlytics.android.Crashlytics
 import journal.gratitude.com.gratitudejournal.R
 
 class AppLockFragment : Fragment() {
@@ -18,8 +19,8 @@ class AppLockFragment : Fragment() {
     private var fingerprintLock: Boolean = false
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return View(context)
     }
@@ -42,52 +43,58 @@ class AppLockFragment : Fragment() {
     private fun showFingerprintLock() {
         val executor = ContextCompat.getMainExecutor(context)
         val biometricPrompt = BiometricPrompt(this, executor,
-            object : BiometricPrompt.AuthenticationCallback() {
-                override fun onAuthenticationError(
-                    errorCode: Int,
-                    errString: CharSequence
-                ) {
-                    super.onAuthenticationError(errorCode, errString)
+                object : BiometricPrompt.AuthenticationCallback() {
+                    override fun onAuthenticationError(
+                            errorCode: Int,
+                            errString: CharSequence
+                    ) {
+                        super.onAuthenticationError(errorCode, errString)
 
-                    when(errorCode){
-                        BiometricConstants.ERROR_NEGATIVE_BUTTON, BiometricConstants.ERROR_USER_CANCELED ->{
-                            requireActivity().finish()
-                            return
-                        }
-                        BiometricConstants.ERROR_CANCELED ->{
-                            //happens when the sensor is not available
-                            //(happens onPause as well)
-                        }
-                        BiometricConstants.ERROR_NO_BIOMETRICS ->{
-                            //no finger print is setup
-                            Toast.makeText(
-                                context,
-                                "Please set up a fingerprint", Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        else ->{
-                            Toast.makeText(
-                                context,
-                                "Authentication error code $errorCode", Toast.LENGTH_SHORT
-                            ).show()
+                        when (errorCode) {
+                            BiometricConstants.ERROR_NEGATIVE_BUTTON,
+                            BiometricConstants.ERROR_USER_CANCELED,
+                            BiometricConstants.ERROR_LOCKOUT,
+                            BiometricConstants.ERROR_LOCKOUT_PERMANENT -> {
+                                requireActivity().finish()
+                                return
+                            }
+                            BiometricConstants.ERROR_CANCELED -> {
+                                //happens when the sensor is not available
+                                //(happens onPause as well)
+                            }
+                            BiometricConstants.ERROR_NO_BIOMETRICS,
+                            BiometricConstants.ERROR_NO_DEVICE_CREDENTIAL -> {
+                                Crashlytics.logException(Exception(errString.toString()))
+                                //no finger print is setup
+                                Toast.makeText(
+                                        context,
+                                        "Please set up a pin/fingerprint/facial recognition", Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            else -> {
+                                Crashlytics.logException(Exception(errString.toString()))
+                                Toast.makeText(
+                                        context,
+                                        "Authentication error code $errorCode", Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
-                }
 
-                override fun onAuthenticationSucceeded(
-                    result: BiometricPrompt.AuthenticationResult
-                ) {
-                    super.onAuthenticationSucceeded(result)
-                    moveToTimeline()
-                }
-            })
+                    override fun onAuthenticationSucceeded(
+                            result: BiometricPrompt.AuthenticationResult
+                    ) {
+                        super.onAuthenticationSucceeded(result)
+                        moveToTimeline()
+                    }
+                })
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(getString(R.string.fingerprint_lock_title))
-            .setSubtitle(getString(R.string.fingerprint_lock_summary))
-            .setNegativeButtonText(getString(R.string.cancel))
-            .setConfirmationRequired(false)
-            .build()
+                .setTitle(getString(R.string.lock_title))
+                .setSubtitle(getString(R.string.lock_summary))
+                .setNegativeButtonText(getString(R.string.cancel))
+                .setConfirmationRequired(false)
+                .build()
 
         biometricPrompt.authenticate(promptInfo)
     }
@@ -96,7 +103,6 @@ class AppLockFragment : Fragment() {
         val navInflater = findNavController().navInflater
         val graph = navInflater.inflate(R.navigation.nav_graph)
 
-//       setting timelineFragment as root to avoid back press issues
         graph.startDestination = R.id.timelineFragment
 
         findNavController().graph = graph

@@ -73,14 +73,11 @@ class ContainerActivity : AppCompatActivity() {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val fingerprintLock = sharedPref.getBoolean("fingerprint_lock", false)
         if (fingerprintLock) {
-
             val lastDestroyTime =
                 sharedPref.getLong("last_destroy_time", -1L) //check this default makes sense
             val currentTime = Date(System.currentTimeMillis()).time
             val diff = currentTime - lastDestroyTime
-            Log.d("blerg", "diff: $diff")
-            if (diff > 60000L) {
-                Log.d("blerg", "diff was larger than a minute")
+            if (diff > 300000L) {
                 //if more than 5 minutes (300000ms) have passed since last destroy, lock out user
                 val navController = findNavController(R.id.nav_host_fragment)
                 val navInflater = navController.navInflater
@@ -91,10 +88,7 @@ class ContainerActivity : AppCompatActivity() {
                 navController.graph = graph
             }
         }
-
-        //TODO add a manual lock
         //TODO test turning on and off this whole feature
-
     }
 
     override fun onPause() {

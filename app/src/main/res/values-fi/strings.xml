@@ -54,6 +54,6 @@
     <string name="open_source">Avoimen lähdekoodin lisenssit</string>
     <string name="open_source_info">Lue avoimen lähdekoodin kirjaston lisenssit</string>
     <string name="security">Turvallisuus</string>
-    <string name="fingerprint_lock_title">Sormenjälki</string>
-    <string name="fingerprint_lock_summary">Käytä sormenjälkesi lukituksen avaamiseen</string>
+    <string name="lock_title">Sormenjälki</string>
+    <string name="lock_summary">Käytä sormenjälkesi lukituksen avaamiseen</string>
 </resources>
