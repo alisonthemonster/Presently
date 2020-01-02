@@ -25,3 +25,6 @@ We support several languges currently and are always looking for translators to 
 - Firebase Test Lab
 
 <img src="https://i.imgur.com/Im3maBV.png" width="220">  <img src="https://i.imgur.com/O4J2yru.png" width="220">  <img src="https://i.imgur.com/TDCxl3N.png" width="220"> 
+
+### Contributions
+Contributions are welcome! Please fork the repo and make a PR. Forked PRs will build the app and run unit tests but will not run instrumented tests. A repo owner will run those tests as they require secret keys.
