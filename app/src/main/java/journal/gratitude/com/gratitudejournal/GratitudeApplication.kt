@@ -8,7 +8,7 @@ import io.github.inflationx.calligraphy3.CalligraphyInterceptor
 import io.github.inflationx.viewpump.ViewPump
 import journal.gratitude.com.gratitudejournal.di.DaggerApplicationComponent
 
-class GratitudeApplication: DaggerApplication() {
+open class GratitudeApplication: DaggerApplication() {
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerApplicationComponent.factory().create(applicationContext, this)

@@ -76,6 +76,17 @@ class EntryRepositoryTest {
     }
 
     @Test
+    fun addEntries_CallsDaoWithCorrectEntry() {
+        val expectedEntry = listOf(Entry(LocalDate.now(), "Hello!"))
+        runBlocking {
+            repository.addEntries(expectedEntry)
+
+        }
+
+        verify(entryDao).insertEntries(expectedEntry)
+    }
+
+    @Test
     fun searchEntries_callsDaoSearch() {
         repository.searchEntries("Howdy!")
 
@@ -86,6 +97,16 @@ class EntryRepositoryTest {
     fun searchEntries_callsDaoWithCorrectQuery() {
         val query = "Howdy!"
         val expectedQuery = "*$query*"
+        repository.searchEntries(query)
+
+        verify(entryDao).searchAllEntries(expectedQuery)
+    }
+
+    //Fixes crash with FTS and quotation marks
+    @Test
+    fun searchEntries_removesQuotesFromQuery() {
+        val query = "\"Howdy!\""
+        val expectedQuery = "*Howdy!*"
         repository.searchEntries(query)
 
         verify(entryDao).searchAllEntries(expectedQuery)

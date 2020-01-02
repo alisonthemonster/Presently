@@ -65,8 +65,8 @@ class EntryFragment : DaggerFragment() {
             firebaseAnalytics.logEvent(CLICKED_PROMPT, null)
             viewModel.getRandomPromptHintString()
             val v = it as ImageView
-            val d = v.drawable as Animatable
-            d.start()
+            val d = v.drawable as Animatable?
+            d?.start()
             binding.viewModel = viewModel
         }
 

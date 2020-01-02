@@ -76,7 +76,6 @@ class EntryViewModel @Inject constructor(private val repository: EntryRepository
         val date = dateLiveData.value ?: throw IOException("Date was not provided")
         val entry = Entry(date, entryContent.get() ?: "")
         repository.addEntry(entry)
-
     }
 
     fun getDateString(): String {

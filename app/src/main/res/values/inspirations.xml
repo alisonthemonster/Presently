@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="inspirations">
-        <item>\"The secret to having it all is knowing you already do\" \n  Unknown</item>
+        <item>\"The secret to having it all is knowing you already do\" \nUnknown</item>
         <item>\"Those who have the ability to be grateful are the ones who have the ability to achieve greatness\" \nSteve Maraboli</item>
         <item>\"We must find time to stop and thank the people who make a difference in our lives\" \nJohn F Kennedy</item>
         <item>\"This is a wonderful day. I\'ve never seen this day before\" \nMaya Angelou</item>
@@ -23,19 +23,30 @@
         <item>\"Acknowledging the good that you already have in your life is the foundation for all abundance.\" \nEckhart Tolle</item>
         <item>\"Gratitude is a currency that we can mint for ourselves, and spend without fear of bankruptcy.\" \nFred De Witt Van Amburgh</item>
         <item>\"He is a wise man who does not grieve for the things which he has not, but rejoices for those which he has.\" \nEpictetus</item>
-        <item>\"Reflect upon your present blessings, of which every man has plenty; not on your past misfortunes, of which all men have some.\" \nCharles Dickens</item>
         <item>\"When I started counting my blessings, my whole life turned around\" \nWillie Nelson</item>
         <item>\"The more grateful I am, the more beauty I see\" \nMary Davis</item>
         <item>\"There is a calmness to a life lived in gratitude, a quiet joy.\" \nRalph H. Blum</item>
         <item>\"The root of joy is gratefulness\" \nDavid Steindl-Rast</item>
         <item>\"Gratitude is the sign of noble souls\" \nAesop</item>
         <item>\"When you are grateful, fear disappears and abundance appears\" \nAnthony Robbins</item>
-        <item>\"Trade your expectations for appreciation and your whole world changes instantly\" \nTony Robbins</item>
         <item>\"The essence of all beautiful art, all great art, is gratitude.\" \nFriedrich Nietzsche</item>
         <item>\"Wear gratitude like a cloak and it will feed every corner of your life\" \nRumi</item>
         <item>\"If the only prayer you ever say in your life is Thank You, it will be enough\" \nMeister Eckhart</item>
         <item>\"Gratitude turns what we have into enough\" \nMelody Beattie</item>
         <item>\"Give thanks for a little and you will find a lot\" \nHausa Proverb</item>
         <item>\"You only live once, but if you do it right, once is enough\" \nMae West</item>
+        <item>\"When it comes to life the critical thing is whether you take things for granted or take them with gratitude\" \nG. K. Chesterton</item>
+        <item>\"Feeling gratitude and not expressing it is like wrapping a present and not giving it\" \nWilliam Arthur Ward</item>
+        <item>\"There are only two ways to live your life. Ons is as though nothing is a miracle. The other is as though everything is a miracle.\" \nAlbert Einstein</item>
+        <item>\"Gratitude changes the pangs of memory into a tranquil joy\" \nDietrich Bonhoeffer</item>
+        <item>\"We do not need magic to change the word. We carry all the power we need inside ourselves already\" \nJ. K. Rowling</item>
+        <item>\"Gratitude is riches. Complaint is poverty.\" \nDoris Day</item>
+        <item>\"Gratitude is when memory is stored in the heart and not in the mind\" \nLionel Hampton</item>
+        <item>\"Let us swell with gratitude and allow it to overwhelm us\" \nGrace Gealey</item>
+        <item>\"Silent gratitude isn\'t very much to anyone\" \nGertrude Stein</item>
+        <item>\"Fill the earth with your songs of gratitude\" \nCharles Spurgeon</item>
+        <item>\"You cannot do a kindness too soon, for you never know when it will be too late\" \nRalph Waldo Emerson</item>
+        <item>\"No one who achieves success does so without the help of others, the wise and confident acknowledge this help with gratitude\" \nAlfred North Whitehead</item>
+        <item>\"Find the good and praise it\" \nAlex Haley</item>
     </string-array>
 </resources>

@@ -55,6 +55,10 @@
     <string name="theme">Theme</string>
     <string name="open_source">Open Source Licenses</string>
     <string name="open_source_info">Read open source library licenses</string>
+    <string name="permission_export">Permission is needed to export data</string>
+    <string name="error_parsing">Error parsing file</string>
+    <string name="file_not_csv">File must be a CSV</string>
+    <string name="no_app_found">No app found to open this file</string>
     <string name="security">Security</string>
     <string name="lock_title">Unlock Presently</string>
     <string name="lock_summary">Presently is locked, unlock to continue</string>

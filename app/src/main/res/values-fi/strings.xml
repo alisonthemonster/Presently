@@ -53,7 +53,13 @@
     <string name="theme">Teema</string>
     <string name="open_source">Avoimen lähdekoodin lisenssit</string>
     <string name="open_source_info">Lue avoimen lähdekoodin kirjaston lisenssit</string>
+    <string name="error_parsing">Virhe tiedostoa jäsennettäessä</string>
+    <string name="file_not_csv">Tiedoston on oltava CSV</string>
+    <string name="no_app_found">Yhtään sovellusta ei löydy avaamaan tätä tiedostoa</string>
+    <string name="permission_export">Tietojen vientiä varten tarvitaan lupa</string>
     <string name="security">Turvallisuus</string>
-    <string name="lock_title">Sormenjälki</string>
-    <string name="lock_summary">Käytä sormenjälkesi lukituksen avaamiseen</string>
+    <string name="lock_title">Avaa Presently</string>
+    <string name="lock_summary">Presently on lukittu, avaa jatkaaksesi</string>
+    <string name="lock_setting_summary_on">Presently lukittuu laitteen biometrisen skannerin kanssa.</string>
+    <string name="lock_setting_summary_off">Presently voi lukita laitteen biometrisellä skannerilla (jos laite tukee sitä).</string>
 </resources>

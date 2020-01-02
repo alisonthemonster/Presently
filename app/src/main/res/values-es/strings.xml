@@ -54,7 +54,13 @@
     <string name="theme">Tema</string>
     <string name="open_source">Licencias de código abierto</string>
     <string name="open_source_info">Información sobre las licencias de software de código abierto</string>
-    <string name="security">Privacidad</string>
-    <string name="lock_title">Huella dactilar</string>
-    <string name="lock_summary">Usa tu huella digital para desbloquear</string>
+    <string name="error_parsing">Error al analizar el archivo</string>
+    <string name="file_not_csv">El archivo debe ser un CSV</string>
+    <string name="no_app_found">No se encontró ninguna aplicación para abrir este archivo</string>
+    <string name="permission_export">Se necesita permiso para exportar datos</string>
+    <string name="security">Seguridad</string>
+    <string name="lock_title">Desbloquee Presently</string>
+    <string name="lock_summary">Presently está bloqueada, desbloquea para continuar</string>
+    <string name="lock_setting_summary_on">Presently se bloqueará con el escáner biométrico de su dispositivo.</string>
+    <string name="lock_setting_summary_off">Presently puede bloquear con el escáner biométrico de su dispositivo (si es compatible con el dispositivo).</string>
 </resources>

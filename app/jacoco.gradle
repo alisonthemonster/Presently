@@ -1,6 +1,7 @@
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'jacoco'
+apply plugin: 'com.android.application'
 
 jacoco {
     toolVersion = "0.8.2"
@@ -11,6 +12,7 @@ tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
 }
 
+
 // Excluded files
 def fileFilter = ['**/R.class',
                   '**/R$*.class',
@@ -19,11 +21,10 @@ def fileFilter = ['**/R.class',
                   '**/Manifest*.*',
                   '**/*Test*.*',
                   'android/**/*.*',
+                  '**/settings/*.*',
                   '**/SingleLiveEvent*',
                   '**/CustomTypefaceSpan*',
-                  '**/*Fragment*',
                   '**/*Adapter*',
-                  '**/*Application*',
                   '**/model/*.*',
                   '**/room/*.*',
                   '**/di/*.*',
@@ -34,7 +35,7 @@ def fileFilter = ['**/R.class',
                   '**/*Activity*.*',
                   '**/calendar/*.*',]
 
-task testCoverage(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+task testCoverage(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
     group = "Reporting"
     description = "Create jacoco coverage reports for the Debug build"
 
@@ -43,19 +44,23 @@ task testCoverage(type: JacocoReport, dependsOn: "testDebugUnitTest") {
         html.enabled = true
     }
 
-    classDirectories = fileTree(
-            dir: "$buildDir/intermediates/classes", //TODO check this one
+
+    def debugTree = fileTree(
+            dir: "$buildDir/intermediates/classes/debug",
             excludes: fileFilter
     ) + fileTree(
             dir: "$buildDir/tmp/kotlin-classes/debug",
             excludes: fileFilter
     )
+    def mainSrc = android.sourceSets.main.java.srcDirs
 
-    sourceDirectories = files([
-            android.sourceSets.main.java.srcDirs
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+
+    executionData = fileTree(dir: "$buildDir", includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/**/*.ec'
     ])
-
-    executionData = files("$buildDir/jacoco/testDebugUnitTest.exec")
 
     doLast {
         printReport("testCoverage")
@@ -96,7 +101,7 @@ def printReport(task) {
 
     // Fail the task if the coverage is below these numbers
     def minTestCoverage = [
-            'instruction': 60,
+            'instruction': 80,
             'line'       : 80,
             'complexity' : 60,
             'method'     : 80,
@@ -115,6 +120,9 @@ def printReport(task) {
     if (failures) {
         logger.quiet("\n\n CODE COVERAGE FAILED!!!")
         failures.forEach {
+            logger.quiet(it)
+        }
+        passes.each {
             logger.quiet(it)
         }
         throw new GradleException("Code coverage failed")
