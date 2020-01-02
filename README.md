@@ -1,5 +1,3 @@
-TESTING!!!
-
 # Presently: A Gratitude Journal
 [![CircleCI](https://circleci.com/gh/alisonthemonster/Presently/tree/develop.svg?style=svg)](https://circleci.com/gh/alisonthemonster/Presently/tree/develop)
 
