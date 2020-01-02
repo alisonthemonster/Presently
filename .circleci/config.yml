@@ -1,12 +1,11 @@
-version: 2
+version: 2.1
+
+orbs:
+  codecov: codecov/codecov@1.0.5
 
 references:
   workspace: &workspace
                ~/src
-
-
-  gems_key: &gems_key
-              gems-{{ checksum "Gemfile.lock" }}
 
 
   persist_debug_workspace: &persist_debug_workspace
@@ -28,14 +27,6 @@ references:
       root: *workspace
       paths:
         - firebase
-  save_gems_cache: &save_gems_cache
-    save_cache:
-      key: *gems_key
-      paths:
-        - vendor/bundle
-  restore_gems_cache: &restore_gems_cache
-    restore_cache:
-      key: *gems_key
 
   android_config: &android_config
     working_directory: *workspace
@@ -107,15 +98,6 @@ jobs:
     <<: *android_config
     steps:
       - checkout
-      - *restore_gems_cache
-      - run:
-          name: install dependencies
-          command: |
-            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
-            source $BASH_ENV
-            gem install bundler
-      - run: bundle install --path vendor/bundle
-      - *save_gems_cache
       - *restore_gradle_cache
       - run:
           name: Download dependencies
@@ -128,7 +110,8 @@ jobs:
       - run:
           name: Generate JaCoCo report
           command: ./gradlew -PciBuild=true :app:jacocoTestReport
-      - run: bundle exec danger --verbose
+      - codecov/upload:
+          - reports/jacocoTestReport/jacocoTestReport.xml
       - store_artifacts:
           path: app/build/reports/
           destination: /reports/
@@ -153,9 +136,6 @@ jobs:
       - run:
           name: Download instrumented test results from Firebase Test Lab
           command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1`*" /root/src/firebase/
-      - run:
-          name: What did we just copy?
-          command: ls -l /root/src/firebase/
       - *persist_firebase_workspace
       - store_artifacts:
           path: firebase/
