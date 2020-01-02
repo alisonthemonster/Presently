@@ -25,3 +25,6 @@ We support several languges currently and are always looking for translators to 
 - Firebase Test Lab
 
 <img src="https://i.imgur.com/Im3maBV.png" width="220">  <img src="https://i.imgur.com/O4J2yru.png" width="220">  <img src="https://i.imgur.com/TDCxl3N.png" width="220"> 
+
+### Contributing
+Forked PRs don't run instrumented tests! This will be done by a project maintainer in order to protect Firebase project secretes.
