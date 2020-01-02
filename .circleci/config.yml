@@ -111,7 +111,7 @@ jobs:
           name: Generate JaCoCo report
           command: ./gradlew -PciBuild=true :app:jacocoTestReport
       - codecov/upload:
-          - file: reports/jacocoTestReport/*.xml
+          file: reports/jacocoTestReport/*.xml
       - store_artifacts:
           path: app/build/reports/
           destination: /reports/
