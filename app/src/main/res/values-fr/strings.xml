@@ -61,5 +61,5 @@
     <string name="lock_title">Déverrouiller Presently</string>
     <string name="lock_summary">Presently est verrouillée, déverrouillez pour continuer</string>
     <string name="lock_setting_summary_on">Presently se verrouillera avec le scanner biométrique de votre appareil.</string>
-    <string name="lock_setting_summary_off">Presently peut se verrouiller avec le scanner biométrique de votre appareil (si pris en charge par l'appareil).</string>
+    <string name="lock_setting_summary_off">Presently peut se verrouiller avec le scanner biométrique de votre appareil (si pris en charge par l\'appareil).</string>
 </resources>
