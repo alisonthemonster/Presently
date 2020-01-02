@@ -78,11 +78,6 @@ references:
         - ~/.gradle
         - ~/.m2
 
-  decrypt_google_services_json: &decrypt_google_services_json
-    run:
-      name: Decrypt the google-services.json file and put it in the right spot
-      command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
-
   decrypt_gcloud_key: &decrypt_gcloud_key
     run:
       name: Decrypt Google Cloud credentials
@@ -95,7 +90,6 @@ jobs:
     steps:
       - checkout
       - *restore_gradle_cache
-      - *decrypt_google_services_json
       - *gradle_clean
       - *android_dependencies
       - *save_gradle_cache
@@ -131,7 +125,6 @@ jobs:
       - run:
           name: Move Firebase coverage report
           command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/walleye-26-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
-      - *decrypt_google_services_json
       - run:
           name: Generate JaCoCo report
           command: ./gradlew -PciBuild=true :app:jacocoTestReport
@@ -175,7 +168,6 @@ jobs:
       - *restore_gradle_cache
       - *android_dependencies
       - *save_gradle_cache
-      - *decrypt_google_services_json
       - run:
           name: Gradle build (debug)
           command: ./gradlew -PciBuild=true :app:assembleDebug :app:assembleAndroidTest
@@ -194,6 +186,10 @@ workflows:
           requires:
             - build_debug
       - test_instrumented:
+          filters:
+            branches:
+              # Forked pull requests have CIRCLE_BRANCH set to pull/XXX
+              ignore: /pull\/[0-9]+/
           requires:
             - build_debug
       - report_coverage:

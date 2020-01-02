@@ -27,11 +27,12 @@ def fileFilter = ['**/R.class',
                   '**/*Binding*.*',
                   '**/*adapter*.*',
                   '**/*Activity*.*',
+                  '**/AppLockFragment*',
                   '**/calendar/*.*',]
 
-task jacocoTestReport(type : JacocoReport, dependsOn : 'testDebugUnitTest') {
+task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
     description = 'Generate JaCoCo coverage reports'
-    group       = 'Reporting'
+    group = 'Reporting'
 
 
     def mainSrc = android.sourceSets.main.java.srcDirs
@@ -45,9 +46,9 @@ task jacocoTestReport(type : JacocoReport, dependsOn : 'testDebugUnitTest') {
 
     sourceDirectories = files([mainSrc])
     classDirectories = files([debugTree])
-    executionData     = fileTree(
-            dir     : "$buildDir",
-            include : [ 'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec' ]
+    executionData = fileTree(
+            dir: "$buildDir",
+            include: ['jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec']
     )
 
     doFirst {
@@ -63,7 +64,7 @@ task jacocoTestReport(type : JacocoReport, dependsOn : 'testDebugUnitTest') {
     }
 
     reports {
-        xml.enabled  = true
+        xml.enabled = true
         html.enabled = true
     }
 }
