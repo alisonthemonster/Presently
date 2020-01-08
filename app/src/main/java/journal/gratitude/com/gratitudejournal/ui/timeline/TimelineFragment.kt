@@ -122,7 +122,7 @@ class TimelineFragment : DaggerFragment() {
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.notification_settings -> {
-                            openNotificationSettings()
+                            openSettings()
                             true
                         }
                         R.id.contact_us -> {
@@ -249,12 +249,21 @@ class TimelineFragment : DaggerFragment() {
                     val uri = data?.data
                     if (uri != null) {
                         if (uri.scheme == "content") {
-                            val inputStream = activity?.contentResolver?.openInputStream(uri)
-                            if (inputStream != null) {
-                                importFromCsv(inputStream)
-                            } else {
-                                Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
+                            try {
+                                val inputStream = activity?.contentResolver?.openInputStream(uri)
+                                if (inputStream != null) {
+                                    importFromCsv(inputStream)
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        R.string.error_parsing,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            } catch (exception: Exception) {
+                                Crashlytics.logException(exception)
                             }
+
 
                         }
                     } else {
@@ -268,25 +277,21 @@ class TimelineFragment : DaggerFragment() {
 
     private fun importFromCsv(inputStream: InputStream) {
         // parse file to get List<Entry>
-        try {
-            val entries = parseCsv(inputStream)
-            viewModel.addEntries(entries)
-            firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
-        } catch (exception: Exception) {
-            firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
-            Crashlytics.logException(exception)
-
-            Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
-        }
+        val entries = parseCsv(inputStream)
+        viewModel.addEntries(entries)
     }
 
     private fun exportData() {
 
-        val permission = ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val permission = ActivityCompat.checkSelfPermission(
+            activity!!,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
             )
         } else {
             firebaseAnalytics.logEvent(EXPORTED_DATA, null)
@@ -300,7 +305,7 @@ class TimelineFragment : DaggerFragment() {
     private fun selectCSVFile() {
         firebaseAnalytics.logEvent(LOOKED_FOR_DATA, null)
 
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.type = "*/*"
         val mimeTypes = arrayOf("text/*")
@@ -328,7 +333,7 @@ class TimelineFragment : DaggerFragment() {
         }
     }
 
-    private fun openNotificationSettings() {
+    private fun openSettings() {
         firebaseAnalytics.logEvent(LOOKED_AT_SETTINGS, null)
 
         val navController = findNavController()

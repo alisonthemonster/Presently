@@ -30,9 +30,9 @@ fun exportDB(entries: List<Entry>, exportCallback: ExportCallback) {
         }
         csvWrite.close()
         exportCallback.onSuccess(file)
-    } catch (sqlEx: Exception) {
-        Crashlytics.logException(sqlEx)
-        exportCallback.onFailure(sqlEx.message ?: "Unknown error")
+    } catch (exception: Exception) {
+        Crashlytics.logException(exception)
+        exportCallback.onFailure(exception.message ?: "Unknown error")
     }
 }
 
@@ -52,6 +52,7 @@ fun parseCsv(inputStream: InputStream): List<Entry> {
             }
         }
     } catch (exception: Exception) {
+        Crashlytics.log("Error with the CSV formatting.")
         Crashlytics.logException(exception)
     }
 
