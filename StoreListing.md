@@ -102,3 +102,21 @@ Con Presently puoi:
 ⁕ Scegliere lo schema di colori che preferisci
 
 Presently è completamente gratuita e priva di pubblicità. Il tuo diario è conservato solo sul tuo telefono, sotto il tuo controllo.
+
+## Polish
+
+Ciesz się z małych rzeczy z pomocą Presently, darmowego i prywatnego dziennika wdzięczności
+
+Ćwicz wdzięczność z tą prostą, zawsze darmową i prywatną aplikacją do zapisywania, za co jesteś wdzięczny.
+
+Presently pozwala Ci:
+⁕ codziennie zapisać, za co jesteś wdzięczny
+⁕ wspomnieć momenty wdzięczności z przeszłości
+⁕ odnaleźć inspirację dzięki podpowiedziom i cytatom
+⁕ ustawić przypomnienie, by nie zapomnieć o ćwiczeniu wdzięczności
+⁕ przeszukiwać poprzednie wpisy
+⁕ dzielić się wpisami z rodziną i przyjaciółmi
+⁕ eksportować i importować wpisy
+⁕ wybrać swój ulubiony motyw
+
+Presently jest w 100% darmowe i bez reklam. Wszystkie Twoje wpisy pozostają na Twoim urządzeniu i pod Twoją kontrolą.
