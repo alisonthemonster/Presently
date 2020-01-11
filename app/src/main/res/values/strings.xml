@@ -59,4 +59,5 @@
     <string name="error_parsing">Error parsing file</string>
     <string name="file_not_csv">File must be a CSV</string>
     <string name="no_app_found">No app found to open this file</string>
+    <string name="copied">Copied to clipboard</string>
 </resources>
