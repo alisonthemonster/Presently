@@ -120,3 +120,21 @@ Presently pozwala Ci:
 ⁕ wybrać swój ulubiony motyw
 
 Presently jest w 100% darmowe i bez reklam. Wszystkie Twoje wpisy pozostają na Twoim urządzeniu i pod Twoją kontrolą.
+
+## Slovakia
+
+Oslávte svoj každodenný život bezplatným a súkromným denníkom vdačnosti.
+
+Precvičujte si vďačnosť pomocou tejto jednoduchej, vždy bezplatnej a súkromnej aplikácie vďačnosti.
+
+V súčasnosti vám umožňuje:
+⁕ Zaznamenajte denné záznamy vďačnosti
+⁕ Pozrieť spať na svoje minulé momenty vďačnosti
+⁕ Nájdite motiváciu prostredníctvom ponúk a výziev
+⁕ Nastavte denné pripomenutia, aby ste mohli pokračovať vo svojej vďačnosti
+⁕ Vyhľadajte svoje staré záznamy
+⁕ Podeľte sa o svoje príspevky s rodinou a priateľmi
+⁕ Exportujte / importujte svoje záznamy
+⁕ Prepnite na svoju obľúbenú farebnú schému
+
+V súčasnosti je 100% zadarmo a bez reklám. Všetky vaše príspevky zostávajú na vašom zariadení a pod kontrolou.
