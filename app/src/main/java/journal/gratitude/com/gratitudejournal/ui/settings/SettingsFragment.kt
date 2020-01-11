@@ -1,14 +1,17 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.crashlytics.android.Crashlytics
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
@@ -17,7 +20,8 @@ import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
-class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsFragment : PreferenceFragmentCompat(),
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -125,25 +129,48 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     private fun openTermsAndConditions() {
         firebaseAnalytics.logEvent(OPENED_TERMS_CONDITIONS, null)
-
-        val browserIntent =
-            Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html"))
-        startActivity(browserIntent)
+        try {
+            val browserIntent =
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html")
+                )
+            startActivity(browserIntent)
+        } catch (activityNotFoundException: ActivityNotFoundException) {
+            Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
+            Crashlytics.logException(activityNotFoundException)
+        }
     }
 
     private fun openPrivacyPolicy() {
         firebaseAnalytics.logEvent(OPENED_PRIVACY_POLICY, null)
 
-        val browserIntent =
-            Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html"))
-        startActivity(browserIntent)
+        try {
+            val browserIntent =
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html")
+                )
+            startActivity(browserIntent)
+        } catch (activityNotFoundException: ActivityNotFoundException) {
+            Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
+            Crashlytics.logException(activityNotFoundException)
+        }
     }
 
     private fun openFaq() {
         firebaseAnalytics.logEvent(OPENED_FAQ, null)
 
-        val browserIntent =
-                Intent(Intent.ACTION_VIEW, Uri.parse("https://presently-app.firebaseapp.com/faq.html"))
-        startActivity(browserIntent)
+        try {
+            val browserIntent =
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://presently-app.firebaseapp.com/faq.html")
+                )
+            startActivity(browserIntent)
+        } catch (activityNotFoundException: ActivityNotFoundException) {
+            Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
+            Crashlytics.logException(activityNotFoundException)
+        }
     }
 }
