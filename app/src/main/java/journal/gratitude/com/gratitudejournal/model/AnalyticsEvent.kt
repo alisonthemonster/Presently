@@ -28,6 +28,7 @@ const val CLICKED_EXISTING_ENTRY_CALENDAR = "clickedExistingEntryFromCal"
 const val SHARED_ENTRY = "sharedEntry"
 const val CLICKED_PROMPT = "clickedNewPrompt"
 const val EDITED_EXISTING_ENTRY = "editedExistingEntry"
+const val COPIED_QUOTE = "copiedQuote"
 
 //SEARCH EVENTS
 const val CLICKED_SEARCH_ITEM = "clickedSearchItem"

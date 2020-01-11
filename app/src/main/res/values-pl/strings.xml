@@ -57,4 +57,5 @@
     <string name="error_parsing">Błąd podczas odczytywania pliku</string>
     <string name="file_not_csv">Plik musi być w formacie CSV</string>
     <string name="no_app_found">Nie znaleziono odpowiedniej aplikacji do otwarcia tego pliku</string>
+    <string name="copied">Skopiowane do schowka</string>
 </resources>
