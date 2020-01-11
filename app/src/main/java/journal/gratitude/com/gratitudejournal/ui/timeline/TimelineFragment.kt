@@ -43,6 +43,7 @@ import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 import java.io.File
 import java.io.InputStream
+import java.lang.NullPointerException
 import java.util.*
 import javax.inject.Inject
 
@@ -253,11 +254,13 @@ class TimelineFragment : DaggerFragment() {
                             if (inputStream != null) {
                                 importFromCsv(inputStream)
                             } else {
+                                Crashlytics.logException(NullPointerException("inputStream is null, uri: $uri"))
                                 Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
                             }
 
                         }
                     } else {
+                        Crashlytics.log("URI was null when receiving file")
                         Toast.makeText(context, R.string.file_not_csv, Toast.LENGTH_SHORT).show()
                     }
 
