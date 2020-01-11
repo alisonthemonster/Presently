@@ -56,4 +56,5 @@
     <string name="file_not_csv">Die Datei muss eine CSV sein</string>
     <string name="no_app_found">Keine App zum Öffnen dieser Datei gefunden</string>
     <string name="permission_export">Zum Exportieren von Daten ist eine Erlaubnis erforderlich</string>
+    <string name="copied">In die Zwischenablage kopiert</string>
 </resources>

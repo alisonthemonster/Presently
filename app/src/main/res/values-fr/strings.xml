@@ -57,4 +57,5 @@
     <string name="file_not_csv">Le fichier doit être un CSV</string>
     <string name="no_app_found">Aucune application trouvée pour ouvrir ce fichier</string>
     <string name="permission_export">Une autorisation est nécessaire pour exporter des données</string>
+    <string name="copied">Copié dans le presse-papier</string>
 </resources>

@@ -43,6 +43,7 @@ import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 import java.io.File
 import java.io.InputStream
+import java.lang.NullPointerException
 import java.util.*
 import javax.inject.Inject
 
@@ -122,7 +123,7 @@ class TimelineFragment : DaggerFragment() {
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.notification_settings -> {
-                            openNotificationSettings()
+                            openSettings()
                             true
                         }
                         R.id.contact_us -> {
@@ -253,14 +254,14 @@ class TimelineFragment : DaggerFragment() {
                             if (inputStream != null) {
                                 importFromCsv(inputStream)
                             } else {
+                                Crashlytics.logException(NullPointerException("inputStream is null, uri: $uri"))
                                 Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
                             }
-
                         }
                     } else {
+                        Crashlytics.log("URI was null when receiving file")
                         Toast.makeText(context, R.string.file_not_csv, Toast.LENGTH_SHORT).show()
                     }
-
                 }
             }
         }
@@ -282,11 +283,15 @@ class TimelineFragment : DaggerFragment() {
 
     private fun exportData() {
 
-        val permission = ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val permission = ActivityCompat.checkSelfPermission(
+            activity!!,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
             )
         } else {
             firebaseAnalytics.logEvent(EXPORTED_DATA, null)
@@ -300,7 +305,7 @@ class TimelineFragment : DaggerFragment() {
     private fun selectCSVFile() {
         firebaseAnalytics.logEvent(LOOKED_FOR_DATA, null)
 
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.type = "*/*"
         val mimeTypes = arrayOf("text/*")
@@ -328,7 +333,7 @@ class TimelineFragment : DaggerFragment() {
         }
     }
 
-    private fun openNotificationSettings() {
+    private fun openSettings() {
         firebaseAnalytics.logEvent(LOOKED_AT_SETTINGS, null)
 
         val navController = findNavController()
