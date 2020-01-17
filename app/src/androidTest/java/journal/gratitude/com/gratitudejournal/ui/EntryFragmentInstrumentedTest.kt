@@ -261,4 +261,23 @@ class EntryFragmentInstrumentedTest {
         verify(mockNavController).navigateUp()
     }
 
+    @Test
+    fun entryFragment_noEdit_navigatesBack_noDialog() {
+        val mockNavController = mock<NavController>()
+        val scenario = launchFragmentInContainer<EntryFragment>(
+            themeResId = R.style.AppTheme
+        )
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+        }
+
+        val mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        mDevice.pressBack()
+
+        //back navigate
+        verify(mockNavController).navigateUp()
+
+        onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
+    }
+
 }
