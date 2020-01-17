@@ -60,4 +60,7 @@
     <string name="file_not_csv">File must be a CSV</string>
     <string name="no_app_found">No app found to open this file</string>
     <string name="copied">Copied to clipboard</string>
+    <string name="continue_to_exit">Continue</string>
+    <string name="are_you_sure">Are you sure you want to go back?</string>
+    <string name="unsaved_text">Your entry is unsaved and your changes will be lost!</string>
 </resources>

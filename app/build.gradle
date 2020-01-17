@@ -98,6 +98,7 @@ dependencies {
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
     implementation "androidx.fragment:fragment:1.1.0-alpha07"
     implementation "androidx.fragment:fragment-ktx:1.1.0-rc01"
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
     def dagger_version = "2.23.2"
     implementation "com.google.dagger:dagger:$dagger_version"

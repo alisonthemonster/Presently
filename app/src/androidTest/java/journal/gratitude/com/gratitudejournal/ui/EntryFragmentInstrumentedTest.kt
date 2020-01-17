@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
@@ -31,6 +32,7 @@ import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.util.getText
 import journal.gratitude.com.gratitudejournal.util.isEditTextValueEqualTo
 import journal.gratitude.com.gratitudejournal.util.saveEntryBlocking
+import journal.gratitude.com.gratitudejournal.util.waitFor
 import junit.framework.Assert.assertEquals
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
@@ -213,7 +215,50 @@ class EntryFragmentInstrumentedTest {
 
         onView(withText(R.string.copied)).inRoot(withDecorView(not((activity?.window?.decorView))))
             .check(matches(isDisplayed()))
+    }
 
+    //these tests are all together to save testing debounce time
+    @Test
+    fun entryFragment_makeEdit_navigatesBack() {
+        val mockNavController = mock<NavController>()
+        val scenario = launchFragmentInContainer<EntryFragment>(
+            themeResId = R.style.AppTheme
+        )
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+        }
+        //Simulate user typing
+        onView(withId(R.id.entry_text)).perform(
+            typeText("Test string!")
+        )
+        onView(isRoot()).perform(waitFor(550))
+        onView(withId(R.id.entry_text)).perform(
+            typeText("Yeehaw!"),
+            closeSoftKeyboard()
+        )
+
+        //wait for debounce to detect changes
+        onView(isRoot()).perform(waitFor(550))
+
+        //back is pressed
+        val mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        mDevice.pressBack()
+
+        //dialog is displayed
+        onView(withText(R.string.are_you_sure)).check(matches(isDisplayed()))
+
+        //cancel is pressed
+        onView(withId(android.R.id.button2)).perform(click())
+        onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
+
+        //back pressed again
+        mDevice.pressBack()
+
+        //continue clicked
+        onView(withId(android.R.id.button1)).perform(click())
+
+        //back navigate
+        verify(mockNavController).navigateUp()
     }
 
 }

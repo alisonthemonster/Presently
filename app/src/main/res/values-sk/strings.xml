@@ -61,4 +61,7 @@
     <string name="file_not_csv">Súbor musí byť vo formáte CSV</string>
     <string name="no_app_found">Nenašla sa žiadna aplikácia na otvorenie tohto súboru</string>
     <string name="copied">Skopírované do schránky</string>
+    <string name="are_you_sure">Naozaj sa chcete vrátiť?</string>
+    <string name="unsaved_text">Váš záznam sa neuloží a vaše zmeny sa stratia!</string>
+    <string name="continue_to_exit">Pokračovať</string>
 </resources>

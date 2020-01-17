@@ -60,4 +60,7 @@
     <string name="file_not_csv">O ficheiro deve ter a extensão CSV</string>
     <string name="no_app_found">Nenhuma applicação encontrada para abrir este ficheiro</string>
     <string name="copied">Copiado para a área de Transferência</string>
+    <string name="are_you_sure">Tem certeza de que deseja voltar?</string>
+    <string name="unsaved_text">Sua entrada não é salva e suas alterações serão perdidas!</string>
+    <string name="continue_to_exit">Continuar</string>
 </resources>
