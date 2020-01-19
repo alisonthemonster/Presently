@@ -88,7 +88,6 @@ class ContainerActivity : AppCompatActivity() {
                 navController.graph = graph
             }
         }
-        //TODO test turning on and off this whole feature
     }
 
     override fun onPause() {

@@ -63,6 +63,7 @@
     <string name="lock_summary">Presently on lukittu, avaa jatkaaksesi</string>
     <string name="lock_setting_summary_on">Presently lukittuu laitteen biometrisen skannerin kanssa.</string>
     <string name="lock_setting_summary_off">Presently voi lukita laitteen biometrisellä skannerilla (jos laite tukee sitä).</string>
+    <string name="fingerprint_error_lockout_too_many">Liian monta biometristä todennusyritystä. Yritä uudelleen muutamassa minuutissa.</string>
     <string name="are_you_sure">Haluatko varmasti palata takaisin?</string>
     <string name="unsaved_text">Merkintääsi ei tallenneta ja muutokset menetetään!</string>
     <string name="continue_to_exit">Jatkaa</string>
