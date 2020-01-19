@@ -58,7 +58,13 @@
     <string name="no_app_found">Не найдено приложение для открытия этого файла</string>
     <string name="permission_export">Разрешение необходимо для экспорта данных</string>
     <string name="copied">Скопировано в буфер обмена</string>
+    <string name="security">Безопасность</string>
+    <string name="lock_title">Разблокировать приложение</string>
+    <string name="lock_summary">Приложение заблокировано, разблокировка для продолжения</string>
+    <string name="lock_setting_summary_on">Приложение будет заблокировано с помощью биометрического сканера вашего устройства.</string>
+    <string name="lock_setting_summary_off">Приложение может заблокироваться с помощью биометрического сканера вашего устройства (если поддерживается устройством).</string>
     <string name="are_you_sure">Вы уверены, что хотите вернуться?</string>
     <string name="unsaved_text">Ваша запись не сохраняется, и ваши изменения будут потеряны!</string>
     <string name="continue_to_exit">продолжать</string>
+    <string name="fingerprint_error_lockout_too_many">Слишком много попыток биометрической аутентификации. Пожалуйста, попробуйте еще раз через несколько минут.</string>
 </resources>

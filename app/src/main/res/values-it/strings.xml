@@ -58,7 +58,14 @@
     <string name="no_app_found">Nessuna app trovata per aprire questo file</string>
     <string name="permission_export">È necessaria l\'autorizzazione per esportare i dati</string>
     <string name="copied">Copiato negli appunti</string>
+    <string name="fingerprint_lock_summary">Presently è bloccato, sbloccare per continuare</string>
+    <string name="security">Sicurezza</string>
+    <string name="lock_title">Sblocca Presently</string>
+    <string name="lock_summary">Presently è bloccata, sbloccare per continuare</string>
+    <string name="lock_setting_summary_on">Presently si bloccherà con lo scanner biometrico del dispositivo.</string>
+    <string name="lock_setting_summary_off">Presently può bloccarsi con lo scanner biometrico del dispositivo (se supportato dal dispositivo).</string>
     <string name="are_you_sure">Sei sicuro di voler tornare indietro?</string>
     <string name="unsaved_text">La tua voce non viene salvata e le tue modifiche andranno perse!</string>
     <string name="continue_to_exit">Continuare</string>
+    <string name="fingerprint_error_lockout_too_many">Troppi tentativi di autenticazione biometrica. Riprova tra qualche minuto.</string>
 </resources>

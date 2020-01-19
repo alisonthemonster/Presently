@@ -6,18 +6,18 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
-import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
-import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
+import java.util.*
 
 class ContainerActivity : AppCompatActivity() {
 
@@ -65,6 +65,40 @@ class ContainerActivity : AppCompatActivity() {
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val fingerprintLock = sharedPref.getBoolean("fingerprint_lock", false)
+        if (fingerprintLock) {
+            val lastDestroyTime =
+                sharedPref.getLong("last_destroy_time", -1L) //check this default makes sense
+            val currentTime = Date(System.currentTimeMillis()).time
+            val diff = currentTime - lastDestroyTime
+            if (diff > 300000L) {
+                //if more than 5 minutes (300000ms) have passed since last destroy, lock out user
+                val navController = findNavController(R.id.nav_host_fragment)
+                val navInflater = navController.navInflater
+                val graph = navInflater.inflate(R.navigation.nav_graph)
+
+                graph.startDestination = R.id.appLockFragment
+
+                navController.graph = graph
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val fingerprintLock = sharedPref.getBoolean("fingerprint_lock", false)
+        if (fingerprintLock) {
+            val date = Date(System.currentTimeMillis())
+            sharedPref.edit().putLong("last_destroy_time", date.time).apply()
+        }
     }
 
     private fun createNotificationChannel() {

@@ -4,56 +4,67 @@
     <PreferenceCategory android:title="@string/notifs_name">
 
         <SwitchPreference
-                android:defaultValue="true"
-                android:icon="@drawable/ic_bell"
-                android:key="notif_parent"
-                android:summaryOff="@string/notifs_off"
-                android:summaryOn="@string/notifs_on"
-                android:title="@string/notifs" />
+            android:defaultValue="true"
+            android:icon="@drawable/ic_bell"
+            android:key="notif_parent"
+            android:summaryOff="@string/notifs_off"
+            android:summaryOn="@string/notifs_on"
+            android:title="@string/notifs" />
 
         <journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
-                android:defaultValue="21:00"
-                android:dependency="notif_parent"
-                android:icon="@drawable/ic_time"
-                android:dialogTitle=""
-                android:key="pref_time"
-                android:summary="@string/change_time"
-                android:title="@string/time_title" />
+            android:defaultValue="21:00"
+            android:dependency="notif_parent"
+            android:dialogTitle=""
+            android:icon="@drawable/ic_time"
+            android:key="pref_time"
+            android:summary="@string/change_time"
+            android:title="@string/time_title" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/appearance">
 
         <Preference
-                android:key="current_theme"
-                android:icon="@drawable/ic_theme"
-                android:summary="@string/theme_change"
-                android:title="@string/theme" />
+            android:icon="@drawable/ic_theme"
+            android:key="current_theme"
+            android:summary="@string/theme_change"
+            android:title="@string/theme" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/security">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_lock"
+            android:key="fingerprint_lock"
+            android:summaryOff="@string/lock_setting_summary_off"
+            android:summaryOn="@string/lock_setting_summary_on"
+            android:title="@string/lock_title" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/about">
         <Preference
-                android:key="faq"
-                android:icon="@drawable/ic_faq"
-                android:summary="@string/read_faq"
-                android:title="@string/faq" />
+            android:icon="@drawable/ic_faq"
+            android:key="faq"
+            android:summary="@string/read_faq"
+            android:title="@string/faq" />
 
         <Preference
-                android:key="privacy_policy"
-                android:icon="@drawable/ic_privacy"
-                android:summary="@string/read_privacy"
-                android:title="@string/privacy_policy" />
+            android:icon="@drawable/ic_privacy"
+            android:key="privacy_policy"
+            android:summary="@string/read_privacy"
+            android:title="@string/privacy_policy" />
 
         <Preference
-                android:key="terms_conditions"
-                android:icon="@drawable/ic_terms"
-                android:summary="@string/read_tc"
-                android:title="@string/terms_conditions" />
+            android:icon="@drawable/ic_terms"
+            android:key="terms_conditions"
+            android:summary="@string/read_tc"
+            android:title="@string/terms_conditions" />
 
         <Preference
-                android:key="open_source"
-                android:icon="@drawable/ic_oss"
-                android:summary="@string/open_source_info"
-                android:title="@string/open_source" />
+            android:icon="@drawable/ic_oss"
+            android:key="open_source"
+            android:summary="@string/open_source_info"
+            android:title="@string/open_source" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -63,4 +63,10 @@
     <string name="are_you_sure">Tem certeza de que deseja voltar?</string>
     <string name="unsaved_text">Sua entrada não é salva e suas alterações serão perdidas!</string>
     <string name="continue_to_exit">Continuar</string>
+    <string name="security">Segurança</string>
+    <string name="lock_title">Desbloquear Presently</string>
+    <string name="lock_summary">Presently está bloqueado, desbloqueie para continuar</string>
+    <string name="lock_setting_summary_on">Presently será bloqueado com o scanner biométrico do seu dispositivo.</string>
+    <string name="lock_setting_summary_off">Presently pode bloquear com o scanner biométrico do seu dispositivo (se suportado pelo dispositivo).</string>
+    <string name="fingerprint_error_lockout_too_many">Muitas tentativas de autenticação biométrica. Por favor, tente novamente em alguns minutos.</string>
 </resources>
