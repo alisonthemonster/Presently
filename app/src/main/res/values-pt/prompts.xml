@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prompts">
+        <item>Que coisa te fez sorrir?</item>
+        <item>Que coisa neste espaço te faz sentir grato/a?</item>
+        <item>O que te faz feliz por estares vivo/a?</item>
+        <item>Quem te ajudou?</item>
+        <item>Quem te ofereceu mentoria?</item>
+        <item>Quem te ensinou alguma coisa?</item>
+        <item>Quem amas?</item>
+        <item>Quem te ama?</item>
+        <item>Que amigo te fez sentir grato/a?</item>
+        <item>O que te faz sentir grato/a na Natureza?</item>
+        <item>Por que talento ou habilidade te sentes grato/a?</item>
+        <item>que memória te fez sentir grato/??</item>
+        <item>Houve alguém que te ajudou hoje?</item>
+        <item>O que te fez sentir feliz hoje?</item>
+        <item>O que te faz sentir orgulhoso/a de ti mesmo?</item>
+        <item>O que te faz sentir agradecido/a acerca da tua Educação?</item>
+        <item>O que é que na tua carreira ou trabalho the faz sentir agradecido/a?</item>
+        <item>Que liberdades te fez sentir grato/a?</item>
+        <item>Que coisa te fez rir hoje?</item>
+        <item>Que coisa te faz sentir agradecido/a acerca de ti mesmo?</item>
+        <item>Qual foi a coisa mais bonita que viste hoje?</item>
+        <item>Que livro the faz sentir agradecido/a?</item>
+        <item>Que música ou canção the faz sentir agradecido/a?</item>
+        <item>Que coisa faz a tua vida ficar mais fácil?</item>
+        <item>Que coisa existe sempre para te animar?</item>
+        <item>Quem te inspira?</item>
+        <item>Por que tecnologia ou ferramenta te sentes agradecido/a?</item>
+        <item>Sentes agradecimento por que oportunidade?</item>
+        <item>Que coisa no teu corpo ou saúde te faz sentir agradecido/a?</item>
+        <item>Que sítio te faz sentir agradecido/a?</item>
+        <item>Que cheiro te faz sentir agradecido/a?</item>
+        <item>Que sabor te faz sentir agradecido/a?</item>
+        <item>Por que conhecimento ou sabedoria te sentes grato/a?</item>
+        <item>Por que prazer simples te sentes grato/a?</item>
+        <item>Por que passatempos te sentes grato/a?</item>
+        <item>Que som te faz sentir agradecido/a?</item>
+        <item>Que pequena coisa te faz sentir agradecido/a?</item>
+        <item>Que coisa agradeces ter conseguido aprender?</item>
+        <item>O que agradeces na tua cidade ou localidade?</item>
+        <item>O que agradeces na tua casa?</item>
+        <item>Que conselho agradeces ter ouvido?</item>
+        <item>O que na tua família te faz sentir grato/a?</item>
+        <item>O que agradeces acerca da atual estação do ano?</item>
+        <item>Por que atividade te sentes grato/a?</item>
+    </string-array>
+</resources>

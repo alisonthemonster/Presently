@@ -57,6 +57,7 @@
     <string name="file_not_csv">Tiedoston on oltava CSV</string>
     <string name="no_app_found">Yhtään sovellusta ei löydy avaamaan tätä tiedostoa</string>
     <string name="permission_export">Tietojen vientiä varten tarvitaan lupa</string>
+    <string name="copied">Kopioitiin leikepöydälle</string>
     <string name="security">Turvallisuus</string>
     <string name="lock_title">Avaa Presently</string>
     <string name="lock_summary">Presently on lukittu, avaa jatkaaksesi</string>

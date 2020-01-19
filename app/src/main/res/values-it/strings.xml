@@ -57,6 +57,7 @@
     <string name="file_not_csv">Il file deve essere un CSV</string>
     <string name="no_app_found">Nessuna app trovata per aprire questo file</string>
     <string name="permission_export">È necessaria l\'autorizzazione per esportare i dati</string>
+    <string name="copied">Copiato negli appunti</string>
     <string name="fingerprint_lock_summary">Presently è bloccato, sbloccare per continuare</string>
     <string name="security">Sicurezza</string>
     <string name="lock_title">Sblocca Presently</string>

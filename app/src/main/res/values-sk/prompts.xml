@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prompts">
+        <item> Čo ti vyčarí úsmev? </item>
+        <item> Za čo môžeš byť v tejto miestnosti vďačný? </item>
+        <item> Čo ťa robí šťastným? </item>
+        <item> Kto je niekto, kto vám pomohol? </item>
+        <item> Kto je niekto, kto vás mentoroval? </item>
+        <item> Kto je niekto, kto ťa niečo naučil? </item>
+        <item> Kto je niekto, koho milujete? </item>
+        <item> Kto je niekto, kto ťa miluje? </item>
+        <item> Kto je priateľ, za ktorého ste vďační? </item>
+        <item> Za čo ste prírode vďační? </item>
+        <item> Za aký talent alebo zručnosť ste vďační? </item>
+        <item> Za akú pamäť si vďačný? </item>
+        <item> Pomohol vám niekto v tento deň? </item>
+        <item> Prečo si sa cítil šťastný v tento deň? </item>
+        <item> Na čo ste na seba hrdí? </item>
+        <item> Za čo ste za svoju výchovu vďační? </item>
+        <item> Za akú kariéru alebo prácu ste vďační? </item>
+        <item> Za aké slobody ste vďační? </item>
+        <item> Čo vás rozosmieva? </item>
+        <item> Za čo ste za seba vďační? </item>
+        <item> Aká bola najkrajšia vec, ktorú si videl v tento deň? </item>
+        <item> Za akú knihu si vďačný? </item>
+        <item> Za ktorú, pieseň alebo hudbu ste vďační? </item>
+        <item> Čo uľahčuje váš život? </item>
+        <item> Čo vás vždy rozveselí? </item>
+        <item> Kto vás inšpiruje? </item>
+        <item> Za akú technológiu alebo nástroj ste vďační? </item>
+        <item> Za akú príležitosť ste vďační? </item>
+        <item> Si vďačný za tvoje telo alebo zdravie?</item>
+        <item> Za ktoré miesto si vďačný? </item>
+        <item> Za akú vôňu ste vďační? </item>
+        <item> Za čo si vďačný? </item>
+        <item> Za aké vedomosti ste vďační? </item>
+        <item> Za aké jednoduché potešenie ste vďační? </item>
+        <item> Za aké koníčky si vďačný? </item>
+        <item> Za aký zvuk si vďačný? </item>
+        <item> Za akú maličkosť ste vďační? </item>
+        <item> Si za niečo vďační, že ste sa naučili? </item>
+        <item> Za čo ste vďační vo vašom meste? </item>
+        <item> Si vďačný za svoj domov? </item>
+        <item> Ste vďační za nejakú radu, že ste ju počuli? </item>
+        <item> Za čo ste vďačnej svojej rodine? </item>
+        <item> Za čo ste vďační v tomto ročnom období? </item>
+        <item> Za akú aktivitu ste vďační? </item>
+    </string-array>
+</resources>

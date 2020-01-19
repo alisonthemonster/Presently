@@ -65,7 +65,7 @@ Presently позволит вам:
 ⁕ Установить ежедневные напоминания, чтобы продолжать практику благодарности
 ⁕ Искать ваши старые записи
 ⁕ Поделиться своими записями с семьей и друзьями
-⁕ Делать резервные комии и импортировать ваши записи
+⁕ Делать резервные копии и импортировать ваши записи
 ⁕ Настроить внешний вид приложения на свой вкус
 
 Приложение на 100% бесплатно и не содержит рекламы. Все ваши записи остаются на вашем устройстве и под вашим контролем.
@@ -102,3 +102,57 @@ Con Presently puoi:
 ⁕ Scegliere lo schema di colori che preferisci
 
 Presently è completamente gratuita e priva di pubblicità. Il tuo diario è conservato solo sul tuo telefono, sotto il tuo controllo.
+
+## Polish
+
+Ciesz się z małych rzeczy z pomocą Presently, darmowego i prywatnego dziennika wdzięczności
+
+Ćwicz wdzięczność z tą prostą, zawsze darmową i prywatną aplikacją do zapisywania, za co jesteś wdzięczny.
+
+Presently pozwala Ci:
+⁕ codziennie zapisać, za co jesteś wdzięczny
+⁕ wspomnieć momenty wdzięczności z przeszłości
+⁕ odnaleźć inspirację dzięki podpowiedziom i cytatom
+⁕ ustawić przypomnienie, by nie zapomnieć o ćwiczeniu wdzięczności
+⁕ przeszukiwać poprzednie wpisy
+⁕ dzielić się wpisami z rodziną i przyjaciółmi
+⁕ eksportować i importować wpisy
+⁕ wybrać swój ulubiony motyw
+
+Presently jest w 100% darmowe i bez reklam. Wszystkie Twoje wpisy pozostają na Twoim urządzeniu i pod Twoją kontrolą.
+
+## Slovakia
+
+Oslávte svoj každodenný život bezplatným a súkromným denníkom vdačnosti.
+
+Precvičujte si vďačnosť pomocou tejto jednoduchej, vždy bezplatnej a súkromnej aplikácie vďačnosti.
+
+V súčasnosti vám umožňuje:
+⁕ Zaznamenajte denné záznamy vďačnosti
+⁕ Pozrieť spať na svoje minulé momenty vďačnosti
+⁕ Nájdite motiváciu prostredníctvom ponúk a výziev
+⁕ Nastavte denné pripomenutia, aby ste mohli pokračovať vo svojej vďačnosti
+⁕ Vyhľadajte svoje staré záznamy
+⁕ Podeľte sa o svoje príspevky s rodinou a priateľmi
+⁕ Exportujte / importujte svoje záznamy
+⁕ Prepnite na svoju obľúbenú farebnú schému
+
+V súčasnosti je 100% zadarmo a bez reklám. Všetky vaše príspevky zostávajú na vašom zariadení a pod kontrolou.
+
+## Portuguese
+
+Celebra a tua vida diária com o Presently, um diário de gratidão gratuito e privado
+
+Pratica a gratidão com esta aplicação simples e grátis para sempre de diário de gratidão. 
+
+O Presently permite:
+⁕ Registar entradas diárias de gratidão
+⁕ Refletir os teus momentos passados de gratidão
+⁕ Encontrar motivação atravez de citações e sugestões
+⁕ Criar lembretes diários para continuar a tua prática de gratidãopractice
+⁕ Procurar os teus registos antigos
+⁕ Partilhar os teus registos com a família e amigos
+⁕ Exportar/importar os teus registos
+⁕ Mudar para o teu esquema de cores (tema) favorito
+
+O Presently é 100% gratuito e sem anúncios. Todos os teus registos ficam guardados no teu dispositivo e só tu os podes controlar.

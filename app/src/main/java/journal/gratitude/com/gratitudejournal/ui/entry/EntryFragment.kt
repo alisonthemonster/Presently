@@ -1,5 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Animatable
@@ -9,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +22,7 @@ import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
+import journal.gratitude.com.gratitudejournal.model.COPIED_QUOTE
 import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
 import journal.gratitude.com.gratitudejournal.model.SHARED_ENTRY
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
@@ -101,6 +106,17 @@ class EntryFragment : DaggerFragment() {
             imm?.hideSoftInputFromWindow(entry_text.windowToken, 0)
             findNavController().navigateUp()
         }
+
+        inspiration.setOnLongClickListener {
+            val quote = viewModel.getInspirationString()
+            val clipboard =
+                getSystemService<ClipboardManager>(context!!, ClipboardManager::class.java)
+            clipboard?.primaryClip = ClipData.newPlainText("Gratitude quote", quote)
+            firebaseAnalytics.logEvent(COPIED_QUOTE, null)
+            Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
+            true
+        }
+
     }
 
     companion object {
