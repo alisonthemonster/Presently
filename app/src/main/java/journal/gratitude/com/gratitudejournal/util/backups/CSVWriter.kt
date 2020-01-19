@@ -51,17 +51,18 @@ class CSVWriter
             val nextElement = nextLine[i]
             if (quotechar != NO_QUOTE_CHARACTER)
                 sb.append(quotechar)
-            for (j in 0 until nextElement.length) {
-                val nextChar = nextElement[j]
-                if (escapechar != NO_ESCAPE_CHARACTER && nextChar == quotechar) {
-                    sb.append(escapechar).append(nextChar)
-                } else if (escapechar != NO_ESCAPE_CHARACTER && nextChar == escapechar) {
-                    sb.append(escapechar).append(nextChar)
-                } else if (nextChar == '\n') {
+            for (element in nextElement) {
+                if (escapechar != NO_ESCAPE_CHARACTER && element == quotechar) {
+                    sb.append(escapechar).append(element)
+                } else if (escapechar != NO_ESCAPE_CHARACTER && element == escapechar) {
+                    sb.append(escapechar).append(element)
+                } else if (element == '\n') {
                     sb.append('\u0012')
+                } else if ( element == '\r'){
+                    //skip adding this character
                 }
                 else {
-                    sb.append(nextChar)
+                    sb.append(element)
                 }
             }
             if (quotechar != NO_QUOTE_CHARACTER)
