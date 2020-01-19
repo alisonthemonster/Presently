@@ -58,4 +58,7 @@
     <string name="no_app_found">Не найдено приложение для открытия этого файла</string>
     <string name="permission_export">Разрешение необходимо для экспорта данных</string>
     <string name="copied">Скопировано в буфер обмена</string>
+    <string name="are_you_sure">Вы уверены, что хотите вернуться?</string>
+    <string name="unsaved_text">Ваша запись не сохраняется, и ваши изменения будут потеряны!</string>
+    <string name="continue_to_exit">продолжать</string>
 </resources>

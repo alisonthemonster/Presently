@@ -58,4 +58,7 @@
     <string name="file_not_csv">Plik musi być w formacie CSV</string>
     <string name="no_app_found">Nie znaleziono odpowiedniej aplikacji do otwarcia tego pliku</string>
     <string name="copied">Skopiowane do schowka</string>
+    <string name="are_you_sure">Czy na pewno chcesz wrócić?</string>
+    <string name="unsaved_text">Wpis nie zostanie zapisany, a zmiany zostaną utracone!</string>
+    <string name="continue_to_exit">Kontynuować</string>
 </resources>

@@ -58,4 +58,7 @@
     <string name="no_app_found">Yhtään sovellusta ei löydy avaamaan tätä tiedostoa</string>
     <string name="permission_export">Tietojen vientiä varten tarvitaan lupa</string>
     <string name="copied">Kopioitiin leikepöydälle</string>
+    <string name="are_you_sure">Haluatko varmasti palata takaisin?</string>
+    <string name="unsaved_text">Merkintääsi ei tallenneta ja muutokset menetetään!</string>
+    <string name="continue_to_exit">Jatkaa</string>
 </resources>

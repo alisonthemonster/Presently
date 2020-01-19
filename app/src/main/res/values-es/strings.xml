@@ -59,4 +59,7 @@
     <string name="no_app_found">No se encontró ninguna aplicación para abrir este archivo</string>
     <string name="permission_export">Se necesita permiso para exportar datos</string>
     <string name="copied">Copiado al portapapeles</string>
+    <string name="are_you_sure">¿Estás seguro de que quieres volver?</string>
+    <string name="unsaved_text">¡Su entrada no se guarda y sus cambios se perderán!</string>
+    <string name="continue_to_exit">Continuar</string>
 </resources>

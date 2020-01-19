@@ -58,4 +58,7 @@
     <string name="no_app_found">Aucune application trouvée pour ouvrir ce fichier</string>
     <string name="permission_export">Une autorisation est nécessaire pour exporter des données</string>
     <string name="copied">Copié dans le presse-papier</string>
+    <string name="are_you_sure">Voulez-vous vraiment revenir en arrière?</string>
+    <string name="unsaved_text">Votre entrée n\'est pas enregistrée et vos modifications seront perdues!</string>
+    <string name="continue_to_exit">Continuez</string>
 </resources>

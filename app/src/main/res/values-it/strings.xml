@@ -58,4 +58,7 @@
     <string name="no_app_found">Nessuna app trovata per aprire questo file</string>
     <string name="permission_export">È necessaria l\'autorizzazione per esportare i dati</string>
     <string name="copied">Copiato negli appunti</string>
+    <string name="are_you_sure">Sei sicuro di voler tornare indietro?</string>
+    <string name="unsaved_text">La tua voce non viene salvata e le tue modifiche andranno perse!</string>
+    <string name="continue_to_exit">Continuare</string>
 </resources>

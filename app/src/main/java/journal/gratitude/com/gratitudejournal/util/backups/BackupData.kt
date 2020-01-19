@@ -58,7 +58,11 @@ fun parseCsv(inputStream: InputStream): List<Entry> {
             rowNum++
         }
     } else {
-        throw IOException("File does not conform to defined pattern. Missing or incorrect header row.")
+        if (titles == null) {
+            throw IOException("File does not conform to defined pattern. Missing first row.")
+        } else {
+            throw IOException("File does not conform to defined pattern. Incorrect header row. ${titles.contentToString()}")
+        }
     }
     return entries
 }

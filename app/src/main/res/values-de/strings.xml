@@ -57,4 +57,7 @@
     <string name="no_app_found">Keine App zum Öffnen dieser Datei gefunden</string>
     <string name="permission_export">Zum Exportieren von Daten ist eine Erlaubnis erforderlich</string>
     <string name="copied">In die Zwischenablage kopiert</string>
+    <string name="are_you_sure">Bist du sicher, dass du zurück willst?</string>
+    <string name="unsaved_text">Ihr Eintrag wird nicht gespeichert und Ihre Änderungen gehen verloren!</string>
+    <string name="continue_to_exit">Weiter</string>
 </resources>
