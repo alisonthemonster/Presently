@@ -64,4 +64,5 @@
     <string name="lock_summary">Presently is locked, unlock to continue</string>
     <string name="lock_setting_summary_on">Presently will lock with your device\'s biometric scanner.</string>
     <string name="lock_setting_summary_off">Presently can lock with your device\'s biometric scanner (if supported by device).</string>
+    <string name="fingerprint_error_lockout_too_many">Too many biometric authentication attempts. Please try again in a few minutes.</string>
 </resources>

@@ -52,11 +52,18 @@ class AppLockFragment : Fragment() {
 
                         when (errorCode) {
                             BiometricConstants.ERROR_NEGATIVE_BUTTON,
-                            BiometricConstants.ERROR_USER_CANCELED,
-                            BiometricConstants.ERROR_LOCKOUT,
-                            BiometricConstants.ERROR_LOCKOUT_PERMANENT -> {
+                            BiometricConstants.ERROR_USER_CANCELED -> {
                                 requireActivity().finish()
-                                return
+                            }
+                            //Occurs after a few failures,
+                            // and blocks us from showing the biometric prompt for a few seconds
+                            BiometricConstants.ERROR_LOCKOUT -> {
+                                Toast.makeText(context, R.string.fingerprint_error_lockout_too_many, Toast.LENGTH_SHORT).show()
+                            }
+                            // After a few ERROR_LOCKOUTs,
+                            // blocks the user from authenticating until other means of authentication is used successfully.
+                            BiometricConstants.ERROR_LOCKOUT_PERMANENT -> {
+                                //TODO find a way out of this (show non-biometric auth if possible)
                             }
                             BiometricConstants.ERROR_CANCELED -> {
                                 //happens when the sensor is not available
