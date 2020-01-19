@@ -62,4 +62,7 @@
     <string name="lock_summary">Presently ist gesperrt, entsperren, um fortzufahren</string>
     <string name="lock_setting_summary_on">Presently wird mit dem biometrischen Scanner Ihres Geräts verriegelt.</string>
     <string name="lock_setting_summary_off">Presently kann mit dem biometrischen Scanner Ihres Geräts gesperrt werden (sofern vom Gerät unterstützt)..</string>
+    <string name="are_you_sure">Bist du sicher, dass du zurück willst?</string>
+    <string name="unsaved_text">Ihr Eintrag wird nicht gespeichert und Ihre Änderungen gehen verloren!</string>
+    <string name="continue_to_exit">Weiter</string>
 </resources>

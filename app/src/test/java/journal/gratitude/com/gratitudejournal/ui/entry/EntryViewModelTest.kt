@@ -10,6 +10,7 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertFalse
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,6 +18,7 @@ import org.mockito.ArgumentMatchers.anyInt
 import org.threeten.bp.LocalDate
 import java.io.IOException
 import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 class EntryViewModelTest {
 
@@ -285,5 +287,14 @@ class EntryViewModelTest {
         assertFailsWith<IOException> {
             viewModel.getThankfulString()
         }
+    }
+
+    @Test
+    fun userEdited_setsIsEdited_true() {
+        viewModel = EntryViewModel(repository, application)
+
+        assertFalse(viewModel.hasUserEdits.get())
+        viewModel.userEdited()
+        assertTrue(viewModel.hasUserEdits.get())
     }
 }

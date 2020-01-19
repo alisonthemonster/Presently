@@ -63,4 +63,7 @@
     <string name="lock_summary">Приложение заблокировано, разблокировка для продолжения</string>
     <string name="lock_setting_summary_on">Приложение будет заблокировано с помощью биометрического сканера вашего устройства.</string>
     <string name="lock_setting_summary_off">Приложение может заблокироваться с помощью биометрического сканера вашего устройства (если поддерживается устройством).</string>
+    <string name="are_you_sure">Вы уверены, что хотите вернуться?</string>
+    <string name="unsaved_text">Ваша запись не сохраняется, и ваши изменения будут потеряны!</string>
+    <string name="continue_to_exit">продолжать</string>
 </resources>

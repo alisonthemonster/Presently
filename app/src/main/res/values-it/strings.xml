@@ -64,4 +64,7 @@
     <string name="lock_summary">Presently è bloccata, sbloccare per continuare</string>
     <string name="lock_setting_summary_on">Presently si bloccherà con lo scanner biometrico del dispositivo.</string>
     <string name="lock_setting_summary_off">Presently può bloccarsi con lo scanner biometrico del dispositivo (se supportato dal dispositivo).</string>
+    <string name="are_you_sure">Sei sicuro di voler tornare indietro?</string>
+    <string name="unsaved_text">La tua voce non viene salvata e le tue modifiche andranno perse!</string>
+    <string name="continue_to_exit">Continuare</string>
 </resources>
