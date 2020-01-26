@@ -228,7 +228,7 @@
     <color name="tulipBackgroundColor">#E6C5B6</color>
     <color name="tulipMainTextAndButtonColor">#474747</color>
     <color name="tulipHintQuoteTextColor">#837E7C</color>
-    <color name="tulipDateTextEntryScreenTextColor">#797979</color>
+    <color name="tulipDateTextEntryScreenTextColor">#474747</color>
     <color name="tulipTimelineColor">#4E603A</color>
     <color name="tulipToolbarColor">#4E603A</color>
     <color name="tulipStatusBarColor">#4E603A</color>
