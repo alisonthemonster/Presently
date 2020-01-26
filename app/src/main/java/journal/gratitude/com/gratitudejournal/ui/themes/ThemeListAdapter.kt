@@ -45,8 +45,12 @@ class ThemeListAdapter(private val listener: ThemeFragment.OnThemeSelectedListen
         fun bind(item: Theme) = with(itemView) {
             background_view.setBackgroundColor(item.backgroundColor)
             header.setBackgroundColor(item.headerColor)
+            logo.setTextColor(item.backgroundColor)
             icon.setImageResource(item.icon)
             icon.setColorFilter(item.iconColor)
+            timeline_line.setBackgroundColor(item.headerColor)
+            theme_name.text = item.name
+            theme_name.setTextColor(item.iconColor)
         }
     }
 

@@ -20,6 +20,9 @@ fun exportDB(entries: List<Entry>, exportCallback: ExportCallback) {
 
     val file = File(dir, "PresentlyBackup$date.csv")
     return try {
+        if (!dir.exists()) {
+            dir.mkdir()
+        }
         file.createNewFile()
         val csvWrite = CSVWriter(FileWriter(file))
         csvWrite.writeNext(arrayOf("entryDate", "entryContent"))
