@@ -68,14 +68,6 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_cube
             ),
             Theme(
-                "Midnight",
-                ContextCompat.getColor(context!!, R.color.midnightToolbarColor),
-                ContextCompat.getColor(context!!, R.color.midnightBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.midnightToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.midnightMainTextAndButtonColor),
-                R.drawable.ic_moon
-            ),
-            Theme(
                 "Waves",
                 ContextCompat.getColor(context!!, R.color.wavesToolbarColor),
                 ContextCompat.getColor(context!!, R.color.wavesBackgroundColor),
@@ -84,21 +76,20 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_wave
             ),
             Theme(
-                "Sunset",
-                ContextCompat.getColor(context!!, R.color.sunsetToolbarColor),
-                ContextCompat.getColor(context!!, R.color.sunsetBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.sunsetToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.sunsetAndroidWidgetColor),
-                R.drawable.ic_sun_icon
+                "Midnight",
+                ContextCompat.getColor(context!!, R.color.midnightToolbarColor),
+                ContextCompat.getColor(context!!, R.color.midnightBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.midnightToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.midnightMainTextAndButtonColor),
+                R.drawable.ic_moon
             ),
-
             Theme(
-                "Moss",
-                ContextCompat.getColor(context!!, R.color.mossToolbarColor),
-                ContextCompat.getColor(context!!, R.color.mossBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.mossToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.mossMainTextAndButtonColor),
-                R.drawable.ic_flower
+                "Sierra",
+                ContextCompat.getColor(context!!, R.color.sierraToolbarColor),
+                ContextCompat.getColor(context!!, R.color.sierraBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.sierraToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.sierraMainTextAndButtonColor),
+                R.drawable.ic_sun_mountain
             ),
             Theme(
                 "Wesley",
@@ -133,6 +124,14 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_sun_icon
             ),
             Theme(
+                "Sunset",
+                ContextCompat.getColor(context!!, R.color.sunsetToolbarColor),
+                ContextCompat.getColor(context!!, R.color.sunsetBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.sunsetToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.sunsetAndroidWidgetColor),
+                R.drawable.ic_sun_icon
+            ),
+            Theme(
                 "Ivy",
                 ContextCompat.getColor(context!!, R.color.ivyToolbarColor),
                 ContextCompat.getColor(context!!, R.color.ivyBackgroundColor),
@@ -154,6 +153,14 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(context!!, R.color.gelatoBackgroundColor),
                 ContextCompat.getColor(context!!, R.color.gelatoToolbarItemColor),
                 ContextCompat.getColor(context!!, R.color.gelatoMainTextAndButtonColor),
+                R.drawable.ic_flower
+            ),
+            Theme(
+                "Moss",
+                ContextCompat.getColor(context!!, R.color.mossToolbarColor),
+                ContextCompat.getColor(context!!, R.color.mossBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.mossToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.mossMainTextAndButtonColor),
                 R.drawable.ic_flower
             )
         )

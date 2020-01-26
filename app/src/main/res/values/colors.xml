@@ -190,5 +190,16 @@
     <color name="beachStatusBarColor">#D3C8C2</color>
     <color name="beachToolbarItemColor">#636363</color>
 
+    <!-- ~~~~SIERRA THEME~~~~ -->
+    <color name="sierraAndroidWidgetColor">#D1855D</color>
+    <color name="sierraBackgroundColor">#E6C5B6</color>
+    <color name="sierraMainTextAndButtonColor">#797979</color>
+    <color name="sierraHintQuoteTextColor">#AAA09C</color>
+    <color name="sierraDateTextEntryScreenTextColor">#797979</color>
+    <color name="sierraTimelineColor">#B56751</color>
+    <color name="sierraToolbarColor">#B56751</color>
+    <color name="sierraStatusBarColor">#B56751</color>
+    <color name="sierraToolbarItemColor">#E6D4CC</color>
+
 
 </resources>
