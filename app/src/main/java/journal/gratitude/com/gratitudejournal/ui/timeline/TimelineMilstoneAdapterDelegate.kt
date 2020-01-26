@@ -30,10 +30,8 @@ class TimelineMilstoneAdapterDelegate(activity: Activity) : AdapterDelegate<List
         holder: RecyclerView.ViewHolder,
         payloads: MutableList<Any>
     ) {
-
         (holder as MilestoneViewHolder).bind(items[position] as Milestone)
     }
-
 
     inner class MilestoneViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
 
