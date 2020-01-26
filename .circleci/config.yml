@@ -115,6 +115,9 @@ jobs:
       - store_artifacts:
           path: app/build/reports/
           destination: /reports/
+      - store_test_results:
+          path: app/build/reports/jacocoTestReport/
+
 
   test_instrumented:
     <<: *gcloud_config
