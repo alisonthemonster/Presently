@@ -50,7 +50,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/theme_name"
+            android:id="@+id/date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -76,9 +76,9 @@
             android:textAlignment="viewStart"
             android:textColor="?android:attr/textColor"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/theme_name"
-            app:layout_constraintStart_toStartOf="@+id/theme_name"
-            app:layout_constraintTop_toBottomOf="@+id/theme_name"
+            app:layout_constraintEnd_toEndOf="@+id/date"
+            app:layout_constraintStart_toStartOf="@+id/date"
+            app:layout_constraintTop_toBottomOf="@+id/date"
             tools:text="Hello there this is some hot content." />
 
         <View
@@ -103,8 +103,8 @@
             android:textSize="16sp"
             android:visibility="@{entryViewModel.isEmptyState()}"
             app:layout_constraintEnd_toEndOf="@+id/content"
-            app:layout_constraintStart_toStartOf="@+id/theme_name"
-            app:layout_constraintTop_toBottomOf="@+id/theme_name" />
+            app:layout_constraintStart_toStartOf="@+id/date"
+            app:layout_constraintTop_toBottomOf="@+id/date" />
 
         <ImageView
             android:id="@+id/imageView"

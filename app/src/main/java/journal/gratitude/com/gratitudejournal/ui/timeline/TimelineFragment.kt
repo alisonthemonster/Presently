@@ -146,11 +146,11 @@ class TimelineFragment : DaggerFragment() {
             }
         }
 
-        viewModel.entries.observe(this, Observer {
+        viewModel.entries.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
         })
 
-        viewModel.datesWritten.observe(this, Observer { dates ->
+        viewModel.datesWritten.observe(viewLifecycleOwner, Observer { dates ->
             entry_calendar.setWrittenDates(dates)
         })
 

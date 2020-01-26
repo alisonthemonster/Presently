@@ -81,7 +81,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     kapt 'androidx.room:room-compiler:2.1.0'
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
-    implementation 'com.hannesdorfmann:adapterdelegates3:3.0.1'
+    implementation 'com.hannesdorfmann:adapterdelegates3:3.1.0'
     implementation "com.google.android.material:material:1.1.0-alpha07"
     implementation 'com.google.firebase:firebase-core:16.0.9'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
