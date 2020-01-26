@@ -250,6 +250,22 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
+    <style name="AppTheme.FIELD" parent="AppTheme">
+        <item name="colorAccent">@color/fieldAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/fieldMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/fieldBackgroundColor</item>
+        <item name="android:textColor">@color/fieldMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/fieldToolbarColor</item>
+        <item name="android:textColorPrimary">@color/fieldDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/fieldHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/fieldHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/fieldToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/fieldTimelineColor</item>
+        <item name="android:statusBarColor">@color/fieldStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_field</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
     <style name="TextAppearance.Title" parent="android:TextAppearance">
         <item name="android:textSize">36sp</item>
         <item name="fontPath">fonts/value-serif.ttf</item>

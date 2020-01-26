@@ -108,12 +108,12 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_shell
             ),
             Theme(
-                "Moonlight",
-                ContextCompat.getColor(context!!, R.color.moonlightToolbarColor),
-                ContextCompat.getColor(context!!, R.color.moonlightBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.moonlightToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.moonlightMainTextAndButtonColor),
-                R.drawable.ic_moon
+                "Field",
+                ContextCompat.getColor(context!!, R.color.fieldToolbarColor),
+                ContextCompat.getColor(context!!, R.color.fieldBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.fieldToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.fieldMainTextAndButtonColor),
+                R.drawable.ic_field
             ),
             Theme(
                 "Dawn",
@@ -130,6 +130,14 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(context!!, R.color.sunsetToolbarItemColor),
                 ContextCompat.getColor(context!!, R.color.sunsetAndroidWidgetColor),
                 R.drawable.ic_sun_icon
+            ),
+            Theme(
+                "Moonlight",
+                ContextCompat.getColor(context!!, R.color.moonlightToolbarColor),
+                ContextCompat.getColor(context!!, R.color.moonlightBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.moonlightToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.moonlightMainTextAndButtonColor),
+                R.drawable.ic_moon
             ),
             Theme(
                 "Ivy",

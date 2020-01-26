@@ -177,7 +177,7 @@
 
     <!-- ~~~~BEACH THEME~~~~ -->
     <color name="beachAndroidWidgetColor">#D1855D</color>
-    <color name="beachBackgroundColor">#E1E3E0</color>
+    <color name="beachBackgroundColor">#ECE8E4</color>
     <!-- main text color, button color -->
     <color name="beachMainTextAndButtonColor">#797979</color>
     <!-- date text color, entry screen text -->
@@ -200,6 +200,18 @@
     <color name="sierraToolbarColor">#B56751</color>
     <color name="sierraStatusBarColor">#B56751</color>
     <color name="sierraToolbarItemColor">#E6D4CC</color>
+
+
+    <!-- ~~~~FIELD THEME~~~~ -->
+    <color name="fieldAndroidWidgetColor">#DAAE3B</color>
+    <color name="fieldBackgroundColor">#F0E9D7</color>
+    <color name="fieldMainTextAndButtonColor">#786C5A</color>
+    <color name="fieldHintQuoteTextColor">#AAA09C</color>
+    <color name="fieldDateTextEntryScreenTextColor">#786C5A</color>
+    <color name="fieldTimelineColor">#E1D0B6</color>
+    <color name="fieldToolbarColor">#E1D0B6</color>
+    <color name="fieldStatusBarColor">#E1D0B6</color>
+    <color name="fieldToolbarItemColor">#F0E9D7</color>
 
 
 </resources>
