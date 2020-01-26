@@ -224,7 +224,7 @@
     <color name="westernToolbarItemColor">#282828</color>
 
     <!-- ~~~~SUNLIGHT THEME~~~~ -->
-    <color name="sunlightAndroidWidgetColor">#D1855D</color>
+    <color name="sunlightAndroidWidgetColor">#FFC107</color>
     <color name="sunlightBackgroundColor">#FCF8D4</color>
     <color name="sunlightMainTextAndButtonColor">#797979</color>
     <color name="sunlightHintQuoteTextColor">#AAA09C</color>
@@ -233,5 +233,16 @@
     <color name="sunlightToolbarColor">#F1AF1B</color>
     <color name="sunlightStatusBarColor">#F1AF1B</color>
     <color name="sunlightToolbarItemColor">#FCF8D4</color>
+
+    <!-- ~~~~TULIP THEME~~~~ -->
+    <color name="tulipAndroidWidgetColor">#D1855D</color>
+    <color name="tulipBackgroundColor">#E6C5B6</color>
+    <color name="tulipMainTextAndButtonColor">#474747</color>
+    <color name="tulipHintQuoteTextColor">#837E7C</color>
+    <color name="tulipDateTextEntryScreenTextColor">#797979</color>
+    <color name="tulipTimelineColor">#4E603A</color>
+    <color name="tulipToolbarColor">#4E603A</color>
+    <color name="tulipStatusBarColor">#4E603A</color>
+    <color name="tulipToolbarItemColor">#E6D4CC</color>
 
 </resources>

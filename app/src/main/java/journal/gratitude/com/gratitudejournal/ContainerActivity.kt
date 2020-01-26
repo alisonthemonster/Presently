@@ -134,6 +134,7 @@ class ContainerActivity : AppCompatActivity() {
             "Field" -> setTheme(R.style.AppTheme_FIELD)
             "Western" -> setTheme(R.style.AppTheme_WESTERN)
             "Sunlight" -> setTheme(R.style.AppTheme_SUNLIGHT)
+            "Tulip" -> setTheme(R.style.AppTheme_TULIP)
             else -> setTheme(R.style.AppTheme)
         }
     }

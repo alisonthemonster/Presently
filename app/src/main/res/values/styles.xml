@@ -298,6 +298,22 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
+    <style name="AppTheme.TULIP" parent="AppTheme">
+        <item name="colorAccent">@color/tulipAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/tulipMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/tulipBackgroundColor</item>
+        <item name="android:textColor">@color/tulipMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/tulipToolbarColor</item>
+        <item name="android:textColorPrimary">@color/tulipDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/tulipHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/tulipHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/tulipToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/tulipTimelineColor</item>
+        <item name="android:statusBarColor">@color/tulipStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_tulip</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
     <style name="TextAppearance.Title" parent="android:TextAppearance">
         <item name="android:textSize">36sp</item>
         <item name="fontPath">fonts/value-serif.ttf</item>
