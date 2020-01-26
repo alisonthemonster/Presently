@@ -190,17 +190,6 @@
     <color name="beachStatusBarColor">#D3C8C2</color>
     <color name="beachToolbarItemColor">#636363</color>
 
-    <!-- ~~~~SIERRA THEME~~~~ -->
-    <color name="sierraAndroidWidgetColor">#D1855D</color>
-    <color name="sierraBackgroundColor">#E6C5B6</color>
-    <color name="sierraMainTextAndButtonColor">#797979</color>
-    <color name="sierraHintQuoteTextColor">#AAA09C</color>
-    <color name="sierraDateTextEntryScreenTextColor">#797979</color>
-    <color name="sierraTimelineColor">#B56751</color>
-    <color name="sierraToolbarColor">#B56751</color>
-    <color name="sierraStatusBarColor">#B56751</color>
-    <color name="sierraToolbarItemColor">#E6D4CC</color>
-
     <!-- ~~~~FIELD THEME~~~~ -->
     <color name="fieldAndroidWidgetColor">#DAAE3B</color>
     <color name="fieldBackgroundColor">#F0E9D7</color>
@@ -244,5 +233,16 @@
     <color name="tulipToolbarColor">#4E603A</color>
     <color name="tulipStatusBarColor">#4E603A</color>
     <color name="tulipToolbarItemColor">#E6D4CC</color>
+
+    <!-- ~~~~ROSIE THEME~~~~ -->
+    <color name="rosieAndroidWidgetColor">#D1855D</color>
+    <color name="rosieBackgroundColor">#F1DDD4</color>
+    <color name="rosieMainTextAndButtonColor">#797979</color>
+    <color name="rosieHintQuoteTextColor">#AAA09C</color>
+    <color name="rosieDateTextEntryScreenTextColor">#797979</color>
+    <color name="rosieTimelineColor">#D26635</color>
+    <color name="rosieToolbarColor">#D26635</color>
+    <color name="rosieStatusBarColor">#D26635</color>
+    <color name="rosieToolbarItemColor">#F1DDD4</color>
 
 </resources>

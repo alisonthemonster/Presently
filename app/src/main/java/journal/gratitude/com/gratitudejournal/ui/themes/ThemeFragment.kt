@@ -68,6 +68,14 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_sun_icon
             ),
             Theme(
+                "Waves",
+                ContextCompat.getColor(context!!, R.color.wavesToolbarColor),
+                ContextCompat.getColor(context!!, R.color.wavesBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.wavesToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.wavesMainTextAndButtonColor),
+                R.drawable.ic_wave
+            ),
+            Theme(
                 "Tulip",
                 ContextCompat.getColor(context!!, R.color.tulipToolbarColor),
                 ContextCompat.getColor(context!!, R.color.tulipBackgroundColor),
@@ -75,13 +83,6 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(context!!, R.color.tulipMainTextAndButtonColor),
                 R.drawable.ic_tulip,
                 true
-            ),Theme(
-                "Waves",
-                ContextCompat.getColor(context!!, R.color.wavesToolbarColor),
-                ContextCompat.getColor(context!!, R.color.wavesBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.wavesToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.wavesMainTextAndButtonColor),
-                R.drawable.ic_wave
             ),
             Theme(
                 "Western",
@@ -92,13 +93,12 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_cactus
             ),
             Theme(
-                "Sunlight",
-                ContextCompat.getColor(context!!, R.color.sunlightToolbarColor),
-                ContextCompat.getColor(context!!, R.color.sunlightBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.sunlightToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.sunlightMainTextAndButtonColor),
-                R.drawable.ic_sunshine,
-                true
+                "Beach",
+                ContextCompat.getColor(context!!, R.color.beachToolbarColor),
+                ContextCompat.getColor(context!!, R.color.beachBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.beachToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.beachMainTextAndButtonColor),
+                R.drawable.ic_shell
             ),
             Theme(
                 "Midnight",
@@ -109,14 +109,6 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_moon
             ),
             Theme(
-                "Sierra",
-                ContextCompat.getColor(context!!, R.color.sierraToolbarColor),
-                ContextCompat.getColor(context!!, R.color.sierraBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.sierraToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.sierraMainTextAndButtonColor),
-                R.drawable.ic_sun_mountain
-            ),
-            Theme(
                 "Wesley",
                 ContextCompat.getColor(context!!, R.color.wesleyToolbarColor),
                 ContextCompat.getColor(context!!, R.color.wesleyBackgroundColor),
@@ -125,12 +117,13 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_cube
             ),
             Theme(
-                "Beach",
-                ContextCompat.getColor(context!!, R.color.beachToolbarColor),
-                ContextCompat.getColor(context!!, R.color.beachBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.beachToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.beachMainTextAndButtonColor),
-                R.drawable.ic_shell
+                "Sunlight",
+                ContextCompat.getColor(context!!, R.color.sunlightToolbarColor),
+                ContextCompat.getColor(context!!, R.color.sunlightBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.sunlightToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.sunlightMainTextAndButtonColor),
+                R.drawable.ic_sunshine,
+                true
             ),
             Theme(
                 "Sunset",
@@ -147,6 +140,15 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(context!!, R.color.fieldToolbarItemColor),
                 ContextCompat.getColor(context!!, R.color.fieldMainTextAndButtonColor),
                 R.drawable.ic_field
+            ),
+            Theme(
+                "Rosie",
+                ContextCompat.getColor(context!!, R.color.rosieToolbarColor),
+                ContextCompat.getColor(context!!, R.color.rosieBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.rosieToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.rosieMainTextAndButtonColor),
+                R.drawable.ic_rosie,
+                true
             ),
             Theme(
                 "Glacier",
@@ -173,11 +175,11 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_flower
             ),
             Theme(
-                "Clean",
-                ContextCompat.getColor(context!!, R.color.cleanToolbarColor),
-                ContextCompat.getColor(context!!, R.color.cleanBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.cleanToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.cleanMainTextAndButtonColor),
+                "Moss",
+                ContextCompat.getColor(context!!, R.color.mossToolbarColor),
+                ContextCompat.getColor(context!!, R.color.mossBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.mossToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.mossMainTextAndButtonColor),
                 R.drawable.ic_flower
             ),
             Theme(
@@ -189,11 +191,11 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_flower
             ),
             Theme(
-                "Moss",
-                ContextCompat.getColor(context!!, R.color.mossToolbarColor),
-                ContextCompat.getColor(context!!, R.color.mossBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.mossToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.mossMainTextAndButtonColor),
+                "Clean",
+                ContextCompat.getColor(context!!, R.color.cleanToolbarColor),
+                ContextCompat.getColor(context!!, R.color.cleanBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.cleanToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.cleanMainTextAndButtonColor),
                 R.drawable.ic_flower
             )
         )
