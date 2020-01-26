@@ -27,6 +27,7 @@
     <string name="import_data_dialog">Êtes-vous certain de vouloir importer ces enregistrements?</string>
     <string name="import_data_dialog_message">L\'importation des enregistrements sauvegardés peut écraser vos enregistrements existants.</string>
     <string name="days_of_gratitude">jours de gratitude!</string>
+    <string name="days_of">jours de gratitude</string>
     <string name="rate_presently">Évaluer Presently</string>
     <string name="share_your_achievement">Partager vos progrès</string>
     <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">

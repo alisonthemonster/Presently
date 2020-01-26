@@ -4,20 +4,22 @@ import android.app.Activity
 import android.view.ViewGroup
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegatesManager
 import journal.gratitude.com.gratitudejournal.model.Entry
+import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.ui.bindingadapter.BindableAdapter
 import org.threeten.bp.LocalDate
 
-class TimelineAdapter(activity: Activity, onClickListener: OnClickListener) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>(), BindableAdapter<List<Entry>> {
+class TimelineAdapter(activity: Activity, onClickListener: OnClickListener) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>(), BindableAdapter<List<TimelineItem>> {
 
-    private lateinit var entries: List<Entry>
+    private lateinit var entries: List<TimelineItem>
 
-    private val delegatesManager = AdapterDelegatesManager<List<Entry>>()
+    private val delegatesManager = AdapterDelegatesManager<List<TimelineItem>>()
 
     init {
         delegatesManager.addDelegate(TimelineEntryAdapterDelegate(activity, onClickListener))
+        delegatesManager.addDelegate(TimelineMilstoneAdapterDelegate(activity))
     }
 
-    override fun setData(data: List<Entry>) {
+    override fun setData(data: List<TimelineItem>) {
         entries = data
 
         notifyDataSetChanged()

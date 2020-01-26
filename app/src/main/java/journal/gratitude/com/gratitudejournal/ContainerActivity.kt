@@ -102,8 +102,6 @@ class ContainerActivity : AppCompatActivity() {
     }
 
     private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = getString(R.string.channel_name)
             val description = getString(R.string.channel_description)
@@ -131,6 +129,12 @@ class ContainerActivity : AppCompatActivity() {
             "Glacier" -> setTheme(R.style.AppTheme_GLACIER)
             "Gelato" -> setTheme(R.style.AppTheme_GELATO)
             "Waves" -> setTheme(R.style.AppTheme_WAVES)
+            "Beach" -> setTheme(R.style.AppTheme_BEACH)
+            "Field" -> setTheme(R.style.AppTheme_FIELD)
+            "Western" -> setTheme(R.style.AppTheme_WESTERN)
+            "Sunlight" -> setTheme(R.style.AppTheme_SUNLIGHT)
+            "Tulip" -> setTheme(R.style.AppTheme_TULIP)
+            "Rosie" -> setTheme(R.style.AppTheme_ROSIE)
             else -> setTheme(R.style.AppTheme)
         }
     }

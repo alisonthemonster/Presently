@@ -27,6 +27,7 @@
     <string name="import_data_dialog">Вы уверены, что хотите импортировать записи?</string>
     <string name="import_data_dialog_message">Импортированные записи могут перезаписать существующие.</string>
     <string name="days_of_gratitude">дней благодарности!</string>
+    <string name="days_of">дней благодарности</string>
     <string name="rate_presently">Оценить Presently</string>
     <string name="share_your_achievement">Поделитесь вашим достижением</string>
     <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">

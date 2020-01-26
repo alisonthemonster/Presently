@@ -34,6 +34,7 @@ import androidx.appcompat.app.AlertDialog
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.milestones
 import java.util.concurrent.TimeUnit
 
 
@@ -113,7 +114,7 @@ class EntryFragment : DaggerFragment() {
             if (isNewEntry) {
                 val bundle = Bundle()
                 bundle.putInt(FirebaseAnalytics.Param.LEVEL, (numEntries + 1))
-                val milestones = arrayOf(5, 10, 25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500)
+
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle)
                 if (milestones.contains(numEntries + 1)) {
                     CelebrateDialogFragment.newInstance(numEntries + 1).show(fragmentManager!!, "CelebrateDialogFragment")

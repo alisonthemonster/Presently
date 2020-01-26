@@ -15,6 +15,6 @@ class TimelineViewModelFactoryTest {
         val actual = factory.create(TimelineViewModel::class.java)
         val expected = TimelineViewModel(mock())
 
-        TestCase.assertEquals(expected.getEntriesList(), actual.getEntriesList())
+        TestCase.assertEquals(expected.getTimelineItems(), actual.getTimelineItems())
     }
 }

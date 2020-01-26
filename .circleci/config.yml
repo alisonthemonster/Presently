@@ -110,11 +110,12 @@ jobs:
       - run:
           name: Generate JaCoCo report
           command: ./gradlew -PciBuild=true :app:jacocoTestReport
-      - codecov/upload:
-          file: reports/jacocoTestReport/*.xml
       - store_artifacts:
           path: app/build/reports/
           destination: /reports/
+      - store_test_results:
+          path: app/build/reports/
+
 
   test_instrumented:
     <<: *gcloud_config

@@ -218,6 +218,102 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
+    <style name="AppTheme.BEACH" parent="AppTheme">
+        <item name="colorAccent">@color/beachAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/beachMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/beachBackgroundColor</item>
+        <item name="android:textColor">@color/beachMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/beachToolbarColor</item>
+        <item name="android:textColorPrimary">@color/beachDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/beachHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/beachHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/beachToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/beachTimelineColor</item>
+        <item name="android:statusBarColor">@color/beachStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_shell</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.FIELD" parent="AppTheme">
+        <item name="colorAccent">@color/fieldAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/fieldMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/fieldBackgroundColor</item>
+        <item name="android:textColor">@color/fieldMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/fieldToolbarColor</item>
+        <item name="android:textColorPrimary">@color/fieldDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/fieldHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/fieldHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/fieldToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/fieldTimelineColor</item>
+        <item name="android:statusBarColor">@color/fieldStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_field</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.WESTERN" parent="AppTheme">
+        <item name="colorAccent">@color/westernAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/westernMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/westernBackgroundColor</item>
+        <item name="android:textColor">@color/westernMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/westernToolbarColor</item>
+        <item name="android:textColorPrimary">@color/westernDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/westernHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/westernHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/westernToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/westernTimelineColor</item>
+        <item name="android:statusBarColor">@color/westernStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_cactus</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.SUNLIGHT" parent="AppTheme">
+        <item name="colorAccent">@color/sunlightAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/sunlightMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/sunlightBackgroundColor</item>
+        <item name="android:textColor">@color/sunlightMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/sunlightToolbarColor</item>
+        <item name="android:textColorPrimary">@color/sunlightDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/sunlightHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/sunlightHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/sunlightToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/sunlightTimelineColor</item>
+        <item name="android:statusBarColor">@color/sunlightStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_sunshine</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.TULIP" parent="AppTheme">
+        <item name="colorAccent">@color/tulipAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/tulipMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/tulipBackgroundColor</item>
+        <item name="android:textColor">@color/tulipMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/tulipToolbarColor</item>
+        <item name="android:textColorPrimary">@color/tulipDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/tulipHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/tulipHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/tulipToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/tulipTimelineColor</item>
+        <item name="android:statusBarColor">@color/tulipStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_tulip</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.ROSIE" parent="AppTheme">
+        <item name="colorAccent">@color/rosieAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/rosieMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/rosieBackgroundColor</item>
+        <item name="android:textColor">@color/rosieMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/rosieToolbarColor</item>
+        <item name="android:textColorPrimary">@color/rosieDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/rosieHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/rosieHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/rosieToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/rosieTimelineColor</item>
+        <item name="android:statusBarColor">@color/rosieStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_rosie</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
     <style name="TextAppearance.Title" parent="android:TextAppearance">
         <item name="android:textSize">36sp</item>
         <item name="fontPath">fonts/value-serif.ttf</item>

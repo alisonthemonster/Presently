@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.util.backups
 import android.os.Environment
 import com.crashlytics.android.Crashlytics
 import journal.gratitude.com.gratitudejournal.model.Entry
+import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import org.threeten.bp.LocalDateTime
@@ -12,7 +13,7 @@ import java.io.IOException
 import java.io.InputStream
 
 
-fun exportDB(entries: List<Entry>, exportCallback: ExportCallback) {
+fun exportDB(timelineItems: List<TimelineItem>, exportCallback: ExportCallback) {
 
     val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
 
@@ -20,13 +21,23 @@ fun exportDB(entries: List<Entry>, exportCallback: ExportCallback) {
 
     val file = File(dir, "PresentlyBackup$date.csv")
     return try {
+        if (!dir.exists()) {
+            dir.mkdir()
+        }
         file.createNewFile()
         val csvWrite = CSVWriter(FileWriter(file))
         csvWrite.writeNext(arrayOf("entryDate", "entryContent"))
 
-        for (entry in entries) {
-            if (entry.entryContent.isNotEmpty()) {
-                csvWrite.writeNext(arrayOf(entry.entryDate.toDatabaseString(), entry.entryContent))
+        for (item in timelineItems) {
+            if (item is Entry) {
+                if (item.entryContent.isNotEmpty()) {
+                    csvWrite.writeNext(
+                        arrayOf(
+                            item.entryDate.toDatabaseString(),
+                            item.entryContent
+                        )
+                    )
+                }
             }
         }
         csvWrite.close()

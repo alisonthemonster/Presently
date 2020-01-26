@@ -28,6 +28,7 @@
     <string name="import_data_dialog">Bist du sicher, dass du Einträge aus einer Datei importieren möchtest?</string>
     <string name="import_data_dialog_message">Dies könnte deine bisherigen Einträge überschreiben.</string>
     <string name="days_of_gratitude">Tage voller Dankbarkeit!</string>
+    <string name="days_of">Tage voller Dankbarkeit</string>
     <string name="rate_presently">Bewerte Presently</string>
     <string name="share_your_achievement">Teile deinen Erfolg</string>
     <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">"Herzlichen Glückwunsch! Wir sind so stolz und dankbar, dass du Presently gewählt hast um deine Dankbarkeit aufzuschreiben. "</string>

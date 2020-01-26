@@ -28,6 +28,7 @@
     <string name="import_data_dialog">Are you sure you want to import?</string>
     <string name="import_data_dialog_message">Imported data could overwrite existing entries.</string>
     <string name="days_of_gratitude">days of gratitude!</string>
+    <string name="days_of">days of gratitude</string>
     <string name="rate_presently">Rate Presently</string>
     <string name="share_your_achievement">Share your achievement</string>
     <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">

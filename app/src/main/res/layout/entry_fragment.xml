@@ -20,7 +20,7 @@
         tools:context=".ui.entry.EntryFragment">
 
         <TextView
-                android:id="@+id/date_string"
+                android:id="@+id/date"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
@@ -59,8 +59,8 @@
                 app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toTopOf="@+id/divider_line"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/date_string"
-                app:layout_constraintTop_toBottomOf="@+id/date_string"
+                app:layout_constraintStart_toStartOf="@+id/date"
+                app:layout_constraintTop_toBottomOf="@+id/date"
                 app:layout_constraintVertical_chainStyle="spread"
                 app:layout_constraintVertical_weight="1"
                 tools:text="I was thankful for" />

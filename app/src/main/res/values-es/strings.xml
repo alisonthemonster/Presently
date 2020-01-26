@@ -28,6 +28,7 @@
     <string name="import_data_dialog">¿Seguro que deseas importar?</string>
     <string name="import_data_dialog_message">Los datos importados pueden sobreescribir las entradas existentes.</string>
     <string name="days_of_gratitude">días de gratitud!</string>
+    <string name="days_of">días de gratitud</string>
     <string name="rate_presently">Puntuar Presently</string>
     <string name="share_your_achievement">Compartir tu logro</string>
     <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">
