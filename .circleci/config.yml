@@ -114,7 +114,7 @@ jobs:
           path: app/build/reports/
           destination: /reports/
       - store_test_results:
-          path: app/build/reports/jacocoTestReport/
+          path: app/build/reports/
 
 
   test_instrumented:
