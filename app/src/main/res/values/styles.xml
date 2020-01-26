@@ -266,6 +266,22 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
+    <style name="AppTheme.WESTERN" parent="AppTheme">
+        <item name="colorAccent">@color/westernAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/westernMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/westernBackgroundColor</item>
+        <item name="android:textColor">@color/westernMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/westernToolbarColor</item>
+        <item name="android:textColorPrimary">@color/westernDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/westernHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/westernHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/westernToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/westernTimelineColor</item>
+        <item name="android:statusBarColor">@color/westernStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_cactus</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
     <style name="TextAppearance.Title" parent="android:TextAppearance">
         <item name="android:textSize">36sp</item>
         <item name="fontPath">fonts/value-serif.ttf</item>

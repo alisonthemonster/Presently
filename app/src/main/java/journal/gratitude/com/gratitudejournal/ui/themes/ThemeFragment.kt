@@ -60,12 +60,12 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_flower
             ),
             Theme(
-                "Glacier",
-                ContextCompat.getColor(context!!, R.color.glacierToolbarColor),
-                ContextCompat.getColor(context!!, R.color.glacierBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.glacierToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.glacierMainTextAndButtonColor),
-                R.drawable.ic_cube
+                "Dawn",
+                ContextCompat.getColor(context!!, R.color.dawnToolbarColor),
+                ContextCompat.getColor(context!!, R.color.dawnBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.dawnToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.dawnMainTextAndButtonColor),
+                R.drawable.ic_sun_icon
             ),
             Theme(
                 "Waves",
@@ -74,6 +74,14 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(context!!, R.color.wavesToolbarItemColor),
                 ContextCompat.getColor(context!!, R.color.wavesMainTextAndButtonColor),
                 R.drawable.ic_wave
+            ),
+            Theme(
+                "Western",
+                ContextCompat.getColor(context!!, R.color.westernToolbarColor),
+                ContextCompat.getColor(context!!, R.color.westernBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.westernToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.westernMainTextAndButtonColor),
+                R.drawable.ic_cactus
             ),
             Theme(
                 "Midnight",
@@ -108,6 +116,14 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_shell
             ),
             Theme(
+                "Sunset",
+                ContextCompat.getColor(context!!, R.color.sunsetToolbarColor),
+                ContextCompat.getColor(context!!, R.color.sunsetBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.sunsetToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.sunsetAndroidWidgetColor),
+                R.drawable.ic_sun_icon
+            ),
+            Theme(
                 "Field",
                 ContextCompat.getColor(context!!, R.color.fieldToolbarColor),
                 ContextCompat.getColor(context!!, R.color.fieldBackgroundColor),
@@ -116,20 +132,12 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_field
             ),
             Theme(
-                "Dawn",
-                ContextCompat.getColor(context!!, R.color.dawnToolbarColor),
-                ContextCompat.getColor(context!!, R.color.dawnBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.dawnToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.dawnMainTextAndButtonColor),
-                R.drawable.ic_sun_icon
-            ),
-            Theme(
-                "Sunset",
-                ContextCompat.getColor(context!!, R.color.sunsetToolbarColor),
-                ContextCompat.getColor(context!!, R.color.sunsetBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.sunsetToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.sunsetAndroidWidgetColor),
-                R.drawable.ic_sun_icon
+                "Glacier",
+                ContextCompat.getColor(context!!, R.color.glacierToolbarColor),
+                ContextCompat.getColor(context!!, R.color.glacierBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.glacierToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.glacierMainTextAndButtonColor),
+                R.drawable.ic_cube
             ),
             Theme(
                 "Moonlight",

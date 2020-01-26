@@ -201,7 +201,6 @@
     <color name="sierraStatusBarColor">#B56751</color>
     <color name="sierraToolbarItemColor">#E6D4CC</color>
 
-
     <!-- ~~~~FIELD THEME~~~~ -->
     <color name="fieldAndroidWidgetColor">#DAAE3B</color>
     <color name="fieldBackgroundColor">#F0E9D7</color>
@@ -213,5 +212,15 @@
     <color name="fieldStatusBarColor">#E1D0B6</color>
     <color name="fieldToolbarItemColor">#F0E9D7</color>
 
+    <!-- ~~~~WESTERN THEME~~~~ -->
+    <color name="westernAndroidWidgetColor">#B59951</color>
+    <color name="westernBackgroundColor">#282828</color>
+    <color name="westernMainTextAndButtonColor">#B1977E</color>
+    <color name="westernHintQuoteTextColor">#92897F</color>
+    <color name="westernDateTextEntryScreenTextColor">#B1977E</color>
+    <color name="westernTimelineColor">#B1977E</color>
+    <color name="westernToolbarColor">#B1977E</color>
+    <color name="westernStatusBarColor">#B1977E</color>
+    <color name="westernToolbarItemColor">#282828</color>
 
 </resources>

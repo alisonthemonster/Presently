@@ -132,6 +132,7 @@ class ContainerActivity : AppCompatActivity() {
             "Beach" -> setTheme(R.style.AppTheme_BEACH)
             "Sierra" -> setTheme(R.style.AppTheme_SIERRA)
             "Field" -> setTheme(R.style.AppTheme_FIELD)
+            "Western" -> setTheme(R.style.AppTheme_WESTERN)
             else -> setTheme(R.style.AppTheme)
         }
     }
