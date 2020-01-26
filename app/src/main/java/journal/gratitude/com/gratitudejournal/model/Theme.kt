@@ -5,4 +5,5 @@ data class Theme(val name: String,
                  val backgroundColor: Int,
                  val headerItemColor: Int,
                  val iconColor: Int,
-                 val icon: Int)
+                 val icon: Int,
+                 val multicolorIcon: Boolean = false)

@@ -47,7 +47,7 @@ class ThemeListAdapter(private val listener: ThemeFragment.OnThemeSelectedListen
             header.setBackgroundColor(item.headerColor)
             logo.setTextColor(item.headerItemColor)
             icon.setImageResource(item.icon)
-            icon.setColorFilter(item.iconColor)
+            if (!item.multicolorIcon) icon.setColorFilter(item.iconColor)
             timeline_line.setBackgroundColor(item.headerColor)
             theme_name.text = item.name
             theme_name.setTextColor(item.iconColor)

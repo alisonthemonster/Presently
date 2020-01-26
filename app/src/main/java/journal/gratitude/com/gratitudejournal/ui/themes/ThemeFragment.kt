@@ -106,6 +106,14 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(context!!, R.color.wesleyToolbarItemColor),
                 ContextCompat.getColor(context!!, R.color.wesleyMainTextAndButtonColor),
                 R.drawable.ic_cube
+            ),Theme(
+                "Sunlight",
+                ContextCompat.getColor(context!!, R.color.sunlightToolbarColor),
+                ContextCompat.getColor(context!!, R.color.sunlightBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.sunlightToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.sunlightMainTextAndButtonColor),
+                R.drawable.ic_sunshine,
+                true
             ),
             Theme(
                 "Beach",

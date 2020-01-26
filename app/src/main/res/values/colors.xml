@@ -223,4 +223,15 @@
     <color name="westernStatusBarColor">#B1977E</color>
     <color name="westernToolbarItemColor">#282828</color>
 
+    <!-- ~~~~SUNLIGHT THEME~~~~ -->
+    <color name="sunlightAndroidWidgetColor">#D1855D</color>
+    <color name="sunlightBackgroundColor">#FCF8D4</color>
+    <color name="sunlightMainTextAndButtonColor">#797979</color>
+    <color name="sunlightHintQuoteTextColor">#AAA09C</color>
+    <color name="sunlightDateTextEntryScreenTextColor">#797979</color>
+    <color name="sunlightTimelineColor">#F1AF1B</color>
+    <color name="sunlightToolbarColor">#F1AF1B</color>
+    <color name="sunlightStatusBarColor">#F1AF1B</color>
+    <color name="sunlightToolbarItemColor">#FCF8D4</color>
+
 </resources>
