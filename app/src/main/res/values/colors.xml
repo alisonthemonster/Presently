@@ -115,7 +115,7 @@
     <color name="mossStatusBarColor">#000000</color>
 
     <!-- ~~~~CLEAN THEME~~~~ -->
-    <color name="cleanAndroidWidgetColor">#FD6574</color>
+    <color name="cleanAndroidWidgetColor">#077272</color>
     <color name="cleanBackgroundColor">#A8C7C7</color>
     <!-- main text color, button color -->
     <color name="cleanMainTextAndButtonColor">#000000</color>
@@ -161,7 +161,7 @@
     <color name="gelatoToolbarItemColor">#C7A8A8</color>
 
     <!-- ~~~~WAVES THEME~~~~ -->
-    <color name="wavesAndroidWidgetColor">#FD6574</color>
+    <color name="wavesAndroidWidgetColor">#27639C</color>
     <color name="wavesBackgroundColor">#96B8D8</color>
     <!-- main text color, button color -->
     <color name="wavesMainTextAndButtonColor">#000000</color>
@@ -174,5 +174,21 @@
     <color name="wavesToolbarColor">#000000</color>
     <color name="wavesStatusBarColor">#000000</color>
     <color name="wavesToolbarItemColor">#F9F6EF</color>
+
+    <!-- ~~~~BEACH THEME~~~~ -->
+    <color name="beachAndroidWidgetColor">#D1855D</color>
+    <color name="beachBackgroundColor">#E1E3E0</color>
+    <!-- main text color, button color -->
+    <color name="beachMainTextAndButtonColor">#797979</color>
+    <!-- date text color, entry screen text -->
+    <color name="beachDateTextEntryScreenTextColor">#797979</color>
+    <color name="beachTimelineColor">#D3C8C2</color>
+    <!-- hint text color, quote text color -->
+    <color name="beachHintQuoteTextColor">#B9B9B9</color>
+    <!-- Toolbar and Fab color -->
+    <color name="beachToolbarColor">#D3C8C2</color>
+    <color name="beachStatusBarColor">#D3C8C2</color>
+    <color name="beachToolbarItemColor">#636363</color>
+
 
 </resources>

@@ -218,6 +218,22 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
+    <style name="AppTheme.BEACH" parent="AppTheme">
+        <item name="colorAccent">@color/beachAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/beachMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/beachBackgroundColor</item>
+        <item name="android:textColor">@color/beachMainTextAndButtonColor</item>
+        <item name="android:colorPrimary">@color/beachToolbarColor</item>
+        <item name="android:textColorPrimary">@color/beachDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/beachHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/beachHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/beachToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/beachTimelineColor</item>
+        <item name="android:statusBarColor">@color/beachStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_shell</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
     <style name="TextAppearance.Title" parent="android:TextAppearance">
         <item name="android:textSize">36sp</item>
         <item name="fontPath">fonts/value-serif.ttf</item>
