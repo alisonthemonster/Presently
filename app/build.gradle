@@ -21,7 +21,7 @@ android {
         minSdkVersion project.ext.androidMinSdk
         targetSdkVersion project.ext.androidTargetSdk
 
-        versionCode 30
+        versionCode 31
         versionName project.ext.androidVersionName
         //TODO wire up to CI
         //buildConfigField 'int', 'BUILD_NUMBER', "${project.ext.buildNumber}"
