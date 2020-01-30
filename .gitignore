@@ -49,7 +49,9 @@ proguard/
 .externalNativeBuild
 
 # Google Services (e.g. APIs or Firebase)
+debug/google-services.json
 app/google-services.json
+
 
 #crashlytics
 fabric.properties
