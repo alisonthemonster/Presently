@@ -108,7 +108,7 @@ class SearchFragmentInstrumentedTest {
                 )
             )
 
-        onView(isRoot()).perform(waitFor(200))
+        onView(isRoot()).perform(waitFor(400))
 
         verify(mockNavController).navigate(eq(R.id.action_searchFragment_to_entryFragment), any())
     }
