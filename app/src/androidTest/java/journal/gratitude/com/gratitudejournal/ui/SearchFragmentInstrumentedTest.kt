@@ -2,18 +2,17 @@ package journal.gratitude.com.gratitudejournal.ui
 
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.eq
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.*
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
@@ -87,6 +86,9 @@ class SearchFragmentInstrumentedTest {
     @Test
     fun search_type_clickEntry_navigateToEntry() {
         val mockNavController = mock<NavController>()
+        val mockNavigationDestination = mock<NavDestination>()
+        mockNavigationDestination.id = R.id.searchFragment
+        whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
         val scenario = launchFragmentInContainer<SearchFragment>(
             themeResId = R.style.AppTheme
         )
@@ -107,8 +109,6 @@ class SearchFragmentInstrumentedTest {
                     click()
                 )
             )
-
-        onView(isRoot()).perform(waitFor(400))
 
         verify(mockNavController).navigate(eq(R.id.action_searchFragment_to_entryFragment), any())
     }
