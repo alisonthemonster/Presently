@@ -6,7 +6,6 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.room.EntryDao
-import journal.gratitude.com.gratitudejournal.util.OpenForTesting
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 

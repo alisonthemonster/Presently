@@ -67,11 +67,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val fingerprint = findPreference("fingerprint_lock")
         val canAuthenticateUsingFingerPrint  = BiometricManager.from(context!!).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
         fingerprint.parent!!.isEnabled = canAuthenticateUsingFingerPrint
-        fingerprint.setOnPreferenceClickListener {
-            //TODO add better analytics tracking here
-            firebaseAnalytics.logEvent(CLICKED_LOCK_SETTING, null)
-            true
-        }
+
     }
 
     override fun onResume() {
@@ -106,6 +102,16 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     NotificationScheduler().disableNotifications(context!!)
                     firebaseAnalytics.logEvent(CANCELLED_NOTIFS, null)
                     firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "false")
+                }
+            }
+            "fingerprint_lock" -> {
+                val biometricsEnabled = sharedPreferences.getBoolean(key, false)
+                if (biometricsEnabled) {
+                    firebaseAnalytics.logEvent(BIOMETRICS_SELECT, null)
+                    firebaseAnalytics.setUserProperty(BIOMETRICS_ENABLED, "true")
+                } else {
+                    firebaseAnalytics.logEvent(BIOMETRICS_DESELECT, null)
+                    firebaseAnalytics.setUserProperty(BIOMETRICS_ENABLED, "false")
                 }
             }
         }
