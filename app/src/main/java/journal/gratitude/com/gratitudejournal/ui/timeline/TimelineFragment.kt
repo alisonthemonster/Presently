@@ -161,7 +161,12 @@ class TimelineFragment : DaggerFragment() {
             val extras = FragmentNavigatorExtras(
                 search_icon to "search_transition"
             )
-            findNavController().navigate(action, extras)
+
+
+            val navController = findNavController()
+            if (navController.currentDestination?.id == R.id.timelineFragment) {
+                navController.navigate(action, extras)
+            }
         }
 
         entry_calendar.setDayClickedListener(object : EntryCalendarListener {
