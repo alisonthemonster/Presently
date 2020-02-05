@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">تطبيق برزنتلي</string>
+    <string name="what_are_you_thankful_for">ما الذي تشعر بالامتنان له؟</string>
+    <string name="what_were_you_thankful_for">ما هو الشيء الذي شعرت بالامتنان له؟</string>
+    <string name="what_are_you_thankful_for_today">ما الشيء الذي تشعر بالامتنان له اليوم؟</string>
+    <string name="what_are_you_thankful_for_yesterday">ما الشيء الذي شعرت بالامتنان له البارحة؟</string>
+    <string name="notification_settings">الإعدادات</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="read_privacy">اقرأ سياسة الخصوصية التابعة لتطبيق برزنتلي</string>
+    <string name="faq">أسئلة متكررة</string>
+    <string name="read_faq">اقرأ أسئلة تطبيق برزنتلي المتكررة</string>
+    <string name="contact_us">اتصل بنا</string>
+    <string name="terms_conditions">الأحكام والشروط</string>
+    <string name="read_tc">اقرأ أحكام و شروط تطبيق برزنتلي</string>
+    <string name="channel_name">تذكيرات تطبيق برزنتلي</string>
+    <string name="channel_description">تذكير يومي لتدوين امتناناتك</string>
+    <string name="today">اليوم</string>
+    <string name="yesterday">البارحة</string>
+    <string name="iwas">شعرت بالامتنان الى </string>
+    <string name="iam">أشعر بالامتنان الى</string>
+    <string name="save">حفظ</string>
+    <string name="back_up_entries_to_csv">الإدخالات المحفوظة</string>
+    <string name="export_success">تم تصدير البيانات إلى التنزيلات</string>
+    <string name="open">افتح</string>
+    <string name="import_entries_from_backup">استيراد إدخالات من النسخة الاحتياطية</string>
+    <string name="ok">استيراد</string>
+    <string name="cancel">إلغاء</string>
+    <string name="import_data_dialog">هل أنت متأكد أنك تريد الاستيراد؟</string>
+    <string name="import_data_dialog_message">البيانات المستوردة قد تستبدل الإدخالات الموجودة</string>
+    <string name="days_of_gratitude">أيام الامتنان</string>
+    <string name="rate_presently">قيّم تطبيق برزنتلي</string>
+    <string name="share_your_achievement">شارك انجازاتك</string>
+    <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">
+       مبروك! نحن فخورون بك و ممتنين لإختيارك تطبيق برزنتلي لتدوين امتنانك
+    </string>
+    <string name="search">ابحث</string>
+    <string name="presently" translatable="false">تطبيق برزنتلي</string>
+    <string name="close">إغلاق</string>
+    <string name="get_a_new_prompt">احصل على سؤال جديد </string>
+    <string name="share_your_gratitude">شارك امتنانك</string>
+    <string name="no_results">لا توجد نتائج</string>
+    <string name="settings">الإعدادات</string>
+    <string name="reminder_title">تذكير الامتنان من تطبيق برزنتلي</string>
+    <string name="share_progress">شارك تقدمك في الامتنان</string>
+    <string name="change_time">تغيير وقت الاشعارات اليومية</string>
+    <string name="time_title">عدل اشعارات التذكير</string>
+    <string name="theme_change">غير مظهر التطبيق</string>
+    <string name="notifs_off">إشعارات التذكير اليومية معطلة</string>
+    <string name="notifs_on">إشعارات التذكير اليومية قيد التشغيل</string>
+    <string name="notifs">إشعارات التذكير اليومية</string>
+    <string name="notifs_name">إشعارات</string>
+    <string name="appearance">مظهر</string>
+    <string name="about">معلومات التطبيق</string>
+    <string name="select_a_theme">اختر احد خيارات المظهر</string>
+    <string name="theme">المظهر</string>
+    <string name="open_source">تراخيص البرامج مفتوحة المصدر</string>
+    <string name="open_source_info">اقرأ تراخيص المكتبة مفتوحة المصدر</string>
+    <string name="permission_export">بحاجة لإذن لتصدير البيانات</string>
+    <string name="error_parsing">فشل في تحليل الملف</string>
+    <string name="file_not_csv">يجب أن يكون الملف CSV</string>
+    <string name="no_app_found">لم يتم العثور على تطبيق لفتح هذا الملف</string>
+    <string name="copied">نسخ إلى الحافظة</string>
+    <string name="security">حماية</string>
+    <string name="lock_title">فتح تطبيق برزنتلي</string>
+    <string name="lock_summary">تطبيق برزنتلي مغلق، افتح التطبيق للمتابعة</string>
+    <string name="lock_setting_summary_on">تطبيق برزنتلي سيقفل مع الماسح الضوئي البيومترية في جهازك</string>
+    <string name="lock_setting_summary_off">تطبيق برزنتلي يقفل مع الماسح الضوئي البيومترية في (إذا ما كان مدعوم من قبل الجهاز)</string>
+    <string name="fingerprint_error_lockout_too_many">محاولات المصادقة البيومترية كثيرة. يرجى المحاولة مرة أخرى في بضع دقائق</string>
+    <string name="continue_to_exit">متابعة</string>
+    <string name="are_you_sure">هل أنت متأكد أنك تريد العودة؟</string>
+    <string name="unsaved_text">البيانات غير محفوظة و ستؤدي الى فقدان تغييراتك</string>
+</resources>

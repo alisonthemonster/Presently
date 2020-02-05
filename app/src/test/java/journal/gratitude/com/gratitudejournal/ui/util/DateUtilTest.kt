@@ -37,7 +37,18 @@ class DateUtilTest {
     fun localDateToLongStringRussian() {
         Locale.setDefault(Locale.forLanguageTag("ru"))
 
-        val expected = "11 ноября, 2011"
+        val expected = "11 ноября 2011 г."
+        val actual = LocalDate.of(2011, 11, 11).toFullString()
+
+        assertEquals(expected, actual)
+        Locale.setDefault(Locale.forLanguageTag("en"))
+    }
+
+    @Test
+    fun localDateToLongStringBritishEnglish() {
+        Locale.setDefault(Locale.forLanguageTag("en-GB"))
+
+        val expected = "11 November 2011"
         val actual = LocalDate.of(2011, 11, 11).toFullString()
 
         assertEquals(expected, actual)

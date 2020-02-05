@@ -1,10 +1,8 @@
 package journal.gratitude.com.gratitudejournal.util
 
-import org.threeten.bp.Instant
-import org.threeten.bp.LocalDate
-import org.threeten.bp.Month
-import org.threeten.bp.ZoneId
+import org.threeten.bp.*
 import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 import org.threeten.bp.format.TextStyle
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,13 +18,11 @@ fun LocalDate.toDatabaseString(): String {
 }
 
 fun LocalDate.toFullString(): String {
-    val datePattern = if (Locale.getDefault().language == "ru") {
-        "dd LLLL, yyyy"
-    } else {
-        "LLLL dd, yyyy"
-    }
-    val formatter = DateTimeFormatter.ofPattern(datePattern)
-    return this.format(formatter)
+    val localizedTimeFormatter = DateTimeFormatter
+        .ofLocalizedDate(FormatStyle.LONG)
+
+    return localizedTimeFormatter.format(this)
+
 }
 
 fun Month.toShortMonthString(): String {
