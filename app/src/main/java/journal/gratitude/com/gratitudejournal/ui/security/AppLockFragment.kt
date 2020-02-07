@@ -69,6 +69,7 @@ class AppLockFragment : Fragment() {
                             BiometricConstants.ERROR_LOCKOUT -> {
                                 firebaseAnalytics.logEvent(BIOMETRICS_LOCKOUT, null)
                                 Toast.makeText(context, R.string.fingerprint_error_lockout_too_many, Toast.LENGTH_SHORT).show()
+                                requireActivity().finish()
                             }
                             // After a few ERROR_LOCKOUTs,
                             // blocks the user from authenticating until other means of authentication is used successfully.
@@ -90,6 +91,7 @@ class AppLockFragment : Fragment() {
                                         context,
                                         "Please set up a biometric recognition", Toast.LENGTH_SHORT
                                 ).show()
+                                requireActivity().finish()
                             }
                             else -> {
                                 Crashlytics.logException(Exception("Code: $errorCode: $errString"))
@@ -97,6 +99,7 @@ class AppLockFragment : Fragment() {
                                         context,
                                         "Authentication error code $errorCode", Toast.LENGTH_SHORT
                                 ).show()
+                                requireActivity().finish()
                             }
                         }
                     }
