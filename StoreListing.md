@@ -156,3 +156,5 @@ O Presently permite:
 ⁕ Mudar para o teu esquema de cores (tema) favorito
 
 O Presently é 100% gratuito e sem anúncios. Todos os teus registos ficam guardados no teu dispositivo e só tu os podes controlar.
+
+## Arabic

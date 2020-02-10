@@ -39,7 +39,14 @@ class EntryCalendarView : ConstraintLayout {
     private fun init() {
         val view = View.inflate(context, R.layout.calendar_fragment, this)
 
+        val locale = Locale.getDefault()
+
         calendar = view.compactcalendar_view
+        calendar.setLocale(TimeZone.getDefault(), locale)
+        if (locale.language == "ar") {
+            //use English characters since the library doesn't support Arabic
+            calendar.setLocale(TimeZone.getDefault(), Locale.ENGLISH)
+        }
         calendar.shouldDrawIndicatorsBelowSelectedDays(true)
         view.month_year.text = monthString
 
