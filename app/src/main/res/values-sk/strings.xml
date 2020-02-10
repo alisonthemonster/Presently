@@ -71,4 +71,5 @@
     <string name="lock_setting_summary_on">Presently sa uzamkne pomocou biometrického skenera vášho zariadenia.</string>
     <string name="lock_setting_summary_off">Aplikácia sa môže uzamknúť pomocou biometrického skenera vášho zariadenia (ak to zariadenie podporuje).</string>
     <string name="fingerprint_error_lockout_too_many">Príliš veľa pokusov o biometrickú autentizáciu. Prosím skúste znovu o pár minút.</string>
+    <string name="version_number">Číslo verzie</string>
 </resources>

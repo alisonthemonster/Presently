@@ -70,4 +70,5 @@
     <string name="lock_setting_summary_on">Presently será bloqueado com o scanner biométrico do seu dispositivo.</string>
     <string name="lock_setting_summary_off">Presently pode bloquear com o scanner biométrico do seu dispositivo (se suportado pelo dispositivo).</string>
     <string name="fingerprint_error_lockout_too_many">Muitas tentativas de autenticação biométrica. Por favor, tente novamente em alguns minutos.</string>
+    <string name="version_number">Número da versão</string>
 </resources>
