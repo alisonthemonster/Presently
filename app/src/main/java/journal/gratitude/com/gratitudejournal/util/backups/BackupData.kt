@@ -1,33 +1,26 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
-import android.os.Environment
-import com.crashlytics.android.Crashlytics
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
+import journal.gratitude.com.gratitudejournal.util.CrashlyticsWrapper
+import journal.gratitude.com.gratitudejournal.util.CrashlyticsWrapperImpl
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
-import org.threeten.bp.LocalDateTime
 import java.io.File
-import java.io.FileWriter
 import java.io.IOException
 import java.io.InputStream
 
 
-fun exportDB(timelineItems: List<TimelineItem>, exportCallback: ExportCallback) {
-
-    val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-
-    val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
-
-    val file = File(dir, "PresentlyBackup$date.csv")
+fun exportDB(timelineItems: List<TimelineItem>,
+             exportCallback: ExportCallback,
+             file: File,
+             csvWrite: CSVWriter,
+             crashlytics: CrashlyticsWrapper = CrashlyticsWrapperImpl()) {
     return try {
-        if (!dir.exists()) {
-            dir.mkdir()
-        }
-        file.createNewFile()
-        val csvWrite = CSVWriter(FileWriter(file))
-        csvWrite.writeNext(arrayOf("entryDate", "entryContent"))
+        //write header row
+        csvWrite.writeNext(arrayOf(DATE_COLUMN_HEADER, ENTRY_COLUMN_HEADER))
 
+        //write entries
         for (item in timelineItems) {
             if (item is Entry) {
                 if (item.entryContent.isNotEmpty()) {
@@ -43,7 +36,7 @@ fun exportDB(timelineItems: List<TimelineItem>, exportCallback: ExportCallback) 
         csvWrite.close()
         exportCallback.onSuccess(file)
     } catch (exception: Exception) {
-        Crashlytics.logException(exception)
+        crashlytics.logException(exception)
         exportCallback.onFailure(exception.message ?: "Unknown error")
     }
 }
@@ -52,7 +45,7 @@ fun parseCsv(inputStream: InputStream): List<Entry> {
     val entries = mutableListOf<Entry>()
     val csvReader = CSVReader(inputStream.bufferedReader())
     val titles = csvReader.readNext()
-    if (titles != null && titles.contentEquals(arrayOf("entryDate", "entryContent"))) {
+    if (titles != null && titles.contentEquals(arrayOf(DATE_COLUMN_HEADER, ENTRY_COLUMN_HEADER))) {
         var rowNum = 0
         while (csvReader.hasNext) {
             val row = csvReader.readNext()
@@ -77,6 +70,10 @@ fun parseCsv(inputStream: InputStream): List<Entry> {
     }
     return entries
 }
+
+const val DATE_COLUMN_HEADER = "entryDate"
+const val ENTRY_COLUMN_HEADER = "entryContent"
+
 
 interface ExportCallback {
 

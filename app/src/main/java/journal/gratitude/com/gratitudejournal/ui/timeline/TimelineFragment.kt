@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,13 +36,13 @@ import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.IS_NEW_ENTRY
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.NUM_ENTRIES
-import journal.gratitude.com.gratitudejournal.util.backups.ExportCallback
-import journal.gratitude.com.gratitudejournal.util.backups.exportDB
-import journal.gratitude.com.gratitudejournal.util.backups.parseCsv
+import journal.gratitude.com.gratitudejournal.util.backups.*
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
 import java.io.File
+import java.io.FileWriter
 import java.io.InputStream
 import java.lang.NullPointerException
 import java.util.*
@@ -234,9 +235,18 @@ class TimelineFragment : DaggerFragment() {
             MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL -> {
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    exportDB(
-                        viewModel.entries.value
-                            ?: emptyList(), exportCallback
+                    val dir =
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                    if (!dir.exists()) {
+                        dir.mkdir()
+                    }
+                    val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
+                    val file = File(dir, "PresentlyBackup$date.csv")
+
+                    exportDB(viewModel.entries.value ?: emptyList(),
+                        exportCallback,
+                        file,
+                        CSVWriterImpl(FileWriter(file))
                     )
                 } else {
                     Toast.makeText(context, R.string.permission_export, Toast.LENGTH_SHORT).show()
@@ -260,7 +270,8 @@ class TimelineFragment : DaggerFragment() {
                                 importFromCsv(inputStream)
                             } else {
                                 Crashlytics.logException(NullPointerException("inputStream is null, uri: $uri"))
-                                Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT)
+                                    .show()
                             }
                         }
                     } else {
@@ -287,6 +298,7 @@ class TimelineFragment : DaggerFragment() {
     }
 
     private fun exportData() {
+        //TODO consolidate with other exportDB calls
 
         val permission = ActivityCompat.checkSelfPermission(
             activity!!,
@@ -299,10 +311,20 @@ class TimelineFragment : DaggerFragment() {
                 MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
             )
         } else {
+            val dir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            if (!dir.exists()) {
+                dir.mkdir()
+            }
+            val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
+            val file = File(dir, "PresentlyBackup$date.csv")
+
             firebaseAnalytics.logEvent(EXPORTED_DATA, null)
             exportDB(
                 viewModel.entries.value
-                    ?: emptyList(), exportCallback
+                    ?: emptyList(), exportCallback,
+                file,
+                CSVWriterImpl(FileWriter(file))
             )
         }
     }
