@@ -286,7 +286,8 @@ class TimelineFragment : DaggerFragment() {
     private fun importFromCsv(inputStream: InputStream) {
         // parse file to get List<Entry>
         try {
-            val entries = parseCsv(inputStream)
+            val csvReader = CSVReaderImpl(inputStream.bufferedReader())
+            val entries = parseCsv(csvReader)
             viewModel.addEntries(entries)
             firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
         } catch (exception: Exception) {

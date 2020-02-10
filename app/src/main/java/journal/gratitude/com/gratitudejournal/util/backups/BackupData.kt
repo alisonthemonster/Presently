@@ -8,7 +8,6 @@ import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import java.io.File
 import java.io.IOException
-import java.io.InputStream
 
 
 fun exportDB(timelineItems: List<TimelineItem>,
@@ -41,13 +40,12 @@ fun exportDB(timelineItems: List<TimelineItem>,
     }
 }
 
-fun parseCsv(inputStream: InputStream): List<Entry> {
+fun parseCsv(csvReader: CSVReader): List<Entry> {
     val entries = mutableListOf<Entry>()
-    val csvReader = CSVReader(inputStream.bufferedReader())
     val titles = csvReader.readNext()
     if (titles != null && titles.contentEquals(arrayOf(DATE_COLUMN_HEADER, ENTRY_COLUMN_HEADER))) {
         var rowNum = 0
-        while (csvReader.hasNext) {
+        while (csvReader.hasNext()) {
             val row = csvReader.readNext()
             if (row != null) {
                 if (row.size != 2) {
