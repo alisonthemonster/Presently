@@ -122,6 +122,9 @@ class CSVWriterImpl(writer: Writer,
 
         /** Default line terminator uses platform encoding.  */
         val DEFAULT_LINE_END = "\n"
+
+        val INITIAL_STRING_SIZE = 128
+
     }
 
 }
