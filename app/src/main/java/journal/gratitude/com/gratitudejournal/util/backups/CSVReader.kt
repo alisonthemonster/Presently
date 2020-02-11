@@ -189,17 +189,19 @@ class CSVReaderImpl(reader: Reader,
     companion object {
 
         /** The default separator to use if none is supplied to the constructor.  */
-        val DEFAULT_SEPARATOR = ','
+        const val DEFAULT_SEPARATOR = ','
 
         /**
          * The default quote character to use if none is supplied to the
          * constructor.
          */
-        val DEFAULT_QUOTE_CHARACTER = '"'
+        const val DEFAULT_QUOTE_CHARACTER = '"'
 
         /**
          * The default line to start reading.
          */
-        val DEFAULT_SKIP_LINES = 0
+        const val DEFAULT_SKIP_LINES = 0
+
+        const val INITIAL_READ_SIZE = 128
     }
 }
