@@ -29,6 +29,7 @@ class EntryViewModel @Inject constructor(private val repository: EntryRepository
     private val dateLiveData = MutableLiveData<LocalDate>()
     val entryContent = ObservableField<String>("")
     val isEmpty = ObservableBoolean(true)
+    val hasUserEdits = ObservableBoolean(false)
 
     private var parentJob = Job()
     private val coroutineContext: CoroutineContext
@@ -40,7 +41,6 @@ class EntryViewModel @Inject constructor(private val repository: EntryRepository
     private val prompts = getPromptsQueue(promptsArray)
 
     init {
-
         entryContent.addOnPropertyChangedCallback(object : OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable, propertyId: Int) {
                 if (sender == entryContent) {
@@ -76,7 +76,6 @@ class EntryViewModel @Inject constructor(private val repository: EntryRepository
         val date = dateLiveData.value ?: throw IOException("Date was not provided")
         val entry = Entry(date, entryContent.get() ?: "")
         repository.addEntry(entry)
-
     }
 
     fun getDateString(): String {
@@ -112,6 +111,10 @@ class EntryViewModel @Inject constructor(private val repository: EntryRepository
 
     fun getShareContent(): String {
         return "${getDateString()} ${getThankfulString()} ${entryContent.get()?.decapitalize()}"
+    }
+
+    fun userEdited() {
+        hasUserEdits.set(true)
     }
 
     private fun String.decapitalize(): String {

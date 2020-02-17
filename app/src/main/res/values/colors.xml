@@ -22,7 +22,7 @@
     <color name="sunsetTimelineColor">#A47272</color>
 
     <!-- ~~~~MOON THEME~~~~ -->
-    <color name="moonlightAndroidWidgetColor">#ABA9AC</color>
+    <color name="moonlightAndroidWidgetColor">#257C88</color>
     <color name="moonlightBackgroundColor">#091016</color>
     <!-- main text color, button color -->
     <color name="moonlightMainTextAndButtonColor">#838383</color>
@@ -51,7 +51,7 @@
     <color name="dawnStatusBarColor">#2D3142</color>
 
     <!-- ~~~~MIDNIGHT THEME~~~~ -->
-    <color name="midnightAndroidWidgetColor">#ABA9AC</color>
+    <color name="midnightAndroidWidgetColor">#B66218</color>
     <color name="midnightBackgroundColor">#28262C</color>
     <!-- main text color, button color -->
     <color name="midnightMainTextAndButtonColor">#8A878B</color>
@@ -79,7 +79,9 @@
     <color name="ivyStatusBarColor">#131515</color>
 
     <!-- ~~~~WESLEY THEME~~~~ -->
-    <color name="wesleyAndroidWidgetColor">#FFFFFF</color>
+    <color name="wesleyAndroidWidgetColor">#FFEB3B</color>
+    <!-- time picker header color, preference section header color -->
+    <color name="wesleyHeaderColor">#FFEB3B</color>
     <color name="wesleyBackgroundColor">#000000</color>
     <!-- main text color, button color -->
     <color name="wesleyMainTextAndButtonColor">#FFFFFF</color>
@@ -92,6 +94,10 @@
     <color name="wesleyToolbarColor">#FFFFFF</color>
     <color name="wesleyToolbarItemColor">#000000</color>
     <color name="wesleyStatusBarColor">#FFFFFF</color>
+    <!-- Time picker selected number text in header and inside clock selected hand  -->
+    <color name="wesleySelectedClockTimeText">#000000</color>
+    <!-- Time picker not number text in header -->
+    <color name="wesleyDeselectedClockTimeText">#696969</color>
 
     <!-- ~~~~MOSS THEME~~~~ -->
     <color name="mossAndroidWidgetColor">#464E42</color>
@@ -109,7 +115,7 @@
     <color name="mossStatusBarColor">#000000</color>
 
     <!-- ~~~~CLEAN THEME~~~~ -->
-    <color name="cleanAndroidWidgetColor">#FD6574</color>
+    <color name="cleanAndroidWidgetColor">#077272</color>
     <color name="cleanBackgroundColor">#A8C7C7</color>
     <!-- main text color, button color -->
     <color name="cleanMainTextAndButtonColor">#000000</color>
@@ -137,9 +143,10 @@
     <color name="glacierToolbarColor">#000000</color>
     <color name="glacierStatusBarColor">#000000</color>
     <color name="glacierToolbarItemColor">#F9F6EF</color>
+    <color name="glacierHeaderColor">#F94C61</color>
 
     <!-- ~~~~GELATO THEME~~~~ -->
-    <color name="gelatoAndroidWidgetColor">#FD6574</color>
+    <color name="gelatoAndroidWidgetColor">#65E6FD</color>
     <color name="gelatoBackgroundColor">#C7A8A8</color>
     <!-- main text color, button color -->
     <color name="gelatoMainTextAndButtonColor">#000000</color>
@@ -154,7 +161,7 @@
     <color name="gelatoToolbarItemColor">#C7A8A8</color>
 
     <!-- ~~~~WAVES THEME~~~~ -->
-    <color name="wavesAndroidWidgetColor">#FD6574</color>
+    <color name="wavesAndroidWidgetColor">#27639C</color>
     <color name="wavesBackgroundColor">#96B8D8</color>
     <!-- main text color, button color -->
     <color name="wavesMainTextAndButtonColor">#000000</color>
@@ -167,5 +174,75 @@
     <color name="wavesToolbarColor">#000000</color>
     <color name="wavesStatusBarColor">#000000</color>
     <color name="wavesToolbarItemColor">#F9F6EF</color>
+
+    <!-- ~~~~BEACH THEME~~~~ -->
+    <color name="beachAndroidWidgetColor">#D1855D</color>
+    <color name="beachBackgroundColor">#ECE8E4</color>
+    <!-- main text color, button color -->
+    <color name="beachMainTextAndButtonColor">#797979</color>
+    <!-- date text color, entry screen text -->
+    <color name="beachDateTextEntryScreenTextColor">#797979</color>
+    <color name="beachTimelineColor">#D3C8C2</color>
+    <!-- hint text color, quote text color -->
+    <color name="beachHintQuoteTextColor">#B9B9B9</color>
+    <!-- Toolbar and Fab color -->
+    <color name="beachToolbarColor">#D3C8C2</color>
+    <color name="beachStatusBarColor">#D3C8C2</color>
+    <color name="beachToolbarItemColor">#636363</color>
+
+    <!-- ~~~~FIELD THEME~~~~ -->
+    <color name="fieldAndroidWidgetColor">#DAAE3B</color>
+    <color name="fieldBackgroundColor">#F0E9D7</color>
+    <color name="fieldMainTextAndButtonColor">#786C5A</color>
+    <color name="fieldHintQuoteTextColor">#AAA09C</color>
+    <color name="fieldDateTextEntryScreenTextColor">#786C5A</color>
+    <color name="fieldTimelineColor">#E1D0B6</color>
+    <color name="fieldToolbarColor">#E1D0B6</color>
+    <color name="fieldStatusBarColor">#E1D0B6</color>
+    <color name="fieldToolbarItemColor">#F0E9D7</color>
+
+    <!-- ~~~~WESTERN THEME~~~~ -->
+    <color name="westernAndroidWidgetColor">#B59951</color>
+    <color name="westernBackgroundColor">#282828</color>
+    <color name="westernMainTextAndButtonColor">#B1977E</color>
+    <color name="westernHintQuoteTextColor">#92897F</color>
+    <color name="westernDateTextEntryScreenTextColor">#B1977E</color>
+    <color name="westernTimelineColor">#B1977E</color>
+    <color name="westernToolbarColor">#B1977E</color>
+    <color name="westernStatusBarColor">#B1977E</color>
+    <color name="westernToolbarItemColor">#282828</color>
+
+    <!-- ~~~~SUNLIGHT THEME~~~~ -->
+    <color name="sunlightAndroidWidgetColor">#FFC107</color>
+    <color name="sunlightBackgroundColor">#FCF8D4</color>
+    <color name="sunlightMainTextAndButtonColor">#797979</color>
+    <color name="sunlightHintQuoteTextColor">#AAA09C</color>
+    <color name="sunlightDateTextEntryScreenTextColor">#797979</color>
+    <color name="sunlightTimelineColor">#F1AF1B</color>
+    <color name="sunlightToolbarColor">#F1AF1B</color>
+    <color name="sunlightStatusBarColor">#F1AF1B</color>
+    <color name="sunlightToolbarItemColor">#FCF8D4</color>
+
+    <!-- ~~~~TULIP THEME~~~~ -->
+    <color name="tulipAndroidWidgetColor">#D1855D</color>
+    <color name="tulipBackgroundColor">#E6C5B6</color>
+    <color name="tulipMainTextAndButtonColor">#474747</color>
+    <color name="tulipHintQuoteTextColor">#837E7C</color>
+    <color name="tulipDateTextEntryScreenTextColor">#474747</color>
+    <color name="tulipTimelineColor">#4E603A</color>
+    <color name="tulipToolbarColor">#4E603A</color>
+    <color name="tulipStatusBarColor">#4E603A</color>
+    <color name="tulipToolbarItemColor">#E6D4CC</color>
+
+    <!-- ~~~~ROSIE THEME~~~~ -->
+    <color name="rosieAndroidWidgetColor">#D1855D</color>
+    <color name="rosieBackgroundColor">#F1DDD4</color>
+    <color name="rosieMainTextAndButtonColor">#797979</color>
+    <color name="rosieHintQuoteTextColor">#AAA09C</color>
+    <color name="rosieDateTextEntryScreenTextColor">#797979</color>
+    <color name="rosieTimelineColor">#D26635</color>
+    <color name="rosieToolbarColor">#D26635</color>
+    <color name="rosieStatusBarColor">#D26635</color>
+    <color name="rosieToolbarItemColor">#F1DDD4</color>
 
 </resources>

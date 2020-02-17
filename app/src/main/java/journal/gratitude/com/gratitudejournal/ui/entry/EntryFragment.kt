@@ -1,5 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Animatable
@@ -9,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,12 +22,20 @@ import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
+import journal.gratitude.com.gratitudejournal.model.COPIED_QUOTE
 import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
 import journal.gratitude.com.gratitudejournal.model.SHARED_ENTRY
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
 import kotlinx.android.synthetic.main.entry_fragment.*
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
+import com.jakewharton.rxbinding2.widget.RxTextView
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.milestones
+import java.util.concurrent.TimeUnit
 
 
 class EntryFragment : DaggerFragment() {
@@ -34,6 +46,8 @@ class EntryFragment : DaggerFragment() {
     private val viewModel by viewModels<EntryViewModel> { viewModelFactory }
     private lateinit var binding: EntryFragmentBinding
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +64,19 @@ class EntryFragment : DaggerFragment() {
 
         val passedInDate = arguments?.getString(DATE) ?: LocalDate.now().toString()
         viewModel.setDate(passedInDate)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val isEdited = viewModel.hasUserEdits.get()
+                val isEmpty = viewModel.isEmpty.get()
+                if (isEdited && !isEmpty) {
+                    showUnsavedEntryDialog()
+                } else {
+                    findNavController().navigateUp()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +84,7 @@ class EntryFragment : DaggerFragment() {
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
 
-        viewModel.entry.observe(this, Observer {
+        viewModel.entry.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
         })
 
@@ -65,8 +92,8 @@ class EntryFragment : DaggerFragment() {
             firebaseAnalytics.logEvent(CLICKED_PROMPT, null)
             viewModel.getRandomPromptHintString()
             val v = it as ImageView
-            val d = v.drawable as Animatable
-            d.start()
+            val d = v.drawable as Animatable?
+            d?.start()
             binding.viewModel = viewModel
         }
 
@@ -87,7 +114,7 @@ class EntryFragment : DaggerFragment() {
             if (isNewEntry) {
                 val bundle = Bundle()
                 bundle.putInt(FirebaseAnalytics.Param.LEVEL, (numEntries + 1))
-                val milestones = arrayOf(5, 10, 25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500)
+
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle)
                 if (milestones.contains(numEntries + 1)) {
                     CelebrateDialogFragment.newInstance(numEntries + 1).show(fragmentManager!!, "CelebrateDialogFragment")
@@ -101,6 +128,50 @@ class EntryFragment : DaggerFragment() {
             imm?.hideSoftInputFromWindow(entry_text.windowToken, 0)
             findNavController().navigateUp()
         }
+
+        inspiration.setOnLongClickListener {
+            val quote = viewModel.getInspirationString()
+            val clipboard =
+                getSystemService<ClipboardManager>(context!!, ClipboardManager::class.java)
+            clipboard?.primaryClip = ClipData.newPlainText("Gratitude quote", quote)
+            firebaseAnalytics.logEvent(COPIED_QUOTE, null)
+            Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
+            true
+        }
+
+        val disposable = RxTextView.afterTextChangeEvents(entry_text)
+            .debounce(500, TimeUnit.MILLISECONDS)
+            .skip(1) //skip data binding
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                viewModel.userEdited()
+            }
+
+        compositeDisposable.add(disposable)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (!compositeDisposable.isDisposed) {
+            compositeDisposable.dispose()
+        }
+    }
+
+    private fun showUnsavedEntryDialog() {
+        val alertDialog: AlertDialog? = activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.apply {
+                setTitle(R.string.are_you_sure)
+                setMessage(R.string.unsaved_text)
+                setPositiveButton(R.string.continue_to_exit) { dialog, id ->
+                    findNavController().navigateUp()
+                }
+                setNegativeButton(R.string.cancel) { _, _ -> }
+            }
+            // Create the AlertDialog
+            builder.create()
+        }
+        alertDialog?.show()
     }
 
     companion object {

@@ -96,9 +96,7 @@ class SearchFragment : DaggerFragment() {
         }
 
         back_icon.setOnClickListener {
-            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-            imm?.hideSoftInputFromWindow(search_text.windowToken, 0)
-
+            dismissKeyboard()
             findNavController().navigateUp()
         }
 
@@ -109,10 +107,13 @@ class SearchFragment : DaggerFragment() {
                 firebaseAnalytics.logEvent(CLICKED_SEARCH_ITEM, null)
 
                 val bundle = bundleOf(EntryFragment.DATE to clickedDate.toString())
-                findNavController().navigate(
+                val navController = findNavController()
+                if (navController.currentDestination?.id == R.id.searchFragment) {
+                    navController.navigate(
                         R.id.action_searchFragment_to_entryFragment,
                         bundle
-                )
+                    )
+                }
             }
         })
         search_results.layoutManager = LinearLayoutManager(context)

@@ -60,7 +60,7 @@
             android:id="@+id/timeline_recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:data="@{viewModel.getEntriesList()}"
+            app:data="@{viewModel.getTimelineItems()}"
             android:background="?android:attr/colorBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,13 +68,13 @@
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/cal_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:src="@drawable/ic_calendar"
+            app:srcCompat="@drawable/ic_calendar"
             app:backgroundTint="?android:attr/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

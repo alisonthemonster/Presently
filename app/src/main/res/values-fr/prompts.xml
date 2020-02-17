@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prompts">
+        <item>Qu\'est-ce qui vous a fait sourire?</item>
+        <item>Qu\'y a-t-il dans cette pièce qui vous emplisse de gratitude?</item>
+        <item>Qu\'est-ce qui vous rend heureux de vivre?</item>
+        <item>Qui vous a apporté son aide?</item>
+        <item>Quelle est cette personne qui vous a aidé à devenir meilleur?</item>
+        <item>Quelle est cette personne qui vous a appris quelque chose?</item>
+        <item>Quelle est cette personne que vous aimez particulièrement?</item>
+        <item>Quelle est cette personne qui vous aime particulièrement?</item>
+        <item>Quelle est cet ami envers qui vous êtes reconnaissant?</item>
+        <item>Qu\'est-ce qui vous rend reconnaissant dans la nature qui vous entoure?</item>
+        <item>Quel talent, quelle compétence êtes vous reconnaissant d\'avoir développé?</item>
+        <item>Quel souvenir vous emplit de reconnaissance?</item>
+        <item>Quelqu\'un vous a-t-il aidé aujourd\'hui?</item>
+        <item>Qu\'est-ce qui vous a rendu heureux aujourd\'hui?</item>
+        <item>De quoi êtes-vous fier aujourd\'hui?</item>
+        <item>Qu\'est-ce qui vous emplit de gratitude dans votre éducation?</item>
+        <item>Qu\'est-ce qui vous emplit de gratitude dans votre carrière ou votre emploi?</item>
+        <item>Quelles libertés vous emplissent de gratitude?</item>
+        <item>Qu\'est-ce qui vous a fait rire?</item>
+        <item>Quelle est la chose qui vous emplit de gratitude chez vous?</item>
+        <item>Quelle est la plus belle chose que vous ayez vue aujourd\'hui?</item>
+        <item>Quel livre vous emplit de gratitude?</item>
+        <item>Quelle chanson, quelle musique vous emplit de gratitude?</item>
+        <item>Qu\'est-ce qui rend votre vie plus simple?</item>
+        <item>Qu\'est-ce qui vous met toujours de bonne humeur?</item>
+        <item>Qui vous inspire?</item>
+        <item>Quelle technologie, quel outil vous emplit de gratitude?</item>
+        <item>Quelle opportunité vous emplit de gratitude?</item>
+        <item>Qu\'est-ce qui vous emplit de gratitude à propos de votre corps, de votre santé?</item>
+        <item>Quel endroit vous emplit de gratitude?</item>
+        <item>Quelle odeur vous emplit de gratitude?</item>
+        <item>Quelle saveur vous emplit de gratitude?</item>
+        <item>Quel savoir vous emplit de gratitude?</item>
+        <item>Quel plaisir simple vous emplit de gratitude?</item>
+        <item>Quels passe-temps vous emplissent de gratitude?</item>
+        <item>Quel son vous emplit de gratitude?</item>
+        <item>Quelle petite chose vous emplit de gratitude?</item>
+        <item>Qu\'êtes-vous reconnaissant d\'avoir appris?</item>
+        <item>Qu\'est-ce qui vous emplit de gratitude dans votre ville, votre voisinage?</item>
+        <item>Qu\'est-ce qui vous emplit de gratitude dans votre maison?</item>
+        <item>Qu\'êtes-vous reconnaissant d\'avoir entendu?</item>
+        <item>Qu\'est-ce qui vous emplit de gratitude dans votre famille?</item>
+        <item>Qu\'est-ce que vous appréciez dans cette époque de l\'année?</item>
+        <item>Quelle activité vous emplit de gratitude?</item>
+    </string-array>
+</resources>

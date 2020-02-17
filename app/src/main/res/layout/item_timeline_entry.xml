@@ -50,12 +50,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/date_string"
+            android:id="@+id/date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="24dp"
             android:text="@{entryViewModel.date}"
+            android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.Date"
             app:layout_constraintBottom_toBottomOf="@+id/timeline_circle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,14 +70,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
-            android:maxLines="5"
+            android:maxLines="10"
             android:minLines="3"
             android:text="@{entryViewModel.content}"
-            android:textColor="?android:attr/colorAccent"
+            android:textAlignment="viewStart"
+            android:textColor="?android:attr/textColor"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/date_string"
-            app:layout_constraintStart_toStartOf="@+id/date_string"
-            app:layout_constraintTop_toBottomOf="@+id/date_string"
+            app:layout_constraintEnd_toEndOf="@+id/date"
+            app:layout_constraintStart_toStartOf="@+id/date"
+            app:layout_constraintTop_toBottomOf="@+id/date"
             tools:text="Hello there this is some hot content." />
 
         <View
@@ -101,14 +103,16 @@
             android:textSize="16sp"
             android:visibility="@{entryViewModel.isEmptyState()}"
             app:layout_constraintEnd_toEndOf="@+id/content"
-            app:layout_constraintStart_toStartOf="@+id/date_string"
-            app:layout_constraintTop_toBottomOf="@+id/date_string" />
+            app:layout_constraintStart_toStartOf="@+id/date"
+            app:layout_constraintTop_toBottomOf="@+id/date" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="80dp"
+            android:layout_width="0dp"
             android:layout_height="80dp"
+            android:layout_marginStart="80dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="80dp"
             android:layout_marginBottom="32dp"
             android:visibility="@{entryViewModel.isTailVisible()}"
             app:layout_constraintBottom_toBottomOf="parent"

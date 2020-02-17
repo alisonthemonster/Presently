@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name" translatable="false">Presently</string>
+    <string name="what_are_you_thankful_for">Por que motivo te sentes agradecido/a?</string>
+    <string name="what_were_you_thankful_for">Por que motivo te sentiste agradecido/a?</string>
+    <string name="what_are_you_thankful_for_today">Por que motivo te sentes agradecido/a hoje?</string>
+    <string name="what_are_you_thankful_for_yesterday">Por que motivo te sentiste agradecido/a ontem?</string>
+    <string name="notification_settings">Configurações</string>
+    <string name="privacy_policy">Política de Privacidade</string>
+    <string name="read_privacy">Lê a Política de Privacidade do Presently</string>
+    <string name="faq">Perguntas Frequentes</string>
+    <string name="read_faq">Lê as Perguntas Frequentes do Presently</string>
+    <string name="contact_us">Contacta-nos</string>
+    <string name="terms_conditions">Termos &amp; Condições</string>
+    <string name="read_tc">Lê os nossos Termos &amp; Condições</string>
+    <string name="channel_name">Lembrete do Presently</string>
+    <string name="channel_description">Lembretes diários para que registes a tua gratidão</string>
+    <string name="today">Hoje</string>
+    <string name="yesterday">Ontem</string>
+    <string name="iwas">Senti-me grato/a por</string>
+    <string name="iam">Estou grato/a por</string>
+    <string name="save">Guardar</string>
+    <string name="back_up_entries_to_csv">Criar Cópia de Segurança</string>
+    <string name="export_success">Dados exportados para as Transferências</string>
+    <string name="open">Abrir</string>
+    <string name="import_entries_from_backup">Importar dados de Cópia de Segurança</string>
+    <string name="ok">Importar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="import_data_dialog">Tens a certeza que pretendes importar?</string>
+    <string name="import_data_dialog_message">Os dados importados podem substituir os existentes.</string>
+    <string name="days_of_gratitude">dias de gratidão!</string>
+    <string name="days_of">dias de gratidão</string>
+    <string name="rate_presently">Avalia o Presently</string>
+    <string name="share_your_achievement">Partilha a tua conquista</string>
+    <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">
+        Parabéns! Estamos tão orgulhos de ti e muito gratos por teres escolhido o Presently para registar a tua gratidão.
+    </string>
+    <string name="search">Pesquisar</string>
+    <string name="presently" translatable="false">Presently</string>
+    <string name="close">Fechar</string>
+    <string name="get_a_new_prompt">Receber uma sugestão</string>
+    <string name="share_your_gratitude">Partilha a tua gratidão</string>
+    <string name="no_results">Sem resultados</string>
+    <string name="settings">Configurações</string>
+    <string name="reminder_title">Lembrete de Gratidão do Presently</string>
+    <string name="share_progress">Partilha o progresso da tua gratidão</string>
+    <string name="change_time">Ajusta a hora do teu lembrete diário</string>
+    <string name="time_title">Ajusta as notificações de lembrete</string>
+    <string name="theme_change">Muda o tema do Presently</string>
+    <string name="notifs_off">As notificações de lembrete diário estão desligadas</string>
+    <string name="notifs_on">As notificações de lembrete diário estão ligadas</string>
+    <string name="notifs">Notificações de lembrete diário</string>
+    <string name="notifs_name">Notificações</string>
+    <string name="appearance">Aparência</string>
+    <string name="about">Informação da Aplicação</string>
+    <string name="select_a_theme">Seleciona um tema</string>
+    <string name="theme">Tema</string>
+    <string name="open_source">Licenças de Código Aberto</string>
+    <string name="open_source_info">Ler as Licenças das Bibliotecas de Código Aberto</string>
+    <string name="permission_export">É necessária permissão para exportar os dados</string>
+    <string name="error_parsing">Erro ao analisar o ficheiro</string>
+    <string name="file_not_csv">O ficheiro deve ter a extensão CSV</string>
+    <string name="no_app_found">Nenhuma applicação encontrada para abrir este ficheiro</string>
+    <string name="copied">Copiado para a área de Transferência</string>
+    <string name="are_you_sure">Tem certeza de que deseja voltar?</string>
+    <string name="unsaved_text">Sua entrada não é salva e suas alterações serão perdidas!</string>
+    <string name="continue_to_exit">Continuar</string>
+    <string name="security">Segurança</string>
+    <string name="lock_title">Desbloquear Presently</string>
+    <string name="lock_summary">Presently está bloqueado, desbloqueie para continuar</string>
+    <string name="lock_setting_summary_on">Presently será bloqueado com o scanner biométrico do seu dispositivo.</string>
+    <string name="lock_setting_summary_off">Presently pode bloquear com o scanner biométrico do seu dispositivo (se suportado pelo dispositivo).</string>
+    <string name="fingerprint_error_lockout_too_many">Muitas tentativas de autenticação biométrica. Por favor, tente novamente em alguns minutos.</string>
+    <string name="version_number">Número da versão</string>
+</resources>

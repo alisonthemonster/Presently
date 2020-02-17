@@ -21,7 +21,7 @@ class EntryCalendarView : ConstraintLayout {
 
     private var monthString = "${Date().toMonthString()} ${Date().getYearString()}"
     private var entryCalendarListener: EntryCalendarListener? = null
-    private var writtenDates = mutableListOf<LocalDate>()
+    private var writtenDates = emptyList<LocalDate>()
 
     private lateinit var calendar: CompactCalendarView
 
@@ -30,8 +30,8 @@ class EntryCalendarView : ConstraintLayout {
     }
 
     constructor(
-            context: Context,
-            attrs: AttributeSet
+        context: Context,
+        attrs: AttributeSet
     ) : super(context, attrs) {
         init()
     }
@@ -39,19 +39,32 @@ class EntryCalendarView : ConstraintLayout {
     private fun init() {
         val view = View.inflate(context, R.layout.calendar_fragment, this)
 
+        val locale = Locale.getDefault()
+
         calendar = view.compactcalendar_view
+        calendar.setLocale(TimeZone.getDefault(), locale)
+        if (locale.language == "ar") {
+            //use English characters since the library doesn't support Arabic
+            calendar.setLocale(TimeZone.getDefault(), Locale.ENGLISH)
+        }
         calendar.shouldDrawIndicatorsBelowSelectedDays(true)
         view.month_year.text = monthString
 
-        view.compactcalendar_view.setListener(object : CompactCalendarView.CompactCalendarViewListener {
+        view.compactcalendar_view.setListener(object :
+            CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date) {
                 if (!dateClicked.after(Date())) {
-                    entryCalendarListener?.onDateClicked(dateClicked, !writtenDates.contains(dateClicked.toLocalDate()), writtenDates.size)
+                    entryCalendarListener?.onDateClicked(
+                        dateClicked,
+                        !writtenDates.contains(dateClicked.toLocalDate()),
+                        writtenDates.size
+                    )
                 }
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date) {
-                monthString = "${firstDayOfNewMonth.toMonthString()} ${firstDayOfNewMonth.getYearString()}"
+                monthString =
+                    "${firstDayOfNewMonth.toMonthString()} ${firstDayOfNewMonth.getYearString()}"
                 month_year.text = monthString
             }
         })
@@ -74,11 +87,15 @@ class EntryCalendarView : ConstraintLayout {
         for (date in dates) {
             calendar.addEvent(Event(getBackgroundColorForTheme(), date.toDate().time))
         }
+        writtenDates = dates
     }
 
     private fun getBackgroundColorForTheme(): Int {
         val typedValue = TypedValue()
-        val a = context.obtainStyledAttributes(typedValue.data, intArrayOf(android.R.attr.windowBackground))
+        val a = context.obtainStyledAttributes(
+            typedValue.data,
+            intArrayOf(android.R.attr.windowBackground)
+        )
         val color = a.getColor(0, 0)
         a.recycle()
 

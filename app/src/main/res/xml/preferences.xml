@@ -5,6 +5,7 @@
 
         <SwitchPreference
             android:defaultValue="true"
+            android:icon="@drawable/ic_bell"
             android:key="notif_parent"
             android:summaryOff="@string/notifs_off"
             android:summaryOn="@string/notifs_on"
@@ -14,6 +15,7 @@
             android:defaultValue="21:00"
             android:dependency="notif_parent"
             android:dialogTitle=""
+            android:icon="@drawable/ic_time"
             android:key="pref_time"
             android:summary="@string/change_time"
             android:title="@string/time_title" />
@@ -23,25 +25,51 @@
     <PreferenceCategory android:title="@string/appearance">
 
         <Preference
+            android:icon="@drawable/ic_theme"
             android:key="current_theme"
             android:summary="@string/theme_change"
             android:title="@string/theme" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/security">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_lock"
+            android:key="fingerprint_lock"
+            android:summaryOff="@string/lock_setting_summary_off"
+            android:summaryOn="@string/lock_setting_summary_on"
+            android:title="@string/lock_title" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/about">
         <Preference
+            android:icon="@drawable/ic_faq"
             android:key="faq"
-            android:title="@string/faq"
-            android:summary="@string/read_faq"/>
+            android:summary="@string/read_faq"
+            android:title="@string/faq" />
 
         <Preference
+            android:icon="@drawable/ic_privacy"
             android:key="privacy_policy"
             android:summary="@string/read_privacy"
             android:title="@string/privacy_policy" />
 
         <Preference
+            android:icon="@drawable/ic_terms"
             android:key="terms_conditions"
-            android:title="@string/terms_conditions"
-            android:summary="@string/read_tc"/>
+            android:summary="@string/read_tc"
+            android:title="@string/terms_conditions" />
+
+        <Preference
+            android:icon="@drawable/ic_oss"
+            android:key="open_source"
+            android:summary="@string/open_source_info"
+            android:title="@string/open_source" />
+
+        <Preference
+            android:icon="@drawable/ic_tiny_flower"
+            android:key="version"
+            android:title="@string/version_number" />
     </PreferenceCategory>
 </PreferenceScreen>

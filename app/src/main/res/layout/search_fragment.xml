@@ -58,22 +58,23 @@
             app:srcCompat="@drawable/ic_search" />
 
         <EditText
-            android:id="@+id/search_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:ems="10"
-            android:hint="@string/search"
-            android:imeOptions="actionSearch"
-            android:singleLine="true"
-            android:textColor="?android:attr/colorForeground"
-            android:textColorHint="?android:attr/textColorHighlight"
-            android:textCursorDrawable="@null"
-            app:layout_constraintEnd_toStartOf="@+id/search_icon"
-            app:layout_constraintStart_toEndOf="@+id/back_icon"
-            app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/search_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:hint="@string/search"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:textAlignment="viewStart"
+                android:textColor="?android:attr/colorForeground"
+                android:textColorHint="?android:attr/textColorHighlight"
+                android:textCursorDrawable="@null"
+                app:layout_constraintEnd_toStartOf="@+id/search_icon"
+                app:layout_constraintStart_toEndOf="@+id/back_icon"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_results"
@@ -106,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_results"
-            android:textColor="?android:attr/colorAccent"
+            android:textColor="?android:attr/textColor"
             android:visibility="@{viewModel.noResults()}"
             app:layout_constraintEnd_toEndOf="@+id/no_results_icon"
             app:layout_constraintStart_toStartOf="@+id/no_results_icon"
