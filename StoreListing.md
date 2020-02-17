@@ -1,6 +1,13 @@
 ## English
+*[NOTE TO TRANSLATORS: please keep the following line under 50 characters long]*
+
+Presently: A gratitude journal
+
+*[NOTE TO TRANSLATORS: please keep the following line under 80 characters long]*
 
 Celebrate your daily life with Presently, a free & private gratitude journal
+
+*[NOTE TO TRANSLATORS: no length limits below this point, translate however you like!]*
 
 Practice gratitude with this simple, always free, and private gratitude journaling app. 
 
