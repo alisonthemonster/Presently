@@ -12,16 +12,15 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.crashlytics.android.Crashlytics
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.firebase.analytics.FirebaseAnalytics
+import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
-import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
@@ -63,6 +62,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
             startActivity(Intent(context, OssLicensesMenuActivity::class.java))
             true
         }
+
+        val version = findPreference("version")
+        version.summary = BuildConfig.VERSION_NAME
 
         val fingerprint = findPreference("fingerprint_lock")
         val canAuthenticateUsingFingerPrint  = BiometricManager.from(context!!).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS

@@ -36,12 +36,7 @@ allprojects {
 }
 
 def createVersionName() {
-    def buildNumber = getBuildNumber()
-    def patchNumber = 0
-    if (getBranchName().startsWith("release/")) {
-        patchNumber = buildNumber - 1
-    }
-    return major + "." + minor + "." + patchNumber
+    return major + "." + minor + "." + patch
 }
 
 String getBranchName() {

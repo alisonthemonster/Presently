@@ -29,6 +29,7 @@
     <string name="import_data_dialog">هل أنت متأكد أنك تريد الاستيراد؟</string>
     <string name="import_data_dialog_message">البيانات المستوردة قد تستبدل الإدخالات الموجودة</string>
     <string name="days_of_gratitude">أيام الامتنان</string>
+    <string name="days_of">أيام الامتنان</string>
     <string name="rate_presently">قيّم تطبيق برزنتلي</string>
     <string name="share_your_achievement">شارك انجازاتك</string>
     <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">
