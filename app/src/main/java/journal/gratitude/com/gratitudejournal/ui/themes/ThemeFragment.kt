@@ -11,6 +11,8 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.model.NOTIF_TIME
+import journal.gratitude.com.gratitudejournal.model.THEME
 import journal.gratitude.com.gratitudejournal.model.Theme
 import kotlinx.android.synthetic.main.fragment_theme.*
 
@@ -30,6 +32,7 @@ class ThemeFragment : Fragment() {
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, theme)
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "theme")
             firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+            firebaseAnalytics.setUserProperty(THEME, theme)
             findNavController().navigateUp()
             activity?.recreate()
         }
