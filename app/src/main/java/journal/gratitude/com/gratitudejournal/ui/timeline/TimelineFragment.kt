@@ -22,6 +22,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.crashlytics.android.Crashlytics
@@ -39,6 +40,7 @@ import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.N
 import journal.gratitude.com.gratitudejournal.util.backups.*
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.android.synthetic.main.timeline_fragment.*
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import java.io.File
@@ -243,11 +245,14 @@ class TimelineFragment : DaggerFragment() {
                     val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
                     val file = File(dir, "PresentlyBackup$date.csv")
 
-                    exportDB(viewModel.entries.value ?: emptyList(),
-                        exportCallback,
-                        file,
-                        CSVWriterImpl(FileWriter(file))
-                    )
+                    //TODO correct scope?
+                    lifecycleScope.launch {
+                        when (val result = exportToCSV(viewModel.getTimelineItems(), file)) {
+                            is CsvCreated -> exportCallback.onSuccess(result.file)
+                            is CsvError -> exportCallback.onFailure(result.exception)
+                        }
+                    }
+
                 } else {
                     Toast.makeText(context, R.string.permission_export, Toast.LENGTH_SHORT).show()
                 }
@@ -312,6 +317,8 @@ class TimelineFragment : DaggerFragment() {
                 MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
             )
         } else {
+            firebaseAnalytics.logEvent(EXPORTED_DATA, null)
+
             val dir =
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
             if (!dir.exists()) {
@@ -320,13 +327,12 @@ class TimelineFragment : DaggerFragment() {
             val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
             val file = File(dir, "PresentlyBackup$date.csv")
 
-            firebaseAnalytics.logEvent(EXPORTED_DATA, null)
-            exportDB(
-                viewModel.entries.value
-                    ?: emptyList(), exportCallback,
-                file,
-                CSVWriterImpl(FileWriter(file))
-            )
+            lifecycleScope.launch {
+                when (val result = exportToCSV(viewModel.getTimelineItems(), file)) {
+                    is CsvCreated -> exportCallback.onSuccess(result.file)
+                    is CsvError -> exportCallback.onFailure(result.exception)
+                }
+            }
         }
     }
 
@@ -392,8 +398,9 @@ class TimelineFragment : DaggerFragment() {
                 }.show()
         }
 
-        override fun onFailure(message: String) {
-            Toast.makeText(context, "Error : $message", Toast.LENGTH_SHORT).show()
+        override fun onFailure(exception: Exception) {
+            Crashlytics.logException(exception)
+            Toast.makeText(context, "Error : ${exception.message}", Toast.LENGTH_SHORT).show()
         }
     }
 

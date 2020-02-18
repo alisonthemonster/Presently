@@ -5,15 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.threeten.bp.LocalDate
-import java.util.LinkedHashMap
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
+import java.util.*
 
 class FakeEntryRepository : EntryRepository {
+
 
     //mock of database
     var entriesDatabase: LinkedHashMap<LocalDate, Entry> = LinkedHashMap()
@@ -28,14 +28,18 @@ class FakeEntryRepository : EntryRepository {
         return liveData
     }
 
-    override fun getAllEntries(): LiveData<List<Entry>> {
-        val liveData = MutableLiveData<List<Entry>>()
+    override suspend fun getEntries(): List<Entry> {
         val list = mutableListOf<Entry>()
         entriesDatabase.forEach { (date, entry) -> list.add(entry) }
+        return list
+    }
 
-        liveData.value = list
-
-        return liveData
+    override suspend fun getEntriesFlow(): Flow<List<Entry>> {
+        val list = mutableListOf<Entry>()
+        entriesDatabase.forEach { (date, entry) -> list.add(entry) }
+        return flow {
+            emit(emptyList<Entry>())
+        }
     }
 
     override fun getWrittenDates(): LiveData<List<LocalDate>> {

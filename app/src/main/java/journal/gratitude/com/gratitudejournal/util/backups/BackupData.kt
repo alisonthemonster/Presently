@@ -6,23 +6,26 @@ import journal.gratitude.com.gratitudejournal.util.CrashlyticsWrapper
 import journal.gratitude.com.gratitudejournal.util.CrashlyticsWrapperImpl
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
+import kotlinx.coroutines.*
 import java.io.File
+import java.io.FileWriter
 import java.io.IOException
 
 
-fun exportDB(timelineItems: List<TimelineItem>,
-             exportCallback: ExportCallback,
-             file: File,
-             csvWrite: CSVWriter,
-             crashlytics: CrashlyticsWrapper = CrashlyticsWrapperImpl()) {
-    return try {
-        //write header row
-        csvWrite.writeNext(arrayOf(DATE_COLUMN_HEADER, ENTRY_COLUMN_HEADER))
+/*
+* Takes in entries and creates a CSV
+*/
+suspend fun exportToCSV(timelineItems: List<TimelineItem>, file: File): CSVResult {
+    return withContext(Dispatchers.IO) {
+        try {
+            val csvWrite: CSVWriter = CSVWriterImpl(FileWriter(file))
 
-        //write entries
-        for (item in timelineItems) {
-            if (item is Entry) {
-                if (item.entryContent.isNotEmpty()) {
+            //write header row
+            csvWrite.writeNext(arrayOf(DATE_COLUMN_HEADER, ENTRY_COLUMN_HEADER))
+
+            //write entries
+            for (item in timelineItems) {
+                if (item is Entry && item.entryContent.isNotEmpty()) {
                     csvWrite.writeNext(
                         arrayOf(
                             item.entryDate.toDatabaseString(),
@@ -31,12 +34,11 @@ fun exportDB(timelineItems: List<TimelineItem>,
                     )
                 }
             }
+            csvWrite.close()
+            CsvCreated(file)
+        } catch (exception: Exception) {
+            CsvError(exception)
         }
-        csvWrite.close()
-        exportCallback.onSuccess(file)
-    } catch (exception: Exception) {
-        crashlytics.logException(exception)
-        exportCallback.onFailure(exception.message ?: "Unknown error")
     }
 }
 
@@ -77,5 +79,12 @@ interface ExportCallback {
 
     fun onSuccess(file: File)
 
-    fun onFailure(message: String)
+    fun onFailure(message: Exception)
 }
+
+
+sealed class CSVResult
+class CsvCreated(val file: File) : CSVResult()
+class CsvError(val exception: Exception, val message: String = exception.localizedMessage) :
+    CSVResult()
+

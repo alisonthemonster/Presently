@@ -6,6 +6,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.room.EntryDao
+import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
@@ -20,7 +21,11 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         return entryDao.getEntry(date)
     }
 
-    override fun getAllEntries(): LiveData<List<Entry>> {
+    override suspend fun getEntriesFlow(): Flow<List<Entry>> {
+        return entryDao.getEntriesFlow()
+    }
+
+    override suspend fun getEntries(): List<Entry> {
         return entryDao.getEntries()
     }
 

@@ -54,8 +54,7 @@ class EntryDaoTest {
     fun writeMultipleEntries() {
         entryDao.insertEntries(mockEntriesSorted)
 
-        val actualEntry =
-            LiveDataTestUtil.getValue(entryDao.getEntries())
+        val actualEntry = entryDao.getEntries()
         assertEquals(mockEntriesSorted, actualEntry)
     }
 
@@ -66,7 +65,7 @@ class EntryDaoTest {
         entryDao.insertEntry(entryOne)
 
         val actualEntry =
-            LiveDataTestUtil.getValue(entryDao.getEntries())
+            entryDao.getEntries()
         assertEquals(mockEntriesSorted, actualEntry)
     }
 
@@ -75,8 +74,7 @@ class EntryDaoTest {
         entryDao.insertEntries(mockEntriesSorted)
         entryDao.delete(entryTwo)
 
-        val actualEntry =
-            LiveDataTestUtil.getValue(entryDao.getEntries())
+        val actualEntry = entryDao.getEntries()
         assertEquals(listOf(entryOne, entryThree), actualEntry)
     }
 
