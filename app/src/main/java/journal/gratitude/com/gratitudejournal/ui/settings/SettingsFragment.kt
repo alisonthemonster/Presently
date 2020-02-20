@@ -11,9 +11,11 @@ import androidx.biometric.BiometricManager
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.crashlytics.android.Crashlytics
 import com.dropbox.core.android.Auth
@@ -22,11 +24,13 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.util.backups.DropboxUploader
+import journal.gratitude.com.gratitudejournal.util.backups.DropboxUploader.Companion.PRESENTLY_BACKUP
 import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 
 class SettingsFragment : PreferenceFragmentCompat(),
@@ -41,6 +45,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         val privacy = findPreference("privacy_policy")
@@ -87,6 +92,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
 
+        val cadencePref = (findPreference("dropbox_cadence") as ListPreference)
+        val cadence = preferenceScreen.sharedPreferences.getString("dropbox_cadence", "daily")
+        val index = when (cadence) {
+            "0" -> 0
+            "1" -> 1
+            else -> 2
+        }
+        cadencePref.setValueIndex(index)
+
     }
 
     override fun onResume() {
@@ -106,15 +120,41 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 activity?.recreate()
             } else {
                 prefs.edit().putString("access-token", token).apply()
-                createDropboxUploaderWorker()
+                createDropboxUploaderWorker("0")
             }
         }
     }
 
-    private fun createDropboxUploaderWorker() {
-        val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
-            .build()
-        WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
+    private fun createDropboxUploaderWorker(cadence: String) {
+        WorkManager.getInstance(context!!).cancelAllWorkByTag(PRESENTLY_BACKUP)
+        when (cadence) {
+            "0" -> {
+                //every day
+                val uploadWorkRequest =
+                    PeriodicWorkRequestBuilder<UploadToCloudWorker>(1, TimeUnit.DAYS)
+                        .addTag(PRESENTLY_BACKUP)
+                        .build()
+                WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
+
+            }
+            "1" -> {
+                //every week
+                val uploadWorkRequest =
+                    PeriodicWorkRequestBuilder<UploadToCloudWorker>(7, TimeUnit.DAYS)
+                        .addTag(PRESENTLY_BACKUP)
+                        .build()
+                WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
+            }
+            "2" -> {
+                //every change so do an upload now
+                val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
+                    .addTag(PRESENTLY_BACKUP)
+                    .build()
+                WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
+                //TODO actually implement sending a worker when a change is made
+            }
+        }
+
     }
 
     override fun onPause() {
@@ -154,6 +194,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     firebaseAnalytics.logEvent(BIOMETRICS_DESELECT, null)
                     firebaseAnalytics.setUserProperty(BIOMETRICS_ENABLED, "false")
                 }
+            }
+            "dropbox_cadence" -> {
+                val cadence = sharedPreferences.getString(key, "0") ?: "0"
+                createDropboxUploaderWorker(cadence)
+
             }
         }
     }

@@ -70,4 +70,7 @@
     <string name="continue_to_exit">Continue</string>
     <string name="are_you_sure">Are you sure you want to go back?</string>
     <string name="unsaved_text">Your entry is unsaved and your changes will be lost!</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="every">On every change</string>
 </resources>

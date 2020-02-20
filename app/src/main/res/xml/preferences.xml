@@ -20,13 +20,6 @@
             android:summary="@string/change_time"
             android:title="@string/time_title" />
 
-        <SwitchPreference
-            android:icon="@drawable/ic_cloud"
-            android:key="dropbox_pref"
-            android:summaryOff="Log in with your Dropbox account to automatically back up your entries"
-            android:summaryOn="Click here to log out of Dropbox and stop backing up your entries"
-            android:title="Back up your data with Dropbox" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/appearance">
@@ -36,6 +29,25 @@
             android:key="current_theme"
             android:summary="@string/theme_change"
             android:title="@string/theme" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Backup &amp; Restore">
+        <SwitchPreference
+            android:icon="@drawable/ic_cloud"
+            android:key="dropbox_pref"
+            android:summaryOff="Log in with your Dropbox account to automatically back up your entries"
+            android:summaryOn="Your entries are being backed up to Dropbox"
+            android:title="Back up your data with Dropbox" />
+
+        <ListPreference
+            android:icon="@drawable/ic_cloud"
+            android:key="dropbox_cadence"
+            android:dependency="dropbox_pref"
+            android:title="Dropbox Backup Frequency"
+            android:defaultValue="0"
+            android:summary="%s"
+            android:entries="@array/BackupCadence"
+            android:entryValues="@array/BackupCadenceValues"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security">

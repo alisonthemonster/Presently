@@ -69,6 +69,8 @@ class DropboxUploader(val context: Context): CloudProvider {
                 sharedPreferences.edit().remove("access-token").apply()
             }
         }
+
+        const val PRESENTLY_BACKUP = "PRESENTLY_BACKUP"
     }
 
 }
