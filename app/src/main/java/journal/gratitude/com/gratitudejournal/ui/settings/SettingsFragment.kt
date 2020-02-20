@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -20,23 +21,18 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
-import journal.gratitude.com.gratitudejournal.util.backups.CloudProvider
 import journal.gratitude.com.gratitudejournal.util.backups.DropboxUploader
 import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
-import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 
 class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
-    @Inject
-    lateinit var cloudUploader: CloudProvider
-
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,17 +76,17 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         val dropbox = findPreference("dropbox_pref")
         dropbox.setOnPreferenceClickListener {
-            val sharedPref = preferenceScreen.sharedPreferences
-            val loggedIn = sharedPref.getBoolean("dropbox_pref", false)
-            if (loggedIn) {
-                //TODO let user log out of their dropbox
+            val wantsToLogin = preferenceScreen.sharedPreferences.getBoolean("dropbox_pref", false)
+            if (!wantsToLogin) {
+                lifecycleScope.launch {
+                    DropboxUploader.deauthorizeDropboxAccess(preferenceScreen.sharedPreferences)
+                }
             } else {
                 DropboxUploader.authorizeDropboxAccess(context!!)
-                sharedPref.edit().putBoolean("dropbox_pref", true).apply()
             }
-
             true
         }
+
     }
 
     override fun onResume() {
@@ -101,10 +97,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
         prefs.registerOnSharedPreferenceChangeListener(this)
 
         var accessToken = prefs.getString("access-token", null)
-        if (accessToken == null) {
-            accessToken = Auth.getOAuth2Token()
-            if (accessToken != null) {
-                prefs.edit().putString("access-token", accessToken).apply()
+        if (accessToken == "attempted") {
+            val token = Auth.getOAuth2Token()
+            if (token == null) {
+                //user started to auth and didn't succeed
+                prefs.edit().putBoolean("dropbox_pref", false).apply()
+                prefs.edit().remove("access-token").apply()
+                activity?.recreate()
+            } else {
+                prefs.edit().putString("access-token", token).apply()
                 createDropboxUploaderWorker()
             }
         }

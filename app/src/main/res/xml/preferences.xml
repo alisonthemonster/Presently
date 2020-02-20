@@ -20,11 +20,12 @@
             android:summary="@string/change_time"
             android:title="@string/time_title" />
 
-        <Preference
-            android:icon="@drawable/ic_lock"
+        <SwitchPreference
+            android:icon="@drawable/ic_cloud"
             android:key="dropbox_pref"
-            android:summary="Log in with your Dropbox account to automatically back up your entries"
-            android:title="Backup your data with Dropbox" />
+            android:summaryOff="Log in with your Dropbox account to automatically back up your entries"
+            android:summaryOn="Click here to log out of Dropbox and stop backing up your entries"
+            android:title="Back up your data with Dropbox" />
 
     </PreferenceCategory>
 
