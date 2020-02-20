@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.di
 
 import android.content.Context
+import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -28,6 +30,13 @@ object ApplicationModule {
     @Provides
     fun provideDatabase(context: Context): EntryDatabase {
         return EntryDatabase.getDatabase(context)
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideSharedPreferences(context: Context): SharedPreferences {
+        return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
 }

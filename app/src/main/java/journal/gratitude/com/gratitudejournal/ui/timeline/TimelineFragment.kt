@@ -44,9 +44,7 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import java.io.File
-import java.io.FileWriter
 import java.io.InputStream
-import java.lang.NullPointerException
 import java.util.*
 import javax.inject.Inject
 

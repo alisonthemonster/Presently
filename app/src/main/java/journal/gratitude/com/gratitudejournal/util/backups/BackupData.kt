@@ -2,15 +2,13 @@ package journal.gratitude.com.gratitudejournal.util.backups
 
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
-import journal.gratitude.com.gratitudejournal.util.CrashlyticsWrapper
-import journal.gratitude.com.gratitudejournal.util.CrashlyticsWrapperImpl
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
-
 
 /*
 * Takes in entries and creates a CSV

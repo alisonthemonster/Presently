@@ -2,7 +2,6 @@ package journal.gratitude.com.gratitudejournal.di
 
 import android.app.Application
 import android.content.Context
-import dagger.Binds
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -18,6 +17,8 @@ import javax.inject.Singleton
         TimelineModule::class,
         EntryModule::class,
         SearchModule::class,
+        CloudUploadModule::class,
+        WorkerModule::class,
         AndroidSupportInjectionModule::class
     ]
 )
