@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.preference.PreferenceManager
+import androidx.work.WorkManager
 import com.dropbox.core.DbxException
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.android.Auth
@@ -13,12 +14,13 @@ import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.model.CloudUploadResult
 import journal.gratitude.com.gratitudejournal.model.UploadError
 import journal.gratitude.com.gratitudejournal.model.UploadSuccess
+import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.threeten.bp.LocalDate
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
-
 
 class DropboxUploader(val context: Context): CloudProvider {
 
@@ -34,7 +36,7 @@ class DropboxUploader(val context: Context): CloudProvider {
 
             try {
                 FileInputStream(file).use { inputStream ->
-                    client.files().uploadBuilder("/backup.csv")
+                    client.files().uploadBuilder("/${LocalDate.now().toDatabaseString()}-backup.csv")
                         .withMode(WriteMode.OVERWRITE)
                         .uploadAndFinish(inputStream)
                     UploadSuccess
@@ -56,7 +58,9 @@ class DropboxUploader(val context: Context): CloudProvider {
             Auth.startOAuth2Authentication(context, BuildConfig.DROPBOX_APP_KEY)
         }
 
-        suspend fun deauthorizeDropboxAccess(sharedPreferences: SharedPreferences) {
+        suspend fun deauthorizeDropboxAccess(context: Context) {
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
             withContext(Dispatchers.IO) {
                 val accessToken = sharedPreferences.getString("access-token", null)
 
@@ -67,6 +71,7 @@ class DropboxUploader(val context: Context): CloudProvider {
                 Log.d("blargle", "token: $accessToken")
                 client.auth().tokenRevoke()
                 sharedPreferences.edit().remove("access-token").apply()
+                WorkManager.getInstance(context).cancelAllWorkByTag(PRESENTLY_BACKUP)
             }
         }
 

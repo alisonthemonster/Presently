@@ -84,7 +84,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             val wantsToLogin = preferenceScreen.sharedPreferences.getBoolean("dropbox_pref", false)
             if (!wantsToLogin) {
                 lifecycleScope.launch {
-                    DropboxUploader.deauthorizeDropboxAccess(preferenceScreen.sharedPreferences)
+                    DropboxUploader.deauthorizeDropboxAccess(context!!)
                 }
             } else {
                 DropboxUploader.authorizeDropboxAccess(context!!)
