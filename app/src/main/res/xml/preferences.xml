@@ -33,14 +33,14 @@
 
     <PreferenceCategory android:title="Backup &amp; Restore">
         <SwitchPreference
-            android:icon="@drawable/ic_cloud"
+            android:icon="@drawable/ic_dropbox"
             android:key="dropbox_pref"
             android:summaryOff="Log in with your Dropbox account to automatically back up your entries"
             android:summaryOn="Your entries are being backed up to Dropbox"
             android:title="Back up your data with Dropbox" />
 
         <ListPreference
-            android:icon="@drawable/ic_cloud"
+            android:icon="@drawable/ic_cloud_time"
             android:key="dropbox_cadence"
             android:dependency="dropbox_pref"
             android:title="Dropbox Backup Frequency"
