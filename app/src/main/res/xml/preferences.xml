@@ -85,5 +85,10 @@
             android:key="open_source"
             android:summary="@string/open_source_info"
             android:title="@string/open_source" />
+
+        <Preference
+            android:icon="@drawable/ic_tiny_flower"
+            android:key="version"
+            android:title="@string/version_number" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -68,4 +68,5 @@
     <string name="are_you_sure">Haluatko varmasti palata takaisin?</string>
     <string name="unsaved_text">Merkintääsi ei tallenneta ja muutokset menetetään!</string>
     <string name="continue_to_exit">Jatkaa</string>
+    <string name="version_number">Versionumero</string>
 </resources>

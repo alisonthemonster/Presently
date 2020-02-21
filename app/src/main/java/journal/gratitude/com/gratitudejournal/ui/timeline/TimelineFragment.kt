@@ -338,10 +338,11 @@ class TimelineFragment : DaggerFragment() {
         firebaseAnalytics.logEvent(LOOKED_FOR_DATA, null)
 
         val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "*/*"
-        val mimeTypes = arrayOf("text/*")
+//        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "text/csv|text/comma-separated-values|application/csv"
+        val mimeTypes = arrayOf("text/comma-separated-values", "text/csv")
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+
         try {
             startActivityForResult(Intent.createChooser(intent, "Select"), IMPORT_CSV)
         } catch (ex: ActivityNotFoundException) {

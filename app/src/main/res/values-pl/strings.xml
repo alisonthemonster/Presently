@@ -68,4 +68,5 @@
     <string name="lock_setting_summary_on">Presently zostanie zablokowana za pomocą skanera biometrycznego urządzenia.</string>
     <string name="lock_setting_summary_off">Presently można zablokować za pomocą skanera biometrycznego urządzenia (jeśli jest obsługiwana przez urządzenie).</string>
     <string name="fingerprint_error_lockout_too_many">Zbyt wiele prób uwierzytelnienia biometrycznego. Prosze spróbować za kilka minut.</string>
+    <string name="version_number">Numer wersji</string>
 </resources>

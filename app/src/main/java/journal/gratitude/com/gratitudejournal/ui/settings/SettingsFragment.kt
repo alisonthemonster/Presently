@@ -18,9 +18,10 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.crashlytics.android.Crashlytics
-import com.dropbox.core.android.Auth
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.dropbox.core.android.Auth
 import com.google.firebase.analytics.FirebaseAnalytics
+import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.util.backups.DropboxUploader
@@ -73,6 +74,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
             startActivity(Intent(context, OssLicensesMenuActivity::class.java))
             true
         }
+
+        val version = findPreference("version")
+        version.summary = BuildConfig.VERSION_NAME
 
         val fingerprint = findPreference("fingerprint_lock")
         val canAuthenticateUsingFingerPrint =
@@ -198,7 +202,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             "dropbox_cadence" -> {
                 val cadence = sharedPreferences.getString(key, "0") ?: "0"
                 createDropboxUploaderWorker(cadence)
-
             }
         }
     }
