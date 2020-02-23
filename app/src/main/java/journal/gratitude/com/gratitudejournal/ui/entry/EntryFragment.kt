@@ -31,10 +31,14 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.milestones
+import journal.gratitude.com.gratitudejournal.util.backups.DropboxUploader
+import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import java.util.concurrent.TimeUnit
 
 
@@ -126,6 +130,12 @@ class EntryFragment : DaggerFragment() {
             viewModel.addNewEntry()
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
             imm?.hideSoftInputFromWindow(entry_text.windowToken, 0)
+
+            val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
+                .addTag(DropboxUploader.PRESENTLY_BACKUP)
+                .build()
+            WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
+
             findNavController().navigateUp()
         }
 

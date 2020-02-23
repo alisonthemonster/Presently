@@ -139,7 +139,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
                         .addTag(PRESENTLY_BACKUP)
                         .build()
                 WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
-
             }
             "1" -> {
                 //every week
