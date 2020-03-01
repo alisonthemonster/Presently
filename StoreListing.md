@@ -62,6 +62,25 @@ Presently ermöglicht dir folgendes:
 
 Presently ist 100% kostenlos und werbefrei. Alle deine Einträge befinden sich nur auf deinem Gerät und stehen unter deiner Kontrolle.
 
+## Spanish
+Presently: Diario de Gratitud
+
+Celebre su vida diaria con Presently, un diario gratuito y privado de gratitud.
+
+Presently te permite:
+⁕ Escribir entradas diarias de gratitud
+⁕ Lee tus momentos anteriores de gratitud
+⁕ Encuentra la motivación a través de citas e indicaciones
+⁕ Recibe notificaciones diarias para continuar tu práctica de gratitud
+⁕ Bloquee sus entradas con huella digital o identificación facial
+⁕ Busque sus entradas antiguas
+⁕ Exporta / importa tus entradas
+⁕ Cambie a su esquema de color favorito
+
+Presently es 100% gratis y sin anuncios. Todas sus entradas permanecen en su teléfono y bajo su control.
+
+Muchas gracias a Maria por tu ayuda con la traducción.
+
 ## Russian
 
 Запечатлите прекрасные моменты своей жизни с Presently, бесплатным и приватным дневником благодарностей!
