@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.preference.ListPreference
 import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
@@ -64,7 +65,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             openFaq()
             true
         }
-        val theme = findPreference("current_theme")
+        val theme = findPreference(THEME)
         theme.setOnPreferenceClickListener {
             openThemes()
             true
@@ -75,35 +76,44 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
 
-        val version = findPreference("version")
-        version.summary = BuildConfig.VERSION_NAME
+        val version = findPreference(VERSION_PREF)
+        val versionNum = BuildConfig.VERSION_NAME
+        version.summary = versionNum
+        val backupCategory = findPreference(BACKUP_CATEGORY) as PreferenceCategory
+        val dropbox = findPreference(BACKUP_TOKEN)
+        val cadencePref = (findPreference(BACKUP_CADENCE) as ListPreference)
 
-        val fingerprint = findPreference("fingerprint_lock")
+        if (versionNum.contains("-beta")) {
+            dropbox.setOnPreferenceClickListener {
+                val wantsToLogin = preferenceScreen.sharedPreferences.getBoolean(BACKUP_TOKEN, false)
+                if (!wantsToLogin) {
+                    lifecycleScope.launch {
+                        DropboxUploader.deauthorizeDropboxAccess(context!!)
+                    }
+                } else {
+                    DropboxUploader.authorizeDropboxAccess(context!!)
+                }
+                true
+            }
+
+            //TODO what is this doing?
+            val cadence = preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0")
+            val index = when (cadence) {
+                "0" -> 0
+                "1" -> 1
+                else -> 2
+            }
+            cadencePref.setValueIndex(index)
+        } else {
+            preferenceScreen.removePreference(backupCategory)
+        }
+
+        val fingerprint = findPreference(FINGERPRINT)
         val canAuthenticateUsingFingerPrint =
             BiometricManager.from(context!!).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
         fingerprint.parent!!.isEnabled = canAuthenticateUsingFingerPrint
 
-        val dropbox = findPreference("dropbox_pref")
-        dropbox.setOnPreferenceClickListener {
-            val wantsToLogin = preferenceScreen.sharedPreferences.getBoolean("dropbox_pref", false)
-            if (!wantsToLogin) {
-                lifecycleScope.launch {
-                    DropboxUploader.deauthorizeDropboxAccess(context!!)
-                }
-            } else {
-                DropboxUploader.authorizeDropboxAccess(context!!)
-            }
-            true
-        }
 
-        val cadencePref = (findPreference("dropbox_cadence") as ListPreference)
-        val cadence = preferenceScreen.sharedPreferences.getString("dropbox_cadence", "daily")
-        val index = when (cadence) {
-            "0" -> 0
-            "1" -> 1
-            else -> 2
-        }
-        cadencePref.setValueIndex(index)
 
     }
 
@@ -119,19 +129,20 @@ class SettingsFragment : PreferenceFragmentCompat(),
             val token = Auth.getOAuth2Token()
             if (token == null) {
                 //user started to auth and didn't succeed
-                prefs.edit().putBoolean("dropbox_pref", false).apply()
+                prefs.edit().putBoolean(BACKUP_TOKEN, false).apply()
                 prefs.edit().remove("access-token").apply()
                 activity?.recreate()
             } else {
                 prefs.edit().putString("access-token", token).apply()
-                createDropboxUploaderWorker("0")
+                createDropboxUploaderWorker()
             }
         }
     }
 
-    private fun createDropboxUploaderWorker(cadence: String) {
+    private fun createDropboxUploaderWorker() {
         WorkManager.getInstance(context!!).cancelAllWorkByTag(PRESENTLY_BACKUP)
-        when (cadence) {
+
+        when (preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0") ?: "0") {
             "0" -> {
                 //every day
                 val uploadWorkRequest =
@@ -168,8 +179,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            "current_theme" -> {
-                val theme = sharedPreferences.getString("current_theme", "original")
+            THEME -> {
+                val theme = sharedPreferences.getString(THEME, "original")
                 val bundle = Bundle()
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, theme)
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, theme)
@@ -177,7 +188,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
                 activity?.recreate()
             }
-            "notif_parent" -> {
+            NOTIFS -> {
                 val notifsTurnedOn = sharedPreferences.getBoolean(key, true)
                 if (notifsTurnedOn) {
                     NotificationScheduler().configureNotifications(context!!)
@@ -188,7 +199,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "false")
                 }
             }
-            "fingerprint_lock" -> {
+            FINGERPRINT -> {
                 val biometricsEnabled = sharedPreferences.getBoolean(key, false)
                 if (biometricsEnabled) {
                     firebaseAnalytics.logEvent(BIOMETRICS_SELECT, null)
@@ -198,9 +209,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     firebaseAnalytics.setUserProperty(BIOMETRICS_ENABLED, "false")
                 }
             }
-            "dropbox_cadence" -> {
-                val cadence = sharedPreferences.getString(key, "0") ?: "0"
-                createDropboxUploaderWorker(cadence)
+            BACKUP_CADENCE -> {
+                createDropboxUploaderWorker()
             }
         }
     }
@@ -278,5 +288,16 @@ class SettingsFragment : PreferenceFragmentCompat(),
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
             Crashlytics.logException(activityNotFoundException)
         }
+    }
+
+    companion object {
+        const val BACKUP_CATEGORY = "backups_category"
+        const val BACKUP_TOKEN = "dropbox_pref"
+        const val BACKUP_CADENCE = "dropbox_cadence"
+        const val FINGERPRINT = "fingerprint_lock"
+        const val NOTIFS = "notif_parent"
+        const val NOTIF_PREF_TIME = "pref_time"
+        const val THEME = "current_theme"
+        const val VERSION_PREF = "version"
     }
 }

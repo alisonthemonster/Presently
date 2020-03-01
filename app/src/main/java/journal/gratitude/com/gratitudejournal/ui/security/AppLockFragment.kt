@@ -17,6 +17,7 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_CANCELLED
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_LOCKOUT
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_USER_CANCELLED
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FINGERPRINT
 
 class AppLockFragment : Fragment() {
 
@@ -34,7 +35,7 @@ class AppLockFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
-        fingerprintLock = sharedPref.getBoolean("fingerprint_lock", false)
+        fingerprintLock = sharedPref.getBoolean(FINGERPRINT, false)
         if (!fingerprintLock)
             moveToTimeline()
 

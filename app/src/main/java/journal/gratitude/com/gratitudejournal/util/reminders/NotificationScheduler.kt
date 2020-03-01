@@ -8,6 +8,8 @@ import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.preference.PreferenceManager
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.NOTIFS
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.NOTIF_PREF_TIME
 import org.threeten.bp.LocalTime
 import java.util.*
 
@@ -25,9 +27,9 @@ class NotificationScheduler {
     // Called when app starts, notification time changes, device reboots, time zone changes, etc
     fun configureNotifications(context: Context) {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
-        val hasNotificationsOn = sharedPref.getBoolean("notif_parent", true)
+        val hasNotificationsOn = sharedPref.getBoolean(NOTIFS, true)
         if (hasNotificationsOn) {
-            val prefTime = sharedPref.getString("pref_time", "21:00")
+            val prefTime = sharedPref.getString(NOTIF_PREF_TIME, "21:00")
             val alarmTime = LocalTime.parse(prefTime)
             setNotificationTime(context, alarmTime)
         }

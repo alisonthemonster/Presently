@@ -36,7 +36,7 @@ class DropboxUploader(val context: Context): CloudProvider {
 
             try {
                 FileInputStream(file).use { inputStream ->
-                    client.files().uploadBuilder("/${LocalDate.now().toDatabaseString()}-backup.csv")
+                    client.files().uploadBuilder("/presently-backup.csv")
                         .withMode(WriteMode.OVERWRITE)
                         .uploadAndFinish(inputStream)
                     UploadSuccess

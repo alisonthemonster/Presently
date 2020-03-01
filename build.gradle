@@ -36,7 +36,7 @@ allprojects {
 }
 
 def createVersionName() {
-    return major + "." + minor + "." + patch
+    return major + "." + minor + "." + patch + beta
 }
 
 String getBranchName() {
