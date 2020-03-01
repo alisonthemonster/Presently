@@ -1,7 +1,6 @@
-package journal.gratitude.com.gratitudejournal.util.backups
+package journal.gratitude.com.gratitudejournal.util.backups.dropbox
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.preference.PreferenceManager
 import androidx.work.WorkManager
@@ -14,15 +13,15 @@ import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.model.CloudUploadResult
 import journal.gratitude.com.gratitudejournal.model.UploadError
 import journal.gratitude.com.gratitudejournal.model.UploadSuccess
-import journal.gratitude.com.gratitudejournal.util.toDatabaseString
+import journal.gratitude.com.gratitudejournal.util.backups.CloudProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.threeten.bp.LocalDate
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 
-class DropboxUploader(val context: Context): CloudProvider {
+class DropboxUploader(val context: Context):
+    CloudProvider {
 
     override suspend fun uploadToCloud(file: File): CloudUploadResult {
         return withContext(Dispatchers.IO) {

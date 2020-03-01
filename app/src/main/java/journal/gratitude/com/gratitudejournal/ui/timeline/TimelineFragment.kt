@@ -235,22 +235,7 @@ class TimelineFragment : DaggerFragment() {
             MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL -> {
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    val dir =
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                    if (!dir.exists()) {
-                        dir.mkdir()
-                    }
-                    val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
-                    val file = File(dir, "PresentlyBackup$date.csv")
-
-                    //TODO correct scope?
-                    lifecycleScope.launch {
-                        when (val result = exportToCSV(viewModel.getTimelineItems(), file)) {
-                            is CsvCreated -> exportCallback.onSuccess(result.file)
-                            is CsvError -> exportCallback.onFailure(result.exception)
-                        }
-                    }
-
+                    performExport()
                 } else {
                     Toast.makeText(context, R.string.permission_export, Toast.LENGTH_SHORT).show()
                 }
@@ -315,21 +300,25 @@ class TimelineFragment : DaggerFragment() {
                 MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
             )
         } else {
-            firebaseAnalytics.logEvent(EXPORTED_DATA, null)
+            performExport()
+        }
+    }
 
-            val dir =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            if (!dir.exists()) {
-                dir.mkdir()
-            }
-            val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
-            val file = File(dir, "PresentlyBackup$date.csv")
+    private fun performExport() {
+        firebaseAnalytics.logEvent(EXPORTED_DATA, null)
 
-            lifecycleScope.launch {
-                when (val result = exportToCSV(viewModel.getTimelineItems(), file)) {
-                    is CsvCreated -> exportCallback.onSuccess(result.file)
-                    is CsvError -> exportCallback.onFailure(result.exception)
-                }
+        val dir =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        if (!dir.exists()) {
+            dir.mkdir()
+        }
+        val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
+        val file = File(dir, "PresentlyBackup$date.csv")
+
+        lifecycleScope.launch {
+            when (val result = exportToCSV(viewModel.getTimelineItems(), file)) {
+                is CsvCreated -> exportCallback.onSuccess(result.file)
+                is CsvError -> exportCallback.onFailure(result.exception)
             }
         }
     }

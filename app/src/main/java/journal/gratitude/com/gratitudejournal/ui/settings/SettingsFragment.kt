@@ -25,8 +25,8 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
-import journal.gratitude.com.gratitudejournal.util.backups.DropboxUploader
-import journal.gratitude.com.gratitudejournal.util.backups.DropboxUploader.Companion.PRESENTLY_BACKUP
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader.Companion.PRESENTLY_BACKUP
 import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
@@ -98,7 +98,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 true
             }
 
-            //TODO what is this doing?
             val cadence = preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0")
             val index = when (cadence) {
                 "0" -> 0
@@ -166,7 +165,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     .addTag(PRESENTLY_BACKUP)
                     .build()
                 WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
-                //TODO actually implement sending a worker when a change is made
             }
         }
 

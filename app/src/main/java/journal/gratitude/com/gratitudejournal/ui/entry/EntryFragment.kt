@@ -39,7 +39,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.milestones
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.BACKUP_CADENCE
-import journal.gratitude.com.gratitudejournal.util.backups.DropboxUploader
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import java.util.concurrent.TimeUnit
 

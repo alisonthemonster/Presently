@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import journal.gratitude.com.gratitudejournal.util.backups.CloudProvider
-import journal.gratitude.com.gratitudejournal.util.backups.DropboxUploader
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import javax.inject.Singleton
 
 
