@@ -24,6 +24,7 @@ const val OPENED_PRIVACY_POLICY = "openedPrivacyPolicy"
 const val OPENED_TERMS_CONDITIONS = "openedTermsAndConditions"
 const val OPENED_THEMES = "openedThemes"
 const val OPENED_FAQ = "openedFaq"
+const val DROPBOX_USER = "isDropboxUser"
 
 //BIOMETRIC EVENTS
 const val BIOMETRICS_SELECT = "biometricsSelected"

@@ -87,10 +87,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
             dropbox.setOnPreferenceClickListener {
                 val wantsToLogin = preferenceScreen.sharedPreferences.getBoolean(BACKUP_TOKEN, false)
                 if (!wantsToLogin) {
+                    firebaseAnalytics.setUserProperty(DROPBOX_USER, "false")
                     lifecycleScope.launch {
                         DropboxUploader.deauthorizeDropboxAccess(context!!)
                     }
                 } else {
+                    firebaseAnalytics.setUserProperty(DROPBOX_USER, "true")
                     DropboxUploader.authorizeDropboxAccess(context!!)
                 }
                 true
@@ -105,6 +107,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             }
             cadencePref.setValueIndex(index)
         } else {
+            firebaseAnalytics.setUserProperty(DROPBOX_USER, "false")
             preferenceScreen.removePreference(backupCategory)
         }
 
@@ -112,8 +115,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val canAuthenticateUsingFingerPrint =
             BiometricManager.from(context!!).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
         fingerprint.parent!!.isEnabled = canAuthenticateUsingFingerPrint
-
-
 
     }
 
@@ -124,7 +125,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         // Set up a listener whenever a key changes
         prefs.registerOnSharedPreferenceChangeListener(this)
 
-        var accessToken = prefs.getString("access-token", null)
+        val accessToken = prefs.getString("access-token", null)
         if (accessToken == "attempted") {
             val token = Auth.getOAuth2Token()
             if (token == null) {
@@ -134,15 +135,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 activity?.recreate()
             } else {
                 prefs.edit().putString("access-token", token).apply()
-                createDropboxUploaderWorker()
+                createDropboxUploaderWorker("0")
             }
         }
     }
 
-    private fun createDropboxUploaderWorker() {
+    private fun createDropboxUploaderWorker(cadence: String) {
         WorkManager.getInstance(context!!).cancelAllWorkByTag(PRESENTLY_BACKUP)
 
-        when (preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0") ?: "0") {
+        when (cadence) {
             "0" -> {
                 //every day
                 val uploadWorkRequest =
@@ -210,7 +211,13 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 }
             }
             BACKUP_CADENCE -> {
-                createDropboxUploaderWorker()
+                val cadence = preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0") ?: "0"
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, cadence)
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, cadence)
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "dropbox cadence")
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+                createDropboxUploaderWorker(cadence)
             }
         }
     }
