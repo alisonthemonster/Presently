@@ -17,6 +17,7 @@ Presently lets you:
 ⁕ Find motivation through quotes and prompts
 ⁕ Set daily reminders to continue your gratitude practice
 ⁕ Search your old entries
+⁕ Lock your entries with fingerprint or face id
 ⁕ Share your entries with family and friends
 ⁕ Export/import your entries
 ⁕ Switch to your favorite color scheme
@@ -35,6 +36,7 @@ Avec Presently, vous pouvez:
 ⁕ Trouver la motivation de poursuivre, grâce à des citations et des questions-guides
 ⁕ Mettre en place un rappel quotidien pour continuer à vous entraîner à la gratitude
 ⁕ Effectuer une recherche dans vos enregistrements passés
+⁕ Verrouillez vos entrées avec l'empreinte digitale ou l'identifiant du visage
 ⁕ Partager vos enregistremenets avec votre famille, vos amis, vos amies.
 ⁕ Exporter et importer vos enregistrements
 ⁕ Choisir un thème visuel à votre goût
@@ -53,6 +55,7 @@ Presently ermöglicht dir folgendes:
 ⁕ Lass dich durch Zitate und Meldungen motivieren
 ⁕ Erstelle tägliche Erinnerungen um deine Dankbarkeitsübung fortzusetzen
 ⁕ Durchsuche deine alten Einträge
+⁕ Sperren Sie Ihre Eingaben mit Fingerabdruck oder Gesichts-ID
 ⁕ Teile deine Einträge mit deiner Familie und deinen Freunden
 ⁕ Exportiere oder importiere deine Einträge
 ⁕ Passe das Aussehen der App ganz nach deinem Geschmack an
@@ -71,6 +74,7 @@ Presently позволит вам:
 ⁕ Найти мотивацию с помощью цитат и подсказок
 ⁕ Установить ежедневные напоминания, чтобы продолжать практику благодарности
 ⁕ Искать ваши старые записи
+⁕ Заблокируйте свои записи с помощью отпечатка пальца или идентификатора лица
 ⁕ Поделиться своими записями с семьей и друзьями
 ⁕ Делать резервные копии и импортировать ваши записи
 ⁕ Настроить внешний вид приложения на свой вкус
@@ -88,6 +92,7 @@ Tällä hetkellä voit:
 ⁕ Mieti takaisin menneistä kiitollisuutesi hetkistä ⁕ Löydä motivaatio tarjousten ja ohjeiden avulla
 ⁕ Aseta päivittäiset muistutukset jatkaaksesi kiitollisuusharjoitteluasi
 ⁕ Etsi vanhoista merkinnöistäsi
+⁕ Lukitse merkinnät sormenjälkillä tai kasvotunnuksella
 ⁕ Jaa merkinnät perheen ja ystävien kanssa 
 ⁕ Vie / tuo merkinnät 
 ⁕ Vaihda suosikki värimallisi
@@ -104,6 +109,7 @@ Con Presently puoi:
 ⁕ Trovare ispirazione e motivazione grazie una raccolta di idee e citazioni
 ⁕ Impostare un promemoria per mantenere l'abitudine alla gratitudine
 ⁕ Cercare nel testo del tuo diario
+⁕ Blocca le voci con impronta digitale o ID viso
 ⁕ Condividere il tuo diario con amici e familiari
 ⁕ Esportare e ripristina il tuo diario 
 ⁕ Scegliere lo schema di colori che preferisci
@@ -122,6 +128,7 @@ Presently pozwala Ci:
 ⁕ odnaleźć inspirację dzięki podpowiedziom i cytatom
 ⁕ ustawić przypomnienie, by nie zapomnieć o ćwiczeniu wdzięczności
 ⁕ przeszukiwać poprzednie wpisy
+⁕ blokuj wpisy za pomocą odcisku palca lub identyfikatora twarzy
 ⁕ dzielić się wpisami z rodziną i przyjaciółmi
 ⁕ eksportować i importować wpisy
 ⁕ wybrać swój ulubiony motyw
@@ -140,6 +147,7 @@ V súčasnosti vám umožňuje:
 ⁕ Nájdite motiváciu prostredníctvom ponúk a výziev
 ⁕ Nastavte denné pripomenutia, aby ste mohli pokračovať vo svojej vďačnosti
 ⁕ Vyhľadajte svoje staré záznamy
+⁕ Zamknite svoje záznamy pomocou odtlačku prsta alebo identifikátora tváre
 ⁕ Podeľte sa o svoje príspevky s rodinou a priateľmi
 ⁕ Exportujte / importujte svoje záznamy
 ⁕ Prepnite na svoju obľúbenú farebnú schému
@@ -158,6 +166,7 @@ O Presently permite:
 ⁕ Encontrar motivação atravez de citações e sugestões
 ⁕ Criar lembretes diários para continuar a tua prática de gratidãopractice
 ⁕ Procurar os teus registos antigos
+⁕ Bloqueie suas entradas com impressão digital ou ID do rosto
 ⁕ Partilhar os teus registos com a família e amigos
 ⁕ Exportar/importar os teus registos
 ⁕ Mudar para o teu esquema de cores (tema) favorito
