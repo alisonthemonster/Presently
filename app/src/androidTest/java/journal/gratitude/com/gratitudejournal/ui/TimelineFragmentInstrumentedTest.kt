@@ -37,9 +37,9 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragmentDirections
-import journal.gratitude.com.gratitudejournal.util.clickXY
-import journal.gratitude.com.gratitudejournal.util.saveEntryBlocking
-import journal.gratitude.com.gratitudejournal.util.scroll
+import journal.gratitude.com.gratitudejournal.testUtils.clickXY
+import journal.gratitude.com.gratitudejournal.testUtils.saveEntryBlocking
+import journal.gratitude.com.gratitudejournal.testUtils.scroll
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
 import org.junit.Assert.assertTrue
@@ -130,7 +130,12 @@ class TimelineFragmentInstrumentedTest {
 
         onView(withId(R.id.cal_fab)).perform(click())
         scrollCalendarBackwardsBy(1)
-        onView(withId(R.id.compactcalendar_view)).perform(clickXY(150, 300))
+        onView(withId(R.id.compactcalendar_view)).perform(
+            clickXY(
+                150,
+                300
+            )
+        )
 
         verify(mockNavController).navigate(eq(R.id.action_timelineFragment_to_entryFragment), any())
     }

@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.util
+package journal.gratitude.com.gratitudejournal.testUtils
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -25,11 +25,15 @@ class RecyclerViewItemCountAssertion private constructor(private val matcher: Ma
     companion object {
 
         fun withItemCount(expectedCount: Int): RecyclerViewItemCountAssertion {
-            return withItemCount(`is`(expectedCount))
+            return withItemCount(
+                `is`(expectedCount)
+            )
         }
 
         fun withItemCount(matcher: Matcher<Int>): RecyclerViewItemCountAssertion {
-            return RecyclerViewItemCountAssertion(matcher)
+            return RecyclerViewItemCountAssertion(
+                matcher
+            )
         }
     }
 }

@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal
+package journal.gratitude.com.gratitudejournal.fakes
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
