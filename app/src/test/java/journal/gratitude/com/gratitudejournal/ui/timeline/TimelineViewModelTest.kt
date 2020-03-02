@@ -38,15 +38,6 @@ class TimelineViewModelTest {
     }
 
     @Test
-    fun init_calls_repository() {
-        TimelineViewModel(repository)
-
-        runBlocking {
-            verify(repository, times(1)).getEntriesFlow()
-        }
-    }
-
-    @Test
     fun init_emptyList_returnListWithTodayEntry() {
         val todayEntry = Entry(LocalDate.now(), "")
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
