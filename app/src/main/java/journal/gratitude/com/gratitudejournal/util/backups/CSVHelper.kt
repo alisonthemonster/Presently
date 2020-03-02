@@ -10,36 +10,6 @@ import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 
-/*
-* Takes in entries and creates a CSV
-*/
-suspend fun exportToCSV(timelineItems: List<TimelineItem>, file: File): CSVResult {
-    return withContext(Dispatchers.IO) {
-        try {
-            val csvWrite: CSVWriter = CSVWriterImpl(FileWriter(file))
-
-            //write header row
-            csvWrite.writeNext(arrayOf(DATE_COLUMN_HEADER, ENTRY_COLUMN_HEADER))
-
-            //write entries
-            for (item in timelineItems) {
-                if (item is Entry && item.entryContent.isNotEmpty()) {
-                    csvWrite.writeNext(
-                        arrayOf(
-                            item.entryDate.toDatabaseString(),
-                            item.entryContent
-                        )
-                    )
-                }
-            }
-            csvWrite.close()
-            CsvCreated(file)
-        } catch (exception: Exception) {
-            CsvError(exception)
-        }
-    }
-}
-
 fun parseCsv(csvReader: CSVReader): List<Entry> {
     val entries = mutableListOf<Entry>()
     val titles = csvReader.readNext()

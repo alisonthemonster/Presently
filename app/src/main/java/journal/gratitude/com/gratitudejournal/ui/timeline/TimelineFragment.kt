@@ -44,6 +44,7 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import java.io.File
+import java.io.FileWriter
 import java.io.InputStream
 import java.util.*
 import javax.inject.Inject
@@ -315,8 +316,10 @@ class TimelineFragment : DaggerFragment() {
         val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
         val file = File(dir, "PresentlyBackup$date.csv")
 
+        val fileExporter = FileExporter(CSVWriterImpl(FileWriter(file)))
+
         lifecycleScope.launch {
-            when (val result = exportToCSV(viewModel.getTimelineItems(), file)) {
+            when (val result = fileExporter.exportToCSV(viewModel.getTimelineItems(), file)) {
                 is CsvCreated -> exportCallback.onSuccess(result.file)
                 is CsvError -> exportCallback.onFailure(result.exception)
             }

@@ -9,6 +9,7 @@ import journal.gratitude.com.gratitudejournal.model.UploadError
 import journal.gratitude.com.gratitudejournal.model.UploadSuccess
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import java.io.File
+import java.io.FileWriter
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -26,7 +27,8 @@ class UploadToCloudWorker(
         val file = File.createTempFile("tempPresentlyBackup", null, context.getCacheDir())
 
         //create csv
-        val csvResult = when (val csvResult = exportToCSV(items, file)) {
+        val fileExporter = FileExporter(CSVWriterImpl(FileWriter(file)))
+        val csvResult = when (val csvResult = fileExporter.exportToCSV(items, file)) {
             is CsvCreated -> {
                 //upload to cloud
                 when (cloudProvider.uploadToCloud(csvResult.file)) {
