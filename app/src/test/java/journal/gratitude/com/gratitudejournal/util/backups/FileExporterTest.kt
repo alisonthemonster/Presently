@@ -16,8 +16,8 @@ import kotlin.test.assertTrue
 
 class FileExporterTest  {
 
-    val writer = mock<CSVWriter>()
-    val fileExporter = FileExporter(writer)
+    private val writer = mock<CSVWriter>()
+    private val fileExporter = FileExporter(writer)
 
     @Test
     fun `exportDB writes header row`() {
