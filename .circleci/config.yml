@@ -106,7 +106,7 @@ jobs:
           command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/walleye-26-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
       - run:
           name: Move unit test coverage report
-          command: mkdir -p app/build/outputs/code-coverage/unit && cp reports/testDebugUnitTest/testDebugUnitTest.exec app/build/outputs/code-coverage/unit/testDebugUnitTest.exec
+          command: mkdir -p app/build/outputs/code-coverage/unit && cp reports/testDebugUnitTest.exec app/build/outputs/code-coverage/unit/testDebugUnitTest.exec
       - run:
           name: Generate JaCoCo report
           command: ./gradlew -PciBuild=true :app:jacocoTestReport
