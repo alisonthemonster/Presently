@@ -25,14 +25,14 @@ class ThemeFragment : Fragment() {
         override fun onThemeSelected(theme: String) {
             PreferenceManager.getDefaultSharedPreferences(activity)
                 .edit()
-                .putString(THEME, theme)
+                .putString(THEME_PREF, theme)
                 .apply()
             val bundle = Bundle()
             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, theme)
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, theme)
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "theme")
             firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-            firebaseAnalytics.setUserProperty(THEME_PREF, theme)
+            firebaseAnalytics.setUserProperty(THEME, theme)
             findNavController().navigateUp()
             activity?.recreate()
         }
