@@ -186,8 +186,8 @@ O Presently permite que você:
 Presently é 100% gratuito e sem anúncios. Todas as suas anotações ficam no seu
 aparelho e sob seu comando.
 
-## Arabic احتفل بحياتك اليومية مع تطبيق برزنتلي، يومية الامتنان الالكترونية
-المجانية والخاصة.
+## Arabic
+احتفل بحياتك اليومية مع تطبيق برزنتلي، يومية الامتنان الالكترونية المجانية والخاصة.
 
 مارس الامتنان مع هذا التطبيق البسيط والمجاني و المخصص لتدوين و حفظ ادخالات امتنانك.
 
