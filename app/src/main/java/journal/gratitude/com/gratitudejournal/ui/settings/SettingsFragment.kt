@@ -65,7 +65,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             openFaq()
             true
         }
-        val theme = findPreference(THEME)
+        val theme = findPreference(THEME_PREF)
         theme.setOnPreferenceClickListener {
             openThemes()
             true
@@ -178,8 +178,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            THEME -> {
-                val theme = sharedPreferences.getString(THEME, "original")
+            THEME_PREF -> {
+                val theme = sharedPreferences.getString(THEME_PREF, "original")
                 val bundle = Bundle()
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, theme)
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, theme)
@@ -302,7 +302,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val FINGERPRINT = "fingerprint_lock"
         const val NOTIFS = "notif_parent"
         const val NOTIF_PREF_TIME = "pref_time"
-        const val THEME = "current_theme"
+        const val THEME_PREF = "current_theme"
         const val VERSION_PREF = "version"
     }
 }
