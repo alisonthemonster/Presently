@@ -2,7 +2,7 @@ ext {
     major = 1
     minor = 5
     patch = 0
-    beta = "-beta"
+    beta = ""
 
     androidCompileSdk = 28
     androidTargetSdk = 28
