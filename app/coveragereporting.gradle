@@ -29,6 +29,7 @@ def fileFilter = ['**/R.class',
                   '**/*adapter*.*',
                   '**/*Activity*.*',
                   '**/AppLockFragment*',
+                  '**/TimelineFragment*',
                   '**/calendar/*.*',]
 
 task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
@@ -97,7 +98,6 @@ def printReport(task) {
     def metrics = [:]
     metrics << [
             'instruction': percentage(counters.find { it.'@type'.equals('INSTRUCTION') }),
-            'complexity' : percentage(counters.find { it.'@type'.equals('COMPLEXITY') }),
             'line'       : percentage(counters.find { it.'@type'.equals('LINE') }),
             'method'     : percentage(counters.find { it.'@type'.equals('METHOD') }),
             'class'      : percentage(counters.find { it.'@type'.equals('CLASS') })
@@ -110,7 +110,6 @@ def printReport(task) {
     def minTestCoverage = [
             'instruction': 80,
             'line'       : 80,
-            'complexity' : 50,
             'method'     : 80,
             'class'      : 80
     ]
