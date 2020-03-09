@@ -46,7 +46,7 @@
     <string name="time_title">Ajuste as Notificações do Lembrete</string>
     <string name="theme_change">Mude o tema do Presently</string>
     <string name="notifs_off">Lembrete diário desligado</string>
-    <string name="notifs_off">Lembrete diário ligado</string>
+    <string name="notifs_on">Lembrete diário ligado</string>
     <string name="notifs">Lembretes Diários</string>
     <string name="notifs_name">Notificações</string>
     <string name="appearance">Aparência</string>
