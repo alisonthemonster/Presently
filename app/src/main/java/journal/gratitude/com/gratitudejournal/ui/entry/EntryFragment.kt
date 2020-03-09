@@ -31,10 +31,16 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.preference.PreferenceManager
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.milestones
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.BACKUP_CADENCE
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
+import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import java.util.concurrent.TimeUnit
 
 
@@ -50,8 +56,8 @@ class EntryFragment : DaggerFragment() {
     private val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = EntryFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
@@ -117,15 +123,28 @@ class EntryFragment : DaggerFragment() {
 
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle)
                 if (milestones.contains(numEntries + 1)) {
-                    CelebrateDialogFragment.newInstance(numEntries + 1).show(fragmentManager!!, "CelebrateDialogFragment")
+                    CelebrateDialogFragment.newInstance(numEntries + 1)
+                        .show(fragmentManager!!, "CelebrateDialogFragment")
                 }
             } else {
                 firebaseAnalytics.logEvent(EDITED_EXISTING_ENTRY, null)
             }
 
             viewModel.addNewEntry()
-            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            val imm =
+                activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
             imm?.hideSoftInputFromWindow(entry_text.windowToken, 0)
+
+            val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity)
+            val accessToken = sharedPrefs.getString("access-token", null)
+            val cadence = sharedPrefs.getString(BACKUP_CADENCE, "0") ?: "0"
+            if (accessToken != null && cadence == "2") {
+                val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
+                    .addTag(DropboxUploader.PRESENTLY_BACKUP)
+                    .build()
+                WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
+            }
+
             findNavController().navigateUp()
         }
 

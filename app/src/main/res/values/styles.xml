@@ -6,7 +6,7 @@
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:colorPrimary">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/text_color</item>
         <item name="android:textColorPrimary">@color/colorAccent</item>
         <item name="android:textColorSecondary">@color/colorAccentLight</item>
         <item name="android:textColorHighlight">@color/colorAccentLight</item>
@@ -42,7 +42,6 @@
         <item name="colorAccent">@color/sunsetAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/sunsetPrimaryColor</item>
         <item name="android:colorBackground">@color/sunsetBackgroundColor</item>
-        <item name="android:textColor">@color/sunsetPrimaryColor</item>
         <item name="android:colorPrimary">@color/sunsetToolbarColor</item>
         <item name="android:textColorPrimary">@color/sunsetSecondaryTextColor</item>
         <item name="android:textColorSecondary">@color/sunsetLighterTextColor</item>
@@ -58,7 +57,6 @@
         <item name="colorAccent">@color/moonlightAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/moonlightMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/moonlightBackgroundColor</item>
-        <item name="android:textColor">@color/moonlightMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/moonlightToolbarColor</item>
         <item name="android:textColorPrimary">@color/moonlightDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/moonlightHintQuoteTextColor</item>
@@ -74,7 +72,6 @@
         <item name="colorAccent">@color/dawnAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/dawnMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/dawnBackgroundColor</item>
-        <item name="android:textColor">@color/dawnMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/dawnToolbarColor</item>
         <item name="android:textColorPrimary">@color/dawnDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/dawnHintQuoteTextColor</item>
@@ -90,7 +87,6 @@
         <item name="colorAccent">@color/midnightAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/midnightMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/midnightBackgroundColor</item>
-        <item name="android:textColor">@color/midnightMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/midnightToolbarColor</item>
         <item name="android:textColorPrimary">@color/midnightDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/midnightHintQuoteTextColor</item>
@@ -106,7 +102,6 @@
         <item name="colorAccent">@color/ivyAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/ivyMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/ivyBackgroundColor</item>
-        <item name="android:textColor">@color/ivyMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/ivyToolbarColor</item>
         <item name="android:textColorPrimary">@color/ivyDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/ivyHintQuoteTextColor</item>
@@ -124,7 +119,6 @@
         <item name="colorAccent">@color/wesleyAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/wesleyHeaderColor</item>
         <item name="android:colorBackground">@color/wesleyBackgroundColor</item>
-        <item name="android:textColor">@color/wesleyMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/wesleyToolbarColor</item>
         <item name="android:textColorPrimary">@color/wesleyDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/wesleyHintQuoteTextColor</item>
@@ -142,7 +136,6 @@
         <item name="colorAccent">@color/mossAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/mossMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/mossBackgroundColor</item>
-        <item name="android:textColor">@color/mossMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/mossToolbarColor</item>
         <item name="android:textColorPrimary">@color/mossDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/mossHintQuoteTextColor</item>
@@ -158,7 +151,6 @@
         <item name="colorAccent">@color/cleanAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/cleanMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/cleanBackgroundColor</item>
-        <item name="android:textColor">@color/cleanMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/cleanToolbarColor</item>
         <item name="android:textColorPrimary">@color/cleanDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/cleanHintQuoteTextColor</item>
@@ -174,7 +166,6 @@
         <item name="colorAccent">@color/glacierAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/glacierHeaderColor</item>
         <item name="android:colorBackground">@color/glacierBackgroundColor</item>
-        <item name="android:textColor">@color/glacierMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/glacierToolbarColor</item>
         <item name="android:textColorPrimary">@color/glacierDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/glacierHintQuoteTextColor</item>
@@ -190,7 +181,6 @@
         <item name="colorAccent">@color/gelatoAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/gelatoMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/gelatoBackgroundColor</item>
-        <item name="android:textColor">@color/gelatoMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/gelatoToolbarColor</item>
         <item name="android:textColorPrimary">@color/gelatoDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/gelatoHintQuoteTextColor</item>
@@ -206,7 +196,6 @@
         <item name="colorAccent">@color/wavesAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/wavesMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/wavesBackgroundColor</item>
-        <item name="android:textColor">@color/wavesMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/wavesToolbarColor</item>
         <item name="android:textColorPrimary">@color/wavesDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/wavesHintQuoteTextColor</item>
@@ -222,7 +211,6 @@
         <item name="colorAccent">@color/beachAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/beachMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/beachBackgroundColor</item>
-        <item name="android:textColor">@color/beachMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/beachToolbarColor</item>
         <item name="android:textColorPrimary">@color/beachDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/beachHintQuoteTextColor</item>
@@ -238,7 +226,6 @@
         <item name="colorAccent">@color/fieldAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/fieldMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/fieldBackgroundColor</item>
-        <item name="android:textColor">@color/fieldMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/fieldToolbarColor</item>
         <item name="android:textColorPrimary">@color/fieldDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/fieldHintQuoteTextColor</item>
@@ -254,7 +241,6 @@
         <item name="colorAccent">@color/westernAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/westernMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/westernBackgroundColor</item>
-        <item name="android:textColor">@color/westernMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/westernToolbarColor</item>
         <item name="android:textColorPrimary">@color/westernDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/westernHintQuoteTextColor</item>
@@ -270,7 +256,6 @@
         <item name="colorAccent">@color/sunlightAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/sunlightMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/sunlightBackgroundColor</item>
-        <item name="android:textColor">@color/sunlightMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/sunlightToolbarColor</item>
         <item name="android:textColorPrimary">@color/sunlightDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/sunlightHintQuoteTextColor</item>
@@ -286,7 +271,6 @@
         <item name="colorAccent">@color/tulipAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/tulipMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/tulipBackgroundColor</item>
-        <item name="android:textColor">@color/tulipMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/tulipToolbarColor</item>
         <item name="android:textColorPrimary">@color/tulipDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/tulipHintQuoteTextColor</item>
@@ -302,7 +286,6 @@
         <item name="colorAccent">@color/rosieAndroidWidgetColor</item>
         <item name="android:colorAccent">@color/rosieMainTextAndButtonColor</item>
         <item name="android:colorBackground">@color/rosieBackgroundColor</item>
-        <item name="android:textColor">@color/rosieMainTextAndButtonColor</item>
         <item name="android:colorPrimary">@color/rosieToolbarColor</item>
         <item name="android:textColorPrimary">@color/rosieDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/rosieHintQuoteTextColor</item>

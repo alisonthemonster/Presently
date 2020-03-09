@@ -11,9 +11,9 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.model.NOTIF_TIME
 import journal.gratitude.com.gratitudejournal.model.THEME
 import journal.gratitude.com.gratitudejournal.model.Theme
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.THEME_PREF
 import kotlinx.android.synthetic.main.fragment_theme.*
 
 
@@ -25,7 +25,7 @@ class ThemeFragment : Fragment() {
         override fun onThemeSelected(theme: String) {
             PreferenceManager.getDefaultSharedPreferences(activity)
                 .edit()
-                .putString("current_theme", theme)
+                .putString(THEME_PREF, theme)
                 .apply()
             val bundle = Bundle()
             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, theme)

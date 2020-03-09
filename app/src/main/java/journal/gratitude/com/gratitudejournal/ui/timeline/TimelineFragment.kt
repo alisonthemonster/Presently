@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.crashlytics.android.Crashlytics
@@ -35,15 +37,15 @@ import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.IS_NEW_ENTRY
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.NUM_ENTRIES
-import journal.gratitude.com.gratitudejournal.util.backups.ExportCallback
-import journal.gratitude.com.gratitudejournal.util.backups.exportDB
-import journal.gratitude.com.gratitudejournal.util.backups.parseCsv
+import journal.gratitude.com.gratitudejournal.util.backups.*
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.android.synthetic.main.timeline_fragment.*
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
 import java.io.File
+import java.io.FileWriter
 import java.io.InputStream
-import java.lang.NullPointerException
 import java.util.*
 import javax.inject.Inject
 
@@ -234,10 +236,7 @@ class TimelineFragment : DaggerFragment() {
             MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL -> {
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    exportDB(
-                        viewModel.entries.value
-                            ?: emptyList(), exportCallback
-                    )
+                    performExport()
                 } else {
                     Toast.makeText(context, R.string.permission_export, Toast.LENGTH_SHORT).show()
                 }
@@ -260,7 +259,8 @@ class TimelineFragment : DaggerFragment() {
                                 importFromCsv(inputStream)
                             } else {
                                 Crashlytics.logException(NullPointerException("inputStream is null, uri: $uri"))
-                                Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT)
+                                    .show()
                             }
                         }
                     } else {
@@ -275,7 +275,8 @@ class TimelineFragment : DaggerFragment() {
     private fun importFromCsv(inputStream: InputStream) {
         // parse file to get List<Entry>
         try {
-            val entries = parseCsv(inputStream)
+            val csvReader = CSVReaderImpl(inputStream.bufferedReader())
+            val entries = parseCsv(csvReader)
             viewModel.addEntries(entries)
             firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
         } catch (exception: Exception) {
@@ -287,6 +288,7 @@ class TimelineFragment : DaggerFragment() {
     }
 
     private fun exportData() {
+        //TODO consolidate with other exportDB calls
 
         val permission = ActivityCompat.checkSelfPermission(
             activity!!,
@@ -299,11 +301,28 @@ class TimelineFragment : DaggerFragment() {
                 MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
             )
         } else {
-            firebaseAnalytics.logEvent(EXPORTED_DATA, null)
-            exportDB(
-                viewModel.entries.value
-                    ?: emptyList(), exportCallback
-            )
+            performExport()
+        }
+    }
+
+    private fun performExport() {
+        firebaseAnalytics.logEvent(EXPORTED_DATA, null)
+
+        val dir =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        if (!dir.exists()) {
+            dir.mkdir()
+        }
+        val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
+        val file = File(dir, "PresentlyBackup$date.csv")
+
+        val fileExporter = FileExporter(CSVWriterImpl(FileWriter(file)))
+
+        lifecycleScope.launch {
+            when (val result = fileExporter.exportToCSV(viewModel.getTimelineItems(), file)) {
+                is CsvCreated -> exportCallback.onSuccess(result.file)
+                is CsvError -> exportCallback.onFailure(result.exception)
+            }
         }
     }
 
@@ -370,8 +389,9 @@ class TimelineFragment : DaggerFragment() {
                 }.show()
         }
 
-        override fun onFailure(message: String) {
-            Toast.makeText(context, "Error : $message", Toast.LENGTH_SHORT).show()
+        override fun onFailure(exception: Exception) {
+            Crashlytics.logException(exception)
+            Toast.makeText(context, "Error : ${exception.message}", Toast.LENGTH_SHORT).show()
         }
     }
 

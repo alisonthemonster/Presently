@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.util
+package journal.gratitude.com.gratitudejournal.testUtils
 
 import android.view.View
 import androidx.test.espresso.UiController

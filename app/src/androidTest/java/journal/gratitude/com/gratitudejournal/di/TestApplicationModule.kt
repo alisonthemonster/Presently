@@ -2,7 +2,7 @@ package journal.gratitude.com.gratitudejournal.di
 
 import dagger.Module
 import dagger.Provides
-import journal.gratitude.com.gratitudejournal.FakeEntryRepository
+import journal.gratitude.com.gratitudejournal.fakes.FakeEntryRepository
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import javax.inject.Singleton
 
@@ -11,6 +11,7 @@ class TestApplicationModule {
 
     @Singleton
     @Provides
-    fun provideRepository(): EntryRepository = FakeEntryRepository()
+    fun provideRepository(): EntryRepository =
+        FakeEntryRepository()
 
 }

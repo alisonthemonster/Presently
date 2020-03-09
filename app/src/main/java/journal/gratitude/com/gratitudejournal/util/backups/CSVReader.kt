@@ -28,13 +28,19 @@ import java.io.IOException
 import java.io.Reader
 import java.util.ArrayList
 
+interface CSVReader {
+    fun readNext(): Array<String>?
+
+    fun hasNext(): Boolean
+
+    fun close()
+}
+
 /**
  * A very simple CSV reader released under a commercial-friendly license.
  *
  * @author Glen Smith
- */
-class CSVReader
-/**
+ *
  * Constructs CSVReader with supplied separator and quote char.
  *
  * @param reader
@@ -46,16 +52,15 @@ class CSVReader
  * @param line
  * the line number to skip for start reading
  */
-@JvmOverloads constructor(
-    reader: Reader,
-    private val separator: Char = DEFAULT_SEPARATOR,
-    private val quotechar: Char = DEFAULT_QUOTE_CHARACTER,
-    private val skipLines: Int = DEFAULT_SKIP_LINES
-) {
+class CSVReaderImpl(reader: Reader,
+                    private val separator: Char = DEFAULT_SEPARATOR,
+                    private val quotechar: Char = DEFAULT_QUOTE_CHARACTER,
+                    private val skipLines: Int = DEFAULT_SKIP_LINES
+): CSVReader {
 
     private val br: BufferedReader = BufferedReader(reader)
 
-    var hasNext = true
+    private var hasNext = true
 
     private var linesSkiped: Boolean = false
 
@@ -92,7 +97,7 @@ class CSVReader
      * if bad things happen during the read
      */
     @Throws(IOException::class)
-    fun readNext(): Array<String>? {
+    override fun readNext(): Array<String>? {
 
         val nextLine = nextLine
         return if (hasNext) parseLine(nextLine) else null
@@ -173,25 +178,30 @@ class CSVReader
      * @throws IOException if the close fails
      */
     @Throws(IOException::class)
-    fun close() {
+    override fun close() {
         br.close()
+    }
+
+    override fun hasNext(): Boolean {
+        return hasNext
     }
 
     companion object {
 
         /** The default separator to use if none is supplied to the constructor.  */
-        val DEFAULT_SEPARATOR = ','
+        const val DEFAULT_SEPARATOR = ','
 
         /**
          * The default quote character to use if none is supplied to the
          * constructor.
          */
-        val DEFAULT_QUOTE_CHARACTER = '"'
+        const val DEFAULT_QUOTE_CHARACTER = '"'
 
         /**
          * The default line to start reading.
          */
-        val DEFAULT_SKIP_LINES = 0
-    }
+        const val DEFAULT_SKIP_LINES = 0
 
+        const val INITIAL_READ_SIZE = 128
+    }
 }

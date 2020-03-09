@@ -29,10 +29,10 @@ import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
-import journal.gratitude.com.gratitudejournal.util.getText
-import journal.gratitude.com.gratitudejournal.util.isEditTextValueEqualTo
-import journal.gratitude.com.gratitudejournal.util.saveEntryBlocking
-import journal.gratitude.com.gratitudejournal.util.waitFor
+import journal.gratitude.com.gratitudejournal.testUtils.getText
+import journal.gratitude.com.gratitudejournal.testUtils.isEditTextValueEqualTo
+import journal.gratitude.com.gratitudejournal.testUtils.saveEntryBlocking
+import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import junit.framework.Assert.assertEquals
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
@@ -190,14 +190,19 @@ class EntryFragmentInstrumentedTest {
             themeResId = R.style.AppTheme
         )
 
-        val quote =  getText(withId(R.id.inspiration))
+        val quote =
+            getText(withId(R.id.inspiration))
 
         onView(withId(R.id.inspiration)).perform(longClick())
         onView(withId(R.id.entry_text)).perform(click())
         UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressKeyCode(KeyEvent.KEYCODE_V, KeyEvent.META_CTRL_MASK)
 
 
-        onView(withId(R.id.entry_text)).check(matches(isEditTextValueEqualTo(quote)))
+        onView(withId(R.id.entry_text)).check(matches(
+            isEditTextValueEqualTo(
+                quote
+            )
+        ))
     }
 
     @Test

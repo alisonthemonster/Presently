@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
@@ -15,6 +14,8 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FINGERPRINT
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.THEME_PREF
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
 import java.util.*
@@ -27,7 +28,7 @@ class ContainerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-        val currentTheme = sharedPref.getString("current_theme", "original") ?: "original"
+        val currentTheme = sharedPref.getString(THEME_PREF, "original") ?: "original"
         setAppTheme(currentTheme)
 
         super.onCreate(savedInstanceState)
@@ -71,7 +72,7 @@ class ContainerActivity : AppCompatActivity() {
         super.onStart()
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-        val fingerprintLock = sharedPref.getBoolean("fingerprint_lock", false)
+        val fingerprintLock = sharedPref.getBoolean(FINGERPRINT, false)
         if (fingerprintLock) {
             val lastDestroyTime =
                 sharedPref.getLong("last_destroy_time", -1L) //check this default makes sense
@@ -94,7 +95,7 @@ class ContainerActivity : AppCompatActivity() {
         super.onPause()
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-        val fingerprintLock = sharedPref.getBoolean("fingerprint_lock", false)
+        val fingerprintLock = sharedPref.getBoolean(FINGERPRINT, false)
         if (fingerprintLock) {
             val date = Date(System.currentTimeMillis())
             sharedPref.edit().putLong("last_destroy_time", date.time).apply()

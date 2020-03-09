@@ -9,24 +9,36 @@ import android.view.View
 import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.preference.ListPreference
 import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.crashlytics.android.Crashlytics
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.dropbox.core.android.Auth
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader.Companion.PRESENTLY_BACKUP
+import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
+import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
+
 
 class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,6 +47,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         val privacy = findPreference("privacy_policy")
@@ -52,7 +65,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             openFaq()
             true
         }
-        val theme = findPreference("current_theme")
+        val theme = findPreference(THEME_PREF)
         theme.setOnPreferenceClickListener {
             openThemes()
             true
@@ -63,19 +76,98 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
 
-        val version = findPreference("version")
-        version.summary = BuildConfig.VERSION_NAME
+        val version = findPreference(VERSION_PREF)
+        val versionNum = BuildConfig.VERSION_NAME
+        version.summary = versionNum
+        val backupCategory = findPreference(BACKUP_CATEGORY) as PreferenceCategory
+        val dropbox = findPreference(BACKUP_TOKEN)
+        val cadencePref = (findPreference(BACKUP_CADENCE) as ListPreference)
 
-        val fingerprint = findPreference("fingerprint_lock")
-        val canAuthenticateUsingFingerPrint  = BiometricManager.from(context!!).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
+        if (versionNum.contains("-beta")) {
+            dropbox.setOnPreferenceClickListener {
+                val wantsToLogin = preferenceScreen.sharedPreferences.getBoolean(BACKUP_TOKEN, false)
+                if (!wantsToLogin) {
+                    firebaseAnalytics.setUserProperty(DROPBOX_USER, "false")
+                    lifecycleScope.launch {
+                        DropboxUploader.deauthorizeDropboxAccess(context!!)
+                    }
+                } else {
+                    firebaseAnalytics.setUserProperty(DROPBOX_USER, "true")
+                    DropboxUploader.authorizeDropboxAccess(context!!)
+                }
+                true
+            }
+
+            val cadence = preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0")
+            val index = when (cadence) {
+                "0" -> 0
+                "1" -> 1
+                else -> 2
+            }
+            cadencePref.setValueIndex(index)
+        } else {
+            firebaseAnalytics.setUserProperty(DROPBOX_USER, "false")
+            preferenceScreen.removePreference(backupCategory)
+        }
+
+        val fingerprint = findPreference(FINGERPRINT)
+        val canAuthenticateUsingFingerPrint =
+            BiometricManager.from(context!!).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
         fingerprint.parent!!.isEnabled = canAuthenticateUsingFingerPrint
 
     }
 
     override fun onResume() {
         super.onResume()
+        val prefs = preferenceScreen.sharedPreferences
+
         // Set up a listener whenever a key changes
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        prefs.registerOnSharedPreferenceChangeListener(this)
+
+        val accessToken = prefs.getString("access-token", null)
+        if (accessToken == "attempted") {
+            val token = Auth.getOAuth2Token()
+            if (token == null) {
+                //user started to auth and didn't succeed
+                prefs.edit().putBoolean(BACKUP_TOKEN, false).apply()
+                prefs.edit().remove("access-token").apply()
+                activity?.recreate()
+            } else {
+                prefs.edit().putString("access-token", token).apply()
+                createDropboxUploaderWorker("0")
+            }
+        }
+    }
+
+    private fun createDropboxUploaderWorker(cadence: String) {
+        WorkManager.getInstance(context!!).cancelAllWorkByTag(PRESENTLY_BACKUP)
+
+        when (cadence) {
+            "0" -> {
+                //every day
+                val uploadWorkRequest =
+                    PeriodicWorkRequestBuilder<UploadToCloudWorker>(1, TimeUnit.DAYS)
+                        .addTag(PRESENTLY_BACKUP)
+                        .build()
+                WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
+            }
+            "1" -> {
+                //every week
+                val uploadWorkRequest =
+                    PeriodicWorkRequestBuilder<UploadToCloudWorker>(7, TimeUnit.DAYS)
+                        .addTag(PRESENTLY_BACKUP)
+                        .build()
+                WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
+            }
+            "2" -> {
+                //every change so do an upload now
+                val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
+                    .addTag(PRESENTLY_BACKUP)
+                    .build()
+                WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
+            }
+        }
+
     }
 
     override fun onPause() {
@@ -86,8 +178,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            "current_theme" -> {
-                val theme = sharedPreferences.getString("current_theme", "original")
+            THEME_PREF -> {
+                val theme = sharedPreferences.getString(THEME_PREF, "original")
                 val bundle = Bundle()
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, theme)
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, theme)
@@ -95,7 +187,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
                 activity?.recreate()
             }
-            "notif_parent" -> {
+            NOTIFS -> {
                 val notifsTurnedOn = sharedPreferences.getBoolean(key, true)
                 if (notifsTurnedOn) {
                     NotificationScheduler().configureNotifications(context!!)
@@ -106,7 +198,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "false")
                 }
             }
-            "fingerprint_lock" -> {
+            FINGERPRINT -> {
                 val biometricsEnabled = sharedPreferences.getBoolean(key, false)
                 if (biometricsEnabled) {
                     firebaseAnalytics.logEvent(BIOMETRICS_SELECT, null)
@@ -115,6 +207,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     firebaseAnalytics.logEvent(BIOMETRICS_DESELECT, null)
                     firebaseAnalytics.setUserProperty(BIOMETRICS_ENABLED, "false")
                 }
+            }
+            BACKUP_CADENCE -> {
+                val cadence = preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0") ?: "0"
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, cadence)
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, cadence)
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "dropbox cadence")
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+                createDropboxUploaderWorker(cadence)
             }
         }
     }
@@ -192,5 +293,16 @@ class SettingsFragment : PreferenceFragmentCompat(),
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
             Crashlytics.logException(activityNotFoundException)
         }
+    }
+
+    companion object {
+        const val BACKUP_CATEGORY = "backups_category"
+        const val BACKUP_TOKEN = "dropbox_pref"
+        const val BACKUP_CADENCE = "dropbox_cadence"
+        const val FINGERPRINT = "fingerprint_lock"
+        const val NOTIFS = "notif_parent"
+        const val NOTIF_PREF_TIME = "pref_time"
+        const val THEME_PREF = "current_theme"
+        const val VERSION_PREF = "version"
     }
 }

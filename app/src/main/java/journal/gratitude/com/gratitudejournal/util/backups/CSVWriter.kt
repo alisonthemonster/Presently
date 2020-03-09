@@ -4,7 +4,14 @@ import java.io.IOException
 import java.io.PrintWriter
 import java.io.Writer
 
-class CSVWriter
+interface CSVWriter {
+    fun writeNext(nextLine: Array<String>?)
+
+    fun flush()
+
+    fun close()
+}
+
 /**
  * Constructs CSVWriter with supplied separator, quote char, escape char and line ending.
  *
@@ -19,15 +26,15 @@ class CSVWriter
  * @param lineEnd
  * the line feed terminator to use
  */
-@JvmOverloads constructor(
-        writer: Writer,
-        private val separator: Char = DEFAULT_SEPARATOR,
-        private val quotechar: Char = DEFAULT_QUOTE_CHARACTER,
-        private val escapechar: Char = DEFAULT_ESCAPE_CHARACTER,
-        private val lineEnd: String = DEFAULT_LINE_END
-) {
+class CSVWriterImpl(writer: Writer,
+                    private val separator: Char = DEFAULT_SEPARATOR,
+                    private val quotechar: Char = DEFAULT_QUOTE_CHARACTER,
+                    private val escapechar: Char = DEFAULT_ESCAPE_CHARACTER,
+                    private val lineEnd: String = DEFAULT_LINE_END
+): CSVWriter {
 
     private val pw: PrintWriter = PrintWriter(writer)
+
 
     /**
      * Writes the next line to the file.
@@ -36,8 +43,7 @@ class CSVWriter
      * a string array with each comma-separated element as a separate
      * entry.
      */
-    fun writeNext(nextLine: Array<String>?) {
-
+    override fun writeNext(nextLine: Array<String>?) {
         if (nextLine == null)
             return
 
@@ -71,7 +77,6 @@ class CSVWriter
 
         sb.append(lineEnd)
         pw.write(sb.toString())
-
     }
 
     /**
@@ -80,7 +85,7 @@ class CSVWriter
      * @throws IOException if bad things happen
      */
     @Throws(IOException::class)
-    fun flush() {
+    override fun flush() {
         pw.flush()
     }
 
@@ -90,7 +95,7 @@ class CSVWriter
      * @throws IOException if bad things happen
      */
     @Throws(IOException::class)
-    fun close() {
+    override fun close() {
         pw.flush()
         pw.close()
     }
@@ -117,6 +122,9 @@ class CSVWriter
 
         /** Default line terminator uses platform encoding.  */
         val DEFAULT_LINE_END = "\n"
+
+        val INITIAL_STRING_SIZE = 128
+
     }
 
 }

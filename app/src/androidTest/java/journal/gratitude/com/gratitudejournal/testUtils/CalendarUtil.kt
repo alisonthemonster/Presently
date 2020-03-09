@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.util
+package journal.gratitude.com.gratitudejournal.testUtils
 
 import android.view.InputDevice
 import android.view.MotionEvent
