@@ -23,6 +23,8 @@ We support several languges currently and are always looking for translators to 
 - Dagger
 - Espresso
 - Firebase Test Lab
+- WorkManager
+- Dropbox Java SDK
 
 <img src="https://i.imgur.com/Im3maBV.png" width="220">  <img src="https://i.imgur.com/O4J2yru.png" width="220">  <img src="https://i.imgur.com/TDCxl3N.png" width="220"> 
 
