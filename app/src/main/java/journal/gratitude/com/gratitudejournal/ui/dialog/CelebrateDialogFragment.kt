@@ -14,7 +14,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.CLICKED_RATE
 import journal.gratitude.com.gratitudejournal.model.CLICKED_SHARE_MILESTONE
-import kotlinx.android.synthetic.main.dialog_fragment.*
+import kotlinx.android.synthetic.main.fragment_milestone_dialog.*
 
 class CelebrateDialogFragment : DialogFragment() {
 
@@ -22,7 +22,7 @@ class CelebrateDialogFragment : DialogFragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_fragment, container)
+        return inflater.inflate(R.layout.fragment_milestone_dialog, container)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
