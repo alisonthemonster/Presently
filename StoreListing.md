@@ -192,6 +192,28 @@ O Presently permite:
 
 O Presently é 100% gratuito e sem anúncios. Todos os teus registos ficam guardados no teu dispositivo e só tu os podes controlar.
 
+## Brazilian Portuguese
+
+Presently: Um diário da gratidão
+
+Celebre seu cotidiano com Presently, um diário de gratidão livre e gratuito
+
+Treine a gratidão com este aplicativo para anotações fácil de usar, privado e
+gratuito para sempre. 
+
+O Presently permite que você:
+⁕ Salve anotações diárias de gratidão 
+⁕ Reflita sobre momentos antigos de gratidão
+⁕ Leia frases motivadoras
+⁕ Coloque lembretes diários para manter sua prática de gratidão
+⁕ Busque suas anotações antigas
+⁕ Compartilhe suas anotações com seus amigos e sua família
+⁕ Exporte/importe suas anotações
+⁕ Troque para o seu tema favorito
+
+Presently é 100% gratuito e sem anúncios. Todas as suas anotações ficam no seu
+aparelho e sob seu comando.
+
 ## Arabic
 احتفل بحياتك اليومية مع تطبيق برزنتلي، يومية الامتنان الالكترونية المجانية والخاصة.
 
