@@ -70,4 +70,11 @@
     <string name="are_you_sure">Você tem certeza que quer voltar?</string>
     <string name="unsaved_text">Sua anotação não está salva e as modificações serão perdidas!</string>
     <string name="version_number">Número da Versão</string>
+    <string name="daily">Diariamente</string>
+    <string name="weekly">Semanal</string>
+    <string name="every">Com cada mudança</string>
+    <string name="dropbox_summary_off">Faça login com sua conta do Dropbox para fazer backup automático de suas entradas</string>
+    <string name="dropbox_summary_on">O backup de suas entradas está sendo feito no Dropbox</string>
+    <string name="dropbox_setting_title">Faça backup de seus dados com o Dropbox</string>
+    <string name="dropbox_backup_frequency">Frequência de backup do Dropbox</string>
 </resources>

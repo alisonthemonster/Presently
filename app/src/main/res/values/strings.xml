@@ -74,4 +74,8 @@
     <string name="daily">Daily</string>
     <string name="weekly">Weekly</string>
     <string name="every">On every change</string>
+    <string name="dropbox_summary_off">Log in with your Dropbox account to automatically back up your entries</string>
+    <string name="dropbox_summary_on">Your entries are being backed up to Dropbox</string>
+    <string name="dropbox_setting_title">Back up your data with Dropbox</string>
+    <string name="dropbox_backup_frequency">Dropbox Backup Frequency</string>
 </resources>

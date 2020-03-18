@@ -49,7 +49,7 @@ class CelebrateDialogFragment : DialogFragment() {
             val share = Intent(Intent.ACTION_SEND)
             share.type = "text/plain"
             //TODO extract to strings.xml and translate it
-            share.putExtra(Intent.EXTRA_TEXT, "I completed $numEntries days of gratitude journaling! Join me using the Presently App.")
+            share.putExtra(Intent.EXTRA_TEXT, "I completed $numEntries days of gratitude journaling! Join me using the Presently App. #PresentlyApp")
 
             startActivity(Intent.createChooser(share, "Share your gratitude"))
         }

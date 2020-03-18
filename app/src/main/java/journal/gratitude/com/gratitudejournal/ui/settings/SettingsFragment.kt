@@ -106,7 +106,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             }
             cadencePref.setValueIndex(index)
         } else {
-            firebaseAnalytics.setUserProperty(DROPBOX_USER, "false")
             preferenceScreen.removePreference(backupCategory)
         }
 

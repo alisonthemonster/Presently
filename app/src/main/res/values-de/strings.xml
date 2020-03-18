@@ -68,4 +68,11 @@
     <string name="unsaved_text">Ihr Eintrag wird nicht gespeichert und Ihre Änderungen gehen verloren!</string>
     <string name="continue_to_exit">Weiter</string>
     <string name="version_number">Versionsnummer</string>
+    <string name="daily">Täglich</string>
+    <string name="weekly">Wöchentlich</string>
+    <string name="every">Bei jeder Änderung</string>
+    <string name="dropbox_summary_off">Melden Sie sich mit Ihrem Dropbox-Konto an, um Ihre Eingaben automatisch zu sichern</string>
+    <string name="dropbox_summary_on">Ihre Einträge werden in Dropbox gesichert</string>
+    <string name="dropbox_setting_title">Sichern Sie Ihre Daten mit Dropbox</string>
+    <string name="dropbox_backup_frequency">Dropbox-Sicherungsfrequenz</string>
 </resources>

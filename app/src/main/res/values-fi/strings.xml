@@ -69,4 +69,11 @@
     <string name="unsaved_text">Merkintääsi ei tallenneta ja muutokset menetetään!</string>
     <string name="continue_to_exit">Jatkaa</string>
     <string name="version_number">Versionumero</string>
+    <string name="daily">Päivittäin</string>
+    <string name="weekly">Viikoittain</string>
+    <string name="every">Jokaisella muutoksella</string>
+    <string name="dropbox_summary_off">Kirjaudu sisään Dropbox-tililläsi varmuuskopioidaksesi merkinnät automaattisesti</string>
+    <string name="dropbox_summary_on">Tietojesi varmuuskopiointi Dropboxiin</string>
+    <string name="dropbox_setting_title">Varmuuskopioi tietosi Dropboxilla</string>
+    <string name="dropbox_backup_frequency">Dropbox-varmuuskopiointitaajuus</string>
 </resources>

@@ -69,4 +69,11 @@
     <string name="fingerprint_error_lockout_too_many">Trop de tentatives d\'authentification biométrique. S\'il vous plait, réessayez dans quelques minutes.</string>
     <string name="continue_to_exit">Continuez</string>
     <string name="version_number">Numéro de version</string>
+    <string name="daily">Du quotidien</string>
+    <string name="weekly">Hebdomadaire</string>
+    <string name="every">A chaque changement</string>
+    <string name="dropbox_summary_off">Connectez-vous avec votre compte Dropbox pour sauvegarder automatiquement vos entrées</string>
+    <string name="dropbox_summary_on">Vos entrées sont sauvegardées sur Dropbox</string>
+    <string name="dropbox_setting_title">Sauvegardez vos données avec Dropbox</string>
+    <string name="dropbox_backup_frequency">Fréquence de sauvegarde Dropbox</string>
 </resources>

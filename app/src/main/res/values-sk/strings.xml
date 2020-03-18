@@ -72,4 +72,11 @@
     <string name="lock_setting_summary_off">Aplikácia sa môže uzamknúť pomocou biometrického skenera vášho zariadenia (ak to zariadenie podporuje).</string>
     <string name="fingerprint_error_lockout_too_many">Príliš veľa pokusov o biometrickú autentizáciu. Prosím skúste znovu o pár minút.</string>
     <string name="version_number">Číslo verzie</string>
+    <string name="daily">Denná</string>
+    <string name="weekly">Týždenné</string>
+    <string name="every">S každou zmenou</string>
+    <string name="dropbox_summary_off">Ak chcete automaticky zálohovať svoje záznamy, prihláste sa pomocou svojho účtu Dropbox</string>
+    <string name="dropbox_summary_on">Vaše záznamy sa zálohujú do Dropboxu</string>
+    <string name="dropbox_setting_title">Zálohujte si dáta pomocou Dropboxu</string>
+    <string name="dropbox_backup_frequency">Frekvencia zálohovania schránky Dropbox</string>
 </resources>

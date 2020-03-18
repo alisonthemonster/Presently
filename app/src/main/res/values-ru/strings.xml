@@ -69,4 +69,11 @@
     <string name="continue_to_exit">продолжать</string>
     <string name="fingerprint_error_lockout_too_many">Слишком много попыток биометрической аутентификации. Пожалуйста, попробуйте еще раз через несколько минут.</string>
     <string name="version_number">Номер версии</string>
+    <string name="daily">Ежедневно</string>
+    <string name="weekly">еженедельно</string>
+    <string name="every">С каждым изменением</string>
+    <string name="dropbox_summary_off">Войдите в свою учетную запись Dropbox, чтобы автоматически создавать резервные копии ваших записей</string>
+    <string name="dropbox_summary_on">Ваши записи резервируются в Dropbox</string>
+    <string name="dropbox_setting_title">Резервное копирование ваших данных с Dropbox</string>
+    <string name="dropbox_backup_frequency">Частота резервного копирования Dropbox</string>
 </resources>

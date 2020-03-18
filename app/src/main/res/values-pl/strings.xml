@@ -69,4 +69,11 @@
     <string name="lock_setting_summary_off">Presently można zablokować za pomocą skanera biometrycznego urządzenia (jeśli jest obsługiwana przez urządzenie).</string>
     <string name="fingerprint_error_lockout_too_many">Zbyt wiele prób uwierzytelnienia biometrycznego. Prosze spróbować za kilka minut.</string>
     <string name="version_number">Numer wersji</string>
+    <string name="daily">Codziennie</string>
+    <string name="weekly">Co tydzień</string>
+    <string name="every">Z każdą zmianą</string>
+    <string name="dropbox_summary_off">Zaloguj się na swoje konto Dropbox, aby automatycznie wykonać kopię zapasową wpisów</string>
+    <string name="dropbox_summary_on">Tworzone kopie zapasowe są tworzone w Dropbox</string>
+    <string name="dropbox_setting_title">Utwórz kopię zapasową danych za pomocą Dropbox</string>
+    <string name="dropbox_backup_frequency">Częstotliwość tworzenia kopii zapasowej Dropbox</string>
 </resources>
