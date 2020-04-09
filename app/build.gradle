@@ -87,8 +87,8 @@ dependencies {
     implementation "com.google.android.material:material:1.1.0-alpha07"
     implementation 'com.google.firebase:firebase-core:16.0.9'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.2.1"
+    implementation "androidx.navigation:navigation-ui-ktx:2.2.1"
     implementation 'androidx.core:core-ktx:1.0.2'
     implementation 'androidx.preference:preference:1.0.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'

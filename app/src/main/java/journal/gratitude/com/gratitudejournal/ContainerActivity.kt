@@ -136,6 +136,9 @@ class ContainerActivity : AppCompatActivity() {
             "Sunlight" -> setTheme(R.style.AppTheme_SUNLIGHT)
             "Tulip" -> setTheme(R.style.AppTheme_TULIP)
             "Rosie" -> setTheme(R.style.AppTheme_ROSIE)
+            "Daisy" -> setTheme(R.style.AppTheme_DAISY)
+            "Matisse" -> setTheme(R.style.AppTheme_MATISSE)
+            "Clouds" -> setTheme(R.style.AppTheme_CLOUDS)
             else -> setTheme(R.style.AppTheme)
         }
     }

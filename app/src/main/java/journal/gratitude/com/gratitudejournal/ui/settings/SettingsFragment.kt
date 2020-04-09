@@ -87,12 +87,13 @@ class SettingsFragment : PreferenceFragmentCompat(),
             dropbox.setOnPreferenceClickListener {
                 val wantsToLogin = preferenceScreen.sharedPreferences.getBoolean(BACKUP_TOKEN, false)
                 if (!wantsToLogin) {
+                    firebaseAnalytics.logEvent(DROPBOX_DEAUTH, null)
                     firebaseAnalytics.setUserProperty(DROPBOX_USER, "false")
                     lifecycleScope.launch {
                         DropboxUploader.deauthorizeDropboxAccess(context!!)
                     }
                 } else {
-                    firebaseAnalytics.setUserProperty(DROPBOX_USER, "true")
+                    firebaseAnalytics.logEvent(DROPBOX_AUTH_ATTEMPT, null)
                     DropboxUploader.authorizeDropboxAccess(context!!)
                 }
                 true
@@ -128,10 +129,13 @@ class SettingsFragment : PreferenceFragmentCompat(),
             val token = Auth.getOAuth2Token()
             if (token == null) {
                 //user started to auth and didn't succeed
+                firebaseAnalytics.logEvent(DROPBOX_AUTH_QUIT, null)
                 prefs.edit().putBoolean(BACKUP_TOKEN, false).apply()
                 prefs.edit().remove("access-token").apply()
                 activity?.recreate()
             } else {
+                firebaseAnalytics.logEvent(DROPBOX_AUTH_SUCCESS, null)
+                firebaseAnalytics.setUserProperty(DROPBOX_USER, "true")
                 prefs.edit().putString("access-token", token).apply()
                 createDropboxUploaderWorker("0")
             }
@@ -209,11 +213,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             }
             BACKUP_CADENCE -> {
                 val cadence = preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0") ?: "0"
-                val bundle = Bundle()
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, cadence)
-                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, cadence)
-                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "dropbox cadence")
-                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
                 createDropboxUploaderWorker(cadence)
             }
         }
