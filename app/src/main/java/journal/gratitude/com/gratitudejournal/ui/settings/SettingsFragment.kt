@@ -1,44 +1,57 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
+import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.preference.ListPreference
 import androidx.preference.Preference
-import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.crashlytics.android.Crashlytics
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.dropbox.core.android.Auth
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
+import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
+import journal.gratitude.com.gratitudejournal.util.backups.*
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader.Companion.PRESENTLY_BACKUP
-import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
+import kotlinx.android.synthetic.main.timeline_fragment.*
 import kotlinx.coroutines.launch
+import java.io.File
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 
 class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+
+    @Inject
+    lateinit var repository: EntryRepository
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,35 +92,43 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val version = findPreference(VERSION_PREF)
         val versionNum = BuildConfig.VERSION_NAME
         version.summary = versionNum
-        val backupCategory = findPreference(BACKUP_CATEGORY) as PreferenceCategory
         val dropbox = findPreference(BACKUP_TOKEN)
         val cadencePref = (findPreference(BACKUP_CADENCE) as ListPreference)
 
-        if (versionNum.contains("-beta")) {
-            dropbox.setOnPreferenceClickListener {
-                val wantsToLogin = preferenceScreen.sharedPreferences.getBoolean(BACKUP_TOKEN, false)
-                if (!wantsToLogin) {
-                    firebaseAnalytics.logEvent(DROPBOX_DEAUTH, null)
-                    firebaseAnalytics.setUserProperty(DROPBOX_USER, "false")
-                    lifecycleScope.launch {
-                        DropboxUploader.deauthorizeDropboxAccess(context!!)
-                    }
-                } else {
-                    firebaseAnalytics.logEvent(DROPBOX_AUTH_ATTEMPT, null)
-                    DropboxUploader.authorizeDropboxAccess(context!!)
-                }
-                true
-            }
 
-            val cadence = preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0")
-            val index = when (cadence) {
-                "0" -> 0
-                "1" -> 1
-                else -> 2
+        dropbox.setOnPreferenceClickListener {
+            val wantsToLogin = preferenceScreen.sharedPreferences.getBoolean(BACKUP_TOKEN, false)
+            if (!wantsToLogin) {
+                firebaseAnalytics.logEvent(DROPBOX_DEAUTH, null)
+                firebaseAnalytics.setUserProperty(DROPBOX_USER, "false")
+                lifecycleScope.launch {
+                    DropboxUploader.deauthorizeDropboxAccess(context!!)
+                }
+            } else {
+                firebaseAnalytics.logEvent(DROPBOX_AUTH_ATTEMPT, null)
+                DropboxUploader.authorizeDropboxAccess(context!!)
             }
-            cadencePref.setValueIndex(index)
-        } else {
-            preferenceScreen.removePreference(backupCategory)
+            true
+        }
+
+        val cadence = preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0")
+        val index = when (cadence) {
+            "0" -> 0
+            "1" -> 1
+            else -> 2
+        }
+        cadencePref.setValueIndex(index)
+
+        val oneTimeExport = findPreference(ONE_TIME_EXPORT_PREF)
+        oneTimeExport.setOnPreferenceClickListener {
+            exportToCsv()
+            true
+        }
+
+        val import = findPreference(IMPORT_PREF)
+        import.setOnPreferenceClickListener {
+            importFromCsv()
+            true
         }
 
         val fingerprint = findPreference(FINGERPRINT)
@@ -212,7 +233,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 }
             }
             BACKUP_CADENCE -> {
-                val cadence = preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0") ?: "0"
+                val cadence =
+                    preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0") ?: "0"
                 createDropboxUploaderWorker(cadence)
             }
         }
@@ -233,6 +255,26 @@ class SettingsFragment : PreferenceFragmentCompat(),
             dialogFragment.show(this.fragmentManager!!, "DIALOG")
         } else {
             super.onDisplayPreferenceDialog(preference)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
+        when (requestCode) {
+            //TODO move constants
+            TimelineFragment.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    performExport()
+                } else {
+                    Toast.makeText(context, R.string.permission_export, Toast.LENGTH_SHORT).show()
+                }
+                return
+            }
+            else -> {
+            }
         }
     }
 
@@ -293,6 +335,94 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
     }
 
+    private fun exportToCsv() {
+        val permission = ActivityCompat.checkSelfPermission(
+            activity!!,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                TimelineFragment.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
+            )
+        } else {
+            performExport()
+        }
+    }
+
+    private fun performExport() {
+        firebaseAnalytics.logEvent(EXPORTED_DATA, null)
+
+        lifecycleScope.launch {
+            when (val csvResult = LocalExporter.exportToCSV(repository)) {
+                is CsvError -> exportCallback.onFailure(csvResult.exception)
+                is CsvCreated -> exportCallback.onSuccess(csvResult.file)
+            }
+        }
+    }
+
+    private fun importFromCsv() {
+        val alertDialog: AlertDialog? = activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.apply {
+                setTitle(R.string.import_data_dialog)
+                setMessage(R.string.import_data_dialog_message)
+                setPositiveButton(R.string.ok) { dialog, id ->
+                    selectCSVFile()
+                }
+                setNegativeButton(R.string.cancel) { _, _ -> }
+            }
+            // Create the AlertDialog
+            builder.create()
+        }
+        alertDialog?.show()
+    }
+
+    private fun selectCSVFile() {
+        firebaseAnalytics.logEvent(LOOKED_FOR_DATA, null)
+
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "text/csv|text/comma-separated-values|application/csv"
+        val mimeTypes = arrayOf("text/comma-separated-values", "text/csv")
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+
+        try {
+            startActivityForResult(Intent.createChooser(intent, "Select"),
+                TimelineFragment.IMPORT_CSV
+            )
+        } catch (ex: ActivityNotFoundException) {
+            Crashlytics.logException(ex)
+            Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private val exportCallback: ExportCallback = object : ExportCallback {
+        override fun onSuccess(file: File) {
+            Snackbar.make(container, R.string.export_success, Snackbar.LENGTH_LONG)
+                .setAction(R.string.open) {
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        val apkURI = FileProvider.getUriForFile(
+                            context!!,
+                            context?.applicationContext?.packageName + ".provider", file
+                        )
+                        intent.setDataAndType(apkURI, "text/csv")
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        Crashlytics.logException(e)
+                        Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
+                    }
+                }.show()
+        }
+
+        override fun onFailure(exception: Exception) {
+            Crashlytics.logException(exception)
+            Toast.makeText(context, "Error : ${exception.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     companion object {
         const val BACKUP_CATEGORY = "backups_category"
         const val BACKUP_TOKEN = "dropbox_pref"
@@ -302,5 +432,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val NOTIF_PREF_TIME = "pref_time"
         const val THEME_PREF = "current_theme"
         const val VERSION_PREF = "version"
+        const val ONE_TIME_EXPORT_PREF = "one_time_export"
+        const val IMPORT_PREF = "import_entries"
     }
 }

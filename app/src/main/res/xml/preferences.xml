@@ -50,6 +50,18 @@
             android:key="dropbox_cadence"
             android:summary="%s"
             android:title="@string/dropbox_backup_frequency" />
+
+        <Preference
+            android:icon="@drawable/ic_katie"
+            android:key="one_time_export"
+            android:summary="@string/one_time_export_summary"
+            android:title="@string/one_time_export" />
+
+        <Preference
+            android:icon="@drawable/ic_tulip"
+            android:key="import_entries"
+            android:summary="@string/import_summary"
+            android:title="@string/import_entries_from_backup" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/security">
