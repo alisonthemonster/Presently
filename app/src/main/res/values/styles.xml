@@ -342,6 +342,51 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
+    <style name="AppTheme.MONSTERA" parent="AppTheme">
+        <item name="colorAccent">@color/monsteraAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/monsteraMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/monsteraBackgroundColor</item>
+        <item name="android:colorPrimary">@color/monsteraToolbarColor</item>
+        <item name="android:textColorPrimary">@color/monsteraDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/monsteraHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/monsteraHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/monsteraToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/monsteraTimelineColor</item>
+        <item name="android:statusBarColor">@color/monsteraStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_monstera</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.LOTUS" parent="AppTheme">
+        <item name="colorAccent">@color/lotusAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/lotusMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/lotusBackgroundColor</item>
+        <item name="android:colorPrimary">@color/lotusToolbarColor</item>
+        <item name="android:textColorPrimary">@color/lotusDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/lotusHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/lotusHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/lotusToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/lotusTimelineColor</item>
+        <item name="android:statusBarColor">@color/lotusStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_lotus</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.KATIE" parent="AppTheme">
+        <item name="colorAccent">@color/katieAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/katieMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/katieBackgroundColor</item>
+        <item name="android:colorPrimary">@color/katieToolbarColor</item>
+        <item name="android:textColorPrimary">@color/katieDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/katieHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/katieHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/katieToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/katieTimelineColor</item>
+        <item name="android:statusBarColor">@color/katieStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_katie</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
     <style name="TextAppearance.Title" parent="android:TextAppearance">
         <item name="android:textSize">36sp</item>
         <item name="fontPath">fonts/value-serif.ttf</item>

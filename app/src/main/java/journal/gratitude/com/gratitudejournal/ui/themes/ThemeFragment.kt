@@ -80,6 +80,15 @@ class ThemeFragment : Fragment() {
                 true
             ),
             Theme(
+                "Tulip",
+                ContextCompat.getColor(context!!, R.color.tulipToolbarColor),
+                ContextCompat.getColor(context!!, R.color.tulipBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.tulipToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.tulipMainTextAndButtonColor),
+                R.drawable.ic_tulip,
+                true
+            ),
+            Theme(
                 "Waves",
                 ContextCompat.getColor(context!!, R.color.wavesToolbarColor),
                 ContextCompat.getColor(context!!, R.color.wavesBackgroundColor),
@@ -88,13 +97,12 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_wave
             ),
             Theme(
-                "Tulip",
-                ContextCompat.getColor(context!!, R.color.tulipToolbarColor),
-                ContextCompat.getColor(context!!, R.color.tulipBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.tulipToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.tulipMainTextAndButtonColor),
-                R.drawable.ic_tulip,
-                true
+                "Midnight",
+                ContextCompat.getColor(context!!, R.color.midnightToolbarColor),
+                ContextCompat.getColor(context!!, R.color.midnightBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.midnightToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.midnightMainTextAndButtonColor),
+                R.drawable.ic_moon
             ),
             Theme(
                 "Sunlight",
@@ -106,20 +114,20 @@ class ThemeFragment : Fragment() {
                 true
             ),
             Theme(
-                "Beach",
-                ContextCompat.getColor(context!!, R.color.beachToolbarColor),
-                ContextCompat.getColor(context!!, R.color.beachBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.beachToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.beachMainTextAndButtonColor),
-                R.drawable.ic_shell
+                "Matisse",
+                ContextCompat.getColor(context!!, R.color.matisseToolbarColor),
+                ContextCompat.getColor(context!!, R.color.matisseBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.matisseToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.matisseMainTextAndButtonColor),
+                R.drawable.ic_matisse
             ),
             Theme(
-                "Midnight",
-                ContextCompat.getColor(context!!, R.color.midnightToolbarColor),
-                ContextCompat.getColor(context!!, R.color.midnightBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.midnightToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.midnightMainTextAndButtonColor),
-                R.drawable.ic_moon
+                "Monstera",
+                ContextCompat.getColor(context!!, R.color.monsteraToolbarColor),
+                ContextCompat.getColor(context!!, R.color.monsteraBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.monsteraToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.monsteraMainTextAndButtonColor),
+                R.drawable.ic_monstera
             ),
             Theme(
                 "Wesley",
@@ -130,12 +138,29 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_cube
             ),
             Theme(
+                "Beach",
+                ContextCompat.getColor(context!!, R.color.beachToolbarColor),
+                ContextCompat.getColor(context!!, R.color.beachBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.beachToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.beachMainTextAndButtonColor),
+                R.drawable.ic_shell
+            ),
+            Theme(
                 "Clouds",
                 ContextCompat.getColor(context!!, R.color.cloudsToolbarColor),
                 ContextCompat.getColor(context!!, R.color.cloudsBackgroundColor),
                 ContextCompat.getColor(context!!, R.color.cloudsToolbarItemColor),
                 ContextCompat.getColor(context!!, R.color.cloudsMainTextAndButtonColor),
                 R.drawable.clouds
+            ),
+            Theme(
+                "Katie",
+                ContextCompat.getColor(context!!, R.color.katieToolbarColor),
+                ContextCompat.getColor(context!!, R.color.katieBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.katieToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.katieMainTextAndButtonColor),
+                R.drawable.ic_katie,
+                true
             ),
             Theme(
                 "Western",
@@ -145,13 +170,14 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(context!!, R.color.westernMainTextAndButtonColor),
                 R.drawable.ic_cactus
             ),
+
             Theme(
-                "Matisse",
-                ContextCompat.getColor(context!!, R.color.matisseToolbarColor),
-                ContextCompat.getColor(context!!, R.color.matisseBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.matisseToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.matisseMainTextAndButtonColor),
-                R.drawable.ic_matisse
+                "Lotus",
+                ContextCompat.getColor(context!!, R.color.lotusToolbarColor),
+                ContextCompat.getColor(context!!, R.color.lotusBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.lotusToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.lotusMainTextAndButtonColor),
+                R.drawable.ic_lotus
             ),
             Theme(
                 "Sunset",

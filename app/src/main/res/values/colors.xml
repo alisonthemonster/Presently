@@ -277,4 +277,37 @@
     <color name="cloudsToolbarColor">#FFFFFF</color>
     <color name="cloudsStatusBarColor">#FFFFFF</color>
     <color name="cloudsToolbarItemColor">#000000</color>
+
+    <!-- ~~~~MONSTERA THEME~~~~ -->
+    <color name="monsteraAndroidWidgetColor">#81C761</color>
+    <color name="monsteraBackgroundColor">#FFFFFF</color>
+    <color name="monsteraMainTextAndButtonColor">#000000</color>
+    <color name="monsteraHintQuoteTextColor">#4D4D4D</color>
+    <color name="monsteraDateTextEntryScreenTextColor">#000000</color>
+    <color name="monsteraTimelineColor">#000000</color>
+    <color name="monsteraToolbarColor">#000000</color>
+    <color name="monsteraStatusBarColor">#000000</color>
+    <color name="monsteraToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~LOTUS THEME~~~~ -->
+    <color name="lotusAndroidWidgetColor">#4D1616</color>
+    <color name="lotusBackgroundColor">#F2C1C1</color>
+    <color name="lotusMainTextAndButtonColor">#4D1616</color>
+    <color name="lotusHintQuoteTextColor">#A57575</color>
+    <color name="lotusDateTextEntryScreenTextColor">#4D1616</color>
+    <color name="lotusTimelineColor">#4D1616</color>
+    <color name="lotusToolbarColor">#4D1616</color>
+    <color name="lotusStatusBarColor">#4D1616</color>
+    <color name="lotusToolbarItemColor">#F2C1C1</color>
+
+    <!-- ~~~~KATIE THEME~~~~ -->
+    <color name="katieAndroidWidgetColor">#4D1616</color>
+    <color name="katieBackgroundColor">#FEE9E6</color>
+    <color name="katieMainTextAndButtonColor">#241E1E</color>
+    <color name="katieHintQuoteTextColor">#4B4343</color>
+    <color name="katieDateTextEntryScreenTextColor">#241E1E</color>
+    <color name="katieTimelineColor">#3B1011</color>
+    <color name="katieToolbarColor">#FEC2B8</color>
+    <color name="katieStatusBarColor">#FEC2B8</color>
+    <color name="katieToolbarItemColor">#3B1011</color>
 </resources>
