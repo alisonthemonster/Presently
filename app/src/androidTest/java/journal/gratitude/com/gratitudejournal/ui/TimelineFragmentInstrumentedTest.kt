@@ -272,5 +272,13 @@ class TimelineFragmentInstrumentedTest {
         )
     }
 
+    private fun scrollCalendarBackwardsBy(months: Int) {
+        for (i in 0 until months) {
+            onView(withId(R.id.compactcalendar_view)).perform(
+                scroll(100, 300, 300, 250)
+            )
+        }
+    }
+
 }
 
