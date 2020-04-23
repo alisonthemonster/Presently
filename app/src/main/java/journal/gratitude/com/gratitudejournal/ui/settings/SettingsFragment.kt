@@ -1,6 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
 import android.Manifest
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -34,19 +35,16 @@ import dagger.android.support.AndroidSupportInjection
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
-import journal.gratitude.com.gratitudejournal.ui.search.SearchViewModel
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineViewModel
 import journal.gratitude.com.gratitudejournal.util.backups.*
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader.Companion.PRESENTLY_BACKUP
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
-import kotlinx.android.synthetic.main.fragment_settings.*
-import kotlinx.android.synthetic.main.timeline_fragment.*
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.InputStream
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -287,6 +285,50 @@ class SettingsFragment : PreferenceFragmentCompat(),
             }
             else -> {
             }
+        }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            TimelineFragment.IMPORT_CSV -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val uri = data?.data
+                    if (uri != null) {
+                        if (uri.scheme == "content") {
+                            val inputStream = activity?.contentResolver?.openInputStream(uri)
+                            if (inputStream != null) {
+                                importFromCsv(inputStream)
+                            } else {
+                                Crashlytics.logException(NullPointerException("inputStream is null, uri: $uri"))
+                                Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+                    } else {
+                        Crashlytics.log("URI was null when receiving file")
+                        Toast.makeText(context, R.string.file_not_csv, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun importFromCsv(inputStream: InputStream) {
+        // parse file to get List<Entry>
+        try {
+            val csvReader = CSVReaderImpl(inputStream.bufferedReader())
+            val entries = parseCsv(csvReader)
+            viewModel.addEntries(entries)
+            firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
+            val navController = findNavController()
+            navController.navigateUp()
+            Toast.makeText(context, "Imported successfully!", Toast.LENGTH_SHORT).show()
+        } catch (exception: Exception) {
+            firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
+            Crashlytics.logException(exception)
+
+            Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
         }
     }
 
