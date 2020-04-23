@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Presently</string>
     <string name="what_are_you_thankful_for">O que te deixa grato/a?</string>
     <string name="what_were_you_thankful_for">O que te deixou grato/a?</string>
     <string name="what_are_you_thankful_for_today">O que te deixou grato/a hoje?</string>
@@ -34,7 +33,6 @@
     <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">
         Parabéns! Estamos muito orgulhosos de você e muito gratos por você escolher o Presently para guardar sua gratidão.  </string>
     <string name="search">Busca</string>
-    <string name="presently" translatable="false">Presently</string>
     <string name="close">Fechar</string>
     <string name="get_a_new_prompt">Abrir uma janela</string>
     <string name="share_your_gratitude">Compartilhe sua gratidão</string>
@@ -77,4 +75,8 @@
     <string name="dropbox_summary_on">O backup de suas entradas está sendo feito no Dropbox</string>
     <string name="dropbox_setting_title">Faça backup de seus dados com o Dropbox</string>
     <string name="dropbox_backup_frequency">Frequência de backup do Dropbox</string>
+    <string name="one_time_export_summary">Exporte manualmente suas entradas para o formato CSV na pasta Downloads</string>
+    <string name="one_time_export">Exportar entradas para CSV</string>
+    <string name="import_summary">Selecione um arquivo CSV de backup para importar</string>
+    <string name="backup_and_restore">Backup e restauração</string>
 </resources>

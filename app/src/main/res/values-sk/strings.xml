@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Denník vďačnosti</string>
     <string name="what_are_you_thankful_for">Za čo si vďační?</string>
     <string name="what_were_you_thankful_for">Za čo si dnes vďační? </string>
     <string name="what_are_you_thankful_for_today">Za čo si dnes vďační?</string>
@@ -36,7 +35,6 @@
        Blahoželáme! Sme na vás tak hrdí a sme vďační, že ste si zaznamenali za čo ste vďačný.
     </string>
     <string name="search">Vyhladať</string>
-    <string name="presently" translatable="false">Denník vďačnosti</string>
     <string name="close">Zavrieť</string>
     <string name="get_a_new_prompt">Získať výzvu</string>
     <string name="share_your_gratitude">Podeľte sa o svoju vďaku</string>
@@ -79,4 +77,8 @@
     <string name="dropbox_summary_on">Vaše záznamy sa zálohujú do Dropboxu</string>
     <string name="dropbox_setting_title">Zálohujte si dáta pomocou Dropboxu</string>
     <string name="dropbox_backup_frequency">Frekvencia zálohovania schránky Dropbox</string>
+    <string name="one_time_export_summary">Manuálne exportujte svoje záznamy do formátu CSV v priečinku Stiahnuté súbory</string>
+    <string name="one_time_export">Exportujte položky do súboru CSV</string>
+    <string name="import_summary">Vyberte zálohovaný súbor CSV, ktorý chcete importovať</string>
+    <string name="backup_and_restore">Zálohovanie a obnovenie</string>
 </resources>

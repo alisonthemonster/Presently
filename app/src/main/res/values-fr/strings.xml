@@ -76,4 +76,8 @@
     <string name="dropbox_summary_on">Vos entrées sont sauvegardées sur Dropbox</string>
     <string name="dropbox_setting_title">Sauvegardez vos données avec Dropbox</string>
     <string name="dropbox_backup_frequency">Fréquence de sauvegarde Dropbox</string>
+    <string name="one_time_export_summary">Exportez manuellement vos entrées au format CSV dans votre dossier Téléchargements</string>
+    <string name="one_time_export">Exporter des entrées vers CSV</string>
+    <string name="import_summary">Sélectionnez un fichier CSV sauvegardé à importer</string>
+    <string name="backup_and_restore">Sauvegarde et restauration</string>
 </resources>

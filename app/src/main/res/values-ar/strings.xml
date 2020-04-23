@@ -77,4 +77,8 @@
     <string name="dropbox_summary_on">يتم نسخ إدخالاتك احتياطيًا إلى Dropbox</string>
     <string name="dropbox_setting_title">نسخ بياناتك احتياطيًا باستخدام Dropbox</string>
     <string name="dropbox_backup_frequency">تردد النسخ الاحتياطي Dropbox</string>
+    <string name="one_time_export_summary">قم بتصدير إدخالاتك يدويًا إلى تنسيق CSV في مجلد التنزيلات</string>
+    <string name="one_time_export">إدخالات التصدير إلى CSV</string>
+    <string name="import_summary">حدد ملف CSV احتياطي لاستيراده</string>
+    <string name="backup_and_restore">النسخ الاحتياطي واستعادة</string>
 </resources>

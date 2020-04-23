@@ -48,7 +48,7 @@
     <string name="notifs">Tägliche Benachrichtigungen</string>
     <string name="notifs_name">Benachrichtigungen</string>
     <string name="appearance">Aussehen</string>
-    <string name="about">App Information</string>
+    <string name="about">App-Informationen</string>
     <string name="select_a_theme">Wähle ein Design</string>
     <string name="theme">Aussehen</string>
     <string name="open_source">Open Source-Lizenzen</string>
@@ -75,4 +75,8 @@
     <string name="dropbox_summary_on">Ihre Einträge werden in Dropbox gesichert</string>
     <string name="dropbox_setting_title">Sichern Sie Ihre Daten mit Dropbox</string>
     <string name="dropbox_backup_frequency">Dropbox-Sicherungsfrequenz</string>
+    <string name="one_time_export_summary">Exportieren Sie Ihre Einträge manuell in das CSV-Format in Ihrem Download-Ordner</string>
+    <string name="one_time_export">Exportieren Sie Einträge in CSV</string>
+    <string name="import_summary">Wählen Sie eine gesicherte CSV-Datei zum Importieren aus</string>
+    <string name="backup_and_restore">Sichern und Wiederherstellen</string>
 </resources>

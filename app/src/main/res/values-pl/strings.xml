@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Presently</string>
     <string name="what_are_you_thankful_for">Za co jesteś wdzięczny?</string>
     <string name="what_were_you_thankful_for">Za co byłeś wdzięczny?</string>
     <string name="what_are_you_thankful_for_today">Za co jesteś dziś wdzięczny?</string>
@@ -33,7 +32,6 @@
     <string name="share_your_achievement">Podziel się swoim osiągnięciem</string>
     <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">Gratulacje! Jesteśmy z Ciebie dumni i wdzięczni, że wybrałeś Presently, by zapisywać, za co jesteś wdzięczny.</string>
     <string name="search">Szukaj</string>
-    <string name="presently" translatable="false">Presently</string>
     <string name="close">Zamknij</string>
     <string name="get_a_new_prompt">Poproś o podpowiedź</string>
     <string name="share_your_gratitude">Podziel się swoją wdzięcznością</string>
@@ -76,4 +74,8 @@
     <string name="dropbox_summary_on">Tworzone kopie zapasowe są tworzone w Dropbox</string>
     <string name="dropbox_setting_title">Utwórz kopię zapasową danych za pomocą Dropbox</string>
     <string name="dropbox_backup_frequency">Częstotliwość tworzenia kopii zapasowej Dropbox</string>
+    <string name="one_time_export_summary">Ręcznie wyeksportuj swoje wpisy do formatu CSV w folderze Pobrane</string>
+    <string name="one_time_export">Eksportuj wpisy do CSV</string>
+    <string name="import_summary">Wybierz kopię zapasową pliku CSV do zaimportowania</string>
+    <string name="backup_and_restore">Kopia zapasowa i przywracanie</string>
 </resources>

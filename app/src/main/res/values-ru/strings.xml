@@ -76,4 +76,8 @@
     <string name="dropbox_summary_on">Ваши записи резервируются в Dropbox</string>
     <string name="dropbox_setting_title">Резервное копирование ваших данных с Dropbox</string>
     <string name="dropbox_backup_frequency">Частота резервного копирования Dropbox</string>
+    <string name="one_time_export_summary">Вручную экспортируйте записи в формат CSV в папке «Загрузки».</string>
+    <string name="one_time_export">Экспорт записей в CSV</string>
+    <string name="import_summary">Выберите резервную копию файла CSV для импорта</string>
+    <string name="backup_and_restore">Резервное копирование и восстановление</string>
 </resources>
