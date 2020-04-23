@@ -31,6 +31,17 @@
             android:title="@string/theme" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/security">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_lock"
+            android:key="fingerprint_lock"
+            android:summaryOff="@string/lock_setting_summary_off"
+            android:summaryOn="@string/lock_setting_summary_on"
+            android:title="@string/lock_title" />
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:key="backups_category"
         android:title="Backup &amp; Restore">
@@ -52,27 +63,16 @@
             android:title="@string/dropbox_backup_frequency" />
 
         <Preference
-            android:icon="@drawable/ic_katie"
+            android:icon="@drawable/ic_export"
             android:key="one_time_export"
             android:summary="@string/one_time_export_summary"
             android:title="@string/one_time_export" />
 
         <Preference
-            android:icon="@drawable/ic_tulip"
+            android:icon="@drawable/ic_import"
             android:key="import_entries"
             android:summary="@string/import_summary"
             android:title="@string/import_entries_from_backup" />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/security">
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:icon="@drawable/ic_lock"
-            android:key="fingerprint_lock"
-            android:summaryOff="@string/lock_setting_summary_off"
-            android:summaryOn="@string/lock_setting_summary_on"
-            android:title="@string/lock_title" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/about">
