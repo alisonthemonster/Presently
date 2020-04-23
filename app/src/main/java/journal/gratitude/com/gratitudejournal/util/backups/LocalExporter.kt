@@ -1,16 +1,14 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
 import android.os.Environment
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.model.Entry
 import org.threeten.bp.LocalDateTime
 import java.io.File
 import java.io.FileWriter
 
 object LocalExporter {
 
-    suspend fun exportToCSV(repository: EntryRepository): CSVResult {
-
-        val items = repository.getEntries()
+    suspend fun exportToCSV(items: List<Entry>): CSVResult {
 
         val dir =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)

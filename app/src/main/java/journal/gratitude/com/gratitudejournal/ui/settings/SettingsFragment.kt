@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.ui.settings
 
 import android.Manifest
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -14,6 +15,8 @@ import androidx.biometric.BiometricManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.preference.ListPreference
@@ -27,17 +30,20 @@ import com.dropbox.core.android.Auth
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
+import dagger.android.support.AndroidSupportInjection
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.ui.search.SearchViewModel
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
+import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineViewModel
 import journal.gratitude.com.gratitudejournal.util.backups.*
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader.Companion.PRESENTLY_BACKUP
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
+import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import kotlinx.coroutines.launch
 import java.io.File
@@ -48,11 +54,17 @@ import javax.inject.Inject
 class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel by viewModels<SettingsViewModel> { viewModelFactory }
+
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
-    @Inject
-    lateinit var repository: EntryRepository
-
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -355,7 +367,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         firebaseAnalytics.logEvent(EXPORTED_DATA, null)
 
         lifecycleScope.launch {
-            when (val csvResult = LocalExporter.exportToCSV(repository)) {
+            val entries = viewModel.getEntries()
+            when (val csvResult = LocalExporter.exportToCSV(entries)) {
                 is CsvError -> exportCallback.onFailure(csvResult.exception)
                 is CsvCreated -> exportCallback.onSuccess(csvResult.file)
             }
@@ -399,7 +412,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     private val exportCallback: ExportCallback = object : ExportCallback {
         override fun onSuccess(file: File) {
-            Snackbar.make(container, R.string.export_success, Snackbar.LENGTH_LONG)
+            Snackbar.make(view!!, R.string.export_success, Snackbar.LENGTH_LONG)
                 .setAction(R.string.open) {
                     try {
                         val intent = Intent(Intent.ACTION_VIEW)
