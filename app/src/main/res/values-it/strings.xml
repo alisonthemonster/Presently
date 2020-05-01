@@ -69,4 +69,15 @@
     <string name="continue_to_exit">Continuare</string>
     <string name="fingerprint_error_lockout_too_many">Troppi tentativi di autenticazione biometrica. Riprova tra qualche minuto.</string>
     <string name="version_number">Numero della versione</string>
+    <string name="daily">Quotidiano</string>
+    <string name="weekly">Settimanalmente</string>
+    <string name="every">Con ogni cambiamento</string>
+    <string name="dropbox_summary_off">Accedi con il tuo account Dropbox per eseguire automaticamente il backup delle voci</string>
+    <string name="dropbox_summary_on">Il backup delle voci è stato effettuato su Dropbox</string>
+    <string name="dropbox_setting_title">Eseguire il backup dei dati con Dropbox</string>
+    <string name="dropbox_backup_frequency">Frequenza di backup di Dropbox</string>
+    <string name="one_time_export_summary">Esporta manualmente le voci nel formato CSV nella cartella Download</string>
+    <string name="one_time_export">Esporta voci in CSV</string>
+    <string name="import_summary">Seleziona un file CSV di cui eseguire il backup da importare</string>
+    <string name="backup_and_restore">Backup e ripristino</string>
 </resources>

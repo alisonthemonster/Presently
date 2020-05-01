@@ -70,4 +70,15 @@
     <string name="unsaved_text">¡Su entrada no se guarda y sus cambios se perderán!</string>
     <string name="continue_to_exit">Continuar</string>
     <string name="version_number">Número de versión</string>
+    <string name="daily">Diario</string>
+    <string name="weekly">Semanal</string>
+    <string name="every">Con cada cambio</string>
+    <string name="dropbox_summary_off">Inicie sesión con su cuenta de Dropbox para hacer una copia de seguridad automática de sus entradas</string>
+    <string name="dropbox_summary_on">Sus entradas están siendo respaldadas en Dropbox</string>
+    <string name="dropbox_setting_title">Haga una copia de seguridad de sus datos con Dropbox</string>
+    <string name="dropbox_backup_frequency">Frecuencia de respaldo de Dropbox</string>
+    <string name="one_time_export_summary">Exporte manualmente sus entradas a formato CSV en su carpeta de Descargas</string>
+    <string name="one_time_export">Exportar entradas a CSV</string>
+    <string name="import_summary">Seleccione un archivo CSV respaldado para importar</string>
+    <string name="backup_and_restore">Copia de seguridad y restauración</string>
 </resources>

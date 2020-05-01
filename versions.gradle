@@ -1,7 +1,7 @@
 ext {
     major = 1
     minor = 5
-    patch = 0
+    patch = 3
     beta = ""
 
     androidCompileSdk = 28
@@ -15,8 +15,6 @@ ext {
     lifecycle_version = "1.1.1"
     room_version = "1.1.1"
     coroutine_version = "0.26.1"
-
-    nav_version = "1.0.0"
 
     //testing
     mockito_version = "2.0.0"

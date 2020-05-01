@@ -245,4 +245,69 @@
     <color name="rosieStatusBarColor">#D26635</color>
     <color name="rosieToolbarItemColor">#F1DDD4</color>
 
+    <!-- ~~~~DAISY THEME~~~~ -->
+    <color name="daisyAndroidWidgetColor">#E58D07</color>
+    <color name="daisyBackgroundColor">#ABCFB5</color>
+    <color name="daisyMainTextAndButtonColor">#373E39</color>
+    <color name="daisyHintQuoteTextColor">#7E837F</color>
+    <color name="daisyDateTextEntryScreenTextColor">#373E39</color>
+    <color name="daisyTimelineColor">#373E39</color>
+    <color name="daisyToolbarColor">#373E39</color>
+    <color name="daisyStatusBarColor">#373E39</color>
+    <color name="daisyToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~MATISSE THEME~~~~ -->
+    <color name="matisseAndroidWidgetColor">#577546</color>
+    <color name="matisseBackgroundColor">#7D727B</color>
+    <color name="matisseMainTextAndButtonColor">#332626</color>
+    <color name="matisseHintQuoteTextColor">#AAA09C</color>
+    <color name="matisseDateTextEntryScreenTextColor">#332626</color>
+    <color name="matisseTimelineColor">#332626</color>
+    <color name="matisseToolbarColor">#332626</color>
+    <color name="matisseStatusBarColor">#332626</color>
+    <color name="matisseToolbarItemColor">#B8AFB6</color>
+
+    <!-- ~~~~CLOUD THEME~~~~ -->
+    <color name="cloudsAndroidWidgetColor">#DDC912</color>
+    <color name="cloudsBackgroundColor">#3EBCE4</color>
+    <color name="cloudsMainTextAndButtonColor">#FFFFFF</color>
+    <color name="cloudsHintQuoteTextColor">#D5D5D5</color>
+    <color name="cloudsDateTextEntryScreenTextColor">#FFFFFF</color>
+    <color name="cloudsTimelineColor">#FFFFFF</color>
+    <color name="cloudsToolbarColor">#FFFFFF</color>
+    <color name="cloudsStatusBarColor">#FFFFFF</color>
+    <color name="cloudsToolbarItemColor">#000000</color>
+
+    <!-- ~~~~MONSTERA THEME~~~~ -->
+    <color name="monsteraAndroidWidgetColor">#81C761</color>
+    <color name="monsteraBackgroundColor">#FFFFFF</color>
+    <color name="monsteraMainTextAndButtonColor">#000000</color>
+    <color name="monsteraHintQuoteTextColor">#4D4D4D</color>
+    <color name="monsteraDateTextEntryScreenTextColor">#000000</color>
+    <color name="monsteraTimelineColor">#000000</color>
+    <color name="monsteraToolbarColor">#000000</color>
+    <color name="monsteraStatusBarColor">#000000</color>
+    <color name="monsteraToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~LOTUS THEME~~~~ -->
+    <color name="lotusAndroidWidgetColor">#4D1616</color>
+    <color name="lotusBackgroundColor">#F2C1C1</color>
+    <color name="lotusMainTextAndButtonColor">#4D1616</color>
+    <color name="lotusHintQuoteTextColor">#A57575</color>
+    <color name="lotusDateTextEntryScreenTextColor">#4D1616</color>
+    <color name="lotusTimelineColor">#4D1616</color>
+    <color name="lotusToolbarColor">#4D1616</color>
+    <color name="lotusStatusBarColor">#4D1616</color>
+    <color name="lotusToolbarItemColor">#F2C1C1</color>
+
+    <!-- ~~~~KATIE THEME~~~~ -->
+    <color name="katieAndroidWidgetColor">#4D1616</color>
+    <color name="katieBackgroundColor">#FEE9E6</color>
+    <color name="katieMainTextAndButtonColor">#241E1E</color>
+    <color name="katieHintQuoteTextColor">#706767</color>
+    <color name="katieDateTextEntryScreenTextColor">#241E1E</color>
+    <color name="katieTimelineColor">#3B1011</color>
+    <color name="katieToolbarColor">#FEC2B8</color>
+    <color name="katieStatusBarColor">#FEC2B8</color>
+    <color name="katieToolbarItemColor">#3B1011</color>
 </resources>

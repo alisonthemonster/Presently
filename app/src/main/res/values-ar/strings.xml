@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">تطبيق برزنتلي</string>
     <string name="what_are_you_thankful_for">ما الذي تشعر بالامتنان له؟</string>
     <string name="what_were_you_thankful_for">ما هو الشيء الذي شعرت بالامتنان له؟</string>
     <string name="what_are_you_thankful_for_today">ما الشيء الذي تشعر بالامتنان له اليوم؟</string>
@@ -70,4 +69,16 @@
     <string name="continue_to_exit">متابعة</string>
     <string name="are_you_sure">هل أنت متأكد أنك تريد العودة؟</string>
     <string name="unsaved_text">البيانات غير محفوظة و ستؤدي الى فقدان تغييراتك</string>
+    <string name="version_number">رقم الإصدار</string>
+    <string name="daily">اليومي</string>
+    <string name="weekly">أسبوعي</string>
+    <string name="every">مع كل تغيير</string>
+    <string name="dropbox_summary_off">قم بتسجيل الدخول باستخدام حساب Dropbox الخاص بك لعمل نسخة احتياطية من إدخالاتك تلقائيًا</string>
+    <string name="dropbox_summary_on">يتم نسخ إدخالاتك احتياطيًا إلى Dropbox</string>
+    <string name="dropbox_setting_title">نسخ بياناتك احتياطيًا باستخدام Dropbox</string>
+    <string name="dropbox_backup_frequency">تردد النسخ الاحتياطي Dropbox</string>
+    <string name="one_time_export_summary">قم بتصدير إدخالاتك يدويًا إلى تنسيق CSV في مجلد التنزيلات</string>
+    <string name="one_time_export">إدخالات التصدير إلى CSV</string>
+    <string name="import_summary">حدد ملف CSV احتياطي لاستيراده</string>
+    <string name="backup_and_restore">النسخ الاحتياطي واستعادة</string>
 </resources>

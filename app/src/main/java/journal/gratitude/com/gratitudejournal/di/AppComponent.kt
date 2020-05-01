@@ -17,6 +17,7 @@ import javax.inject.Singleton
         TimelineModule::class,
         EntryModule::class,
         SearchModule::class,
+        SettingsModule::class,
         CloudUploadModule::class,
         WorkerModule::class,
         AndroidSupportInjectionModule::class

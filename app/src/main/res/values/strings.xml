@@ -45,7 +45,7 @@
     <string name="share_progress">Share your gratitude progress</string>
     <string name="change_time">Change your daily reminder time</string>
     <string name="time_title">Adjust Reminder Notifications</string>
-    <string name="theme_change">Change the theme of Presently</string>
+    <string name="theme_change">Choose from over 20 different themes and color schemes</string>
     <string name="notifs_off">Daily reminder notifications are off</string>
     <string name="notifs_on">Daily reminder notifications are on</string>
     <string name="notifs">Daily Reminder Notifications</string>
@@ -74,4 +74,12 @@
     <string name="daily">Daily</string>
     <string name="weekly">Weekly</string>
     <string name="every">On every change</string>
+    <string name="dropbox_summary_off">Log in with your Dropbox account to automatically back up your entries</string>
+    <string name="dropbox_summary_on">Your entries are being backed up to Dropbox</string>
+    <string name="dropbox_setting_title">Back up your data with Dropbox</string>
+    <string name="dropbox_backup_frequency">Dropbox Backup Frequency</string>
+    <string name="one_time_export_summary">Manually export your entries to CSV format in your Downloads folder</string>
+    <string name="one_time_export">Export entries to CSV</string>
+    <string name="import_summary">Select a backed up CSV file to import</string>
+    <string name="backup_and_restore">Backup &amp; Restore</string>
 </resources>

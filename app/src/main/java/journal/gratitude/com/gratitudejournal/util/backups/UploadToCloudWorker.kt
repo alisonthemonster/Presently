@@ -23,6 +23,11 @@ class UploadToCloudWorker(
         //get items
         val items = repository.getEntries()
 
+        //do not backup data if there is nothing to back up
+        if (items.isEmpty()) {
+            return Result.success()
+        }
+
         //create temp file
         val file = File.createTempFile("tempPresentlyBackup", null, context.getCacheDir())
 

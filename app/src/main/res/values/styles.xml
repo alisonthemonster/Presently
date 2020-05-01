@@ -297,6 +297,96 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
+    <style name="AppTheme.DAISY" parent="AppTheme">
+        <item name="colorAccent">@color/daisyAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/daisyMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/daisyBackgroundColor</item>
+        <item name="android:colorPrimary">@color/daisyToolbarColor</item>
+        <item name="android:textColorPrimary">@color/daisyDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/daisyHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/daisyHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/daisyToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/daisyTimelineColor</item>
+        <item name="android:statusBarColor">@color/daisyStatusBarColor</item>
+        <item name="timelineIcon">@drawable/daisies</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.MATISSE" parent="AppTheme">
+        <item name="colorAccent">@color/matisseAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/matisseMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/matisseBackgroundColor</item>
+        <item name="android:colorPrimary">@color/matisseToolbarColor</item>
+        <item name="android:textColorPrimary">@color/matisseDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/matisseHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/matisseHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/matisseToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/matisseTimelineColor</item>
+        <item name="android:statusBarColor">@color/matisseStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_matisse</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.CLOUDS" parent="AppTheme">
+        <item name="colorAccent">@color/cloudsAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/cloudsMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/cloudsBackgroundColor</item>
+        <item name="android:colorPrimary">@color/cloudsToolbarColor</item>
+        <item name="android:textColorPrimary">@color/cloudsDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/cloudsHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/cloudsHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/cloudsToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/cloudsTimelineColor</item>
+        <item name="android:statusBarColor">@color/cloudsStatusBarColor</item>
+        <item name="timelineIcon">@drawable/clouds</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="AppTheme.MONSTERA" parent="AppTheme">
+        <item name="colorAccent">@color/monsteraAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/monsteraMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/monsteraBackgroundColor</item>
+        <item name="android:colorPrimary">@color/monsteraToolbarColor</item>
+        <item name="android:textColorPrimary">@color/monsteraDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/monsteraHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/monsteraHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/monsteraToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/monsteraTimelineColor</item>
+        <item name="android:statusBarColor">@color/monsteraStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_monstera</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.LOTUS" parent="AppTheme">
+        <item name="colorAccent">@color/lotusAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/lotusMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/lotusBackgroundColor</item>
+        <item name="android:colorPrimary">@color/lotusToolbarColor</item>
+        <item name="android:textColorPrimary">@color/lotusDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/lotusHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/lotusHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/lotusToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/lotusTimelineColor</item>
+        <item name="android:statusBarColor">@color/lotusStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_lotus</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.KATIE" parent="AppTheme">
+        <item name="colorAccent">@color/katieAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/katieMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/katieBackgroundColor</item>
+        <item name="android:colorPrimary">@color/katieToolbarColor</item>
+        <item name="android:textColorPrimary">@color/katieDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/katieHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/katieHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/katieToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/katieTimelineColor</item>
+        <item name="android:statusBarColor">@color/katieStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_katie</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
     <style name="TextAppearance.Title" parent="android:TextAppearance">
         <item name="android:textSize">36sp</item>
         <item name="fontPath">fonts/value-serif.ttf</item>
