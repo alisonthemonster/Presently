@@ -31,7 +31,7 @@
     <string name="rate_presently">Оценить Presently</string>
     <string name="share_your_achievement">Поделитесь вашим достижением</string>
     <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">
-        Поздравляем! Мы гордимся вами и хотим сказать спасибо, за то, что вы выбрали Presently в качестве своего дневника благодарности.
+        Поздравляем! Мы гордимся вами и хотим сказать спасибо за то, что вы выбрали Presently в качестве своего дневника благодарности.
     </string>
     <string name="search">Поиск</string>
     <string name="close">Закрыть</string>
@@ -61,12 +61,12 @@
     <string name="copied">Скопировано в буфер обмена</string>
     <string name="security">Безопасность</string>
     <string name="lock_title">Разблокировать приложение</string>
-    <string name="lock_summary">Приложение заблокировано, разблокировка для продолжения</string>
+    <string name="lock_summary">Приложение заблокировано, разблокируйте для продолжения</string>
     <string name="lock_setting_summary_on">Приложение будет заблокировано с помощью биометрического сканера вашего устройства.</string>
-    <string name="lock_setting_summary_off">Приложение может заблокироваться с помощью биометрического сканера вашего устройства (если поддерживается устройством).</string>
+    <string name="lock_setting_summary_off">Приложение может быть заблокировано с помощью биометрического сканера вашего устройства (если поддерживается устройством).</string>
     <string name="are_you_sure">Вы уверены, что хотите вернуться?</string>
-    <string name="unsaved_text">Ваша запись не сохраняется, и ваши изменения будут потеряны!</string>
-    <string name="continue_to_exit">продолжать</string>
+    <string name="unsaved_text">Ваша запись не сохранится, и ваши изменения будут утеряны!</string>
+    <string name="continue_to_exit">Продолжить</string>
     <string name="fingerprint_error_lockout_too_many">Слишком много попыток биометрической аутентификации. Пожалуйста, попробуйте еще раз через несколько минут.</string>
     <string name="version_number">Номер версии</string>
     <string name="daily">Ежедневно</string>
