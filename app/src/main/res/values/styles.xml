@@ -90,7 +90,7 @@
         <item name="android:colorPrimary">@color/midnightToolbarColor</item>
         <item name="android:textColorPrimary">@color/midnightDateTextEntryScreenTextColor</item>
         <item name="android:textColorSecondary">@color/midnightHintQuoteTextColor</item>
-        <item name="android:textColorHighlight">@color/midnightToolbarItemColor</item>
+        <item name="android:textColorHighlight">@color/midnightHintQuoteTextColor</item>
         <item name="android:colorForeground">@color/midnightToolbarItemColor</item>
         <item name="android:colorPrimaryDark">@color/midnightTimelineColor</item>
         <item name="android:statusBarColor">@color/midnightStatusBarColor</item>
