@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prompts">
+        <item>Wat maakte je aan het lachen?</item>
+        <item>Wat in deze kamer is iets om dankbaar voor zijn?</item>
+        <item>Wat maakt je blij om in leven te zijn?</item>
+        <item>Welke persoon heeft je geholpen heeft?</item>
+        <item>Welke persoon heeft je iets geadviseerd?</item>
+        <item>Welke persoon heeft je iets geleerd?</item>
+        <item>Welke persoon hou jij van?</item>
+        <item>Welke persoon houdt van jou?</item>
+        <item>Wie is een vriend waarvoor je dankbaar bent?</item>
+        <item>Wat in de natuur ben je dankbaar voor?</item>
+        <item>Welk talent of vaardigheid ben je dankbaar voor?</item>
+        <item>Welke herinnering ben je dankbaar voor?</item>
+        <item>Heeft iemand je vandaag geholpen?</item>
+        <item>Wat heeft je vandaag een blij gevoel gegeven?</item>
+        <item>Waar ben je trots op voor jezelf?</item>
+        <item>Wat van je opvoeding ben je dankbaar voor?</item>
+        <item>Wat van je carriére of werk ben je dankbaar voor?</item>
+        <item>Voor welke vrijheden ben je dankbaar?</item>
+        <item>Wat is iets wat je deed lachen?</item>
+        <item>Wat is iets van jouzelf waar je dankbaar voor bent?</item>
+        <item>Wat is heet mooiste ding wat je vandaag gezien hebt?</item>
+        <item>Voor welke boeken ben je dankbaar?</item>
+        <item>Voor welk lied of welke muziek ben je dankbaar?</item>
+        <item>Wat is iets wat jouw leven makkelijker maakt?</item>
+        <item>Wat is iets wat jou altijd opbeurt?</item>
+        <item>Wie inspireert jou?</item>
+        <item>Welke technologie of gereedschap ben je dankbaar voor?</item>
+        <item>Voor welke kans ben je dankbaar?</item>
+        <item>Wat aan je lichaam of gezondheid ben je dankbaar voor?</item>
+        <item>Voor welke plaats ben je dankbaar?</item>
+        <item>Voor welke geur ben je dankbaar?</item>
+        <item>Voor welke smaak ben je dankbaar?</item>
+        <item>Voor welke kennis ben je dankbaar?</item>
+        <item>Voor welk eenvoudig plezier ben je dankbaar?</item>
+        <item>Voor welke hobbies ben je dankbaar?</item>
+        <item>Voor welk geluid ben je dankbaar?</item>
+        <item>Voor welke klein ding ben je dankbaar?</item>
+        <item>Wat is iets om dankvoor voor te zijn om geleerd te hebben?</item>
+        <item>Waar ben je dankbaar voor in je stad of dorp?</item>
+        <item>Wat van je huis ben je dankbaar voor?</item>
+        <item>Voor welk advies ben je dankbaar dat je het gekregen hebt?</item>
+        <item>Wat van je familie ben je dankbaar voor?</item>
+        <item>Wat van het huidige seizoen ben je dankbaar voor?</item>
+        <item>Voor welke activiteit ben je dankbaar?</item>
+    </string-array>
+</resources>
