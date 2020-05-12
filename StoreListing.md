@@ -222,3 +222,25 @@ aparelho e sob seu comando.
 يتيح لك  تطبيق برزنتلي: ⁕ تسجيل إدخالات الامتنان يومياً ⁕ مراجعة و تأمل لحظات الامتنان السابقة ⁕ ايجاد الحافز من خلال اقوال و عبارات عن الحياة ⁕ تعيين تذكيرات يومية لمتابعة التدوين و ممارسة الامتنان ⁕ البحث عن إدخالاتك القديمة ⁕ مشاركة إدخالاتك القديمة مع عائلتك وأصدقائك ⁕ تصدير و استيراد إدخالاتك ⁕ تغيير ألوان  التطبيق
 
 تطبيق برزنتلي مجاني وخالي من الاعلانات. تحفظ جميع إدخالاتك على جهازك و تحت سيطرتك.
+
+
+## Dutch
+
+Presently: een dankbaarheidsdagboek
+
+Vier je dagelijkse leven met Presently, een gratis en privé dankbaarheidsdagboek
+
+Oefen dankbaarheid met deze eenvoudige, altijd gratis en privé dankbaarheidsdagboek-app.
+
+Met Presently kunt je:
+⁕ Dagelijks je dankbaarheidsdagboek bijhouden
+⁕ Terugblikken op je eerdere dankbaarheidsmomenten
+⁕ Motivatie vinden door middel van citaten en prompts
+⁕ Dagelijkse herinneringen instellen om je dankbaarheidspraktijk vol te houden
+⁕ Je dankbaarheidsdagboek doorzoeken
+⁕ Vergrendel je dankbaarheidsdagboek met een vingerafdruk of gezichts-id
+⁕ Deel je dankbaarheidsdagboek met familie en vrienden
+⁕ Exporteer/importeer je dankbaarheidsdagboek
+⁕ Pas Presently aan naar je favoriete kleurenschema
+
+Presently is 100% gratis en advertentievrij. Al je notities blijven op je eigen apparaat en onder je eigen beheer.
