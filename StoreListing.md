@@ -16,8 +16,9 @@ Presently lets you:
 ⁕ Reflect back on your past moments of gratitude
 ⁕ Find motivation through quotes and prompts
 ⁕ Set daily reminders to continue your gratitude practice
-⁕ Search your old entries
 ⁕ Lock your entries with fingerprint or face id
+⁕ Automatically back up your entries to Dropbox
+⁕ Search your old entries
 ⁕ Share your entries with family and friends
 ⁕ Export/import your entries
 ⁕ Switch to your favorite color scheme
