@@ -1,20 +1,13 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.model.Milestone
-import journal.gratitude.com.gratitudejournal.model.TimelineItem
-import journal.gratitude.com.gratitudejournal.util.CrashlyticsWrapper
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.threeten.bp.LocalDate
-import java.io.File
 import java.io.IOException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
-import org.mockito.BDDMockito.willAnswer
-import org.mockito.BDDMockito.given
 
 
 class BackupDataTest {

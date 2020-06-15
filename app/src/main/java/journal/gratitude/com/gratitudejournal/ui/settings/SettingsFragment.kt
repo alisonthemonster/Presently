@@ -26,11 +26,11 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.crashlytics.android.Crashlytics
 import com.dropbox.core.android.Auth
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.android.support.AndroidSupportInjection
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
@@ -300,13 +300,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
                             if (inputStream != null) {
                                 importFromCsv(inputStream)
                             } else {
-                                Crashlytics.logException(NullPointerException("inputStream is null, uri: $uri"))
+                                val crashlytics = FirebaseCrashlytics.getInstance()
+                                crashlytics.recordException(NullPointerException("inputStream is null, uri: $uri"))
                                 Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT)
                                     .show()
                             }
                         }
                     } else {
-                        Crashlytics.log("URI was null when receiving file")
+                        val crashlytics = FirebaseCrashlytics.getInstance()
+                        crashlytics.recordException(NullPointerException("URI was null when receiving file"))
                         Toast.makeText(context, R.string.file_not_csv, Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -326,7 +328,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
             Toast.makeText(context, "Imported successfully!", Toast.LENGTH_SHORT).show()
         } catch (exception: Exception) {
             firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
-            Crashlytics.logException(exception)
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(exception)
 
             Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
         }
@@ -353,7 +356,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
-            Crashlytics.logException(activityNotFoundException)
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(activityNotFoundException)
         }
     }
 
@@ -369,7 +373,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
-            Crashlytics.logException(activityNotFoundException)
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(activityNotFoundException)
         }
     }
 
@@ -385,7 +390,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
-            Crashlytics.logException(activityNotFoundException)
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(activityNotFoundException)
         }
     }
 
@@ -447,7 +453,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 TimelineFragment.IMPORT_CSV
             )
         } catch (ex: ActivityNotFoundException) {
-            Crashlytics.logException(ex)
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(ex)
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
         }
     }
@@ -466,14 +473,16 @@ class SettingsFragment : PreferenceFragmentCompat(),
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
-                        Crashlytics.logException(e)
+                        val crashlytics = FirebaseCrashlytics.getInstance()
+                        crashlytics.recordException(e)
                         Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
                     }
                 }.show()
         }
 
         override fun onFailure(exception: Exception) {
-            Crashlytics.logException(exception)
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(exception)
             Toast.makeText(context, "Error : ${exception.message}", Toast.LENGTH_SHORT).show()
         }
     }

@@ -6,9 +6,10 @@ apply from: 'jacoco.gradle'
 apply from: 'coveragereporting.gradle'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-allopen'
-apply plugin: 'io.fabric'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 allOpen {
     annotation 'journal.gratitude.com.gratitudejournal.util.OpenClass'
@@ -85,8 +86,12 @@ dependencies {
     implementation 'androidx.paging:paging-runtime:2.1.0'
     implementation 'com.hannesdorfmann:adapterdelegates3:3.1.0'
     implementation "com.google.android.material:material:1.1.0-alpha07"
-    implementation 'com.google.firebase:firebase-core:16.0.9'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
+    implementation 'com.google.firebase:firebase-core:17.4.3'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.1'
+    implementation 'com.google.firebase:firebase-analytics:17.4.3'
+    implementation 'com.google.firebase:firebase-messaging:20.2.0'
+
     implementation "androidx.navigation:navigation-fragment-ktx:2.2.1"
     implementation "androidx.navigation:navigation-ui-ktx:2.2.1"
     implementation 'androidx.core:core-ktx:1.0.2'
@@ -96,7 +101,6 @@ dependencies {
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.google.firebase:firebase-messaging:18.0.0'
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
     implementation "androidx.fragment:fragment:1.1.0-alpha07"
     implementation "androidx.fragment:fragment-ktx:1.1.0-rc01"
