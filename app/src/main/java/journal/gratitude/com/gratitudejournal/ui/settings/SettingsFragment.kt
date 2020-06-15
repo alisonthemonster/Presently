@@ -245,9 +245,24 @@ class SettingsFragment : PreferenceFragmentCompat(),
             BACKUP_CADENCE -> {
                 val cadence =
                     preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0") ?: "0"
+                fireAnalyticsEventForCadence(cadence, firebaseAnalytics)
                 createDropboxUploaderWorker(cadence)
             }
         }
+    }
+
+    private fun fireAnalyticsEventForCadence(cadence: String, firebaseAnalytics: FirebaseAnalytics) {
+        val cadenceString = when (cadence) {
+            "0" -> "Daily"
+            "1" -> "Weekly"
+            "2" -> "Every change"
+            else -> "Unknown"
+        }
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, cadenceString)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, cadenceString)
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "cadence")
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
