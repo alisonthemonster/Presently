@@ -143,7 +143,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         val fingerprint = findPreference(FINGERPRINT)
         val canAuthenticateUsingFingerPrint =
-            BiometricManager.from(context!!).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
+            BiometricManager.from(requireContext()).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
         fingerprint.parent!!.isEnabled = canAuthenticateUsingFingerPrint
 
     }
