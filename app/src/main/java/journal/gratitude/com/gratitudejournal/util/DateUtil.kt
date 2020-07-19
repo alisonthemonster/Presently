@@ -25,6 +25,13 @@ fun LocalDate.toFullString(): String {
 
 }
 
+fun LocalDate.toStringWithDayOfWeek(): String {
+    val localizedTimeFormatter = DateTimeFormatter
+        .ofLocalizedDate(FormatStyle.FULL)
+
+    return localizedTimeFormatter.format(this)
+}
+
 fun Month.toShortMonthString(): String {
     return this.getDisplayName(TextStyle.SHORT, Locale.getDefault())
 }

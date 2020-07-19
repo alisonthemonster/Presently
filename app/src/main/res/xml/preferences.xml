@@ -33,6 +33,15 @@
             android:key="current_theme"
             android:summary="@string/theme_change"
             android:title="@string/theme" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_date"
+            android:key="day_of_week"
+            android:summaryOff="Date does not include day of the week"
+            android:summaryOn="Date includes day of the week"
+            android:title="Date Style" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -21,6 +21,7 @@ class TimelineEntryViewModelTest {
         Entry(date, content),
         false,
         numEntries,
+        false,
         onClickListener
     )
 
@@ -37,6 +38,7 @@ class TimelineEntryViewModelTest {
             Entry(date, ""),
             false,
             numEntries,
+            false,
             onClickListener
         )
         viewModel.onClick(mock())
@@ -51,6 +53,7 @@ class TimelineEntryViewModelTest {
             Entry(today, content),
             false,
             numEntries,
+            false,
             onClickListener
         )
 
@@ -67,6 +70,7 @@ class TimelineEntryViewModelTest {
             Entry(today, content),
             false,
             numEntries,
+            false,
             onClickListener
         )
 
@@ -83,6 +87,7 @@ class TimelineEntryViewModelTest {
             Entry(yesterday, content),
             false,
             numEntries,
+            false,
             onClickListener
         )
 
@@ -107,6 +112,7 @@ class TimelineEntryViewModelTest {
             Entry(date, content),
             false,
             numEntries,
+            false,
             onClickListener
         )
 
@@ -139,6 +145,7 @@ class TimelineEntryViewModelTest {
             Entry(date, content),
             true,
             numEntries,
+            false,
             onClickListener
         )
 
@@ -149,17 +156,33 @@ class TimelineEntryViewModelTest {
     }
 
     @Test
-    fun getDate_returns_fullString() {
+    fun getContent_returns_content() {
+        val actual = viewModel.content
+
+        assertEquals(content, actual)
+    }
+
+    @Test
+    fun getDayString_showDayOfWeekFalse_noDayOfWeek() {
+        val actual = viewModel.dateString()
         val expected = "November 11, 2011"
-        val actual = viewModel.date
 
         assertEquals(expected, actual)
     }
 
     @Test
-    fun getContent_returns_content() {
-        val actual = viewModel.content
+    fun getDayString_showDayOfWeekTrue_dayOfWeek() {
+        val viewModel = TimelineEntryViewModel(
+            Entry(date, content),
+            false,
+            numEntries,
+            true,
+            onClickListener
+        )
 
-        assertEquals(content, actual)
+        val actual = viewModel.dateString()
+        val expected = "Friday, November 11, 2011"
+
+        assertEquals(expected, actual)
     }
 }

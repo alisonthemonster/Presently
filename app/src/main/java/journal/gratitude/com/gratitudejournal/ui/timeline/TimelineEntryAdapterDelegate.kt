@@ -1,17 +1,17 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.app.Activity
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import android.view.ViewGroup
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegate
 import journal.gratitude.com.gratitudejournal.BR
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
 
-class TimelineEntryAdapterDelegate(activity: Activity, private val clickListener: TimelineAdapter.OnClickListener) : AdapterDelegate<List<TimelineItem>>() {
+class TimelineEntryAdapterDelegate(activity: Activity, val showDayOfWeek: Boolean, private val clickListener: TimelineAdapter.OnClickListener) : AdapterDelegate<List<TimelineItem>>() {
 
     private val inflater = activity.layoutInflater
 
@@ -41,7 +41,7 @@ class TimelineEntryAdapterDelegate(activity: Activity, private val clickListener
     inner class TimelineEntryViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(timelineEntry: Entry, isLastItem: Boolean, numEntries: Int) {
-            binding.setVariable(BR.entryViewModel, TimelineEntryViewModel(timelineEntry, isLastItem, numEntries, clickListener))
+            binding.setVariable(BR.entryViewModel, TimelineEntryViewModel(timelineEntry, isLastItem, numEntries, showDayOfWeek, clickListener))
             binding.executePendingBindings()
         }
     }

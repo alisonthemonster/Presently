@@ -55,14 +55,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="24dp"
-            android:text="@{entryViewModel.date}"
+            android:text="@{entryViewModel.dateString}"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.Date"
             app:layout_constraintBottom_toBottomOf="@+id/timeline_circle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/timeline_circle"
             app:layout_constraintTop_toTopOf="@+id/timeline_circle"
-            tools:text="January 19th, 2018" />
+            tools:text="Wednesday, September 19th, 2018" />
 
         <TextView
             android:id="@+id/content"

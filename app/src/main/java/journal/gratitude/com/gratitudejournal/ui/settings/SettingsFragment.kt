@@ -513,5 +513,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val VERSION_PREF = "version"
         const val ONE_TIME_EXPORT_PREF = "one_time_export"
         const val IMPORT_PREF = "import_entries"
+        const val DAY_OF_WEEK = "day_of_week"
     }
 }
