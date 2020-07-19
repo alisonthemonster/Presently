@@ -81,4 +81,7 @@
     <string name="one_time_export">إدخالات التصدير إلى CSV</string>
     <string name="import_summary">حدد ملف CSV احتياطي لاستيراده</string>
     <string name="backup_and_restore">النسخ الاحتياطي واستعادة</string>
+    <string name="day_of_week_off">لا يشمل التاريخ يوم من أيام الأسبوع</string>
+    <string name="day_of_week_on">يشمل التاريخ يوم من الأسبوع</string>
+    <string name="day_of_week_title">نمط التاريخ</string>
 </resources>

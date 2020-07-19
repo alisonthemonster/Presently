@@ -33,6 +33,15 @@
             android:key="current_theme"
             android:summary="@string/theme_change"
             android:title="@string/theme" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_date"
+            android:key="day_of_week"
+            android:summaryOff="@string/day_of_week_off"
+            android:summaryOn="@string/day_of_week_on"
+            android:title="@string/day_of_week_title" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -78,4 +78,7 @@
     <string name="one_time_export">Export gegevens kommagescheiden (CSV)</string>
     <string name="import_summary">Selecteer het te importeren kommagescheiden (CSV)back-up bestand</string>
     <string name="backup_and_restore">Back-up &amp; Herstellen</string>
+    <string name="day_of_week_off">Datum is exclusief dag van de week</string>
+    <string name="day_of_week_on">Datum bevat dag van de week</string>
+    <string name="day_of_week_title">Datumstijl</string>
 </resources>
