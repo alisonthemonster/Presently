@@ -80,4 +80,7 @@
     <string name="one_time_export">Esporta voci in CSV</string>
     <string name="import_summary">Seleziona un file CSV di cui eseguire il backup da importare</string>
     <string name="backup_and_restore">Backup e ripristino</string>
+    <string name="day_of_week_off">La data non include il giorno della settimana</string>
+    <string name="day_of_week_on">La data include il giorno della settimana</string>
+    <string name="day_of_week_title">Stile data</string>
 </resources>

@@ -78,4 +78,7 @@
     <string name="one_time_export">Eksportuj wpisy do CSV</string>
     <string name="import_summary">Wybierz kopię zapasową pliku CSV do zaimportowania</string>
     <string name="backup_and_restore">Kopia zapasowa i przywracanie</string>
+    <string name="day_of_week_off">Data nie obejmuje dnia tygodnia</string>
+    <string name="day_of_week_on">Data obejmuje dzień tygodnia</string>
+    <string name="day_of_week_title">Styl daty</string>
 </resources>

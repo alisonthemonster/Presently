@@ -80,4 +80,7 @@
     <string name="one_time_export">Экспорт записей в CSV</string>
     <string name="import_summary">Выберите резервную копию файла CSV для импорта</string>
     <string name="backup_and_restore">Резервное копирование и восстановление</string>
+    <string name="day_of_week_off">Дата не включает день недели</string>
+    <string name="day_of_week_on">Дата включает день недели</string>
+    <string name="day_of_week_title">Стиль Даты</string>
 </resources>

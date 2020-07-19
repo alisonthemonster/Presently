@@ -38,9 +38,9 @@
             android:defaultValue="false"
             android:icon="@drawable/ic_date"
             android:key="day_of_week"
-            android:summaryOff="Date does not include day of the week"
-            android:summaryOn="Date includes day of the week"
-            android:title="Date Style" />
+            android:summaryOff="@string/day_of_week_off"
+            android:summaryOn="@string/day_of_week_on"
+            android:title="@string/day_of_week_title" />
 
     </PreferenceCategory>
 

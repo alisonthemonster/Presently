@@ -82,4 +82,7 @@
     <string name="one_time_export">Export entries to CSV</string>
     <string name="import_summary">Select a backed up CSV file to import</string>
     <string name="backup_and_restore">Backup &amp; Restore</string>
+    <string name="day_of_week_off">Date does not include day of the week</string>
+    <string name="day_of_week_on">Date includes day of the week</string>
+    <string name="day_of_week_title">Date Style</string>
 </resources>

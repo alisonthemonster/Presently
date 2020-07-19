@@ -80,4 +80,7 @@
     <string name="one_time_export">Vie merkinnät CSV: hen</string>
     <string name="import_summary">Valitse tuotava varmuuskopioitu CSV-tiedosto</string>
     <string name="backup_and_restore">Varmuuskopio</string>
+    <string name="day_of_week_off">Päivämäärä ei sisällä viikonpäivää</string>
+    <string name="day_of_week_on">Päivämäärä sisältää viikonpäivän</string>
+    <string name="day_of_week_title">Päivämäärä tyyli</string>
 </resources>

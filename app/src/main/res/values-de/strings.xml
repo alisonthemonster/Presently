@@ -79,4 +79,7 @@
     <string name="one_time_export">Exportieren Sie Einträge in CSV</string>
     <string name="import_summary">Wählen Sie eine gesicherte CSV-Datei zum Importieren aus</string>
     <string name="backup_and_restore">Sichern und Wiederherstellen</string>
+    <string name="day_of_week_off">Das Datum enthält nicht den Wochentag</string>
+    <string name="day_of_week_on">Datum beinhaltet Wochentag</string>
+    <string name="day_of_week_title">Datumsstil</string>
 </resources>

@@ -81,4 +81,7 @@
     <string name="one_time_export">Exportujte položky do súboru CSV</string>
     <string name="import_summary">Vyberte zálohovaný súbor CSV, ktorý chcete importovať</string>
     <string name="backup_and_restore">Zálohovanie a obnovenie</string>
+    <string name="day_of_week_off">Dátum nezahŕňa deň v týždni</string>
+    <string name="day_of_week_on">Dátum zahŕňa deň v týždni</string>
+    <string name="day_of_week_title">Štýl dátumu</string>
 </resources>
