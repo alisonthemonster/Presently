@@ -59,7 +59,7 @@
     <string name="no_app_found">Aucune application trouvée pour ouvrir ce fichier</string>
     <string name="permission_export">Une autorisation est nécessaire pour exporter des données</string>
     <string name="copied">Copié dans le presse-papier</string>
-    <string name="security">déverrouille</string>
+    <string name="security">Déverrouillage</string>
     <string name="lock_title">Déverrouiller Presently</string>
     <string name="lock_summary">Presently est verrouillée, déverrouillez pour continuer</string>
     <string name="lock_setting_summary_on">Presently se verrouillera avec le scanner biométrique de votre appareil.</string>

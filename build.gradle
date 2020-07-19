@@ -5,19 +5,16 @@ buildscript {
         apply from: 'versions.gradle'
         google()
         jcenter()
-        maven {
-            url 'https://maven.fabric.io/public'
-        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
-        classpath "com.google.gms:google-services:$google_services_version"
-        classpath "io.fabric.tools:gradle:$fabric_version"
+        classpath 'com.google.gms:google-services:4.3.3'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0-alpha02"
         classpath 'com.google.android.gms:oss-licenses-plugin:0.10.0'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.1.1'
     }
 }
 

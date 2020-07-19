@@ -1,7 +1,7 @@
 ext {
     major = 1
-    minor = 5
-    patch = 3
+    minor = 6
+    patch = 0
     beta = ""
 
     androidCompileSdk = 28
@@ -21,7 +21,4 @@ ext {
     core_testing_version = "1.1.1"
     paging_version = "1.0.1"
 
-    //firebase stuff
-    google_services_version = "4.0.1"
-    fabric_version = "1.26.1"
 }

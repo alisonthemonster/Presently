@@ -19,9 +19,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import com.crashlytics.android.Crashlytics
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
@@ -206,7 +206,8 @@ class TimelineFragment : DaggerFragment() {
         try {
             startActivity(intent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
-            Crashlytics.logException(activityNotFoundException)
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(activityNotFoundException)
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
         }
     }
@@ -236,14 +237,16 @@ class TimelineFragment : DaggerFragment() {
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
-                        Crashlytics.logException(e)
+                        val crashlytics = FirebaseCrashlytics.getInstance()
+                        crashlytics.recordException(e)
                         Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
                     }
                 }.show()
         }
 
         override fun onFailure(exception: Exception) {
-            Crashlytics.logException(exception)
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(exception)
             Toast.makeText(context, "Error : ${exception.message}", Toast.LENGTH_SHORT).show()
         }
     }

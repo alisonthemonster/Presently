@@ -18,7 +18,7 @@ data class Milestone(val number: Int,
                      val numString: String): TimelineItem() {
 
     companion object {
-        val milestones = arrayOf(5, 10, 25, 50, 100, 150, 200, 250, 300, 365, 400, 450, 500)
+        val milestones = arrayOf(5, 10, 25, 50, 100, 150, 200, 250, 300, 365, 400, 450, 500, 550)
 
         fun create(number: Int): Milestone {
             require(milestones.contains(number))
