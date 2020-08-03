@@ -28,11 +28,11 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.testUtils.getText
 import journal.gratitude.com.gratitudejournal.testUtils.isEditTextValueEqualTo
 import journal.gratitude.com.gratitudejournal.testUtils.saveEntryBlocking
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import junit.framework.Assert.assertEquals
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf

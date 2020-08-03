@@ -26,7 +26,7 @@ limitations under the License.
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.Reader
-import java.util.ArrayList
+import java.util.*
 
 interface CSVReader {
     fun readNext(): Array<String>?

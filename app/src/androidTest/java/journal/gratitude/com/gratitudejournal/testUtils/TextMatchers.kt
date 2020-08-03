@@ -1,14 +1,14 @@
 package journal.gratitude.com.gratitudejournal.testUtils
 
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
-import androidx.test.espresso.ViewAction
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
-import org.hamcrest.Matcher
-import android.widget.EditText
 import org.hamcrest.Description
+import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
 
 

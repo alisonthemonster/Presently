@@ -2,7 +2,6 @@ package journal.gratitude.com.gratitudejournal.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import journal.gratitude.com.gratitudejournal.R
 import org.threeten.bp.LocalDate
 
 sealed class TimelineItem

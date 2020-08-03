@@ -2,15 +2,16 @@ package journal.gratitude.com.gratitudejournal.ui.calendar
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.github.sundeepk.compactcalendarview.domain.Event
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.util.toMonthString
 import journal.gratitude.com.gratitudejournal.util.getYearString
 import journal.gratitude.com.gratitudejournal.util.toDate
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
+import journal.gratitude.com.gratitudejournal.util.toMonthString
 import kotlinx.android.synthetic.main.calendar_fragment.view.*
 import org.threeten.bp.LocalDate
 import java.util.*
