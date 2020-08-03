@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.app.Activity
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegatesManager
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.ui.bindingadapter.BindableAdapter
@@ -12,7 +13,7 @@ class TimelineAdapter(
     showDayOfWeek: Boolean,
     linesPerEntry: Int,
     onClickListener: OnClickListener
-) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>(), BindableAdapter<List<TimelineItem>> {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BindableAdapter<List<TimelineItem>> {
 
     private lateinit var entries: List<TimelineItem>
 
@@ -29,7 +30,7 @@ class TimelineAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return delegatesManager.onCreateViewHolder(viewGroup, viewType)
     }
 
@@ -37,7 +38,7 @@ class TimelineAdapter(
         return entries.size
     }
 
-    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         return delegatesManager.onBindViewHolder(entries, position, holder)
     }
 

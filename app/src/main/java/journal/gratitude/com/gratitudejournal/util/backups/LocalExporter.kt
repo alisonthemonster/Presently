@@ -2,7 +2,6 @@ package journal.gratitude.com.gratitudejournal.util.backups
 
 import android.os.Environment
 import journal.gratitude.com.gratitudejournal.model.Entry
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDateTime
