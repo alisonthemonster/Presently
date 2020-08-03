@@ -28,6 +28,10 @@ class FakeEntryRepository : EntryRepository {
         return liveData
     }
 
+    override suspend fun getEntryImmediately(date: LocalDate): Entry? {
+        return entriesDatabase[date]
+    }
+
     override suspend fun getEntries(): List<Entry> {
         val list = mutableListOf<Entry>()
         entriesDatabase.forEach { (date, entry) -> list.add(entry) }

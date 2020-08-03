@@ -2,22 +2,39 @@ package journal.gratitude.com.gratitudejournal.util.reminders
 
 import android.app.Notification
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import dagger.android.DaggerBroadcastReceiver
 import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.ContainerActivity.Companion.CHANNEL_ID
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler.Companion.ALARM_TYPE_RTC
+import kotlinx.coroutines.runBlocking
+import org.threeten.bp.LocalDate
+import javax.inject.Inject
 
 /**
  *  Receives broadcasts from an alarm and creates notifications
  */
-class ReminderReceiver : BroadcastReceiver() {
+class ReminderReceiver : DaggerBroadcastReceiver() {
+
+    @Inject
+    lateinit var repository: EntryRepository
 
     override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+
+        val entry = runBlocking {
+            repository.getEntryImmediately(LocalDate.now())
+        }
+
+        if (entry != null) {
+            return
+        }
+
         val openActivityIntent = Intent(context, ContainerActivity::class.java)
         openActivityIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP //set flag to restart/relaunch the app
         openActivityIntent.putExtra(fromNotification, true)

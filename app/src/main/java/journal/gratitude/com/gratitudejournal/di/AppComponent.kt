@@ -20,7 +20,8 @@ import javax.inject.Singleton
         SettingsModule::class,
         CloudUploadModule::class,
         WorkerModule::class,
-        AndroidSupportInjectionModule::class
+        AndroidSupportInjectionModule::class,
+        ReminderModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<GratitudeApplication> {

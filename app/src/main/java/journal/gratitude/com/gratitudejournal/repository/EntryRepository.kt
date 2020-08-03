@@ -10,6 +10,8 @@ interface EntryRepository {
 
     fun getEntry(date: LocalDate): LiveData<Entry>
 
+    suspend fun getEntryImmediately(date: LocalDate): Entry?
+
     suspend fun getEntriesFlow(): Flow<List<Entry>>
 
     suspend fun getEntries(): List<Entry>
