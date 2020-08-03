@@ -113,7 +113,7 @@ class SearchFragment : DaggerFragment() {
         search_results.layoutManager = LinearLayoutManager(context)
         search_results.adapter = adapter
 
-        viewModel.results.observe(this, Observer {
+        viewModel.results.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
             adapter.submitList(it)
         })
