@@ -83,4 +83,6 @@
     <string name="day_of_week_off">La data non include il giorno della settimana</string>
     <string name="day_of_week_on">La data include il giorno della settimana</string>
     <string name="day_of_week_title">Stile data</string>
+    <string name="max_lines_title">Lunghezza anteprima voce</string>
+    <string name="max_lines_summary">Numero di righe visualizzate nella sequenza temporale. Il testo completo è visibile quando si fa clic sulla voce.</string>
 </resources>

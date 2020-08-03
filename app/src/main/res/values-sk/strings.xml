@@ -84,4 +84,6 @@
     <string name="day_of_week_off">Dátum nezahŕňa deň v týždni</string>
     <string name="day_of_week_on">Dátum zahŕňa deň v týždni</string>
     <string name="day_of_week_title">Štýl dátumu</string>
+    <string name="max_lines_title">Dĺžka ukážky záznamu</string>
+    <string name="max_lines_summary">Počet riadkov zobrazených na časovej osi. Po kliknutí na položku sa zobrazí celý text.</string>
 </resources>

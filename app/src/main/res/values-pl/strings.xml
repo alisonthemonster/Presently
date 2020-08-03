@@ -81,4 +81,6 @@
     <string name="day_of_week_off">Data nie obejmuje dnia tygodnia</string>
     <string name="day_of_week_on">Data obejmuje dzień tygodnia</string>
     <string name="day_of_week_title">Styl daty</string>
+    <string name="max_lines_title">Długość podglądu wpisu</string>
+    <string name="max_lines_summary">Liczba wierszy wyświetlanych na osi czasu. Pełny tekst jest widoczny po kliknięciu wpisu.</string>
 </resources>
