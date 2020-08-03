@@ -14,6 +14,7 @@ class TimelineEntryViewModel(
         private val isLastItem: Boolean,
         private val numEntries: Int,
         private val showDayOfWeek: Boolean,
+        val maxLines: Int,
         private val clickListener: TimelineAdapter.OnClickListener
 ) {
 

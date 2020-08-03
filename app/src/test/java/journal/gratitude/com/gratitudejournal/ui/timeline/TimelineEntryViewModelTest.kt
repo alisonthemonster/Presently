@@ -22,6 +22,7 @@ class TimelineEntryViewModelTest {
         false,
         numEntries,
         false,
+        10,
         onClickListener
     )
 
@@ -39,6 +40,7 @@ class TimelineEntryViewModelTest {
             false,
             numEntries,
             false,
+            10,
             onClickListener
         )
         viewModel.onClick(mock())
@@ -54,6 +56,7 @@ class TimelineEntryViewModelTest {
             false,
             numEntries,
             false,
+            10,
             onClickListener
         )
 
@@ -71,6 +74,7 @@ class TimelineEntryViewModelTest {
             false,
             numEntries,
             false,
+            10,
             onClickListener
         )
 
@@ -88,6 +92,7 @@ class TimelineEntryViewModelTest {
             false,
             numEntries,
             false,
+            10,
             onClickListener
         )
 
@@ -113,6 +118,7 @@ class TimelineEntryViewModelTest {
             false,
             numEntries,
             false,
+            10,
             onClickListener
         )
 
@@ -146,6 +152,7 @@ class TimelineEntryViewModelTest {
             true,
             numEntries,
             false,
+            10,
             onClickListener
         )
 
@@ -177,6 +184,7 @@ class TimelineEntryViewModelTest {
             false,
             numEntries,
             true,
+            10,
             onClickListener
         )
 

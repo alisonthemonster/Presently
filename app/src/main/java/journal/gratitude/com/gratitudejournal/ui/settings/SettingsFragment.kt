@@ -9,6 +9,9 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.InputType
+import android.text.Spanned
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -20,6 +23,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -73,40 +77,40 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        val privacy = findPreference("privacy_policy")
-        privacy.setOnPreferenceClickListener {
+        val privacy = findPreference<Preference>("privacy_policy")
+        privacy?.setOnPreferenceClickListener {
             openPrivacyPolicy()
             true
         }
-        val terms = findPreference("terms_conditions")
-        terms.setOnPreferenceClickListener {
+        val terms = findPreference<Preference>("terms_conditions")
+        terms?.setOnPreferenceClickListener {
             openTermsAndConditions()
             true
         }
-        val faq = findPreference("faq")
-        faq.setOnPreferenceClickListener {
+        val faq = findPreference<Preference>("faq")
+        faq?.setOnPreferenceClickListener {
             openFaq()
             true
         }
-        val theme = findPreference(THEME_PREF)
-        theme.setOnPreferenceClickListener {
+        val theme = findPreference<Preference>(THEME_PREF)
+        theme?.setOnPreferenceClickListener {
             openThemes()
             true
         }
-        val oss = findPreference("open_source")
-        oss.setOnPreferenceClickListener {
+        val oss = findPreference<Preference>("open_source")
+        oss?.setOnPreferenceClickListener {
             startActivity(Intent(context, OssLicensesMenuActivity::class.java))
             true
         }
 
-        val version = findPreference(VERSION_PREF)
+        val version = findPreference<Preference>(VERSION_PREF)
         val versionNum = BuildConfig.VERSION_NAME
-        version.summary = versionNum
-        val dropbox = findPreference(BACKUP_TOKEN)
-        val cadencePref = (findPreference(BACKUP_CADENCE) as ListPreference)
+        version?.summary = versionNum
+        val dropbox = findPreference<Preference>(BACKUP_TOKEN)
+        val cadencePref = (findPreference<Preference>(BACKUP_CADENCE) as ListPreference)
 
 
-        dropbox.setOnPreferenceClickListener {
+        dropbox?.setOnPreferenceClickListener {
             val wantsToLogin = preferenceScreen.sharedPreferences.getBoolean(BACKUP_TOKEN, false)
             if (!wantsToLogin) {
                 firebaseAnalytics.logEvent(DROPBOX_DEAUTH, null)
@@ -129,23 +133,22 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
         cadencePref.setValueIndex(index)
 
-        val oneTimeExport = findPreference(ONE_TIME_EXPORT_PREF)
-        oneTimeExport.setOnPreferenceClickListener {
+        val oneTimeExport = findPreference<Preference>(ONE_TIME_EXPORT_PREF)
+        oneTimeExport?.setOnPreferenceClickListener {
             exportToCsv()
             true
         }
 
-        val import = findPreference(IMPORT_PREF)
-        import.setOnPreferenceClickListener {
+        val import = findPreference<Preference>(IMPORT_PREF)
+        import?.setOnPreferenceClickListener {
             importFromCsv()
             true
         }
 
-        val fingerprint = findPreference(FINGERPRINT)
+        val fingerprint = findPreference<Preference>(FINGERPRINT)
         val canAuthenticateUsingFingerPrint =
             BiometricManager.from(requireContext()).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
-        fingerprint.parent!!.isEnabled = canAuthenticateUsingFingerPrint
-
+        fingerprint?.parent!!.isEnabled = canAuthenticateUsingFingerPrint
     }
 
     override fun onResume() {
@@ -514,5 +517,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val ONE_TIME_EXPORT_PREF = "one_time_export"
         const val IMPORT_PREF = "import_entries"
         const val DAY_OF_WEEK = "day_of_week"
+        const val LINES_PER_ENTRY_IN_TIMELINE = "lines_per_entry_in_timeline"
     }
 }
