@@ -5,7 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.nhaarman.mockitokotlin2.*
-import journal.gratitude.com.gratitudejournal.LiveDataTestUtil
+import journal.gratitude.com.gratitudejournal.util.LiveDataTestUtil
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.ui.search.SearchViewModel

@@ -6,7 +6,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import journal.gratitude.com.gratitudejournal.LiveDataTestUtil
+import journal.gratitude.com.gratitudejournal.util.LiveDataTestUtil
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
