@@ -49,7 +49,7 @@ interface CSVReader {
  * the delimiter to use for separating entries
  * @param quotechar
  * the character to use for quoted elements
- * @param line
+ * @param skipLines
  * the line number to skip for start reading
  */
 class CSVReaderImpl(reader: Reader,
