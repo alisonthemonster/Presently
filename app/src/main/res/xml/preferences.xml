@@ -46,7 +46,7 @@
         <SeekBarPreference
             android:defaultValue="10"
             android:key="lines_per_entry_in_timeline"
-            android:max="100"
+            android:max="50"
             android:summary="@string/max_lines_summary"
             android:title="@string/max_lines_title"
             app:min="1"

@@ -82,6 +82,6 @@
     <string name="day_of_week_off">Das Datum enthält nicht den Wochentag</string>
     <string name="day_of_week_on">Datum beinhaltet Wochentag</string>
     <string name="day_of_week_title">Datumsstil</string>
-    <string name="max_lines_title">Max. Textzeilen in Zeitstrahl</string>
-    <string name="max_lines_summary">Wenn ein Eintrag diese Anzahl an Zeilen übersteigt, wird er abgekürzt dargestellt. Sie können auf den Eintrag tippen, um den vollständigen Text zu sehen.</string>
+    <string name="max_lines_title">Textzeilen in Zeitstrahl</string>
+    <string name="max_lines_summary">Anzahl der Textzeilen, die im Zeitstrahl angezeigt werden. Sie können den vollständigen Text zu sehen, indem Sie auf den Eintrag tippen.</string>
 </resources>
