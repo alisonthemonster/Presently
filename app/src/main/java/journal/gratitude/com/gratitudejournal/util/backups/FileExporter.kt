@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class FileExporter(val csvWrite: CSVWriter) {
+class FileExporter(private val csvWrite: CSVWriter) {
 
     /*
     * Takes in entries and creates a CSV

@@ -103,27 +103,27 @@ class CSVWriterImpl(writer: Writer,
     companion object {
 
         /** The character used for escaping quotes.  */
-        val DEFAULT_ESCAPE_CHARACTER = '"'
+        const val DEFAULT_ESCAPE_CHARACTER = '"'
 
         /** The default separator to use if none is supplied to the constructor.  */
-        val DEFAULT_SEPARATOR = ','
+        const val DEFAULT_SEPARATOR = ','
 
         /**
          * The default quote character to use if none is supplied to the
          * constructor.
          */
-        val DEFAULT_QUOTE_CHARACTER = '"'
+        const val DEFAULT_QUOTE_CHARACTER = '"'
 
         /** The quote constant to use when you wish to suppress all quoting.  */
-        val NO_QUOTE_CHARACTER = '\u0000'
+        const val NO_QUOTE_CHARACTER = '\u0000'
 
         /** The escape constant to use when you wish to suppress all escaping.  */
-        val NO_ESCAPE_CHARACTER = '\u0000'
+        const val NO_ESCAPE_CHARACTER = '\u0000'
 
         /** Default line terminator uses platform encoding.  */
-        val DEFAULT_LINE_END = "\n"
+        const val DEFAULT_LINE_END = "\n"
 
-        val INITIAL_STRING_SIZE = 128
+        const val INITIAL_STRING_SIZE = 128
 
     }
 
