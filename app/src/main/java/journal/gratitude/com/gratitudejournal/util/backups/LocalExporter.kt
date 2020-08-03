@@ -2,6 +2,9 @@ package journal.gratitude.com.gratitudejournal.util.backups
 
 import android.os.Environment
 import journal.gratitude.com.gratitudejournal.model.Entry
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDateTime
 import java.io.File
 import java.io.FileWriter
@@ -19,7 +22,7 @@ object LocalExporter {
         val file = File(dir, "PresentlyBackup$date.csv")
 
         //create csv
-        val fileExporter = FileExporter(CSVWriterImpl(FileWriter(file)))
+        val fileExporter = withContext(IO) { FileExporter(CSVWriterImpl(FileWriter(file))) }
         return fileExporter.exportToCSV(items, file)
     }
 }
