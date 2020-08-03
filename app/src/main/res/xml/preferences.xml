@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:layout="@layout/preference_category_view"
@@ -42,6 +43,14 @@
             android:summaryOn="@string/day_of_week_on"
             android:title="@string/day_of_week_title" />
 
+        <SeekBarPreference
+            android:defaultValue="10"
+            android:key="lines_per_entry_in_timeline"
+            android:max="100"
+            android:summary="@string/max_lines_summary"
+            android:title="@string/max_lines_title"
+            app:min="1"
+            app:showSeekBarValue="true" />
     </PreferenceCategory>
 
     <PreferenceCategory

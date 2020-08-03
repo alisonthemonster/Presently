@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
-            android:maxLines="10"
+            android:maxLines="@{entryViewModel.maxLines}"
             android:minLines="3"
             android:text="@{entryViewModel.content}"
             android:textAlignment="viewStart"

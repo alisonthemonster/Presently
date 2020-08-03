@@ -85,4 +85,6 @@
     <string name="day_of_week_off">Date does not include day of the week</string>
     <string name="day_of_week_on">Date includes day of the week</string>
     <string name="day_of_week_title">Date Style</string>
+    <string name="max_lines_title">Maximum Text Lines in Timeline</string>
+    <string name="max_lines_summary">If an entry exceeds this many lines, it will be truncated. You can press the entry to view the complete text.</string>
 </resources>
