@@ -12,7 +12,8 @@ import journal.gratitude.com.gratitudejournal.ContainerActivity.Companion.CHANNE
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler.Companion.ALARM_TYPE_RTC
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
@@ -27,40 +28,44 @@ class ReminderReceiver : DaggerBroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
-        val entry = runBlocking {
-            repository.getEntryImmediately(LocalDate.now())
+        val result = goAsync()
+
+        GlobalScope.launch {
+            try {
+                val entry = repository.getEntryImmediately(LocalDate.now())
+
+                if (entry == null) {
+                    val openActivityIntent = Intent(context, ContainerActivity::class.java)
+                    openActivityIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP //set flag to restart/relaunch the app
+                    openActivityIntent.putExtra(fromNotification, true)
+                    val pendingIntent = PendingIntent.getActivity(
+                            context,
+                            ALARM_TYPE_RTC,
+                            openActivityIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+
+                    //Build notification
+                    createLocalNotification(context, pendingIntent)
+                }
+            } finally {
+                result.finish()
+            }
         }
-
-        if (entry != null) {
-            return
-        }
-
-        val openActivityIntent = Intent(context, ContainerActivity::class.java)
-        openActivityIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP //set flag to restart/relaunch the app
-        openActivityIntent.putExtra(fromNotification, true)
-        val pendingIntent = PendingIntent.getActivity(
-            context,
-            ALARM_TYPE_RTC,
-            openActivityIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        //Build notification
-        createLocalNotification(context, pendingIntent)
     }
 
     private fun createLocalNotification(context: Context, pendingIntent: PendingIntent) {
         val title = context.getString(R.string.reminder_title)
-        val content =  context.getString(R.string.what_are_you_thankful_for_today)
+        val content = context.getString(R.string.what_are_you_thankful_for_today)
 
         val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_app_icon)
-            .setContentTitle(title)
-            .setContentText(content)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(pendingIntent)
-            .setCategory(Notification.CATEGORY_REMINDER)
-            .setAutoCancel(true)
+                .setSmallIcon(R.drawable.ic_app_icon)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setCategory(Notification.CATEGORY_REMINDER)
+                .setAutoCancel(true)
 
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(ALARM_TYPE_RTC, notificationBuilder.build())
