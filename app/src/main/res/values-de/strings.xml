@@ -84,4 +84,9 @@
     <string name="day_of_week_title">Datumsstil</string>
     <string name="max_lines_title">Textzeilen in Zeitstrahl</string>
     <string name="max_lines_summary">Anzahl der Textzeilen, die im Zeitstrahl angezeigt werden. Sie können den vollständigen Text zu sehen, indem Sie auf den Eintrag tippen.</string>
+    <string name="saturday">Samstag</string>
+    <string name="sunday">Sonntag</string>
+    <string name="monday">Montag</string>
+    <string name="day_of_week_summary">Stellen Sie den ersten Wochentag in der Kalenderansicht ein</string>
+    <string name="first_day_of_week_title">Erster Tag der Woche</string>
 </resources>

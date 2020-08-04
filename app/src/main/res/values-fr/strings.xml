@@ -85,4 +85,9 @@
     <string name="day_of_week_title">Style de date</string>
     <string name="max_lines_title">Longueur d\'entrée</string>
     <string name="max_lines_summary">Nombre de lignes affichées dans la chronologie. Le texte intégral est visible lorsque vous cliquez sur l\'entrée.</string>
+    <string name="saturday">Samedi</string>
+    <string name="sunday">Dimanche</string>
+    <string name="monday">Lundi</string>
+    <string name="day_of_week_summary">Définir le premier jour de la semaine dans la vue du calendrier</string>
+    <string name="first_day_of_week_title">Premier jour de la semaine</string>
 </resources>

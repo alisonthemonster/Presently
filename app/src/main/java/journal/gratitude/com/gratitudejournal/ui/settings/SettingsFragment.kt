@@ -518,5 +518,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val IMPORT_PREF = "import_entries"
         const val DAY_OF_WEEK = "day_of_week"
         const val LINES_PER_ENTRY_IN_TIMELINE = "lines_per_entry_in_timeline"
+        const val FIRST_DAY_OF_WEEK = "first_day_of_week"
     }
 }

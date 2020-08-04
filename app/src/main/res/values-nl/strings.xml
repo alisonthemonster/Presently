@@ -83,4 +83,9 @@
     <string name="day_of_week_title">Datumstijl</string>
     <string name="max_lines_title">Lengte invoervoorbeeld</string>
     <string name="max_lines_summary">Aantal regels weergegeven in de tijdlijn. De volledige tekst is zichtbaar wanneer u op het item klikt.</string>
+    <string name="saturday">zaterdag</string>
+    <string name="sunday">zondag</string>
+    <string name="monday">maandag</string>
+    <string name="day_of_week_summary">Stel de eerste dag van de week in de kalenderweergave in</string>
+    <string name="first_day_of_week_title">Eerste dag van de week</string>
 </resources>

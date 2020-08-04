@@ -84,4 +84,11 @@
     <string name="day_of_week_off">لا يشمل التاريخ يوم من أيام الأسبوع</string>
     <string name="day_of_week_on">يشمل التاريخ يوم من الأسبوع</string>
     <string name="day_of_week_title">نمط التاريخ</string>
+    <string name="max_lines_title">طول معاينة الإدخال</string>
+    <string name="max_lines_summary">عدد الأسطر الموضحة في المخطط الزمني. النص الكامل مرئي عند النقر فوق الإدخال.</string>
+    <string name="saturday">يوم السبت</string>
+    <string name="sunday">الأحد</string>
+    <string name="monday">الإثنين</string>
+    <string name="day_of_week_summary">قم بتعيين اليوم الأول من الأسبوع في طريقة عرض التقويم</string>
+    <string name="first_day_of_week_title">اول يوم من الاسبوع</string>
 </resources>

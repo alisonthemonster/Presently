@@ -85,4 +85,9 @@
     <string name="day_of_week_title">Stile data</string>
     <string name="max_lines_title">Lunghezza anteprima voce</string>
     <string name="max_lines_summary">Numero di righe visualizzate nella sequenza temporale. Il testo completo è visibile quando si fa clic sulla voce.</string>
+    <string name="saturday">Sabato</string>
+    <string name="sunday">Domenica</string>
+    <string name="monday">Lunedi</string>
+    <string name="day_of_week_summary">Imposta il primo giorno della settimana nella vista del calendario</string>
+    <string name="first_day_of_week_title">Primo giorno della settimana</string>
 </resources>

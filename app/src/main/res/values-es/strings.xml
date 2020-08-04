@@ -86,4 +86,9 @@
     <string name="day_of_week_title">Estilo de fecha</string>
     <string name="max_lines_title">Longitud de entrada de línea de tiempo</string>
     <string name="max_lines_summary">Número de líneas que se muestran en la línea de tiempo. El texto completo es visible cuando hace clic en la entrada.</string>
+    <string name="saturday">sábado</string>
+    <string name="sunday">domingo</string>
+    <string name="monday">lunes</string>
+    <string name="day_of_week_summary">Establecer el primer día de la semana en la vista de calendario</string>
+    <string name="first_day_of_week_title">Primer día de la semana</string>
 </resources>
