@@ -84,4 +84,11 @@
     <string name="day_of_week_off">Dátum nezahŕňa deň v týždni</string>
     <string name="day_of_week_on">Dátum zahŕňa deň v týždni</string>
     <string name="day_of_week_title">Štýl dátumu</string>
+    <string name="max_lines_title">Dĺžka ukážky záznamu</string>
+    <string name="max_lines_summary">Počet riadkov zobrazených na časovej osi. Po kliknutí na položku sa zobrazí celý text.</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="day_of_week_summary">Set the first day of the week in the calendar view</string>
+    <string name="first_day_of_week_title">First day of the week</string>
 </resources>

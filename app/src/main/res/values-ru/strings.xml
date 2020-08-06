@@ -83,4 +83,11 @@
     <string name="day_of_week_off">Дата не включает день недели</string>
     <string name="day_of_week_on">Дата включает день недели</string>
     <string name="day_of_week_title">Стиль Даты</string>
+    <string name="max_lines_title">Длина предварительного просмотра записи</string>
+    <string name="max_lines_summary">Количество строк показано на временной шкале. Полный текст виден при нажатии на запись.</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="day_of_week_summary">Set the first day of the week in the calendar view</string>
+    <string name="first_day_of_week_title">First day of the week</string>
 </resources>

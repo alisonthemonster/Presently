@@ -81,4 +81,11 @@
     <string name="day_of_week_off">Data nie obejmuje dnia tygodnia</string>
     <string name="day_of_week_on">Data obejmuje dzień tygodnia</string>
     <string name="day_of_week_title">Styl daty</string>
+    <string name="max_lines_title">Długość podglądu wpisu</string>
+    <string name="max_lines_summary">Liczba wierszy wyświetlanych na osi czasu. Pełny tekst jest widoczny po kliknięciu wpisu.</string>
+    <string name="saturday">sobota</string>
+    <string name="sunday">niedziela</string>
+    <string name="monday">poniedziałek</string>
+    <string name="day_of_week_summary">Ustaw pierwszy dzień tygodnia w widoku kalendarza</string>
+    <string name="first_day_of_week_title">Pierwszy dzień tygodnia</string>
 </resources>

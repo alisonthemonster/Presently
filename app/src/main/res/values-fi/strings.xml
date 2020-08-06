@@ -83,4 +83,11 @@
     <string name="day_of_week_off">Päivämäärä ei sisällä viikonpäivää</string>
     <string name="day_of_week_on">Päivämäärä sisältää viikonpäivän</string>
     <string name="day_of_week_title">Päivämäärä tyyli</string>
+    <string name="max_lines_title">Aikajana merkinnän pituus</string>
+    <string name="max_lines_summary">Aikajana näytettyjen rivien lukumäärä. Koko teksti on näkyvissä, kun napsautat merkintää.</string>
+    <string name="saturday">lauantai</string>
+    <string name="sunday">sunnuntai</string>
+    <string name="monday">maanantai</string>
+    <string name="day_of_week_summary">Aseta viikon ensimmäinen päivä kalenterinäkymässä</string>
+    <string name="first_day_of_week_title">Viikon ensimmäinen päivä</string>
 </resources>

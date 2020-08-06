@@ -15,6 +15,8 @@ import kotlinx.android.synthetic.main.calendar_fragment.view.*
 import org.threeten.bp.LocalDate
 import java.util.*
 import android.util.TypedValue
+import androidx.preference.PreferenceManager
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FIRST_DAY_OF_WEEK
 
 
 class EntryCalendarView : ConstraintLayout {
@@ -41,7 +43,15 @@ class EntryCalendarView : ConstraintLayout {
 
         val locale = Locale.getDefault()
 
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val firstDayOfWeek = when (prefs.getString(FIRST_DAY_OF_WEEK, "monday")) {
+            "0" -> Calendar.SATURDAY
+            "1" -> Calendar.SUNDAY
+            else -> Calendar.MONDAY
+        }
+
         calendar = view.compactcalendar_view
+        calendar.setFirstDayOfWeek(firstDayOfWeek)
         calendar.setLocale(TimeZone.getDefault(), locale)
         if (locale.language == "ar") {
             //use English characters since the library doesn't support Arabic

@@ -35,6 +35,16 @@
             android:summary="@string/theme_change"
             android:title="@string/theme" />
 
+        <SeekBarPreference
+            android:defaultValue="10"
+            android:icon="@drawable/ic_length"
+            android:key="lines_per_entry_in_timeline"
+            android:max="50"
+            android:summary="@string/max_lines_summary"
+            android:title="@string/max_lines_title"
+            app:min="1"
+            app:showSeekBarValue="true" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:icon="@drawable/ic_date"
@@ -43,14 +53,14 @@
             android:summaryOn="@string/day_of_week_on"
             android:title="@string/day_of_week_title" />
 
-        <SeekBarPreference
-            android:defaultValue="10"
-            android:key="lines_per_entry_in_timeline"
-            android:max="50"
-            android:summary="@string/max_lines_summary"
-            android:title="@string/max_lines_title"
-            app:min="1"
-            app:showSeekBarValue="true" />
+        <ListPreference
+            android:key="first_day_of_week"
+            android:title="@string/first_day_of_week_title"
+            android:icon="@drawable/ic_day"
+            app:summary="@string/day_of_week_summary"
+            android:entries="@array/DaysOfWeek"
+            android:entryValues="@array/DaysOfWeekValues" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

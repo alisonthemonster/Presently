@@ -82,4 +82,11 @@
     <string name="day_of_week_off">A data não inclui o dia da semana</string>
     <string name="day_of_week_on">A data inclui o dia da semana</string>
     <string name="day_of_week_title">Estilo da data</string>
+    <string name="max_lines_title">Comprimento pré-visualização entrada</string>
+    <string name="max_lines_summary">Número de linhas mostradas na linha do tempo. O texto completo fica visível quando você clica na entrada.</string>
+    <string name="saturday">sábado</string>
+    <string name="sunday">domingo</string>
+    <string name="monday">Segunda-feira</string>
+    <string name="day_of_week_summary">Defina o primeiro dia da semana na exibição do calendário</string>
+    <string name="first_day_of_week_title">Primeiro dia da semana</string>
 </resources>
