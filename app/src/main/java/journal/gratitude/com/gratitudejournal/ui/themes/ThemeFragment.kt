@@ -114,6 +114,24 @@ class ThemeFragment : Fragment() {
                 true
             ),
             Theme(
+                "Katie",
+                ContextCompat.getColor(context!!, R.color.katieToolbarColor),
+                ContextCompat.getColor(context!!, R.color.katieBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.katieToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.katieMainTextAndButtonColor),
+                R.drawable.ic_katie,
+                true
+            ),
+            Theme(
+                "Brittany",
+                ContextCompat.getColor(context!!, R.color.brittanyToolbarColor),
+                ContextCompat.getColor(context!!, R.color.brittanyBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.brittanyToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.brittanyMainTextAndButtonColor),
+                R.drawable.ic_brittany,
+                true
+            ),
+            Theme(
                 "Matisse",
                 ContextCompat.getColor(context!!, R.color.matisseToolbarColor),
                 ContextCompat.getColor(context!!, R.color.matisseBackgroundColor),
@@ -122,12 +140,38 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_matisse
             ),
             Theme(
+                "Jungle",
+                ContextCompat.getColor(context!!, R.color.jungleToolbarColor),
+                ContextCompat.getColor(context!!, R.color.jungleBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.jungleToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.jungleMainTextAndButtonColor),
+                R.drawable.ic_tiger,
+                true
+            ),
+            Theme(
                 "Monstera",
                 ContextCompat.getColor(context!!, R.color.monsteraToolbarColor),
                 ContextCompat.getColor(context!!, R.color.monsteraBackgroundColor),
                 ContextCompat.getColor(context!!, R.color.monsteraToolbarItemColor),
                 ContextCompat.getColor(context!!, R.color.monsteraMainTextAndButtonColor),
                 R.drawable.ic_monstera
+            ),
+            Theme(
+                "Julie",
+                ContextCompat.getColor(context!!, R.color.julieToolbarColor),
+                ContextCompat.getColor(context!!, R.color.julieBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.julieToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.julieMainTextAndButtonColor),
+                R.drawable.ic_julie,
+                true
+            ),
+            Theme(
+                "Clouds",
+                ContextCompat.getColor(context!!, R.color.cloudsToolbarColor),
+                ContextCompat.getColor(context!!, R.color.cloudsBackgroundColor),
+                ContextCompat.getColor(context!!, R.color.cloudsToolbarItemColor),
+                ContextCompat.getColor(context!!, R.color.cloudsMainTextAndButtonColor),
+                R.drawable.clouds
             ),
             Theme(
                 "Wesley",
@@ -146,23 +190,6 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_shell
             ),
             Theme(
-                "Clouds",
-                ContextCompat.getColor(context!!, R.color.cloudsToolbarColor),
-                ContextCompat.getColor(context!!, R.color.cloudsBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.cloudsToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.cloudsMainTextAndButtonColor),
-                R.drawable.clouds
-            ),
-            Theme(
-                "Katie",
-                ContextCompat.getColor(context!!, R.color.katieToolbarColor),
-                ContextCompat.getColor(context!!, R.color.katieBackgroundColor),
-                ContextCompat.getColor(context!!, R.color.katieToolbarItemColor),
-                ContextCompat.getColor(context!!, R.color.katieMainTextAndButtonColor),
-                R.drawable.ic_katie,
-                true
-            ),
-            Theme(
                 "Western",
                 ContextCompat.getColor(context!!, R.color.westernToolbarColor),
                 ContextCompat.getColor(context!!, R.color.westernBackgroundColor),
@@ -170,7 +197,6 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(context!!, R.color.westernMainTextAndButtonColor),
                 R.drawable.ic_cactus
             ),
-
             Theme(
                 "Lotus",
                 ContextCompat.getColor(context!!, R.color.lotusToolbarColor),

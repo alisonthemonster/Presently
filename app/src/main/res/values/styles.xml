@@ -387,6 +387,51 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
+    <style name="AppTheme.BRITTANY" parent="AppTheme">
+        <item name="colorAccent">@color/brittanyAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/brittanyMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/brittanyBackgroundColor</item>
+        <item name="android:colorPrimary">@color/brittanyToolbarColor</item>
+        <item name="android:textColorPrimary">@color/brittanyDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/brittanyHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/brittanyHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/brittanyToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/brittanyTimelineColor</item>
+        <item name="android:statusBarColor">@color/brittanyStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_brittany</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.JUNGLE" parent="AppTheme">
+        <item name="colorAccent">@color/jungleAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/jungleMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/jungleBackgroundColor</item>
+        <item name="android:colorPrimary">@color/jungleToolbarColor</item>
+        <item name="android:textColorPrimary">@color/jungleDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/jungleHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/jungleHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/jungleToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/jungleTimelineColor</item>
+        <item name="android:statusBarColor">@color/jungleStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_tiger</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.JULIE" parent="AppTheme">
+        <item name="colorAccent">@color/julieAndroidWidgetColor</item>
+        <item name="android:colorAccent">@color/julieMainTextAndButtonColor</item>
+        <item name="android:colorBackground">@color/julieBackgroundColor</item>
+        <item name="android:colorPrimary">@color/julieToolbarColor</item>
+        <item name="android:textColorPrimary">@color/julieDateTextEntryScreenTextColor</item>
+        <item name="android:textColorSecondary">@color/julieHintQuoteTextColor</item>
+        <item name="android:textColorHighlight">@color/julieHintQuoteTextColor</item>
+        <item name="android:colorForeground">@color/julieToolbarItemColor</item>
+        <item name="android:colorPrimaryDark">@color/julieTimelineColor</item>
+        <item name="android:statusBarColor">@color/julieStatusBarColor</item>
+        <item name="timelineIcon">@drawable/ic_julie</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
     <style name="TextAppearance.Title" parent="android:TextAppearance">
         <item name="android:textSize">36sp</item>
         <item name="fontPath">fonts/value-serif.ttf</item>
