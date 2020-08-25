@@ -45,13 +45,14 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
             dir: "$buildDir/tmp/kotlin-classes/debug",
             excludes: fileFilter
     )
-
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(
+    def testTree = fileTree(
             dir: "$buildDir",
             include: ['jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec']
     )
+
+    getSourceDirectories().setFrom(mainSrc)
+    getClassDirectories().setFrom(debugTree)
+    getExecutionData().setFrom(testTree)
 
     doFirst {
         files('build/intermediates/classes/debug').getFiles().each { file ->
