@@ -90,4 +90,5 @@
     <string name="monday">Segunda-feira</string>
     <string name="day_of_week_summary">Defina o primeiro dia da semana na exibição do calendário</string>
     <string name="first_day_of_week_title">Primeiro dia da semana</string>
+    <string name="share_milestone">Eu completei %1$d dias de journaling gratidão! Junte-me usando o Atualmente App. #PresentlyApp</string>
 </resources>

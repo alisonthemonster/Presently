@@ -89,4 +89,5 @@
     <string name="monday">Montag</string>
     <string name="day_of_week_summary">Stellen Sie den ersten Wochentag in der Kalenderansicht ein</string>
     <string name="first_day_of_week_title">Erster Tag der Woche</string>
+    <string name="share_milestone">Ich absolvierte %1$d Tage Dankbarkeit Journaling! Begleiten Sie mich die gegenwärtig App verwenden. #PresentlyApp</string>
 </resources>

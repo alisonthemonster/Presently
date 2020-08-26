@@ -48,10 +48,10 @@ class CelebrateDialogFragment : DialogFragment() {
 
             val share = Intent(Intent.ACTION_SEND)
             share.type = "text/plain"
-            //TODO extract to strings.xml and translate it
-            share.putExtra(Intent.EXTRA_TEXT, "I completed $numEntries days of gratitude journaling! Join me using the Presently App. #PresentlyApp")
+            val shareText = getString(R.string.share_milestone, numEntries)
+            share.putExtra(Intent.EXTRA_TEXT, shareText)
 
-            startActivity(Intent.createChooser(share, "Share your gratitude"))
+            startActivity(Intent.createChooser(share, getString(R.string.share_your_gratitude)))
         }
 
     }

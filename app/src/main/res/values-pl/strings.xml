@@ -88,4 +88,5 @@
     <string name="monday">poniedziałek</string>
     <string name="day_of_week_summary">Ustaw pierwszy dzień tygodnia w widoku kalendarza</string>
     <string name="first_day_of_week_title">Pierwszy dzień tygodnia</string>
+    <string name="share_milestone">Ukończyłem %1$d dni wdzięczności dziennika! Dołącz do mnie za pomocą obecnie App. #PresentlyApp</string>
 </resources>

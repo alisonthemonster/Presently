@@ -90,4 +90,5 @@
     <string name="monday">Lundi</string>
     <string name="day_of_week_summary">Définir le premier jour de la semaine dans la vue du calendrier</string>
     <string name="first_day_of_week_title">Premier jour de la semaine</string>
+    <string name="share_milestone">J\'ai terminé %1$d jours de journaling de gratitude! Rejoignez-moi en utilisant l\'application Actuellement. #PresentlyApp</string>
 </resources>

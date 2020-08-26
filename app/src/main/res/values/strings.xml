@@ -92,4 +92,5 @@
     <string name="monday">Monday</string>
     <string name="day_of_week_summary">Set the first day of the week in the calendar view</string>
     <string name="first_day_of_week_title">First day of the week</string>
+    <string name="share_milestone">I completed %1$d days of gratitude journaling! Join me using the Presently App. #PresentlyApp</string>
 </resources>

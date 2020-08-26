@@ -88,4 +88,5 @@
     <string name="monday">maandag</string>
     <string name="day_of_week_summary">Stel de eerste dag van de week in de kalenderweergave in</string>
     <string name="first_day_of_week_title">Eerste dag van de week</string>
+    <string name="share_milestone">Ik legde %1$d dagen van dankbaarheid journaling! Join me met behulp van de Momenteel App. #PresentlyApp</string>
 </resources>
