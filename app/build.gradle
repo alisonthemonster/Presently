@@ -27,6 +27,11 @@ android {
         //TODO wire up to CI
         //buildConfigField 'int', 'BUILD_NUMBER', "${project.ext.buildNumber}"
 
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
         testInstrumentationRunner "journal.gratitude.com.gratitudejournal.CustomTestRunner"
         kapt {
             arguments {
