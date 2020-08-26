@@ -15,6 +15,7 @@ ext {
     lifecycle_version = "1.1.1"
     room_version = "1.1.1"
     coroutine_version = "0.26.1"
+    navigation_version = "2.3.0"
 
     //testing
     mockito_version = "2.0.0"

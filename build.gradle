@@ -12,9 +12,9 @@ buildscript {
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.3'
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0-alpha02"
-        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.0'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.1.1'
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
+        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.2'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.2.0'
     }
 }
 
