@@ -383,21 +383,24 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private fun openShareApp() {
         firebaseAnalytics.logEvent(OPENED_SHARE_APP, null)
 
-        val appPackageName = context?.packageName
+
+
         try {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=$appPackageName")
-                )
-            )
-        } catch (exception: ActivityNotFoundException) {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
-                )
-            )
+            val appName= getString(R.string.app_name)
+            val textIntent = Intent(Intent.ACTION_SEND)
+            textIntent.type = "text/plain"
+            textIntent.putExtra(Intent.EXTRA_SUBJECT, appName)
+
+            val appPackageName = context?.packageName
+            val shareApp = getString(R.string.share_app_text)
+            val shareText = "$shareApp https://play.google.com/store/apps/details?id=$appPackageName"
+            textIntent.putExtra(Intent.EXTRA_TEXT, shareText)
+
+            val chooserIntent = Intent.createChooser(textIntent, appName)
+            startActivity(chooserIntent);
+        } catch (exception: Exception) {
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(exception)
         }
     }
 
