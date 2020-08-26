@@ -120,7 +120,7 @@
             android:title="@string/faq" />
 
         <Preference
-            android:icon="@drawable/ic_share"
+            android:icon="@drawable/ic_share_app"
             android:key="share_app"
             android:summary="@string/enjoying_presently"
             android:title="@string/share_presently" />
