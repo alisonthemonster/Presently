@@ -30,13 +30,13 @@ class FakeEntryRepository : EntryRepository {
 
     override suspend fun getEntries(): List<Entry> {
         val list = mutableListOf<Entry>()
-        entriesDatabase.forEach { (date, entry) -> list.add(entry) }
+        entriesDatabase.forEach { (_, entry) -> list.add(entry) }
         return list
     }
 
     override suspend fun getEntriesFlow(): Flow<List<Entry>> {
         val list = mutableListOf<Entry>()
-        entriesDatabase.forEach { (date, entry) -> list.add(entry) }
+        entriesDatabase.forEach { (_, entry) -> list.add(entry) }
         return flow {
             emit(emptyList<Entry>())
         }

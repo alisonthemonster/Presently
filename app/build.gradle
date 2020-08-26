@@ -28,18 +28,17 @@ android {
         //buildConfigField 'int', 'BUILD_NUMBER', "${project.ext.buildNumber}"
 
         testInstrumentationRunner "journal.gratitude.com.gratitudejournal.CustomTestRunner"
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation":
-                                     "$projectDir/schemas".toString()]
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
         buildConfigField "String", "DROPBOX_APP_KEY", "\"${project.property("dropboxAppKey")}\""
 
         manifestPlaceholders = [dropboxAppKey: project.property("dropboxAppKey")]
     }
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding true
     }
     buildTypes {
         debug {
