@@ -28,7 +28,7 @@ references:
   android_config: &android_config
     working_directory: *workspace
     docker:
-      - image: circleci/android:api-28-alpha
+      - image: circleci/android:api-29
     environment:
       TERM: dumb
       _JAVA_OPTIONS: "-Xmx2048m -XX:+UseContainerSupport"
