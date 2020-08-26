@@ -9,9 +9,6 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.text.InputFilter
-import android.text.InputType
-import android.text.Spanned
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -23,7 +20,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -77,6 +73,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
+        val share = findPreference<Preference>("share_app")
+        share?.setOnPreferenceClickListener {
+            openShareApp()
+            true
+        }
         val privacy = findPreference<Preference>("privacy_policy")
         privacy?.setOnPreferenceClickListener {
             openPrivacyPolicy()
@@ -376,6 +377,27 @@ class SettingsFragment : PreferenceFragmentCompat(),
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
             val crashlytics = FirebaseCrashlytics.getInstance()
             crashlytics.recordException(activityNotFoundException)
+        }
+    }
+
+    private fun openShareApp() {
+        firebaseAnalytics.logEvent(OPENED_SHARE_APP, null)
+
+        val appPackageName = context?.packageName
+        try {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=$appPackageName")
+                )
+            )
+        } catch (exception: ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                )
+            )
         }
     }
 

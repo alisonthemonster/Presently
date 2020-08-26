@@ -92,4 +92,6 @@
     <string name="day_of_week_summary">قم بتعيين اليوم الأول من الأسبوع في طريقة عرض التقويم</string>
     <string name="first_day_of_week_title">اول يوم من الاسبوع</string>
     <string name="share_milestone">أكملت %1$d أيام اليومية الامتنان! تاريخ لي باستخدام التطبيق في الوقت الحاضر.</string>
+    <string name="share_presently">مشاركة في الوقت الحاضر</string>
+    <string name="enjoying_presently">تتمتع في الوقت الحاضر؟ مشاركة التطبيق مع أصدقائك وعائلتك!</string>
 </resources>

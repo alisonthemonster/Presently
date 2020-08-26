@@ -91,4 +91,6 @@
     <string name="day_of_week_summary">Imposta il primo giorno della settimana nella vista del calendario</string>
     <string name="first_day_of_week_title">Primo giorno della settimana</string>
     <string name="share_milestone">Ho completato %1$d giorni di gratitudine nel diario! Unitevi a me usando il Attualmente App. #PresentlyApp</string>
+    <string name="share_presently">Condividi Attualmente</string>
+    <string name="enjoying_presently">Genießen Gegenwärtig? Teilen Sie die App mit Freunden und Familie</string>
 </resources>

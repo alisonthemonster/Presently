@@ -91,4 +91,6 @@
     <string name="day_of_week_summary">Aseta viikon ensimmäinen päivä kalenterinäkymässä</string>
     <string name="first_day_of_week_title">Viikon ensimmäinen päivä</string>
     <string name="share_milestone">Olen valmistunut %1$d päivä kiitollisuutta kirjaaminen! Join me käyttäen hetkellä App. #PresentlyApp</string>
+    <string name="share_presently">Jaa hetkellä</string>
+    <string name="enjoying_presently">Genieten van dit moment? Deel de app met je vrienden en familie</string>
 </resources>
