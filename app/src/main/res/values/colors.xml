@@ -310,4 +310,37 @@
     <color name="katieToolbarColor">#FEC2B8</color>
     <color name="katieStatusBarColor">#FEC2B8</color>
     <color name="katieToolbarItemColor">#3B1011</color>
+
+    <!-- ~~~~BRITTANY THEME~~~~ -->
+    <color name="brittanyAndroidWidgetColor">#FFA922</color>
+    <color name="brittanyBackgroundColor">#C1DCE4</color>
+    <color name="brittanyMainTextAndButtonColor">#161616</color>
+    <color name="brittanyHintQuoteTextColor">#706767</color>
+    <color name="brittanyDateTextEntryScreenTextColor">#161616</color>
+    <color name="brittanyTimelineColor">#161616</color>
+    <color name="brittanyToolbarColor">#161616</color>
+    <color name="brittanyStatusBarColor">#161616</color>
+    <color name="brittanyToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~JUNGLE THEME~~~~ -->
+    <color name="jungleAndroidWidgetColor">#CA6D28</color>
+    <color name="jungleBackgroundColor">#316346</color>
+    <color name="jungleMainTextAndButtonColor">#EAC9AA</color>
+    <color name="jungleHintQuoteTextColor">#AC977A</color>
+    <color name="jungleDateTextEntryScreenTextColor">#EAC9AA</color>
+    <color name="jungleTimelineColor">#000000</color>
+    <color name="jungleToolbarColor">#161616</color>
+    <color name="jungleStatusBarColor">#161616</color>
+    <color name="jungleToolbarItemColor">#EAC9AA</color>
+
+    <!-- ~~~~JULIE THEME~~~~ -->
+    <color name="julieAndroidWidgetColor">#7A9776</color>
+    <color name="julieBackgroundColor">#EEE7D4</color>
+    <color name="julieMainTextAndButtonColor">#161616</color>
+    <color name="julieHintQuoteTextColor">#706767</color>
+    <color name="julieDateTextEntryScreenTextColor">#161616</color>
+    <color name="julieTimelineColor">#161616</color>
+    <color name="julieToolbarColor">#161616</color>
+    <color name="julieStatusBarColor">#161616</color>
+    <color name="julieToolbarItemColor">#FFFFFF</color>
 </resources>
