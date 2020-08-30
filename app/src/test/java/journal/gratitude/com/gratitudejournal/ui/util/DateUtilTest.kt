@@ -79,7 +79,7 @@ class DateUtilTest {
     fun getMonthStringFromDateObjectRussian() {
         Locale.setDefault(Locale.forLanguageTag("ru"))
 
-        val expected = "Март"
+        val expected = "март"
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, 2019)
         cal.set(Calendar.MONTH, Calendar.MARCH)
