@@ -15,7 +15,6 @@ import journal.gratitude.com.gratitudejournal.util.toMonthString
 import kotlinx.android.synthetic.main.calendar_fragment.view.*
 import org.threeten.bp.LocalDate
 import java.util.*
-import android.util.TypedValue
 import androidx.preference.PreferenceManager
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FIRST_DAY_OF_WEEK
 
