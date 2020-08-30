@@ -39,11 +39,7 @@ fun Month.toShortMonthString(): String {
 fun Date.toMonthString(): String {
     val cal = Calendar.getInstance()
     cal.time = this
-    return if (Locale.getDefault().language == "ru") {
-        SimpleDateFormat("MMMM", Locale.getDefault()).format(cal.time)
-    } else {
-        SimpleDateFormat("LLLL", Locale.getDefault()).format(cal.time)
-    }
+    return SimpleDateFormat("LLLL", Locale.getDefault()).format(cal.time)
 }
 
 fun Date.getYearString(): String {

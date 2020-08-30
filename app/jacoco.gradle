@@ -10,6 +10,7 @@ jacoco {
 
 tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
 }
 
 
@@ -53,14 +54,14 @@ task testCoverage(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDe
             excludes: fileFilter
     )
     def mainSrc = android.sourceSets.main.java.srcDirs
+    def testTree = fileTree(
+            dir: "$buildDir",
+            includes: ['jacoco/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/**/*.ec']
+    )
 
-
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-
-    executionData = fileTree(dir: "$buildDir", includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/**/*.ec'
-    ])
+    getSourceDirectories().setFrom(mainSrc)
+    getClassDirectories().setFrom(debugTree)
+    getExecutionData().setFrom(testTree)
 
     doLast {
         printReport("testCoverage")
