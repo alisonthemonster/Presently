@@ -88,7 +88,7 @@ class EntryFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
 
         viewModel.entry.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
@@ -142,7 +142,7 @@ class EntryFragment : DaggerFragment() {
                 val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
                     .addTag(DropboxUploader.PRESENTLY_BACKUP)
                     .build()
-                WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
+                WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
             }
 
             findNavController().navigateUp()
@@ -151,7 +151,7 @@ class EntryFragment : DaggerFragment() {
         inspiration.setOnLongClickListener {
             val quote = viewModel.getInspirationString()
             val clipboard =
-                getSystemService<ClipboardManager>(context!!, ClipboardManager::class.java)
+                getSystemService<ClipboardManager>(requireContext(), ClipboardManager::class.java)
             clipboard?.primaryClip = ClipData.newPlainText("Gratitude quote", quote)
             firebaseAnalytics.logEvent(COPIED_QUOTE, null)
             Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()

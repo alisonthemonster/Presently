@@ -92,7 +92,7 @@ class TimelineFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
 
         timeline_recycler_view.layoutManager =
             androidx.recyclerview.widget.LinearLayoutManager(context)
@@ -232,7 +232,7 @@ class TimelineFragment : DaggerFragment() {
                     try {
                         val intent = Intent(Intent.ACTION_VIEW)
                         val apkURI = FileProvider.getUriForFile(
-                            context!!,
+                            requireContext(),
                             context?.applicationContext?.packageName + ".provider", file
                         )
                         intent.setDataAndType(apkURI, "text/csv")

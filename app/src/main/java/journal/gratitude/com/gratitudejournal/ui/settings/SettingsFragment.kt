@@ -70,7 +70,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -116,11 +116,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 firebaseAnalytics.logEvent(DROPBOX_DEAUTH, null)
                 firebaseAnalytics.setUserProperty(DROPBOX_USER, "false")
                 lifecycleScope.launch {
-                    DropboxUploader.deauthorizeDropboxAccess(context!!)
+                    DropboxUploader.deauthorizeDropboxAccess(requireContext())
                 }
             } else {
                 firebaseAnalytics.logEvent(DROPBOX_AUTH_ATTEMPT, null)
-                DropboxUploader.authorizeDropboxAccess(context!!)
+                DropboxUploader.authorizeDropboxAccess(requireContext())
             }
             true
         }
@@ -177,7 +177,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun createDropboxUploaderWorker(cadence: String) {
-        WorkManager.getInstance(context!!).cancelAllWorkByTag(PRESENTLY_BACKUP)
+        WorkManager.getInstance(requireContext()).cancelAllWorkByTag(PRESENTLY_BACKUP)
 
         when (cadence) {
             "0" -> {
@@ -186,7 +186,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     PeriodicWorkRequestBuilder<UploadToCloudWorker>(1, TimeUnit.DAYS)
                         .addTag(PRESENTLY_BACKUP)
                         .build()
-                WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
+                WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
             }
             "1" -> {
                 //every week
@@ -194,14 +194,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     PeriodicWorkRequestBuilder<UploadToCloudWorker>(7, TimeUnit.DAYS)
                         .addTag(PRESENTLY_BACKUP)
                         .build()
-                WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
+                WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
             }
             "2" -> {
                 //every change so do an upload now
                 val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
                     .addTag(PRESENTLY_BACKUP)
                     .build()
-                WorkManager.getInstance(context!!).enqueue(uploadWorkRequest)
+                WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
             }
         }
 
@@ -227,10 +227,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
             NOTIFS -> {
                 val notifsTurnedOn = sharedPreferences.getBoolean(key, true)
                 if (notifsTurnedOn) {
-                    NotificationScheduler().configureNotifications(context!!)
+                    NotificationScheduler().configureNotifications(requireContext())
                     firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "true")
                 } else {
-                    NotificationScheduler().disableNotifications(context!!)
+                    NotificationScheduler().disableNotifications(requireContext())
                     firebaseAnalytics.logEvent(CANCELLED_NOTIFS, null)
                     firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "false")
                 }
@@ -280,7 +280,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         if (dialogFragment != null) {
             dialogFragment.setTargetFragment(this, 0)
-            dialogFragment.show(this.fragmentManager!!, "DIALOG")
+            dialogFragment.show(parentFragmentManager, "DIALOG")
         } else {
             super.onDisplayPreferenceDialog(preference)
         }
@@ -415,7 +415,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     private fun exportToCsv() {
         val permission = ActivityCompat.checkSelfPermission(
-            activity!!,
+            requireActivity(),
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
@@ -484,7 +484,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     try {
                         val intent = Intent(Intent.ACTION_VIEW)
                         val apkURI = FileProvider.getUriForFile(
-                            context!!,
+                            requireContext(),
                             context?.applicationContext?.packageName + ".provider", file
                         )
                         intent.setDataAndType(apkURI, "text/csv")
