@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name" translatable="false">Presently</string>
+
+    <!-- Keys for Settings -->
+    <string name="key_faq" translatable="false">faq</string>
+    <string name="key_share_app" translatable="false">share_app</string>
+    <string name="key_privacy_policy" translatable="false">privacy_policy</string>
+    <string name="key_terms_conditions" translatable="false">terms_conditions</string>
+    <string name="key_open_source" translatable="false">open_source</string>
+    <string name="key_version" translatable="false">version</string>
+
     <string name="what_are_you_thankful_for">What are you grateful for?</string>
     <string name="what_were_you_thankful_for">What were you grateful for?</string>
     <string name="what_are_you_thankful_for_today">What are you grateful for today?</string>

@@ -73,40 +73,43 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        val share = findPreference<Preference>("share_app")
-        share?.setOnPreferenceClickListener {
-            openShareApp()
-            true
-        }
-        val privacy = findPreference<Preference>("privacy_policy")
-        privacy?.setOnPreferenceClickListener {
-            openPrivacyPolicy()
-            true
-        }
-        val terms = findPreference<Preference>("terms_conditions")
-        terms?.setOnPreferenceClickListener {
-            openTermsAndConditions()
-            true
-        }
-        val faq = findPreference<Preference>("faq")
+        //region App Information
+        val faq = findPreference<Preference>(getString(R.string.key_faq))
         faq?.setOnPreferenceClickListener {
             openFaq()
             true
         }
+        val share = findPreference<Preference>(getString(R.string.key_share_app))
+        share?.setOnPreferenceClickListener {
+            openShareApp()
+            true
+        }
+        val privacy = findPreference<Preference>(getString(R.string.key_privacy_policy))
+        privacy?.setOnPreferenceClickListener {
+            openPrivacyPolicy()
+            true
+        }
+        val terms = findPreference<Preference>(getString(R.string.key_terms_conditions))
+        terms?.setOnPreferenceClickListener {
+            openTermsAndConditions()
+            true
+        }
+        val oss = findPreference<Preference>(getString(R.string.key_open_source))
+        oss?.setOnPreferenceClickListener {
+            startActivity(Intent(context, OssLicensesMenuActivity::class.java))
+            true
+        }
+        val version = findPreference<Preference>(VERSION_PREF)
+        val versionNum = BuildConfig.VERSION_NAME
+        version?.summary = versionNum
+        //endregion
+
         val theme = findPreference<Preference>(THEME_PREF)
         theme?.setOnPreferenceClickListener {
             openThemes()
             true
         }
-        val oss = findPreference<Preference>("open_source")
-        oss?.setOnPreferenceClickListener {
-            startActivity(Intent(context, OssLicensesMenuActivity::class.java))
-            true
-        }
 
-        val version = findPreference<Preference>(VERSION_PREF)
-        val versionNum = BuildConfig.VERSION_NAME
-        version?.summary = versionNum
         val dropbox = findPreference<Preference>(BACKUP_TOKEN)
         val cadencePref = (findPreference<Preference>(BACKUP_CADENCE) as ListPreference)
 
@@ -382,8 +385,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     private fun openShareApp() {
         firebaseAnalytics.logEvent(OPENED_SHARE_APP, null)
-
-
 
         try {
             val appName= getString(R.string.app_name)
