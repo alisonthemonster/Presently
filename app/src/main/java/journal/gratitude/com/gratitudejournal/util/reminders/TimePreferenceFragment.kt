@@ -34,12 +34,12 @@ class TimePreferenceFragment: PreferenceDialogFragmentCompat() {
 
             val time = LocalTime.of(pref.hour, pref.minute)
 
-            val firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+            val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
             firebaseAnalytics.setUserProperty(NOTIF_TIME, time.toString())
 
             if (pref.callChangeListener(time)) {
                 pref.persistStringValue(time.toString())
-                NotificationScheduler().setNotificationTime(context!!, time)
+                NotificationScheduler().setNotificationTime(requireContext(), time)
             }
         }
     }

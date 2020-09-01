@@ -61,7 +61,7 @@ class SearchFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
 
         val obs = RxTextView.textChanges(search_text)
             .debounce(300, TimeUnit.MILLISECONDS)
@@ -94,7 +94,7 @@ class SearchFragment : DaggerFragment() {
             findNavController().navigateUp()
         }
 
-        val adapter = SearchAdapter(activity!!, object : SearchAdapter.OnClickListener {
+        val adapter = SearchAdapter(requireActivity(), object : SearchAdapter.OnClickListener {
             override fun onClick(
                 clickedDate: LocalDate
             ) {

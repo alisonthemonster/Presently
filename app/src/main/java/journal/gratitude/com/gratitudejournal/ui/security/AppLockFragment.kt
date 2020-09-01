@@ -39,7 +39,7 @@ class AppLockFragment : Fragment() {
         if (!fingerprintLock)
             moveToTimeline()
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
     }
 
     override fun onResume() {

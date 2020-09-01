@@ -28,7 +28,7 @@ class CelebrateDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
 
         val numEntries = arguments?.getInt(NUM_ENTRIES)
         num_entries.text = numEntries.toString()
