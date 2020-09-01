@@ -1,5 +1,5 @@
 <resources>
-    <string name="what_are_you_thankful_for"></string>
+    <string name="what_are_you_thankful_for">Qu\'est-ce qui vous fait ressentir de la gratitude?</string>
     <string name="what_were_you_thankful_for">Qu\'est-ce qui vous a fait ressentir de la gratitude?</string>
     <string name="what_are_you_thankful_for_today">Pour quelle raison ressentez-vous de la reconnaissance aujourd\'hui?</string>
     <string name="what_are_you_thankful_for_yesterday">Qu\'est-ce qui vous a fait vivre de la reconnaissance hier?</string>
