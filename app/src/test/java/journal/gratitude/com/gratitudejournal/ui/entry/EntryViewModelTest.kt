@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.nhaarman.mockitokotlin2.*
-import journal.gratitude.com.gratitudejournal.LiveDataTestUtil
+import journal.gratitude.com.gratitudejournal.util.LiveDataTestUtil
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository

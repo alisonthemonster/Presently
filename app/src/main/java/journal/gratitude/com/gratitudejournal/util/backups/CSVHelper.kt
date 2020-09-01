@@ -1,13 +1,8 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.model.TimelineItem
-import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.FileWriter
 import java.io.IOException
 
 fun parseCsv(csvReader: CSVReader): List<Entry> {

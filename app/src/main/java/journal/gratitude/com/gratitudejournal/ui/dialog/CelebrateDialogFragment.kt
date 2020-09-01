@@ -60,7 +60,7 @@ class CelebrateDialogFragment : DialogFragment() {
         val dialog = super.onCreateDialog(savedInstanceState)
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.MilestoneDialog)
+        setStyle(STYLE_NO_FRAME, R.style.MilestoneDialog)
         return dialog
     }
 

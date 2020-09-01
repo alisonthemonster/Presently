@@ -11,8 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_CANCELLED
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_LOCKOUT

@@ -26,7 +26,7 @@ limitations under the License.
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.Reader
-import java.util.ArrayList
+import java.util.*
 
 interface CSVReader {
     fun readNext(): Array<String>?
@@ -49,7 +49,7 @@ interface CSVReader {
  * the delimiter to use for separating entries
  * @param quotechar
  * the character to use for quoted elements
- * @param line
+ * @param skipLines
  * the line number to skip for start reading
  */
 class CSVReaderImpl(reader: Reader,

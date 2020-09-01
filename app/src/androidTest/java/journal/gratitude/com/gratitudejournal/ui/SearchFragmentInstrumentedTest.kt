@@ -16,9 +16,9 @@ import com.nhaarman.mockitokotlin2.*
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.testUtils.RecyclerViewItemCountAssertion.Companion.withItemCount
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
+import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
