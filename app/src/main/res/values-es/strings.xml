@@ -91,4 +91,8 @@
     <string name="monday">lunes</string>
     <string name="day_of_week_summary">Establecer el primer día de la semana en la vista de calendario</string>
     <string name="first_day_of_week_title">Primer día de la semana</string>
+    <string name="share_milestone">He completado %1$d días de diario gratitud! Unirse a mí usando la actualidad la aplicación. #PresentlyApp</string>
+    <string name="share_presently">Actualmente compartir</string>
+    <string name="enjoying_presently">V súčasnej dobe sa teší? Zdieľať aplikáciu so svojimi priateľmi a rodinou</string>
+    <string name="share_app_text">Gratitud de la práctica con este sencillo, siempre libre, y gratitud privada de aplicaciones en diario</string>
 </resources>

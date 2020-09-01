@@ -90,4 +90,8 @@
     <string name="monday">Segunda-feira</string>
     <string name="day_of_week_summary">Defina o primeiro dia da semana na exibição do calendário</string>
     <string name="first_day_of_week_title">Primeiro dia da semana</string>
+    <string name="share_milestone">Eu completei %1$d dias de journaling gratidão! Junte-me usando o Atualmente App. #PresentlyApp</string>
+    <string name="share_presently">Compartilhe Presentemente</string>
+    <string name="enjoying_presently">Obecnie cieszy? Udostępnić aplikację ze swoimi przyjaciółmi i rodziną</string>
+    <string name="share_app_text">gratidão prática com este simples, sempre livre, e gratidão privada aplicativo diário</string>
 </resources>

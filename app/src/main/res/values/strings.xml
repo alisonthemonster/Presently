@@ -1,11 +1,22 @@
 <resources>
     <string name="app_name" translatable="false">Presently</string>
+
+    <!-- Keys for Settings -->
+    <string name="key_faq" translatable="false">faq</string>
+    <string name="key_share_app" translatable="false">share_app</string>
+    <string name="key_privacy_policy" translatable="false">privacy_policy</string>
+    <string name="key_terms_conditions" translatable="false">terms_conditions</string>
+    <string name="key_open_source" translatable="false">open_source</string>
+    <string name="key_version" translatable="false">version</string>
+
     <string name="what_are_you_thankful_for">What are you grateful for?</string>
     <string name="what_were_you_thankful_for">What were you grateful for?</string>
     <string name="what_are_you_thankful_for_today">What are you grateful for today?</string>
     <string name="what_are_you_thankful_for_yesterday">What were you grateful for yesterday?</string>
     <string name="notification_settings">Settings</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="share_presently">Share Presently</string>
+    <string name="enjoying_presently">Enjoying Presently? Share the app with your friends and family</string>
     <string name="read_privacy">Read Presently\'s privacy policy</string>
     <string name="faq">FAQ</string>
     <string name="read_faq">Read Presently\'s frequently asked questions</string>
@@ -92,4 +103,6 @@
     <string name="monday">Monday</string>
     <string name="day_of_week_summary">Set the first day of the week in the calendar view</string>
     <string name="first_day_of_week_title">First day of the week</string>
+    <string name="share_milestone">I completed %1$d days of gratitude journaling! Join me using the Presently App. #PresentlyApp</string>
+    <string name="share_app_text">Practice gratitude with this simple, always free, and private gratitude journaling app</string>
 </resources>

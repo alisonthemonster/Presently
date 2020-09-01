@@ -9,9 +9,6 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.text.InputFilter
-import android.text.InputType
-import android.text.Spanned
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -23,7 +20,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -77,35 +73,43 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        val privacy = findPreference<Preference>("privacy_policy")
-        privacy?.setOnPreferenceClickListener {
-            openPrivacyPolicy()
-            true
-        }
-        val terms = findPreference<Preference>("terms_conditions")
-        terms?.setOnPreferenceClickListener {
-            openTermsAndConditions()
-            true
-        }
-        val faq = findPreference<Preference>("faq")
+        //region App Information
+        val faq = findPreference<Preference>(getString(R.string.key_faq))
         faq?.setOnPreferenceClickListener {
             openFaq()
             true
         }
+        val share = findPreference<Preference>(getString(R.string.key_share_app))
+        share?.setOnPreferenceClickListener {
+            openShareApp()
+            true
+        }
+        val privacy = findPreference<Preference>(getString(R.string.key_privacy_policy))
+        privacy?.setOnPreferenceClickListener {
+            openPrivacyPolicy()
+            true
+        }
+        val terms = findPreference<Preference>(getString(R.string.key_terms_conditions))
+        terms?.setOnPreferenceClickListener {
+            openTermsAndConditions()
+            true
+        }
+        val oss = findPreference<Preference>(getString(R.string.key_open_source))
+        oss?.setOnPreferenceClickListener {
+            startActivity(Intent(context, OssLicensesMenuActivity::class.java))
+            true
+        }
+        val version = findPreference<Preference>(VERSION_PREF)
+        val versionNum = BuildConfig.VERSION_NAME
+        version?.summary = versionNum
+        //endregion
+
         val theme = findPreference<Preference>(THEME_PREF)
         theme?.setOnPreferenceClickListener {
             openThemes()
             true
         }
-        val oss = findPreference<Preference>("open_source")
-        oss?.setOnPreferenceClickListener {
-            startActivity(Intent(context, OssLicensesMenuActivity::class.java))
-            true
-        }
 
-        val version = findPreference<Preference>(VERSION_PREF)
-        val versionNum = BuildConfig.VERSION_NAME
-        version?.summary = versionNum
         val dropbox = findPreference<Preference>(BACKUP_TOKEN)
         val cadencePref = (findPreference<Preference>(BACKUP_CADENCE) as ListPreference)
 
@@ -376,6 +380,28 @@ class SettingsFragment : PreferenceFragmentCompat(),
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
             val crashlytics = FirebaseCrashlytics.getInstance()
             crashlytics.recordException(activityNotFoundException)
+        }
+    }
+
+    private fun openShareApp() {
+        firebaseAnalytics.logEvent(OPENED_SHARE_APP, null)
+
+        try {
+            val appName= getString(R.string.app_name)
+            val textIntent = Intent(Intent.ACTION_SEND)
+            textIntent.type = "text/plain"
+            textIntent.putExtra(Intent.EXTRA_SUBJECT, appName)
+
+            val appPackageName = context?.packageName
+            val shareApp = getString(R.string.share_app_text)
+            val shareText = "$shareApp https://play.google.com/store/apps/details?id=$appPackageName"
+            textIntent.putExtra(Intent.EXTRA_TEXT, shareText)
+
+            val chooserIntent = Intent.createChooser(textIntent, appName)
+            startActivity(chooserIntent);
+        } catch (exception: Exception) {
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(exception)
         }
     }
 

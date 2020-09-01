@@ -115,31 +115,37 @@
         android:title="@string/about">
         <Preference
             android:icon="@drawable/ic_faq"
-            android:key="faq"
+            android:key="@string/key_faq"
             android:summary="@string/read_faq"
             android:title="@string/faq" />
 
         <Preference
+            android:icon="@drawable/ic_share_app"
+            android:key="@string/key_share_app"
+            android:summary="@string/enjoying_presently"
+            android:title="@string/share_presently" />
+
+        <Preference
             android:icon="@drawable/ic_privacy"
-            android:key="privacy_policy"
+            android:key="@string/key_privacy_policy"
             android:summary="@string/read_privacy"
             android:title="@string/privacy_policy" />
 
         <Preference
             android:icon="@drawable/ic_terms"
-            android:key="terms_conditions"
+            android:key="@string/key_terms_conditions"
             android:summary="@string/read_tc"
             android:title="@string/terms_conditions" />
 
         <Preference
             android:icon="@drawable/ic_oss"
-            android:key="open_source"
+            android:key="@string/key_open_source"
             android:summary="@string/open_source_info"
             android:title="@string/open_source" />
 
         <Preference
             android:icon="@drawable/ic_tiny_flower"
-            android:key="version"
+            android:key="@string/key_version"
             android:title="@string/version_number" />
     </PreferenceCategory>
 </PreferenceScreen>
