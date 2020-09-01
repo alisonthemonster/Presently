@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.SUNSET" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_sun_icon</item>
+        <item name="timelineLineColor">@color/sunsetTimelineColor</item>
+        <item name="backgroundColor">@color/sunsetBackgroundColor</item>
+        <item name="hintTextColor">@color/sunsetLighterTextColor</item>
+        <item name="toolbarColor">@color/sunsetToolbarColor</item>
+        <item name="toolbarItemColor">@color/sunsetToolbarItemColor</item>
+        <item name="statusBarColor">@color/sunsetStatusBarColor</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="timelineDateTextColor">@color/sunsetPrimaryColor</item>
+        <item name="timelineContentTextColor">@color/sunsetPrimaryColor</item>
+        <item name="entryHeaderTextColor">@color/sunsetPrimaryColor</item>
+        <item name="entryContentTextColor">@color/sunsetPrimaryColor</item>
+        <item name="highlightColor">@color/sunsetAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.MOONLIGHT" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_moon</item>
+        <item name="timelineLineColor">@color/moonlightTimelineColor</item>
+        <item name="backgroundColor">@color/moonlightBackgroundColor</item>
+        <item name="hintTextColor">@color/moonlightHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/moonlightToolbarColor</item>
+        <item name="toolbarItemColor">@color/moonlightToolbarItemColor</item>
+        <item name="statusBarColor">@color/moonlightStatusBarColor</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="timelineDateTextColor">@color/moonlightMainTextAndButtonColor</item>
+        <item name="timelineContentTextColor">@color/moonlightMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/moonlightDateTextEntryScreenTextColor</item>
+        <item name="entryContentTextColor">@color/moonlightDateTextEntryScreenTextColor</item>
+        <item name="highlightColor">@color/moonlightAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.DAWN" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_sun_icon</item>
+        <item name="timelineLineColor">@color/dawnTimelineColor</item>
+        <item name="backgroundColor">@color/dawnBackgroundColor</item>
+        <item name="hintTextColor">@color/dawnHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/dawnToolbarColor</item>
+        <item name="toolbarItemColor">@color/dawnToolbarItemColor</item>
+        <item name="statusBarColor">@color/dawnStatusBarColor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="timelineDateTextColor">@color/dawnDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/dawnMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/dawnMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/dawnMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/dawnAndroidWidgetColor</item>
+    </style>
+</resources>
