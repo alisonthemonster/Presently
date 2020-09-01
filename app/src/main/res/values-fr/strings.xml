@@ -1,8 +1,8 @@
 <resources>
-    <string name="what_are_you_thankful_for">Qu\'est-ce qui vous emplit de gratitude?</string>
-    <string name="what_were_you_thankful_for">Qu\'est-ce qui vous a empli de gratitude?</string>
-    <string name="what_are_you_thankful_for_today">Pour quelle raison êtes-vous reconnaissant aujourd\'hui?</string>
-    <string name="what_are_you_thankful_for_yesterday">Qu\'est-ce qui vous a rendu reconnaissant hier?</string>
+    <string name="what_are_you_thankful_for">Qu\'est-ce qui vous fait ressentir de la gratitude?</string>
+    <string name="what_were_you_thankful_for">Qu\'est-ce qui vous a fait ressentir de la gratitude?</string>
+    <string name="what_are_you_thankful_for_today">Pour quelle raison ressentez-vous de la reconnaissance aujourd\'hui?</string>
+    <string name="what_are_you_thankful_for_yesterday">Qu\'est-ce qui vous a fait vivre de la reconnaissance hier?</string>
     <string name="notification_settings">Paramètres</string>
     <string name="privacy_policy">Politique de respect de la vie privée</string>
     <string name="read_privacy">Lire la politique de respect de la vie privée de Presently</string>
@@ -15,8 +15,8 @@
     <string name="channel_description">Un rappel quotidien pour penser à noter ce qui vous emplit de gratitude</string>
     <string name="today">Aujourd\'hui</string>
     <string name="yesterday">Hier</string>
-    <string name="iwas">Je me suis senti reconnaissant pour</string>
-    <string name="iam">Je suis reconnaissant pour</string>
+    <string name="iwas">J\'ai senti de la reconnaissance pour</string>
+    <string name="iam">Je ressens de la reconnaissance pour</string>
     <string name="save">Sauvegarder</string>
     <string name="back_up_entries_to_csv">Sauvegarder mes enregistrements</string>
     <string name="export_success">Enregistrements sauvegardés dans le répertoire Téléchargements</string>
