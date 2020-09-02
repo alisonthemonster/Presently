@@ -97,7 +97,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude"
         android:textAlignment="center"
-        android:textColor="?android:attr/textColorSecondary"
+        android:textColor="@color/text_color"
         app:layout_constraintBottom_toTopOf="@+id/share_presently"
         app:layout_constraintEnd_toEndOf="@+id/textView2"
         app:layout_constraintStart_toStartOf="@+id/textView2"

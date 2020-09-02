@@ -75,7 +75,7 @@
     <!-- hint text color, quote text color -->
     <color name="ivyHintQuoteTextColor">#1D332F</color>
     <color name="ivyToolbarColor">#131515</color>
-    <color name="ivyToolbarItemColor">#374F4B</color>
+    <color name="ivyToolbarItemColor">#FFFFFF</color>
     <color name="ivyStatusBarColor">#131515</color>
 
     <!-- ~~~~WESLEY THEME~~~~ -->
@@ -111,7 +111,7 @@
     <color name="mossHintQuoteTextColor">#3D3D3D</color>
     <!-- Toolbar and Fab color -->
     <color name="mossToolbarColor">#000000</color>
-    <color name="mossToolbarItemColor">#7F9975</color>
+    <color name="mossToolbarItemColor">#BCCCB7</color>
     <color name="mossStatusBarColor">#000000</color>
 
     <!-- ~~~~CLEAN THEME~~~~ -->
@@ -158,7 +158,7 @@
     <!-- Toolbar and Fab color -->
     <color name="gelatoToolbarColor">#000000</color>
     <color name="gelatoStatusBarColor">#000000</color>
-    <color name="gelatoToolbarItemColor">#C7A8A8</color>
+    <color name="gelatoToolbarItemColor">#EAD9D9</color>
 
     <!-- ~~~~WAVES THEME~~~~ -->
     <color name="wavesAndroidWidgetColor">#27639C</color>
@@ -205,7 +205,7 @@
     <color name="westernAndroidWidgetColor">#B59951</color>
     <color name="westernBackgroundColor">#282828</color>
     <color name="westernMainTextAndButtonColor">#B1977E</color>
-    <color name="westernHintQuoteTextColor">#92897F</color>
+    <color name="westernHintQuoteTextColor">#6C5B4B</color>
     <color name="westernDateTextEntryScreenTextColor">#B1977E</color>
     <color name="westernTimelineColor">#B1977E</color>
     <color name="westernToolbarColor">#B1977E</color>
@@ -282,7 +282,7 @@
     <color name="monsteraAndroidWidgetColor">#81C761</color>
     <color name="monsteraBackgroundColor">#FFFFFF</color>
     <color name="monsteraMainTextAndButtonColor">#000000</color>
-    <color name="monsteraHintQuoteTextColor">#4D4D4D</color>
+    <color name="monsteraHintQuoteTextColor">#919191</color>
     <color name="monsteraDateTextEntryScreenTextColor">#000000</color>
     <color name="monsteraTimelineColor">#000000</color>
     <color name="monsteraToolbarColor">#000000</color>
