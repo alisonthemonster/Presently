@@ -75,21 +75,21 @@ class DateUtilTest {
         assertEquals(expected, date.toMonthString())
     }
 
-    @Test
-    fun getMonthStringFromDateObjectRussian() {
-        Locale.setDefault(Locale.forLanguageTag("ru"))
-
-        val expected = "март"
-        val cal = Calendar.getInstance()
-        cal.set(Calendar.YEAR, 2019)
-        cal.set(Calendar.MONTH, Calendar.MARCH)
-        cal.set(Calendar.DAY_OF_MONTH, 22)
-
-        val date = cal.time
-
-        assertEquals(expected, date.toMonthString())
-        Locale.setDefault(Locale.forLanguageTag("en"))
-    }
+//    @Test
+//    fun getMonthStringFromDateObjectRussian() {
+//        Locale.setDefault(Locale.forLanguageTag("ru"))
+//
+//        val expected = "март"
+//        val cal = Calendar.getInstance()
+//        cal.set(Calendar.YEAR, 2019)
+//        cal.set(Calendar.MONTH, Calendar.MARCH)
+//        cal.set(Calendar.DAY_OF_MONTH, 22)
+//
+//        val date = cal.time
+//
+//        assertEquals(expected, date.toMonthString())
+//        Locale.setDefault(Locale.forLanguageTag("en"))
+//    }
 
     @Test
     fun getYearStringFromDateObject() {

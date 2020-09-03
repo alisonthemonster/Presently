@@ -35,6 +35,14 @@ allprojects {
     project.ext.branchName = getBranchName()
 }
 
+subprojects {
+    afterEvaluate { project ->
+        project.apply from: '../jacoco.gradle'
+        project.apply from: '../coveragereporting.gradle'
+
+    }
+}
+
 def createVersionName() {
     return major + "." + minor + "." + patch + beta
 }
