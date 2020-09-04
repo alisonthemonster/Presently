@@ -152,7 +152,7 @@ class EntryFragment : DaggerFragment() {
             val quote = viewModel.getInspirationString()
             val clipboard =
                 getSystemService<ClipboardManager>(requireContext(), ClipboardManager::class.java)
-            clipboard?.primaryClip = ClipData.newPlainText("Gratitude quote", quote)
+            clipboard?.setPrimaryClip(ClipData.newPlainText("Gratitude quote", quote))
             firebaseAnalytics.logEvent(COPIED_QUOTE, null)
             Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
             true

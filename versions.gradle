@@ -4,8 +4,8 @@ ext {
     patch = 0
     beta = ""
 
-    androidCompileSdk = 28
-    androidTargetSdk = 28
+    androidCompileSdk = 29
+    androidTargetSdk = 29
     androidMinSdk = 23
 
     gradle_version = "3.2.1"
