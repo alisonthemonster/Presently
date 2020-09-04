@@ -23,7 +23,7 @@
             android:background="?attr/toolbarColor"
             android:padding="10dp"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Date"
+            android:theme="@style/TextAppearance.Date"
             android:textColor="?attr/toolbarItemColor"
             android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
