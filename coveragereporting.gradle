@@ -1,7 +1,6 @@
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'jacoco'
-apply plugin: 'com.android.application'
 
 jacoco {
     toolVersion '0.8.2'
