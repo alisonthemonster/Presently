@@ -245,3 +245,25 @@ Met Presently kunt je:
 ⁕ Pas Presently aan naar je favoriete kleurenschema
 
 Presently is 100% gratis en advertentievrij. Al je notities blijven op je eigen apparaat en onder je eigen beheer.
+
+
+## Croatian
+Presently: časopis zahvalnosti
+
+Proslavite svoj svakodnevni život s Presently, besplatnim i privatnim dnevnikom zahvalnosti
+
+Vježbajte zahvalnost pomoću ove jednostavne, uvijek besplatne i privatne aplikacije za dnevnike zahvalnosti.
+
+Presently vam omogućuje: 
+⁕ Bilježenje dnevnih odrednica zahvalnosti 
+⁕ Osvrt na svoje trenutke zahvalnosti 
+⁕ Pronalazak motivacije pomoću citata i upita 
+⁕ Postavljanje dnevnih podsjetnike zaa nastavak prakse zahvalnosti 
+⁕ Zaključamje svojih unosa otiskom prsta ili licem 
+⁕ Automatsku izradu sigurnosne kopije svojih unosa na Dropbox 
+⁕ Pretraživaje starih unosa 
+⁕ Podijeljenje svojih unosa s obitelji i prijateljima 
+⁕ Izvoz / izvoz svojih unosa 
+⁕ Prebacvanje na svoju omiljenu shemu boja
+
+Presently je 100% besplatno i bez oglasa. Svi vaši unosi ostaju na vašem uređaju i pod vašom kontrolom.
