@@ -57,7 +57,7 @@
             android:layout_marginEnd="24dp"
             android:text="@{entryViewModel.dateString}"
             android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.Date"
+            android:theme="@style/TextAppearance.Date"
             app:layout_constraintBottom_toBottomOf="@+id/timeline_circle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/timeline_circle"

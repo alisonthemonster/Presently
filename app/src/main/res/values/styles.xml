@@ -1,17 +1,4 @@
 <resources>
-    <style name="TextAppearance.Title" parent="android:TextAppearance">
-        <item name="android:textSize">36sp</item>
-        <item name="fontPath">fonts/value-serif.ttf</item>
-    </style>
-
-    <style name="TextAppearance.Date" parent="android:TextAppearance">
-        <item name="android:textSize">20sp</item>
-        <item name="fontPath">fonts/value-serif.ttf</item>
-    </style>
-
-    <style name="TextAppearance.SearchDate" parent="android:TextAppearance">
-        <item name="fontPath">fonts/value-serif.ttf</item>
-    </style>
 
     <style name="MilestoneDialog" parent="android:Theme.Dialog">
         <item name="android:windowNoTitle">true</item>
