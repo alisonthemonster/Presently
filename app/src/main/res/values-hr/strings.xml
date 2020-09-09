@@ -73,7 +73,7 @@
     <string name="lock_title">Otključaj Presently</string>
     <string name="lock_summary">Presently je zaključano, otključajte za nastavak</string>
     <string name="lock_setting_summary_on">Presently će se zaključati pomoću biometrijskog skenera vašeg uređaja.</string>
-    <string name="lock_setting_summary_off">Presently može zaključati pomoću biometrijskog skenera vašeg uređaja (ako uređaj podržava).</string>
+    <string name="lock_setting_summary_off">Presently možete zaključati pomoću biometrijskog skenera vašeg uređaja (ako uređaj podržava).</string>
     <string name="fingerprint_error_lockout_too_many">Previše pokušaja biometrijske provjere autentičnosti. Molim pokušajte ponovno za par minuta.</string>
     <string name="continue_to_exit">Nastavi</string>
     <string name="are_you_sure">Jeste li sigurni da se želite vratiti?</string>
@@ -89,7 +89,7 @@
     <string name="one_time_export_summary">Ručno izvezite unose u CSV format u mapi Preuzimanja</string>
     <string name="one_time_export">Izvoz unosa u CSV</string>
     <string name="import_summary">Odaberite sigurnosnu kopiju CSV datoteke za uvoz</string>
-    <string name="backup_and_restore">Sigurnosna kopija i pojačalo; Vratiti</string>
+    <string name="backup_and_restore">Sigurnosna kopija i pojačalo; Povratak</string>
     <string name="day_of_week_off">Datum ne uključuje dan u tjednu</string>
     <string name="day_of_week_on">Datum uključuje dan u tjednu</string>
     <string name="day_of_week_title">Stil Datuma</string>
