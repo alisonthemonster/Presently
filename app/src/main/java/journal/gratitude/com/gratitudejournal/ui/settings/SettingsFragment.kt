@@ -33,8 +33,8 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.util.backups.*
-import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.parseCsvString
-import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.writeEntriesToFile
+import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.convertCsvToEntries
+import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.exportEntriesToCsvFile
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader.Companion.PRESENTLY_BACKUP
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.UploadToCloudWorker
@@ -142,7 +142,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         val oneTimeExport = findPreference<Preference>(ONE_TIME_EXPORT_PREF)
         oneTimeExport?.setOnPreferenceClickListener {
-            //exportToCsv()
             createFileOnDevice()
             true
         }
@@ -329,9 +328,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     if (data?.data != null) {
                         lifecycleScope.launch {
                             val csvResult =
-                                writeEntriesToFile(requireContext(), data.data!!, viewModel.getEntries())
+                                exportEntriesToCsvFile(requireContext(), data.data!!, viewModel.getEntries())
                             when (csvResult) {
-                                is CsvError -> exportCallback.onFailure(csvResult.exception)
+                                is CsvUriError -> exportCallback.onFailure(csvResult.exception)
                                 is CsvUriCreated -> exportCallback.onSuccess(csvResult.uri)
                             }
                         }
@@ -482,7 +481,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 CSVFormat.DEFAULT
             )
             val realCsvParser = RealCsvParser(parser)
-            val entries = parseCsvString(realCsvParser)
+            val entries = convertCsvToEntries(realCsvParser)
             viewModel.addEntries(entries)
             firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
             val navController = findNavController()
@@ -554,4 +553,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
         // Request code for creating the CSV
         const val CREATE_FILE = 1994
     }
+}
+
+interface ExportCallback {
+    fun onSuccess(file: Uri)
+
+    fun onFailure(exception: Exception)
 }

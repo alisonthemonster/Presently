@@ -8,9 +8,9 @@ import journal.gratitude.com.gratitudejournal.model.CloudUploadResult
 import journal.gratitude.com.gratitudejournal.model.UploadError
 import journal.gratitude.com.gratitudejournal.model.UploadSuccess
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.util.backups.CsvError
-import journal.gratitude.com.gratitudejournal.util.backups.CsvFileCreated
-import journal.gratitude.com.gratitudejournal.util.backups.CsvUriCreated
+import journal.gratitude.com.gratitudejournal.model.CsvFileError
+import journal.gratitude.com.gratitudejournal.model.CsvFileCreated
+import journal.gratitude.com.gratitudejournal.model.CsvUriCreated
 import journal.gratitude.com.gratitudejournal.util.backups.FileExporter
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
@@ -51,8 +51,7 @@ class UploadToCloudWorker(
                     is UploadSuccess -> Result.success()
                 }
             }
-            is CsvError -> Result.failure()
-            is CsvUriCreated -> TODO()
+            is CsvFileError -> Result.failure()
         }
 
         //delete temp file

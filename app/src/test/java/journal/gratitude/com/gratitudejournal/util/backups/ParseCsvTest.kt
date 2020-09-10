@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.parseCsvString
+import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.convertCsvToEntries
 import org.junit.Test
 import org.threeten.bp.LocalDate
 import java.io.IOException
@@ -19,7 +19,7 @@ class ParseCsvTest {
         }
 
         assertFailsWith<IOException> {
-            parseCsvString(parser)
+            convertCsvToEntries(parser)
         }
     }
 
@@ -32,7 +32,7 @@ class ParseCsvTest {
         }
 
         assertFailsWith<IOException> {
-            parseCsvString(parser)
+            convertCsvToEntries(parser)
         }
     }
 
@@ -45,7 +45,7 @@ class ParseCsvTest {
         }
 
         assertFailsWith<IOException> {
-            parseCsvString(parser)
+            convertCsvToEntries(parser)
         }
     }
 
@@ -66,7 +66,7 @@ class ParseCsvTest {
                 "Unit tests are great!"
             )
         )
-        val actual = parseCsvString(parser)
+        val actual = convertCsvToEntries(parser)
 
         assertEquals(expected, actual)
     }
@@ -83,7 +83,7 @@ class ParseCsvTest {
         }
 
         assertFailsWith<IOException> {
-            parseCsvString(parser)
+            convertCsvToEntries(parser)
         }
     }
 
@@ -105,7 +105,7 @@ class ParseCsvTest {
                 "Unit tests are great!"
             )
         )
-        val actual = parseCsvString(parser)
+        val actual = convertCsvToEntries(parser)
 
         assertEquals(expected, actual)
     }

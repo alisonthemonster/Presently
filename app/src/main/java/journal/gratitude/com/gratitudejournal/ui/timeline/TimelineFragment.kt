@@ -33,7 +33,6 @@ import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.I
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.NUM_ENTRIES
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.DAY_OF_WEEK
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.LINES_PER_ENTRY_IN_TIMELINE
-import journal.gratitude.com.gratitudejournal.util.backups.ExportCallback
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate

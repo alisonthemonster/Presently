@@ -1,14 +1,13 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
 import com.nhaarman.mockitokotlin2.*
+import journal.gratitude.com.gratitudejournal.model.CsvFileCreated
+import journal.gratitude.com.gratitudejournal.model.CsvFileError
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.model.Milestone
-import journal.gratitude.com.gratitudejournal.model.TimelineItem
-import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.createCsvString
+import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvString
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.BDDMockito
 import org.threeten.bp.LocalDate
 import java.io.File
 import java.io.FileWriter
@@ -68,6 +67,6 @@ class FileExporterTest  {
         val result = runBlocking {
             fileExporter.exportToCSV(items, file)
         }
-        assertTrue(result is CsvError)
+        assertTrue(result is CsvFileError)
     }
 }
