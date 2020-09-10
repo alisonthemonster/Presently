@@ -1,35 +1,23 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.model.TimelineItem
-import journal.gratitude.com.gratitudejournal.util.toDatabaseString
+import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.createCsvString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileWriter
 
-class FileExporter(private val csvWrite: CSVWriter) {
+class FileExporter(private val fileWriter: FileWriter) {
 
     /*
     * Takes in entries and creates a CSV
     */
-    suspend fun exportToCSV(timelineItems: List<Entry>, file: File): CSVResult {
+    suspend fun exportToCSV(items: List<Entry>, file: File): CSVResult {
         return withContext(Dispatchers.IO) {
             try {
-                //write header row
-                csvWrite.writeNext(arrayOf(DATE_COLUMN_HEADER, ENTRY_COLUMN_HEADER))
-
-                //write entries
-                for (item in timelineItems) {
-                    if (item.entryContent.isNotEmpty()) {
-                        csvWrite.writeNext(
-                            arrayOf(
-                                item.entryDate.toDatabaseString(),
-                                item.entryContent
-                            )
-                        )
-                    }
-                }
-                csvWrite.close()
+                val csvString = createCsvString(items)
+                fileWriter.write(csvString)
+                fileWriter.close()
                 CsvFileCreated(file)
             } catch (exception: Exception) {
                 CsvError(exception)

@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.util.backups
+package journal.gratitude.com.gratitudejournal.util.backups.dropbox
 
 import android.content.Context
 import androidx.work.CoroutineWorker
@@ -8,6 +8,10 @@ import journal.gratitude.com.gratitudejournal.model.CloudUploadResult
 import journal.gratitude.com.gratitudejournal.model.UploadError
 import journal.gratitude.com.gratitudejournal.model.UploadSuccess
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.util.backups.CsvError
+import journal.gratitude.com.gratitudejournal.util.backups.CsvFileCreated
+import journal.gratitude.com.gratitudejournal.util.backups.CsvUriCreated
+import journal.gratitude.com.gratitudejournal.util.backups.FileExporter
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -34,7 +38,11 @@ class UploadToCloudWorker(
         val file = withContext(IO) { File.createTempFile("tempPresentlyBackup", null, context.cacheDir) }
 
         //create csv
-        val fileExporter = withContext(IO) { FileExporter(CSVWriterImpl(FileWriter(file))) }
+        val fileExporter = withContext(IO) {
+            FileExporter(
+                FileWriter(file)
+            )
+        }
         val csvResult = when (val csvResult = fileExporter.exportToCSV(items, file)) {
             is CsvFileCreated -> {
                 //upload to cloud
@@ -59,7 +67,12 @@ class UploadToCloudWorker(
         private val cloudProvider: Provider<CloudProvider>
     ) : IWorkerFactory<UploadToCloudWorker> {
         override fun create(params: WorkerParameters): UploadToCloudWorker {
-            return UploadToCloudWorker(context.get(), params, repository.get(), cloudProvider.get())
+            return UploadToCloudWorker(
+                context.get(),
+                params,
+                repository.get(),
+                cloudProvider.get()
+            )
         }
     }
 }

@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -34,14 +33,20 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.util.backups.*
-import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.write
+import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.parseCsvString
+import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.writeEntriesToFile
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader.Companion.PRESENTLY_BACKUP
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.UploadToCloudWorker
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
 import kotlinx.coroutines.launch
+import org.apache.commons.csv.CSVFormat
+import org.apache.commons.csv.CSVParser
+import org.threeten.bp.LocalDateTime
 import java.io.InputStream
+import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -60,6 +65,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -149,7 +155,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         val fingerprint = findPreference<Preference>(FINGERPRINT)
         val canAuthenticateUsingFingerPrint =
-            BiometricManager.from(requireContext()).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
+            BiometricManager.from(requireContext())
+                .canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
         fingerprint?.parent!!.isEnabled = canAuthenticateUsingFingerPrint
     }
 
@@ -256,7 +263,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
     }
 
-    private fun fireAnalyticsEventForCadence(cadence: String, firebaseAnalytics: FirebaseAnalytics) {
+    private fun fireAnalyticsEventForCadence(
+        cadence: String,
+        firebaseAnalytics: FirebaseAnalytics
+    ) {
         val cadenceString = when (cadence) {
             "0" -> "Daily"
             "1" -> "Weekly"
@@ -288,30 +298,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
     }
 
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<String>, grantResults: IntArray
-//    ) {
-//        when (requestCode) {
-//            //TODO move constants
-//            TimelineFragment.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL -> {
-//                // If request is cancelled, the result arrays are empty.
-//                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-//                    performExport()
-//                } else {
-//                    Toast.makeText(context, R.string.permission_export, Toast.LENGTH_SHORT).show()
-//                }
-//                return
-//            }
-//            else -> {
-//            }
-//        }
-//    }
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             TimelineFragment.IMPORT_CSV -> {
+                //when the user has chosen a CSV to import
                 if (resultCode == Activity.RESULT_OK) {
                     val uri = data?.data
                     if (uri != null) {
@@ -334,37 +324,24 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 }
             }
             CREATE_FILE -> {
+                //when the user has chosen a place to export the CSV file
                 if (resultCode == Activity.RESULT_OK) {
                     if (data?.data != null) {
                         lifecycleScope.launch {
-                            val csvResult = write(requireContext(), data.data!!, viewModel.getEntries())
+                            val csvResult =
+                                writeEntriesToFile(requireContext(), data.data!!, viewModel.getEntries())
                             when (csvResult) {
                                 is CsvError -> exportCallback.onFailure(csvResult.exception)
                                 is CsvUriCreated -> exportCallback.onSuccess(csvResult.uri)
                             }
                         }
+                    } else {
+                        val crashlytics = FirebaseCrashlytics.getInstance()
+                        crashlytics.recordException(NullPointerException("URI was null after user selected file location"))
+                        Toast.makeText(context, R.string.error_creating_csv_file, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
-        }
-    }
-
-    private fun importFromCsv(inputStream: InputStream) {
-        // parse file to get List<Entry>
-        try {
-            val csvReader = CSVReaderImpl(inputStream.bufferedReader())
-            val entries = parseCsv(csvReader)
-            viewModel.addEntries(entries)
-            firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
-            val navController = findNavController()
-            navController.navigateUp()
-            Toast.makeText(context, "Imported successfully!", Toast.LENGTH_SHORT).show()
-        } catch (exception: Exception) {
-            firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
-            val crashlytics = FirebaseCrashlytics.getInstance()
-            crashlytics.recordException(exception)
-
-            Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -398,14 +375,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
         firebaseAnalytics.logEvent(OPENED_SHARE_APP, null)
 
         try {
-            val appName= getString(R.string.app_name)
+            val appName = getString(R.string.app_name)
             val textIntent = Intent(Intent.ACTION_SEND)
             textIntent.type = "text/plain"
             textIntent.putExtra(Intent.EXTRA_SUBJECT, appName)
 
             val appPackageName = context?.packageName
             val shareApp = getString(R.string.share_app_text)
-            val shareText = "$shareApp https://play.google.com/store/apps/details?id=$appPackageName"
+            val shareText =
+                "$shareApp https://play.google.com/store/apps/details?id=$appPackageName"
             textIntent.putExtra(Intent.EXTRA_TEXT, shareText)
 
             val chooserIntent = Intent.createChooser(textIntent, appName)
@@ -450,43 +428,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
     }
 
-//    private fun exportToCsv() {
-//        val permission = ActivityCompat.checkSelfPermission(
-//            requireActivity(),
-//            Manifest.permission.WRITE_EXTERNAL_STORAGE
-//        )
-//
-//        if (permission != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions(
-//                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-//                TimelineFragment.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
-//            )
-//        } else {
-//            performExport()
-//        }
-//    }
-//
-//    private fun performExport() {
-//        firebaseAnalytics.logEvent(EXPORTED_DATA, null)
-//
-//        lifecycleScope.launch {
-//            val entries = viewModel.getEntries()
-//            when (val csvResult = LocalExporter.exportToCSV(entries)) {
-//                is CsvError -> exportCallback.onFailure(csvResult.exception)
-//                is CsvCreated -> exportCallback.onSuccess(csvResult.file)
-//            }
-//        }
-//    }
-
-    private fun createFileOnDevice() {
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "text/csv"
-            putExtra(Intent.EXTRA_TITLE, "presently.csv")
-        }
-        startActivityForResult(intent, CREATE_FILE)
-    }
-
+    /**
+     * Warns the user about importing a CSV file via an alert dialog
+     * */
     private fun importFromCsv() {
         val alertDialog: AlertDialog? = activity?.let {
             val builder = AlertDialog.Builder(it)
@@ -504,6 +448,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
         alertDialog?.show()
     }
 
+    /**
+     * Opens the chooser to allow the user to select their CSV file.
+     * */
     private fun selectCSVFile() {
         firebaseAnalytics.logEvent(LOOKED_FOR_DATA, null)
 
@@ -513,7 +460,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
 
         try {
-            startActivityForResult(Intent.createChooser(intent, "Select"),
+            startActivityForResult(
+                Intent.createChooser(intent, "Select"),
                 TimelineFragment.IMPORT_CSV
             )
         } catch (ex: ActivityNotFoundException) {
@@ -521,6 +469,47 @@ class SettingsFragment : PreferenceFragmentCompat(),
             crashlytics.recordException(ex)
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    /**
+     * Takes the input stream, converts it to a list of entries, saves it to the
+     * DB and lets the user know the result.
+     * */
+    private fun importFromCsv(inputStream: InputStream) {
+        try {
+            val parser = CSVParser.parse(
+                inputStream, Charset.defaultCharset(),
+                CSVFormat.DEFAULT
+            )
+            val realCsvParser = RealCsvParser(parser)
+            val entries = parseCsvString(realCsvParser)
+            viewModel.addEntries(entries)
+            firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
+            val navController = findNavController()
+            navController.navigateUp()
+            Toast.makeText(context, "Imported successfully!", Toast.LENGTH_SHORT).show()
+        } catch (exception: Exception) {
+            firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(exception)
+
+            Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
+     * Opens the Storage Access Framework and lets the user select where they want to
+     * export the CSV file.
+     * */
+    private fun createFileOnDevice() {
+        val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
+        val fileName = "PresentlyBackup$date.csv"
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "text/csv"
+            putExtra(Intent.EXTRA_TITLE, fileName)
+        }
+        startActivityForResult(intent, CREATE_FILE)
     }
 
     private val exportCallback: ExportCallback = object : ExportCallback {
@@ -543,7 +532,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         override fun onFailure(exception: Exception) {
             val crashlytics = FirebaseCrashlytics.getInstance()
             crashlytics.recordException(exception)
-            Toast.makeText(context, "Error : ${exception.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Error : ${exception.localizedMessage}", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -561,6 +550,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val DAY_OF_WEEK = "day_of_week"
         const val LINES_PER_ENTRY_IN_TIMELINE = "lines_per_entry_in_timeline"
         const val FIRST_DAY_OF_WEEK = "first_day_of_week"
+
         // Request code for creating the CSV
         const val CREATE_FILE = 1994
     }

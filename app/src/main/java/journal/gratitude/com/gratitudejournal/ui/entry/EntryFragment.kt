@@ -36,7 +36,7 @@ import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.mileston
 import journal.gratitude.com.gratitudejournal.model.SHARED_ENTRY
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.BACKUP_CADENCE
-import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.UploadToCloudWorker
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import kotlinx.android.synthetic.main.entry_fragment.*
 import org.threeten.bp.LocalDate
