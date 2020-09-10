@@ -1,27 +1,57 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
-import android.os.Environment
+import android.content.ContentResolver
+import android.content.Context
+import android.net.Uri
 import journal.gratitude.com.gratitudejournal.model.Entry
-import kotlinx.coroutines.Dispatchers.IO
+import journal.gratitude.com.gratitudejournal.util.backups.CSVWriterImpl.Companion.DEFAULT_LINE_END
+import journal.gratitude.com.gratitudejournal.util.toDatabaseString
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.threeten.bp.LocalDateTime
-import java.io.File
-import java.io.FileWriter
+import org.apache.commons.text.StringEscapeUtils
+import java.io.ByteArrayOutputStream
+import java.io.DataOutputStream
+import java.io.OutputStream
+
 
 object LocalExporter {
 
-    suspend fun exportToCSV(items: List<Entry>): CSVResult {
+    suspend fun write(context: Context, source: Uri, items: List<Entry>): CSVResult =
+        withContext(Dispatchers.IO) {
+            val resolver: ContentResolver = context.contentResolver
 
-        val dir =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        if (!dir.exists()) {
-            dir.mkdir()
+            try {
+                resolver.openOutputStream(source)?.use { stream -> stream.writeText(items) }
+                    ?: throw IllegalStateException("could not open $source")
+                return@withContext CsvUriCreated(source)
+            } catch (exception: Exception) {
+                return@withContext CsvError(exception)
+            }
+
         }
-        val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
-        val file = File(dir, "PresentlyBackup$date.csv")
 
-        //create csv
-        val fileExporter = withContext(IO) { FileExporter(CSVWriterImpl(FileWriter(file))) }
-        return fileExporter.exportToCSV(items, file)
+    private fun OutputStream.writeText(
+        items: List<Entry>
+    ): Unit = write(convertToBytes(items))
+
+    private fun convertToBytes(items: List<Entry>): ByteArray {
+        val baos = ByteArrayOutputStream()
+        val out = DataOutputStream(baos)
+        val sb = StringBuffer()
+        writeRow(sb, Pair(DATE_COLUMN_HEADER, ENTRY_COLUMN_HEADER))
+        for (element in items) {
+            writeRow(sb, Pair(element.entryDate.toDatabaseString(), element.entryContent))
+        }
+        out.write(sb.toString().toByteArray())
+        return baos.toByteArray()
+
     }
+
+    private fun writeRow(sb: StringBuffer, pair: Pair<String, String>) {
+        sb.append(StringEscapeUtils.escapeCsv(pair.first))
+        sb.append(CSVWriterImpl.DEFAULT_SEPARATOR)
+        sb.append(StringEscapeUtils.escapeCsv(pair.second))
+        sb.append(DEFAULT_LINE_END)
+    }
+
 }

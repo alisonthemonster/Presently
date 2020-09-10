@@ -4,6 +4,8 @@ import java.io.IOException
 import java.io.PrintWriter
 import java.io.Writer
 
+//TODO remove this?
+
 interface CSVWriter {
     fun writeNext(nextLine: Array<String>?)
 

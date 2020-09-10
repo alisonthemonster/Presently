@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
-import android.Manifest
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -13,8 +12,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
-import androidx.core.app.ActivityCompat
-import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -37,13 +34,13 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.util.backups.*
+import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.write
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader.Companion.PRESENTLY_BACKUP
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
 import kotlinx.coroutines.launch
-import java.io.File
 import java.io.InputStream
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -139,7 +136,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         val oneTimeExport = findPreference<Preference>(ONE_TIME_EXPORT_PREF)
         oneTimeExport?.setOnPreferenceClickListener {
-            exportToCsv()
+            //exportToCsv()
+            createFileOnDevice()
             true
         }
 
@@ -290,25 +288,25 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>, grantResults: IntArray
-    ) {
-        when (requestCode) {
-            //TODO move constants
-            TimelineFragment.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL -> {
-                // If request is cancelled, the result arrays are empty.
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    performExport()
-                } else {
-                    Toast.makeText(context, R.string.permission_export, Toast.LENGTH_SHORT).show()
-                }
-                return
-            }
-            else -> {
-            }
-        }
-    }
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<String>, grantResults: IntArray
+//    ) {
+//        when (requestCode) {
+//            //TODO move constants
+//            TimelineFragment.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL -> {
+//                // If request is cancelled, the result arrays are empty.
+//                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+//                    performExport()
+//                } else {
+//                    Toast.makeText(context, R.string.permission_export, Toast.LENGTH_SHORT).show()
+//                }
+//                return
+//            }
+//            else -> {
+//            }
+//        }
+//    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -332,6 +330,19 @@ class SettingsFragment : PreferenceFragmentCompat(),
                         val crashlytics = FirebaseCrashlytics.getInstance()
                         crashlytics.recordException(NullPointerException("URI was null when receiving file"))
                         Toast.makeText(context, R.string.file_not_csv, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            CREATE_FILE -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data?.data != null) {
+                        lifecycleScope.launch {
+                            val csvResult = write(requireContext(), data.data!!, viewModel.getEntries())
+                            when (csvResult) {
+                                is CsvError -> exportCallback.onFailure(csvResult.exception)
+                                is CsvUriCreated -> exportCallback.onSuccess(csvResult.uri)
+                            }
+                        }
                     }
                 }
             }
@@ -439,32 +450,41 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
     }
 
-    private fun exportToCsv() {
-        val permission = ActivityCompat.checkSelfPermission(
-            requireActivity(),
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
+//    private fun exportToCsv() {
+//        val permission = ActivityCompat.checkSelfPermission(
+//            requireActivity(),
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE
+//        )
+//
+//        if (permission != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(
+//                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+//                TimelineFragment.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
+//            )
+//        } else {
+//            performExport()
+//        }
+//    }
+//
+//    private fun performExport() {
+//        firebaseAnalytics.logEvent(EXPORTED_DATA, null)
+//
+//        lifecycleScope.launch {
+//            val entries = viewModel.getEntries()
+//            when (val csvResult = LocalExporter.exportToCSV(entries)) {
+//                is CsvError -> exportCallback.onFailure(csvResult.exception)
+//                is CsvCreated -> exportCallback.onSuccess(csvResult.file)
+//            }
+//        }
+//    }
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                TimelineFragment.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
-            )
-        } else {
-            performExport()
+    private fun createFileOnDevice() {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "text/csv"
+            putExtra(Intent.EXTRA_TITLE, "presently.csv")
         }
-    }
-
-    private fun performExport() {
-        firebaseAnalytics.logEvent(EXPORTED_DATA, null)
-
-        lifecycleScope.launch {
-            val entries = viewModel.getEntries()
-            when (val csvResult = LocalExporter.exportToCSV(entries)) {
-                is CsvError -> exportCallback.onFailure(csvResult.exception)
-                is CsvCreated -> exportCallback.onSuccess(csvResult.file)
-            }
-        }
+        startActivityForResult(intent, CREATE_FILE)
     }
 
     private fun importFromCsv() {
@@ -504,16 +524,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private val exportCallback: ExportCallback = object : ExportCallback {
-        override fun onSuccess(file: File) {
+        override fun onSuccess(uri: Uri) {
             Snackbar.make(view!!, R.string.export_success, Snackbar.LENGTH_LONG)
                 .setAction(R.string.open) {
                     try {
                         val intent = Intent(Intent.ACTION_VIEW)
-                        val apkURI = FileProvider.getUriForFile(
-                            requireContext(),
-                            context?.applicationContext?.packageName + ".provider", file
-                        )
-                        intent.setDataAndType(apkURI, "text/csv")
+                        intent.setDataAndType(uri, "text/csv")
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
@@ -545,5 +561,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val DAY_OF_WEEK = "day_of_week"
         const val LINES_PER_ENTRY_IN_TIMELINE = "lines_per_entry_in_timeline"
         const val FIRST_DAY_OF_WEEK = "first_day_of_week"
+        // Request code for creating the CSV
+        const val CREATE_FILE = 1994
     }
 }

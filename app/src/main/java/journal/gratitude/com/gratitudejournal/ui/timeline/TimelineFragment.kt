@@ -37,7 +37,6 @@ import journal.gratitude.com.gratitudejournal.util.backups.ExportCallback
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
-import java.io.File
 import java.util.*
 import javax.inject.Inject
 
@@ -99,7 +98,7 @@ class TimelineFragment : DaggerFragment() {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
         val showDayOfWeek = sharedPrefs?.getBoolean(DAY_OF_WEEK, false) ?: false
         val linesPerEntry = sharedPrefs?.getInt(LINES_PER_ENTRY_IN_TIMELINE, 10) ?: 10
-        adapter = TimelineAdapter(activity!!, showDayOfWeek, linesPerEntry, object : TimelineAdapter.OnClickListener {
+        adapter = TimelineAdapter(requireActivity(), showDayOfWeek, linesPerEntry, object : TimelineAdapter.OnClickListener {
             override fun onClick(
                 clickedDate: LocalDate,
                 isNewEntry: Boolean,
@@ -222,34 +221,6 @@ class TimelineFragment : DaggerFragment() {
             navController.navigate(
                 R.id.action_timelineFragment_to_settingsFragment
             )
-        }
-    }
-
-    private val exportCallback: ExportCallback = object : ExportCallback {
-        override fun onSuccess(file: File) {
-            Snackbar.make(container, R.string.export_success, Snackbar.LENGTH_LONG)
-                .setAction(R.string.open) {
-                    try {
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        val apkURI = FileProvider.getUriForFile(
-                            requireContext(),
-                            context?.applicationContext?.packageName + ".provider", file
-                        )
-                        intent.setDataAndType(apkURI, "text/csv")
-                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        startActivity(intent)
-                    } catch (e: ActivityNotFoundException) {
-                        val crashlytics = FirebaseCrashlytics.getInstance()
-                        crashlytics.recordException(e)
-                        Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
-                    }
-                }.show()
-        }
-
-        override fun onFailure(exception: Exception) {
-            val crashlytics = FirebaseCrashlytics.getInstance()
-            crashlytics.recordException(exception)
-            Toast.makeText(context, "Error : ${exception.message}", Toast.LENGTH_SHORT).show()
         }
     }
 

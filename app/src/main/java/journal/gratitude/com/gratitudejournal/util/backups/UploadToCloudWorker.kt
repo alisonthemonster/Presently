@@ -36,7 +36,7 @@ class UploadToCloudWorker(
         //create csv
         val fileExporter = withContext(IO) { FileExporter(CSVWriterImpl(FileWriter(file))) }
         val csvResult = when (val csvResult = fileExporter.exportToCSV(items, file)) {
-            is CsvCreated -> {
+            is CsvFileCreated -> {
                 //upload to cloud
                 when (cloudProvider.uploadToCloud(csvResult.file)) {
                     is UploadError -> Result.failure()
@@ -44,6 +44,7 @@ class UploadToCloudWorker(
                 }
             }
             is CsvError -> Result.failure()
+            is CsvUriCreated -> TODO()
         }
 
         //delete temp file

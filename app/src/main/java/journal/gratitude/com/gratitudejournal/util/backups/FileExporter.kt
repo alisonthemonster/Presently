@@ -12,7 +12,7 @@ class FileExporter(private val csvWrite: CSVWriter) {
     /*
     * Takes in entries and creates a CSV
     */
-    suspend fun exportToCSV(timelineItems: List<TimelineItem>, file: File): CSVResult {
+    suspend fun exportToCSV(timelineItems: List<Entry>, file: File): CSVResult {
         return withContext(Dispatchers.IO) {
             try {
                 //write header row
@@ -20,7 +20,7 @@ class FileExporter(private val csvWrite: CSVWriter) {
 
                 //write entries
                 for (item in timelineItems) {
-                    if (item is Entry && item.entryContent.isNotEmpty()) {
+                    if (item.entryContent.isNotEmpty()) {
                         csvWrite.writeNext(
                             arrayOf(
                                 item.entryDate.toDatabaseString(),
@@ -30,7 +30,7 @@ class FileExporter(private val csvWrite: CSVWriter) {
                     }
                 }
                 csvWrite.close()
-                CsvCreated(file)
+                CsvFileCreated(file)
             } catch (exception: Exception) {
                 CsvError(exception)
             }
