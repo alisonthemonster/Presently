@@ -139,6 +139,8 @@ class ContainerActivity : AppCompatActivity() {
             "Brittany" -> setTheme(R.style.AppTheme_BRITTANY)
             "Jungle" -> setTheme(R.style.AppTheme_JUNGLE)
             "Julie" -> setTheme(R.style.AppTheme_JULIE)
+            "Ellen" -> setTheme(R.style.AppTheme_ELLEN)
+            "Danah" -> setTheme(R.style.AppTheme_DANAH)
             else -> setTheme(R.style.AppTheme)
         }
     }

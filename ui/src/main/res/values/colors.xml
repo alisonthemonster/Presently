@@ -343,4 +343,26 @@
     <color name="julieToolbarColor">#161616</color>
     <color name="julieStatusBarColor">#161616</color>
     <color name="julieToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~ELLEN THEME~~~~ -->
+    <color name="ellenAndroidWidgetColor">#FAC141</color>
+    <color name="ellenBackgroundColor">#DFE0B4</color>
+    <color name="ellenMainTextAndButtonColor">#000000</color>
+    <color name="ellenHintQuoteTextColor">#706767</color>
+    <color name="ellenDateTextEntryScreenTextColor">#000000</color>
+    <color name="ellenTimelineColor">#000000</color>
+    <color name="ellenToolbarColor">#000000</color>
+    <color name="ellenStatusBarColor">#000000</color>
+    <color name="ellenToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~DANAH THEME~~~~ -->
+    <color name="danahAndroidWidgetColor">#FFB1AB</color>
+    <color name="danahBackgroundColor">#FFEBE7</color>
+    <color name="danahMainTextAndButtonColor">#342E2E</color>
+    <color name="danahHintQuoteTextColor">#706767</color>
+    <color name="danahDateTextEntryScreenTextColor">#342E2E</color>
+    <color name="danahTimelineColor">#FFB1AB</color>
+    <color name="danahToolbarColor">#FFB1AB</color>
+    <color name="danahStatusBarColor">#FFB1AB</color>
+    <color name="danahToolbarItemColor">#FFEBE7</color>
 </resources>
