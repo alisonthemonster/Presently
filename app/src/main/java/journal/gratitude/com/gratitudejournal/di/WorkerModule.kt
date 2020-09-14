@@ -4,7 +4,7 @@ import androidx.work.ListenableWorker
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import journal.gratitude.com.gratitudejournal.util.backups.dropbox.UploadToCloudWorker
+import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 
 @Module
 interface WorkerModule {

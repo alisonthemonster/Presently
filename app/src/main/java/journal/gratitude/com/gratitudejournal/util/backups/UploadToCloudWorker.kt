@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.util.backups.dropbox
+package journal.gratitude.com.gratitudejournal.util.backups
 
 import android.content.Context
 import androidx.work.CoroutineWorker
@@ -10,8 +10,6 @@ import journal.gratitude.com.gratitudejournal.model.UploadSuccess
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.model.CsvFileError
 import journal.gratitude.com.gratitudejournal.model.CsvFileCreated
-import journal.gratitude.com.gratitudejournal.model.CsvUriCreated
-import journal.gratitude.com.gratitudejournal.util.backups.FileExporter
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import java.io.File
