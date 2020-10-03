@@ -416,4 +416,52 @@
         <item name="entryContentTextColor">@color/julieMainTextAndButtonColor</item>
         <item name="highlightColor">@color/julieAndroidWidgetColor</item>
     </style>
+
+    <style name="AppTheme.ELLEN" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_ellen</item>
+        <item name="timelineLineColor">@color/ellenTimelineColor</item>
+        <item name="backgroundColor">@color/ellenBackgroundColor</item>
+        <item name="hintTextColor">@color/ellenHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/ellenToolbarColor</item>
+        <item name="toolbarItemColor">@color/ellenToolbarItemColor</item>
+        <item name="statusBarColor">@color/ellenStatusBarColor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="timelineDateTextColor">@color/ellenDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/ellenMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/ellenMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/ellenMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/ellenAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.DANAH" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_danah</item>
+        <item name="timelineLineColor">@color/danahTimelineColor</item>
+        <item name="backgroundColor">@color/danahBackgroundColor</item>
+        <item name="hintTextColor">@color/danahHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/danahToolbarColor</item>
+        <item name="toolbarItemColor">@color/danahToolbarItemColor</item>
+        <item name="statusBarColor">@color/danahStatusBarColor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="timelineDateTextColor">@color/danahDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/danahMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/danahMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/danahMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/danahAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.AHALYA" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_butterfly</item>
+        <item name="timelineLineColor">@color/ahalyaTimelineColor</item>
+        <item name="backgroundColor">@color/ahalyaBackgroundColor</item>
+        <item name="hintTextColor">@color/ahalyaHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/ahalyaToolbarColor</item>
+        <item name="toolbarItemColor">@color/ahalyaToolbarItemColor</item>
+        <item name="statusBarColor">@color/ahalyaStatusBarColor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="timelineDateTextColor">@color/ahalyaDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/ahalyaMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/ahalyaMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/ahalyaMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/ahalyaAndroidWidgetColor</item>
+    </style>
 </resources>

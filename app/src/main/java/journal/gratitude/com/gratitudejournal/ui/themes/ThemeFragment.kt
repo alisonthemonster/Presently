@@ -190,6 +190,15 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_shell
             ),
             Theme(
+                "Ellen",
+                ContextCompat.getColor(requireContext(), R.color.ellenToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.ellenBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.ellenToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.ellenMainTextAndButtonColor),
+                R.drawable.ic_ellen,
+                true
+            ),
+            Theme(
                 "Western",
                 ContextCompat.getColor(requireContext(), R.color.westernToolbarColor),
                 ContextCompat.getColor(requireContext(), R.color.westernBackgroundColor),
@@ -212,6 +221,15 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.sunsetToolbarItemColor),
                 ContextCompat.getColor(requireContext(), R.color.sunsetAndroidWidgetColor),
                 R.drawable.ic_sun_icon
+            ),
+            Theme(
+                "Danah",
+                ContextCompat.getColor(requireContext(), R.color.danahToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.danahBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.danahToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.danahMainTextAndButtonColor),
+                R.drawable.ic_danah,
+                true
             ),
             Theme(
                 "Field",
@@ -237,6 +255,16 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.glacierToolbarItemColor),
                 ContextCompat.getColor(requireContext(), R.color.glacierMainTextAndButtonColor),
                 R.drawable.ic_cube
+            ),
+
+            Theme(
+                "Ahalya",
+                ContextCompat.getColor(requireContext(), R.color.ahalyaToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.ahalyaBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.ahalyaToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.ahalyaMainTextAndButtonColor),
+                R.drawable.ic_butterfly,
+                true
             ),
             Theme(
                 "Moonlight",
