@@ -19,7 +19,8 @@
     <string name="iam">Olen kiitollinen koska</string>
     <string name="save">Tallena</string>
     <string name="back_up_entries_to_csv">Vie varmuuskopioon</string>
-    <string name="export_success">Tiedot tallennetiin latauksiin</string>
+    <string name="export_success">Laitteeseesi viedyt tiedot</string>
+    <string name="error_creating_csv_file">Virhe CSV-tiedoston luomisessa laitteelle</string>
     <string name="open">Avaa</string>
     <string name="import_entries_from_backup">Tuo merkinnät varmuuskopiosta</string>
     <string name="ok">Ok</string>
@@ -76,7 +77,7 @@
     <string name="dropbox_summary_on">Tietojesi varmuuskopiointi Dropboxiin</string>
     <string name="dropbox_setting_title">Varmuuskopioi tietosi Dropboxilla</string>
     <string name="dropbox_backup_frequency">Dropbox-varmuuskopiointitaajuus</string>
-    <string name="one_time_export_summary">Vie merkinnät manuaalisesti CSV-muotoon Lataukset-kansioon</string>
+    <string name="one_time_export_summary">Vie merkinnät manuaalisesti CSV-muotoon laitteellesi</string>
     <string name="one_time_export">Vie merkinnät CSV: hen</string>
     <string name="import_summary">Valitse tuotava varmuuskopioitu CSV-tiedosto</string>
     <string name="backup_and_restore">Varmuuskopio</string>

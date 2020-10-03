@@ -31,7 +31,7 @@
     <string name="iam">I am grateful for</string>
     <string name="save">Save</string>
     <string name="back_up_entries_to_csv">Backup entries</string>
-    <string name="export_success">Data exported to Downloads</string>
+    <string name="export_success">Data exported to your device</string>
     <string name="open">Open</string>
     <string name="import_entries_from_backup">Import entries from backup</string>
     <string name="ok">Import</string>
@@ -70,6 +70,7 @@
     <string name="permission_export">Permission is needed to export data</string>
     <string name="error_parsing">Error parsing file</string>
     <string name="file_not_csv">File must be a CSV</string>
+    <string name="error_creating_csv_file">Error creating CSV file on device</string>
     <string name="no_app_found">No app found to open this file</string>
     <string name="copied">Copied to clipboard</string>
     <string name="security">Security</string>
@@ -89,7 +90,7 @@
     <string name="dropbox_summary_on">Your entries are being backed up to Dropbox</string>
     <string name="dropbox_setting_title">Back up your data with Dropbox</string>
     <string name="dropbox_backup_frequency">Dropbox Backup Frequency</string>
-    <string name="one_time_export_summary">Manually export your entries to CSV format in your Downloads folder</string>
+    <string name="one_time_export_summary">Manually export your entries to CSV format to your device</string>
     <string name="one_time_export">Export entries to CSV</string>
     <string name="import_summary">Select a backed up CSV file to import</string>
     <string name="backup_and_restore">Backup &amp; Restore</string>

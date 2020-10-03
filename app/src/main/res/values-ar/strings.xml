@@ -20,7 +20,8 @@
     <string name="iam">أشعر بالامتنان الى</string>
     <string name="save">حفظ</string>
     <string name="back_up_entries_to_csv">الإدخالات المحفوظة</string>
-    <string name="export_success">تم تصدير البيانات إلى التنزيلات</string>
+    <string name="export_success">تم تصدير البيانات إلى جهازك</string>
+    <string name="error_creating_csv_file">خطأ في إنشاء ملف CSV على الجهاز</string>
     <string name="open">افتح</string>
     <string name="import_entries_from_backup">استيراد إدخالات من النسخة الاحتياطية</string>
     <string name="ok">استيراد</string>
@@ -77,7 +78,7 @@
     <string name="dropbox_summary_on">يتم نسخ إدخالاتك احتياطيًا إلى Dropbox</string>
     <string name="dropbox_setting_title">نسخ بياناتك احتياطيًا باستخدام Dropbox</string>
     <string name="dropbox_backup_frequency">تردد النسخ الاحتياطي Dropbox</string>
-    <string name="one_time_export_summary">قم بتصدير إدخالاتك يدويًا إلى تنسيق CSV في مجلد التنزيلات</string>
+    <string name="one_time_export_summary">قم يدويًا بتصدير إدخالاتك إلى تنسيق CSV إلى جهازك</string>
     <string name="one_time_export">إدخالات التصدير إلى CSV</string>
     <string name="import_summary">حدد ملف CSV احتياطي لاستيراده</string>
     <string name="backup_and_restore">النسخ الاحتياطي واستعادة</string>

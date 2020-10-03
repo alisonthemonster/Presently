@@ -20,7 +20,8 @@
     <string name="iam">Ich bin dankbar für</string>
     <string name="save">Speichern</string>
     <string name="back_up_entries_to_csv">Einträge sichern</string>
-    <string name="export_success">Daten wurden erfolgreich zu Downloads exportiert</string>
+    <string name="export_success">Auf Ihr Gerät exportierte Daten</string>
+    <string name="error_creating_csv_file">Fehler beim Erstellen der CSV-Datei auf dem Gerät</string>
     <string name="open">Öffnen</string>
     <string name="import_entries_from_backup">Einträge wiederherstellen</string>
     <string name="ok">Importieren</string>
@@ -75,7 +76,7 @@
     <string name="dropbox_summary_on">Ihre Einträge werden in Dropbox gesichert</string>
     <string name="dropbox_setting_title">Sichern Sie Ihre Daten mit Dropbox</string>
     <string name="dropbox_backup_frequency">Dropbox-Sicherungsfrequenz</string>
-    <string name="one_time_export_summary">Exportieren Sie Ihre Einträge manuell in das CSV-Format in Ihrem Download-Ordner</string>
+    <string name="one_time_export_summary">Exportieren Sie Ihre Einträge manuell in das CSV-Format auf Ihr Gerät</string>
     <string name="one_time_export">Exportieren Sie Einträge in CSV</string>
     <string name="import_summary">Wählen Sie eine gesicherte CSV-Datei zum Importieren aus</string>
     <string name="backup_and_restore">Sichern und Wiederherstellen</string>

@@ -19,7 +19,8 @@
     <string name="iam">Estou grato/a por</string>
     <string name="save">Guardar</string>
     <string name="back_up_entries_to_csv">Criar Cópia de Segurança</string>
-    <string name="export_success">Dados exportados para as Transferências</string>
+    <string name="export_success">Dados exportados para o seu dispositivo</string>
+    <string name="error_creating_csv_file">Erro ao criar arquivo CSV no dispositivo</string>
     <string name="open">Abrir</string>
     <string name="import_entries_from_backup">Importar dados de Cópia de Segurança</string>
     <string name="ok">Importar</string>
@@ -76,7 +77,7 @@
     <string name="dropbox_summary_on">O backup de suas entradas está sendo feito no Dropbox</string>
     <string name="dropbox_setting_title">Faça backup de seus dados com o Dropbox</string>
     <string name="dropbox_backup_frequency">Frequência de backup do Dropbox</string>
-    <string name="one_time_export_summary">Exporte manualmente suas entradas para o formato CSV na pasta Downloads</string>
+    <string name="one_time_export_summary">Exporte manualmente suas entradas para o formato CSV para o seu dispositivo</string>
     <string name="one_time_export">Exportar entradas para CSV</string>
     <string name="import_summary">Selecione um arquivo CSV de backup para importar</string>
     <string name="backup_and_restore">Backup e restauração</string>
