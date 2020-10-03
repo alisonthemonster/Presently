@@ -85,7 +85,7 @@ jobs:
       - *attach_firebase_workspace
       - run:
           name: Move Firebase coverage report
-          command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/walleye-26-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
+          command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/walleye-28-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
       - run:
           name: Generate JaCoCo report
           command: ./gradlew -PciBuild=true jacocoTestReport
