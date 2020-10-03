@@ -448,4 +448,20 @@
         <item name="entryContentTextColor">@color/danahMainTextAndButtonColor</item>
         <item name="highlightColor">@color/danahAndroidWidgetColor</item>
     </style>
+
+    <style name="AppTheme.AHALYA" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_butterfly</item>
+        <item name="timelineLineColor">@color/ahalyaTimelineColor</item>
+        <item name="backgroundColor">@color/ahalyaBackgroundColor</item>
+        <item name="hintTextColor">@color/ahalyaHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/ahalyaToolbarColor</item>
+        <item name="toolbarItemColor">@color/ahalyaToolbarItemColor</item>
+        <item name="statusBarColor">@color/ahalyaStatusBarColor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="timelineDateTextColor">@color/ahalyaDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/ahalyaMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/ahalyaMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/ahalyaMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/ahalyaAndroidWidgetColor</item>
+    </style>
 </resources>

@@ -256,6 +256,16 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.glacierMainTextAndButtonColor),
                 R.drawable.ic_cube
             ),
+
+            Theme(
+                "Ahalya",
+                ContextCompat.getColor(requireContext(), R.color.ahalyaToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.ahalyaBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.ahalyaToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.ahalyaMainTextAndButtonColor),
+                R.drawable.ic_butterfly,
+                true
+            ),
             Theme(
                 "Moonlight",
                 ContextCompat.getColor(requireContext(), R.color.moonlightToolbarColor),
