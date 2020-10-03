@@ -1,7 +1,7 @@
 ext {
     major = 1
     minor = 8
-    patch = 0
+    patch = 4
     beta = ""
 
     androidCompileSdk = 29

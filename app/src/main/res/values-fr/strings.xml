@@ -19,7 +19,8 @@
     <string name="iam">Je ressens de la reconnaissance pour</string>
     <string name="save">Sauvegarder</string>
     <string name="back_up_entries_to_csv">Sauvegarder mes enregistrements</string>
-    <string name="export_success">Enregistrements sauvegardés dans le répertoire Téléchargements</string>
+    <string name="export_success">Enregistrements sauvegardés vers votre appareil</string>
+    <string name="error_creating_csv_file">Erreur lors de la création du fichier CSV sur l\'appareil</string>
     <string name="open">Ouvrir</string>
     <string name="import_entries_from_backup">Importer des enregistrements depuis une sauvegarde</string>
     <string name="ok">Importer</string>
@@ -76,7 +77,7 @@
     <string name="dropbox_summary_on">Vos entrées sont sauvegardées sur Dropbox</string>
     <string name="dropbox_setting_title">Sauvegardez vos données avec Dropbox</string>
     <string name="dropbox_backup_frequency">Fréquence de sauvegarde Dropbox</string>
-    <string name="one_time_export_summary">Exportez manuellement vos entrées au format CSV dans votre dossier Téléchargements</string>
+    <string name="one_time_export_summary">Exportez manuellement vos entrées au format CSV sur votre appareil</string>
     <string name="one_time_export">Exporter des entrées vers CSV</string>
     <string name="import_summary">Sélectionnez un fichier CSV sauvegardé à importer</string>
     <string name="backup_and_restore">Sauvegarde et restauration</string>

@@ -19,13 +19,14 @@
     <string name="iam">Eu estou grato/a por</string>
     <string name="save">Salvar</string>
     <string name="back_up_entries_to_csv">Backup das anotações</string>
-    <string name="export_success">Dados exportados para a pasta Downloads</string>
+    <string name="export_success">Dados exportados para o seu dispositivo</string>
     <string name="open">Abrir</string>
     <string name="import_entries_from_backup">Importar anotações do backup</string>
     <string name="ok">Importar</string>
     <string name="cancel">Cancelar</string>
     <string name="import_data_dialog">Você tem certeza que quer importar?</string>
     <string name="import_data_dialog_message">Dados importados podem ser gravados em cima das anotações existentes</string>
+    <string name="error_creating_csv_file">Erro ao criar arquivo CSV no dispositivo</string>
     <string name="days_of_gratitude">dias de gratidão!</string>
     <string name="days_of">dias de gratidão</string>
     <string name="rate_presently">Avalie o Presently</string>
@@ -75,7 +76,7 @@
     <string name="dropbox_summary_on">O backup de suas entradas está sendo feito no Dropbox</string>
     <string name="dropbox_setting_title">Faça backup de seus dados com o Dropbox</string>
     <string name="dropbox_backup_frequency">Frequência de backup do Dropbox</string>
-    <string name="one_time_export_summary">Exporte manualmente suas entradas para o formato CSV na pasta Downloads</string>
+    <string name="one_time_export_summary">Exporte manualmente suas entradas para o formato CSV para o seu dispositivo</string>
     <string name="one_time_export">Exportar entradas para CSV</string>
     <string name="import_summary">Selecione um arquivo CSV de backup para importar</string>
     <string name="backup_and_restore">Backup e restauração</string>

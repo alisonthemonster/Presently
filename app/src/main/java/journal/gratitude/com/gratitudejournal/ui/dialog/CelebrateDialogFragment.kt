@@ -33,6 +33,9 @@ class CelebrateDialogFragment : DialogFragment() {
         val numEntries = arguments?.getInt(NUM_ENTRIES)
         num_entries.text = numEntries.toString()
 
+        close.setOnClickListener {
+            dismiss()
+        }
         rate_presently.setOnClickListener {
             firebaseAnalytics.logEvent(CLICKED_RATE, null)
             val appPackageName = context?.packageName

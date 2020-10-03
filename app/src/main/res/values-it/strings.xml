@@ -19,7 +19,8 @@
     <string name="iam">sono grato di</string>
     <string name="save">Salva</string>
     <string name="back_up_entries_to_csv">Backup</string>
-    <string name="export_success">I dati sono stati salvati nella cartella Download</string>
+    <string name="export_success">Dati esportati sul tuo dispositivo</string>
+    <string name="error_creating_csv_file">Errore durante la creazione del file CSV sul dispositivo</string>
     <string name="open">Apri</string>
     <string name="import_entries_from_backup">Ripristina il tuo diario da una copia archiviata</string>
     <string name="ok">Importa</string>
@@ -76,7 +77,7 @@
     <string name="dropbox_summary_on">Il backup delle voci è stato effettuato su Dropbox</string>
     <string name="dropbox_setting_title">Eseguire il backup dei dati con Dropbox</string>
     <string name="dropbox_backup_frequency">Frequenza di backup di Dropbox</string>
-    <string name="one_time_export_summary">Esporta manualmente le voci nel formato CSV nella cartella Download</string>
+    <string name="one_time_export_summary">Esporta manualmente le voci in formato CSV sul tuo dispositivo</string>
     <string name="one_time_export">Esporta voci in CSV</string>
     <string name="import_summary">Seleziona un file CSV di cui eseguire il backup da importare</string>
     <string name="backup_and_restore">Backup e ripristino</string>

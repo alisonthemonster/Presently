@@ -19,7 +19,8 @@
     <string name="iam">ben ik dankbaar voor</string>
     <string name="save">Opslaan</string>
     <string name="back_up_entries_to_csv">Back-up ingevoerde gegevens</string>
-    <string name="export_success">Gegevens geëxporteerd naar Downloads</string>
+    <string name="export_success">Gegevens geëxporteerd naar uw apparaat</string>
+    <string name="error_creating_csv_file">Fout bij maken van CSV-bestand op apparaat</string>
     <string name="open">Open</string>
     <string name="import_entries_from_backup">Importeer gegevens van back-up</string>
     <string name="ok">Importeren</string>
@@ -74,7 +75,7 @@
     <string name="dropbox_summary_on">Je gegevens worden gebackupt naar Dropbox</string>
     <string name="dropbox_setting_title">Back-up je gegevens naar Dropbox</string>
     <string name="dropbox_backup_frequency">Dropbox Backup Frequentie</string>
-    <string name="one_time_export_summary">Handmatig je gegevens kommagescheiden (CSV) exporteren in je Downloads folder</string>
+    <string name="one_time_export_summary">Exporteer uw vermeldingen handmatig naar CSV-indeling naar uw apparaat</string>
     <string name="one_time_export">Export gegevens kommagescheiden (CSV)</string>
     <string name="import_summary">Selecteer het te importeren kommagescheiden (CSV)back-up bestand</string>
     <string name="backup_and_restore">Back-up &amp; Herstellen</string>

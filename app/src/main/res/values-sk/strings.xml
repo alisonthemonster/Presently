@@ -20,7 +20,8 @@
     <string name="iam">Som vďačný za</string>
     <string name="save">Uložiť</string>
     <string name="back_up_entries_to_csv">Zálohovanie</string>
-    <string name="export_success">Údaje boli exportované do priečinka Stiahnuté</string>
+    <string name="export_success">Údaje exportované do vášho zariadenia</string>
+    <string name="error_creating_csv_file">Chyba pri vytváraní súboru CSV v zariadení</string>
     <string name="open">Otvoriť</string>
     <string name="import_entries_from_backup">Import zo zálohy</string>
     <string name="ok">Importovať</string>
@@ -77,7 +78,7 @@
     <string name="dropbox_summary_on">Vaše záznamy sa zálohujú do Dropboxu</string>
     <string name="dropbox_setting_title">Zálohujte si dáta pomocou Dropboxu</string>
     <string name="dropbox_backup_frequency">Frekvencia zálohovania schránky Dropbox</string>
-    <string name="one_time_export_summary">Manuálne exportujte svoje záznamy do formátu CSV v priečinku Stiahnuté súbory</string>
+    <string name="one_time_export_summary">Ručne exportujte svoje záznamy do formátu CSV do svojho zariadenia</string>
     <string name="one_time_export">Exportujte položky do súboru CSV</string>
     <string name="import_summary">Vyberte zálohovaný súbor CSV, ktorý chcete importovať</string>
     <string name="backup_and_restore">Zálohovanie a obnovenie</string>

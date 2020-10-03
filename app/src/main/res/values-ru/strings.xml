@@ -19,7 +19,7 @@
     <string name="iam">вы благодарны за</string>
     <string name="save">Сохранить</string>
     <string name="back_up_entries_to_csv">Резервное копирование записей</string>
-    <string name="export_success">Записи были сохранены в Загрузки</string>
+    <string name="export_success">Данные, экспортированные на ваше устройство</string>
     <string name="open">Открыть</string>
     <string name="import_entries_from_backup">Восстановить резервные копии</string>
     <string name="ok">Импортировать</string>
@@ -76,7 +76,8 @@
     <string name="dropbox_summary_on">Ваши записи резервируются в Dropbox</string>
     <string name="dropbox_setting_title">Резервное копирование ваших данных с Dropbox</string>
     <string name="dropbox_backup_frequency">Частота резервного копирования Dropbox</string>
-    <string name="one_time_export_summary">Вручную экспортируйте записи в формат CSV в папке «Загрузки».</string>
+    <string name="error_creating_csv_file">Ошибка создания CSV-файла на устройстве</string>
+    <string name="one_time_export_summary">Вручную экспортируйте записи в формат CSV на ваше устройство.</string>
     <string name="one_time_export">Экспорт записей в CSV</string>
     <string name="import_summary">Выберите резервную копию файла CSV для импорта</string>
     <string name="backup_and_restore">Резервное копирование и восстановление</string>
