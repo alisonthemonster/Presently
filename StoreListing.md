@@ -267,3 +267,15 @@ Presently vam omogućuje:
 ⁕ Prebacvanje na svoju omiljenu shemu boja
 
 Presently je 100% besplatno i bez oglasa. Svi vaši unosi ostaju na vašem uređaju i pod vašom kontrolom.
+
+
+## Romanian
+Presently: un jurnal al recunoștinței
+
+Bucură-te de viață cu Presently, un jurnal de recunoștință gratuit și privat
+
+Practicați recunoștința cu această aplicație simplă, întotdeauna gratuită și privată.
+
+În prezent vă permite să: ⁕Scrieți zilnic un motiv pentru care sunteți recunoscător ⁕ Reflectați asupra momentelor trecute în care ați fost recunoscător ⁕ Găsiți motivația prin citate și întrebări ajutătoare ⁕ Setați alarme zilnice pentru a continua practicarea recunoștinței ⁕ Deblocarea aplicației cu ajutorul amprentei digitale sau a ID-ului facial⁕ Faceți backup automat al datelor folosind Dropbox ⁕ Vă găsiți datele din trecut ⁕ Împărtășiți datele cu familia și prietenii ⁕ Exportați / importați datele ⁕ Schimbați temele și culorile preferate
+
+Presently este 100% gratuit și fără anunțuri. Toate informațiile rămân pe dispozitiv și sub controlul tău.
