@@ -9,6 +9,9 @@
     <string name="key_open_source" translatable="false">open_source</string>
     <string name="key_version" translatable="false">version</string>
 
+    <!-- Calendar -->
+    <string name="random">Random</string>
+
     <string name="what_are_you_thankful_for">What are you grateful for?</string>
     <string name="what_were_you_thankful_for">What were you grateful for?</string>
     <string name="what_are_you_thankful_for_today">What are you grateful for today?</string>
