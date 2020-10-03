@@ -17,6 +17,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/num_entries" />
 
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:src="@drawable/ic_close_24"
+        android:background="?attr/selectableItemBackground"
+        android:contentDescription="@string/close"
+        android:tint="@color/text_color"
+        app:layout_constraintEnd_toEndOf="@id/view"
+        app:layout_constraintTop_toTopOf="@id/view" />
+
     <TextView
         android:id="@+id/num_entries"
         android:layout_width="wrap_content"
