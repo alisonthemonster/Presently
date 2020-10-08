@@ -9,7 +9,6 @@
         <item name="toolbarColor">@color/sunsetToolbarColor</item>
         <item name="toolbarItemColor">@color/sunsetToolbarItemColor</item>
         <item name="statusBarColor">@color/sunsetStatusBarColor</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="timelineDateTextColor">@color/sunsetPrimaryColor</item>
         <item name="timelineContentTextColor">@color/sunsetPrimaryColor</item>
         <item name="entryHeaderTextColor">@color/sunsetPrimaryColor</item>
@@ -25,7 +24,6 @@
         <item name="toolbarColor">@color/moonlightToolbarColor</item>
         <item name="toolbarItemColor">@color/moonlightToolbarItemColor</item>
         <item name="statusBarColor">@color/moonlightStatusBarColor</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="timelineDateTextColor">@color/moonlightMainTextAndButtonColor</item>
         <item name="timelineContentTextColor">@color/moonlightMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/moonlightDateTextEntryScreenTextColor</item>
@@ -41,7 +39,6 @@
         <item name="toolbarColor">@color/dawnToolbarColor</item>
         <item name="toolbarItemColor">@color/dawnToolbarItemColor</item>
         <item name="statusBarColor">@color/dawnStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/dawnDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/dawnMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/dawnMainTextAndButtonColor</item>
@@ -57,7 +54,6 @@
         <item name="toolbarColor">@color/midnightToolbarColor</item>
         <item name="toolbarItemColor">@color/midnightToolbarItemColor</item>
         <item name="statusBarColor">@color/midnightStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/midnightDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/midnightMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/midnightMainTextAndButtonColor</item>
@@ -73,7 +69,6 @@
         <item name="toolbarColor">@color/ivyToolbarColor</item>
         <item name="toolbarItemColor">@color/ivyToolbarItemColor</item>
         <item name="statusBarColor">@color/ivyStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/ivyDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/ivyMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/ivyMainTextAndButtonColor</item>
@@ -89,7 +84,6 @@
         <item name="toolbarColor">@color/wesleyToolbarColor</item>
         <item name="toolbarItemColor">@color/wesleyToolbarItemColor</item>
         <item name="statusBarColor">@color/wesleyStatusBarColor</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="timelineDateTextColor">@color/wesleyDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/wesleyMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/wesleyMainTextAndButtonColor</item>
@@ -105,7 +99,6 @@
         <item name="toolbarColor">@color/mossToolbarColor</item>
         <item name="toolbarItemColor">@color/mossToolbarItemColor</item>
         <item name="statusBarColor">@color/mossStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/mossDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/mossMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/mossMainTextAndButtonColor</item>
@@ -121,7 +114,6 @@
         <item name="toolbarColor">@color/cleanToolbarColor</item>
         <item name="toolbarItemColor">@color/cleanToolbarItemColor</item>
         <item name="statusBarColor">@color/cleanStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/cleanDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/cleanMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/cleanMainTextAndButtonColor</item>
@@ -137,7 +129,6 @@
         <item name="toolbarColor">@color/glacierToolbarColor</item>
         <item name="toolbarItemColor">@color/glacierToolbarItemColor</item>
         <item name="statusBarColor">@color/glacierStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/glacierDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/glacierMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/glacierMainTextAndButtonColor</item>
@@ -153,7 +144,6 @@
         <item name="toolbarColor">@color/gelatoToolbarColor</item>
         <item name="toolbarItemColor">@color/gelatoToolbarItemColor</item>
         <item name="statusBarColor">@color/gelatoStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/gelatoDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/gelatoMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/gelatoMainTextAndButtonColor</item>
@@ -169,7 +159,6 @@
         <item name="toolbarColor">@color/wavesToolbarColor</item>
         <item name="toolbarItemColor">@color/wavesToolbarItemColor</item>
         <item name="statusBarColor">@color/wavesStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/wavesDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/wavesMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/wavesMainTextAndButtonColor</item>
@@ -185,7 +174,6 @@
         <item name="toolbarColor">@color/beachToolbarColor</item>
         <item name="toolbarItemColor">@color/beachToolbarItemColor</item>
         <item name="statusBarColor">@color/beachStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/beachDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/beachMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/beachMainTextAndButtonColor</item>
@@ -201,7 +189,6 @@
         <item name="toolbarColor">@color/fieldToolbarColor</item>
         <item name="toolbarItemColor">@color/fieldToolbarItemColor</item>
         <item name="statusBarColor">@color/fieldStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/fieldDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/fieldMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/fieldMainTextAndButtonColor</item>
@@ -217,7 +204,6 @@
         <item name="toolbarColor">@color/westernToolbarColor</item>
         <item name="toolbarItemColor">@color/westernToolbarItemColor</item>
         <item name="statusBarColor">@color/westernStatusBarColor</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="timelineDateTextColor">@color/westernDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/westernMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/westernMainTextAndButtonColor</item>
@@ -233,7 +219,6 @@
         <item name="toolbarColor">@color/sunlightToolbarColor</item>
         <item name="toolbarItemColor">@color/sunlightToolbarItemColor</item>
         <item name="statusBarColor">@color/sunlightStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/sunlightDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/sunlightMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/sunlightMainTextAndButtonColor</item>
@@ -249,7 +234,6 @@
         <item name="toolbarColor">@color/tulipToolbarColor</item>
         <item name="toolbarItemColor">@color/tulipToolbarItemColor</item>
         <item name="statusBarColor">@color/tulipStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/tulipDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/tulipMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/tulipMainTextAndButtonColor</item>
@@ -265,7 +249,6 @@
         <item name="toolbarColor">@color/rosieToolbarColor</item>
         <item name="toolbarItemColor">@color/rosieToolbarItemColor</item>
         <item name="statusBarColor">@color/rosieStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/rosieDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/rosieMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/rosieMainTextAndButtonColor</item>
@@ -281,7 +264,6 @@
         <item name="toolbarColor">@color/daisyToolbarColor</item>
         <item name="toolbarItemColor">@color/daisyToolbarItemColor</item>
         <item name="statusBarColor">@color/daisyStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/daisyDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/daisyMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/daisyMainTextAndButtonColor</item>
@@ -297,7 +279,6 @@
         <item name="toolbarColor">@color/matisseToolbarColor</item>
         <item name="toolbarItemColor">@color/matisseToolbarItemColor</item>
         <item name="statusBarColor">@color/matisseStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/matisseDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/matisseMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/matisseMainTextAndButtonColor</item>
@@ -313,7 +294,6 @@
         <item name="toolbarColor">@color/cloudsToolbarColor</item>
         <item name="toolbarItemColor">@color/cloudsToolbarItemColor</item>
         <item name="statusBarColor">@color/cloudsStatusBarColor</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="timelineDateTextColor">@color/cloudsDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/cloudsMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/cloudsMainTextAndButtonColor</item>
@@ -329,7 +309,6 @@
         <item name="toolbarColor">@color/monsteraToolbarColor</item>
         <item name="toolbarItemColor">@color/monsteraToolbarItemColor</item>
         <item name="statusBarColor">@color/monsteraStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/monsteraDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/monsteraMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/monsteraMainTextAndButtonColor</item>
@@ -345,7 +324,6 @@
         <item name="toolbarColor">@color/lotusToolbarColor</item>
         <item name="toolbarItemColor">@color/lotusToolbarItemColor</item>
         <item name="statusBarColor">@color/lotusStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/lotusDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/lotusMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/lotusMainTextAndButtonColor</item>
@@ -361,7 +339,6 @@
         <item name="toolbarColor">@color/katieToolbarColor</item>
         <item name="toolbarItemColor">@color/katieToolbarItemColor</item>
         <item name="statusBarColor">@color/katieStatusBarColor</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="timelineDateTextColor">@color/katieDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/katieMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/katieMainTextAndButtonColor</item>
@@ -377,7 +354,6 @@
         <item name="toolbarColor">@color/brittanyToolbarColor</item>
         <item name="toolbarItemColor">@color/brittanyToolbarItemColor</item>
         <item name="statusBarColor">@color/brittanyStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/brittanyDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/brittanyMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/brittanyMainTextAndButtonColor</item>
@@ -393,7 +369,6 @@
         <item name="toolbarColor">@color/jungleToolbarColor</item>
         <item name="toolbarItemColor">@color/jungleToolbarItemColor</item>
         <item name="statusBarColor">@color/jungleStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/jungleDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/jungleMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/jungleMainTextAndButtonColor</item>
@@ -409,7 +384,6 @@
         <item name="toolbarColor">@color/julieToolbarColor</item>
         <item name="toolbarItemColor">@color/julieToolbarItemColor</item>
         <item name="statusBarColor">@color/julieStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/julieDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/julieMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/julieMainTextAndButtonColor</item>
@@ -425,7 +399,6 @@
         <item name="toolbarColor">@color/ellenToolbarColor</item>
         <item name="toolbarItemColor">@color/ellenToolbarItemColor</item>
         <item name="statusBarColor">@color/ellenStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/ellenDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/ellenMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/ellenMainTextAndButtonColor</item>
@@ -441,7 +414,6 @@
         <item name="toolbarColor">@color/danahToolbarColor</item>
         <item name="toolbarItemColor">@color/danahToolbarItemColor</item>
         <item name="statusBarColor">@color/danahStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/danahDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/danahMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/danahMainTextAndButtonColor</item>
@@ -457,7 +429,6 @@
         <item name="toolbarColor">@color/ahalyaToolbarColor</item>
         <item name="toolbarItemColor">@color/ahalyaToolbarItemColor</item>
         <item name="statusBarColor">@color/ahalyaStatusBarColor</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="timelineDateTextColor">@color/ahalyaDateTextEntryScreenTextColor</item>
         <item name="timelineContentTextColor">@color/ahalyaMainTextAndButtonColor</item>
         <item name="entryHeaderTextColor">@color/ahalyaMainTextAndButtonColor</item>

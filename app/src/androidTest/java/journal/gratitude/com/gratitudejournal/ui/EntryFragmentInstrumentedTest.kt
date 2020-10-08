@@ -175,16 +175,6 @@ class EntryFragmentInstrumentedTest {
     }
 
     @Test
-    fun newInstance_makesFragment() {
-        val date = LocalDate.now()
-        val fragment = EntryFragment.newInstance(date)
-
-        val actualDate = fragment.arguments?.get(EntryFragment.DATE)
-
-        assertEquals(date.toString(), actualDate)
-    }
-
-    @Test
     fun entryFragment_longPressQuote_copiesToClipboard() {
         launchFragmentInContainer<EntryFragment>(
             themeResId = R.style.AppTheme

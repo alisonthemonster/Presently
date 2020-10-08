@@ -10,7 +10,6 @@
         <item name="android:colorBackground">?attr/backgroundColor</item>
         <item name="snackbarButtonStyle">@style/snackbar_button</item>
         <item name="timelineIcon">@drawable/ic_flower</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
         <item name="timelineLineColor">@color/originalTimelineColor</item>
         <item name="backgroundColor">@color/originalBackgroundColor</item>
@@ -25,6 +24,7 @@
         <item name="highlightColor">@color/originalTimelineColor</item>
         <item name="fontFamily">@font/larsseit_medium</item>
         <item name="android:fontFamily">@font/larsseit_medium</item>
+        <item name="android:navigationBarColor">#00000000</item>
     </style>
 
     <style name="snackbar_button" parent="@style/Widget.MaterialComponents.Button.TextButton.Snackbar">

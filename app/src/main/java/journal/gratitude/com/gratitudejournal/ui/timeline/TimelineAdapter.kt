@@ -1,6 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.app.Activity
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegatesManager
@@ -47,6 +48,6 @@ class TimelineAdapter(
     }
 
     interface OnClickListener {
-        fun onClick(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int)
+        fun onClick(view: View, clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int)
     }
 }

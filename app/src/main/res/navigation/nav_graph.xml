@@ -36,6 +36,14 @@
         <argument
             android:name="date"
             app:argType="string" />
+        <argument
+            android:name="isNewEntry"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="numEntries"
+            app:argType="integer"
+            android:defaultValue="0"/>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

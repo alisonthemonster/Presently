@@ -4,22 +4,23 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.FileProvider
-import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.android.support.DaggerFragment
@@ -28,11 +29,9 @@ import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBindin
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.ui.calendar.CalendarAnimation
 import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.IS_NEW_ENTRY
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.NUM_ENTRIES
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.DAY_OF_WEEK
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.LINES_PER_ENTRY_IN_TIMELINE
+import journal.gratitude.com.gratitudejournal.util.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
@@ -97,20 +96,25 @@ class TimelineFragment : DaggerFragment() {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
         val showDayOfWeek = sharedPrefs?.getBoolean(DAY_OF_WEEK, false) ?: false
         val linesPerEntry = sharedPrefs?.getInt(LINES_PER_ENTRY_IN_TIMELINE, 10) ?: 10
-        adapter = TimelineAdapter(requireActivity(), showDayOfWeek, linesPerEntry, object : TimelineAdapter.OnClickListener {
-            override fun onClick(
-                clickedDate: LocalDate,
-                isNewEntry: Boolean,
-                numEntries: Int
-            ) {
-                if (isNewEntry) {
-                    firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY, null)
-                } else {
-                    firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY, null)
+        adapter = TimelineAdapter(
+            requireActivity(),
+            showDayOfWeek,
+            linesPerEntry,
+            object : TimelineAdapter.OnClickListener {
+                override fun onClick(
+                    view: View,
+                    clickedDate: LocalDate,
+                    isNewEntry: Boolean,
+                    numEntries: Int
+                ) {
+                    if (isNewEntry) {
+                        firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY, null)
+                    } else {
+                        firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY, null)
+                    }
+                    navigateToDate(clickedDate, isNewEntry, numEntries)
                 }
-                navigateToDate(clickedDate, isNewEntry, numEntries)
-            }
-        })
+            })
         timeline_recycler_view.adapter = adapter
 
         overflow_button.setOnClickListener {
@@ -179,20 +183,31 @@ class TimelineFragment : DaggerFragment() {
             val animation = CalendarAnimation(cal_fab, entry_calendar)
             animation.openCalendar()
         }
+
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            v.updatePadding(
+                top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
+                bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            )
+            insets
+        }
+
+        val window = requireActivity().window
+        val typedValue = TypedValue()
+        requireActivity().theme.resolveAttribute(R.attr.toolbarColor, typedValue, true)
+        window.statusBarColor = typedValue.data
+        setStatusBarColorsForBackground(window, typedValue.data)
     }
 
     private fun navigateToDate(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int) {
-        val bundle = bundleOf(
-            DATE to clickedDate.toString(),
-            IS_NEW_ENTRY to isNewEntry,
-            NUM_ENTRIES to numEntries
+        val directions = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
+            clickedDate.toString(),
+            isNewEntry,
+            numEntries
         )
         val navController = findNavController()
         if (navController.currentDestination?.id == R.id.timelineFragment) {
-            navController.navigate(
-                R.id.action_timelineFragment_to_entryFragment,
-                bundle
-            )
+            navController.navigate(directions)
         }
     }
 
