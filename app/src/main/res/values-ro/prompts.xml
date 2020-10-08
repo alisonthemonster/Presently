@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prompts">
+        <item>Ceva care te-a făcut să zâmbești?</item>
+        <item>Ceva pentru care esti recunoscător din această cameră?</item>
+        <item>Ceva ce te face fericit să trăiești?</item>
+        <item>Cineva care te-a ajutat?</item>
+        <item>Cineva care te-a mentorat?</item>
+        <item>Cineva care te-a învățat ceva?</item>
+        <item>O persoana pe care o iubești?</item>
+        <item>Cineva care te iubește?</item>
+        <item>Un prieten pentru care ești recunoscător?</item>
+        <item>Ce lucru din natura te face recunoscător ?</item>
+        <item>Ce talent sau abilitate te face recunoscător?</item>
+        <item>Ce amintire te face recunoscător?</item>
+        <item>Cine te-a ajutat zilele acestea?</item>
+        <item>Ce te-a făcut fericit astazi?</item>
+        <item>Pentru ce ești mândru de tine?</item>
+        <item>Pentru ce ești recunoscător în legătură cu educația ta?</item>
+        <item>Pentru ce ești recunoscător în legătură cu cariera sau locul tău de muncă ?</item>
+        <item>Pentru ce ești recunoscător în legătură cu libertatea ta?</item>
+        <item>Ceva ce te-a făcut să râzi?</item>
+        <item>Un lucru pentru care ești recunoscător în legătură cu tine?</item>
+        <item>Care a fost cel mai frumos lucru pe care l-ai văzut în această zi?</item>
+        <item>Ce carte te face recunoscător?</item>
+        <item>Ce melodie sau gen de muzică te face recunoscător?</item>
+        <item>Ceva care îți face viața mai ușoară?</item>
+        <item>Ceva care te înveselește mereu?</item>
+        <item>Cine te inspiră?</item>
+        <item>Ce tehnologie sau instrument te face recunoscător?</item>
+        <item>Ce oportunitate te face recunoscător?</item>
+        <item>Ceva legat de corpul sau sănătatea ta pentru care ești recunoscător?</item>
+        <item>Care este locul pentru care ești recunoscător?</item>
+        <item>Care este parfumul pentru care ești recunoscător?</item>
+        <item>Care este aroma pentru care ești recunoscător?</item>
+        <item>Care sunt cunoștințele pentru care ești recunoscător?</item>
+        <item>Care este plăcerea simplă pentru care ești recunoscător?</item>
+        <item>Ce hobbie te face recunoscător?</item>
+        <item>Ce sunet te face recunoscător?</item>
+        <item>Ce lucru mărunt te face recunoscător?</item>
+        <item>Ce cunoștințe însușite te fac recunoscător?</item>
+        <item>Ceva din orașul tău Pentru ce ești recunoscător?</item>
+        <item>Ce lucru din casa ta te fac recunoscător?</item>
+        <item>Ce sfat primit te fac recunoscător?</item>
+        <item>Ce te fac recunoscător pentru familia ta?</item>
+        <item>Ce lucru din acest anotimp te fac recunoscător ?</item>
+        <item>Ce activitate te face recunoscător?</item>
+    </string-array>
+</resources>
