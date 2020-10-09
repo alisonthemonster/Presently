@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -97,20 +98,25 @@ class TimelineFragment : DaggerFragment() {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
         val showDayOfWeek = sharedPrefs?.getBoolean(DAY_OF_WEEK, false) ?: false
         val linesPerEntry = sharedPrefs?.getInt(LINES_PER_ENTRY_IN_TIMELINE, 10) ?: 10
-        adapter = TimelineAdapter(requireActivity(), showDayOfWeek, linesPerEntry, object : TimelineAdapter.OnClickListener {
-            override fun onClick(
-                clickedDate: LocalDate,
-                isNewEntry: Boolean,
-                numEntries: Int
-            ) {
-                if (isNewEntry) {
-                    firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY, null)
-                } else {
-                    firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY, null)
+        adapter = TimelineAdapter(
+            requireActivity(),
+            showDayOfWeek,
+            linesPerEntry,
+            object : TimelineAdapter.OnClickListener {
+                override fun onClick(
+                    clickedDate: LocalDate,
+                    isNewEntry: Boolean,
+                    numEntries: Int
+                ) {
+                    if (isNewEntry) {
+                        firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY, null)
+                    } else {
+                        firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY, null)
+                    }
+                    navigateToDate(clickedDate, isNewEntry, numEntries)
                 }
-                navigateToDate(clickedDate, isNewEntry, numEntries)
             }
-        })
+        )
         timeline_recycler_view.adapter = adapter
 
         overflow_button.setOnClickListener {
@@ -199,10 +205,27 @@ class TimelineFragment : DaggerFragment() {
     private fun openContactForm() {
         firebaseAnalytics.logEvent(OPENED_CONTACT_FORM, null)
 
-        val intent = Intent(Intent.ACTION_VIEW)
-        val subject = "In App Feedback"
-        val data = Uri.parse("mailto:gratitude.journal.app@gmail.com?subject=$subject")
-        intent.data = data
+        val context = context ?: return
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+
+            val emails = arrayOf("gratitude.journal.app@gmail.com")
+            val subject = "In App Feedback"
+            putExtra(Intent.EXTRA_EMAIL, emails)
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+
+            val packageName = context.packageName
+            val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+            val text = """
+                Device: ${Build.MODEL}
+                OS Version: ${Build.VERSION.RELEASE}
+                App Version: ${packageInfo.versionName}
+                
+                
+                """.trimIndent()
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+
         try {
             startActivity(intent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
