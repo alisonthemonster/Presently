@@ -298,33 +298,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            TimelineFragment.IMPORT_CSV -> {
-                //when the user has chosen a CSV to import
-                if (resultCode == Activity.RESULT_OK) {
-                    val uri = data?.data
-                    if (uri != null) {
-                        if (uri.scheme == "content") {
-                            val inputStream = activity?.contentResolver?.openInputStream(uri)
-                            if (inputStream != null) {
-                                importFromCsv(inputStream)
-                            } else {
-                                val crashlytics = FirebaseCrashlytics.getInstance()
-                                crashlytics.recordException(NullPointerException("inputStream is null, uri: $uri"))
-                                Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }
-                    } else {
-                        val crashlytics = FirebaseCrashlytics.getInstance()
-                        crashlytics.recordException(NullPointerException("URI was null when receiving file"))
-                        Toast.makeText(context, R.string.file_not_csv, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
-    }
 
     private fun openThemes() {
         firebaseAnalytics.logEvent(OPENED_THEMES, null)
@@ -430,23 +403,37 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     /**
+     * Result contract for activity result to read from the backup CSV file
+     * */
+    private val readCsvResultContact =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
+            if (uri != null) {
+                if (uri.scheme == "content") {
+                    val inputStream = activity?.contentResolver?.openInputStream(uri)
+                    if (inputStream != null) {
+                        importFromCsv(inputStream)
+                    } else {
+                        val crashlytics = FirebaseCrashlytics.getInstance()
+                        crashlytics.recordException(NullPointerException("inputStream is null, uri: $uri"))
+                        Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            } else {
+                val crashlytics = FirebaseCrashlytics.getInstance()
+                crashlytics.recordException(NullPointerException("URI was null when receiving file"))
+                Toast.makeText(context, R.string.file_not_csv, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    /**
      * Opens the chooser to allow the user to select their CSV file.
      * */
     private fun selectCSVFile() {
         firebaseAnalytics.logEvent(LOOKED_FOR_DATA, null)
-
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "text/csv|text/comma-separated-values|application/csv"
         val mimeTypes = arrayOf("text/comma-separated-values", "text/csv")
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-
         try {
-
-
-            startActivityForResult(
-                Intent.createChooser(intent, "Select"),
-                TimelineFragment.IMPORT_CSV
-            )
+            readCsvResultContact.launch(mimeTypes)
         } catch (ex: ActivityNotFoundException) {
             val crashlytics = FirebaseCrashlytics.getInstance()
             crashlytics.recordException(ex)
@@ -481,7 +468,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     /**
-     * Result contract for activity result of creating the CSV file
+     * Result contract for activity result to create backup the CSV file
      * */
     private val saveCsvResultContact =
         registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
