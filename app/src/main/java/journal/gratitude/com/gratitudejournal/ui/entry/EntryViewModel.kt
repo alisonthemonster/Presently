@@ -22,7 +22,10 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 
-class EntryViewModel @Inject constructor(private val repository: EntryRepository, application: Application) :
+class EntryViewModel @Inject constructor(
+    private val repository: EntryRepository,
+    application: Application
+) :
     AndroidViewModel(application) {
 
     val entry: LiveData<Entry>
@@ -45,11 +48,7 @@ class EntryViewModel @Inject constructor(private val repository: EntryRepository
             override fun onPropertyChanged(sender: Observable, propertyId: Int) {
                 if (sender == entryContent) {
                     val content = entryContent.get() ?: ""
-                    if (content.isEmpty()) {
-                        isEmpty.set(true)
-                    } else {
-                        isEmpty.set(false)
-                    }
+                    isEmpty.set(content.isEmpty())
                 }
             }
         })
@@ -58,7 +57,7 @@ class EntryViewModel @Inject constructor(private val repository: EntryRepository
 
         entry.addSource(dateLiveData) { date ->
             entry.addSource(repository.getEntry(date)) { data ->
-                if (data != null) {
+                if (data != null && !hasUserEdits.get()) {
                     entryContent.set(data.entryContent)
                 }
                 entry.value = data
