@@ -3,7 +3,6 @@ package journal.gratitude.com.gratitudejournal.ui
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
-import android.os.Bundle
 import android.view.KeyEvent
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
@@ -33,6 +32,7 @@ import journal.gratitude.com.gratitudejournal.testUtils.isEditTextValueEqualTo
 import journal.gratitude.com.gratitudejournal.testUtils.saveEntryBlocking
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragmentArgs
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
@@ -61,19 +61,20 @@ class EntryFragmentInstrumentedTest {
         val mockEntry = Entry(date, "test content")
         repository.saveEntryBlocking(mockEntry)
 
-        val fragmentArgs = Bundle().apply {
-            putString(EntryFragment.DATE, date.toString())
-        }
+        val bundle = EntryFragmentArgs(
+            date.toString(),
+            true,
+            0)
+
         launchFragmentInContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = fragmentArgs
+            fragmentArgs = bundle.toBundle()
         )
 
         onView(withId(R.id.share_button))
             .check(matches(isDisplayed()))
         onView(withId(R.id.prompt_button))
             .check(matches(not(isDisplayed())))
-
     }
 
     @Test
@@ -104,12 +105,14 @@ class EntryFragmentInstrumentedTest {
         val mockEntry = Entry(date, "test content")
         repository.saveEntryBlocking(mockEntry)
 
-        val fragmentArgs = Bundle().apply {
-            putString(EntryFragment.DATE, date.toString())
-        }
+        val bundle = EntryFragmentArgs(
+            date.toString(),
+            true,
+            0)
+
         launchFragmentInContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = fragmentArgs
+            fragmentArgs = bundle.toBundle()
         )
 
         val intent = Intent()
@@ -131,8 +134,15 @@ class EntryFragmentInstrumentedTest {
     @Test
     fun saveButton_navigatesBack() {
         val mockNavController = mock<NavController>()
+        val date = LocalDate.of(2019, 3, 22)
+
+        val args = EntryFragmentArgs(
+            date.toString(),
+            true,
+            4)
         val scenario = launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.Base_AppTheme
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = args.toBundle()
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -151,13 +161,16 @@ class EntryFragmentInstrumentedTest {
     @Test
     fun saveButton_onMilestone_showsMilestoneDialog() {
         val mockNavController = mock<NavController>()
-        val fragmentArgs = Bundle().apply {
-            putInt(EntryFragment.NUM_ENTRIES, 4)
-            putBoolean(EntryFragment.IS_NEW_ENTRY, true)
-        }
+        val date = LocalDate.of(2019, 3, 22)
+
+        val bundle = EntryFragmentArgs(
+            date.toString(),
+            true,
+            4)
+
         val scenario = launchFragmentInContainer<EntryFragment>(
-            fragmentArgs = fragmentArgs,
-            themeResId = R.style.Base_AppTheme
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = bundle.toBundle()
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
