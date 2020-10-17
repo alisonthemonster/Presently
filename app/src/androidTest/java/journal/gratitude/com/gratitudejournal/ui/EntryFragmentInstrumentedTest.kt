@@ -271,8 +271,16 @@ class EntryFragmentInstrumentedTest {
     @Test
     fun entryFragment_noEdit_navigatesBack_noDialog() {
         val mockNavController = mock<NavController>()
+        val date = LocalDate.of(2019, 3, 22)
+
+        val bundle = EntryFragmentArgs(
+            date.toString(),
+            true,
+            4)
+
         val scenario = launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.Base_AppTheme
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = bundle.toBundle()
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
