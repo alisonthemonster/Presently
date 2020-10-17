@@ -33,7 +33,6 @@ import journal.gratitude.com.gratitudejournal.testUtils.isEditTextValueEqualTo
 import journal.gratitude.com.gratitudejournal.testUtils.saveEntryBlocking
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
-import junit.framework.Assert.assertEquals
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
@@ -66,7 +65,7 @@ class EntryFragmentInstrumentedTest {
             putString(EntryFragment.DATE, date.toString())
         }
         launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.AppTheme,
+            themeResId = R.style.Base_AppTheme,
             fragmentArgs = fragmentArgs
         )
 
@@ -80,7 +79,7 @@ class EntryFragmentInstrumentedTest {
     @Test
     fun noEntry_showsPromptButton() {
         launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
 
         onView(withId(R.id.share_button)).check(matches(not(isDisplayed())))
@@ -90,7 +89,7 @@ class EntryFragmentInstrumentedTest {
     @Test
     fun promptButton_changesHintText() {
         launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
 
         onView(withId(R.id.entry_text)).check(matches(withHint("What are you grateful for?")))
@@ -109,7 +108,7 @@ class EntryFragmentInstrumentedTest {
             putString(EntryFragment.DATE, date.toString())
         }
         launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.AppTheme,
+            themeResId = R.style.Base_AppTheme,
             fragmentArgs = fragmentArgs
         )
 
@@ -133,7 +132,7 @@ class EntryFragmentInstrumentedTest {
     fun saveButton_navigatesBack() {
         val mockNavController = mock<NavController>()
         val scenario = launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -158,7 +157,7 @@ class EntryFragmentInstrumentedTest {
         }
         val scenario = launchFragmentInContainer<EntryFragment>(
             fragmentArgs = fragmentArgs,
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -177,7 +176,7 @@ class EntryFragmentInstrumentedTest {
     @Test
     fun entryFragment_longPressQuote_copiesToClipboard() {
         launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
 
         val quote =
@@ -198,7 +197,7 @@ class EntryFragmentInstrumentedTest {
     @Test
     fun entryFragment_longPressQuote_showsToast() {
         val scenario = launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
 
         var activity: Activity? = null
@@ -217,7 +216,7 @@ class EntryFragmentInstrumentedTest {
     fun entryFragment_makeEdit_navigatesBack() {
         val mockNavController = mock<NavController>()
         val scenario = launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -260,7 +259,7 @@ class EntryFragmentInstrumentedTest {
     fun entryFragment_noEdit_navigatesBack_noDialog() {
         val mockNavController = mock<NavController>()
         val scenario = launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)

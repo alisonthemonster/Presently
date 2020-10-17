@@ -42,7 +42,7 @@ class SearchFragmentInstrumentedTest {
     fun search_pressBackButton_navigateUp() {
         val mockNavController = mock<NavController>()
         val scenario = launchFragmentInContainer<SearchFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -56,7 +56,7 @@ class SearchFragmentInstrumentedTest {
     @Test
     fun search_showsResults() {
         launchFragmentInContainer<SearchFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
 
         onView(withId(R.id.search_text)).perform(
@@ -73,7 +73,7 @@ class SearchFragmentInstrumentedTest {
     @Test
     fun search_doesntSearchEmptyStrings() {
         launchFragmentInContainer<SearchFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
 
         onView(withId(R.id.search_text)).perform(
@@ -90,7 +90,7 @@ class SearchFragmentInstrumentedTest {
         mockNavigationDestination.id = R.id.searchFragment
         whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
         val scenario = launchFragmentInContainer<SearchFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)

@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="AppTheme" parent="Base.AppTheme" />
+
+    <!-- Base application theme. -->
+    <style name="Base.AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:statusBarColor">?attr/statusBarColor</item>
+        <item name="colorPrimary">?attr/timelineLineColor</item>
+        <item name="colorSecondary">?attr/highlightColor</item>
+        <item name="android:textColorSecondary">?attr/hintTextColor</item>
+        <item name="android:colorBackground">?attr/backgroundColor</item>
+        <item name="snackbarButtonStyle">@style/snackbar_button</item>
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+        <item name="timelineLineColor">@color/originalTimelineColor</item>
+        <item name="backgroundColor">@color/originalBackgroundColor</item>
+        <item name="hintTextColor">@color/originalHintTextColor</item>
+        <item name="toolbarColor">@color/originalTimelineColor</item>
+        <item name="toolbarItemColor">@color/originalBackgroundColor</item>
+        <item name="statusBarColor">@color/originalTimelineColor</item>
+        <item name="timelineDateTextColor">@color/originalTimelineColor</item>
+        <item name="timelineContentTextColor">@color/originalTimelineColor</item>
+        <item name="entryHeaderTextColor">@color/originalTimelineColor</item>
+        <item name="entryContentTextColor">@color/originalTimelineColor</item>
+        <item name="highlightColor">@color/originalTimelineColor</item>
+        <item name="fontFamily">@font/larsseit_medium</item>
+        <item name="android:fontFamily">@font/larsseit_medium</item>
+    </style>
+
     <style name="AppTheme.SUNSET" parent="AppTheme">
         <item name="timelineIcon">@drawable/ic_sun_icon</item>
         <item name="timelineLineColor">@color/sunsetTimelineColor</item>
