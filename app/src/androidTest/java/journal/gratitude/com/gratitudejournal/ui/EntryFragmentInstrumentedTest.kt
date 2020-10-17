@@ -79,8 +79,16 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun noEntry_showsPromptButton() {
+        val date = LocalDate.of(2019, 3, 22)
+
+        val args = EntryFragmentArgs(
+            date.toString(),
+            true,
+            4)
+
         launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.Base_AppTheme
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = args.toBundle()
         )
 
         onView(withId(R.id.share_button)).check(matches(not(isDisplayed())))
@@ -89,8 +97,16 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun promptButton_changesHintText() {
+        val date = LocalDate.of(2019, 3, 22)
+
+        val args = EntryFragmentArgs(
+            date.toString(),
+            true,
+            4)
+
         launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.Base_AppTheme
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = args.toBundle()
         )
 
         onView(withId(R.id.entry_text)).check(matches(withHint("What are you grateful for?")))
@@ -188,8 +204,16 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun entryFragment_longPressQuote_copiesToClipboard() {
+        val date = LocalDate.of(2019, 3, 22)
+
+        val args = EntryFragmentArgs(
+            date.toString(),
+            true,
+            4)
+
         launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.Base_AppTheme
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = args.toBundle()
         )
 
         val quote =
@@ -209,8 +233,16 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun entryFragment_longPressQuote_showsToast() {
+        val date = LocalDate.of(2019, 3, 22)
+
+        val args = EntryFragmentArgs(
+            date.toString(),
+            true,
+            4)
+
         val scenario = launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.Base_AppTheme
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = args.toBundle()
         )
 
         var activity: Activity? = null
@@ -228,8 +260,16 @@ class EntryFragmentInstrumentedTest {
     @Test
     fun entryFragment_makeEdit_navigatesBack() {
         val mockNavController = mock<NavController>()
+        val date = LocalDate.of(2019, 3, 22)
+
+        val args = EntryFragmentArgs(
+            date.toString(),
+            true,
+            4)
+
         val scenario = launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.Base_AppTheme
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = args.toBundle()
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
