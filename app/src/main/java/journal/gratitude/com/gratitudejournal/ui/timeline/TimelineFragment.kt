@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -214,10 +215,27 @@ class TimelineFragment : DaggerFragment() {
     private fun openContactForm() {
         firebaseAnalytics.logEvent(OPENED_CONTACT_FORM, null)
 
-        val intent = Intent(Intent.ACTION_VIEW)
-        val subject = "In App Feedback"
-        val data = Uri.parse("mailto:gratitude.journal.app@gmail.com?subject=$subject")
-        intent.data = data
+        val context = context ?: return
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+
+            val emails = arrayOf("gratitude.journal.app@gmail.com")
+            val subject = "In App Feedback"
+            putExtra(Intent.EXTRA_EMAIL, emails)
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+
+            val packageName = context.packageName
+            val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+            val text = """
+                Device: ${Build.MODEL}
+                OS Version: ${Build.VERSION.RELEASE}
+                App Version: ${packageInfo.versionName}
+                
+                
+                """.trimIndent()
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+
         try {
             startActivity(intent)
         } catch (activityNotFoundException: ActivityNotFoundException) {

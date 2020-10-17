@@ -2,14 +2,16 @@ package journal.gratitude.com.gratitudejournal.ui
 
 import android.app.Activity
 import android.app.Instrumentation
+import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import android.os.Build
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.Navigator
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -228,17 +230,28 @@ class TimelineFragmentInstrumentedTest {
         onView(withText("Contact Us"))
             .perform(click())
 
+        val emails = arrayOf("gratitude.journal.app@gmail.com")
         val subject = "In App Feedback"
-        val uri = Uri.parse("mailto:gratitude.journal.app@gmail.com?subject=$subject")
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val packageName = context.packageName
+        val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+        val text = """
+                Device: ${Build.MODEL}
+                OS Version: ${Build.VERSION.RELEASE}
+                App Version: ${packageInfo.versionName}
+                
+                
+                """.trimIndent()
 
         Intents.intended(
             allOf(
-                hasAction(Intent.ACTION_VIEW),
-                hasData(uri)
+                hasAction(Intent.ACTION_SENDTO),
+                hasExtra(Intent.EXTRA_EMAIL, emails),
+                hasExtra(Intent.EXTRA_SUBJECT, subject),
+                hasExtra(Intent.EXTRA_TEXT, text)
             )
         )
         Intents.release()
-
     }
 
     @Test
