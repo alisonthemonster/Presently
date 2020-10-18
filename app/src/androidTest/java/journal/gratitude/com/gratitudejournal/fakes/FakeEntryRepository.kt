@@ -38,7 +38,7 @@ class FakeEntryRepository : EntryRepository {
         val list = mutableListOf<Entry>()
         entriesDatabase.forEach { (_, entry) -> list.add(entry) }
         return flow {
-            emit(emptyList<Entry>())
+            emit(list)
         }
     }
 

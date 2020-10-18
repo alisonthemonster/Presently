@@ -30,7 +30,7 @@ class CelebrateDialogFragmentInstrumentedTest {
         args.putInt(CelebrateDialogFragment.NUM_ENTRIES, 5)
 
         launchFragment<CelebrateDialogFragment>(
-            themeResId = R.style.AppTheme,
+            themeResId = R.style.Base_AppTheme,
             fragmentArgs = args
         )
 
@@ -59,7 +59,7 @@ class CelebrateDialogFragmentInstrumentedTest {
         args.putInt(CelebrateDialogFragment.NUM_ENTRIES, 5)
 
         launchFragment<CelebrateDialogFragment>(
-            themeResId = R.style.AppTheme,
+            themeResId = R.style.Base_AppTheme,
             fragmentArgs = args
         )
 

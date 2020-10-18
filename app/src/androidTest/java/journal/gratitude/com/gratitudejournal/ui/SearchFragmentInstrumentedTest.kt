@@ -19,11 +19,13 @@ import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.testUtils.RecyclerViewItemCountAssertion.Companion.withItemCount
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
+import journal.gratitude.com.gratitudejournal.ui.search.SearchFragmentDirections
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
 class SearchFragmentInstrumentedTest {
@@ -42,7 +44,7 @@ class SearchFragmentInstrumentedTest {
     fun search_pressBackButton_navigateUp() {
         val mockNavController = mock<NavController>()
         val scenario = launchFragmentInContainer<SearchFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -56,7 +58,7 @@ class SearchFragmentInstrumentedTest {
     @Test
     fun search_showsResults() {
         launchFragmentInContainer<SearchFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
 
         onView(withId(R.id.search_text)).perform(
@@ -73,7 +75,7 @@ class SearchFragmentInstrumentedTest {
     @Test
     fun search_doesntSearchEmptyStrings() {
         launchFragmentInContainer<SearchFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
 
         onView(withId(R.id.search_text)).perform(
@@ -85,12 +87,15 @@ class SearchFragmentInstrumentedTest {
 
     @Test
     fun search_type_clickEntry_navigateToEntry() {
+        val expected =
+            SearchFragmentDirections.actionSearchFragmentToEntryFragment(LocalDate.now().toString())
+
         val mockNavController = mock<NavController>()
         val mockNavigationDestination = mock<NavDestination>()
         mockNavigationDestination.id = R.id.searchFragment
         whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
         val scenario = launchFragmentInContainer<SearchFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -110,7 +115,7 @@ class SearchFragmentInstrumentedTest {
                 )
             )
 
-        verify(mockNavController).navigate(eq(R.id.action_searchFragment_to_entryFragment), any())
+        verify(mockNavController).navigate(expected)
     }
 
 }

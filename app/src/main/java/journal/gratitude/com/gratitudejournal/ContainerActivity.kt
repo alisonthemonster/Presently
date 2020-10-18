@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.common.ConnectionResult
@@ -43,6 +44,8 @@ class ContainerActivity : AppCompatActivity() {
         }
 
         NotificationScheduler().configureNotifications(this)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 
     override fun onResume() {
@@ -142,7 +145,7 @@ class ContainerActivity : AppCompatActivity() {
             "Ellen" -> setTheme(R.style.AppTheme_ELLEN)
             "Danah" -> setTheme(R.style.AppTheme_DANAH)
             "Ahalya" -> setTheme(R.style.AppTheme_AHALYA)
-            else -> setTheme(R.style.AppTheme)
+            else -> setTheme(R.style.Base_AppTheme)
         }
     }
 
