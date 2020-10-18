@@ -109,7 +109,7 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_openCalendar_clicksDate_opensEntry() {
-        val expectedDate = LocalDate.now()
+        val expectedDate = LocalDate.of(2020, 9, 15)
         val expected = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
             expectedDate.toString(),
             true,
@@ -191,7 +191,7 @@ class TimelineFragmentInstrumentedTest {
         val expected = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
             expectedDate.toString(),
             false,
-            0
+            1
         )
         repository.saveEntryBlocking(mockEntry)
 
