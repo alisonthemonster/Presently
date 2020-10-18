@@ -19,11 +19,13 @@ import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.testUtils.RecyclerViewItemCountAssertion.Companion.withItemCount
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
+import journal.gratitude.com.gratitudejournal.ui.search.SearchFragmentDirections
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
 class SearchFragmentInstrumentedTest {
@@ -85,6 +87,9 @@ class SearchFragmentInstrumentedTest {
 
     @Test
     fun search_type_clickEntry_navigateToEntry() {
+        val expected =
+            SearchFragmentDirections.actionSearchFragmentToEntryFragment(LocalDate.now().toString())
+
         val mockNavController = mock<NavController>()
         val mockNavigationDestination = mock<NavDestination>()
         mockNavigationDestination.id = R.id.searchFragment
@@ -110,7 +115,7 @@ class SearchFragmentInstrumentedTest {
                 )
             )
 
-        verify(mockNavController).navigate(eq(R.id.action_searchFragment_to_entryFragment), any())
+        verify(mockNavController).navigate(expected)
     }
 
 }

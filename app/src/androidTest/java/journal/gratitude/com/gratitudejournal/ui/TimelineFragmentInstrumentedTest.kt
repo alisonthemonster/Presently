@@ -109,6 +109,12 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_openCalendar_clicksDate_opensEntry() {
+        val expectedDate = LocalDate.now()
+        val expected = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
+            expectedDate.toString(),
+            true,
+            0
+        )
         val mockNavController = mock<NavController>()
         val mockNavigationDestination = mock<NavDestination>()
         mockNavigationDestination.id = R.id.timelineFragment
@@ -129,7 +135,7 @@ class TimelineFragmentInstrumentedTest {
             )
         )
 
-        verify(mockNavController).navigate(eq(R.id.action_timelineFragment_to_entryFragment), any())
+        verify(mockNavController).navigate(expected)
     }
 
     @Test
@@ -154,6 +160,13 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_clicksNewEntry_opensEntry() {
+        val expectedDate = LocalDate.now()
+        val expected = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
+            expectedDate.toString(),
+            true,
+            0
+        )
+
         val mockNavController = mock<NavController>()
         val mockNavigationDestination = mock<NavDestination>()
         mockNavigationDestination.id = R.id.timelineFragment
@@ -168,12 +181,18 @@ class TimelineFragmentInstrumentedTest {
         onView(withId(R.id.timeline_recycler_view))
             .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
-        verify(mockNavController).navigate(eq(R.id.action_timelineFragment_to_entryFragment), any())
+        verify(mockNavController).navigate(expected)
     }
 
     @Test
     fun timelineFragment_clicksExistingEntry_opensEntry() {
-        val mockEntry = Entry(LocalDate.now(), "test content")
+        val expectedDate = LocalDate.now()
+        val mockEntry = Entry(expectedDate, "test content")
+        val expected = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
+            expectedDate.toString(),
+            false,
+            0
+        )
         repository.saveEntryBlocking(mockEntry)
 
         val mockNavController = mock<NavController>()
@@ -190,7 +209,7 @@ class TimelineFragmentInstrumentedTest {
         onView(withId(R.id.timeline_recycler_view))
             .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
-        verify(mockNavController).navigate(eq(R.id.action_timelineFragment_to_entryFragment), any())
+        verify(mockNavController).navigate(expected)
     }
 
     @Test
