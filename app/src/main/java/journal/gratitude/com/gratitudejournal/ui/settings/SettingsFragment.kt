@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -9,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
 import androidx.fragment.app.DialogFragment
@@ -32,13 +30,12 @@ import dagger.android.support.AndroidSupportInjection
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
-import journal.gratitude.com.gratitudejournal.util.backups.*
 import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.convertCsvToEntries
 import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.exportEntriesToCsvFile
+import journal.gratitude.com.gratitudejournal.util.backups.RealCsvParser
+import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader.Companion.PRESENTLY_BACKUP
-import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
@@ -406,7 +403,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
      * Result contract for activity result to read from the backup CSV file
      * */
     private val readCsvResultContact =
-        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
+        registerForActivityResult(OpenCsvDocumentContract()) { uri: Uri? ->
             if (uri != null) {
                 if (uri.scheme == "content") {
                     val inputStream = activity?.contentResolver?.openInputStream(uri)
@@ -471,7 +468,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
      * Result contract for activity result to create backup the CSV file
      * */
     private val saveCsvResultContact =
-        registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
+        registerForActivityResult(CreateCsvDocumentContract()) { uri: Uri? ->
             if (uri != null) {
                 lifecycleScope.launch {
                     val csvResult = exportEntriesToCsvFile(
