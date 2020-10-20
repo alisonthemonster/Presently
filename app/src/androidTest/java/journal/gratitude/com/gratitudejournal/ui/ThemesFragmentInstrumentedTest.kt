@@ -24,7 +24,7 @@ class ThemesFragmentInstrumentedTest {
     fun themes_clickingTheme_navigatesUp() {
         val mockNavController = mock<NavController>()
         val scenario = launchFragmentInContainer<ThemeFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -45,7 +45,7 @@ class ThemesFragmentInstrumentedTest {
     fun themes_clickingBack_navigatesUp() {
         val mockNavController = mock<NavController>()
         val scenario = launchFragmentInContainer<ThemeFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)

@@ -39,7 +39,7 @@ class TimelineEntryViewModel(
     }
 
     fun onClick(view: View) {
-        clickListener.onClick(timelineItem.entryDate, timelineItem.entryContent == "", numEntries)
+        clickListener.onClick(view, timelineItem.entryDate, timelineItem.entryContent == "", numEntries)
     }
 
     @Visibility

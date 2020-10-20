@@ -4,12 +4,17 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -30,6 +35,7 @@ import dagger.android.support.AndroidSupportInjection
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
+import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.convertCsvToEntries
 import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.exportEntriesToCsvFile
 import journal.gratitude.com.gratitudejournal.util.backups.RealCsvParser
@@ -39,6 +45,7 @@ import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUpload
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
+import journal.gratitude.com.gratitudejournal.util.setStatusBarColorsForBackground
 import kotlinx.coroutines.launch
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -68,6 +75,20 @@ class SettingsFragment : PreferenceFragmentCompat(),
         super.onViewCreated(view, savedInstanceState)
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            v.updatePadding(
+                top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
+                bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            )
+            insets
+        }
+
+        val window = requireActivity().window
+        window.statusBarColor = Color.TRANSPARENT
+        val typedValue = TypedValue()
+        requireActivity().theme.resolveAttribute(R.attr.backgroundColor, typedValue, true)
+        setStatusBarColorsForBackground(window, typedValue.data)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

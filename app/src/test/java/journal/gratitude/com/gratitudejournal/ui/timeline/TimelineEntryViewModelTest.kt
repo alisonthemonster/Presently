@@ -1,6 +1,8 @@
-package journal.gratitude.com.gratitudejournal.journal.gratitude.com.gratitudejournal.ui.timeline
+package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.view.View
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import journal.gratitude.com.gratitudejournal.R
@@ -30,7 +32,7 @@ class TimelineEntryViewModelTest {
     fun onClick_callsClickListener() {
         viewModel.onClick(mock())
 
-        verify(onClickListener).onClick(date, false, numEntries)
+        verify(onClickListener).onClick(any(), eq(date), eq(false), eq(numEntries))
     }
 
     @Test
@@ -45,7 +47,7 @@ class TimelineEntryViewModelTest {
         )
         viewModel.onClick(mock())
 
-        verify(onClickListener).onClick(date, true, numEntries)
+        verify(onClickListener).onClick(any(), eq(date), eq(true), eq(numEntries))
     }
 
     @Test
