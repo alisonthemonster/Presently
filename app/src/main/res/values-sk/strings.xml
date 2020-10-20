@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Denník vďačnosti</string>
     <string name="what_are_you_thankful_for">Za čo si vďační?</string>
     <string name="what_were_you_thankful_for">Za čo si dnes vďační? </string>
     <string name="what_are_you_thankful_for_today">Za čo si dnes vďační?</string>
@@ -21,7 +20,8 @@
     <string name="iam">Som vďačný za</string>
     <string name="save">Uložiť</string>
     <string name="back_up_entries_to_csv">Zálohovanie</string>
-    <string name="export_success">Údaje boli exportované do priečinka Stiahnuté</string>
+    <string name="export_success">Údaje exportované do vášho zariadenia</string>
+    <string name="error_creating_csv_file">Chyba pri vytváraní súboru CSV v zariadení</string>
     <string name="open">Otvoriť</string>
     <string name="import_entries_from_backup">Import zo zálohy</string>
     <string name="ok">Importovať</string>
@@ -36,7 +36,6 @@
        Blahoželáme! Sme na vás tak hrdí a sme vďační, že ste si zaznamenali za čo ste vďačný.
     </string>
     <string name="search">Vyhladať</string>
-    <string name="presently" translatable="false">Denník vďačnosti</string>
     <string name="close">Zavrieť</string>
     <string name="get_a_new_prompt">Získať výzvu</string>
     <string name="share_your_gratitude">Podeľte sa o svoju vďaku</string>
@@ -72,4 +71,30 @@
     <string name="lock_setting_summary_off">Aplikácia sa môže uzamknúť pomocou biometrického skenera vášho zariadenia (ak to zariadenie podporuje).</string>
     <string name="fingerprint_error_lockout_too_many">Príliš veľa pokusov o biometrickú autentizáciu. Prosím skúste znovu o pár minút.</string>
     <string name="version_number">Číslo verzie</string>
+    <string name="daily">Denná</string>
+    <string name="weekly">Týždenné</string>
+    <string name="every">S každou zmenou</string>
+    <string name="dropbox_summary_off">Ak chcete automaticky zálohovať svoje záznamy, prihláste sa pomocou svojho účtu Dropbox</string>
+    <string name="dropbox_summary_on">Vaše záznamy sa zálohujú do Dropboxu</string>
+    <string name="dropbox_setting_title">Zálohujte si dáta pomocou Dropboxu</string>
+    <string name="dropbox_backup_frequency">Frekvencia zálohovania schránky Dropbox</string>
+    <string name="one_time_export_summary">Ručne exportujte svoje záznamy do formátu CSV do svojho zariadenia</string>
+    <string name="one_time_export">Exportujte položky do súboru CSV</string>
+    <string name="import_summary">Vyberte zálohovaný súbor CSV, ktorý chcete importovať</string>
+    <string name="backup_and_restore">Zálohovanie a obnovenie</string>
+    <string name="day_of_week_off">Dátum nezahŕňa deň v týždni</string>
+    <string name="day_of_week_on">Dátum zahŕňa deň v týždni</string>
+    <string name="day_of_week_title">Štýl dátumu</string>
+    <string name="max_lines_title">Dĺžka ukážky záznamu</string>
+    <string name="max_lines_summary">Počet riadkov zobrazených na časovej osi. Po kliknutí na položku sa zobrazí celý text.</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="day_of_week_summary">Set the first day of the week in the calendar view</string>
+    <string name="first_day_of_week_title">First day of the week</string>
+    <string name="share_milestone">som dokončil %1$d dní vďačnosti denníka! Pripojte sa ku mne za použitia v súčasnosti App. #PresentlyApp</string>
+    <string name="share_presently">zdieľať súčasné</string>
+    <string name="enjoying_presently">Наслаждаясь В настоящее время? Поделитесь приложением с друзьями и семьей</string>
+    <string name="share_app_text">Prax vďačnosť s touto jednoduchou, vždy zadarmo a súkromný vďačnosť žurnalizáciu app</string>
+    <string name="random">náhodný</string>
 </resources>

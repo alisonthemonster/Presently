@@ -4,12 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
 import journal.gratitude.com.gratitudejournal.model.Entry
+import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDate
 
 @Dao
 interface EntryDao {
     @Query("SELECT * FROM entries ORDER BY datetime(entryDate) DESC")
-    fun getEntries(): LiveData<List<Entry>>
+    fun getEntriesFlow(): Flow<List<Entry>>
+
+    @Query("SELECT * FROM entries ORDER BY datetime(entryDate) DESC")
+    fun getEntries(): List<Entry>
 
     @Query("SELECT entryDate FROM entries ORDER BY datetime(entryDate) DESC")
     fun getWrittenDates(): LiveData<List<LocalDate>>

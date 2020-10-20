@@ -3,18 +3,18 @@ package journal.gratitude.com.gratitudejournal
 import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
-import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FINGERPRINT
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.THEME_PREF
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
 import java.util.*
@@ -27,7 +27,7 @@ class ContainerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-        val currentTheme = sharedPref.getString("current_theme", "original") ?: "original"
+        val currentTheme = sharedPref.getString(THEME_PREF, "original") ?: "original"
         setAppTheme(currentTheme)
 
         super.onCreate(savedInstanceState)
@@ -44,6 +44,8 @@ class ContainerActivity : AppCompatActivity() {
         }
 
         NotificationScheduler().configureNotifications(this)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 
     override fun onResume() {
@@ -63,15 +65,11 @@ class ContainerActivity : AppCompatActivity() {
         return true
     }
 
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
-    }
-
     override fun onStart() {
         super.onStart()
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-        val fingerprintLock = sharedPref.getBoolean("fingerprint_lock", false)
+        val fingerprintLock = sharedPref.getBoolean(FINGERPRINT, false)
         if (fingerprintLock) {
             val lastDestroyTime =
                 sharedPref.getLong("last_destroy_time", -1L) //check this default makes sense
@@ -94,7 +92,7 @@ class ContainerActivity : AppCompatActivity() {
         super.onPause()
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-        val fingerprintLock = sharedPref.getBoolean("fingerprint_lock", false)
+        val fingerprintLock = sharedPref.getBoolean(FINGERPRINT, false)
         if (fingerprintLock) {
             val date = Date(System.currentTimeMillis())
             sharedPref.edit().putLong("last_destroy_time", date.time).apply()
@@ -135,7 +133,19 @@ class ContainerActivity : AppCompatActivity() {
             "Sunlight" -> setTheme(R.style.AppTheme_SUNLIGHT)
             "Tulip" -> setTheme(R.style.AppTheme_TULIP)
             "Rosie" -> setTheme(R.style.AppTheme_ROSIE)
-            else -> setTheme(R.style.AppTheme)
+            "Daisy" -> setTheme(R.style.AppTheme_DAISY)
+            "Matisse" -> setTheme(R.style.AppTheme_MATISSE)
+            "Clouds" -> setTheme(R.style.AppTheme_CLOUDS)
+            "Monstera" -> setTheme(R.style.AppTheme_MONSTERA)
+            "Lotus" -> setTheme(R.style.AppTheme_LOTUS)
+            "Katie" -> setTheme(R.style.AppTheme_KATIE)
+            "Brittany" -> setTheme(R.style.AppTheme_BRITTANY)
+            "Jungle" -> setTheme(R.style.AppTheme_JUNGLE)
+            "Julie" -> setTheme(R.style.AppTheme_JULIE)
+            "Ellen" -> setTheme(R.style.AppTheme_ELLEN)
+            "Danah" -> setTheme(R.style.AppTheme_DANAH)
+            "Ahalya" -> setTheme(R.style.AppTheme_AHALYA)
+            else -> setTheme(R.style.Base_AppTheme)
         }
     }
 

@@ -2,44 +2,36 @@ package journal.gratitude.com.gratitudejournal.ui
 
 import android.app.Activity
 import android.app.Instrumentation
+import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
-import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.Navigator
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
-import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.UiObjectNotFoundException
-import androidx.test.uiautomator.UiSelector
 import com.nhaarman.mockitokotlin2.*
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.testUtils.clickXY
+import journal.gratitude.com.gratitudejournal.testUtils.saveEntryBlocking
+import journal.gratitude.com.gratitudejournal.testUtils.scroll
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragmentDirections
-import journal.gratitude.com.gratitudejournal.util.clickXY
-import journal.gratitude.com.gratitudejournal.util.saveEntryBlocking
-import journal.gratitude.com.gratitudejournal.util.scroll
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
 import org.junit.Assert.assertTrue
@@ -66,7 +58,7 @@ class TimelineFragmentInstrumentedTest {
     @Test
     fun timelineFragment_showsTimeline() {
         launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         onView(withId(R.id.timeline_recycler_view)).check(matches(isDisplayed()))
     }
@@ -74,7 +66,7 @@ class TimelineFragmentInstrumentedTest {
     @Test
     fun timelineFragment_clickCalendar_opensCalendar() {
         launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
 
         onView(withId(R.id.cal_fab)).perform(click())
@@ -89,7 +81,7 @@ class TimelineFragmentInstrumentedTest {
         mockNavigationDestination.id = R.id.timelineFragment
         whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
         val scenario = launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -105,7 +97,7 @@ class TimelineFragmentInstrumentedTest {
     @Test
     fun timelineFragment_openCalendar_clickingClose_closesCal() {
         launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
 
         onView(withId(R.id.cal_fab)).perform(click())
@@ -117,12 +109,18 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_openCalendar_clicksDate_opensEntry() {
+        val expectedDate = LocalDate.of(2020, 9, 15)
+        val expected = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
+            expectedDate.toString(),
+            true,
+            0
+        )
         val mockNavController = mock<NavController>()
         val mockNavigationDestination = mock<NavDestination>()
         mockNavigationDestination.id = R.id.timelineFragment
         whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
         val scenario = launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -130,16 +128,21 @@ class TimelineFragmentInstrumentedTest {
 
         onView(withId(R.id.cal_fab)).perform(click())
         scrollCalendarBackwardsBy(1)
-        onView(withId(R.id.compactcalendar_view)).perform(clickXY(150, 300))
+        onView(withId(R.id.compactcalendar_view)).perform(
+            clickXY(
+                150,
+                300
+            )
+        )
 
-        verify(mockNavController).navigate(eq(R.id.action_timelineFragment_to_entryFragment), any())
+        verify(mockNavController).navigate(expected)
     }
 
     @Test
     fun timelineFragment_closedCalendar_clickingBack_navigatesBack() {
         val mockNavController = mock<NavController>()
         val scenario = launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         var activity: Activity? = null
         scenario.onFragment { fragment ->
@@ -157,12 +160,19 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_clicksNewEntry_opensEntry() {
+        val expectedDate = LocalDate.now()
+        val expected = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
+            expectedDate.toString(),
+            true,
+            0
+        )
+
         val mockNavController = mock<NavController>()
         val mockNavigationDestination = mock<NavDestination>()
         mockNavigationDestination.id = R.id.timelineFragment
         whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
         val scenario = launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -171,12 +181,18 @@ class TimelineFragmentInstrumentedTest {
         onView(withId(R.id.timeline_recycler_view))
             .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
-        verify(mockNavController).navigate(eq(R.id.action_timelineFragment_to_entryFragment), any())
+        verify(mockNavController).navigate(expected)
     }
 
     @Test
     fun timelineFragment_clicksExistingEntry_opensEntry() {
-        val mockEntry = Entry(LocalDate.now(), "test content")
+        val expectedDate = LocalDate.now()
+        val mockEntry = Entry(expectedDate, "test content")
+        val expected = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
+            expectedDate.toString(),
+            false,
+            1
+        )
         repository.saveEntryBlocking(mockEntry)
 
         val mockNavController = mock<NavController>()
@@ -184,7 +200,7 @@ class TimelineFragmentInstrumentedTest {
         mockNavigationDestination.id = R.id.timelineFragment
         whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
         val scenario = launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -193,7 +209,7 @@ class TimelineFragmentInstrumentedTest {
         onView(withId(R.id.timeline_recycler_view))
             .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
-        verify(mockNavController).navigate(eq(R.id.action_timelineFragment_to_entryFragment), any())
+        verify(mockNavController).navigate(expected)
     }
 
     @Test
@@ -203,7 +219,7 @@ class TimelineFragmentInstrumentedTest {
         mockNavigationDestination.id = R.id.timelineFragment
         whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
         val scenario = launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -221,7 +237,7 @@ class TimelineFragmentInstrumentedTest {
     fun timelineFragment_clicksOverflow_opensContact() {
         Intents.init()
         launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
 
         val intent = Intent()
@@ -233,173 +249,27 @@ class TimelineFragmentInstrumentedTest {
         onView(withText("Contact Us"))
             .perform(click())
 
+        val emails = arrayOf("gratitude.journal.app@gmail.com")
         val subject = "In App Feedback"
-        val uri = Uri.parse("mailto:gratitude.journal.app@gmail.com?subject=$subject")
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val packageName = context.packageName
+        val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+        val text = """
+                Device: ${Build.MODEL}
+                OS Version: ${Build.VERSION.RELEASE}
+                App Version: ${packageInfo.versionName}
+                
+                
+                """.trimIndent()
 
         Intents.intended(
             allOf(
-                hasAction(Intent.ACTION_VIEW),
-                hasData(uri)
+                hasAction(Intent.ACTION_SENDTO),
+                hasExtra(Intent.EXTRA_EMAIL, emails),
+                hasExtra(Intent.EXTRA_SUBJECT, subject),
+                hasExtra(Intent.EXTRA_TEXT, text)
             )
         )
-        Intents.release()
-
-    }
-
-    @Test
-    fun timelineFragment_clicksOverflow_backsUp_acceptsPermissionsDialog() {
-        launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
-        )
-
-        onView(withId(R.id.overflow_button)).perform(click())
-
-        onView(withText("Backup entries"))
-            .perform(click())
-
-        allowPermissionsIfNeeded()
-
-        onView(withId(com.google.android.material.R.id.snackbar_text))
-            .check(matches(withText(R.string.export_success)))
-    }
-
-    @Test
-    fun timelineFragment_clicksOverflow_backsUp_permissionAlreadyGranted_backsUpData() {
-        launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
-        )
-
-        onView(withId(R.id.overflow_button)).perform(click())
-
-        onView(withText("Backup entries"))
-            .perform(click())
-
-        //this test runs twice to test the permissions dialog and the case where permissions are accepted
-        allowPermissionsIfNeeded()
-
-        onView(withId(com.google.android.material.R.id.snackbar_text))
-            .check(matches(withText(R.string.export_success)))
-    }
-
-
-    @Test
-    fun timelineFragment_clicksOverflow_backsUp_permissionAlreadyGranted_backsUpData_opensExportedData() {
-        Intents.init()
-
-        launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
-        )
-
-        val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        Intents.intending(anyIntent()).respondWith(intentResult)
-
-        onView(withId(R.id.overflow_button)).perform(click())
-
-        onView(withText("Backup entries"))
-            .perform(click())
-
-        allowPermissionsIfNeeded()
-
-        onView(withId(com.google.android.material.R.id.snackbar_action)).perform(click())
-
-        Intents.intended(
-            allOf(
-                hasAction(Intent.ACTION_VIEW)
-            )
-        )
-        Intents.release()
-    }
-
-    @Test
-    fun timelineFragment_clicksOverflow_clicksImport_seesDialog() {
-        launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
-        )
-
-        onView(withId(R.id.overflow_button)).perform(click())
-
-        onView(withText("Import entries from backup"))
-            .perform(click())
-
-        onView(withText(R.string.import_data_dialog)).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun timelineFragment_clicksOverflow_clicksImport_cancelsDialog() {
-        launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
-        )
-
-        onView(withId(R.id.overflow_button)).perform(click())
-
-        onView(withText("Import entries from backup"))
-            .perform(click())
-
-        onView(withId(android.R.id.button2)).perform(click())
-        onView(withText(R.string.import_data_dialog)).check(doesNotExist())
-    }
-
-    @Test
-    fun timelineFragment_clicksOverflow_clicksImport_agreesToImport() {
-        Intents.init()
-        launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
-        )
-
-        val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        Intents.intending(anyIntent()).respondWith(intentResult)
-
-        onView(withId(R.id.overflow_button)).perform(click())
-
-        onView(withText("Import entries from backup"))
-            .perform(click())
-
-        onView(withId(android.R.id.button1)).perform(click())
-
-        Intents.intended(
-            allOf(
-                hasAction(Intent.ACTION_CHOOSER)
-            )
-        )
-        Intents.release()
-    }
-
-    @Test
-    fun timelineFragment_clicksOverflow_clicksImport_selectsBadFile() {
-        Intents.init()
-
-        val scenario = launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
-        )
-        var activity: Activity? = null
-        scenario.onFragment { fragment ->
-            activity = fragment.activity
-        }
-
-        val bundle = Bundle()
-        val parcels = ArrayList<Parcelable>()
-        val resultData = Intent()
-        val uri = Uri.parse("file://mnt/sdcard/img01.jpg")
-        val parcelable = uri as Parcelable
-        parcels.add(parcelable)
-        bundle.putParcelableArrayList(Intent.EXTRA_STREAM, parcels)
-        resultData.putExtras(bundle)
-
-        val activityResult = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
-        Intents.intending(anyIntent()).respondWith(activityResult)
-
-
-        onView(withId(R.id.overflow_button)).perform(click())
-
-        onView(withText("Import entries from backup"))
-            .perform(click())
-
-        onView(withId(android.R.id.button1)).perform(click())
-
-        onView(withText("File must be a CSV")).inRoot(withDecorView(not(activity?.window?.decorView))).check(matches(isDisplayed()))
-
         Intents.release()
     }
 
@@ -410,7 +280,7 @@ class TimelineFragmentInstrumentedTest {
         mockNavigationDestination.id = R.id.timelineFragment
         whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
         val scenario = launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.AppTheme
+            themeResId = R.style.Base_AppTheme
         )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
@@ -429,37 +299,6 @@ class TimelineFragmentInstrumentedTest {
             onView(withId(R.id.compactcalendar_view)).perform(
                 scroll(100, 300, 300, 250)
             )
-        }
-    }
-
-
-    private fun allowPermissionsIfNeeded() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            val device = UiDevice.getInstance(getInstrumentation())
-            val allowPermissions = device.findObject(UiSelector().text("Allow"))
-            if (allowPermissions.exists()) {
-                try {
-                    allowPermissions.click()
-                } catch (e: UiObjectNotFoundException) {
-                    Log.e("blerg", "There is no permissions dialog to interact with ")
-                }
-
-            }
-        }
-    }
-
-    private fun rejectPermissionsIfNeeded() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            val device = UiDevice.getInstance(getInstrumentation())
-            val allowPermissions = device.findObject(UiSelector().text("Deny"))
-            if (allowPermissions.exists()) {
-                try {
-                    allowPermissions.click()
-                } catch (e: UiObjectNotFoundException) {
-                    Log.e("blerg", "There is no permissions dialog to interact with ")
-                }
-
-            }
         }
     }
 

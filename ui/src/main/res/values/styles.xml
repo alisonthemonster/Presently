@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="snackbar_button" parent="@style/Widget.MaterialComponents.Button.TextButton.Snackbar">
+        <item name="android:textColor">?attr/highlightColor</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <!-- CHANGES THE DIALOG BACKGROUND COLOR!       -->
+        <item name="android:colorBackground">#FFFFFF</item>
+        <!-- CHANGES BODY TEXT COLOR IN DIALOGS BUT NOT IN TIME PICKER     -->
+        <item name="android:textColorPrimary">#363636</item>
+        <!-- CHANGES HEADER TEXT COLOR IN DIALOGS BUT NOT IN TIME PICKER     -->
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#8B8B8B</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="TextAppearance.Title" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="fontFamily">@font/value</item>
+        <item name="android:fontFamily">@font/value</item>
+    </style>
+
+    <style name="TextAppearance.Date" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/value</item>
+        <item name="android:fontFamily">@font/value</item>
+    </style>
+
+    <style name="TextAppearance.SearchDate" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="fontFamily">@font/value</item>
+        <item name="android:fontFamily">@font/value</item>
+    </style>
+</resources>

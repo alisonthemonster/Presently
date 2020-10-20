@@ -3,13 +3,16 @@ package journal.gratitude.com.gratitudejournal.repository
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import journal.gratitude.com.gratitudejournal.model.Entry
+import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDate
 
 interface EntryRepository {
 
     fun getEntry(date: LocalDate): LiveData<Entry>
 
-    fun getAllEntries(): LiveData<List<Entry>>
+    suspend fun getEntriesFlow(): Flow<List<Entry>>
+
+    suspend fun getEntries(): List<Entry>
 
     fun getWrittenDates(): LiveData<List<LocalDate>>
 

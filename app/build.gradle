@@ -2,13 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: '../versions.gradle'
-apply from: 'jacoco.gradle'
-apply from: 'coveragereporting.gradle'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-allopen'
-apply plugin: 'io.fabric'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 allOpen {
     annotation 'journal.gratitude.com.gratitudejournal.util.OpenClass'
@@ -21,21 +20,28 @@ android {
         minSdkVersion project.ext.androidMinSdk
         targetSdkVersion project.ext.androidTargetSdk
 
-        versionCode 33
+        versionCode 50
         versionName project.ext.androidVersionName
         //TODO wire up to CI
         //buildConfigField 'int', 'BUILD_NUMBER', "${project.ext.buildNumber}"
 
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
         testInstrumentationRunner "journal.gratitude.com.gratitudejournal.CustomTestRunner"
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation":
-                                     "$projectDir/schemas".toString()]
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
+        buildConfigField "String", "DROPBOX_APP_KEY", "\"${project.property("dropboxAppKey")}\""
+
+        manifestPlaceholders = [dropboxAppKey: project.property("dropboxAppKey")]
     }
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding true
     }
     buildTypes {
         debug {
@@ -50,9 +56,6 @@ android {
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
-    kapt {
-        generateStubs = true
-    }
     testOptions {
         animationsDisabled true
 
@@ -65,78 +68,90 @@ android {
 }
 
 dependencies {
+    implementation project(':ui')
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01'
+    implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    implementation 'androidx.core:core-ktx:1.3.1'
+    implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'io.github.inflationx:calligraphy3:3.0.0'
-    implementation 'io.github.inflationx:viewpump:1.0.0'
+    implementation 'androidx.paging:paging-runtime:2.1.2'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation "androidx.fragment:fragment:1.3.0-alpha08"
+    implementation "androidx.fragment:fragment-ktx:1.3.0-alpha08"
+    implementation "androidx.biometric:biometric:1.0.1"
+    implementation "androidx.work:work-runtime-ktx:2.4.0"
+
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
-    implementation 'androidx.room:room-runtime:2.2.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01'
-    implementation 'androidx.paging:paging-runtime:2.1.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
-    kapt 'androidx.room:room-compiler:2.1.0'
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
     implementation 'com.hannesdorfmann:adapterdelegates3:3.1.0'
-    implementation "com.google.android.material:material:1.1.0-alpha07"
-    implementation 'com.google.firebase:firebase-core:16.0.9'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
-    implementation 'androidx.core:core-ktx:1.0.2'
-    implementation 'androidx.preference:preference:1.0.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.4'
+    implementation "com.google.android.material:material:1.3.0-alpha02"
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
+    implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
+    implementation 'com.dropbox.core:dropbox-core-sdk:3.1.3'
+    implementation 'org.apache.commons:commons-text:1.6'
+    implementation "org.apache.commons:commons-csv:1.6"
+
+    implementation 'com.google.firebase:firebase-core:17.5.0'
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation 'com.google.firebase:firebase-messaging:20.2.4'
+
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.google.firebase:firebase-messaging:18.0.0'
-    implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
-    implementation "androidx.fragment:fragment:1.1.0-alpha07"
-    implementation "androidx.fragment:fragment-ktx:1.1.0-rc01"
-    implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
-    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
-    def dagger_version = "2.23.2"
+
+    //dependency injection
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
-    implementation "androidx.biometric:biometric:1.0.1"
+    compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:0.3.2"
+    kapt "com.squareup.inject:assisted-inject-processor-dagger2:0.3.2"
 
-//    implementation ('com.google.firebase:firebase-inappmessaging-display:17.2.0', {
-//        exclude group: 'com.google.guava'
-//    })
-
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.threeten:threetenbp:1.4.0'
-    testImplementation 'androidx.room:room-testing:2.2.2'
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.threeten:threetenbp:1.4.1'
+    testImplementation "androidx.room:room-testing:$room_version"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_version"
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2'
 
-    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
-    androidTestImplementation 'androidx.room:room-testing:2.2.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
-    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+    androidTestImplementation "androidx.room:room-testing:$room_version"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
+    androidTestImplementation 'androidx.test.ext:truth:1.3.0'
     androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_version"
     androidTestImplementation 'org.mockito:mockito-android:2.23.0'
-    androidTestImplementation 'org.threeten:threetenbp:1.4.0'
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.1.1"
+    androidTestImplementation 'org.threeten:threetenbp:1.4.1'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2'
+    androidTestImplementation "androidx.work:work-testing:2.4.0"
+
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
     kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
 
     androidTestUtil 'com.android.support.test:orchestrator:1.0.2'
 
-    debugImplementation "androidx.fragment:fragment-testing:1.2.0-rc04"
+    debugImplementation "androidx.fragment:fragment-testing:1.3.0-alpha08"
 
 }
 

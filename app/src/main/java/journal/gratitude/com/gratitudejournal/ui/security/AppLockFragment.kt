@@ -11,12 +11,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
-import com.crashlytics.android.Crashlytics
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_CANCELLED
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_LOCKOUT
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_USER_CANCELLED
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FINGERPRINT
 
 class AppLockFragment : Fragment() {
 
@@ -34,11 +35,11 @@ class AppLockFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
-        fingerprintLock = sharedPref.getBoolean("fingerprint_lock", false)
+        fingerprintLock = sharedPref.getBoolean(FINGERPRINT, false)
         if (!fingerprintLock)
             moveToTimeline()
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
     }
 
     override fun onResume() {
@@ -58,6 +59,8 @@ class AppLockFragment : Fragment() {
                     ) {
                         super.onAuthenticationError(errorCode, errString)
 
+                        val crashlytics = FirebaseCrashlytics.getInstance()
+
                         when (errorCode) {
                             BiometricConstants.ERROR_NEGATIVE_BUTTON,
                             BiometricConstants.ERROR_USER_CANCELED -> {
@@ -75,7 +78,7 @@ class AppLockFragment : Fragment() {
                             // blocks the user from authenticating until other means of authentication is used successfully.
                             BiometricConstants.ERROR_LOCKOUT_PERMANENT -> {
                                 Toast.makeText(context, "Too many failed attempts.", Toast.LENGTH_SHORT).show()
-                                Crashlytics.logException(Exception("Permanent Lockout occurred"))
+                                crashlytics.recordException(Exception("Permanent Lockout occurred"))
                                 requireActivity().finish()
                             }
                             BiometricConstants.ERROR_CANCELED -> {
@@ -85,7 +88,7 @@ class AppLockFragment : Fragment() {
                             }
                             BiometricConstants.ERROR_NO_BIOMETRICS,
                             BiometricConstants.ERROR_NO_DEVICE_CREDENTIAL -> {
-                                Crashlytics.logException(Exception(errString.toString()))
+                                crashlytics.recordException(Exception(errString.toString()))
                                 //no finger print is setup
                                 Toast.makeText(
                                         context,
@@ -94,7 +97,7 @@ class AppLockFragment : Fragment() {
                                 requireActivity().finish()
                             }
                             else -> {
-                                Crashlytics.logException(Exception("Code: $errorCode: $errString"))
+                                crashlytics.recordException(Exception("Code: $errorCode: $errString"))
                                 Toast.makeText(
                                         context,
                                         "Authentication error code $errorCode", Toast.LENGTH_SHORT

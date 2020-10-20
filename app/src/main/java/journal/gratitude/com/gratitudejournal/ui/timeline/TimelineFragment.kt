@@ -1,49 +1,41 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
-import android.Manifest
-import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.FileProvider
-import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import com.crashlytics.android.Crashlytics
-import com.google.android.material.snackbar.Snackbar
+import androidx.preference.PreferenceManager
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.ui.calendar.CalendarAnimation
 import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.DATE
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.IS_NEW_ENTRY
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment.Companion.NUM_ENTRIES
-import journal.gratitude.com.gratitudejournal.util.backups.ExportCallback
-import journal.gratitude.com.gratitudejournal.util.backups.exportDB
-import journal.gratitude.com.gratitudejournal.util.backups.parseCsv
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.DAY_OF_WEEK
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.LINES_PER_ENTRY_IN_TIMELINE
+import journal.gratitude.com.gratitudejournal.util.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
-import java.io.File
-import java.io.InputStream
-import java.lang.NullPointerException
 import java.util.*
 import javax.inject.Inject
 
@@ -98,24 +90,32 @@ class TimelineFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
 
         timeline_recycler_view.layoutManager =
             androidx.recyclerview.widget.LinearLayoutManager(context)
-        adapter = TimelineAdapter(activity!!, object : TimelineAdapter.OnClickListener {
-            override fun onClick(
-                clickedDate: LocalDate,
-                isNewEntry: Boolean,
-                numEntries: Int
-            ) {
-                if (isNewEntry) {
-                    firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY, null)
-                } else {
-                    firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY, null)
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val showDayOfWeek = sharedPrefs?.getBoolean(DAY_OF_WEEK, false) ?: false
+        val linesPerEntry = sharedPrefs?.getInt(LINES_PER_ENTRY_IN_TIMELINE, 10) ?: 10
+        adapter = TimelineAdapter(
+            requireActivity(),
+            showDayOfWeek,
+            linesPerEntry,
+            object : TimelineAdapter.OnClickListener {
+                override fun onClick(
+                    view: View,
+                    clickedDate: LocalDate,
+                    isNewEntry: Boolean,
+                    numEntries: Int
+                ) {
+                    if (isNewEntry) {
+                        firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY, null)
+                    } else {
+                        firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY, null)
+                    }
+                    navigateToDate(clickedDate, isNewEntry, numEntries)
                 }
-                navigateToDate(clickedDate, isNewEntry, numEntries)
-            }
-        })
+            })
         timeline_recycler_view.adapter = adapter
 
         overflow_button.setOnClickListener {
@@ -128,14 +128,6 @@ class TimelineFragment : DaggerFragment() {
                         }
                         R.id.contact_us -> {
                             openContactForm()
-                            true
-                        }
-                        R.id.export_data -> {
-                            exportData()
-                            true
-                        }
-                        R.id.import_data -> {
-                            importData()
                             true
                         }
                         else -> false
@@ -192,149 +184,63 @@ class TimelineFragment : DaggerFragment() {
             val animation = CalendarAnimation(cal_fab, entry_calendar)
             animation.openCalendar()
         }
+
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            v.updatePadding(
+                top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
+                bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            )
+            insets
+        }
+
+        val window = requireActivity().window
+        val typedValue = TypedValue()
+        requireActivity().theme.resolveAttribute(R.attr.toolbarColor, typedValue, true)
+        window.statusBarColor = typedValue.data
+        setStatusBarColorsForBackground(window, typedValue.data)
     }
 
     private fun navigateToDate(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int) {
-        val bundle = bundleOf(
-            DATE to clickedDate.toString(),
-            IS_NEW_ENTRY to isNewEntry,
-            NUM_ENTRIES to numEntries
+        val directions = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
+            clickedDate.toString(),
+            isNewEntry,
+            numEntries
         )
         val navController = findNavController()
         if (navController.currentDestination?.id == R.id.timelineFragment) {
-            navController.navigate(
-                R.id.action_timelineFragment_to_entryFragment,
-                bundle
-            )
-        }
-    }
-
-    private fun importData() {
-        val alertDialog: AlertDialog? = activity?.let {
-            val builder = AlertDialog.Builder(it)
-            builder.apply {
-                setTitle(R.string.import_data_dialog)
-                setMessage(R.string.import_data_dialog_message)
-                setPositiveButton(R.string.ok) { dialog, id ->
-                    selectCSVFile()
-                }
-                setNegativeButton(R.string.cancel) { _, _ -> }
-            }
-            // Create the AlertDialog
-            builder.create()
-        }
-        alertDialog?.show()
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>, grantResults: IntArray
-    ) {
-        when (requestCode) {
-            MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL -> {
-                // If request is cancelled, the result arrays are empty.
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    exportDB(
-                        viewModel.entries.value
-                            ?: emptyList(), exportCallback
-                    )
-                } else {
-                    Toast.makeText(context, R.string.permission_export, Toast.LENGTH_SHORT).show()
-                }
-                return
-            }
-            else -> {
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            IMPORT_CSV -> {
-                if (resultCode == RESULT_OK) {
-                    val uri = data?.data
-                    if (uri != null) {
-                        if (uri.scheme == "content") {
-                            val inputStream = activity?.contentResolver?.openInputStream(uri)
-                            if (inputStream != null) {
-                                importFromCsv(inputStream)
-                            } else {
-                                Crashlytics.logException(NullPointerException("inputStream is null, uri: $uri"))
-                                Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    } else {
-                        Crashlytics.log("URI was null when receiving file")
-                        Toast.makeText(context, R.string.file_not_csv, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
-    }
-
-    private fun importFromCsv(inputStream: InputStream) {
-        // parse file to get List<Entry>
-        try {
-            val entries = parseCsv(inputStream)
-            viewModel.addEntries(entries)
-            firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
-        } catch (exception: Exception) {
-            firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
-            Crashlytics.logException(exception)
-
-            Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun exportData() {
-
-        val permission = ActivityCompat.checkSelfPermission(
-            activity!!,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL
-            )
-        } else {
-            firebaseAnalytics.logEvent(EXPORTED_DATA, null)
-            exportDB(
-                viewModel.entries.value
-                    ?: emptyList(), exportCallback
-            )
-        }
-    }
-
-    private fun selectCSVFile() {
-        firebaseAnalytics.logEvent(LOOKED_FOR_DATA, null)
-
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-//        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "text/csv|text/comma-separated-values|application/csv"
-        val mimeTypes = arrayOf("text/comma-separated-values", "text/csv")
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-
-        try {
-            startActivityForResult(Intent.createChooser(intent, "Select"), IMPORT_CSV)
-        } catch (ex: ActivityNotFoundException) {
-            Crashlytics.logException(ex)
-            Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
+            navController.navigate(directions)
         }
     }
 
     private fun openContactForm() {
         firebaseAnalytics.logEvent(OPENED_CONTACT_FORM, null)
 
-        val intent = Intent(Intent.ACTION_VIEW)
-        val subject = "In App Feedback"
-        val data = Uri.parse("mailto:gratitude.journal.app@gmail.com?subject=$subject")
-        intent.data = data
+        val context = context ?: return
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+
+            val emails = arrayOf("gratitude.journal.app@gmail.com")
+            val subject = "In App Feedback"
+            putExtra(Intent.EXTRA_EMAIL, emails)
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+
+            val packageName = context.packageName
+            val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+            val text = """
+                Device: ${Build.MODEL}
+                OS Version: ${Build.VERSION.RELEASE}
+                App Version: ${packageInfo.versionName}
+                
+                
+                """.trimIndent()
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+
         try {
             startActivity(intent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
-            Crashlytics.logException(activityNotFoundException)
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(activityNotFoundException)
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
         }
     }
@@ -347,31 +253,6 @@ class TimelineFragment : DaggerFragment() {
             navController.navigate(
                 R.id.action_timelineFragment_to_settingsFragment
             )
-        }
-    }
-
-    private val exportCallback: ExportCallback = object : ExportCallback {
-        override fun onSuccess(file: File) {
-            Snackbar.make(container, R.string.export_success, Snackbar.LENGTH_LONG)
-                .setAction(R.string.open) {
-                    try {
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        val apkURI = FileProvider.getUriForFile(
-                            context!!,
-                            context?.applicationContext?.packageName + ".provider", file
-                        )
-                        intent.setDataAndType(apkURI, "text/csv")
-                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        startActivity(intent)
-                    } catch (e: ActivityNotFoundException) {
-                        Crashlytics.logException(e)
-                        Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
-                    }
-                }.show()
-        }
-
-        override fun onFailure(message: String) {
-            Toast.makeText(context, "Error : $message", Toast.LENGTH_SHORT).show()
         }
     }
 

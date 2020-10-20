@@ -2,14 +2,22 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import com.nhaarman.mockitokotlin2.*
-import journal.gratitude.com.gratitudejournal.LiveDataTestUtil
-import journal.gratitude.com.gratitudejournal.R
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
+import journal.gratitude.com.gratitudejournal.util.LiveDataTestUtil
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.setMain
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.threeten.bp.LocalDate
@@ -22,11 +30,11 @@ class TimelineViewModelTest {
     @JvmField
     val rule = InstantTaskExecutorRule()
 
-    @Test
-    fun init_calls_repository() {
-        TimelineViewModel(repository)
+    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
-        verify(repository, times(1)).getAllEntries()
+    @Before
+    fun setUp() {
+        Dispatchers.setMain(mainThreadSurrogate)
     }
 
     @Test
@@ -36,8 +44,13 @@ class TimelineViewModelTest {
 
         val expectedLiveData = MutableLiveData<List<Entry>>()
         expectedLiveData.postValue(emptyList())
-        whenever(repository.getAllEntries()).thenReturn(expectedLiveData)
 
+        val mockFlow = flow {
+            emit(emptyList<Entry>())
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
         val viewModel = TimelineViewModel(repository)
         val actual = LiveDataTestUtil.getValue(viewModel.entries)
 
@@ -48,10 +61,12 @@ class TimelineViewModelTest {
     fun init_emptylistWithoutTodayOrYesterdayWritten_addsEmptyTodayAndYesterdayEntries() {
         val todayEntry = Entry(LocalDate.now(), "")
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-        val list = emptyList<Entry>()
-        val expectedLiveData = MutableLiveData<List<Entry>>()
-        expectedLiveData.postValue(list)
-        whenever(repository.getAllEntries()).thenReturn(expectedLiveData)
+        val mockFlow = flow {
+            emit(emptyList<Entry>())
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val expectedList = listOf(todayEntry, yesterdayEntry)
 
@@ -70,9 +85,12 @@ class TimelineViewModelTest {
         val oldEntry2 = Entry(LocalDate.of(2011, 11, 9), "")
 
         val list = listOf(oldEntry, oldEntry1, oldEntry2)
-        val expectedLiveData = MutableLiveData<List<Entry>>()
-        expectedLiveData.postValue(list)
-        whenever(repository.getAllEntries()).thenReturn(expectedLiveData)
+        val mockFlow = flow {
+            emit(list)
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val expectedList = listOf(todayEntry, yesterdayEntry, oldEntry, oldEntry1, oldEntry2)
 
@@ -87,9 +105,12 @@ class TimelineViewModelTest {
         val todayEntry = Entry(LocalDate.now(), "hello!")
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "howdy")
         val expectedList = listOf(todayEntry, yesterdayEntry)
-        val expectedLiveData = MutableLiveData<List<Entry>>()
-        expectedLiveData.postValue(expectedList)
-        whenever(repository.getAllEntries()).thenReturn(expectedLiveData)
+        val mockFlow = flow {
+            emit(expectedList)
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val viewModel = TimelineViewModel(repository)
 
@@ -103,9 +124,12 @@ class TimelineViewModelTest {
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
         val oldEntry = Entry(LocalDate.of(2011, 11, 11), "")
         val expectedList = listOf(todayEntry, yesterdayEntry, oldEntry)
-        val expectedLiveData = MutableLiveData<List<Entry>>()
-        expectedLiveData.postValue(listOf(todayEntry, oldEntry))
-        whenever(repository.getAllEntries()).thenReturn(expectedLiveData)
+        val mockFlow = flow {
+            emit(expectedList)
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val viewModel = TimelineViewModel(repository)
 
@@ -118,9 +142,12 @@ class TimelineViewModelTest {
         val todayEntry = Entry(LocalDate.now(), "hello!")
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
         val expectedList = listOf(todayEntry, yesterdayEntry)
-        val expectedLiveData = MutableLiveData<List<Entry>>()
-        expectedLiveData.postValue(listOf(todayEntry))
-        whenever(repository.getAllEntries()).thenReturn(expectedLiveData)
+        val mockFlow = flow {
+            emit(expectedList)
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val viewModel = TimelineViewModel(repository)
 
@@ -134,9 +161,12 @@ class TimelineViewModelTest {
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
         val oldEntry = Entry(LocalDate.of(2011, 11, 11), "")
         val expectedList = listOf(todayEntry, yesterdayEntry, oldEntry)
-        val expectedLiveData = MutableLiveData<List<Entry>>()
-        expectedLiveData.postValue(listOf(yesterdayEntry, oldEntry))
-        whenever(repository.getAllEntries()).thenReturn(expectedLiveData)
+        val mockFlow = flow {
+            emit(expectedList)
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val viewModel = TimelineViewModel(repository)
 
@@ -149,9 +179,12 @@ class TimelineViewModelTest {
         val todayEntry = Entry(LocalDate.now(), "")
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
         val expectedList = listOf(todayEntry, yesterdayEntry)
-        val expectedLiveData = MutableLiveData<List<Entry>>()
-        expectedLiveData.postValue(listOf(yesterdayEntry))
-        whenever(repository.getAllEntries()).thenReturn(expectedLiveData)
+        val mockFlow = flow {
+            emit(expectedList)
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val viewModel = TimelineViewModel(repository)
 
@@ -171,9 +204,12 @@ class TimelineViewModelTest {
         expectedList.add(Milestone.create(5))
         expectedList.addAll(writtenDates)
 
-        val mockLiveData = MutableLiveData<List<Entry>>()
-        mockLiveData.postValue(writtenDates)
-        whenever(repository.getAllEntries()).thenReturn(mockLiveData)
+        val mockFlow = flow {
+            emit(writtenDates)
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val viewModel = TimelineViewModel(repository)
 
@@ -200,9 +236,12 @@ class TimelineViewModelTest {
         expectedList.add(Milestone.create(5))
         expectedList.addAll(writtenDates)
 
-        val mockLiveData = MutableLiveData<List<Entry>>()
-        mockLiveData.postValue(writtenDates)
-        whenever(repository.getAllEntries()).thenReturn(mockLiveData)
+        val mockFlow = flow {
+            emit(writtenDates)
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val viewModel = TimelineViewModel(repository)
 
@@ -228,9 +267,12 @@ class TimelineViewModelTest {
         expectedList.add(Milestone.create(5))
         expectedList.addAll(pastDays)
 
-        val mockLiveData = MutableLiveData<List<Entry>>()
-        mockLiveData.postValue(writtenDates)
-        whenever(repository.getAllEntries()).thenReturn(mockLiveData)
+        val mockFlow = flow {
+            emit(writtenDates)
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val viewModel = TimelineViewModel(repository)
 
@@ -261,9 +303,12 @@ class TimelineViewModelTest {
         expectedList.add(yesterdayEntry)
         expectedList.addAll(pastDays)
 
-        val mockLiveData = MutableLiveData<List<Entry>>()
-        mockLiveData.postValue(writtenDates)
-        whenever(repository.getAllEntries()).thenReturn(mockLiveData)
+        val mockFlow = flow {
+            emit(writtenDates)
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val viewModel = TimelineViewModel(repository)
 
@@ -295,9 +340,12 @@ class TimelineViewModelTest {
         expectedList.add(yesterdayEntry)
         expectedList.addAll(pastDays)
 
-        val mockLiveData = MutableLiveData<List<Entry>>()
-        mockLiveData.postValue(writtenDates)
-        whenever(repository.getAllEntries()).thenReturn(mockLiveData)
+        val mockFlow = flow {
+            emit(writtenDates)
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val viewModel = TimelineViewModel(repository)
 
@@ -335,9 +383,12 @@ class TimelineViewModelTest {
         expectedList.add(Milestone.create(5))
         expectedList.addAll(morePastDays)
 
-        val mockLiveData = MutableLiveData<List<Entry>>()
-        mockLiveData.postValue(writtenDates)
-        whenever(repository.getAllEntries()).thenReturn(mockLiveData)
+        val mockFlow = flow {
+            emit(writtenDates)
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val viewModel = TimelineViewModel(repository)
 
@@ -345,15 +396,17 @@ class TimelineViewModelTest {
         assertEquals(expectedList, actual)
     }
 
-
     @Test
     fun getEntriesList_returnsEntries() {
         val todayEntry = Entry(LocalDate.now(), "hello!")
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "howdy")
         val expectedList = listOf(todayEntry, yesterdayEntry)
-        val expectedLiveData = MutableLiveData<List<Entry>>()
-        expectedLiveData.postValue(expectedList)
-        whenever(repository.getAllEntries()).thenReturn(expectedLiveData)
+        val mockFlow = flow {
+            emit(expectedList)
+        }
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
+        }
 
         val viewModel = TimelineViewModel(repository)
         LiveDataTestUtil.getValue(viewModel.entries) //observe entries
@@ -365,7 +418,7 @@ class TimelineViewModelTest {
 
     @Test
     fun init_callsGetWrittenDates() {
-        val viewModel = TimelineViewModel(repository)
+        TimelineViewModel(repository)
 
         verify(repository, times(1)).getWrittenDates()
     }

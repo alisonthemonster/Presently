@@ -19,7 +19,7 @@
     <string name="iam">вы благодарны за</string>
     <string name="save">Сохранить</string>
     <string name="back_up_entries_to_csv">Резервное копирование записей</string>
-    <string name="export_success">Записи были сохранены в Загрузки</string>
+    <string name="export_success">Данные, экспортированные на ваше устройство</string>
     <string name="open">Открыть</string>
     <string name="import_entries_from_backup">Восстановить резервные копии</string>
     <string name="ok">Импортировать</string>
@@ -31,7 +31,7 @@
     <string name="rate_presently">Оценить Presently</string>
     <string name="share_your_achievement">Поделитесь вашим достижением</string>
     <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">
-        Поздравляем! Мы гордимся вами и хотим сказать спасибо, за то, что вы выбрали Presently в качестве своего дневника благодарности.
+        Поздравляем! Мы гордимся вами и хотим сказать спасибо за то, что вы выбрали Presently в качестве своего дневника благодарности.
     </string>
     <string name="search">Поиск</string>
     <string name="close">Закрыть</string>
@@ -61,12 +61,39 @@
     <string name="copied">Скопировано в буфер обмена</string>
     <string name="security">Безопасность</string>
     <string name="lock_title">Разблокировать приложение</string>
-    <string name="lock_summary">Приложение заблокировано, разблокировка для продолжения</string>
+    <string name="lock_summary">Приложение заблокировано, разблокируйте для продолжения</string>
     <string name="lock_setting_summary_on">Приложение будет заблокировано с помощью биометрического сканера вашего устройства.</string>
-    <string name="lock_setting_summary_off">Приложение может заблокироваться с помощью биометрического сканера вашего устройства (если поддерживается устройством).</string>
+    <string name="lock_setting_summary_off">Приложение может быть заблокировано с помощью биометрического сканера вашего устройства (если поддерживается устройством).</string>
     <string name="are_you_sure">Вы уверены, что хотите вернуться?</string>
-    <string name="unsaved_text">Ваша запись не сохраняется, и ваши изменения будут потеряны!</string>
-    <string name="continue_to_exit">продолжать</string>
+    <string name="unsaved_text">Ваша запись не сохранится, и ваши изменения будут утеряны!</string>
+    <string name="continue_to_exit">Продолжить</string>
     <string name="fingerprint_error_lockout_too_many">Слишком много попыток биометрической аутентификации. Пожалуйста, попробуйте еще раз через несколько минут.</string>
     <string name="version_number">Номер версии</string>
+    <string name="daily">Ежедневно</string>
+    <string name="weekly">еженедельно</string>
+    <string name="every">С каждым изменением</string>
+    <string name="dropbox_summary_off">Войдите в свою учетную запись Dropbox, чтобы автоматически создавать резервные копии ваших записей</string>
+    <string name="dropbox_summary_on">Ваши записи резервируются в Dropbox</string>
+    <string name="dropbox_setting_title">Резервное копирование ваших данных с Dropbox</string>
+    <string name="dropbox_backup_frequency">Частота резервного копирования Dropbox</string>
+    <string name="error_creating_csv_file">Ошибка создания CSV-файла на устройстве</string>
+    <string name="one_time_export_summary">Вручную экспортируйте записи в формат CSV на ваше устройство.</string>
+    <string name="one_time_export">Экспорт записей в CSV</string>
+    <string name="import_summary">Выберите резервную копию файла CSV для импорта</string>
+    <string name="backup_and_restore">Резервное копирование и восстановление</string>
+    <string name="day_of_week_off">Дата не включает день недели</string>
+    <string name="day_of_week_on">Дата включает день недели</string>
+    <string name="day_of_week_title">Стиль Даты</string>
+    <string name="max_lines_title">Длина предварительного просмотра записи</string>
+    <string name="max_lines_summary">Количество строк показано на временной шкале. Полный текст виден при нажатии на запись.</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="day_of_week_summary">Set the first day of the week in the calendar view</string>
+    <string name="first_day_of_week_title">First day of the week</string>
+    <string name="share_milestone">Я закончил %1$d дней благодарственных журнальный! Присоединяйтесь ко мне, используя в настоящее время приложения. #PresentlyApp</string>
+    <string name="share_presently">Share В настоящее время</string>
+    <string name="enjoying_presently">Desfrutando Presentemente? Compartilhar o aplicativo com seus amigos e familiares</string>
+    <string name="share_app_text">Практика благодарность с этим простым, всегда бесплатно, и частной благодарностью журнального приложение</string>
+    <string name="random">случайный</string>
 </resources>

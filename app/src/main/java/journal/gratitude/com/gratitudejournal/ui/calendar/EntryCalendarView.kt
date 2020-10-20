@@ -2,22 +2,25 @@ package journal.gratitude.com.gratitudejournal.ui.calendar
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.FrameLayout
+import androidx.core.view.isVisible
+import androidx.preference.PreferenceManager
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.github.sundeepk.compactcalendarview.domain.Event
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.util.toMonthString
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FIRST_DAY_OF_WEEK
 import journal.gratitude.com.gratitudejournal.util.getYearString
 import journal.gratitude.com.gratitudejournal.util.toDate
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
+import journal.gratitude.com.gratitudejournal.util.toMonthString
 import kotlinx.android.synthetic.main.calendar_fragment.view.*
 import org.threeten.bp.LocalDate
 import java.util.*
-import android.util.TypedValue
 
 
-class EntryCalendarView : ConstraintLayout {
+class EntryCalendarView : FrameLayout {
 
     private var monthString = "${Date().toMonthString()} ${Date().getYearString()}"
     private var entryCalendarListener: EntryCalendarListener? = null
@@ -37,20 +40,28 @@ class EntryCalendarView : ConstraintLayout {
     }
 
     private fun init() {
-        val view = View.inflate(context, R.layout.calendar_fragment, this)
+        View.inflate(context, R.layout.calendar_fragment, this)
 
         val locale = Locale.getDefault()
 
-        calendar = view.compactcalendar_view
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val firstDayOfWeek = when (prefs.getString(FIRST_DAY_OF_WEEK, "monday")) {
+            "0" -> Calendar.SATURDAY
+            "1" -> Calendar.SUNDAY
+            else -> Calendar.MONDAY
+        }
+
+        calendar = compactcalendar_view
+        calendar.setFirstDayOfWeek(firstDayOfWeek)
         calendar.setLocale(TimeZone.getDefault(), locale)
         if (locale.language == "ar") {
             //use English characters since the library doesn't support Arabic
             calendar.setLocale(TimeZone.getDefault(), Locale.ENGLISH)
         }
         calendar.shouldDrawIndicatorsBelowSelectedDays(true)
-        view.month_year.text = monthString
+        month_year.text = monthString
 
-        view.compactcalendar_view.setListener(object :
+        compactcalendar_view.setListener(object :
             CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date) {
                 if (!dateClicked.after(Date())) {
@@ -69,12 +80,22 @@ class EntryCalendarView : ConstraintLayout {
             }
         })
 
-        view.close_button.setOnClickListener {
+        close_button.setOnClickListener {
             entryCalendarListener?.onCloseClicked()
         }
 
-        view.calendar_screen_background.setOnClickListener {
+        setOnClickListener {
             entryCalendarListener?.onCloseClicked()
+        }
+        random.setOnClickListener {
+            val randomDate = writtenDates.randomOrNull()
+            randomDate?.let {
+                entryCalendarListener?.onDateClicked(
+                    randomDate.toDate(),
+                    false,
+                    writtenDates.size
+                )
+            }
         }
     }
 
@@ -88,6 +109,7 @@ class EntryCalendarView : ConstraintLayout {
             calendar.addEvent(Event(getBackgroundColorForTheme(), date.toDate().time))
         }
         writtenDates = dates
+        random.isVisible = dates.isNotEmpty()
     }
 
     private fun getBackgroundColorForTheme(): Int {

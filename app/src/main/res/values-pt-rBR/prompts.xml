@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prompts">
+            <item>O que te fez sorrir?</item>
+            <item>O que te dá gratidão neste lugar?</item>
+            <item>O que te deixa feliz por estar vivo/a? </item>
+            <item>Alguma pessoa que te ajudou?</item>
+            <item>Alguma pessoa que te deu orientação?</item>
+            <item>Alguma pessoa que ensinou alguma coisa para você?</item>
+            <item>Alguém que você ama?</item>
+            <item>Alguém que ama você?</item>
+            <item>Um amigo ou uma amiga que te deixa grato/a?</item>
+            <item>Que parte da natureza te deixa grato/a? </item>
+            <item>Por qual talento ou habilidade você é grato?</item>
+            <item>Qual lembrança te deixa grato/a? </item>
+            <item>Alguém ajudou você hoje?</item>
+            <item>O que te fez feliz hoje?</item>
+            <item>O que te deixa orgulhoso?</item>
+            <item>Que coisa da sua infância te deixa grato/?</item>
+            <item>Que coisa da sua carreira ou trabalho te deixa grato/a?</item>
+            <item>Quais tipos de liberdade te deixa grato/a?</item>
+            <item>O que te faz rir?</item>
+            <item>Que coisa te deixa grato/a por você mesmo/a?</item>
+            <item>Qual foi a coisa mais bonita que você viu hoje? </item>
+            <item>Que livro te deixa grato/a?</item>
+            <item>Que música te deixa grato/a?</item>
+            <item>O que deixa a sua vida mais fácil?</item>
+            <item>O que sempre te deixa animado?</item>
+            <item>Quem é uma inspiração para você?</item>
+            <item>Qual tecnologia te deixa grato/a?</item>
+            <item>Qual oportunidade te deixa grato/a? </item>
+            <item>Alguma coisa do seu corpo ou da sua saúde que te deixa grato/a?</item>
+            <item>Que lugar te deixa grato/a?</item>
+            <item>Que cheiro te deixa grato/a?</item>
+            <item>Que sabor te deixa grato/a?</item>
+            <item>Que conhecimento te deixa grato/a?</item>
+            <item>Que prazer simples te deixa grato/a?</item>
+            <item>Quais hobbies te deixam grato/a?</item>
+            <item>Que som te deixa grato/a?</item>
+            <item>Que coisa pequena te deixa grato/a?</item>
+            <item>O que te deixa grato/a por ter aprendido?</item>
+            <item>O que te deixa grato/a na sua cidade?</item>
+            <item>O que te deixa grato/a na sua casa?</item>
+            <item>Que conselho você é grato/a por ter ouvido?</item>
+            <item>O que te deixa grato/a na sua família?</item>
+            <item>O que te deixa grato/a nesta estação do ano?</item>
+            <item>Que atividade te deixa grato/a?</item>
+    </string-array> 
+</resources>

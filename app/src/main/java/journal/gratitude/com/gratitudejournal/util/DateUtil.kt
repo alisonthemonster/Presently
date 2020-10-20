@@ -1,6 +1,9 @@
 package journal.gratitude.com.gratitudejournal.util
 
-import org.threeten.bp.*
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
+import org.threeten.bp.Month
+import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 import org.threeten.bp.format.TextStyle
@@ -25,6 +28,13 @@ fun LocalDate.toFullString(): String {
 
 }
 
+fun LocalDate.toStringWithDayOfWeek(): String {
+    val localizedTimeFormatter = DateTimeFormatter
+        .ofLocalizedDate(FormatStyle.FULL)
+
+    return localizedTimeFormatter.format(this)
+}
+
 fun Month.toShortMonthString(): String {
     return this.getDisplayName(TextStyle.SHORT, Locale.getDefault())
 }
@@ -32,11 +42,7 @@ fun Month.toShortMonthString(): String {
 fun Date.toMonthString(): String {
     val cal = Calendar.getInstance()
     cal.time = this
-    return if (Locale.getDefault().language == "ru") {
-        SimpleDateFormat("MMMM", Locale.getDefault()).format(cal.time)
-    } else {
-        SimpleDateFormat("LLLL", Locale.getDefault()).format(cal.time)
-    }
+    return SimpleDateFormat("LLLL", Locale.getDefault()).format(cal.time)
 }
 
 fun Date.getYearString(): String {

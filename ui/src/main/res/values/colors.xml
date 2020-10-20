@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Original Theme-->
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="originalTimelineColor">#000000</color>
+    <color name="originalHintTextColor">#79736a</color>
+    <color name="originalBackgroundColor">#dbd1c7</color>
+
+    <!-- ~~~~SUNSET THEME~~~~ -->
+    <color name="sunsetAndroidWidgetColor">#A47272</color>
+    <color name="sunsetBackgroundColor">#303030</color>
+    <!-- main text color, timeline color, button color -->
+    <color name="sunsetPrimaryColor">#A47272</color>
+    <!-- date text color, entry screen text -->
+    <color name="sunsetSecondaryTextColor">#A47272</color>
+    <!-- hint text color, quote text color -->
+    <color name="sunsetLighterTextColor">#5B4E4E</color>
+    <color name="sunsetToolbarColor">#A47272</color>
+    <color name="sunsetToolbarItemColor">#303030</color>
+    <color name="sunsetStatusBarColor">#A47272</color>
+    <color name="sunsetTimelineColor">#A47272</color>
+
+    <!-- ~~~~MOON THEME~~~~ -->
+    <color name="moonlightAndroidWidgetColor">#257C88</color>
+    <color name="moonlightBackgroundColor">#091016</color>
+    <!-- main text color, button color -->
+    <color name="moonlightMainTextAndButtonColor">#838383</color>
+    <!-- date text color, entry screen text -->
+    <color name="moonlightDateTextEntryScreenTextColor">#838383</color>
+    <color name="moonlightTimelineColor">#838383</color>
+    <!-- hint text color, quote text color -->
+    <color name="moonlightHintQuoteTextColor">#484349</color>
+    <color name="moonlightToolbarColor">#838383</color>
+    <color name="moonlightToolbarItemColor">#091016</color>
+    <color name="moonlightStatusBarColor">#838383</color>
+
+
+    <!-- ~~~~DAWN THEME~~~~ -->
+    <color name="dawnAndroidWidgetColor">#EF8354</color>
+    <color name="dawnBackgroundColor">#4F5D75</color>
+    <!-- main text color, button color -->
+    <color name="dawnMainTextAndButtonColor">#BFC0C0</color>
+    <!-- date text color, entry screen text -->
+    <color name="dawnDateTextEntryScreenTextColor">#BFC0C0</color>
+    <color name="dawnTimelineColor">#2D3142</color>
+    <!-- hint text color, quote text color -->
+    <color name="dawnHintQuoteTextColor">#8B8C8C</color>
+    <color name="dawnToolbarColor">#2D3142</color>
+    <color name="dawnToolbarItemColor">#BFC0C0</color>
+    <color name="dawnStatusBarColor">#2D3142</color>
+
+    <!-- ~~~~MIDNIGHT THEME~~~~ -->
+    <color name="midnightAndroidWidgetColor">#B66218</color>
+    <color name="midnightBackgroundColor">#28262C</color>
+    <!-- main text color, button color -->
+    <color name="midnightMainTextAndButtonColor">#8A878B</color>
+    <!-- date text color, entry screen text -->
+    <color name="midnightDateTextEntryScreenTextColor">#7E7B7F</color>
+    <color name="midnightTimelineColor">#484349</color>
+    <!-- hint text color, quote text color -->
+    <color name="midnightHintQuoteTextColor">#484349</color>
+    <color name="midnightToolbarColor">#484349</color>
+    <color name="midnightToolbarItemColor">#7E7B7F</color>
+    <color name="midnightStatusBarColor">#484349</color>
+
+    <!-- ~~~~IVY THEME~~~~ -->
+    <color name="ivyAndroidWidgetColor">#131515</color>
+    <color name="ivyBackgroundColor">#374F4B</color>
+    <!-- main text color, button color -->
+    <color name="ivyMainTextAndButtonColor">#131515</color>
+    <!-- date text color, entry screen text -->
+    <color name="ivyDateTextEntryScreenTextColor">#131515</color>
+    <color name="ivyTimelineColor">#131515</color>
+    <!-- hint text color, quote text color -->
+    <color name="ivyHintQuoteTextColor">#1D332F</color>
+    <color name="ivyToolbarColor">#131515</color>
+    <color name="ivyToolbarItemColor">#FFFFFF</color>
+    <color name="ivyStatusBarColor">#131515</color>
+
+    <!-- ~~~~WESLEY THEME~~~~ -->
+    <color name="wesleyAndroidWidgetColor">#FFEB3B</color>
+    <!-- time picker header color, preference section header color -->
+    <color name="wesleyHeaderColor">#FFEB3B</color>
+    <color name="wesleyBackgroundColor">#000000</color>
+    <!-- main text color, button color -->
+    <color name="wesleyMainTextAndButtonColor">#FFFFFF</color>
+    <!-- date text color, entry screen text -->
+    <color name="wesleyDateTextEntryScreenTextColor">#FFFFFF</color>
+    <color name="wesleyTimelineColor">#FFFFFF</color>
+    <!-- hint text color, quote text color -->
+    <color name="wesleyHintQuoteTextColor">#8A878B</color>
+    <!-- Toolbar and Fab color -->
+    <color name="wesleyToolbarColor">#FFFFFF</color>
+    <color name="wesleyToolbarItemColor">#000000</color>
+    <color name="wesleyStatusBarColor">#FFFFFF</color>
+    <!-- Time picker selected number text in header and inside clock selected hand  -->
+    <color name="wesleySelectedClockTimeText">#000000</color>
+    <!-- Time picker not number text in header -->
+    <color name="wesleyDeselectedClockTimeText">#696969</color>
+
+    <!-- ~~~~MOSS THEME~~~~ -->
+    <color name="mossAndroidWidgetColor">#464E42</color>
+    <color name="mossBackgroundColor">#7F9975</color>
+    <!-- main text color, button color -->
+    <color name="mossMainTextAndButtonColor">#000000</color>
+    <!-- date text color, entry screen text -->
+    <color name="mossDateTextEntryScreenTextColor">#000000</color>
+    <color name="mossTimelineColor">#000000</color>
+    <!-- hint text color, quote text color -->
+    <color name="mossHintQuoteTextColor">#3D3D3D</color>
+    <!-- Toolbar and Fab color -->
+    <color name="mossToolbarColor">#000000</color>
+    <color name="mossToolbarItemColor">#BCCCB7</color>
+    <color name="mossStatusBarColor">#000000</color>
+
+    <!-- ~~~~CLEAN THEME~~~~ -->
+    <color name="cleanAndroidWidgetColor">#077272</color>
+    <color name="cleanBackgroundColor">#A8C7C7</color>
+    <!-- main text color, button color -->
+    <color name="cleanMainTextAndButtonColor">#000000</color>
+    <!-- date text color, entry screen text -->
+    <color name="cleanDateTextEntryScreenTextColor">#000000</color>
+    <color name="cleanTimelineColor">#000000</color>
+    <!-- hint text color, quote text color -->
+    <color name="cleanHintQuoteTextColor">#5F5F5F</color>
+    <!-- Toolbar and Fab color -->
+    <color name="cleanToolbarColor">#000000</color>
+    <color name="cleanStatusBarColor">#000000</color>
+    <color name="cleanToolbarItemColor">#F9F6EF</color>
+
+    <!-- ~~~~GLACIER THEME~~~~ -->
+    <color name="glacierAndroidWidgetColor">#FD6574</color>
+    <color name="glacierBackgroundColor">#A8C7C7</color>
+    <!-- main text color, button color -->
+    <color name="glacierMainTextAndButtonColor">#FFFFFF</color>
+    <!-- date text color, entry screen text -->
+    <color name="glacierDateTextEntryScreenTextColor">#FFFFFF</color>
+    <color name="glacierTimelineColor">#FFFFFF</color>
+    <!-- hint text color, quote text color -->
+    <color name="glacierHintQuoteTextColor">#5F5F5F</color>
+    <!-- Toolbar and Fab color -->
+    <color name="glacierToolbarColor">#000000</color>
+    <color name="glacierStatusBarColor">#000000</color>
+    <color name="glacierToolbarItemColor">#F9F6EF</color>
+    <color name="glacierHeaderColor">#F94C61</color>
+
+    <!-- ~~~~GELATO THEME~~~~ -->
+    <color name="gelatoAndroidWidgetColor">#65E6FD</color>
+    <color name="gelatoBackgroundColor">#C7A8A8</color>
+    <!-- main text color, button color -->
+    <color name="gelatoMainTextAndButtonColor">#000000</color>
+    <!-- date text color, entry screen text -->
+    <color name="gelatoDateTextEntryScreenTextColor">#000000</color>
+    <color name="gelatoTimelineColor">#000000</color>
+    <!-- hint text color, quote text color -->
+    <color name="gelatoHintQuoteTextColor">#5F5F5F</color>
+    <!-- Toolbar and Fab color -->
+    <color name="gelatoToolbarColor">#000000</color>
+    <color name="gelatoStatusBarColor">#000000</color>
+    <color name="gelatoToolbarItemColor">#EAD9D9</color>
+
+    <!-- ~~~~WAVES THEME~~~~ -->
+    <color name="wavesAndroidWidgetColor">#27639C</color>
+    <color name="wavesBackgroundColor">#96B8D8</color>
+    <!-- main text color, button color -->
+    <color name="wavesMainTextAndButtonColor">#000000</color>
+    <!-- date text color, entry screen text -->
+    <color name="wavesDateTextEntryScreenTextColor">#000000</color>
+    <color name="wavesTimelineColor">#000000</color>
+    <!-- hint text color, quote text color -->
+    <color name="wavesHintQuoteTextColor">#5F5F5F</color>
+    <!-- Toolbar and Fab color -->
+    <color name="wavesToolbarColor">#000000</color>
+    <color name="wavesStatusBarColor">#000000</color>
+    <color name="wavesToolbarItemColor">#F9F6EF</color>
+
+    <!-- ~~~~BEACH THEME~~~~ -->
+    <color name="beachAndroidWidgetColor">#D1855D</color>
+    <color name="beachBackgroundColor">#ECE8E4</color>
+    <!-- main text color, button color -->
+    <color name="beachMainTextAndButtonColor">#797979</color>
+    <!-- date text color, entry screen text -->
+    <color name="beachDateTextEntryScreenTextColor">#797979</color>
+    <color name="beachTimelineColor">#D3C8C2</color>
+    <!-- hint text color, quote text color -->
+    <color name="beachHintQuoteTextColor">#B9B9B9</color>
+    <!-- Toolbar and Fab color -->
+    <color name="beachToolbarColor">#D3C8C2</color>
+    <color name="beachStatusBarColor">#D3C8C2</color>
+    <color name="beachToolbarItemColor">#636363</color>
+
+    <!-- ~~~~FIELD THEME~~~~ -->
+    <color name="fieldAndroidWidgetColor">#DAAE3B</color>
+    <color name="fieldBackgroundColor">#F0E9D7</color>
+    <color name="fieldMainTextAndButtonColor">#786C5A</color>
+    <color name="fieldHintQuoteTextColor">#AAA09C</color>
+    <color name="fieldDateTextEntryScreenTextColor">#786C5A</color>
+    <color name="fieldTimelineColor">#E1D0B6</color>
+    <color name="fieldToolbarColor">#E1D0B6</color>
+    <color name="fieldStatusBarColor">#E1D0B6</color>
+    <color name="fieldToolbarItemColor">#F0E9D7</color>
+
+    <!-- ~~~~WESTERN THEME~~~~ -->
+    <color name="westernAndroidWidgetColor">#B59951</color>
+    <color name="westernBackgroundColor">#282828</color>
+    <color name="westernMainTextAndButtonColor">#B1977E</color>
+    <color name="westernHintQuoteTextColor">#6C5B4B</color>
+    <color name="westernDateTextEntryScreenTextColor">#B1977E</color>
+    <color name="westernTimelineColor">#B1977E</color>
+    <color name="westernToolbarColor">#B1977E</color>
+    <color name="westernStatusBarColor">#B1977E</color>
+    <color name="westernToolbarItemColor">#282828</color>
+
+    <!-- ~~~~SUNLIGHT THEME~~~~ -->
+    <color name="sunlightAndroidWidgetColor">#FFC107</color>
+    <color name="sunlightBackgroundColor">#FCF8D4</color>
+    <color name="sunlightMainTextAndButtonColor">#797979</color>
+    <color name="sunlightHintQuoteTextColor">#AAA09C</color>
+    <color name="sunlightDateTextEntryScreenTextColor">#797979</color>
+    <color name="sunlightTimelineColor">#F1AF1B</color>
+    <color name="sunlightToolbarColor">#F1AF1B</color>
+    <color name="sunlightStatusBarColor">#F1AF1B</color>
+    <color name="sunlightToolbarItemColor">#FCF8D4</color>
+
+    <!-- ~~~~TULIP THEME~~~~ -->
+    <color name="tulipAndroidWidgetColor">#D1855D</color>
+    <color name="tulipBackgroundColor">#E6C5B6</color>
+    <color name="tulipMainTextAndButtonColor">#474747</color>
+    <color name="tulipHintQuoteTextColor">#837E7C</color>
+    <color name="tulipDateTextEntryScreenTextColor">#474747</color>
+    <color name="tulipTimelineColor">#4E603A</color>
+    <color name="tulipToolbarColor">#4E603A</color>
+    <color name="tulipStatusBarColor">#4E603A</color>
+    <color name="tulipToolbarItemColor">#E6D4CC</color>
+
+    <!-- ~~~~ROSIE THEME~~~~ -->
+    <color name="rosieAndroidWidgetColor">#D1855D</color>
+    <color name="rosieBackgroundColor">#F1DDD4</color>
+    <color name="rosieMainTextAndButtonColor">#797979</color>
+    <color name="rosieHintQuoteTextColor">#AAA09C</color>
+    <color name="rosieDateTextEntryScreenTextColor">#797979</color>
+    <color name="rosieTimelineColor">#D26635</color>
+    <color name="rosieToolbarColor">#D26635</color>
+    <color name="rosieStatusBarColor">#D26635</color>
+    <color name="rosieToolbarItemColor">#F1DDD4</color>
+
+    <!-- ~~~~DAISY THEME~~~~ -->
+    <color name="daisyAndroidWidgetColor">#E58D07</color>
+    <color name="daisyBackgroundColor">#ABCFB5</color>
+    <color name="daisyMainTextAndButtonColor">#373E39</color>
+    <color name="daisyHintQuoteTextColor">#7E837F</color>
+    <color name="daisyDateTextEntryScreenTextColor">#373E39</color>
+    <color name="daisyTimelineColor">#373E39</color>
+    <color name="daisyToolbarColor">#373E39</color>
+    <color name="daisyStatusBarColor">#373E39</color>
+    <color name="daisyToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~MATISSE THEME~~~~ -->
+    <color name="matisseAndroidWidgetColor">#577546</color>
+    <color name="matisseBackgroundColor">#7D727B</color>
+    <color name="matisseMainTextAndButtonColor">#332626</color>
+    <color name="matisseHintQuoteTextColor">#AAA09C</color>
+    <color name="matisseDateTextEntryScreenTextColor">#332626</color>
+    <color name="matisseTimelineColor">#332626</color>
+    <color name="matisseToolbarColor">#332626</color>
+    <color name="matisseStatusBarColor">#332626</color>
+    <color name="matisseToolbarItemColor">#B8AFB6</color>
+
+    <!-- ~~~~CLOUD THEME~~~~ -->
+    <color name="cloudsAndroidWidgetColor">#DDC912</color>
+    <color name="cloudsBackgroundColor">#3EBCE4</color>
+    <color name="cloudsMainTextAndButtonColor">#FFFFFF</color>
+    <color name="cloudsHintQuoteTextColor">#D5D5D5</color>
+    <color name="cloudsDateTextEntryScreenTextColor">#FFFFFF</color>
+    <color name="cloudsTimelineColor">#FFFFFF</color>
+    <color name="cloudsToolbarColor">#FFFFFF</color>
+    <color name="cloudsStatusBarColor">#FFFFFF</color>
+    <color name="cloudsToolbarItemColor">#000000</color>
+
+    <!-- ~~~~MONSTERA THEME~~~~ -->
+    <color name="monsteraAndroidWidgetColor">#81C761</color>
+    <color name="monsteraBackgroundColor">#FFFFFF</color>
+    <color name="monsteraMainTextAndButtonColor">#000000</color>
+    <color name="monsteraHintQuoteTextColor">#919191</color>
+    <color name="monsteraDateTextEntryScreenTextColor">#000000</color>
+    <color name="monsteraTimelineColor">#000000</color>
+    <color name="monsteraToolbarColor">#000000</color>
+    <color name="monsteraStatusBarColor">#000000</color>
+    <color name="monsteraToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~LOTUS THEME~~~~ -->
+    <color name="lotusAndroidWidgetColor">#4D1616</color>
+    <color name="lotusBackgroundColor">#F2C1C1</color>
+    <color name="lotusMainTextAndButtonColor">#4D1616</color>
+    <color name="lotusHintQuoteTextColor">#A57575</color>
+    <color name="lotusDateTextEntryScreenTextColor">#4D1616</color>
+    <color name="lotusTimelineColor">#4D1616</color>
+    <color name="lotusToolbarColor">#4D1616</color>
+    <color name="lotusStatusBarColor">#4D1616</color>
+    <color name="lotusToolbarItemColor">#F2C1C1</color>
+
+    <!-- ~~~~KATIE THEME~~~~ -->
+    <color name="katieAndroidWidgetColor">#4D1616</color>
+    <color name="katieBackgroundColor">#FEE9E6</color>
+    <color name="katieMainTextAndButtonColor">#241E1E</color>
+    <color name="katieHintQuoteTextColor">#706767</color>
+    <color name="katieDateTextEntryScreenTextColor">#241E1E</color>
+    <color name="katieTimelineColor">#3B1011</color>
+    <color name="katieToolbarColor">#FEC2B8</color>
+    <color name="katieStatusBarColor">#FEC2B8</color>
+    <color name="katieToolbarItemColor">#3B1011</color>
+
+    <!-- ~~~~BRITTANY THEME~~~~ -->
+    <color name="brittanyAndroidWidgetColor">#FFA922</color>
+    <color name="brittanyBackgroundColor">#C1DCE4</color>
+    <color name="brittanyMainTextAndButtonColor">#161616</color>
+    <color name="brittanyHintQuoteTextColor">#706767</color>
+    <color name="brittanyDateTextEntryScreenTextColor">#161616</color>
+    <color name="brittanyTimelineColor">#161616</color>
+    <color name="brittanyToolbarColor">#161616</color>
+    <color name="brittanyStatusBarColor">#161616</color>
+    <color name="brittanyToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~JUNGLE THEME~~~~ -->
+    <color name="jungleAndroidWidgetColor">#CA6D28</color>
+    <color name="jungleBackgroundColor">#316346</color>
+    <color name="jungleMainTextAndButtonColor">#EAC9AA</color>
+    <color name="jungleHintQuoteTextColor">#AC977A</color>
+    <color name="jungleDateTextEntryScreenTextColor">#EAC9AA</color>
+    <color name="jungleTimelineColor">#000000</color>
+    <color name="jungleToolbarColor">#161616</color>
+    <color name="jungleStatusBarColor">#161616</color>
+    <color name="jungleToolbarItemColor">#EAC9AA</color>
+
+    <!-- ~~~~JULIE THEME~~~~ -->
+    <color name="julieAndroidWidgetColor">#7A9776</color>
+    <color name="julieBackgroundColor">#EEE7D4</color>
+    <color name="julieMainTextAndButtonColor">#161616</color>
+    <color name="julieHintQuoteTextColor">#706767</color>
+    <color name="julieDateTextEntryScreenTextColor">#161616</color>
+    <color name="julieTimelineColor">#161616</color>
+    <color name="julieToolbarColor">#161616</color>
+    <color name="julieStatusBarColor">#161616</color>
+    <color name="julieToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~ELLEN THEME~~~~ -->
+    <color name="ellenAndroidWidgetColor">#FAC141</color>
+    <color name="ellenBackgroundColor">#DFE0B4</color>
+    <color name="ellenMainTextAndButtonColor">#000000</color>
+    <color name="ellenHintQuoteTextColor">#706767</color>
+    <color name="ellenDateTextEntryScreenTextColor">#000000</color>
+    <color name="ellenTimelineColor">#000000</color>
+    <color name="ellenToolbarColor">#000000</color>
+    <color name="ellenStatusBarColor">#000000</color>
+    <color name="ellenToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~DANAH THEME~~~~ -->
+    <color name="danahAndroidWidgetColor">#FFB1AB</color>
+    <color name="danahBackgroundColor">#FFEBE7</color>
+    <color name="danahMainTextAndButtonColor">#342E2E</color>
+    <color name="danahHintQuoteTextColor">#706767</color>
+    <color name="danahDateTextEntryScreenTextColor">#342E2E</color>
+    <color name="danahTimelineColor">#FFB1AB</color>
+    <color name="danahToolbarColor">#FFB1AB</color>
+    <color name="danahStatusBarColor">#FFB1AB</color>
+    <color name="danahToolbarItemColor">#FFEBE7</color>
+
+    <!-- ~~~~AHALYA THEME~~~~ -->
+    <color name="ahalyaAndroidWidgetColor">#D091DA</color>
+    <color name="ahalyaBackgroundColor">#EFCCF4</color>
+    <color name="ahalyaMainTextAndButtonColor">#000000</color>
+    <color name="ahalyaHintQuoteTextColor">#706767</color>
+    <color name="ahalyaDateTextEntryScreenTextColor">#000000</color>
+    <color name="ahalyaTimelineColor">#000000</color>
+    <color name="ahalyaToolbarColor">#000000</color>
+    <color name="ahalyaStatusBarColor">#000000</color>
+    <color name="ahalyaToolbarItemColor">#FFFFFF</color>
+</resources>

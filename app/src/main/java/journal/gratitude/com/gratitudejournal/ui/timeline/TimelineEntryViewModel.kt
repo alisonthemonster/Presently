@@ -6,16 +6,18 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.ui.bindingadapter.Visibility
 import journal.gratitude.com.gratitudejournal.util.toFullString
+import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
 
 class TimelineEntryViewModel(
         private val timelineItem: Entry,
         private val isLastItem: Boolean,
         private val numEntries: Int,
+        private val showDayOfWeek: Boolean,
+        val maxLines: Int,
         private val clickListener: TimelineAdapter.OnClickListener
 ) {
 
-    val date = timelineItem.entryDate.toFullString()
     val content = timelineItem.entryContent
     val hintText = ObservableInt()
 
@@ -28,8 +30,16 @@ class TimelineEntryViewModel(
         }
     }
 
+    fun dateString(): String {
+        return if (showDayOfWeek) {
+            timelineItem.entryDate.toStringWithDayOfWeek()
+        } else {
+            timelineItem.entryDate.toFullString()
+        }
+    }
+
     fun onClick(view: View) {
-        clickListener.onClick(timelineItem.entryDate, timelineItem.entryContent == "", numEntries)
+        clickListener.onClick(view, timelineItem.entryDate, timelineItem.entryContent == "", numEntries)
     }
 
     @Visibility

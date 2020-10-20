@@ -1,11 +1,24 @@
 <resources>
+    <!--  No need to translate these following strings  -->
     <string name="app_name" translatable="false">Presently</string>
+    <string name="key_faq" translatable="false">faq</string>
+    <string name="key_share_app" translatable="false">share_app</string>
+    <string name="key_privacy_policy" translatable="false">privacy_policy</string>
+    <string name="key_terms_conditions" translatable="false">terms_conditions</string>
+    <string name="key_open_source" translatable="false">open_source</string>
+    <string name="key_version" translatable="false">version</string>
+
+    <!--  Begin translations from here down  -->
+
+    <string name="random">Random</string>
     <string name="what_are_you_thankful_for">What are you grateful for?</string>
     <string name="what_were_you_thankful_for">What were you grateful for?</string>
     <string name="what_are_you_thankful_for_today">What are you grateful for today?</string>
     <string name="what_are_you_thankful_for_yesterday">What were you grateful for yesterday?</string>
     <string name="notification_settings">Settings</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="share_presently">Share Presently</string>
+    <string name="enjoying_presently">Enjoying Presently? Share the app with your friends and family</string>
     <string name="read_privacy">Read Presently\'s privacy policy</string>
     <string name="faq">FAQ</string>
     <string name="read_faq">Read Presently\'s frequently asked questions</string>
@@ -20,7 +33,7 @@
     <string name="iam">I am grateful for</string>
     <string name="save">Save</string>
     <string name="back_up_entries_to_csv">Backup entries</string>
-    <string name="export_success">Data exported to Downloads</string>
+    <string name="export_success">Data exported to your device</string>
     <string name="open">Open</string>
     <string name="import_entries_from_backup">Import entries from backup</string>
     <string name="ok">Import</string>
@@ -45,7 +58,7 @@
     <string name="share_progress">Share your gratitude progress</string>
     <string name="change_time">Change your daily reminder time</string>
     <string name="time_title">Adjust Reminder Notifications</string>
-    <string name="theme_change">Change the theme of Presently</string>
+    <string name="theme_change">Choose from over 20 different themes and color schemes</string>
     <string name="notifs_off">Daily reminder notifications are off</string>
     <string name="notifs_on">Daily reminder notifications are on</string>
     <string name="notifs">Daily Reminder Notifications</string>
@@ -59,6 +72,7 @@
     <string name="permission_export">Permission is needed to export data</string>
     <string name="error_parsing">Error parsing file</string>
     <string name="file_not_csv">File must be a CSV</string>
+    <string name="error_creating_csv_file">Error creating CSV file on device</string>
     <string name="no_app_found">No app found to open this file</string>
     <string name="copied">Copied to clipboard</string>
     <string name="security">Security</string>
@@ -71,4 +85,27 @@
     <string name="are_you_sure">Are you sure you want to go back?</string>
     <string name="unsaved_text">Your entry is unsaved and your changes will be lost!</string>
     <string name="version_number">Version Number</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="every">On every change</string>
+    <string name="dropbox_summary_off">Log in with your Dropbox account to automatically back up your entries</string>
+    <string name="dropbox_summary_on">Your entries are being backed up to Dropbox</string>
+    <string name="dropbox_setting_title">Back up your data with Dropbox</string>
+    <string name="dropbox_backup_frequency">Dropbox Backup Frequency</string>
+    <string name="one_time_export_summary">Manually export your entries to CSV format to your device</string>
+    <string name="one_time_export">Export entries to CSV</string>
+    <string name="import_summary">Select a backed up CSV file to import</string>
+    <string name="backup_and_restore">Backup &amp; Restore</string>
+    <string name="day_of_week_off">Date does not include day of the week</string>
+    <string name="day_of_week_on">Date includes day of the week</string>
+    <string name="day_of_week_title">Date Style</string>
+    <string name="max_lines_title">Timeline Entry Length</string>
+    <string name="max_lines_summary">Number of lines shown in the timeline. The full text is visible when you click the entry.</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="day_of_week_summary">Set the first day of the week in the calendar view</string>
+    <string name="first_day_of_week_title">First day of the week</string>
+    <string name="share_milestone">I completed %1$d days of gratitude journaling! Join me using the Presently App. #PresentlyApp</string>
+    <string name="share_app_text">Practice gratitude with this simple, always free, and private gratitude journaling app</string>
 </resources>

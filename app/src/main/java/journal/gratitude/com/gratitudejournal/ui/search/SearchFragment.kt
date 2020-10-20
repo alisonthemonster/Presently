@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.ui.search
 
 import android.content.Context
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +10,12 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.ChangeBounds
@@ -26,11 +27,7 @@ import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH_ITEM
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.repository.EntryRepositoryImpl
-import journal.gratitude.com.gratitudejournal.room.EntryDatabase
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineViewModel
+import journal.gratitude.com.gratitudejournal.util.setStatusBarColorsForBackground
 import kotlinx.android.synthetic.main.search_fragment.*
 import org.threeten.bp.LocalDate
 import java.util.concurrent.TimeUnit
@@ -48,13 +45,16 @@ class SearchFragment : DaggerFragment() {
 
     private val disposables = CompositeDisposable()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         binding = SearchFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
 
-        val transition = TransitionInflater.from(this.activity).inflateTransition(android.R.transition.move)
+        val transition =
+            TransitionInflater.from(this.activity).inflateTransition(android.R.transition.move)
 
         sharedElementEnterTransition = ChangeBounds().apply {
             sharedElementEnterTransition = transition
@@ -67,7 +67,7 @@ class SearchFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
 
         val obs = RxTextView.textChanges(search_text)
             .debounce(300, TimeUnit.MILLISECONDS)
@@ -100,31 +100,41 @@ class SearchFragment : DaggerFragment() {
             findNavController().navigateUp()
         }
 
-        val adapter = SearchAdapter(activity!!, object : SearchAdapter.OnClickListener {
+        val adapter = SearchAdapter(requireActivity(), object : SearchAdapter.OnClickListener {
             override fun onClick(
                 clickedDate: LocalDate
             ) {
                 firebaseAnalytics.logEvent(CLICKED_SEARCH_ITEM, null)
 
-                val bundle = bundleOf(EntryFragment.DATE to clickedDate.toString())
                 val navController = findNavController()
                 if (navController.currentDestination?.id == R.id.searchFragment) {
-                    navController.navigate(
-                        R.id.action_searchFragment_to_entryFragment,
-                        bundle
-                    )
+                    val directions =
+                        SearchFragmentDirections.actionSearchFragmentToEntryFragment(clickedDate.toString())
+                    navController.navigate(directions)
                 }
             }
         })
         search_results.layoutManager = LinearLayoutManager(context)
         search_results.adapter = adapter
 
-        viewModel.results.observe(this, Observer {
+        viewModel.results.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
             adapter.submitList(it)
         })
 
         openKeyboard()
+
+        ViewCompat.setOnApplyWindowInsetsListener(container) { v, insets ->
+            v.updatePadding(top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top)
+            insets
+        }
+
+        val window = requireActivity().window
+        val typedValue = TypedValue()
+        requireActivity().theme.resolveAttribute(R.attr.toolbarColor, typedValue, true)
+        setStatusBarColorsForBackground(window, typedValue.data)
+        window.statusBarColor = typedValue.data
+
     }
 
     override fun onDestroyView() {

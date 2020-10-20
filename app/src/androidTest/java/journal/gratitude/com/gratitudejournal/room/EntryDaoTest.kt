@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import journal.gratitude.com.gratitudejournal.LiveDataTestUtil
+import journal.gratitude.com.gratitudejournal.util.LiveDataTestUtil
 import journal.gratitude.com.gratitudejournal.model.Entry
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -54,8 +54,7 @@ class EntryDaoTest {
     fun writeMultipleEntries() {
         entryDao.insertEntries(mockEntriesSorted)
 
-        val actualEntry =
-            LiveDataTestUtil.getValue(entryDao.getEntries())
+        val actualEntry = entryDao.getEntries()
         assertEquals(mockEntriesSorted, actualEntry)
     }
 
@@ -66,7 +65,7 @@ class EntryDaoTest {
         entryDao.insertEntry(entryOne)
 
         val actualEntry =
-            LiveDataTestUtil.getValue(entryDao.getEntries())
+            entryDao.getEntries()
         assertEquals(mockEntriesSorted, actualEntry)
     }
 
@@ -75,8 +74,7 @@ class EntryDaoTest {
         entryDao.insertEntries(mockEntriesSorted)
         entryDao.delete(entryTwo)
 
-        val actualEntry =
-            LiveDataTestUtil.getValue(entryDao.getEntries())
+        val actualEntry = entryDao.getEntries()
         assertEquals(listOf(entryOne, entryThree), actualEntry)
     }
 

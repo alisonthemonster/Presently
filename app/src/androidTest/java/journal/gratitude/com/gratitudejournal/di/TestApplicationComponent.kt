@@ -15,6 +15,9 @@ import javax.inject.Singleton
     TimelineModule::class,
     EntryModule::class,
     SearchModule::class,
+    SettingsModule::class,
+    TestCloudUploadModule::class,
+    WorkerModule::class,
     AndroidSupportInjectionModule::class])
 interface TestApplicationComponent : AndroidInjector<TestGratitudeApplication> {
 

@@ -4,39 +4,50 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Animatable
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.preference.PreferenceManager
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.jakewharton.rxbinding2.widget.RxTextView
 import dagger.android.support.DaggerFragment
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
 import journal.gratitude.com.gratitudejournal.model.COPIED_QUOTE
 import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
+import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.milestones
 import journal.gratitude.com.gratitudejournal.model.SHARED_ENTRY
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.BACKUP_CADENCE
+import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
+import journal.gratitude.com.gratitudejournal.util.setStatusBarColorsForBackground
 import kotlinx.android.synthetic.main.entry_fragment.*
-import org.threeten.bp.LocalDate
-import javax.inject.Inject
-import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
-import com.jakewharton.rxbinding2.widget.RxTextView
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.milestones
 import java.util.concurrent.TimeUnit
-
+import javax.inject.Inject
 
 class EntryFragment : DaggerFragment() {
 
@@ -49,9 +60,11 @@ class EntryFragment : DaggerFragment() {
 
     private val compositeDisposable = CompositeDisposable()
 
+    val args: EntryFragmentArgs by navArgs()
+
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = EntryFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
@@ -62,7 +75,7 @@ class EntryFragment : DaggerFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val passedInDate = arguments?.getString(DATE) ?: LocalDate.now().toString()
+        val passedInDate = args.date
         viewModel.setDate(passedInDate)
 
         val callback = object : OnBackPressedCallback(true) {
@@ -82,11 +95,24 @@ class EntryFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
 
         viewModel.entry.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
         })
+
+        ViewCompat.setOnApplyWindowInsetsListener(entry) { v, insets ->
+            val sysWindow =
+                insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
+            v.updatePadding(bottom = sysWindow.bottom, top = sysWindow.top)
+            insets
+        }
+
+        val window = requireActivity().window
+        window.statusBarColor = Color.TRANSPARENT
+        val typedValue = TypedValue()
+        requireActivity().theme.resolveAttribute(R.attr.backgroundColor, typedValue, true)
+        setStatusBarColorsForBackground(window, typedValue.data)
 
         prompt_button.setOnClickListener {
             firebaseAnalytics.logEvent(CLICKED_PROMPT, null)
@@ -109,31 +135,44 @@ class EntryFragment : DaggerFragment() {
         }
 
         save_button.setOnClickListener {
-            val numEntries = arguments?.getInt(NUM_ENTRIES) ?: 0
-            val isNewEntry = arguments?.getBoolean(IS_NEW_ENTRY) ?: false
+            val numEntries = args.numEntries
+            val isNewEntry = args.isNewEntry
             if (isNewEntry) {
                 val bundle = Bundle()
                 bundle.putInt(FirebaseAnalytics.Param.LEVEL, (numEntries + 1))
 
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle)
                 if (milestones.contains(numEntries + 1)) {
-                    CelebrateDialogFragment.newInstance(numEntries + 1).show(fragmentManager!!, "CelebrateDialogFragment")
+                    CelebrateDialogFragment.newInstance(numEntries + 1)
+                        .show(fragmentManager!!, "CelebrateDialogFragment")
                 }
             } else {
                 firebaseAnalytics.logEvent(EDITED_EXISTING_ENTRY, null)
             }
 
             viewModel.addNewEntry()
-            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            val imm =
+                activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
             imm?.hideSoftInputFromWindow(entry_text.windowToken, 0)
+
+            val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity)
+            val accessToken = sharedPrefs.getString("access-token", null)
+            val cadence = sharedPrefs.getString(BACKUP_CADENCE, "0") ?: "0"
+            if (accessToken != null && cadence == "2") {
+                val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
+                    .addTag(DropboxUploader.PRESENTLY_BACKUP)
+                    .build()
+                WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
+            }
+
             findNavController().navigateUp()
         }
 
         inspiration.setOnLongClickListener {
             val quote = viewModel.getInspirationString()
             val clipboard =
-                getSystemService<ClipboardManager>(context!!, ClipboardManager::class.java)
-            clipboard?.primaryClip = ClipData.newPlainText("Gratitude quote", quote)
+                getSystemService<ClipboardManager>(requireContext(), ClipboardManager::class.java)
+            clipboard?.setPrimaryClip(ClipData.newPlainText("Gratitude quote", quote))
             firebaseAnalytics.logEvent(COPIED_QUOTE, null)
             Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
             true
@@ -172,22 +211,5 @@ class EntryFragment : DaggerFragment() {
             builder.create()
         }
         alertDialog?.show()
-    }
-
-    companion object {
-        const val DATE = "date_key"
-        const val IS_NEW_ENTRY = "is_new_entry"
-        const val NUM_ENTRIES = "num_entries"
-
-        fun newInstance(date: LocalDate = LocalDate.now()): EntryFragment {
-            val fragment = EntryFragment()
-
-            val bundle = Bundle()
-            bundle.putString(DATE, date.toString())
-            fragment.arguments = bundle
-
-            return fragment
-        }
-
     }
 }

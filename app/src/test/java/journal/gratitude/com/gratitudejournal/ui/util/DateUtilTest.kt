@@ -11,6 +11,8 @@ class DateUtilTest {
 
     @Test
     fun stringToLocalDate() {
+        Locale.setDefault(Locale.forLanguageTag("en-US"))
+
         val expected = LocalDate.of(2011, 11, 11)
         val actual = "2011-11-11".toLocalDate()
 
@@ -19,6 +21,8 @@ class DateUtilTest {
 
     @Test
     fun localDateToDatabaseString() {
+        Locale.setDefault(Locale.forLanguageTag("en-US"))
+
         val expected = "2011-11-11"
         val actual = LocalDate.of(2011, 11, 11).toDatabaseString()
 
@@ -27,6 +31,7 @@ class DateUtilTest {
 
     @Test
     fun localDateToLongString() {
+        Locale.setDefault(Locale.forLanguageTag("en-US"))
         val expected = "November 11, 2011"
         val actual = LocalDate.of(2011, 11, 11).toFullString()
 
@@ -57,6 +62,8 @@ class DateUtilTest {
 
     @Test
     fun getMonthStringFromDateObject() {
+        Locale.setDefault(Locale.forLanguageTag("en-US"))
+
         val expected = "March"
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, 2019)
@@ -72,7 +79,7 @@ class DateUtilTest {
     fun getMonthStringFromDateObjectRussian() {
         Locale.setDefault(Locale.forLanguageTag("ru"))
 
-        val expected = "Март"
+        val expected = "март"
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, 2019)
         cal.set(Calendar.MONTH, Calendar.MARCH)

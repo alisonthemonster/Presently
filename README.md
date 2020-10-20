@@ -10,7 +10,7 @@ Presently is built on the idea that gratitude journaling should be free, private
 
 Presently is also built with the best Android practices in mind. It follows MVVM to separate concerns and ensure we write testable code. We require 85%+ code coverage and rely on both unit tests and instrumented tests (with a heavier weight towards unit tests). Instrumented tests are run on Firebase Test Lab, crashes are reported through Crashlytics, and analytics are reported with Firebase Analytics. 
 
-We support several languges currently and are always looking for translators to help us! We support French, Spanish, Italian, German, Finnish, and Russian.
+We support several languages currently and are always looking for translators to help us! We support French, Spanish, Italian, German, Finnish, Arabic, Dutch, Polish, Portuguese, Slovakian, Croatian, Romanian, and Russian.
 
 ### Tech Stack [So far...]
 - MVVM with architecture components
@@ -23,6 +23,8 @@ We support several languges currently and are always looking for translators to 
 - Dagger
 - Espresso
 - Firebase Test Lab
+- WorkManager
+- Dropbox Java SDK
 
 <img src="https://i.imgur.com/Im3maBV.png" width="220">  <img src="https://i.imgur.com/O4J2yru.png" width="220">  <img src="https://i.imgur.com/TDCxl3N.png" width="220"> 
 

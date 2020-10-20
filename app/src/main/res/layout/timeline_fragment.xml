@@ -14,8 +14,18 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:attr/colorPrimary"
+        android:background="?attr/backgroundColor"
         tools:context=".ui.timeline.TimelineFragment">
+
+        <View
+            android:id="@+id/toolbar_background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/toolbarColor"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/overflow_button"
@@ -61,7 +71,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:data="@{viewModel.getTimelineItems()}"
-            android:background="?android:attr/colorBackground"
+            android:background="?attr/backgroundColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,13 +82,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             app:srcCompat="@drawable/ic_calendar"
-            app:backgroundTint="?android:attr/colorPrimary"
+            app:backgroundTint="?attr/toolbarColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:tint="?android:attr/colorForeground" />
+            app:tint="?attr/toolbarItemColor" />
 
         <journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarView
             android:id="@+id/entry_calendar"
