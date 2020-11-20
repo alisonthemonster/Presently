@@ -6,10 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.Navigation
-import androidx.navigation.Navigator
+import androidx.navigation.*
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
@@ -109,12 +106,6 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_openCalendar_clicksDate_opensEntry() {
-        val expectedDate = LocalDate.of(2020, 9, 15)
-        val expected = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
-            expectedDate.toString(),
-            true,
-            0
-        )
         val mockNavController = mock<NavController>()
         val mockNavigationDestination = mock<NavDestination>()
         mockNavigationDestination.id = R.id.timelineFragment
@@ -135,7 +126,7 @@ class TimelineFragmentInstrumentedTest {
             )
         )
 
-        verify(mockNavController).navigate(expected)
+        verify(mockNavController).navigate(any<NavDirections>())
     }
 
     @Test
