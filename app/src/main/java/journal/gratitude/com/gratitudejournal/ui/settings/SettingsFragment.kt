@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -317,60 +316,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            TimelineFragment.IMPORT_CSV -> {
-                //when the user has chosen a CSV to import
-                if (resultCode == Activity.RESULT_OK) {
-                    val uri = data?.data
-                    if (uri != null) {
-                        if (uri.scheme == "content") {
-                            val inputStream = activity?.contentResolver?.openInputStream(uri)
-                            if (inputStream != null) {
-                                importFromCsv(inputStream)
-                            } else {
-                                val crashlytics = FirebaseCrashlytics.getInstance()
-                                crashlytics.recordException(NullPointerException("inputStream is null, uri: $uri"))
-                                Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }
-                    } else {
-                        val crashlytics = FirebaseCrashlytics.getInstance()
-                        crashlytics.recordException(NullPointerException("URI was null when receiving file"))
-                        Toast.makeText(context, R.string.file_not_csv, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-            CREATE_FILE -> {
-                //when the user has chosen a place to export the CSV file
-                if (resultCode == Activity.RESULT_OK) {
-                    if (data?.data != null) {
-                        lifecycleScope.launch {
-                            val csvResult =
-                                exportEntriesToCsvFile(
-                                    requireContext(),
-                                    data.data!!,
-                                    viewModel.getEntries()
-                                )
-                            when (csvResult) {
-                                is CsvUriError -> exportCallback.onFailure(csvResult.exception)
-                                is CsvUriCreated -> exportCallback.onSuccess(csvResult.uri)
-                            }
-                        }
-                    } else {
-                        val crashlytics = FirebaseCrashlytics.getInstance()
-                        crashlytics.recordException(NullPointerException("URI was null after user selected file location"))
-                        Toast.makeText(
-                            context,
-                            R.string.error_creating_csv_file,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-        }
-    }
 
     private fun openThemes() {
         firebaseAnalytics.logEvent(OPENED_THEMES, null)
@@ -476,21 +421,37 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     /**
+     * Result contract for activity result to read from the backup CSV file
+     * */
+    private val readCsvResultContact =
+        registerForActivityResult(OpenCsvDocumentContract()) { uri: Uri? ->
+            if (uri != null) {
+                if (uri.scheme == "content") {
+                    val inputStream = activity?.contentResolver?.openInputStream(uri)
+                    if (inputStream != null) {
+                        importFromCsv(inputStream)
+                    } else {
+                        val crashlytics = FirebaseCrashlytics.getInstance()
+                        crashlytics.recordException(NullPointerException("inputStream is null, uri: $uri"))
+                        Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            } else {
+                val crashlytics = FirebaseCrashlytics.getInstance()
+                crashlytics.recordException(NullPointerException("URI was null when receiving file"))
+                Toast.makeText(context, R.string.file_not_csv, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    /**
      * Opens the chooser to allow the user to select their CSV file.
      * */
     private fun selectCSVFile() {
         firebaseAnalytics.logEvent(LOOKED_FOR_DATA, null)
-
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "text/csv|text/comma-separated-values|application/csv"
         val mimeTypes = arrayOf("text/comma-separated-values", "text/csv")
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-
         try {
-            startActivityForResult(
-                Intent.createChooser(intent, "Select"),
-                TimelineFragment.IMPORT_CSV
-            )
+            readCsvResultContact.launch(mimeTypes)
         } catch (ex: ActivityNotFoundException) {
             val crashlytics = FirebaseCrashlytics.getInstance()
             crashlytics.recordException(ex)
@@ -525,18 +486,42 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     /**
+     * Result contract for activity result to create backup the CSV file
+     * */
+    private val saveCsvResultContact =
+        registerForActivityResult(CreateCsvDocumentContract()) { uri: Uri? ->
+            if (uri != null) {
+                lifecycleScope.launch {
+                    val csvResult = exportEntriesToCsvFile(
+                        requireContext(),
+                        uri,
+                        viewModel.getEntries()
+                    )
+                    when (csvResult) {
+                        is CsvUriError -> exportCallback.onFailure(csvResult.exception)
+                        is CsvUriCreated -> exportCallback.onSuccess(csvResult.uri)
+                    }
+                }
+            } else {
+                val crashlytics = FirebaseCrashlytics.getInstance()
+                crashlytics.recordException(NullPointerException("URI was null after user selected file location"))
+                Toast.makeText(
+                    context,
+                    R.string.error_creating_csv_file,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+        }
+
+    /**
      * Opens the Storage Access Framework and lets the user select where they want to
      * export the CSV file.
      * */
     private fun createFileOnDevice() {
         val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
         val fileName = "PresentlyBackup$date.csv"
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "text/csv"
-            putExtra(Intent.EXTRA_TITLE, fileName)
-        }
-        startActivityForResult(intent, CREATE_FILE)
+        saveCsvResultContact.launch(fileName)
     }
 
     private val exportCallback: ExportCallback = object : ExportCallback {
@@ -551,7 +536,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     } catch (e: ActivityNotFoundException) {
                         val crashlytics = FirebaseCrashlytics.getInstance()
                         crashlytics.recordException(e)
-                        Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }.show()
         }
@@ -559,7 +545,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
         override fun onFailure(exception: Exception) {
             val crashlytics = FirebaseCrashlytics.getInstance()
             crashlytics.recordException(exception)
-            Toast.makeText(context, "Error : ${exception.localizedMessage}", Toast.LENGTH_SHORT)
+            Toast.makeText(
+                context,
+                "Error : ${exception.localizedMessage}",
+                Toast.LENGTH_SHORT
+            )
                 .show()
         }
     }
@@ -578,9 +568,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val DAY_OF_WEEK = "day_of_week"
         const val LINES_PER_ENTRY_IN_TIMELINE = "lines_per_entry_in_timeline"
         const val FIRST_DAY_OF_WEEK = "first_day_of_week"
-
-        // Request code for creating the CSV
-        const val CREATE_FILE = 1994
     }
 }
 
