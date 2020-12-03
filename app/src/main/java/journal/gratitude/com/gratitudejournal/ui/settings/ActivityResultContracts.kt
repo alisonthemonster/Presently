@@ -4,10 +4,11 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContracts
 
-class OpenCsvDocumentContract : ActivityResultContracts.OpenDocument() {
-    override fun createIntent(context: Context, input: Array<out String>): Intent {
+class OpenCsvDocumentContract : ActivityResultContracts.GetContent() {
+    override fun createIntent(context: Context, input: String): Intent {
         val intent = super.createIntent(context, input)
-        intent.type = "text/csv|text/comma-separated-values|application/csv"
+        val mimeTypes = arrayOf("text/comma-separated-values", "text/csv")
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
         return intent
     }
 }
