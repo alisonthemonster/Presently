@@ -449,9 +449,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
      * */
     private fun selectCSVFile() {
         firebaseAnalytics.logEvent(LOOKED_FOR_DATA, null)
-        val mimeTypes = arrayOf("text/comma-separated-values", "text/csv")
         try {
-            readCsvResultContact.launch(mimeTypes)
+            readCsvResultContact.launch("text/csv|text/comma-separated-values|application/csv")
         } catch (ex: ActivityNotFoundException) {
             val crashlytics = FirebaseCrashlytics.getInstance()
             crashlytics.recordException(ex)
