@@ -69,6 +69,7 @@ android {
 
 dependencies {
     implementation project(':ui')
+    implementation project(':analytics')
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -85,6 +86,7 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:1.3.0-alpha08"
     implementation "androidx.biometric:biometric:1.0.1"
     implementation "androidx.work:work-runtime-ktx:2.4.0"
+    implementation 'ly.count.android:sdk:20.11.2'
 
     implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
