@@ -24,6 +24,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.presently.analytics.PresentlyAnalytics
 import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
@@ -51,11 +52,13 @@ class TimelineFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    lateinit var analytics: PresentlyAnalytics
+
     private val viewModel by viewModels<TimelineViewModel> { viewModelFactory }
 
     private lateinit var adapter: TimelineAdapter
     private lateinit var binding: TimelineFragmentBinding
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,8 +93,6 @@ class TimelineFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
-
         timeline_recycler_view.layoutManager =
             androidx.recyclerview.widget.LinearLayoutManager(context)
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
@@ -109,9 +110,9 @@ class TimelineFragment : DaggerFragment() {
                     numEntries: Int
                 ) {
                     if (isNewEntry) {
-                        firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY, null)
+                        analytics.recordEvent(CLICKED_NEW_ENTRY)
                     } else {
-                        firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY, null)
+                        analytics.recordEvent(CLICKED_EXISTING_ENTRY)
                     }
                     navigateToDate(clickedDate, isNewEntry, numEntries)
                 }
@@ -147,7 +148,7 @@ class TimelineFragment : DaggerFragment() {
         })
 
         search_icon.setOnClickListener {
-            firebaseAnalytics.logEvent(CLICKED_SEARCH, null)
+            analytics.recordEvent(CLICKED_SEARCH)
 
             val action = TimelineFragmentDirections.actionTimelineFragmentToSearchFragment()
             val extras = FragmentNavigatorExtras(
@@ -169,9 +170,9 @@ class TimelineFragment : DaggerFragment() {
 
             override fun onDateClicked(date: Date, isNewDate: Boolean, numberOfEntries: Int) {
                 if (isNewDate) {
-                    firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY_CALENDAR, null)
+                    analytics.recordEvent(CLICKED_NEW_ENTRY_CALENDAR)
                 } else {
-                    firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY_CALENDAR, null)
+                    analytics.recordEvent(CLICKED_EXISTING_ENTRY_CALENDAR)
                 }
 
                 navigateToDate(date.toLocalDate(), isNewDate, numberOfEntries)
@@ -179,7 +180,7 @@ class TimelineFragment : DaggerFragment() {
         })
 
         cal_fab.setOnClickListener {
-            firebaseAnalytics.logEvent(OPENED_CALENDAR, null)
+            analytics.recordEvent(OPENED_CALENDAR)
 
             val animation = CalendarAnimation(cal_fab, entry_calendar)
             animation.openCalendar()
@@ -213,7 +214,7 @@ class TimelineFragment : DaggerFragment() {
     }
 
     private fun openContactForm() {
-        firebaseAnalytics.logEvent(OPENED_CONTACT_FORM, null)
+        analytics.recordEvent(OPENED_CONTACT_FORM)
 
         val context = context ?: return
         val intent = Intent(Intent.ACTION_SENDTO).apply {
@@ -246,7 +247,7 @@ class TimelineFragment : DaggerFragment() {
     }
 
     private fun openSettings() {
-        firebaseAnalytics.logEvent(LOOKED_AT_SETTINGS, null)
+        analytics.recordEvent(LOOKED_AT_SETTINGS)
 
         val navController = findNavController()
         if (navController.currentDestination?.id == R.id.timelineFragment) {
