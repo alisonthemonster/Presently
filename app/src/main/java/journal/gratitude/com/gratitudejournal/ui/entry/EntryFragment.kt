@@ -30,16 +30,14 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.jakewharton.rxbinding2.widget.RxTextView
+import com.presently.analytics.PresentlyAnalytics
 import dagger.android.support.DaggerFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
-import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
-import journal.gratitude.com.gratitudejournal.model.COPIED_QUOTE
-import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
+import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.milestones
-import journal.gratitude.com.gratitudejournal.model.SHARED_ENTRY
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.BACKUP_CADENCE
 import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
@@ -54,9 +52,11 @@ class EntryFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    lateinit var analytics: PresentlyAnalytics
+
     private val viewModel by viewModels<EntryViewModel> { viewModelFactory }
     private lateinit var binding: EntryFragmentBinding
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -95,8 +95,6 @@ class EntryFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
-
         viewModel.entry.observe(viewLifecycleOwner, Observer {
             binding.viewModel = viewModel
         })
@@ -115,7 +113,7 @@ class EntryFragment : DaggerFragment() {
         setStatusBarColorsForBackground(window, typedValue.data)
 
         prompt_button.setOnClickListener {
-            firebaseAnalytics.logEvent(CLICKED_PROMPT, null)
+            analytics.recordEvent(CLICKED_PROMPT)
             viewModel.getRandomPromptHintString()
             val v = it as ImageView
             val d = v.drawable as Animatable?
@@ -124,7 +122,7 @@ class EntryFragment : DaggerFragment() {
         }
 
         share_button.setOnClickListener {
-            firebaseAnalytics.logEvent(SHARED_ENTRY, null)
+            analytics.recordEvent(SHARED_ENTRY)
 
             val message = viewModel.getShareContent()
             val share = Intent(Intent.ACTION_SEND)
@@ -141,13 +139,14 @@ class EntryFragment : DaggerFragment() {
                 val bundle = Bundle()
                 bundle.putInt(FirebaseAnalytics.Param.LEVEL, (numEntries + 1))
 
-                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle)
+                val analyticsDetails = mapOf("numEntries" to (numEntries + 1))
+                analytics.recordEvent(ADDED_NEW_ENTRY, analyticsDetails)
                 if (milestones.contains(numEntries + 1)) {
                     CelebrateDialogFragment.newInstance(numEntries + 1)
                         .show(fragmentManager!!, "CelebrateDialogFragment")
                 }
             } else {
-                firebaseAnalytics.logEvent(EDITED_EXISTING_ENTRY, null)
+                analytics.recordEvent(EDITED_EXISTING_ENTRY)
             }
 
             viewModel.addNewEntry()
@@ -173,7 +172,7 @@ class EntryFragment : DaggerFragment() {
             val clipboard =
                 getSystemService<ClipboardManager>(requireContext(), ClipboardManager::class.java)
             clipboard?.setPrimaryClip(ClipData.newPlainText("Gratitude quote", quote))
-            firebaseAnalytics.logEvent(COPIED_QUOTE, null)
+            analytics.recordEvent(COPIED_QUOTE)
             Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
             true
         }

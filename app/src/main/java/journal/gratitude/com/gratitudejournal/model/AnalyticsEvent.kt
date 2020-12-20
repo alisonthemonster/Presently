@@ -44,6 +44,7 @@ const val BIOMETRICS_LOCKOUT = "biometricsLockout"
 const val SHARED_ENTRY = "sharedEntry"
 const val CLICKED_PROMPT = "clickedNewPrompt"
 const val EDITED_EXISTING_ENTRY = "editedExistingEntry"
+const val ADDED_NEW_ENTRY = "addedNewEntry"
 const val COPIED_QUOTE = "copiedQuote"
 
 //SEARCH EVENTS

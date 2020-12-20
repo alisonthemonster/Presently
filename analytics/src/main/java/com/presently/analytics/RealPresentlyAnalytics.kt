@@ -8,7 +8,7 @@ class CountlyAnalytics @Inject constructor(private val countly: Countly) : Prese
         countly.events().recordEvent(event)
     }
 
-    override fun recordEvent(event: String, details: Map<String, String>) {
+    override fun recordEvent(event: String, details: Map<String, Any>) {
         countly.events().recordEvent(event, details)
     }
 
