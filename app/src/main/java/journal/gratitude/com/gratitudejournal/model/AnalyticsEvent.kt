@@ -1,9 +1,5 @@
 package journal.gratitude.com.gratitudejournal.model
 
-//TIMELINE EVENTS
-const val CAME_FROM_NOTIFICATION = "cameFromNotification"
-const val CANCELLED_NOTIFS = "cancelledNotifications"
-
 const val EXPORTED_DATA = "exportedData"
 const val LOOKED_FOR_DATA = "lookedForData"
 const val IMPORTED_DATA_SUCCESS = "importedData"
@@ -32,6 +28,7 @@ const val DROPBOX_AUTH_SUCCESS = "dropboxAuthorizaitonSuccess"
 const val DROPBOX_AUTH_QUIT = "dropboxAuthorizaitonQuit"
 const val SELECT_THEME = "selectedTheme"
 const val SELECT_BACKUP_CADENCE = "selectedBackupCadence"
+const val CANCELLED_NOTIFS = "cancelledNotifications"
 
 //BIOMETRIC EVENTS
 const val BIOMETRICS_SELECT = "biometricsSelected"

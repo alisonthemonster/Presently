@@ -20,7 +20,6 @@ class ReminderReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val openActivityIntent = Intent(context, ContainerActivity::class.java)
         openActivityIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP //set flag to restart/relaunch the app
-        openActivityIntent.putExtra(fromNotification, true)
         val pendingIntent = PendingIntent.getActivity(
             context,
             ALARM_TYPE_RTC,
@@ -47,10 +46,6 @@ class ReminderReceiver : BroadcastReceiver() {
 
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(ALARM_TYPE_RTC, notificationBuilder.build())
-    }
-
-    companion object {
-        const val fromNotification = "fromNotification"
     }
 
 }

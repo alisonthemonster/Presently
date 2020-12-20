@@ -29,7 +29,6 @@ import androidx.work.WorkManager
 import com.dropbox.core.android.Auth
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.presently.analytics.PresentlyAnalytics
 import dagger.android.support.AndroidSupportInjection
@@ -65,8 +64,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
     lateinit var analytics: PresentlyAnalytics
 
     private val viewModel by viewModels<SettingsViewModel> { viewModelFactory }
-
-    //private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -505,6 +502,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
      * export the CSV file.
      * */
     private fun createFileOnDevice() {
+        analytics.recordEvent(EXPORTED_DATA)
         val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
         val fileName = "PresentlyBackup$date.csv"
         saveCsvResultContact.launch(fileName)

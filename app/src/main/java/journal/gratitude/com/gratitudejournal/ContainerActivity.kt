@@ -11,12 +11,9 @@ import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.firebase.analytics.FirebaseAnalytics
-import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FINGERPRINT
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.THEME_PREF
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
-import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
 import java.util.*
 
 class ContainerActivity : AppCompatActivity() {
@@ -34,14 +31,6 @@ class ContainerActivity : AppCompatActivity() {
         setContentView(R.layout.container_activity)
 
         createNotificationChannel()
-
-        intent.extras?.let {
-            val cameFromNotification = it.getBoolean(fromNotification, false)
-            if (cameFromNotification) {
-                val mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
-                mFirebaseAnalytics.logEvent(CAME_FROM_NOTIFICATION, null)
-            }
-        }
 
         NotificationScheduler().configureNotifications(this)
 
