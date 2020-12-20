@@ -14,13 +14,20 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
+import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
 import org.hamcrest.Matchers
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class CelebrateDialogFragmentInstrumentedTest {
+
+    @get:Rule
+    val rule = DaggerTestApplicationRule()
 
     @Test
     fun celebrate_clickRate_opensStore() {

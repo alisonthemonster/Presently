@@ -12,13 +12,17 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ThemesFragmentInstrumentedTest {
 
+    @get:Rule
+    val rule = DaggerTestApplicationRule()
 
     @Test
     fun themes_clickingTheme_navigatesUp() {

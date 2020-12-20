@@ -15,6 +15,8 @@ import javax.inject.Singleton
     TimelineModule::class,
     EntryModule::class,
     SearchModule::class,
+    ThemeModule::class,
+    CelebrateDialogModule::class,
     SettingsModule::class,
     TestCloudUploadModule::class,
     WorkerModule::class,
