@@ -8,22 +8,26 @@ import android.widget.Toast
 import androidx.biometric.BiometricConstants
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.presently.analytics.PresentlyAnalytics
+import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_CANCELLED
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_LOCKOUT
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_USER_CANCELLED
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FINGERPRINT
+import javax.inject.Inject
 
-class AppLockFragment : Fragment() {
+//TODO test on a real device that analytics are triggered
+
+class AppLockFragment : DaggerFragment() {
 
     private var fingerprintLock: Boolean = false
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    @Inject
+    lateinit var analytics: PresentlyAnalytics
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -38,8 +42,6 @@ class AppLockFragment : Fragment() {
         fingerprintLock = sharedPref.getBoolean(FINGERPRINT, false)
         if (!fingerprintLock)
             moveToTimeline()
-
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
     }
 
     override fun onResume() {
@@ -64,13 +66,13 @@ class AppLockFragment : Fragment() {
                         when (errorCode) {
                             BiometricConstants.ERROR_NEGATIVE_BUTTON,
                             BiometricConstants.ERROR_USER_CANCELED -> {
-                                firebaseAnalytics.logEvent(BIOMETRICS_USER_CANCELLED, null)
+                                analytics.recordEvent(BIOMETRICS_USER_CANCELLED)
                                 requireActivity().finish()
                             }
                             // Occurs after a few failures,
                             // and blocks us from showing the biometric prompt for a few seconds
                             BiometricConstants.ERROR_LOCKOUT -> {
-                                firebaseAnalytics.logEvent(BIOMETRICS_LOCKOUT, null)
+                                analytics.recordEvent(BIOMETRICS_LOCKOUT)
                                 Toast.makeText(context, R.string.fingerprint_error_lockout_too_many, Toast.LENGTH_SHORT).show()
                                 requireActivity().finish()
                             }
@@ -84,7 +86,7 @@ class AppLockFragment : Fragment() {
                             BiometricConstants.ERROR_CANCELED -> {
                                 //happens when the sensor is not available
                                 //(happens onPause as well)
-                                firebaseAnalytics.logEvent(BIOMETRICS_CANCELLED, null)
+                                analytics.recordEvent(BIOMETRICS_CANCELLED)
                             }
                             BiometricConstants.ERROR_NO_BIOMETRICS,
                             BiometricConstants.ERROR_NO_DEVICE_CREDENTIAL -> {

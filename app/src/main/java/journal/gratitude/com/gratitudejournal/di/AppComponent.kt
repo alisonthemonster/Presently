@@ -17,6 +17,7 @@ import javax.inject.Singleton
         AnalyticsModule::class,
         AndroidSupportInjectionModule::class,
         ApplicationModule::class,
+        AppLockModule::class,
         CelebrateDialogModule::class,
         CloudUploadModule::class,
         EntryModule::class,
