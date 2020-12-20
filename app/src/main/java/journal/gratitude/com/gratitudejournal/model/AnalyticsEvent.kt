@@ -49,6 +49,7 @@ const val COPIED_QUOTE = "copiedQuote"
 
 //SEARCH EVENTS
 const val CLICKED_SEARCH_ITEM = "clickedSearchItem"
+const val SEARCHING = "searchQueried"
 
 //DIALOG EVENTS
 const val CLICKED_RATE = "clickedRate"

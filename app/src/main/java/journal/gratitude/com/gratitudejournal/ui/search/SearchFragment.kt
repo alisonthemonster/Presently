@@ -20,13 +20,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionInflater
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.jakewharton.rxbinding2.widget.RxTextView
+import com.presently.analytics.PresentlyAnalytics
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH_ITEM
+import journal.gratitude.com.gratitudejournal.model.SEARCHING
 import journal.gratitude.com.gratitudejournal.util.setStatusBarColorsForBackground
 import kotlinx.android.synthetic.main.search_fragment.*
 import org.threeten.bp.LocalDate
@@ -39,9 +40,11 @@ class SearchFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    lateinit var analytics: PresentlyAnalytics
+
     private val viewModel by viewModels<SearchViewModel> { viewModelFactory }
     private lateinit var binding: SearchFragmentBinding
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private val disposables = CompositeDisposable()
 
@@ -67,17 +70,13 @@ class SearchFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
-
         val obs = RxTextView.textChanges(search_text)
             .debounce(300, TimeUnit.MILLISECONDS)
             .filter { charSequence -> charSequence.isNotBlank() }
             .map<Any> { charSequence -> charSequence.toString() }
             .subscribe {
-                val bundle = Bundle()
-                bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, it as String)
-                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
-                search(it)
+                analytics.recordEvent(SEARCHING)
+                search(it as String)
             }
         disposables.add(obs)
 
@@ -104,7 +103,7 @@ class SearchFragment : DaggerFragment() {
             override fun onClick(
                 clickedDate: LocalDate
             ) {
-                firebaseAnalytics.logEvent(CLICKED_SEARCH_ITEM, null)
+                analytics.recordEvent(CLICKED_SEARCH_ITEM)
 
                 val navController = findNavController()
                 if (navController.currentDestination?.id == R.id.searchFragment) {
