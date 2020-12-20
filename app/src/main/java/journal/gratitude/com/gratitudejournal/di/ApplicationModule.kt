@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.di
 
+import android.app.Application
 import android.content.Context
+import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -28,6 +30,13 @@ object ApplicationModule {
     @Provides
     fun provideDatabase(context: Context): EntryDatabase {
         return EntryDatabase.getDatabase(context)
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideFirebaseAnalytics(application: Application): FirebaseAnalytics {
+        return FirebaseAnalytics.getInstance(application)
     }
 
 }

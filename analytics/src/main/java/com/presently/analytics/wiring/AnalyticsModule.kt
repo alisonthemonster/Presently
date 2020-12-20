@@ -1,7 +1,8 @@
 package com.presently.analytics.wiring
 
 import android.app.Application
-import com.presently.analytics.CountlyAnalytics
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.presently.analytics.RealPresentlyAnalytics
 import com.presently.analytics.PresentlyAnalytics
 import dagger.Binds
 import dagger.Module
@@ -26,6 +27,7 @@ object AnalyticsModule {
         return Countly.sharedInstance()
             .init(config)
     }
+
 }
 
 @Module
@@ -33,5 +35,5 @@ abstract class AnalyticsModuleBinds {
 
     @Singleton
     @Binds
-    abstract fun bindAnalytics(repo: CountlyAnalytics): PresentlyAnalytics
+    abstract fun bindAnalytics(repo: RealPresentlyAnalytics): PresentlyAnalytics
 }
