@@ -14,6 +14,7 @@ import com.google.android.gms.common.GoogleApiAvailability
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FINGERPRINT
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.THEME_PREF
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
+import ly.count.android.sdk.Countly
 import java.util.*
 
 class ContainerActivity : AppCompatActivity() {
@@ -57,6 +58,8 @@ class ContainerActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        Countly.sharedInstance().onStart(this)
+
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val fingerprintLock = sharedPref.getBoolean(FINGERPRINT, false)
         if (fingerprintLock) {
@@ -86,6 +89,11 @@ class ContainerActivity : AppCompatActivity() {
             val date = Date(System.currentTimeMillis())
             sharedPref.edit().putLong("last_destroy_time", date.time).apply()
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Countly.sharedInstance().onStop()
     }
 
     private fun createNotificationChannel() {

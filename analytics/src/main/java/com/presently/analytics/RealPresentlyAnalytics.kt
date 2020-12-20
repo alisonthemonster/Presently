@@ -23,4 +23,5 @@ class CountlyAnalytics @Inject constructor(private val countly: Countly) : Prese
     override fun recordView(viewName: String) {
         countly.views().recordView(viewName)
     }
+
 }

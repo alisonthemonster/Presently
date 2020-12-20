@@ -20,7 +20,7 @@ object AnalyticsModule {
     @Provides
     fun provideCountly(application: Application): Countly {
         val appKey = BuildConfig.COUNTLY_APP_KEY
-        val serverUrl = "http://blah.com"
+        val serverUrl = "http://104.236.20.250"
         val config = CountlyConfig(application, appKey, serverUrl)
         config.setLoggingEnabled(true)
         return Countly.sharedInstance()
