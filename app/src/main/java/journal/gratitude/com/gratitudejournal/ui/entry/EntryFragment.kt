@@ -28,7 +28,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.preference.PreferenceManager
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.presently.analytics.PresentlyAnalytics
 import dagger.android.support.DaggerFragment
@@ -136,9 +135,6 @@ class EntryFragment : DaggerFragment() {
             val numEntries = args.numEntries
             val isNewEntry = args.isNewEntry
             if (isNewEntry) {
-                val bundle = Bundle()
-                bundle.putInt(FirebaseAnalytics.Param.LEVEL, (numEntries + 1))
-
                 val analyticsDetails = mapOf("numEntries" to (numEntries + 1))
                 analytics.recordEvent(ADDED_NEW_ENTRY, analyticsDetails)
                 if (milestones.contains(numEntries + 1)) {

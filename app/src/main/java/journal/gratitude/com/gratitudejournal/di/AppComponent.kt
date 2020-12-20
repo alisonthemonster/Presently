@@ -14,15 +14,17 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        ApplicationModule::class,
         AnalyticsModule::class,
-        TimelineModule::class,
+        AndroidSupportInjectionModule::class,
+        ApplicationModule::class,
+        CelebrateDialogModule::class,
+        CloudUploadModule::class,
         EntryModule::class,
         SearchModule::class,
         SettingsModule::class,
-        CloudUploadModule::class,
-        WorkerModule::class,
-        AndroidSupportInjectionModule::class
+        ThemeModule::class,
+        TimelineModule::class,
+        WorkerModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<GratitudeApplication> {

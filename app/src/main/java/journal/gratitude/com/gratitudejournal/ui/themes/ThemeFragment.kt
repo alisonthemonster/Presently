@@ -9,36 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.presently.analytics.PresentlyAnalytics
+import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.model.THEME
+import journal.gratitude.com.gratitudejournal.model.SELECT_THEME
 import journal.gratitude.com.gratitudejournal.model.Theme
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.THEME_PREF
 import kotlinx.android.synthetic.main.fragment_theme.*
+import javax.inject.Inject
 
+class ThemeFragment : DaggerFragment() {
 
-class ThemeFragment : Fragment() {
-
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
-    private var listener = object : OnThemeSelectedListener {
-        override fun onThemeSelected(theme: String) {
-            PreferenceManager.getDefaultSharedPreferences(activity)
-                .edit()
-                .putString(THEME_PREF, theme)
-                .apply()
-            val bundle = Bundle()
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, theme)
-            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, theme)
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "theme")
-            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-            firebaseAnalytics.setUserProperty(THEME, theme)
-            findNavController().navigateUp()
-            activity?.recreate()
-        }
-    }
-
-    private val adapter = ThemeListAdapter(listener)
+    @Inject
+    lateinit var analytics: PresentlyAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,8 +33,6 @@ class ThemeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
 
         val themeList: List<Theme> = listOf(
             Theme(
@@ -308,6 +289,18 @@ class ThemeFragment : Fragment() {
             )
         )
 
+        val adapter = ThemeListAdapter(object : OnThemeSelectedListener {
+            override fun onThemeSelected(theme: String) {
+                PreferenceManager.getDefaultSharedPreferences(activity)
+                    .edit()
+                    .putString(THEME_PREF, theme)
+                    .apply()
+                val analyticsDetails= mapOf("theme" to theme)
+                analytics.recordEvent(SELECT_THEME, analyticsDetails)
+                findNavController().navigateUp()
+                activity?.recreate()
+            }
+        })
         adapter.addData(themeList)
         // Set the adapter
         themes.layoutManager = GridLayoutManager(context, 3)
