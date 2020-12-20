@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.presently.analytics.PresentlyAnalytics
 import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.model.SEARCH_SCREEN
 import journal.gratitude.com.gratitudejournal.model.SELECT_THEME
+import journal.gratitude.com.gratitudejournal.model.THEME_SCREEN
 import journal.gratitude.com.gratitudejournal.model.Theme
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.THEME_PREF
 import kotlinx.android.synthetic.main.fragment_theme.*
@@ -309,6 +311,11 @@ class ThemeFragment : DaggerFragment() {
         back_icon.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        analytics.recordView(THEME_SCREEN)
     }
 
     interface OnThemeSelectedListener {

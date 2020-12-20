@@ -88,6 +88,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
         setStatusBarColorsForBackground(window, typedValue.data)
     }
 
+    override fun onStart() {
+        super.onStart()
+        analytics.recordView(SETTINGS_SCREEN)
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         setPreferencesFromResource(R.xml.preferences, rootKey)

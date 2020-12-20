@@ -200,6 +200,11 @@ class TimelineFragment : DaggerFragment() {
         setStatusBarColorsForBackground(window, typedValue.data)
     }
 
+    override fun onStart() {
+        super.onStart()
+        analytics.recordView(TIMELINE_SCREEN)
+    }
+
     private fun navigateToDate(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int) {
         val directions = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
             clickedDate.toString(),

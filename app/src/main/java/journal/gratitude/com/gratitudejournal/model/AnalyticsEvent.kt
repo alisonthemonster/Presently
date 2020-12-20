@@ -5,15 +5,18 @@ const val LOOKED_FOR_DATA = "lookedForData"
 const val IMPORTED_DATA_SUCCESS = "importedData"
 const val IMPORTING_BACKUP_ERROR = "importedDataError"
 
+//TIMELINE EVENTS
+const val TIMELINE_SCREEN = "Timeline"
 const val CLICKED_SEARCH = "clickedSearch"
 const val CLICKED_NEW_ENTRY = "clickedNewEntry"
 const val CLICKED_EXISTING_ENTRY = "clickedExistingEntry"
-
 const val OPENED_CALENDAR = "clickedCalendar"
 const val CLICKED_NEW_ENTRY_CALENDAR = "clickedNewEntryFromCal"
 const val CLICKED_EXISTING_ENTRY_CALENDAR = "clickedExistingEntryFromCal"
 
 //SETTINGS EVENTS
+const val SETTINGS_SCREEN = "Settings"
+const val THEME_SCREEN = "Themes"
 const val LOOKED_AT_SETTINGS = "lookedAtSettings"
 const val OPENED_CONTACT_FORM = "openedContactForm"
 const val OPENED_PRIVACY_POLICY = "openedPrivacyPolicy"
@@ -38,6 +41,7 @@ const val BIOMETRICS_CANCELLED = "biometricsScanCancelled"
 const val BIOMETRICS_LOCKOUT = "biometricsLockout"
 
 //ENTRY EVENTS
+const val ENTRY_SCREEN = "Entry"
 const val SHARED_ENTRY = "sharedEntry"
 const val CLICKED_PROMPT = "clickedNewPrompt"
 const val EDITED_EXISTING_ENTRY = "editedExistingEntry"
@@ -45,6 +49,7 @@ const val ADDED_NEW_ENTRY = "addedNewEntry"
 const val COPIED_QUOTE = "copiedQuote"
 
 //SEARCH EVENTS
+const val SEARCH_SCREEN = "Search"
 const val CLICKED_SEARCH_ITEM = "clickedSearchItem"
 const val SEARCHING = "searchQueried"
 

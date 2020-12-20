@@ -28,6 +28,8 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH_ITEM
 import journal.gratitude.com.gratitudejournal.model.SEARCHING
+import journal.gratitude.com.gratitudejournal.model.SEARCH_SCREEN
+import journal.gratitude.com.gratitudejournal.model.TIMELINE_SCREEN
 import journal.gratitude.com.gratitudejournal.util.setStatusBarColorsForBackground
 import kotlinx.android.synthetic.main.search_fragment.*
 import org.threeten.bp.LocalDate
@@ -134,6 +136,11 @@ class SearchFragment : DaggerFragment() {
         setStatusBarColorsForBackground(window, typedValue.data)
         window.statusBarColor = typedValue.data
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        analytics.recordView(SEARCH_SCREEN)
     }
 
     override fun onDestroyView() {

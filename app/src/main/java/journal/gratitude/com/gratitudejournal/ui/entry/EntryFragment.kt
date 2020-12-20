@@ -184,6 +184,11 @@ class EntryFragment : DaggerFragment() {
         compositeDisposable.add(disposable)
     }
 
+    override fun onStart() {
+        super.onStart()
+        analytics.recordView(ENTRY_SCREEN)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if (!compositeDisposable.isDisposed) {
