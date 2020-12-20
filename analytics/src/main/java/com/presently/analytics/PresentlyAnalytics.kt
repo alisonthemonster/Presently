@@ -6,10 +6,6 @@ interface PresentlyAnalytics {
 
     fun recordEvent(event: String, details: Map<String, Any>)
 
-    fun recordEvent(event: String, count: Int)
-
-    fun recordEvent(event: String, count: Int, sum: Double)
-
     fun recordView(viewName: String)
 
 }

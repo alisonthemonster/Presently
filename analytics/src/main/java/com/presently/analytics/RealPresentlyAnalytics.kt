@@ -17,16 +17,6 @@ class RealPresentlyAnalytics @Inject constructor(private val countly: Countly, p
         firebase.logEvent(event, bundle)
     }
 
-    override fun recordEvent(event: String, count: Int) {
-        countly.events().recordEvent(event, count)
-        firebase.logEvent(event, null)
-    }
-
-    override fun recordEvent(event: String, count: Int, sum: Double) {
-        countly.events().recordEvent(event, count, sum)
-        firebase.logEvent(event, null)
-    }
-
     override fun recordView(viewName: String) {
         countly.views().recordView(viewName)
     }
