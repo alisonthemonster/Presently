@@ -8,9 +8,9 @@ A journal to write what you're thankful for. Contributions welcome!
 ### Philosophy 
 Presently is built on the idea that gratitude journaling should be free, private, and available to all. It will never have ads, never have a premium version, and will always be open source. Entries are kept on device and can be exported to CSV.
 
-Presently is also built with the best Android practices in mind. It follows MVVM to separate concerns and ensure we write testable code. We require 85%+ code coverage and rely on both unit tests and instrumented tests (with a heavier weight towards unit tests). Instrumented tests are run on Firebase Test Lab, crashes are reported through Crashlytics, and analytics are reported with Firebase Analytics. 
+Presently is also built with the best Android practices in mind. It follows MVVM to separate concerns and ensure we write testable code. We require 80%+ code coverage and rely on both unit tests and instrumented tests (with a heavier weight towards unit tests). Instrumented tests are run on Firebase Test Lab, crashes are reported through Crashlytics, and analytics are reported with Firebase Analytics.
 
-We support several languages currently and are always looking for translators to help us! We support French, Spanish, Italian, German, Finnish, Arabic, Dutch, Polish, Portuguese, Slovakian, Croatian, Romanian, and Russian.
+We support several languages currently and are always looking for translators to help us! We support French, Spanish, Italian, German, Finnish, Arabic, Dutch, Polish, Portuguese, Slovakian, Croatian, Romanian, Turkish, and Russian.
 
 ### Tech Stack [So far...]
 - MVVM with architecture components
