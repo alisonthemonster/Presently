@@ -27,9 +27,12 @@ def fileFilter = ['**/R.class',
                   '**/backups/UploadToCloudWorker*',
                   '**/*Binding*.*',
                   '**/*adapter*.*',
+                  '**/wiring/*.*',
                   '**/*Activity*.*',
                   '**/AppLockFragment*',
                   '**/TimelineFragment*',
+                  '**/RealFirebaseAnalytics*',
+                  '**/RealCountlyAnalytics*',
                   '**/calendar/*.*',]
 
 task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
