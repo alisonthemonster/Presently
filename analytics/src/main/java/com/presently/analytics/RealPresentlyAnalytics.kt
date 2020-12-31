@@ -22,3 +22,8 @@ class RealPresentlyAnalytics @Inject constructor(private val countly: Countly, p
     }
 
 }
+
+
+fun testingCodeCoverage(): Int {
+    return 2 + 2
+}
