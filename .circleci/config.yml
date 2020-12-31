@@ -89,17 +89,11 @@ jobs:
       - run:
           name: Generate JaCoCo report
           command: ./gradlew -PciBuild=true jacocoTestReport
-      - run:
-          name: Where are we?
-          command: pwd
-      - run:
-          name: Whats here?
-          command: ls
       - store_artifacts:
-          path: /presently/app/build/reports/
+          path: /build/reports/
           destination: /reports/
       - store_test_results:
-          path: presently/analytics/build/reports/
+          path: /build/test-results/
 
 
   test_instrumented:
