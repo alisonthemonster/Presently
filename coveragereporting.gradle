@@ -78,7 +78,7 @@ tasks.withType(Test) {
 }
 
 def printReport(task) {
-    def report = file("$buildDir/reports/${task}/${task}.xml")
+    def report = file("$buildDir/reports/jacoco/${task}/${task}.xml")
     logger.lifecycle("Checking reports from ${report}")
 
     def parser = new XmlParser()
