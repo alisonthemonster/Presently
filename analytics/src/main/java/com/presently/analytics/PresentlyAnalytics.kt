@@ -8,5 +8,7 @@ interface PresentlyAnalytics {
 
     fun recordView(viewName: String)
 
+    fun optOutOfAnalytics()
+
 }
 

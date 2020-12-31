@@ -1,29 +1,33 @@
 package com.presently.analytics
 
 import android.os.Bundle
-import com.google.firebase.analytics.FirebaseAnalytics
-import ly.count.android.sdk.Countly
 import javax.inject.Inject
 
-class RealPresentlyAnalytics @Inject constructor(private val countly: Countly, private val firebase: FirebaseAnalytics) : PresentlyAnalytics {
+class RealPresentlyAnalytics @Inject constructor(private val countly: CountlyAnalytics, private val firebase: com.presently.analytics.FirebaseAnalytics) : PresentlyAnalytics {
     override fun recordEvent(event: String) {
-        countly.events().recordEvent(event)
-        firebase.logEvent(event, null)
+        countly.recordEvent(event)
+        firebase.logEvent(event)
     }
 
     override fun recordEvent(event: String, details: Map<String, Any>) {
-        countly.events().recordEvent(event, details)
+        countly.recordEvent(event, details)
         val bundle = Bundle()
+        for (item in details) {
+            when (item.value) {
+                is String -> bundle.putString(item.key, item.value as String)
+                is Int -> bundle.putInt(item.key, item.value as Int)
+            }
+        }
         firebase.logEvent(event, bundle)
     }
 
     override fun recordView(viewName: String) {
-        countly.views().recordView(viewName)
+        countly.recordView(viewName)
     }
 
-}
+    override fun optOutOfAnalytics() {
+        countly.removeConsentAll()
+        //TODO persist this in shared preferences
+    }
 
-
-fun testingCodeCoverage(): Int {
-    return 2 + 2
 }

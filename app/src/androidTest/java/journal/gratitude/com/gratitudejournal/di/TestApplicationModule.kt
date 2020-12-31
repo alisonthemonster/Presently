@@ -25,6 +25,7 @@ class TestApplicationModule {
 
             override fun recordView(viewName: String) = Unit
 
+            override fun optOutOfAnalytics()  = Unit
         }
     }
 

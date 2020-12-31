@@ -32,13 +32,6 @@ object ApplicationModule {
         return EntryDatabase.getDatabase(context)
     }
 
-    @JvmStatic
-    @Singleton
-    @Provides
-    fun provideFirebaseAnalytics(application: Application): FirebaseAnalytics {
-        return FirebaseAnalytics.getInstance(application)
-    }
-
 }
 
 @Module
