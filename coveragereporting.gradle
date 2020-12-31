@@ -33,7 +33,7 @@ def fileFilter = ['**/R.class',
                   '**/calendar/*.*',]
 
 task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
-    description = 'Generate JaCoCo coverage reports'
+    description = 'Generate JaCoCo coverage reports for CI'
     group = 'Reporting'
 
 

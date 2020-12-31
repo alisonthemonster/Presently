@@ -4,14 +4,7 @@ apply plugin: 'jacoco'
 
 jacoco {
     toolVersion = "0.8.2"
-    reportsDir = file("$buildDir/reports")
 }
-
-tasks.withType(Test) {
-    jacoco.includeNoLocationClasses = true
-    jacoco.excludes = ['jdk.internal.*']
-}
-
 
 // Excluded files
 def fileFilter = ['**/R.class',
@@ -28,23 +21,22 @@ def fileFilter = ['**/R.class',
                   '**/model/*.*',
                   '**/room/*.*',
                   '**/di/*.*',
+                  '**/dropbox/*.*',
                   '**/reminders/*.*',
                   '**/backups/Dropbox/*.*',
+                  '**/backups/UploadToCloudWorker*',
                   '**/*Binding*.*',
                   '**/*adapter*.*',
                   '**/*Activity*.*',
+                  '**/AppLockFragment*',
+                  '**/TimelineFragment*',
                   '**/calendar/*.*',]
 
 task testCoverage(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+    description = "Create jacoco coverage reports for the local builds"
     group = "Reporting"
-    description = "Create jacoco coverage reports for the Debug build"
 
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-
+    def mainSrc = android.sourceSets.main.java.srcDirs
     def debugTree = fileTree(
             dir: "$buildDir/intermediates/classes/debug",
             excludes: fileFilter
@@ -52,7 +44,6 @@ task testCoverage(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDe
             dir: "$buildDir/tmp/kotlin-classes/debug",
             excludes: fileFilter
     )
-    def mainSrc = android.sourceSets.main.java.srcDirs
     def testTree = fileTree(
             dir: "$buildDir",
             includes: ['jacoco/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/**/*.ec']
@@ -62,13 +53,31 @@ task testCoverage(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDe
     getClassDirectories().setFrom(debugTree)
     getExecutionData().setFrom(testTree)
 
+    doFirst {
+        files('build/intermediates/classes/debug').getFiles().each { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
+
     doLast {
         printReport("testCoverage")
     }
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
 }
 
 def printReport(task) {
-    def report = file("$buildDir/reports/${task}/${task}.xml")
+    def report = file("$buildDir/reports/jacoco/${task}/${task}.xml")
     logger.lifecycle("Checking reports from ${report}")
 
     def parser = new XmlParser()
@@ -103,7 +112,6 @@ def printReport(task) {
     def minTestCoverage = [
             'instruction': 80,
             'line'       : 80,
-            'complexity' : 60,
             'method'     : 80,
             'class'      : 80
     ]
