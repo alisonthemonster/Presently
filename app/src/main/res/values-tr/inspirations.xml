@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="inspirations">
+        <item>\"Her şeye sahip olmanın sırrı zaten sahip olduklarını bilmektir\" \nAnonim</item>
+        <item>\"Minnettar olma yeteneğine sahip olanlar, azamete ulaşma yeteneğine sahip olanlardır\" \nSteve Maraboli</item>
+        <item>\"Hayatımızda fark yaratan insanlara durup teşekkür edecek zamanı bulmalıyız\" \nJohn F Kennedy</item>
+        <item>\"Bugün harika bir gün. Bu günü daha önce hiç görmedim\" \nMaya Angelou</item>
+        <item>\"Başkasının bulutundaki gökkuşağı ol\" \nMaya Angelou</item>
+        <item>\"Minnettarlığımıza odaklandığımızda, hayal kırıklığı dalgasından kurtulur ve aşk dalgasıyla kaplanırız. \" \nKristin Armstrong</item>
+        <item>\"Bizi mutlu eden insanlara minnettar olalım\" \nMarcel Proust</item>
+        <item>\"Çok sayıda küçük zevk mutluluğu oluşturur\" \nCharles Baudelaire</item>
+        <item>\"Minnettarlık kalbin hafızasıdır\" \nJean Baptiste Massieu</item>
+        <item>\"Hayatımın tüm büyük nimetleri bugün düşüncelerimde mevcut\" \nPhoebe Cary</item>
+        <item>\"Hayatını daha çok över ve kutlarsan, daha çok övecek ve kutlayacak şey çıkar karşına\" \nOprah Winfrey</item>
+        <item>\"Sahip oldukların için minnet duy; böylece daha fazlasına sahip olacaksın.\" \nOprah Winfrey</item>
+        <item>\"Sadece kalplerimizin hazinelerinin bilincinde olduğu anlarda yaşadığımız söylenebilir.\" \nThornton Wilder</item>
+        <item>\"Beklentilerini, minnettarlıklarına değiştirdiğin an tüm dünyan değişir\" \nTony Robbins</item>
+        <item>\"Kendini bil ki kendini geliştirebilesin\" \nAuguste Compte</item>
+        <item>\"Gayet pozitif bir düşünce her şeyi değiştirdi\" \nAvantik</item>
+        <item>\"Minnettarlık, gözlerini evrenin sınırsız potansiyeline açar\" \nStephen Richards</item>
+        <item>\"Küçük şeylerin tadını çıkar, çünkü bir gün geriye dönüp baktığında bunların büyük şeyler olduğunu fark edebilirsin.\" \nRobert Brault</item>
+        <item>\"Her insanın biraz sahip olduğu geçmiş talihsizliklerin değil, her insanın bolca sahip olduğu mevcut nimetlerin üzerine düşün.\" \nCharles Dickens</item>
+        <item>\"Hayatında zaten sahip olduğun iyiliği kabul etmek, tüm bolluğun temelidir.\" \nEckhart Tolle</item>
+        <item>\"Minnettarlık, kendi kendimize basabileceğimiz ve iflas korkusu olmadan harcayabileceğimiz bir para birimidir.\" \nFred De Witt Van Amburgh</item>
+        <item>\"Sahip olmadıkları için üzülmek yerine sahip oldukları için sevinen insan bilgedir.\" \nEpictetus</item>
+        <item>\"Nimetlerimi saymaya başladığımda tüm hayatım düzene oturdu\" \nWillie Nelson</item>
+        <item>\"Ne kadar minnettar olursam o kadar güzellik görüyorum\" \nMary Davis</item>
+        <item>\"Minnettarlıkla yaşanan bir hayata sakinlik ve sessiz bir neşe var.\" \nRalph H. Blum</item>
+        <item>\"Neşenin kökü minnettarlıktır\" \nDavid Steindl-Rast</item>
+        <item>\"Minnettarlık, asil ruhların işaretidir\" \nEzop</item>
+        <item>\"Minnettar olduğunda korku kaybolur ve bolluk ortaya çıkar\" \nAnthony Robbins</item>
+        <item>\"Tüm sanatların özü minnettarlıktır.\" \nFriedrich Nietzsche</item>
+        <item>\"Minnettarlığı bir pelerin gibi giyersen hayatınızın her köşesini besleyecek\" \nMevlana</item>
+        <item>\"Hayatında ettiğin tek dua \'Teşekkür ederim\' olsa yeterlı olur\" \nMeister Eckhart</item>
+        <item>\"Minnettarlık, sahip olduğumuz şeyi yeterli hale getirir\" \nMelody Beattie</item>
+        <item>\"Küçük şeyler için minnet duyarsan çok şey bulacaksın\" \nHausa Atasözü</item>
+        <item>\"Sadece bir kez yaşarsın, ama doğru yaşarsan bir kez yeter\" \nMae West</item>
+        <item>\"Hayat söz konusu olduğunda en önemli şey, bir şeyleri hafife almak ya da minnet duymaktır\" \nG. K. Chesterton</item>
+        <item>\"Minnettarlığı hissetmek ve bunu ifade etmemek, bir hediyeyi paketleyip vermemek gibidir\" \nWilliam Arthur Ward</item>
+        <item>\"Hayatını yaşamanın sadece iki yolu var. Biri sanki hiçbir şey mucize değilmiş gibi. Diğeri ise her şey bir mucize gibi.\" \nAlbert Einstein</item>
+        <item>\"Minnettarlık, hafıza sancılarını sakin bir neşeye dönüştürür\" \nDietrich Bonhoeffer</item>
+        <item>\"Minnettarlık zenginliktir. Şikayet yoksulluktur.\" \nDoris Day</item>
+        <item>\"Minnettarlık, hafıza akılda değil kalpte saklandığında ortaya çıkar\" \nLionel Hampton</item>
+        <item>\"Minnettarlıkla yükselelim ve bizi kaplamasına izin verelim\" \nGrace Gealey</item>
+        <item>\"Sessiz minnetin kimseye pek bir anlamı yoktur\" \nGertrude Stein</item>
+        <item>\"Dünyayı minnet şarkılarınla doldur\" \nCharles Spurgeon</item>
+        <item>\"Hiçbir iyiliği çok erken yapamazsın, çünkü ne zaman çok geç olacağını asla bilemezsin\" \nRalph Waldo Emerson</item>
+        <item>\"Başarıya ulaşan hiç kimse başkalarının yardımı olmadan başaramaz, bilge ve kendine güvenen insan ise bu yardımı minnettarlıkla kabul eder.\" \nAlfred North Whitehead</item>
+        <item>\"İyiyi bul ve yücelt\" \nAlex Haley</item>
+        <item>\"Sürpriz, minnettarlığın tohumudur. Sürprizlerden haberdar ol\" \nDavid Steindl-Rast</item>
+        <item>\"Minnettarlık merakla ikiye katlanan mutluluktur\" \nG. K. Chesterton</item>
+        <item>\"Minnettarlık ruhtan doğan en güzel çiçektir\" \nHenry Ward Beecher</item>
+        <item>\"Bizi minnettar kılan şey mutluluk değildir. Bizi mutlu eden şey minnettarlıktır.\" \nDavid Steindl-Rast</item>
+        <item>\"Bolluk, edindiğimiz bir şey değildir. Kendimizi sahip olduklarımıza odakladığımızda ortaya çıkan bir şeydir\" \nWayne W Dyer</item>
+        <item>\"Minnettarlık göstermek, insanların birbirleri için yapabileceği en basit ama en güçlü şeylerden biridir\" \nRandy Pausch</item>
+        <item>\"Sen olmasaydın belki de hiç görülmemiş olabilecek şeyi görünür kıl\" \nRobert Bresson</item>
+        <item>\"İyiye odaklandığın zaman iyi, daha iyi olur\" \nAbraham Hicks</item>
+        <item>\"Refah içinde cömert, zorluk içinde minnettar ol\" \nBahá’u’lláh</item>
+        <item>\"Minnettarlık hissedilmezse bir hiçtir\" \nJamie Varon</item>
+        <item>\"Kendinliğin kuyusundan iç ve yeniden başla\" \nCharles Bukowski</item>
+        <item>\"Kırılmışlık karşısında minnettarlığın iyileştirme gücü vardır. Umutsuzluk karşısında minnettarlığın umut getirme gücü vardır.\" \nRobert A Emmons</item>
+        <item>\"Minnettarlık sadece erdemlerin en büyüğü değil, aynı zamanda diğer erdemlerin de ebeveynidir\" \nMarcus Tullius Cicero</item>
+        <item>\"Her şeyin kıymetini bil\" \nJohn Berger</item>
+        <item>\"Yaşadığın sürece önünde daha fazlası var\" \nMorgan Harper Nichols</item>
+        <item>\"Kalbimi iyileştiren şeyleri yapmak için gereken zamana değerim\" \nMorgan Harper Nichols</item>
+        <item>\"Kalbin hala atıyor ve hala iyileşmek için yer var\" \nMorgan Harper Nichols</item>
+        <item>\"Karşılaştırma yerine kutlamayı seç\" \nMorgan Harper Nichols</item>
+        <item>\"Ayağınla dünyayı öpüyormuşsun gibi yürü.\" \nThich Nhat Hanh</item>
+        <item>\"Kendime karşı iyi davranmıyorsam, başka birinin bana iyi davranmasını nasıl bekleyebilirim?\" \nMaya Angelou</item>
+        <item>\"Ne olursa olsun ya da bugün ne kadar kötü görünürse görünsün, hayat devam ediyor ve yarın daha iyi olacak\" \nMaya Angelou</item>
+        <item>\"Çok fazla şeyden mahrum bırakıldıysam da, çok, çok daha fazla şey bana verildi\" \nHelen Keller</item>
+        <item>\"Aşk korkuyu ortadan kaldırır ve minnettarlık gururu yenebilir\" \nLouisa May Alcott</item>
+        <item>\"Her yeni günü minnettarlık, umut ve sevgi ile kucakla\" \nLailah Gifty Akita</item>
+        <item>\"Sahip olmayı istediğin şeylerin sahip olduğun şeyleri unutturmasına asla izin verme\" \nSanchita Pandey</item>
+        <item>\"Genelde, daha iyi olabilecek olan şey daha kötü de olabilir\" \nMokokoma Mokhonoana</item>
+        <item>\"Şükreden ruh her şeyde huzur bulabilir\" \nHannah Whitall Smith</item>
+        <item>\"Basit yaşamak sevmeyi basitleştirir\" \nbell hooks</item>
+        <item>\"Aşk bir eylemdir, asla sadece bir duygu değildir\" \nbell hooks</item>
+        <item>\"Karanlıkta da ışık vardır, sadece bulman gerek\" \nbell hooks</item>
+        <item>\"Duygularımız, bizi bilgiye ulaştıran en gerçek yollarımızdır\" \nAudre Lorde</item>
+        <item>\"Sonuçta, düşündüğümüzden çok daha fazlasına dayanabiliriz\" \nFrida Kahlo</item>
+        <item>\"Mutluluk, hazır bulunan bir şey değildir. Kendi eylemlerinden gelir\" \nDalai Lama XIV</item>
+        <item>\"Kendi kendimizle barışmadıkça dış dünyayla huzuru asla sağlayamayız\" \nDalai Lama XIV</item>
+        <item>\"Acı kaçınılmazdır. Acı çekmek ise bir seçimdir\" \nHaruki Murakami</item>
+        <item>\"Sadece verdiklerimize sahibiz\" \nIsabel Allende</item>
+        <item>\"Unutulmaması gerekeni yaz\" \nIsabel Allende</item>
+        <item>\"Kendi hayat hikayenin anlatıcısı sensin ve kendi efsaneni ya yaratabilirsin ya da yaratamazsın.\" \nIsabel Allende</item>
+        <item>\"Şu anda senin ve benim varolduğumuzdan emin olmam yeterli\" \nGabriel García Márquez</item>
+        <item>\"Her zaman geriye sevecek bir şey kalır\" \nGabriel García Márquez</item>
+        <item>\"Şükretmek için bir neden görmüyorsan, hata kendinde yatıyordur.\" \nTecumseh</item>
+        <item>\"Minnettarlık, karşılaştırmadan kurtulmanın yoludur.\" \nRobyn Conley Downs</item>
+        <item>\"İyimserlik, kullanımla güçlenen bir kastır\" \nRobin Roberts</item>
+        <item>\"Seni harekete geçireni yap. Sana dinginlik veren şeyi kucakla\" \nQ. Gibson</item>
+        <item>\"Sığ parçalarınla oturursan en derin dalgalarda hayatta kalmayı öğreneceksin\" \nQ. Gibson</item>
+        <item>\"Kendinle yakınlaş, her zaman kendine biraz daha yaklaşacak alan vardır\" \nQ. Gibson</item>
+        <item>\"Zihnim güzel bir yer, güzelce sularım ki başkaları da bahçemden beslensin\" \nQ. Gibson</item>
+        <item>\"Sen gökyüzüsün. Geriye kalan her şey havanın farklı halleri\" \nPema Chödrön</item>
+        <item>\"Artık olmadığım insanı, şu an olduğum insana yer açmak için geride bırakıyorum\" \nLalah Delia</item>
+        <item>\"İyileşme, yalnızca iyileşme sürecine teslim olursanız işe yarar\" \nLalah Delia</item>
+        <item>\"Mükemmelliğin yerine bütünlüğün peşinde koşmak ne kadar da özgürleştirici\" \nMorgan Harper Nichols</item>
+    </string-array>
+</resources>

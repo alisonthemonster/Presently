@@ -279,3 +279,26 @@ Practicați recunoștința cu această aplicație simplă, întotdeauna gratuit�
 În prezent vă permite să: ⁕Scrieți zilnic un motiv pentru care sunteți recunoscător ⁕ Reflectați asupra momentelor trecute în care ați fost recunoscător ⁕ Găsiți motivația prin citate și întrebări ajutătoare ⁕ Setați alarme zilnice pentru a continua practicarea recunoștinței ⁕ Deblocarea aplicației cu ajutorul amprentei digitale sau a ID-ului facial⁕ Faceți backup automat al datelor folosind Dropbox ⁕ Vă găsiți datele din trecut ⁕ Împărtășiți datele cu familia și prietenii ⁕ Exportați / importați datele ⁕ Schimbați temele și culorile preferate
 
 Presently este 100% gratuit și fără anunțuri. Toate informațiile rămân pe dispozitiv și sub controlul tău.
+
+## Turkish
+Presently: Minnettarlık günlüğü
+
+
+Gündelik hayatını ücretsiz ve özel minnettarlık günlüğü Presently ile kutla
+
+
+Bu basit, her zaman ücretsiz ve özel minnettarlık günlüğü uygulamasıyla minnettarlık alıştırması yapabilirsin.
+
+Presently şunları sağlar:
+⁕ Günlük minnettarlık yazılarını kaydet
+⁕ Geçmişteki minnettarlık anlarına geri dön
+⁕ Alıntılar ve yönlendirmeler yoluyla motivasyon bul
+⁕ Minnettarlık alıştırmasına devam etmek için günlük hatırlatıcılar ayarla
+⁕ Yazılarını parmak izi veya yüz kimliği ile kilitle
+⁕ Yazılarını otomatik olarak Dropbox'a yedekle
+⁕ Eski yazılarını ara
+⁕ Yazılarını ailen ve arkadaşlarınla paylaş
+⁕ Girişlerini içe / dışa aktar
+⁕ En sevdiğin renk şemasını kullan
+
+Presently %100 ücretsiz ve reklamsızdır. Tüm yazıların cihazında ve kontrolünde kalır.
