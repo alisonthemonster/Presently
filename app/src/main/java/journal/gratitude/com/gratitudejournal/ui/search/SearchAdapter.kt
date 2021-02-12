@@ -2,14 +2,14 @@ package journal.gratitude.com.gratitudejournal.ui.search
 
 import android.app.Activity
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates3.AdapterDelegatesManager
 import journal.gratitude.com.gratitudejournal.model.Entry
 import org.threeten.bp.LocalDate
 
-class SearchAdapter(activity: Activity, onClickListener: OnClickListener) : PagedListAdapter<Entry, RecyclerView.ViewHolder>(COMPARATOR) {
+class SearchAdapter(activity: Activity, onClickListener: OnClickListener) : PagingDataAdapter<Entry, RecyclerView.ViewHolder>(COMPARATOR) {
 
     private val delegatesManager = AdapterDelegatesManager<List<Entry>>()
 

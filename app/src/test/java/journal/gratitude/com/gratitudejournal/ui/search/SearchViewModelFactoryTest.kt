@@ -1,8 +1,6 @@
-package journal.gratitude.com.gratitudejournal.journal.gratitude.com.gratitudejournal.ui.search
+package journal.gratitude.com.gratitudejournal.ui.search
 
 import com.nhaarman.mockitokotlin2.mock
-import journal.gratitude.com.gratitudejournal.ui.search.SearchViewModel
-import journal.gratitude.com.gratitudejournal.ui.search.SearchViewModelFactory
 import junit.framework.TestCase
 import org.junit.Test
 
@@ -13,8 +11,7 @@ class SearchViewModelFactoryTest {
     @Test
     fun create_createsAViewModel() {
         val actual = factory.create(SearchViewModel::class.java)
-        val expected = SearchViewModel(mock())
 
-        TestCase.assertEquals(expected.noResults(), actual.noResults())
+        TestCase.assertTrue(actual is SearchViewModel)
     }
 }
