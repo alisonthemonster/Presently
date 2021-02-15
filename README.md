@@ -15,10 +15,10 @@ We support several languages currently and are always looking for translators to
 ### Tech Stack [So far...]
 - MVVM with architecture components
    - ViewModel
-   - Room (with FTS)
+   - Room (with FTS and Paging v3)
 - Navigation Component
 - CircleCI
-- Jacoco coverage reports (integrated with CI and Danger to report code coverage in PRs)
+- Jacoco coverage reports (integrated with CI)
 - Firebase Crashlytics Crash Reporting
 - Dagger
 - Espresso
