@@ -35,9 +35,13 @@ internal fun updateAppWidget(
     appWidgetId: Int
 ) {
     val widgetText = context.resources.getStringArray(R.array.inspirations).random()
+    val splitString = widgetText.split("\n")
+    val quote = splitString.first()
+    val author = splitString.last()
     // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.gratitude_quote_widget)
-    views.setTextViewText(R.id.quote_text, widgetText)
+    views.setTextViewText(R.id.quote_text, quote)
+    views.setTextViewText(R.id.author_text, author)
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
