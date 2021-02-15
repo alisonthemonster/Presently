@@ -74,6 +74,16 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_app_icon" />
+
+        <receiver android:name="com.presently.widget.GratitudeQuoteWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/gratitude_quote_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
