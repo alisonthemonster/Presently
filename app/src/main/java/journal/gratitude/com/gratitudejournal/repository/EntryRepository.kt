@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal.repository
 
 import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
+import androidx.paging.PagingData
 import journal.gratitude.com.gratitudejournal.model.Entry
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDate
@@ -20,5 +20,5 @@ interface EntryRepository {
 
     suspend fun addEntries(entries: List<Entry>)
 
-    fun searchEntries(query: String): LiveData<PagedList<Entry>>
+    fun searchEntries(query: String): Flow<PagingData<Entry>>
 }

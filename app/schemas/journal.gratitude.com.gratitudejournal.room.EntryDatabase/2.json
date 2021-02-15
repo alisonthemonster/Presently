@@ -52,12 +52,6 @@
         "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`entryDate` TEXT NOT NULL, `entryContent` TEXT NOT NULL, content=`entries`)",
         "fields": [
           {
-            "fieldPath": "rowId",
-            "columnName": "rowid",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
             "fieldPath": "entryDate",
             "columnName": "entryDate",
             "affinity": "TEXT",
@@ -83,7 +77,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"70d0d7e51ce9e8feb6e11bbd680ab192\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '70d0d7e51ce9e8feb6e11bbd680ab192')"
     ]
   }
 }

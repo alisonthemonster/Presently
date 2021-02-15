@@ -2,8 +2,7 @@ package journal.gratitude.com.gratitudejournal.repository
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
+import androidx.paging.*
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.room.EntryDao
 import kotlinx.coroutines.flow.Flow
@@ -47,16 +46,17 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         entryDao.insertEntries(entries)
     }
 
-    override fun searchEntries(query: String): LiveData<PagedList<Entry>> {
+    override fun searchEntries(query: String): Flow<PagingData<Entry>> {
         val escapedQuery = query.replace("\"", "")
         val wildcardQuery = String.format("*%s*", escapedQuery)
 
-        val pagedListConfig = PagedList.Config.Builder()
-            .setEnablePlaceholders(true)
-            .setInitialLoadSizeHint(PAGE_SIZE)
-            .setPageSize(PAGE_SIZE)
-            .build()
-        return LivePagedListBuilder(entryDao.searchAllEntries(wildcardQuery), pagedListConfig).build()
+        val searchAllEntries = entryDao.searchAllEntries(wildcardQuery)
+        return Pager(
+            PagingConfig(pageSize = PAGE_SIZE)
+        ) {
+            searchAllEntries
+        }.flow
+
     }
 
 }
