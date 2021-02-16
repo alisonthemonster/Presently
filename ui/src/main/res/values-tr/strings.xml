@@ -1,15 +1,4 @@
 <resources>
-    <!--  No need to translate these following strings  -->
-    <string name="app_name" translatable="false">Presently</string>
-    <string name="key_faq" translatable="false">faq</string>
-    <string name="key_share_app" translatable="false">share_app</string>
-    <string name="key_privacy_policy" translatable="false">privacy_policy</string>
-    <string name="key_terms_conditions" translatable="false">terms_conditions</string>
-    <string name="key_open_source" translatable="false">open_source</string>
-    <string name="key_version" translatable="false">version</string>
-
-    <!--  Begin translations from here down  -->
-
     <string name="random">Rastgele</string>
     <string name="what_are_you_thankful_for">Ne için minnettarsın?</string>
     <string name="what_were_you_thankful_for">Ne için minnettardın?</string>
@@ -108,4 +97,5 @@
     <string name="first_day_of_week_title">Haftanın ilk günü</string>
     <string name="share_milestone">%1$d günlük minnettarlık günlüğünü tamamladım! Presently uygulamasını kullanarak bana katıl. #PresentlyApp</string>
     <string name="share_app_text">Basit, her zaman ücretsiz ve kişisel minnettarlık günlüğü uygulamasıyla minnet duygunu geliştir</string>
+    <string name="quote_widget_name">Günün Sözü</string>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="what_are_you_thankful_for">Na čemu si zahvalna/zahvalan?</string>
     <string name="what_were_you_thankful_for">Na čemu si bila/bio zahvalna/zahvalan?</string>
     <string name="what_are_you_thankful_for_today">Na čemu si danas zahvalna/zahvalan?</string>
@@ -94,4 +95,5 @@
     <string name="share_milestone">Završio sam% 1$d dana dnevnika zahvalnosti! Pridružite mi se pomoću aplikacije Presently. #PresentlyApp</string>
     <string name="share_app_text">Vježbajte zahvalnost pomoću ove jednostavne, uvijek besplatne i privatne aplikacije za dnevnike zahvalnosti</string>
     <string name="random">slučajan</string>
+    <string name="quote_widget_name">Citat dana</string>
 </resources>

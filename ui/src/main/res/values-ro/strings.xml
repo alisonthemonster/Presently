@@ -1,14 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Presently</string>
-
-    <!-- Keys for Settings -->
-    <string name="key_faq" translatable="false">faq</string>
-    <string name="key_share_app" translatable="false">share_app</string>
-    <string name="key_privacy_policy" translatable="false">privacy_policy</string>
-    <string name="key_terms_conditions" translatable="false">terms_conditions</string>
-    <string name="key_open_source" translatable="false">open_source</string>
-    <string name="key_version" translatable="false">version</string>
-
+    <string name="random">Aleatoriu</string>
     <string name="what_are_you_thankful_for">Pentru ce ești recunoscător?</string>
     <string name="what_were_you_thankful_for">Pentru ce ai fost recunoscător?</string>
     <string name="what_are_you_thankful_for_today">Pentru ce ești recunoscător astăzi?</string>
@@ -105,4 +96,5 @@
     <string name="first_day_of_week_title">Prima zi a săptămânii</string>
     <string name="share_milestone">Am completat %1$d zile din jurnalul recunoștinței! Alătură-te mie folosind aplicația Presently. #PresentlyApp</string>
     <string name="share_app_text">Practică recunoștința cu această aplicație simplă, întotdeauna gratuită și privată de jurnal al recunoștinței</string>
+    <string name="quote_widget_name">Citatul zilei</string>
 </resources>

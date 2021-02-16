@@ -1,7 +1,6 @@
 <resources>
-    <!--  Begin translations from here down  -->
-
     <string name="random">Random</string>
+    <string name="quote_widget_name">Quote of the day</string>
     <string name="what_are_you_thankful_for">What are you grateful for?</string>
     <string name="what_were_you_thankful_for">What were you grateful for?</string>
     <string name="what_are_you_thankful_for_today">What are you grateful for today?</string>
