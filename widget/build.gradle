@@ -41,7 +41,11 @@ dependencies {
     implementation project(':ui')
 
     testImplementation 'junit:junit:4.+'
-    
+
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_version"
+    androidTestImplementation "com.google.truth:truth:1.1.2"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation "org.robolectric:robolectric:4.5.1"
+    androidTestImplementation "org.robolectric:shadows-multidex:4.5.1"
 }

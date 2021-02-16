@@ -4,7 +4,6 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.os.Bundle
-import android.widget.RemoteViews
 
 /**
  * A daily gratitude quote widget. It pulls gratitude quotes from our inspirations.xml resource file
@@ -40,43 +39,16 @@ internal fun updateAppWidget(
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int
 ) {
-    val quotes = context.resources.getStringArray(R.array.inspirations)
-    val shortStrings = mutableListOf<String>()
-    val mediumStrings =  mutableListOf<String>()
-    val longStrings =  mutableListOf<String>()
-    val veryLongStrings =  mutableListOf<String>()
-    for (quote in quotes) {
-        when (quote.length) {
-            in 1..70 -> {
-                shortStrings.add(quote)
-                mediumStrings.add(quote)
-                longStrings.add(quote)
-                veryLongStrings.add(quote)
-            }
-            in 70..90 -> {
-                mediumStrings.add(quote)
-                longStrings.add(quote)
-                veryLongStrings.add(quote)
-            }
-            in 90..150 -> {
-                longStrings.add(quote)
-                veryLongStrings.add(quote)
-            }
-            else -> veryLongStrings.add(quote)
-        }
-    }
 
     val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
     val minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
     val minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
-    val size = getViewSize(minWidth, minHeight)
+    val rows: Int = getCellsForSize(minHeight)
+    val columns: Int = getCellsForSize(minWidth)
+    val size = getViewSize(rows, columns)
 
-    val quoteString = when (size) {
-        WidgetSize.SMALL -> shortStrings.random()
-        WidgetSize.MEDIUM -> mediumStrings.random()
-        WidgetSize.LARGE -> longStrings.random()
-        WidgetSize.XLARGE -> veryLongStrings.random()
-    }
+    val quotes = context.resources.getStringArray(R.array.inspirations)
+    val quoteString = getQuotesForSize(quotes.toList(), size).random()
 
     val splitString = quoteString.split("\n")
     val quote = splitString.first()
@@ -88,37 +60,6 @@ internal fun updateAppWidget(
     remoteViews.setTextViewText(R.id.author_text, author)
 
     appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
-}
-
-/**
- * Returns the RemoteViews for the current widget size
- *
- * @param context Context
- * @param size The WidgetSize of the widget
- * @return RemoteView
- */
-internal fun getRemoteViewForSize(context: Context, size: WidgetSize): RemoteViews {
-    if (size == WidgetSize.SMALL) return RemoteViews(context.packageName, R.layout.small_quote)
-    if (size == WidgetSize.MEDIUM) return RemoteViews(context.packageName, R.layout.medium_quote)
-    if (size == WidgetSize.LARGE) return RemoteViews(context.packageName, R.layout.large_quote)
-    else return RemoteViews(context.packageName, R.layout.extra_large_quote)
-}
-
-internal fun getViewSize(minWidth: Int, minHeight: Int): WidgetSize  {
-    val rows: Int = getCellsForSize(minHeight)
-    val columns: Int = getCellsForSize(minWidth)
-    val area = rows * columns
-    if (rows == 1 && columns <= 3 || area <= 3) return WidgetSize.SMALL
-    if (rows == 1 && columns > 3 || area <= 4) return WidgetSize.MEDIUM
-    if (area <= 8) return WidgetSize.LARGE
-    else return WidgetSize.XLARGE
-}
-
-enum class WidgetSize {
-    SMALL,
-    MEDIUM,
-    LARGE,
-    XLARGE
 }
 
 /**
