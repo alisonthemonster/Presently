@@ -112,15 +112,12 @@ class SearchFragment : DaggerFragment() {
                 }
         }
 
-        search_text.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    dismissKeyboard()
-                    return true
-                }
-                return false
+        search_text.setOnEditorActionListener { _, actionId, _ ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_SEARCH -> { dismissKeyboard(); true }
+                else -> false
             }
-        })
+        }
 
         search_icon.setOnClickListener {
             dismissKeyboard()
@@ -143,7 +140,6 @@ class SearchFragment : DaggerFragment() {
         requireActivity().theme.resolveAttribute(R.attr.toolbarColor, typedValue, true)
         setStatusBarColorsForBackground(window, typedValue.data)
         window.statusBarColor = typedValue.data
-
     }
 
     private fun openKeyboard() {
@@ -156,6 +152,5 @@ class SearchFragment : DaggerFragment() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.hideSoftInputFromWindow(search_text.windowToken, 0)
     }
-
 
 }
