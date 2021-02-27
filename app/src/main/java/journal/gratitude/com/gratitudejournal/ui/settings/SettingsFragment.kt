@@ -278,7 +278,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 fireAnalyticsEventForCadence(cadence, firebaseAnalytics)
                 createDropboxUploaderWorker(cadence)
             }
-            APP_LANGUAGE -> { requireActivity().recreate() }
+            APP_LANGUAGE -> {
+                startActivity(Intent.makeRestartActivityTask(activity?.intent?.component))
+            }
         }
     }
 
