@@ -6,7 +6,7 @@ import org.threeten.bp.LocalDate
 data class EntryState(
     val date: LocalDate,
     val entryContent: String,
-    val hint: String,
+    val hint: String?,
     val quote: String,
     val hasUserEdits: Boolean,
     val promptNumber: Int,

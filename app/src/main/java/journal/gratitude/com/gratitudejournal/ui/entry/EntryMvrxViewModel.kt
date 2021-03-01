@@ -68,10 +68,9 @@ class EntryMvrxViewModel @AssistedInject constructor(
         override fun initialState(viewModelContext: ViewModelContext): EntryState {
             val passedInDate = LocalDate.now() // TODO is there a way get from fragment args?
             val prompts = viewModelContext.activity.resources.getStringArray(R.array.prompts)
+            prompts.shuffle() //randomise prompts
             val quote = viewModelContext.activity.resources.getStringArray(R.array.inspirations).random()
-            //TODO how to set this properly
-            val firstPrompt = viewModelContext.activity.resources.getString(R.string.what_are_you_thankful_for)
-            return EntryState(passedInDate, "", firstPrompt, quote, false, 0, prompts.toList())
+            return EntryState(passedInDate, "", null, quote, false, 0, prompts.toList())
         }
 
         override fun create(viewModelContext: ViewModelContext, state: EntryState): EntryMvrxViewModel {

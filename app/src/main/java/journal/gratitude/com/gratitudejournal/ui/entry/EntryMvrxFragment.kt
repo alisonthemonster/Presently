@@ -148,10 +148,18 @@ class EntryMvrxFragment : Fragment(R.layout.entry_mvrx_fragment), MavericksView 
             }
         }
         inspiration.text = state.quote
-        entry_text.hint = state.hint
+        entry_text.hint = state.hint ?: getHintString(state.date)
         setEditText(state.entryContent)
         share_button.visibility = if (state.isEmpty) View.GONE else View.VISIBLE
         prompt_button.visibility = if (state.isEmpty) View.VISIBLE else View.GONE
+    }
+
+    private fun getHintString(date: LocalDate): CharSequence? {
+        return if (date == LocalDate.now()) {
+            resources.getString(R.string.what_are_you_thankful_for)
+        } else {
+            resources.getString(R.string.what_were_you_thankful_for)
+        }
     }
 
     private fun setEditText(newText: String) {
