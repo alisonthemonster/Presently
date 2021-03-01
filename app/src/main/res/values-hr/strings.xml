@@ -94,4 +94,6 @@
     <string name="share_milestone">Završio sam% 1$d dana dnevnika zahvalnosti! Pridružite mi se pomoću aplikacije Presently. #PresentlyApp</string>
     <string name="share_app_text">Vježbajte zahvalnost pomoću ove jednostavne, uvijek besplatne i privatne aplikacije za dnevnike zahvalnosti</string>
     <string name="random">slučajan</string>
+    <string name="app_language_title">Jezik aplikacije</string>
+    <string name="app_language_summary">Postavite zadani jezik aplikacije</string>
 </resources>

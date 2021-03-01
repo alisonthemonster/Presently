@@ -96,4 +96,6 @@
     <string name="enjoying_presently">Profiter du moment? Partagez l\'application avec vos amis et votre famille</string>
     <string name="share_app_text">reconnaissance de la pratique avec ce simple, toujours libre, et la reconnaissance privée app journaling</string>
     <string name="random">Aléatoire</string>
+    <string name="app_language_title">Langue de l\'application</string>
+    <string name="app_language_summary">Définir la langue par défaut de l\'application</string>
 </resources>

@@ -95,4 +95,6 @@
     <string name="enjoying_presently">Genießen Sie die App? Teilen Sie die App mit Ihren Freunden und Ihrer Familie</string>
     <string name="share_app_text">Praxis Dankbarkeit mit diesem einfachen, immer frei, und privaten Dankbarkeit Journaling App</string>
     <string name="random">Zufällig</string>
+    <string name="app_language_title">Anwendungssprache</string>
+    <string name="app_language_summary">Legen Sie die Standard-App-Sprache fest</string>
 </resources>

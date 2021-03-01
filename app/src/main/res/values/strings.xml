@@ -112,17 +112,18 @@
     <string name="app_language_summary">Set default app language</string>
     <string name="language_en">English</string>
     <string name="language_ar">Arabic</string>
-    <string name="language_de">German</string>
-    <string name="language_es">Spanish</string>
-    <string name="language_fi">Finish</string>
-    <string name="language_fr">French</string>
-    <string name="language_hr">Hungarian</string>
-    <string name="language_it">Italian</string>
+    <string name="language_hr">Croatian</string>
     <string name="language_nl">Dutch</string>
+    <string name="language_fi">Finnish</string>
+    <string name="language_fr">French</string>
+    <string name="language_de">German</string>
+    <string name="language_it">Italian</string>
     <string name="language_pl">Polish</string>
     <string name="language_pt">Portuguese</string>
+    <string name="language_pt_br">Portuguese (Brazil)</string>
     <string name="language_ro">Romanian</string>
     <string name="language_ru">Russian</string>
     <string name="language_sk">Slovak</string>
+    <string name="language_es">Spanish</string>
     <string name="language_tr">Turkish</string>
 </resources>

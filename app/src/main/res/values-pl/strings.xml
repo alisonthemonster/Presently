@@ -94,4 +94,6 @@
     <string name="enjoying_presently">Podoba Ci się aplikacja? Udostępnij aplikację znajomym i rodzinie</string>
     <string name="share_app_text">Praktyka wdzięczność z tego prostego, zawsze wolny i prywatne wdzięczność dziennika app</string>
     <string name="random">Losowy</string>
+    <string name="app_language_title">Język aplikacji</string>
+    <string name="app_language_summary">Ustaw domyślny język aplikacji</string>
 </resources>

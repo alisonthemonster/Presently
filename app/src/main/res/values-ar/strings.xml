@@ -97,4 +97,6 @@
     <string name="enjoying_presently">هل تستمتع بالتطبيق؟ شارك التطبيق مع أصدقائك وعائلتك</string>
     <string name="share_app_text">ممارسة الامتنان مع هذا بسيط، ودائما مجانا، والامتنان الخاص التطبيق اليومية</string>
     <string name="random">عشوائية</string>
+    <string name="app_language_title">لغة التطبيق</string>
+    <string name="app_language_summary">تعيين لغة التطبيق الافتراضية</string>
 </resources>

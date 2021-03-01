@@ -96,4 +96,6 @@
     <string name="enjoying_presently">Nautitko sovelluksesta? Jaa sovellus ystävien ja perheen kanssa</string>
     <string name="share_app_text">Käytännössä kiitollisuutta tämä yksinkertainen, aina vapaa, ja oma kiitollisuus päiväkirjaa sovellus</string>
     <string name="random">satunnainen</string>
+    <string name="app_language_title">Sovelluksen kieli</string>
+    <string name="app_language_summary">Aseta sovelluksen oletuskieli</string>
 </resources>

@@ -97,4 +97,6 @@
     <string name="enjoying_presently">¿Disfrutas de la aplicación? Comparte la aplicación con tus amigos y familiares.</string>
     <string name="share_app_text">Gratitud de la práctica con este sencillo, siempre libre, y gratitud privada de aplicaciones en diario</string>
     <string name="random">Aleatorio</string>
+    <string name="app_language_title">Idioma de la aplicación</string>
+    <string name="app_language_summary">Establecer el idioma predeterminado de la aplicación</string>
 </resources>

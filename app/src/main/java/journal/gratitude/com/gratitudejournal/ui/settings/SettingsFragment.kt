@@ -477,6 +477,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
             val navController = findNavController()
             navController.navigateUp()
+            //TODO move this hardcoded string to strings.xml
             Toast.makeText(context, "Imported successfully!", Toast.LENGTH_SHORT).show()
         } catch (exception: Exception) {
             firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
