@@ -201,7 +201,7 @@ class TimelineFragment : DaggerFragment() {
     }
 
     private fun navigateToDate(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int) {
-        val directions = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
+        val directions = TimelineFragmentDirections.actionTimelineFragmentToEntryMvrxFragment(
             clickedDate.toString(),
             isNewEntry,
             numEntries

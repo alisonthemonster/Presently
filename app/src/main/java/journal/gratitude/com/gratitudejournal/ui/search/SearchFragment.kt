@@ -78,7 +78,7 @@ class SearchFragment : DaggerFragment() {
                 val navController = findNavController()
                 if (navController.currentDestination?.id == R.id.searchFragment) {
                     val directions =
-                        SearchFragmentDirections.actionSearchFragmentToEntryFragment(clickedDate.toString())
+                        SearchFragmentDirections.actionSearchFragmentToEntryFragmentMvrx(clickedDate.toString())
                     navController.navigate(directions)
                 }
             }

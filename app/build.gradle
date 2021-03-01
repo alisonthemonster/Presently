@@ -115,6 +115,8 @@ dependencies {
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
 
+    implementation 'com.airbnb.android:mavericks:2.0.0'
+
     //dependency injection
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"

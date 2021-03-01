@@ -28,6 +28,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.preference.PreferenceManager
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.airbnb.mvrx.MavericksView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dagger.android.support.DaggerFragment

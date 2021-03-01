@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryMvrxViewModel
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryViewModel
 
 @Module
@@ -20,4 +21,9 @@ abstract class EntryModule {
     @IntoMap
     @ViewModelKey(EntryViewModel::class)
     abstract fun bindViewModel(viewModel: EntryViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(EntryMvrxViewModel::class)
+    abstract fun entryViewModelFactory(factory: EntryMvrxViewModel.Factory): AssistedViewModelFactory<*, *>
 }
