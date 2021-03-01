@@ -15,10 +15,10 @@ object LocaleHelper {
 
     private fun updateLanguage(context: Context): Context {
         val language = getLastLanguageSaved(context)
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            return updateConfiguration(language, context)
-        }else{
-            return updateConfigurationLegacy(context, language)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            updateConfiguration(language, context)
+        } else {
+            updateConfigurationLegacy(context, language)
         }
     }
 
@@ -38,7 +38,7 @@ object LocaleHelper {
         language: String,
         context: Context
     ): Context {
-        val locale = Locale(language)
+        val locale = getLocale(language)
         Locale.setDefault(locale)
 
         val resources = context.resources
@@ -49,16 +49,15 @@ object LocaleHelper {
     }
 
     private fun getLastLanguageSaved(context: Context): String {
-        val lang = PreferenceManager.getDefaultSharedPreferences(context)
+        return PreferenceManager.getDefaultSharedPreferences(context)
             .getString(APP_LANGUAGE, DEFAULT_APP_LANGUAGE) ?: DEFAULT_APP_LANGUAGE
-        return lang
     }
 
     private fun getConfiguration(
         context: Context,
         language: String
     ): Configuration {
-        val locale = Locale(language)
+        val locale = getLocale(language)
         Locale.setDefault(locale)
 
         val resources = context.resources
@@ -66,5 +65,14 @@ object LocaleHelper {
         configuration.setLocale(locale)
 
         return configuration
+    }
+
+    private fun getLocale(language: String): Locale {
+        return if (language.contains("-")) {
+            val codes = language.split("-")
+            Locale(codes[0], codes[1])
+        } else {
+            Locale(language)
+        }
     }
 }

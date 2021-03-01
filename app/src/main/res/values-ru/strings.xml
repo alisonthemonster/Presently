@@ -96,4 +96,6 @@
     <string name="enjoying_presently">Нравится приложение? Поделитесь приложением с друзьями и семьей</string>
     <string name="share_app_text">Практика благодарность с этим простым, всегда бесплатно, и частной благодарностью журнального приложение</string>
     <string name="random">случайный</string>
+    <string name="app_language_title">Язык приложения</string>
+    <string name="app_language_summary">Установить язык приложения по умолчанию</string>
 </resources>

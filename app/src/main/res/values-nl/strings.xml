@@ -94,4 +94,6 @@
     <string name="enjoying_presently">Geniet je van de app? Deel de app met je vrienden en familie</string>
     <string name="share_app_text">Oefen dankbaarheid met deze eenvoudige, altijd gratis, en een eigen dankbaarheid journaling app</string>
     <string name="random">Willekeurig</string>
+    <string name="app_language_title">Toepassingstaal</string>
+    <string name="app_language_summary">Stel de standaard app-taal in</string>
 </resources>
