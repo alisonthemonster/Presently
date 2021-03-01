@@ -149,9 +149,17 @@ class EntryMvrxFragment : Fragment(R.layout.entry_mvrx_fragment), MavericksView 
         }
         inspiration.text = state.quote
         entry_text.hint = state.hint
-        if (state.entryContent.isNotEmpty()) entry_text.setText(state.entryContent)
+        setEditText(state.entryContent)
         share_button.visibility = if (state.isEmpty) View.GONE else View.VISIBLE
         prompt_button.visibility = if (state.isEmpty) View.VISIBLE else View.GONE
+    }
+
+    private fun setEditText(newText: String) {
+        val oldText = entry_text.text.toString()
+        if (newText != oldText && newText.isNotEmpty()) {
+            entry_text.setText(newText)
+            entry_text.setSelection(newText.length)
+        }
     }
 
     private fun prepareWindow() {

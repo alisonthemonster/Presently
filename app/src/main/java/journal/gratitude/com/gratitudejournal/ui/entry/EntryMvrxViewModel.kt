@@ -22,13 +22,11 @@ class EntryMvrxViewModel @AssistedInject constructor(
     private val repository: EntryRepository
 ) : MavericksViewModel<EntryState>(initialState) {
 
-    //TODO app crashes here "impure reducer"
-        //because this can't run twice and return the same result
     fun changePrompt() {
         setState {
-            val newPrompt = prompts.remove()
-            prompts.offer(newPrompt)
-            copy(hint = newPrompt, prompts = prompts)
+            val newPromptNumber = if (promptNumber < promptsList.size - 1) promptNumber + 1 else 0
+            val newPrompt = promptsList[newPromptNumber]
+            copy(hint = newPrompt, promptNumber = newPromptNumber)
         }
     }
 
@@ -71,10 +69,9 @@ class EntryMvrxViewModel @AssistedInject constructor(
             val passedInDate = LocalDate.now() // TODO is there a way get from fragment args?
             val prompts = viewModelContext.activity.resources.getStringArray(R.array.prompts)
             val quote = viewModelContext.activity.resources.getStringArray(R.array.inspirations).random()
-            val promptQueue = getPromptsQueue(prompts)
-            val firstPrompt = promptQueue.remove()
-            promptQueue.offer(firstPrompt)
-            return EntryState(passedInDate, "", firstPrompt, quote, false, promptQueue)
+            //TODO how to set this properly
+            val firstPrompt = viewModelContext.activity.resources.getString(R.string.what_are_you_thankful_for)
+            return EntryState(passedInDate, "", firstPrompt, quote, false, 0, prompts.toList())
         }
 
         override fun create(viewModelContext: ViewModelContext, state: EntryState): EntryMvrxViewModel {
@@ -85,15 +82,6 @@ class EntryMvrxViewModel @AssistedInject constructor(
             @Suppress("UNCHECKED_CAST")
             val castedViewModelFactory = viewModelFactory as? AssistedViewModelFactory<EntryMvrxViewModel, EntryState>
             return castedViewModelFactory?.create(state)!! //TODO
-        }
-
-        private fun getPromptsQueue(prompts: Array<String>): LinkedList<String> {
-            val shuffled = prompts.toMutableList().shuffled()
-            val queue = LinkedList<String>()
-            for (prompt in shuffled) {
-                queue.add(prompt)
-            }
-            return queue
         }
     }
 }

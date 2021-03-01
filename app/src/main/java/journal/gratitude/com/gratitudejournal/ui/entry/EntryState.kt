@@ -2,8 +2,6 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 
 import com.airbnb.mvrx.MavericksState
 import org.threeten.bp.LocalDate
-import java.util.Queue
-
 
 data class EntryState(
     val date: LocalDate,
@@ -11,7 +9,8 @@ data class EntryState(
     val hint: String,
     val quote: String,
     val hasUserEdits: Boolean,
-    val prompts: Queue<String>
+    val promptNumber: Int,
+    val promptsList: List<String>
 ) : MavericksState {
     val isEmpty = entryContent.isEmpty()
 }
