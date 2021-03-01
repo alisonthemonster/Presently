@@ -5,10 +5,8 @@ import androidx.databinding.Observable
 import androidx.databinding.Observable.OnPropertyChangedCallback
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableInt
+import androidx.lifecycle.*
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
@@ -32,15 +30,11 @@ class EntryViewModel @Inject constructor(
     AndroidViewModel(application) {
 
     val entry: LiveData<Entry>
-    private val dateLiveData = MutableLiveData<LocalDate>()
+    val dateLiveData = MutableLiveData<LocalDate>()
     val entryContent = ObservableField<String>("")
     val isEmpty = ObservableBoolean(true)
     val hasUserEdits = ObservableBoolean(false)
 
-    private var parentJob = Job()
-    private val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.Main
-    private val scope = CoroutineScope(coroutineContext)
     private val inspiration = application.resources.getStringArray(R.array.inspirations).random()
     private var promptString = ""
     private val promptsArray = application.resources.getStringArray(R.array.prompts)
@@ -66,7 +60,6 @@ class EntryViewModel @Inject constructor(
                 entry.value = data
             }
         }
-
     }
 
     fun setDate(passedInDate: String) {
@@ -74,11 +67,13 @@ class EntryViewModel @Inject constructor(
         dateLiveData.value = date
     }
 
-    fun addNewEntry() = scope.launch(Dispatchers.IO) {
+    fun addNewEntry() = viewModelScope.launch(Dispatchers.IO) {
         val date = dateLiveData.value ?: throw IOException("Date was not provided")
         val entry = Entry(date, entryContent.get() ?: "")
         repository.addEntry(entry)
     }
+
+
 
     fun getDateString(): String {
         val date = dateLiveData.value ?: throw IOException("Date was not provided")
@@ -89,6 +84,7 @@ class EntryViewModel @Inject constructor(
             else -> date.toFullString()
         }
     }
+
 
     fun getHintString(): String {
         val date = dateLiveData.value ?: throw IOException("Date was not provided")
@@ -137,6 +133,11 @@ class EntryViewModel @Inject constructor(
         }
     }
 
+    fun isToday(): Boolean {
+        val date = dateLiveData.value ?: throw IOException("Date was not provided")
+        return date == LocalDate.now()
+    }
+
     private fun getPromptsQueue(prompts: Array<String>): LinkedList<String> {
         val shuffled = prompts.toMutableList().shuffled()
         val queue = LinkedList<String>()
@@ -150,10 +151,5 @@ class EntryViewModel @Inject constructor(
         val next = prompts.remove()
         prompts.add(next)
         return next
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        parentJob.cancel()
     }
 }

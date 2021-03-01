@@ -40,7 +40,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintVertical_weight="1"
-            app:dateStringSupportingLocale="@{null}"
+            app:dateStringSupportingLocale="@{viewModel.dateLiveData}"
             tools:text="September 29, 2018" />
 
         <TextView
@@ -62,7 +62,7 @@
             app:layout_constraintTop_toBottomOf="@+id/date"
             app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintVertical_weight="1"
-            app:thankfulStringSupportingLocale="@{null}"
+            app:thankfulStringSupportingLocale="@{viewModel.dateLiveData}"
             tools:text="I was thankful for" />
 
         <View
@@ -98,7 +98,7 @@
             app:layout_constraintTop_toBottomOf="@+id/divider_line"
             app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintVertical_weight="5"
-            app:hintSupportingLocale="@{null}"/>
+            app:hintSupportingLocale="@{viewModel.isToday()}"/>
 
         <ImageView
             android:id="@+id/share_button"
@@ -175,7 +175,7 @@
             app:layout_constraintTop_toBottomOf="@id/divider_line2"
             app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintVertical_weight="1.35"
-            app:textSupportingLocale="@{null}"/>
+            app:inspirationSupportingLocale="@{null}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

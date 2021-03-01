@@ -109,6 +109,7 @@ class EntryFragmentInstrumentedTest {
             fragmentArgs = args.toBundle()
         )
 
+        //TODO hint is no longer used here
         onView(withId(R.id.entry_text)).check(matches(withHint("What were you grateful for?")))
         onView(withId(R.id.prompt_button)).perform(click())
         onView(withId(R.id.entry_text)).check(matches(not(withHint("What were you grateful for?"))))
