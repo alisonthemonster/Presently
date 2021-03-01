@@ -62,7 +62,7 @@
             app:layout_constraintTop_toBottomOf="@+id/date"
             app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintVertical_weight="1"
-            app:thankFulStringSupportingLocale="@{null}"
+            app:thankfulStringSupportingLocale="@{null}"
             tools:text="I was thankful for" />
 
         <View

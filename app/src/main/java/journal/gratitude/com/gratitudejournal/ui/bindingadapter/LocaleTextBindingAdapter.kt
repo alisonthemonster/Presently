@@ -21,7 +21,7 @@ fun updateText(view: TextView, text: String?) {
     view.hint = prompt
 }
 
-@BindingAdapter("thankFulStringSupportingLocale")
+@BindingAdapter("thankfulStringSupportingLocale")
 fun updateThankFulString(textView: TextView, dateLiveData: MutableLiveData<LocalDate>?) {
     val date = dateLiveData?.value ?: textView.setText("")
     if (date == LocalDate.now()) {
