@@ -279,6 +279,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 createDropboxUploaderWorker(cadence)
             }
             APP_LANGUAGE -> {
+                val language = sharedPreferences.getString(APP_LANGUAGE, "unknown")
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, language)
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, language)
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "language")
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
                 startActivity(Intent.makeRestartActivityTask(activity?.intent?.component))
             }
         }
