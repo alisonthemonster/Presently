@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.bindingadapter
 
+import android.app.Application
 import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -10,9 +11,26 @@ import org.threeten.bp.LocalDate
 
 
 @BindingAdapter("hintSupportingLocale")
-fun updateHint(view: EditText,text: String?) {
-    val prompt = view.resources?.getStringArray(R.array.prompts)?.random() ?: ""
+fun updateHint(view: EditText, isToday: Boolean) {
+    val prompt = when {
+        isToday -> {
+            view.resources?.getString(R.string.what_are_you_thankful_for)
+        }
+        view.text.isNullOrEmpty() -> {
+            view.resources?.getStringArray(R.array.prompts)?.random() ?: ""
+        }
+        else -> {
+            view.resources?.getString(R.string.what_were_you_thankful_for)
+        }
+    }
+
     view.setHint(prompt)
+}
+
+@BindingAdapter("inspirationSupportingLocale")
+fun updateQuote(view: TextView, text: String?) {
+    val quote = view.resources?.getStringArray(R.array.inspirations)?.random() ?: ""
+    view.text = quote
 }
 
 @BindingAdapter("textSupportingLocale")
@@ -22,7 +40,7 @@ fun updateText(view: TextView, text: String?) {
 }
 
 @BindingAdapter("thankfulStringSupportingLocale")
-fun updateThankFulString(textView: TextView, dateLiveData: MutableLiveData<LocalDate>?) {
+fun updateThankfulString(textView: TextView, dateLiveData: MutableLiveData<LocalDate>?) {
     val date = dateLiveData?.value ?: textView.setText("")
     if (date == LocalDate.now()) {
         textView.text = textView.resources.getString(R.string.iam)
