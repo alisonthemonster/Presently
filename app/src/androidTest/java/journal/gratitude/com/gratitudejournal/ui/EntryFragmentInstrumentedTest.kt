@@ -31,8 +31,8 @@ import journal.gratitude.com.gratitudejournal.testUtils.getText
 import journal.gratitude.com.gratitudejournal.testUtils.isEditTextValueEqualTo
 import journal.gratitude.com.gratitudejournal.testUtils.saveEntryBlocking
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragmentArgs
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryMvrxFragment
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryMvrxFragmentArgs
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
@@ -61,12 +61,12 @@ class EntryFragmentInstrumentedTest {
         val mockEntry = Entry(date, "test content")
         repository.saveEntryBlocking(mockEntry)
 
-        val bundle = EntryFragmentArgs(
+        val bundle = EntryMvrxFragmentArgs(
             date.toString(),
             true,
             0)
 
-        launchFragmentInContainer<EntryFragment>(
+        launchFragmentInContainer<EntryMvrxFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = bundle.toBundle()
         )
@@ -79,37 +79,35 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun noEntry_showsPromptButton() {
-        val date = LocalDate.of(2019, 3, 22)
+        val date = LocalDate.of(2019, 3, 23)
 
-        val args = EntryFragmentArgs(
+        val args = EntryMvrxFragmentArgs(
             date.toString(),
             true,
             4)
 
-        launchFragmentInContainer<EntryFragment>(
+        launchFragmentInContainer<EntryMvrxFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = args.toBundle()
         )
-
         onView(withId(R.id.share_button)).check(matches(not(isDisplayed())))
         onView(withId(R.id.prompt_button)).check(matches(isDisplayed()))
     }
 
     @Test
     fun promptButton_changesHintText() {
-        val date = LocalDate.of(2019, 3, 22)
+        val date = LocalDate.of(2019, 3, 23)
 
-        val args = EntryFragmentArgs(
+        val args = EntryMvrxFragmentArgs(
             date.toString(),
             true,
             4)
 
-        launchFragmentInContainer<EntryFragment>(
+        launchFragmentInContainer<EntryMvrxFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = args.toBundle()
         )
 
-        //TODO hint is no longer used here
         onView(withId(R.id.entry_text)).check(matches(withHint("What were you grateful for?")))
         onView(withId(R.id.prompt_button)).perform(click())
         onView(withId(R.id.entry_text)).check(matches(not(withHint("What were you grateful for?"))))
@@ -122,12 +120,12 @@ class EntryFragmentInstrumentedTest {
         val mockEntry = Entry(date, "test content")
         repository.saveEntryBlocking(mockEntry)
 
-        val bundle = EntryFragmentArgs(
+        val bundle = EntryMvrxFragmentArgs(
             date.toString(),
             true,
             0)
 
-        launchFragmentInContainer<EntryFragment>(
+        launchFragmentInContainer<EntryMvrxFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = bundle.toBundle()
         )
@@ -153,11 +151,11 @@ class EntryFragmentInstrumentedTest {
         val mockNavController = mock<NavController>()
         val date = LocalDate.of(2019, 3, 22)
 
-        val args = EntryFragmentArgs(
+        val args = EntryMvrxFragmentArgs(
             date.toString(),
             true,
             4)
-        val scenario = launchFragmentInContainer<EntryFragment>(
+        val scenario = launchFragmentInContainer<EntryMvrxFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = args.toBundle()
         )
@@ -180,12 +178,12 @@ class EntryFragmentInstrumentedTest {
         val mockNavController = mock<NavController>()
         val date = LocalDate.of(2019, 3, 22)
 
-        val bundle = EntryFragmentArgs(
+        val bundle = EntryMvrxFragmentArgs(
             date.toString(),
             true,
             4)
 
-        val scenario = launchFragmentInContainer<EntryFragment>(
+        val scenario = launchFragmentInContainer<EntryMvrxFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = bundle.toBundle()
         )
@@ -205,14 +203,14 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun entryFragment_longPressQuote_copiesToClipboard() {
-        val date = LocalDate.of(2019, 3, 22)
+        val date = LocalDate.of(2019, 3, 23)
 
-        val args = EntryFragmentArgs(
+        val args = EntryMvrxFragmentArgs(
             date.toString(),
             true,
             4)
 
-        launchFragmentInContainer<EntryFragment>(
+        launchFragmentInContainer<EntryMvrxFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = args.toBundle()
         )
@@ -236,12 +234,12 @@ class EntryFragmentInstrumentedTest {
     fun entryFragment_longPressQuote_showsToast() {
         val date = LocalDate.of(2019, 3, 22)
 
-        val args = EntryFragmentArgs(
+        val args = EntryMvrxFragmentArgs(
             date.toString(),
             true,
             4)
 
-        val scenario = launchFragmentInContainer<EntryFragment>(
+        val scenario = launchFragmentInContainer<EntryMvrxFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = args.toBundle()
         )
@@ -263,12 +261,12 @@ class EntryFragmentInstrumentedTest {
         val mockNavController = mock<NavController>()
         val date = LocalDate.of(2019, 3, 22)
 
-        val args = EntryFragmentArgs(
+        val args = EntryMvrxFragmentArgs(
             date.toString(),
             true,
             4)
 
-        val scenario = launchFragmentInContainer<EntryFragment>(
+        val scenario = launchFragmentInContainer<EntryMvrxFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = args.toBundle()
         )
@@ -314,12 +312,12 @@ class EntryFragmentInstrumentedTest {
         val mockNavController = mock<NavController>()
         val date = LocalDate.of(2019, 3, 22)
 
-        val bundle = EntryFragmentArgs(
+        val bundle = EntryMvrxFragmentArgs(
             date.toString(),
             true,
             4)
 
-        val scenario = launchFragmentInContainer<EntryFragment>(
+        val scenario = launchFragmentInContainer<EntryMvrxFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = bundle.toBundle()
         )

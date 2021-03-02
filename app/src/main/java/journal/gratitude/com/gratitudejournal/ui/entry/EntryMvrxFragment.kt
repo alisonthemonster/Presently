@@ -93,7 +93,7 @@ class EntryMvrxFragment : Fragment(R.layout.entry_mvrx_fragment), MavericksView 
         share_button.setOnClickListener {
             firebaseAnalytics.logEvent(SHARED_ENTRY, null)
             withState(viewModel, {
-                val message = it.entryContent
+                val message = "${it.entryContent} #PresentlyApp"
                 val share = Intent(Intent.ACTION_SEND)
                 share.type = "text/plain"
                 share.putExtra(Intent.EXTRA_TEXT, message)
