@@ -21,6 +21,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
+import com.facebook.testing.screenshot.Screenshot
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import journal.gratitude.com.gratitudejournal.R
@@ -71,6 +72,10 @@ class EntryFragmentInstrumentedTest {
             fragmentArgs = bundle.toBundle()
         )
 
+
+        onView(withId(android.R.id.content))
+           .perform(screenshot("writtenEntry_showsShareButton"))
+
         onView(withId(R.id.share_button))
             .check(matches(isDisplayed()))
         onView(withId(R.id.prompt_button))
@@ -91,6 +96,9 @@ class EntryFragmentInstrumentedTest {
             fragmentArgs = args.toBundle()
         )
 
+        onView(withId(android.R.id.content))
+            .perform(screenshot("noEntry_showsPromptButton"))
+
         onView(withId(R.id.share_button)).check(matches(not(isDisplayed())))
         onView(withId(R.id.prompt_button)).check(matches(isDisplayed()))
     }
@@ -108,6 +116,9 @@ class EntryFragmentInstrumentedTest {
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = args.toBundle()
         )
+
+        onView(withId(android.R.id.content))
+            .perform(screenshot("promptButton_changesHintText"))
 
         onView(withId(R.id.entry_text)).check(matches(withHint("What were you grateful for?")))
         onView(withId(R.id.prompt_button)).perform(click())
@@ -143,6 +154,9 @@ class EntryFragmentInstrumentedTest {
                 hasExtra(Intent.EXTRA_TITLE, "Share your gratitude progress")
             )
         )
+
+        onView(withId(android.R.id.content))
+            .perform(screenshot("shareButton_opensShareActivity"))
 
         Intents.release()
     }

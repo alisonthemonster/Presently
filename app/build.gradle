@@ -8,6 +8,7 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.facebook.testing.screenshot'
 
 allOpen {
     annotation 'journal.gratitude.com.gratitudejournal.util.OpenClass'
