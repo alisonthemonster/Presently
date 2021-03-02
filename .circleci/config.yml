@@ -99,6 +99,7 @@ jobs:
   test_instrumented:
     <<: *gcloud_config
     steps:
+      - checkout
       - *attach_debug_workspace
       - *decrypt_gcloud_key
       - run:
