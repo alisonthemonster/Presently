@@ -101,10 +101,9 @@ jobs:
     steps:
       - *attach_debug_workspace
       - *decrypt_gcloud_key
-      - run:
-          name: Set Google Cloud target project
-          command: true
-          # gcloud config set project gratitude-journal-app
+      # - run:
+      #     name: Set Google Cloud target project
+      #     command: gcloud config set project gratitude-journal-app
       - run:
           name: Authenticate with Google Cloud
           command: gcloud auth activate-service-account presently-cicd-service-account@gratitude-journal-app.iam.gserviceaccount.com --key-file ${HOME}/client-secret.json
