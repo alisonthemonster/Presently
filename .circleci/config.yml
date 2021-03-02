@@ -122,9 +122,9 @@ jobs:
           command: |
             curl https://screenshotbot.io/recorder.sh | sh
             cd ~/src && ~/screenshotbot/recorder \
-              --directory /root/src/firebase/*/*/artifacts/screenshot_bundle.zip \
+              --directory /root/src/firebase/*/artifacts/screenshot_bundle.zip \
               --channel Presently \
-              --metadata /root/src/firebase/*/*/artifacts/metadata.xml \
+              --metadata /root/src/firebase/*/artifacts/metadata.xml \
               --production \
               --branch ${CIRCLE_BRANCH} \
               --api-key ${SCREENSHOTBOT_API_KEY} \
