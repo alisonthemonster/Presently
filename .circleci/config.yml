@@ -113,7 +113,7 @@ jobs:
       - run:
           name: Install gsutil dependency and copy test results data
           command: |
-             gsutil -m cp -r -U `sudo gsutil ls gs://cloud-test-screenshotbot-example/ | tail -1` ${CIRCLE_ARTIFACTS}/ | true
+             gsutil -m cp -r -U `gsutil ls gs://cloud-test-screenshotbot-example/ | tail -1` ${CIRCLE_ARTIFACTS}/ | true
       - run:
           name: Record to screenshotbot
           command: |
