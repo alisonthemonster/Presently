@@ -121,7 +121,7 @@ jobs:
             curl https://screenshotbot.io/recorder.sh | sh
             cd ~/src && ~/screenshotbot/recorder \
               --directory ${CIRCLE_ARTIFACTS}/*/*/artifacts/screenshot_bundle.zip \
-              --channel screenshotbot-example-circleci-test \
+              --channel Presently \
               --metadata ${CIRCLE_ARTIFACTS}/*/*/artifacts/metadata.xml \
               --production \
               --branch ${CIRCLE_BRANCH} \
