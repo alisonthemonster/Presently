@@ -80,7 +80,7 @@ class EntryFragmentInstrumentedTest {
 
         removeInspiration()
         onView(withId(android.R.id.content))
-           .perform(screenshot("writtenEntry_showsShareButton"))
+           .perform(screenshot())
 
         onView(withId(R.id.share_button))
             .check(matches(isDisplayed()))
@@ -104,7 +104,7 @@ class EntryFragmentInstrumentedTest {
 
         removeInspiration()
         onView(withId(android.R.id.content))
-            .perform(screenshot("noEntry_showsPromptButton"))
+            .perform(screenshot())
 
         onView(withId(R.id.share_button)).check(matches(not(isDisplayed())))
         onView(withId(R.id.prompt_button)).check(matches(isDisplayed()))
@@ -126,7 +126,7 @@ class EntryFragmentInstrumentedTest {
 
         removeInspiration()
         onView(withId(android.R.id.content))
-            .perform(screenshot("promptButton_changesHintText"))
+            .perform(screenshot())
 
         onView(withId(R.id.entry_text)).check(matches(withHint("What were you grateful for?")))
         onView(withId(R.id.prompt_button)).perform(click())
@@ -165,7 +165,7 @@ class EntryFragmentInstrumentedTest {
 
         removeInspiration()
         onView(withId(android.R.id.content))
-            .perform(screenshot("shareButton_opensShareActivity"))
+            .perform(screenshot())
 
         Intents.release()
     }

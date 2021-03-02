@@ -6,8 +6,11 @@ import org.hamcrest.Matcher
 import com.facebook.testing.screenshot.Screenshot
 import android.view.View
 import androidx.test.espresso.UiController
+import com.facebook.testing.screenshot.internal.TestNameDetector
 
 fun screenshot(name: String)  = ScreenshotAction(name)
+
+fun screenshot() = screenshot(TestNameDetector.getTestName())
 
 class ScreenshotAction(val name: String) : ViewAction {
     override fun getConstraints(): Matcher<View> = any(View::class.java)
