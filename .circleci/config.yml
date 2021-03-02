@@ -113,7 +113,7 @@ jobs:
           command: gcloud firebase test android run --type instrumentation --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk --device model=walleye,version=27,locale=en_US,orientation=portrait --environment-variables coverage=true,coverageFile=/sdcard/coverage.ec --directories-to-pull=/sdcard --timeout 20m --directories-to-pull /sdcard/screenshots/journal.gratitude.com.gratitudejournal.test --results-bucket cloud-test-screenshotbot-example
       - run:
           name: Download instrumented test results from Firebase Test Lab
-          command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1`*" /root/src/firebase/
+          command: gsutil -m cp -r -U "`gsutil ls gs://cloud-test-screenshotbot-example | tail -1`*" /root/src/firebase/
       - run:
           name: Record to screenshotbot
           command: |
