@@ -104,10 +104,10 @@ jobs:
       - *decrypt_gcloud_key
       - run:
           name: Set Google Cloud target project
-          command: gcloud config set project screenshotbot-example
+          command: gcloud config set project gratitude-journal-app
       - run:
           name: Authenticate with Google Cloud
-          command: gcloud auth activate-service-account --key-file ${HOME}/client-secret.json
+          command: gcloud auth activate-service-account presently-cicd-service-account@gratitude-journal-app.iam.gserviceaccount.com --key-file ${HOME}/client-secret.json
       - run:
           name: Run instrumented test on Firebase Test Lab
           command: gcloud firebase test android run --type instrumentation --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk --device model=walleye,version=27,locale=en_US,orientation=portrait --environment-variables coverage=true,coverageFile=/sdcard/coverage.ec --directories-to-pull=/sdcard --timeout 20m --directories-to-pull /sdcard/screenshots/journal.gratitude.com.gratitudejournal.test --results-bucket cloud-test-screenshotbot-example
@@ -116,7 +116,7 @@ jobs:
           command: mkdir firebase
       - run:
           name: Download instrumented test results from Firebase Test Lab
-          command: gsutil -m cp -r -U "`gsutil ls gs://cloud-test-screenshotbot-example | tail -1`*" /root/src/firebase/
+          command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1`*" /root/src/firebase/
       - run:
           name: Record to screenshotbot
           command: |
@@ -131,9 +131,9 @@ jobs:
               --repo-url ${CIRCLE_REPOSITORY_URL} \
               --api-secret ${SCREENSHOTBOT_API_SECRET}
       - *persist_firebase_workspace
-      # - store_artifacts:
-      #     path: firebase/
-      #     destination: /firebase/
+      - store_artifacts:
+          path: firebase/
+          destination: /firebase/
 
   build_debug:
     <<: *android_config
