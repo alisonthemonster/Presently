@@ -5,6 +5,7 @@ import android.app.Instrumentation
 import android.content.Intent
 import android.view.KeyEvent
 import android.view.View
+import android.widget.TextView
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
