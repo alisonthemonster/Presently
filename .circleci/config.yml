@@ -112,17 +112,16 @@ jobs:
           name: Run instrumented test on Firebase Test Lab
           command: gcloud firebase test android run --type instrumentation --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk --device model=walleye,version=27,locale=en_US,orientation=portrait --environment-variables coverage=true,coverageFile=/sdcard/coverage.ec --directories-to-pull=/sdcard --timeout 20m --directories-to-pull /sdcard/screenshots/journal.gratitude.com.gratitudejournal.test --results-bucket cloud-test-screenshotbot-example
       - run:
-          name: Install gsutil dependency and copy test results data
-          command: |
-             gsutil -m cp -r -U `gsutil ls gs://cloud-test-screenshotbot-example/ | tail -1` ${CIRCLE_ARTIFACTS}/ | true
+          name: Download instrumented test results from Firebase Test Lab
+          command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1`*" /root/src/firebase/
       - run:
           name: Record to screenshotbot
           command: |
             curl https://screenshotbot.io/recorder.sh | sh
             cd ~/src && ~/screenshotbot/recorder \
-              --directory ${CIRCLE_ARTIFACTS}/*/*/artifacts/screenshot_bundle.zip \
+              --directory /root/src/firebase/*/*/artifacts/screenshot_bundle.zip \
               --channel Presently \
-              --metadata ${CIRCLE_ARTIFACTS}/*/*/artifacts/metadata.xml \
+              --metadata /root/src/firebase/*/*/artifacts/metadata.xml \
               --production \
               --branch ${CIRCLE_BRANCH} \
               --api-key ${SCREENSHOTBOT_API_KEY} \
@@ -132,9 +131,6 @@ jobs:
       - run:
           name: Create directory to store test results
           command: mkdir firebase
-      # - run:
-      #     name: Download instrumented test results from Firebase Test Lab
-      #     command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1`*" /root/src/firebase/
       - *persist_firebase_workspace
       # - store_artifacts:
       #     path: firebase/
