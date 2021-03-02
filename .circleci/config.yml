@@ -110,7 +110,7 @@ jobs:
           command: gcloud auth activate-service-account presently-cicd-service-account@gratitude-journal-app.iam.gserviceaccount.com --key-file ${HOME}/client-secret.json
       - run:
           name: Run instrumented test on Firebase Test Lab
-          command: gcloud firebase test android run --type instrumentation --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk --device model=walleye,version=27,locale=en_US,orientation=portrait --environment-variables coverage=true,coverageFile=/sdcard/coverage.ec --directories-to-pull=/sdcard --timeout 20m --directories-to-pull /sdcard/screenshots/journal.gratitude.com.gratitudejournal.test --results-bucket cloud-test-screenshotbot-example
+          command: gcloud firebase test android run --type instrumentation --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk --device model=walleye,version=27,locale=en_US,orientation=portrait --environment-variables coverage=true,coverageFile=/sdcard/coverage.ec --directories-to-pull=/sdcard --timeout 20m
       - run:
           name: Create directory to store test results
           command: mkdir firebase
@@ -122,9 +122,9 @@ jobs:
           command: |
             curl https://screenshotbot.io/recorder.sh | sh
             cd ~/src && ~/screenshotbot/recorder \
-              --directory /root/src/firebase/*/artifacts/screenshot_bundle.zip \
+              --directory /root/src/firebase/*/artifacts/sdcard/screenshots/journal.gratitude.com.gratitudejournal.test/screenshots-default/screenshot_bundle.zip \
               --channel Presently \
-              --metadata /root/src/firebase/*/artifacts/metadata.xml \
+              --metadata /root/src/firebase/*/artifacts/sdcard/screenshots/journal.gratitude.com.gratitudejournal.test/screenshots-default/metadata.xml \
               --production \
               --branch ${CIRCLE_BRANCH} \
               --api-key ${SCREENSHOTBOT_API_KEY} \
