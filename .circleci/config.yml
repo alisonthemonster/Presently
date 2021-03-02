@@ -118,7 +118,7 @@ jobs:
           name: Record to screenshotbot
           command: |
             curl https://screenshotbot.io/recorder.sh | sh
-            ~/screenshotbot/recorder \
+            cd ~/src && ~/screenshotbot/recorder \
               --directory ${CIRCLE_ARTIFACTS}/*/*/artifacts/screenshot_bundle.zip \
               --channel screenshotbot-example-circleci-test \
               --metadata ${CIRCLE_ARTIFACTS}/*/*/artifacts/metadata.xml \
