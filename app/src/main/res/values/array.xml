@@ -51,6 +51,7 @@
         <item>@string/language_nl</item>
         <item>@string/language_pl</item>
         <item>@string/language_pt</item>
+        <item>@string/language_pt_br</item>
         <item>@string/language_ro</item>
         <item>@string/language_ru</item>
         <item>@string/language_sk</item>
@@ -69,6 +70,7 @@
         <item>nl</item>
         <item>pl</item>
         <item>pt</item>
+        <item>pt-BR</item>
         <item>ro</item>
         <item>ru</item>
         <item>sk</item>

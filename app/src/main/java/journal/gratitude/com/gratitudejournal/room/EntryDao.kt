@@ -19,7 +19,7 @@ interface EntryDao {
     fun getWrittenDates(): LiveData<List<LocalDate>>
 
     @Query("SELECT * FROM entries WHERE entryDate = :date")
-    fun getEntry(date: LocalDate): LiveData<Entry>
+    suspend fun getEntry(date: LocalDate): Entry
 
     @Delete
     fun delete(entry: Entry)

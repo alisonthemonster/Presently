@@ -77,6 +77,7 @@ class AppLockFragment : Fragment() {
                             // After a few ERROR_LOCKOUTs,
                             // blocks the user from authenticating until other means of authentication is used successfully.
                             BiometricConstants.ERROR_LOCKOUT_PERMANENT -> {
+                                //TODO move this hardcoded string to strings.xml
                                 Toast.makeText(context, "Too many failed attempts.", Toast.LENGTH_SHORT).show()
                                 crashlytics.recordException(Exception("Permanent Lockout occurred"))
                                 requireActivity().finish()
@@ -90,6 +91,7 @@ class AppLockFragment : Fragment() {
                             BiometricConstants.ERROR_NO_DEVICE_CREDENTIAL -> {
                                 crashlytics.recordException(Exception(errString.toString()))
                                 //no finger print is setup
+                                //TODO move this hardcoded string to strings.xml
                                 Toast.makeText(
                                         context,
                                         "Please set up a biometric recognition", Toast.LENGTH_SHORT
@@ -98,6 +100,7 @@ class AppLockFragment : Fragment() {
                             }
                             else -> {
                                 crashlytics.recordException(Exception("Code: $errorCode: $errString"))
+                                //TODO move this hardcoded string to strings.xml
                                 Toast.makeText(
                                         context,
                                         "Authentication error code $errorCode", Toast.LENGTH_SHORT

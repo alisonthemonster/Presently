@@ -79,7 +79,7 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun noEntry_showsPromptButton() {
-        val date = LocalDate.of(2019, 3, 22)
+        val date = LocalDate.of(2019, 3, 23)
 
         val args = EntryFragmentArgs(
             date.toString(),
@@ -97,7 +97,7 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun promptButton_changesHintText() {
-        val date = LocalDate.of(2019, 3, 22)
+        val date = LocalDate.of(2019, 3, 23)
 
         val args = EntryFragmentArgs(
             date.toString(),
@@ -204,7 +204,7 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun entryFragment_longPressQuote_copiesToClipboard() {
-        val date = LocalDate.of(2019, 3, 22)
+        val date = LocalDate.of(2019, 3, 23)
 
         val args = EntryFragmentArgs(
             date.toString(),
