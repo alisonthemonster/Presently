@@ -50,7 +50,7 @@ class EntryViewModel @AssistedInject constructor(
             copy(date = date)
         }
         viewModelScope.launch {
-            val entry = repository.getEntrySuspend(date)
+            val entry = repository.getEntry(date)
             setState {
                 copy(entryContent = entry?.entryContent ?: "")
             }

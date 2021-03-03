@@ -15,17 +15,7 @@ class FakeEntryRepository : EntryRepository {
     //mock of database
     var entriesDatabase: LinkedHashMap<LocalDate, Entry> = LinkedHashMap()
 
-    override fun getEntry(date: LocalDate): LiveData<Entry> {
-        val liveData = MutableLiveData<Entry>()
-
-        val entry = entriesDatabase[date] ?: Entry(date, "")
-
-        liveData.value = entry
-
-        return liveData
-    }
-
-    override suspend fun getEntrySuspend(date: LocalDate): Entry? {
+    override suspend fun getEntry(date: LocalDate): Entry? {
         return entriesDatabase[date] ?: Entry(date, "")
     }
 

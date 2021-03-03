@@ -8,9 +8,7 @@ import org.threeten.bp.LocalDate
 
 interface EntryRepository {
 
-    fun getEntry(date: LocalDate): LiveData<Entry>
-
-    suspend fun getEntrySuspend(date: LocalDate): Entry?
+    suspend fun getEntry(date: LocalDate): Entry?
 
     suspend fun getEntriesFlow(): Flow<List<Entry>>
 
