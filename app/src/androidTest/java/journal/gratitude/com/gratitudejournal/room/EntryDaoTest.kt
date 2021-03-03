@@ -6,6 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import journal.gratitude.com.gratitudejournal.util.LiveDataTestUtil
 import journal.gratitude.com.gratitudejournal.model.Entry
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -40,13 +41,12 @@ class EntryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeEntryAndReadInList() {
+    fun writeEntryAndReadInList() = runBlockingTest {
         val date = LocalDate.of(2012, 1, 1)
         val expectedEntry = Entry(date, "Test content")
         entryDao.insertEntry(expectedEntry)
 
-        val actualEntry =
-            LiveDataTestUtil.getValue(entryDao.getEntry(date))
+        val actualEntry = entryDao.getEntry(date)
         assertEquals(expectedEntry, actualEntry)
     }
 
