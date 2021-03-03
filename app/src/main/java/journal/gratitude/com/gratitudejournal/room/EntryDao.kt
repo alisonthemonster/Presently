@@ -21,6 +21,9 @@ interface EntryDao {
     @Query("SELECT * FROM entries WHERE entryDate = :date")
     fun getEntry(date: LocalDate): LiveData<Entry>
 
+    @Query("SELECT * FROM entries WHERE entryDate = :date")
+    suspend fun getEntrySuspend(date: LocalDate): Entry
+
     @Delete
     fun delete(entry: Entry)
 

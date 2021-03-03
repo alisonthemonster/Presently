@@ -25,6 +25,10 @@ class FakeEntryRepository : EntryRepository {
         return liveData
     }
 
+    override suspend fun getEntrySuspend(date: LocalDate): Entry? {
+        return entriesDatabase[date] ?: Entry(date, "")
+    }
+
     override suspend fun getEntries(): List<Entry> {
         val list = mutableListOf<Entry>()
         entriesDatabase.forEach { (_, entry) -> list.add(entry) }

@@ -1,159 +1,85 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
-import android.app.Application
-import androidx.databinding.Observable
-import androidx.databinding.Observable.OnPropertyChangedCallback
-import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
+import com.airbnb.mvrx.MavericksViewModel
+import com.airbnb.mvrx.MavericksViewModelFactory
+import com.airbnb.mvrx.ViewModelContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.appComponent
+import journal.gratitude.com.gratitudejournal.di.AssistedViewModelFactory
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
-import java.io.IOException
-import java.util.*
-import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
+class EntryViewModel @AssistedInject constructor(
+    @Assisted initialState: EntryState,
+    private val repository: EntryRepository
+) : MavericksViewModel<EntryState>(initialState) {
 
-class EntryViewModel @Inject constructor(
-    private val repository: EntryRepository,
-    application: Application
-) :
-    AndroidViewModel(application) {
+    fun changePrompt() {
+        setState {
+            val newPromptNumber = if (promptNumber < promptsList.size - 1) promptNumber + 1 else 0
+            val newPrompt = promptsList[newPromptNumber]
+            copy(hint = newPrompt, promptNumber = newPromptNumber)
+        }
+    }
 
-    val entry: LiveData<Entry>
-    private val dateLiveData = MutableLiveData<LocalDate>()
-    val entryContent = ObservableField<String>("")
-    val isEmpty = ObservableBoolean(true)
-    val hasUserEdits = ObservableBoolean(false)
+    fun onTextChanged(newText: String) {
+        setState {
+            copy(entryContent = newText, hasUserEdits = true)
+        }
+    }
 
-    private var parentJob = Job()
-    private val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.Main
-    private val scope = CoroutineScope(coroutineContext)
-    private val inspiration = application.resources.getStringArray(R.array.inspirations).random()
-    private var promptString = ""
-    private val promptsArray = application.resources.getStringArray(R.array.prompts)
-    private val prompts = getPromptsQueue(promptsArray)
-
-    init {
-        entryContent.addOnPropertyChangedCallback(object : OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable, propertyId: Int) {
-                if (sender == entryContent) {
-                    val content = entryContent.get() ?: ""
-                    isEmpty.set(content.isEmpty())
-                }
-            }
-        })
-
-        entry = MediatorLiveData()
-
-        entry.addSource(dateLiveData) { date ->
-            entry.addSource(repository.getEntry(date)) { data ->
-                if (data != null && !hasUserEdits.get()) {
-                    entryContent.set(data.entryContent)
-                }
-                entry.value = data
+    fun saveEntry() {
+        withState {
+            val entry = Entry(it.date, it.entryContent)
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.addEntry(entry)
             }
         }
-
     }
 
     fun setDate(passedInDate: String) {
         val date = passedInDate.toLocalDate()
-        dateLiveData.value = date
-    }
-
-    fun addNewEntry() = scope.launch(Dispatchers.IO) {
-        val date = dateLiveData.value ?: throw IOException("Date was not provided")
-        val entry = Entry(date, entryContent.get() ?: "")
-        repository.addEntry(entry)
-    }
-
-    fun getDateString(): String {
-        val date = dateLiveData.value ?: throw IOException("Date was not provided")
-        val today = LocalDate.now()
-        return when (date) {
-            today -> getApplication<Application>().resources.getString(R.string.today)
-            today.minusDays(1) -> getApplication<Application>().resources.getString(R.string.yesterday)
-            else -> date.toFullString()
+        setState {
+            copy(date = date)
         }
-    }
-
-    fun getHintString(): String {
-        val date = dateLiveData.value ?: throw IOException("Date was not provided")
-        return if (promptString.isEmpty()) {
-            val today = LocalDate.now()
-            when (date) {
-                today -> getApplication<Application>().resources.getString(R.string.what_are_you_thankful_for)
-                else -> getApplication<Application>().resources.getString(R.string.what_were_you_thankful_for)
+        viewModelScope.launch {
+            val entry = repository.getEntrySuspend(date)
+            setState {
+                copy(entryContent = entry?.entryContent ?: "")
             }
-        } else {
-            promptString
         }
     }
 
-    fun getRandomPromptHintString() {
-        promptString = getPrompt()
+    @AssistedFactory
+    interface Factory: AssistedViewModelFactory<EntryViewModel, EntryState> {
+        override fun create(state: EntryState): EntryViewModel
     }
 
-    fun getInspirationString(): String {
-        return inspiration
-    }
+    companion object : MavericksViewModelFactory<EntryViewModel, EntryState> {
 
-    fun getShareContent(): String {
-        return "${getDateString()} ${getThankfulString()} ${entryContent.get()?.decapitalize()}"
-    }
-
-    fun userEdited() {
-        hasUserEdits.set(true)
-    }
-
-    private fun String.decapitalize(): String {
-        if (this.isEmpty()) {
-            return this
+        override fun initialState(viewModelContext: ViewModelContext): EntryState {
+            val passedInDate = LocalDate.now() // TODO is there a way get from fragment args?
+            val prompts = viewModelContext.activity.resources.getStringArray(R.array.prompts)
+            prompts.shuffle() //randomise prompts
+            val quote = viewModelContext.activity.resources.getStringArray(R.array.inspirations).random()
+            return EntryState(passedInDate, "", null, quote, false, 0, prompts.toList())
         }
-        val chars = this.toCharArray()
-        chars[0] = Character.toLowerCase(chars[0])
-        return String(chars)
-    }
 
-    fun getThankfulString(): String {
-        val date = dateLiveData.value ?: throw IOException("Date was not provided")
-        return if (date == LocalDate.now()) {
-            getApplication<Application>().resources.getString(R.string.iam)
-        } else {
-            getApplication<Application>().resources.getString(R.string.iwas)
+        override fun create(viewModelContext: ViewModelContext, state: EntryState): EntryViewModel {
+            val component = viewModelContext.activity.appComponent()
+            val viewModelFactoryMap =component.viewModelFactories()
+            val viewModelFactory = viewModelFactoryMap[EntryViewModel::class.java]
+
+            @Suppress("UNCHECKED_CAST")
+            val castedViewModelFactory = viewModelFactory as? AssistedViewModelFactory<EntryViewModel, EntryState>
+            return castedViewModelFactory?.create(state)!! //TODO
         }
-    }
-
-    private fun getPromptsQueue(prompts: Array<String>): LinkedList<String> {
-        val shuffled = prompts.toMutableList().shuffled()
-        val queue = LinkedList<String>()
-        for (prompt in shuffled) {
-            queue.add(prompt)
-        }
-        return queue
-    }
-
-    private fun getPrompt(): String {
-        val next = prompts.remove()
-        prompts.add(next)
-        return next
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        parentJob.cancel()
     }
 }
