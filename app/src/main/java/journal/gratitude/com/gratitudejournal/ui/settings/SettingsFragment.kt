@@ -278,6 +278,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 fireAnalyticsEventForCadence(cadence, firebaseAnalytics)
                 createDropboxUploaderWorker(cadence)
             }
+            APP_LANGUAGE -> {
+                val language = sharedPreferences.getString(APP_LANGUAGE, "unknown")
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, language)
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, language)
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "language")
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+                startActivity(Intent.makeRestartActivityTask(activity?.intent?.component))
+            }
         }
     }
 
@@ -474,6 +483,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
             val navController = findNavController()
             navController.navigateUp()
+            //TODO move this hardcoded string to strings.xml
             Toast.makeText(context, "Imported successfully!", Toast.LENGTH_SHORT).show()
         } catch (exception: Exception) {
             firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
@@ -567,6 +577,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val DAY_OF_WEEK = "day_of_week"
         const val LINES_PER_ENTRY_IN_TIMELINE = "lines_per_entry_in_timeline"
         const val FIRST_DAY_OF_WEEK = "first_day_of_week"
+        const val APP_LANGUAGE = "app_language"
+
+        const val DEFAULT_APP_LANGUAGE = "en"
     }
 }
 
