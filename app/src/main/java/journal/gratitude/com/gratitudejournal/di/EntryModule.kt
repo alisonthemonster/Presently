@@ -18,6 +18,6 @@ abstract class EntryModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(EntryViewModel::class)
-    abstract fun bindViewModel(viewModel: EntryViewModel): ViewModel
+    @MavericksViewModelKey(EntryViewModel::class)
+    abstract fun entryViewModelFactory(factory: EntryViewModel.Factory): AssistedViewModelFactory<*, *>
 }

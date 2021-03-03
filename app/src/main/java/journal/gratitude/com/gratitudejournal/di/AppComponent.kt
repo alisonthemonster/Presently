@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.di
 
 import android.app.Application
 import android.content.Context
+import com.airbnb.mvrx.MavericksViewModel
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -32,4 +33,6 @@ interface ApplicationComponent : AndroidInjector<GratitudeApplication> {
             @BindsInstance application: Application
         ): ApplicationComponent
     }
+
+    fun viewModelFactories(): Map<Class<out MavericksViewModel<*>>, AssistedViewModelFactory<*, *>>
 }

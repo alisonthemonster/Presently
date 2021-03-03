@@ -1,300 +1,99 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
 import android.app.Application
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nhaarman.mockitokotlin2.*
-import journal.gratitude.com.gratitudejournal.util.LiveDataTestUtil
-import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.model.Entry
+import androidx.paging.PagingData
+import com.airbnb.mvrx.withState
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.util.toLocalDate
+import com.airbnb.mvrx.test.MvRxTestRule
+import com.nhaarman.mockitokotlin2.verify
+import journal.gratitude.com.gratitudejournal.model.Entry
 import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertFalse
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 import org.threeten.bp.LocalDate
-import java.io.IOException
-import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
 
 class EntryViewModelTest {
 
     private lateinit var viewModel: EntryViewModel
 
-    private val today = LocalDate.of(2011, 11, 11)
-    private val todayString = today.toString()
+    private val repository = object : EntryRepository {
+        override suspend fun getEntry(date: LocalDate): Entry? {
+            return Entry(date, "hii there")
+        }
 
-    private val repository = mock<EntryRepository>()
+        override suspend fun getEntriesFlow(): Flow<List<Entry>> {
+            return flowOf(listOf(Entry(LocalDate.of(2021, 2, 28), "hii there")))
+        }
+
+        override suspend fun getEntries(): List<Entry> {
+            return listOf(Entry(LocalDate.of(2021, 2, 28), "hii there"))
+        }
+
+        override fun getWrittenDates(): LiveData<List<LocalDate>> {
+            return MutableLiveData(listOf(LocalDate.of(2021, 2, 28)))
+        }
+
+        override suspend fun addEntry(entry: Entry) = Unit
+
+        override suspend fun addEntries(entries: List<Entry>) = Unit
+
+        override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
+    }
     private val application = mock<Application>()
 
-    @Rule
-    @JvmField
-    val rule = InstantTaskExecutorRule()
+    @get:Rule
+    val mvrxRule = MvRxTestRule()
 
     @Before
     fun before() {
-        whenever(repository.getEntry(any())).thenReturn(mock())
         whenever(application.resources).thenReturn(mock())
         whenever(application.resources.getStringArray(anyInt())).thenReturn(arrayOf("InspirationalQuote"))
     }
 
     @Test
-    fun initViewModel_CallsRepository_getEntry() {
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(todayString)
+    fun `GIVEN entry view model WHEN changePrompt is called THEN the state is updated`() {
+        val initialState = EntryState(LocalDate.now(), "", null, "quote", false, 0, listOf("one", "two"))
+        viewModel = EntryViewModel(initialState, repository)
+        viewModel.changePrompt()
 
-        LiveDataTestUtil.getValue(viewModel.entry)
-
-        verify(repository, times(1)).getEntry(any())
-    }
-
-    @Test
-    fun initViewModel_CallsRepository_getEntry_withDate() {
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(todayString)
-
-        LiveDataTestUtil.getValue(viewModel.entry)
-
-        verify(repository, times(1)).getEntry(todayString.toLocalDate())
-    }
-
-    @Test
-    fun initViewModel_setsContentString() {
-        val expectedContent = "Hello there friend!"
-        val liveData = MutableLiveData<Entry>()
-        liveData.postValue(Entry(LocalDate.now(), expectedContent))
-
-        whenever(repository.getEntry(any())).thenReturn(liveData)
-
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(todayString)
-        LiveDataTestUtil.getValue(viewModel.entry)
-
-        assertEquals(expectedContent, viewModel.entryContent.get())
-    }
-
-    @Test
-    fun getDateString_Today_returnsToday() {
-        val expected = "Today"
-        whenever(application.resources.getString(anyInt())).thenReturn(expected)
-
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(LocalDate.now().toString())
-
-        assertEquals(expected, viewModel.getDateString())
-    }
-
-    @Test
-    fun getHintString_Today_returnsPresentTense() {
-        val expected = "What are you grateful for?"
-        whenever(application.resources.getString(anyInt())).thenReturn(expected)
-
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(LocalDate.now().toString())
-
-        assertEquals(expected, viewModel.getHintString())
-        verify(application.resources).getString(R.string.what_are_you_thankful_for)
-
-    }
-
-    @Test
-    fun getHintString_Past_returnsPastTense() {
-        val expected = "What were you grateful for?"
-        val yesterday = LocalDate.now().minusDays(1)
-        whenever(application.resources.getString(anyInt())).thenReturn(expected)
-
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(yesterday.toString())
-
-        assertEquals(expected, viewModel.getHintString())
-        verify(application.resources).getString(R.string.what_were_you_thankful_for)
-    }
-
-    @Test
-    fun getHintString_withNewHint() {
-        val expected = arrayOf("prompt one")
-        val yesterday = LocalDate.now().minusDays(1)
-        whenever(application.resources.getStringArray(anyInt())).thenReturn(expected)
-
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(yesterday.toString())
-
-        viewModel.getRandomPromptHintString()
-
-        assertEquals(expected[0], viewModel.getHintString())
-        verify(application.resources).getStringArray(R.array.prompts)
-    }
-
-    @Test
-    fun getHintString_withQueueStyle() {
-        val expected = arrayOf("prompt one", "prompt two")
-        val yesterday = LocalDate.now().minusDays(1)
-        whenever(application.resources.getStringArray(anyInt())).thenReturn(expected)
-
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(yesterday.toString())
-
-        viewModel.getRandomPromptHintString()
-        val first = viewModel.getHintString()
-        viewModel.getRandomPromptHintString()
-        val second = viewModel.getHintString()
-
-        assert(first != second)
-    }
-
-    @Test
-    fun getHintString_withPromptRecycling() {
-        val expected = arrayOf("prompt one", "prompt two")
-        val yesterday = LocalDate.now().minusDays(1)
-        whenever(application.resources.getStringArray(anyInt())).thenReturn(expected)
-
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(yesterday.toString())
-
-        viewModel.getRandomPromptHintString()
-        val first = viewModel.getHintString()
-        viewModel.getRandomPromptHintString()
-        viewModel.getRandomPromptHintString()
-        val third = viewModel.getHintString()
-
-        assertEquals(first, third)
-    }
-
-    @Test
-    fun getDateString_Yesterday_returnsYesterday() {
-        val expected = "Yesterday"
-        val yesterday = LocalDate.now().minusDays(1)
-        whenever(application.resources.getString(anyInt())).thenReturn(expected)
-
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(yesterday.toString())
-
-        assertEquals(expected, viewModel.getDateString())
-    }
-
-    @Test
-    fun deletingEntryContent_updatesIsEmpty() {
-        viewModel = EntryViewModel(repository, application)
-
-        viewModel.entryContent.set("hellooooo") //write content
-        viewModel.entryContent.set("") //empty the contents
-
-        assertEquals(true, viewModel.isEmpty.get())
-    }
-
-    @Test
-    fun getDateString_OldDate_returnsOldDate() {
-        val expected = "November 11, 2011"
-
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(todayString)
-
-        assertEquals(expected, viewModel.getDateString())
-    }
-
-    @Test
-    fun getThankfulString_Today_returnsPresentTense() {
-        val expected = "I am grateful for"
-        whenever(application.resources.getString(anyInt())).thenReturn(expected)
-
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(LocalDate.now().toString())
-        assertEquals(expected, viewModel.getThankfulString())
-    }
-
-    @Test
-    fun getThankfulString_PastDay_returnsPastTense() {
-        val expected = "I was grateful for"
-        whenever(application.resources.getString(anyInt())).thenReturn(expected)
-
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(todayString)
-
-        assertEquals(expected, viewModel.getThankfulString())
-    }
-
-    @Test
-    fun getShareString_returnsShareString() {
-        val expectedContent = "My dear friends"
-        val liveData = MutableLiveData<Entry>()
-        liveData.postValue(Entry(LocalDate.now(), expectedContent))
-        val expectedPhrase = "I am grateful for"
-        whenever(application.resources.getString(R.string.today)).thenReturn("Today")
-        whenever(application.resources.getString(R.string.iam)).thenReturn(expectedPhrase)
-        whenever(repository.getEntry(any())).thenReturn(liveData)
-
-        val expected = "Today I am grateful for my dear friends"
-
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(LocalDate.now().toString())
-        LiveDataTestUtil.getValue(viewModel.entry)
-
-        assertEquals(expected, viewModel.getShareContent())
-    }
-
-    @Test
-    fun getShareStringEmptyContent_returnsShareString() {
-        val expectedContent = ""
-        val liveData = MutableLiveData<Entry>()
-        liveData.postValue(Entry(LocalDate.now(), expectedContent))
-        val expectedPhrase = "I am grateful for"
-        whenever(application.resources.getString(R.string.today)).thenReturn("Today")
-        whenever(application.resources.getString(R.string.iam)).thenReturn(expectedPhrase)
-        whenever(repository.getEntry(any())).thenReturn(liveData)
-
-        val expected = "Today I am grateful for "
-
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(LocalDate.now().toString())
-        LiveDataTestUtil.getValue(viewModel.entry)
-
-        assertEquals(expected, viewModel.getShareContent())
-    }
-
-    @Test
-    fun getInspirationalQuote_returnsQuote() {
-        viewModel = EntryViewModel(repository, application)
-        viewModel.setDate(LocalDate.now().toString())
-
-        assertEquals("InspirationalQuote", viewModel.getInspirationString())
-    }
-
-    @Test
-    fun getDateString_noDate_throwsException() {
-        viewModel = EntryViewModel(repository, application)
-
-        assertFailsWith<IOException> {
-            viewModel.getDateString()
+        withState(viewModel) {
+            assertEquals(it.promptNumber, 1)
+            assertEquals(it.hint, "two")
         }
     }
 
     @Test
-    fun getHintString_noDate_throwsException() {
-        viewModel = EntryViewModel(repository, application)
+    fun `GIVEN entry view model WHEN onTextChanged is called THEN the state is updated`() {
+        val initialState = EntryState(LocalDate.now(), "", null, "quote", false, 0, listOf("one", "two"))
+        viewModel = EntryViewModel(initialState, repository)
+        viewModel.onTextChanged("new text")
 
-        assertFailsWith<IOException> {
-            viewModel.getHintString()
+        withState(viewModel) {
+            assertEquals(it.entryContent, "new text")
+            assertEquals(it.hasUserEdits, true)
         }
     }
 
     @Test
-    fun getThankfulString_noDate_throwsException() {
-        viewModel = EntryViewModel(repository, application)
+    fun `GIVEN entry view model WHEN setDate is called THEN the state is updated`() {
+        val initialState = EntryState(LocalDate.now(), "", null, "quote", false, 0, listOf("one", "two"))
+        viewModel = EntryViewModel(initialState, repository)
+        viewModel.setDate("2021-03-02")
 
-        assertFailsWith<IOException> {
-            viewModel.getThankfulString()
+        withState(viewModel) {
+            assertEquals(it.date, LocalDate.of(2021, 3, 2))
+            assertEquals(it.entryContent, "hii there")
         }
-    }
-
-    @Test
-    fun userEdited_setsIsEdited_true() {
-        viewModel = EntryViewModel(repository, application)
-
-        assertFalse(viewModel.hasUserEdits.get())
-        viewModel.userEdited()
-        assertTrue(viewModel.hasUserEdits.get())
     }
 }

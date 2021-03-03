@@ -16,7 +16,7 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         private const val PAGE_SIZE = 20
     }
 
-    override fun getEntry(date: LocalDate): LiveData<Entry> {
+    override suspend fun getEntry(date: LocalDate): Entry {
         return entryDao.getEntry(date)
     }
 
