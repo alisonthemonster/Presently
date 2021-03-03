@@ -96,13 +96,4 @@ class EntryViewModelTest {
             assertEquals(it.entryContent, "hii there")
         }
     }
-
-    @Test
-    fun `GIVEN entry view model WHEN setDate is called THEN the repository is called`() = runBlockingTest {
-        val initialState = EntryState(LocalDate.now(), "", null, "quote", false, 0, listOf("one", "two"))
-        viewModel = EntryViewModel(initialState, repository)
-        viewModel.setDate("2021-03-02")
-
-        verify(repository.getEntry(LocalDate.of(2021, 3, 2)))
-    }
 }
