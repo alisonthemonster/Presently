@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.ui.search
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.KeyEvent
@@ -92,6 +94,9 @@ class SearchFragment : DaggerFragment() {
 
                 search_results?.isVisible = !displayEmptyMessage
                 no_results_icon?.isVisible = displayEmptyMessage
+                // Handle icon display issues in older versions
+                if(Build.VERSION.SDK_INT <= 23)
+                    no_results_icon.imageTintList = context?.getColorStateList(R.color.text_color)
                 no_results?.isVisible = displayEmptyMessage
             }
         }
