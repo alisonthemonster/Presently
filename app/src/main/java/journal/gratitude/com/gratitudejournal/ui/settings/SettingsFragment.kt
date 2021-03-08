@@ -579,7 +579,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val FIRST_DAY_OF_WEEK = "first_day_of_week"
         const val APP_LANGUAGE = "app_language"
 
-        const val DEFAULT_APP_LANGUAGE = "en"
+        const val NO_LANG_PREF = "no_language_selected"
     }
 }
 
