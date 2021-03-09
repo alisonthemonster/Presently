@@ -97,4 +97,5 @@
     <string name="random">Zufällig</string>
     <string name="app_language_title">Anwendungssprache</string>
     <string name="app_language_summary">Legen Sie die Standard-App-Sprache fest</string>
+    <string name="loading_lang">Laden, bitte warten</string>
 </resources>

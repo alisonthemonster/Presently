@@ -108,4 +108,5 @@
     <string name="random">Aleatoriu</string>
     <string name="share_milestone">Am completat %1$d zile din jurnalul recunoștinței! Alătură-te mie folosind aplicația Presently. #PresentlyApp</string>
     <string name="share_app_text">Practică recunoștința cu această aplicație simplă, întotdeauna gratuită și privată de jurnal al recunoștinței</string>
+    <string name="loading_lang">Încărcare va rugam asteptati</string>
 </resources>

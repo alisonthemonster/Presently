@@ -30,8 +30,11 @@ import androidx.work.WorkManager
 import com.dropbox.core.android.Auth
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
+import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
+import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.android.support.AndroidSupportInjection
@@ -63,10 +66,25 @@ import javax.inject.Inject
 class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel by viewModels<SettingsViewModel> { viewModelFactory }
+
+    private lateinit var splitInstallManager: SplitInstallManager
+
+    private val listener = SplitInstallStateUpdatedListener { state ->
+        if (state.sessionId() == requestId && state.status() == SplitInstallSessionStatus.INSTALLED) {
+            firebaseAnalytics.logEvent(LANGUAGE_INSTALLED, null)
+            startActivity(Intent.makeRestartActivityTask(activity?.intent?.component))
+        } else if (state.sessionId() == requestId && state.status() == SplitInstallSessionStatus.FAILED) {
+            val errorCode = state.errorCode()
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(Exception("SplitInstallErrorCode: $errorCode"))
+            Toast.makeText(context, "Error loading language", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private var requestId = 0
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -79,6 +97,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         super.onViewCreated(view, savedInstanceState)
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+
+        splitInstallManager = SplitInstallManagerFactory.create(requireContext())
 
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
             v.updatePadding(
@@ -290,16 +310,18 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "language")
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
 
-                val splitInstallManager = SplitInstallManagerFactory.create(requireContext())
+                val crashlytics = FirebaseCrashlytics.getInstance()
+
                 val request = SplitInstallRequest.newBuilder()
-                    .addLanguage(Locale.forLanguageTag(language ?: "en"))
+                    .addLanguage(Locale.forLanguageTag(language))
                     .build()
+                splitInstallManager.registerListener(listener)
                 splitInstallManager.startInstall(request)
                     .addOnSuccessListener {
-                        startActivity(Intent.makeRestartActivityTask(activity?.intent?.component))
+                        requestId = it
+                        Toast.makeText(context, R.string.loading_lang, Toast.LENGTH_SHORT).show()
                     }
                     .addOnFailureListener { exception ->
-                        val crashlytics = FirebaseCrashlytics.getInstance()
                         crashlytics.recordException(exception)
                         Toast.makeText(context, "Error loading language", Toast.LENGTH_SHORT).show()
                     }
@@ -340,6 +362,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
         } else {
             super.onDisplayPreferenceDialog(preference)
         }
+    }
+
+    override fun onDestroy() {
+        splitInstallManager.unregisterListener(listener)
+        super.onDestroy()
     }
 
 
