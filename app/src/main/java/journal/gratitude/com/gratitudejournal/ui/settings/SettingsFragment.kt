@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
@@ -29,6 +30,8 @@ import androidx.work.WorkManager
 import com.dropbox.core.android.Auth
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.android.support.AndroidSupportInjection
@@ -52,6 +55,7 @@ import org.apache.commons.csv.CSVParser
 import org.threeten.bp.LocalDateTime
 import java.io.InputStream
 import java.nio.charset.Charset
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -285,7 +289,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, language)
                 bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "language")
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-                startActivity(Intent.makeRestartActivityTask(activity?.intent?.component))
+
+                val splitInstallManager = SplitInstallManagerFactory.create(requireContext())
+                val request = SplitInstallRequest.newBuilder()
+                    .addLanguage(Locale.forLanguageTag(language ?: "en"))
+                    .build()
+                splitInstallManager.startInstall(request)
+                    .addOnSuccessListener {
+                        startActivity(Intent.makeRestartActivityTask(activity?.intent?.component))
+                    }
             }
         }
     }
