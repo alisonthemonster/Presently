@@ -298,6 +298,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     .addOnSuccessListener {
                         startActivity(Intent.makeRestartActivityTask(activity?.intent?.component))
                     }
+                    .addOnFailureListener { exception ->
+                        val crashlytics = FirebaseCrashlytics.getInstance()
+                        crashlytics.recordException(exception)
+                        Toast.makeText(context, "Error loading language", Toast.LENGTH_SHORT).show()
+                    }
             }
         }
     }
