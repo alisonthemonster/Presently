@@ -1,9 +1,11 @@
 package journal.gratitude.com.gratitudejournal
 
+import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import androidx.work.Configuration
 import androidx.work.WorkManager
 import com.airbnb.mvrx.Mavericks
+import com.google.android.play.core.splitcompat.SplitCompat
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
@@ -29,6 +31,12 @@ open class GratitudeApplication: DaggerApplication() {
         AndroidThreeTen.init(this)
 
         Mavericks.initialize(this)
+    }
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(base)
+        // Emulates installation of future on demand modules using SplitCompat.
+        SplitCompat.install(this)
     }
 
     @Inject

@@ -99,4 +99,5 @@
     <string name="random">náhodný</string>
     <string name="app_language_title">Jazyk žiadosti</string>
     <string name="app_language_summary">Nastaviť predvolený jazyk aplikácie</string>
+    <string name="loading_lang">Načítavam, počkajte prosím</string>
 </resources>

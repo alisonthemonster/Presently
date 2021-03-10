@@ -99,4 +99,5 @@
     <string name="random">Aleatorio</string>
     <string name="app_language_title">Idioma de la aplicación</string>
     <string name="app_language_summary">Establecer el idioma predeterminado de la aplicación</string>
+    <string name="loading_lang">Cargando por favor espere</string>
 </resources>

@@ -54,8 +54,10 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val passedInDate = args.date
-        viewModel.setDate(passedInDate)
+        if (savedInstanceState == null) {
+            val passedInDate = args.date
+            viewModel.setDate(passedInDate)
+        }
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

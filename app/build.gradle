@@ -20,7 +20,7 @@ android {
         minSdkVersion project.ext.androidMinSdk
         targetSdkVersion project.ext.androidTargetSdk
 
-        versionCode 55
+        versionCode 65
         versionName project.ext.androidVersionName
         //TODO wire up to CI
         //buildConfigField 'int', 'BUILD_NUMBER', "${project.ext.buildNumber}"
@@ -85,6 +85,7 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:1.3.0-alpha08"
     implementation "androidx.biometric:biometric:1.0.1"
     implementation "androidx.work:work-runtime-ktx:2.4.0"
+    implementation 'com.google.android.play:core:1.10.0'
 
     implementation "androidx.room:room-ktx:2.3.0-beta01"
     implementation "androidx.room:room-runtime:2.3.0-beta01"
