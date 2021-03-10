@@ -127,6 +127,7 @@ jobs:
               --metadata /root/src/firebase/*/artifacts/sdcard/screenshots/journal.gratitude.com.gratitudejournal.test/screenshots-default/metadata.xml \
               --production \
               --branch ${CIRCLE_BRANCH} \
+              --main-branch develop \
               --api-key ${SCREENSHOTBOT_API_KEY} \
               --repo-url ${CIRCLE_REPOSITORY_URL} \
               --api-secret ${SCREENSHOTBOT_API_SECRET}
