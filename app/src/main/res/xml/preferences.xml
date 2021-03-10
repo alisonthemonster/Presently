@@ -62,7 +62,6 @@
             android:entryValues="@array/DaysOfWeekValues" />
 
         <ListPreference
-            android:defaultValue="en"
             android:entries="@array/AppLanguage"
             android:entryValues="@array/AppLanguageValues"
             android:gravity="center_horizontal"

@@ -30,6 +30,7 @@ const val DROPBOX_DEAUTH = "dropboxDeauthorization"
 const val DROPBOX_AUTH_ATTEMPT = "dropboxAuthorizaitonAttempt"
 const val DROPBOX_AUTH_SUCCESS = "dropboxAuthorizaitonSuccess"
 const val DROPBOX_AUTH_QUIT = "dropboxAuthorizaitonQuit"
+const val LANGUAGE_INSTALLED = "languageInstalled"
 
 //BIOMETRIC EVENTS
 const val BIOMETRICS_SELECT = "biometricsSelected"
