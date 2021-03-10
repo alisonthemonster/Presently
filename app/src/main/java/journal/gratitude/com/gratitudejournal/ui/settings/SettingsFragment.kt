@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -125,6 +126,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
         val share = findPreference<Preference>(getString(R.string.key_share_app))
+
+        // Handle icon issues for android versions < 23
+        if(Build.VERSION.SDK_INT <= 23) {
+            context?.getColor(R.color.text_color)?.let { share?.icon?.setTint(it) }
+            val lang = findPreference<Preference>("app_language")
+            context?.getColor(R.color.text_color)?.let { lang?.icon?.setTint(it) }
+        }
+
         share?.setOnPreferenceClickListener {
             openShareApp()
             true
