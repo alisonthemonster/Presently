@@ -46,11 +46,11 @@
             app:showSeekBarValue="true" />
         <SwitchPreference
             android:defaultValue="true"
-            android:icon="@drawable/ic_flower"
             android:key="show_quote"
+            android:icon="@drawable/ic_inspiration"
             android:summaryOff="@string/show_quote_off"
             android:summaryOn="@string/show_quote_on"
-            android:title="@string/inspiration_title"/>
+            android:title="@string/inspiration_title" />
         <SwitchPreference
             android:defaultValue="false"
             android:icon="@drawable/ic_date"
