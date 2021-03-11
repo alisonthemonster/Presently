@@ -108,7 +108,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
         val showQuote = sharedPrefs.getBoolean("show_quote", true)
         if (!showQuote) {
-            inspiration.visibility = View.INVISIBLE
+            inspiration.visibility = View.GONE
         }
 
         inspiration.setOnLongClickListener {
