@@ -94,8 +94,11 @@
     <string name="first_day_of_week_title">First day of the week</string>
     <string name="share_milestone">som dokončil %1$d dní vďačnosti denníka! Pripojte sa ku mne za použitia v súčasnosti App. #PresentlyApp</string>
     <string name="share_presently">zdieľať súčasné</string>
-    <string name="enjoying_presently">Наслаждаясь В настоящее время? Поделитесь приложением с друзьями и семьей</string>
+    <string name="enjoying_presently">Páči sa vám aplikácia? Zdieľajte aplikáciu so svojimi priateľmi a rodinou</string>
     <string name="share_app_text">Prax vďačnosť s touto jednoduchou, vždy zadarmo a súkromný vďačnosť žurnalizáciu app</string>
     <string name="random">náhodný</string>
     <string name="quote_widget_name">Citát dňa</string>
+    <string name="app_language_title">Jazyk žiadosti</string>
+    <string name="app_language_summary">Nastaviť predvolený jazyk aplikácie</string>
+    <string name="loading_lang">Načítavam, počkajte prosím</string>
 </resources>

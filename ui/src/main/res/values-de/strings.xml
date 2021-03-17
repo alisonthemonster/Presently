@@ -92,8 +92,11 @@
     <string name="first_day_of_week_title">Erster Tag der Woche</string>
     <string name="share_milestone">Ich absolvierte %1$d Tage Dankbarkeit Journaling! Begleiten Sie mich die gegenwärtig App verwenden. #PresentlyApp</string>
     <string name="share_presently">Teile Derzeit</string>
-    <string name="enjoying_presently">Bénéficiant Actuellement? Partager l\'application avec vos amis et votre famille</string>
+    <string name="enjoying_presently">Genießen Sie die App? Teilen Sie die App mit Ihren Freunden und Ihrer Familie</string>
     <string name="share_app_text">Praxis Dankbarkeit mit diesem einfachen, immer frei, und privaten Dankbarkeit Journaling App</string>
     <string name="random">Zufällig</string>
+    <string name="app_language_title">Anwendungssprache</string>
+    <string name="app_language_summary">Legen Sie die Standard-App-Sprache fest</string>
+    <string name="loading_lang">Laden, bitte warten</string>
     <string name="quote_widget_name">Zitat des Tages</string>
 </resources>

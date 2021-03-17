@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -29,6 +30,11 @@ import androidx.work.WorkManager
 import com.dropbox.core.android.Auth
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.splitinstall.SplitInstallManager
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
+import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
+import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.android.support.AndroidSupportInjection
@@ -52,6 +58,7 @@ import org.apache.commons.csv.CSVParser
 import org.threeten.bp.LocalDateTime
 import java.io.InputStream
 import java.nio.charset.Charset
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -59,10 +66,25 @@ import javax.inject.Inject
 class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel by viewModels<SettingsViewModel> { viewModelFactory }
+
+    private lateinit var splitInstallManager: SplitInstallManager
+
+    private val listener = SplitInstallStateUpdatedListener { state ->
+        if (state.sessionId() == requestId && state.status() == SplitInstallSessionStatus.INSTALLED) {
+            firebaseAnalytics.logEvent(LANGUAGE_INSTALLED, null)
+            startActivity(Intent.makeRestartActivityTask(activity?.intent?.component))
+        } else if (state.sessionId() == requestId && state.status() == SplitInstallSessionStatus.FAILED) {
+            val errorCode = state.errorCode()
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(Exception("SplitInstallErrorCode: $errorCode"))
+            Toast.makeText(context, "Error loading language", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private var requestId = 0
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -75,6 +97,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         super.onViewCreated(view, savedInstanceState)
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+
+        splitInstallManager = SplitInstallManagerFactory.create(requireContext())
 
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
             v.updatePadding(
@@ -102,6 +126,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
         val share = findPreference<Preference>(getString(R.string.key_share_app))
+
+        // Handle icon issues for android versions < 23
+        if(Build.VERSION.SDK_INT <= 23) {
+            context?.getColor(R.color.text_color)?.let { share?.icon?.setTint(it) }
+            val lang = findPreference<Preference>("app_language")
+            context?.getColor(R.color.text_color)?.let { lang?.icon?.setTint(it) }
+        }
+
         share?.setOnPreferenceClickListener {
             openShareApp()
             true
@@ -278,6 +310,30 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 fireAnalyticsEventForCadence(cadence, firebaseAnalytics)
                 createDropboxUploaderWorker(cadence)
             }
+            APP_LANGUAGE -> {
+                val language = sharedPreferences.getString(APP_LANGUAGE, "unknown")
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, language)
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, language)
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "language")
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+
+                val crashlytics = FirebaseCrashlytics.getInstance()
+
+                val request = SplitInstallRequest.newBuilder()
+                    .addLanguage(Locale.forLanguageTag(language))
+                    .build()
+                splitInstallManager.registerListener(listener)
+                splitInstallManager.startInstall(request)
+                    .addOnSuccessListener {
+                        requestId = it
+                        Toast.makeText(context, R.string.loading_lang, Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { exception ->
+                        crashlytics.recordException(exception)
+                        Toast.makeText(context, "Error loading language", Toast.LENGTH_SHORT).show()
+                    }
+            }
         }
     }
 
@@ -314,6 +370,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
         } else {
             super.onDisplayPreferenceDialog(preference)
         }
+    }
+
+    override fun onDestroy() {
+        splitInstallManager.unregisterListener(listener)
+        super.onDestroy()
     }
 
 
@@ -474,6 +535,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
             val navController = findNavController()
             navController.navigateUp()
+            //TODO move this hardcoded string to strings.xml
             Toast.makeText(context, "Imported successfully!", Toast.LENGTH_SHORT).show()
         } catch (exception: Exception) {
             firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
@@ -567,6 +629,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val DAY_OF_WEEK = "day_of_week"
         const val LINES_PER_ENTRY_IN_TIMELINE = "lines_per_entry_in_timeline"
         const val FIRST_DAY_OF_WEEK = "first_day_of_week"
+        const val APP_LANGUAGE = "app_language"
+
+        const val NO_LANG_PREF = "no_language_selected"
     }
 }
 

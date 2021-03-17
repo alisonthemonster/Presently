@@ -16,6 +16,7 @@ We support several languages currently and are always looking for translators to
 - MVVM with architecture components
    - ViewModel
    - Room (with FTS and Paging v3)
+- Mavericks
 - Navigation Component
 - CircleCI
 - Jacoco coverage reports (integrated with CI)

@@ -93,8 +93,11 @@
     <string name="first_day_of_week_title">Premier jour de la semaine</string>
     <string name="share_milestone">J\'ai terminé %1$d jours de journaling de gratitude! Rejoignez-moi en utilisant l\'application Actuellement. #PresentlyApp</string>
     <string name="share_presently">partager Actuellement</string>
-    <string name="enjoying_presently">Nautitaan hetkellä? Jaa App ystävien ja perheen</string>
+    <string name="enjoying_presently">Profiter du moment? Partagez l\'application avec vos amis et votre famille</string>
     <string name="share_app_text">reconnaissance de la pratique avec ce simple, toujours libre, et la reconnaissance privée app journaling</string>
     <string name="random">Aléatoire</string>
+    <string name="app_language_title">Langue de l\'application</string>
+    <string name="app_language_summary">Définir la langue par défaut de l\'application</string>
+    <string name="loading_lang">Chargement, veuillez patienter</string>
     <string name="quote_widget_name">Citation du jour</string>
 </resources>

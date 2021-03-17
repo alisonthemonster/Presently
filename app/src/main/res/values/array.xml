@@ -38,4 +38,42 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+
+    <string-array name="AppLanguage">
+        <item>@string/language_en</item>
+        <item>@string/language_ar</item>
+        <item>@string/language_de</item>
+        <item>@string/language_es</item>
+        <item>@string/language_fi</item>
+        <item>@string/language_fr</item>
+        <item>@string/language_hr</item>
+        <item>@string/language_it</item>
+        <item>@string/language_nl</item>
+        <item>@string/language_pl</item>
+        <item>@string/language_pt</item>
+        <item>@string/language_pt_br</item>
+        <item>@string/language_ro</item>
+        <item>@string/language_ru</item>
+        <item>@string/language_sk</item>
+        <item>@string/language_tr</item>
+    </string-array>
+
+    <string-array name="AppLanguageValues">
+        <item>en</item>
+        <item>ar</item>
+        <item>de</item>
+        <item>es</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>hr</item>
+        <item>it</item>
+        <item>nl</item>
+        <item>pl</item>
+        <item>pt</item>
+        <item>pt-BR</item>
+        <item>ro</item>
+        <item>ru</item>
+        <item>sk</item>
+        <item>tr</item>
+    </string-array>
 </resources>

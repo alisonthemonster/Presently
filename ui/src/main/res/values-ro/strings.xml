@@ -94,7 +94,11 @@
     <string name="monday">Luni</string>
     <string name="day_of_week_summary">Setați prima zi a săptămânii din calendar</string>
     <string name="first_day_of_week_title">Prima zi a săptămânii</string>
+    <string name="app_language_title">Limbajul aplicației</string>
+    <string name="app_language_summary">Setați limba implicită a aplicației</string>
+    <string name="random">Aleatoriu</string>
     <string name="share_milestone">Am completat %1$d zile din jurnalul recunoștinței! Alătură-te mie folosind aplicația Presently. #PresentlyApp</string>
     <string name="share_app_text">Practică recunoștința cu această aplicație simplă, întotdeauna gratuită și privată de jurnal al recunoștinței</string>
+    <string name="loading_lang">Încărcare va rugam asteptati</string>
     <string name="quote_widget_name">Citatul zilei</string>
 </resources>

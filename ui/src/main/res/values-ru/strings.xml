@@ -93,8 +93,11 @@
     <string name="first_day_of_week_title">First day of the week</string>
     <string name="share_milestone">Я закончил %1$d дней благодарственных журнальный! Присоединяйтесь ко мне, используя в настоящее время приложения. #PresentlyApp</string>
     <string name="share_presently">Share В настоящее время</string>
-    <string name="enjoying_presently">Desfrutando Presentemente? Compartilhar o aplicativo com seus amigos e familiares</string>
+    <string name="enjoying_presently">Нравится приложение? Поделитесь приложением с друзьями и семьей</string>
     <string name="share_app_text">Практика благодарность с этим простым, всегда бесплатно, и частной благодарностью журнального приложение</string>
     <string name="random">случайный</string>
+    <string name="app_language_title">Язык приложения</string>
+    <string name="app_language_summary">Установить язык приложения по умолчанию</string>
+    <string name="loading_lang">Загрузка, пожалуйста подождите</string>
     <string name="quote_widget_name">Цитата дня</string>
 </resources>

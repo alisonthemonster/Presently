@@ -1,7 +1,6 @@
 package journal.gratitude.com.gratitudejournal.util.backups.dropbox
 
 import android.content.Context
-import android.util.Log
 import androidx.preference.PreferenceManager
 import androidx.work.WorkManager
 import com.dropbox.core.DbxException
@@ -67,7 +66,6 @@ class DropboxUploader(val context: Context):
                     .build()
 
                 val client = DbxClientV2(requestConfig, accessToken)
-                Log.d("blargle", "token: $accessToken")
                 client.auth().tokenRevoke()
                 sharedPreferences.edit().remove("access-token").apply()
                 WorkManager.getInstance(context).cancelAllWorkByTag(PRESENTLY_BACKUP)

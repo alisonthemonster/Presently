@@ -96,4 +96,7 @@
     <string name="share_app_text">gratidão prática com este simples, sempre livre, e gratidão privada aplicativo diário</string>
     <string name="random">Aleatória</string>
     <string name="quote_widget_name">Citação do dia</string>
+    <string name="app_language_title">Linguagem do aplicativo</string>
+    <string name="app_language_summary">Definir o idioma padrão do aplicativo</string>
+    <string name="loading_lang">Carregando, por favor espere</string>
 </resources>

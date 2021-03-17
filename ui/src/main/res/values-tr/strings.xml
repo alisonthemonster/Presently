@@ -97,5 +97,8 @@
     <string name="first_day_of_week_title">Haftanın ilk günü</string>
     <string name="share_milestone">%1$d günlük minnettarlık günlüğünü tamamladım! Presently uygulamasını kullanarak bana katıl. #PresentlyApp</string>
     <string name="share_app_text">Basit, her zaman ücretsiz ve kişisel minnettarlık günlüğü uygulamasıyla minnet duygunu geliştir</string>
+    <string name="app_language_title">Uygulama dili</string>
+    <string name="app_language_summary">Varsayılan uygulama dilini ayarlayın</string>
+    <string name="loading_lang">Yükleniyor lütfen bekleyin</string>
     <string name="quote_widget_name">Günün Sözü</string>
 </resources>

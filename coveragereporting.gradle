@@ -30,6 +30,7 @@ def fileFilter = ['**/R.class',
                   '**/*adapter*.*',
                   '**/*Activity*.*',
                   '**/AppLockFragment*',
+                  '**/LocaleHelper*',
                   '**/TimelineFragment*',
                   '**/calendar/*.*',]
 

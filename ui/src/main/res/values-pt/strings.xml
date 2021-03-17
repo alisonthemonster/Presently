@@ -97,4 +97,7 @@
     <string name="share_app_text">Regista e pratica diariamente a tua gratidão com esta app simples, privada e gratuita para sempre</string>
     <string name="random">Aleatória</string>
     <string name="quote_widget_name">Citação do dia</string>
+    <string name="app_language_title">Linguagem do aplicativo</string>
+    <string name="app_language_summary">Definir o idioma padrão do aplicativo</string>
+    <string name="loading_lang">Carregando, por favor espere</string>
 </resources>

@@ -10,7 +10,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:4.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
@@ -18,6 +18,7 @@ buildscript {
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
         classpath 'com.google.android.gms:oss-licenses-plugin:0.10.2'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.2.0'
+        classpath 'com.facebook.testing.screenshot:plugin:0.13.0'
     }
 }
 

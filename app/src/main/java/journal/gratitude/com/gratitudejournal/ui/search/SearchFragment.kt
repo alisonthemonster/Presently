@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.ui.search
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.KeyEvent
@@ -92,6 +94,9 @@ class SearchFragment : DaggerFragment() {
 
                 search_results?.isVisible = !displayEmptyMessage
                 no_results_icon?.isVisible = displayEmptyMessage
+                // Handle icon display issues in older versions
+                if(Build.VERSION.SDK_INT <= 23)
+                    no_results_icon.imageTintList = context?.getColorStateList(R.color.text_color)
                 no_results?.isVisible = displayEmptyMessage
             }
         }
@@ -112,15 +117,12 @@ class SearchFragment : DaggerFragment() {
                 }
         }
 
-        search_text.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    dismissKeyboard()
-                    return true
-                }
-                return false
+        search_text.setOnEditorActionListener { _, actionId, _ ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_SEARCH -> { dismissKeyboard(); true }
+                else -> false
             }
-        })
+        }
 
         search_icon.setOnClickListener {
             dismissKeyboard()
@@ -143,7 +145,6 @@ class SearchFragment : DaggerFragment() {
         requireActivity().theme.resolveAttribute(R.attr.toolbarColor, typedValue, true)
         setStatusBarColorsForBackground(window, typedValue.data)
         window.statusBarColor = typedValue.data
-
     }
 
     private fun openKeyboard() {
@@ -156,6 +157,5 @@ class SearchFragment : DaggerFragment() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.hideSoftInputFromWindow(search_text.windowToken, 0)
     }
-
 
 }

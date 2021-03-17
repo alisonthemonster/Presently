@@ -8,6 +8,7 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.facebook.testing.screenshot'
 
 allOpen {
     annotation 'journal.gratitude.com.gratitudejournal.util.OpenClass'
@@ -20,7 +21,7 @@ android {
         minSdkVersion project.ext.androidMinSdk
         targetSdkVersion project.ext.androidTargetSdk
 
-        versionCode 53
+        versionCode 65
         versionName project.ext.androidVersionName
         //TODO wire up to CI
         //buildConfigField 'int', 'BUILD_NUMBER', "${project.ext.buildNumber}"
@@ -86,6 +87,7 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:1.3.0-alpha08"
     implementation "androidx.biometric:biometric:1.0.1"
     implementation "androidx.work:work-runtime-ktx:2.4.0"
+    implementation 'com.google.android.play:core:1.10.0'
 
     implementation "androidx.room:room-ktx:2.3.0-beta01"
     implementation "androidx.room:room-runtime:2.3.0-beta01"
@@ -116,6 +118,8 @@ dependencies {
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
 
+    implementation 'com.airbnb.android:mavericks:2.0.0'
+
     //dependency injection
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
@@ -131,6 +135,8 @@ dependencies {
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2'
+    testImplementation 'com.airbnb.android:mavericks-testing:2.0.0'
+
 
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
