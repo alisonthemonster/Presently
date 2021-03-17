@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -49,7 +50,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
-    val args: EntryFragmentArgs by navArgs()
+    private val args: EntryFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,17 +152,14 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         inspiration.text = state.quote
         entry_text.hint = state.hint ?: getHintString(state.date)
         setEditText(state.entryContent)
-        share_button.visibility = if (state.isEmpty) View.GONE else View.VISIBLE
-        prompt_button.visibility = if (state.isEmpty) View.VISIBLE else View.GONE
+        share_button.isVisible = !state.isEmpty
+        prompt_button.isVisible = state.isEmpty
     }
 
-    private fun getHintString(date: LocalDate): CharSequence? {
-        return if (date == LocalDate.now()) {
-            resources.getString(R.string.what_are_you_thankful_for)
-        } else {
-            resources.getString(R.string.what_were_you_thankful_for)
-        }
-    }
+    private fun getHintString(date: LocalDate) = resources.getString(
+        if (date == LocalDate.now()) R.string.what_are_you_thankful_for
+        else R.string.what_were_you_thankful_for
+    )
 
     private fun setEditText(newText: String) {
         val oldText = entry_text.text.toString()
