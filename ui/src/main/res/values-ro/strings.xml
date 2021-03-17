@@ -37,7 +37,6 @@
         Felicitări! Suntem atât de mândri de tine și atât de recunoscători că ai ales Presently pentru a-ți exprima recunoștința.
     </string>
     <string name="search">Caută</string>
-    <string name="presently" translatable="false">Presently</string>
     <string name="close">Închide</string>
     <string name="get_a_new_prompt">Primește un indiciu</string>
     <string name="share_your_gratitude">Împărtășește-ți recunoștința</string>
@@ -101,4 +100,5 @@
     <string name="share_app_text">Practică recunoștința cu această aplicație simplă, întotdeauna gratuită și privată de jurnal al recunoștinței</string>
     <string name="loading_lang">Încărcare va rugam asteptati</string>
     <string name="quote_widget_name">Citatul zilei</string>
+    <string name="error_creating_csv_file">Eroare la crearea fișierului CSV pe dispozitiv</string>
 </resources>

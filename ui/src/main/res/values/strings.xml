@@ -98,4 +98,7 @@
     <string name="first_day_of_week_title">First day of the week</string>
     <string name="share_milestone">I completed %1$d days of gratitude journaling! Join me using the Presently App. #PresentlyApp</string>
     <string name="share_app_text">Practice gratitude with this simple, always free, and private gratitude journaling app</string>
+    <string name="app_language_title">Application language</string>
+    <string name="app_language_summary">Set default app language</string>
+    <string name="loading_lang">Loading language, please wait</string>
 </resources>
