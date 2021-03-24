@@ -191,7 +191,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             else -> 2
         }
         cadencePref.setValueIndex(index)
-
         val oneTimeExport = findPreference<Preference>(ONE_TIME_EXPORT_PREF)
         oneTimeExport?.setOnPreferenceClickListener {
             createFileOnDevice()
@@ -370,17 +369,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
             dialogFragment.show(parentFragmentManager, "DIALOG")
         } else {
             //super.onDisplayPreferenceDialog(preference)
-
                 val dialogFragment =
                         CustomListPrefDialogFragCompat.newInstance(preference.getKey())
             dialogFragment?.setTargetFragment(this, 0)
-//            val dialog = dialogFragment.onCreateDialog(Bundle())
-//            val content = dialog.findViewById<View>(R.id.content)
-//                content?.setBackgroundColor(Color.CYAN)
-//                if (content != null) {
-//                    content.requestLayout()
-//                }
-//            dialogFragment.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.CustomAlertDialogTheme)
             dialogFragment?.show(parentFragmentManager, null);
 
         }
