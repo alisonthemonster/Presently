@@ -20,10 +20,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenCreated
 import androidx.navigation.fragment.findNavController
-import androidx.preference.ListPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.*
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -41,7 +40,6 @@ import dagger.android.support.AndroidSupportInjection
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.convertCsvToEntries
 import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.exportEntriesToCsvFile
 import journal.gratitude.com.gratitudejournal.util.backups.RealCsvParser
@@ -64,7 +62,7 @@ import javax.inject.Inject
 
 
 class SettingsFragment : PreferenceFragmentCompat(),
-    SharedPreferences.OnSharedPreferenceChangeListener {
+    SharedPreferences.OnSharedPreferenceChangeListener, DialogPreference.TargetFragment {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -102,8 +100,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
             v.updatePadding(
-                top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
-                bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+                    top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
+                    bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
             )
             insets
         }
@@ -138,6 +136,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
             openShareApp()
             true
         }
+
+//        val firstDayOfWeek = findPreference<CustomListPreference>("first_day_of_week")
+
         val privacy = findPreference<Preference>(getString(R.string.key_privacy_policy))
         privacy?.setOnPreferenceClickListener {
             openPrivacyPolicy()
@@ -242,24 +243,24 @@ class SettingsFragment : PreferenceFragmentCompat(),
             "0" -> {
                 //every day
                 val uploadWorkRequest =
-                    PeriodicWorkRequestBuilder<UploadToCloudWorker>(1, TimeUnit.DAYS)
-                        .addTag(PRESENTLY_BACKUP)
-                        .build()
+                        PeriodicWorkRequestBuilder<UploadToCloudWorker>(1, TimeUnit.DAYS)
+                                .addTag(PRESENTLY_BACKUP)
+                                .build()
                 WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
             }
             "1" -> {
                 //every week
                 val uploadWorkRequest =
-                    PeriodicWorkRequestBuilder<UploadToCloudWorker>(7, TimeUnit.DAYS)
-                        .addTag(PRESENTLY_BACKUP)
-                        .build()
+                        PeriodicWorkRequestBuilder<UploadToCloudWorker>(7, TimeUnit.DAYS)
+                                .addTag(PRESENTLY_BACKUP)
+                                .build()
                 WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
             }
             "2" -> {
                 //every change so do an upload now
                 val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
-                    .addTag(PRESENTLY_BACKUP)
-                    .build()
+                        .addTag(PRESENTLY_BACKUP)
+                        .build()
                 WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
             }
         }
@@ -306,7 +307,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             }
             BACKUP_CADENCE -> {
                 val cadence =
-                    preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0") ?: "0"
+                        preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0") ?: "0"
                 fireAnalyticsEventForCadence(cadence, firebaseAnalytics)
                 createDropboxUploaderWorker(cadence)
             }
@@ -321,25 +322,25 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 val crashlytics = FirebaseCrashlytics.getInstance()
 
                 val request = SplitInstallRequest.newBuilder()
-                    .addLanguage(Locale.forLanguageTag(language))
-                    .build()
+                        .addLanguage(Locale.forLanguageTag(language))
+                        .build()
                 splitInstallManager.registerListener(listener)
                 splitInstallManager.startInstall(request)
-                    .addOnSuccessListener {
-                        requestId = it
-                        Toast.makeText(context, R.string.loading_lang, Toast.LENGTH_SHORT).show()
-                    }
-                    .addOnFailureListener { exception ->
-                        crashlytics.recordException(exception)
-                        Toast.makeText(context, "Error loading language", Toast.LENGTH_SHORT).show()
-                    }
+                        .addOnSuccessListener {
+                            requestId = it
+                            Toast.makeText(context, R.string.loading_lang, Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { exception ->
+                            crashlytics.recordException(exception)
+                            Toast.makeText(context, "Error loading language", Toast.LENGTH_SHORT).show()
+                        }
             }
         }
     }
 
     private fun fireAnalyticsEventForCadence(
-        cadence: String,
-        firebaseAnalytics: FirebaseAnalytics
+            cadence: String,
+            firebaseAnalytics: FirebaseAnalytics
     ) {
         val cadenceString = when (cadence) {
             "0" -> "Daily"
@@ -368,7 +369,20 @@ class SettingsFragment : PreferenceFragmentCompat(),
             dialogFragment.setTargetFragment(this, 0)
             dialogFragment.show(parentFragmentManager, "DIALOG")
         } else {
-            super.onDisplayPreferenceDialog(preference)
+            //super.onDisplayPreferenceDialog(preference)
+
+                val dialogFragment =
+                        CustomListPrefDialogFragCompat.newInstance(preference.getKey())
+            dialogFragment?.setTargetFragment(this, 0)
+//            val dialog = dialogFragment.onCreateDialog(Bundle())
+//            val content = dialog.findViewById<View>(R.id.content)
+//                content?.setBackgroundColor(Color.CYAN)
+//                if (content != null) {
+//                    content.requestLayout()
+//                }
+//            dialogFragment.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.CustomAlertDialogTheme)
+            dialogFragment?.show(parentFragmentManager, null);
+
         }
     }
 
@@ -383,7 +397,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val navController = findNavController()
         if (navController.currentDestination?.id == R.id.settingsFragment) {
             navController.navigate(
-                R.id.action_settingsFragment_to_themeFragment
+                    R.id.action_settingsFragment_to_themeFragment
             )
         }
     }
@@ -393,8 +407,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         try {
             val browserIntent =
                 Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html")
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html")
                 )
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
@@ -433,8 +447,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         try {
             val browserIntent =
                 Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html")
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html")
                 )
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
@@ -450,8 +464,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         try {
             val browserIntent =
                 Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://presently-app.firebaseapp.com/faq.html")
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://presently-app.firebaseapp.com/faq.html")
                 )
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
@@ -526,8 +540,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private fun importFromCsv(inputStream: InputStream) {
         try {
             val parser = CSVParser.parse(
-                inputStream, Charset.defaultCharset(),
-                CSVFormat.DEFAULT
+                    inputStream, Charset.defaultCharset(),
+                    CSVFormat.DEFAULT
             )
             val realCsvParser = RealCsvParser(parser)
             val entries = convertCsvToEntries(realCsvParser)
@@ -554,9 +568,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
             if (uri != null) {
                 lifecycleScope.launch {
                     val csvResult = exportEntriesToCsvFile(
-                        requireContext(),
-                        uri,
-                        viewModel.getEntries()
+                            requireContext(),
+                            uri,
+                            viewModel.getEntries()
                     )
                     when (csvResult) {
                         is CsvUriError -> exportCallback.onFailure(csvResult.exception)
@@ -567,9 +581,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 val crashlytics = FirebaseCrashlytics.getInstance()
                 crashlytics.recordException(NullPointerException("URI was null after user selected file location"))
                 Toast.makeText(
-                    context,
-                    R.string.error_creating_csv_file,
-                    Toast.LENGTH_SHORT
+                        context,
+                        R.string.error_creating_csv_file,
+                        Toast.LENGTH_SHORT
                 ).show()
             }
 
@@ -607,9 +621,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
             val crashlytics = FirebaseCrashlytics.getInstance()
             crashlytics.recordException(exception)
             Toast.makeText(
-                context,
-                "Error : ${exception.localizedMessage}",
-                Toast.LENGTH_SHORT
+                    context,
+                    "Error : ${exception.localizedMessage}",
+                    Toast.LENGTH_SHORT
             )
                 .show()
         }

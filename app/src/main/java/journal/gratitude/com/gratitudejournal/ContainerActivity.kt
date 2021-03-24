@@ -38,7 +38,6 @@ class ContainerActivity : AppCompatActivity() {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val currentTheme = sharedPref.getString(THEME_PREF, "original") ?: "original"
         setAppTheme(currentTheme)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_activity)
 
