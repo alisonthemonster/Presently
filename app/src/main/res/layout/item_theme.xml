@@ -88,6 +88,15 @@
             app:layout_constraintStart_toStartOf="@+id/header"
             app:layout_constraintTop_toTopOf="@+id/header" />
 
+        <ImageView
+            android:id="@+id/selectIcon"
+            android:layout_width="56dp"
+            android:layout_height="42dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@android:drawable/checkbox_on_background" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
