@@ -127,4 +127,7 @@
     <string name="language_es">Español</string>
     <string name="language_tr">Türkçe</string>
     <string name="loading_lang">Loading language, please wait</string>
+    <string name="show_quote_off">Quote will not be shown on entry page</string>
+    <string name="show_quote_on">Quote will be shown on entry page</string>
+    <string name="inspiration_title">Inspiration</string>
 </resources>
