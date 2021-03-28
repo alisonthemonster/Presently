@@ -1,9 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.graphics.Color
 import android.graphics.drawable.Animatable
 import android.os.Bundle
@@ -47,13 +44,14 @@ import org.threeten.bp.LocalDate
 class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
     private val viewModel: EntryViewModel by fragmentViewModel()
-
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
     private val args: EntryFragmentArgs by navArgs()
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var sharedPrefs: SharedPreferences
+  
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedPrefs =  PreferenceManager.getDefaultSharedPreferences(activity)
 
         if (savedInstanceState == null) {
             val passedInDate = args.date
@@ -106,6 +104,11 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
         save_button.setOnClickListener {
             saveEntry()
+        }
+
+        val showQuote = sharedPrefs.getBoolean("show_quote", true)
+        if (!showQuote) {
+            inspiration.visibility = View.GONE
         }
 
         inspiration.setOnLongClickListener {
@@ -206,7 +209,6 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.hideSoftInputFromWindow(entry_text.windowToken, 0)
 
-        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity)
         val accessToken = sharedPrefs.getString("access-token", null)
         val cadence = sharedPrefs.getString(SettingsFragment.BACKUP_CADENCE, "0") ?: "0"
         if (accessToken != null && cadence == "2") {
