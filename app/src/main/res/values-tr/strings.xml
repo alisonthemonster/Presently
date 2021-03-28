@@ -100,4 +100,7 @@
     <string name="app_language_title">Uygulama dili</string>
     <string name="app_language_summary">Varsayılan uygulama dilini ayarlayın</string>
     <string name="loading_lang">Yükleniyor lütfen bekleyin</string>
+    <string name="show_quote_off">Şükran alıntıları giriş sayfasında gösterilmeyecek</string>
+    <string name="show_quote_on">Şükran alıntıları giriş sayfasında gösterilecek</string>
+    <string name="inspiration_title">İlham verici sözler</string>
 </resources>

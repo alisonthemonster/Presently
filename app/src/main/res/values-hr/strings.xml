@@ -97,4 +97,7 @@
     <string name="app_language_title">Jezik aplikacije</string>
     <string name="app_language_summary">Postavite zadani jezik aplikacije</string>
     <string name="loading_lang">Ucitava se, molimo pricekaj te</string>
+    <string name="show_quote_off">Citati zahvalnosti neće biti prikazani na ulaznoj stranici</string>
+    <string name="show_quote_on">Citati zahvalnosti bit će prikazani na ulaznoj stranici</string>
+    <string name="inspiration_title">Inspiracijski citati</string>
 </resources>
