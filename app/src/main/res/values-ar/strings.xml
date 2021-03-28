@@ -100,4 +100,7 @@
     <string name="app_language_title">لغة التطبيق</string>
     <string name="app_language_summary">تعيين لغة التطبيق الافتراضية</string>
     <string name="loading_lang">جاري التحميل الرجاءالانتظار</string>
+    <string name="show_quote_off">لن يتم عرض اقتباسات الامتنان في صفحة الدخول</string>
+    <string name="show_quote_on">سيتم عرض اقتباسات الامتنان في صفحة الدخول</string>
+    <string name="inspiration_title">اقتباس موحي</string>
 </resources>

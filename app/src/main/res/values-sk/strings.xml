@@ -100,4 +100,7 @@
     <string name="app_language_title">Jazyk žiadosti</string>
     <string name="app_language_summary">Nastaviť predvolený jazyk aplikácie</string>
     <string name="loading_lang">Načítavam, počkajte prosím</string>
+    <string name="show_quote_off">Citácie vďačnosti sa nebudú zobrazovať na vstupnej stránke</string>
+    <string name="show_quote_on">Citácie vďačnosti sa zobrazia na vstupnej stránke</string>
+    <string name="inspiration_title">Inšpiratívne citáty</string>
 </resources>

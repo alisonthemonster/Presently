@@ -98,4 +98,7 @@
     <string name="app_language_title">Anwendungssprache</string>
     <string name="app_language_summary">Legen Sie die Standard-App-Sprache fest</string>
     <string name="loading_lang">Laden, bitte warten</string>
+    <string name="show_quote_off">Dankbarkeitszitate werden auf der Einstiegsseite nicht angezeigt</string>
+    <string name="show_quote_on">Dankbarkeitszitate werden auf der Einstiegsseite angezeigt</string>
+    <string name="inspiration_title">Inspirerende Zitate</string>
 </resources>

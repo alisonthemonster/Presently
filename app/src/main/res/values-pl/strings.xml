@@ -97,4 +97,7 @@
     <string name="app_language_title">Język aplikacji</string>
     <string name="app_language_summary">Ustaw domyślny język aplikacji</string>
     <string name="loading_lang">Ładowanie proszę czekać</string>
+    <string name="show_quote_off">Cytaty wdzięczności nie będą wyświetlane na stronie startowej</string>
+    <string name="show_quote_on">Cytaty wdzięczności zostaną wyświetlone na stronie startowej</string>
+    <string name="inspiration_title">Inspirujące cytaty</string>
 </resources>

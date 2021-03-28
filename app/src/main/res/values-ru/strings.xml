@@ -99,4 +99,7 @@
     <string name="app_language_title">Язык приложения</string>
     <string name="app_language_summary">Установить язык приложения по умолчанию</string>
     <string name="loading_lang">Загрузка, пожалуйста подождите</string>
+    <string name="show_quote_off">Цитаты благодарности не будут отображаться на странице входа</string>
+    <string name="show_quote_on">Цитаты благодарности будут показаны на странице входа</string>
+    <string name="inspiration_title">Вдохновляющие цитаты</string>
 </resources>

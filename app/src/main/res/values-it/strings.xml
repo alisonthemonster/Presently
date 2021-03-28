@@ -99,4 +99,7 @@
     <string name="app_language_title">Lingua dell\'applicazione</string>
     <string name="app_language_summary">Imposta la lingua predefinita dell\'app</string>
     <string name="loading_lang">Attendere il caricamento prego</string>
+    <string name="show_quote_off">Le citazioni di gratitudine non verranno mostrate nella pagina di ingresso</string>
+    <string name="show_quote_on">Le citazioni di gratitudine verranno mostrate nella pagina di ingresso</string>
+    <string name="inspiration_title">Citazioni ispiratrici</string>
 </resources>

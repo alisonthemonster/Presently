@@ -99,4 +99,7 @@
     <string name="app_language_title">Sovelluksen kieli</string>
     <string name="app_language_summary">Aseta sovelluksen oletuskieli</string>
     <string name="loading_lang">Ladataan, odota</string>
+    <string name="show_quote_off">Kiitosta lainausmerkkejä ei näytetä pääsivulla</string>
+    <string name="show_quote_on">Kiitollisuuden lainaukset näytetään pääsivulla</string>
+    <string name="inspiration_title">Inspiroivia lainauksia</string>
 </resources>
