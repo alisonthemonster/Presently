@@ -8,23 +8,11 @@
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <!-- CHANGES THE DIALOG BACKGROUND COLOR!       -->
-        <item name="android:colorBackground">#FFFFFF</item>
+        <item name="android:colorBackground">?attr/backgroundColor</item>
         <!-- CHANGES BODY TEXT COLOR IN DIALOGS BUT NOT IN TIME PICKER     -->
-        <item name="android:textColorPrimary">#363636</item>
+        <item name="android:textColorPrimary">?attr/entryContentTextColor</item>
         <!-- CHANGES HEADER TEXT COLOR IN DIALOGS BUT NOT IN TIME PICKER     -->
-        <item name="android:textColor">#000000</item>
-    </style>
-
-
-    <style name="CustomAlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
-        <!-- CHANGES THE DIALOG BACKGROUND COLOR!       -->
-        <item name="android:colorBackground">#555</item>
-        <!-- CHANGES BODY TEXT COLOR IN DIALOGS BUT NOT IN TIME PICKER     -->
-        <item name="android:textColorPrimary">#363636</item>
-        <!-- CHANGES HEADER TEXT COLOR IN DIALOGS BUT NOT IN TIME PICKER     -->
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">?attr/entryContentTextColor</item>
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
@@ -32,7 +20,7 @@
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">?attr/entryContentTextColor</item>
     </style>
 
     <style name="TextAppearance.Title" parent="Theme.MaterialComponents.Light.NoActionBar">

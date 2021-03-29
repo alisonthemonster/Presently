@@ -137,8 +137,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
 
-//        val firstDayOfWeek = findPreference<CustomListPreference>("first_day_of_week")
-
         val privacy = findPreference<Preference>(getString(R.string.key_privacy_policy))
         privacy?.setOnPreferenceClickListener {
             openPrivacyPolicy()
@@ -368,7 +366,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             dialogFragment.setTargetFragment(this, 0)
             dialogFragment.show(parentFragmentManager, "DIALOG")
         } else {
-            //super.onDisplayPreferenceDialog(preference)
                 val dialogFragment =
                         CustomListPrefDialogFragCompat.newInstance(preference.getKey())
             dialogFragment?.setTargetFragment(this, 0)
