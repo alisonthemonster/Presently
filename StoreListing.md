@@ -306,7 +306,7 @@ Presently %100 ücretsiz ve reklamsızdır. Tüm yazıların cihazında ve kontr
 ## Simplified Chinese
 Presently：感恩日记
 
-使用免费、私人感恩日记 Presently 来记录日常感恩点滴
+使用免费、私人的感恩日记 Presently 来记录日常感恩点滴
 
 使用本款简洁、私人且永久免费的日记应用练习感恩。
 
@@ -322,4 +322,4 @@ Presently 能够
 ⁕ 导入/导出您的感恩点滴
 ⁕ 切换至您最喜欢的配色方案
 
-Presently 完全免费，无广告。您的所有记录均保存在您的设备上，由您掌控。
+Presently 完全免费，无广告。您的所有记录均保存在您的设备中，由您掌控。
