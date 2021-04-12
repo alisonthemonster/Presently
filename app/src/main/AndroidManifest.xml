@@ -37,6 +37,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.licenses.OssLicensesActivity"></activity>
 
         <receiver android:name=".util.reminders.ReminderReceiver" />
 

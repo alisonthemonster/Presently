@@ -4,14 +4,17 @@ import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.firebase.analytics.FirebaseAnalytics
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
@@ -76,7 +79,6 @@ class ContainerActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val fingerprintLock = sharedPref.getBoolean(FINGERPRINT, false)
         if (fingerprintLock) {

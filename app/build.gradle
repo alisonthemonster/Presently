@@ -9,6 +9,8 @@ apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.facebook.testing.screenshot'
+apply plugin: 'com.jaredsburrows.license'
+
 
 allOpen {
     annotation 'journal.gratitude.com.gratitudejournal.util.OpenClass'
@@ -66,6 +68,16 @@ android {
     }
 
     kotlinOptions { jvmTarget = "1.8" }
+    licenseReport {
+        generateCsvReport = false
+        generateHtmlReport = true
+        generateJsonReport = true
+
+        // These options are ignored for Java projects
+        copyHtmlReportToAssets = false
+        copyHtmlReportToAssets = true
+        copyJsonReportToAssets = false
+    }
 }
 
 dependencies {
@@ -151,6 +163,9 @@ dependencies {
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2'
     androidTestImplementation "androidx.work:work-testing:2.4.0"
+//    androidTestImplementation "androidx.test:core-ktx:'1.2.0"
+
+
 
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
     kaptTest "com.google.dagger:dagger-compiler:$dagger_version"

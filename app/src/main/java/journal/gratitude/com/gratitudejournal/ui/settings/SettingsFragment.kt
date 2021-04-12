@@ -40,6 +40,7 @@ import dagger.android.support.AndroidSupportInjection
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
+import journal.gratitude.com.gratitudejournal.ui.licenses.OssLicensesActivity
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.convertCsvToEntries
 import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.exportEntriesToCsvFile
@@ -141,7 +142,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
         val oss = findPreference<Preference>(getString(R.string.key_open_source))
         oss?.setOnPreferenceClickListener {
-            startActivity(Intent(context, OssLicensesMenuActivity::class.java))
+            startActivity(Intent(context, OssLicensesActivity::class.java))
             true
         }
         val version = findPreference<Preference>(VERSION_PREF)
@@ -630,4 +631,11 @@ interface ExportCallback {
     fun onSuccess(file: Uri)
 
     fun onFailure(exception: Exception)
+}
+
+
+fun OssLicensesMenuActivity.setBackgroundColor(color: Int) {
+    val content = this.findViewById<View>(R.id.content)
+    content.setBackgroundColor(Color.CYAN)
+
 }
