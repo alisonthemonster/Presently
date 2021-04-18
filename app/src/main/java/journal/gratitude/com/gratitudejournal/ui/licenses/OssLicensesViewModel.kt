@@ -20,7 +20,7 @@ class OssLicensesViewModel(application: Application): AndroidViewModel(applicati
     private lateinit var licensesInputStream: InputStreamReader
 
     init {
-        licensesInputStream = InputStreamReader(getApplication<Application>().resources.openRawResource(R.raw.third_party_licenses))
+//        licensesInputStream = InputStreamReader(getApplication<Application>().resources.openRawResource(R.raw.third_party_licenses))
     }
     fun loadMenu() {
         val inStream = getApplication<Application>().resources.openRawResource(R.raw.third_party_license_metadata)
@@ -37,16 +37,19 @@ class OssLicensesViewModel(application: Application): AndroidViewModel(applicati
                 var secondDelimIndex = line.indexOf(" ")
                 val lengthString = line.subSequence(firstDelimIndex + 1, secondDelimIndex).toString()
                 val library = line.subSequence(secondDelimIndex, line.length).toString()
-                libs.add(OssLicensesActivity.License(Integer.parseInt(startString), Integer.parseInt(lengthString), library))
+                libs.add(OssLicensesActivity.License(Integer.parseInt(startString), Integer.parseInt(lengthString), libName = library))
             }
             menuMLD.postValue(libs)
         }
     }
 
     fun loadLicense(license: OssLicensesActivity.License) {
-        var charArray :CharArray = charArrayOf()
+        var charArray :CharArray = CharArray(license.length)
+
+        licensesInputStream = InputStreamReader(getApplication<Application>().resources.openRawResource(R.raw.third_party_licenses))
+        licensesInputStream.skip((license.start - 1).toLong())
         licensesInputStream.read(charArray, 0, license.length)
-        license.licenseContent = charArray.toString()
+        license.licenseContent = charArray.concatToString()
         licenseMLD.postValue(license)
     }
 
