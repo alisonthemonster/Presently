@@ -280,12 +280,11 @@ Practicați recunoștința cu această aplicație simplă, întotdeauna gratuit�
 
 Presently este 100% gratuit și fără anunțuri. Toate informațiile rămân pe dispozitiv și sub controlul tău.
 
+
 ## Turkish
 Presently: Minnettarlık günlüğü
 
-
 Gündelik hayatını ücretsiz ve özel minnettarlık günlüğü Presently ile kutla
-
 
 Bu basit, her zaman ücretsiz ve özel minnettarlık günlüğü uygulamasıyla minnettarlık alıştırması yapabilirsin.
 
@@ -302,3 +301,25 @@ Presently şunları sağlar:
 ⁕ En sevdiğin renk şemasını kullan
 
 Presently %100 ücretsiz ve reklamsızdır. Tüm yazıların cihazında ve kontrolünde kalır.
+
+
+## Simplified Chinese
+Presently：感恩日记
+
+使用免费、私人的感恩日记 Presently 来记录日常感恩点滴
+
+使用本款简洁、私人且永久免费的日记应用练习感恩。
+
+Presently 能够
+⁕ 记录日常的感恩点滴
+⁕ 回顾过往的感恩时光
+⁕ 从名言与提示中汲取动力
+⁕ 定时提醒练习感恩
+⁕ 对感恩记录进行指纹或面部锁定
+⁕ 自动备份感恩记录至 Dropbox
+⁕ 搜索过往记录
+⁕ 与亲友分享您的感恩片刻
+⁕ 导入/导出您的感恩点滴
+⁕ 切换至您最喜欢的配色方案
+
+Presently 完全免费，无广告。您的所有记录均保存在您的设备中，由您掌控。
