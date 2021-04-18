@@ -10,7 +10,8 @@ data class EntryState(
     val quote: String,
     val hasUserEdits: Boolean,
     val promptNumber: Int,
-    val promptsList: List<String>
+    val promptsList: List<String>,
+    val isSaved: Boolean
 ) : MavericksState {
     val isEmpty = entryContent.isEmpty()
 }

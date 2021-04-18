@@ -103,7 +103,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         }
 
         save_button.setOnClickListener {
-            saveEntry()
+            viewModel.saveEntry()
         }
 
         val showQuote = sharedPrefs.getBoolean("show_quote", true)
@@ -128,9 +128,10 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
         lifecycleScope.launch {
             entry_text.textChanges()
-                .debounce(300)
-                .map { charSequence -> charSequence.toString() }
-                .drop(1)
+                .debounce(200)
+                .map { charSequence ->
+                    charSequence.toString()
+                }
                 .collectLatest {
                     viewModel.onTextChanged(it)
                 }
@@ -157,6 +158,9 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         setEditText(state.entryContent)
         share_button.isVisible = !state.isEmpty
         prompt_button.isVisible = state.isEmpty
+        if (state.isSaved) {
+            onEntrySaved()
+        }
     }
 
     private fun getHintString(date: LocalDate) = resources.getString(
@@ -187,7 +191,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         setStatusBarColorsForBackground(window, typedValue.data)
     }
 
-    private fun saveEntry() {
+    private fun onEntrySaved() {
         val numEntries = args.numEntries
         val isNewEntry = args.isNewEntry
 
@@ -203,7 +207,6 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         } else {
             firebaseAnalytics.logEvent(EDITED_EXISTING_ENTRY, null)
         }
-
         viewModel.saveEntry()
         val imm =
             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
