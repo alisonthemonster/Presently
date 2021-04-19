@@ -141,6 +141,15 @@ class ThemeFragment : Fragment(R.layout.fragment_theme) {
                 true
             ),
             Theme(
+                "Whale",
+                ContextCompat.getColor(requireContext(), R.color.whaleToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.whaleBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.whaleToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.whaleMainTextAndButtonColor),
+                R.drawable.ic_whale,
+                true
+            ),
+            Theme(
                 "Monstera",
                 ContextCompat.getColor(requireContext(), R.color.monsteraToolbarColor),
                 ContextCompat.getColor(requireContext(), R.color.monsteraBackgroundColor),

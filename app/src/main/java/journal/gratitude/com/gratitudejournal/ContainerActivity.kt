@@ -154,8 +154,8 @@ class ContainerActivity : AppCompatActivity() {
             "Ellen" -> setTheme(R.style.AppTheme_ELLEN)
             "Danah" -> setTheme(R.style.AppTheme_DANAH)
             "Ahalya" -> setTheme(R.style.AppTheme_AHALYA)
+            "Whale" -> setTheme(R.style.AppTheme_WHALE)
             else -> setTheme(R.style.Base_AppTheme)
         }
     }
-
 }

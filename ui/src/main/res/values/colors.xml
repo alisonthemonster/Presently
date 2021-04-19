@@ -376,4 +376,15 @@
     <color name="ahalyaToolbarColor">#000000</color>
     <color name="ahalyaStatusBarColor">#000000</color>
     <color name="ahalyaToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~WHALE THEME~~~~ -->
+    <color name="whaleAndroidWidgetColor">#EDE5C9</color>
+    <color name="whaleBackgroundColor">#6FADE5</color>
+    <color name="whaleMainTextAndButtonColor">#000000</color>
+    <color name="whaleHintQuoteTextColor">#706767</color>
+    <color name="whaleDateTextEntryScreenTextColor">#000000</color>
+    <color name="whaleTimelineColor">#000000</color>
+    <color name="whaleToolbarColor">#000000</color>
+    <color name="whaleStatusBarColor">#000000</color>
+    <color name="whaleToolbarItemColor">#FFFFFF</color>
 </resources>

@@ -463,4 +463,19 @@
         <item name="entryContentTextColor">@color/ahalyaMainTextAndButtonColor</item>
         <item name="highlightColor">@color/ahalyaAndroidWidgetColor</item>
     </style>
+
+    <style name="AppTheme.WHALE" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_whale</item>
+        <item name="timelineLineColor">@color/whaleTimelineColor</item>
+        <item name="backgroundColor">@color/whaleBackgroundColor</item>
+        <item name="hintTextColor">@color/whaleHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/whaleToolbarColor</item>
+        <item name="toolbarItemColor">@color/whaleToolbarItemColor</item>
+        <item name="statusBarColor">@color/whaleStatusBarColor</item>
+        <item name="timelineDateTextColor">@color/whaleDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/whaleMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/whaleMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/whaleMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/whaleAndroidWidgetColor</item>
+    </style>
 </resources>
