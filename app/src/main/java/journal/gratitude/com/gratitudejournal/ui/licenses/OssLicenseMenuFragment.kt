@@ -21,11 +21,6 @@ import java.lang.IndexOutOfBoundsException
 import java.util.*
 
 class OssLicenseMenuFragment: Fragment() {
-    data class License(val start: Int, val length: Int, val libName: String) {
-
-    }
-//    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-//    private val viewModel by viewModels<OssLicensesViewModel>{viewModelFactory}
     private lateinit var viewModel: OssLicensesViewModel
     private val TAG = "OssLicensesMenuActivity";
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,14 +40,10 @@ class OssLicenseMenuFragment: Fragment() {
                     val license = adapter.getItem(position)
                     if(license != null)
                         activity?.supportFragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(R.id.fragment, OssLicenseFragment(license))?.commit()
-
                 }
             }))
-
             list.adapter = adapter
-
         })
-
 
         return view
     }
@@ -62,12 +53,9 @@ class OssLicenseMenuFragment: Fragment() {
     {
         val licenses = licenses
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-//            convertView?.setBackgroundColor(context.getColor(R.color.colorPrimary))
             val textView = super.getView(position, convertView, parent) as TextView
             textView?.text =  licenses[position].libName
                 return textView
         }
-
-
     }
 }

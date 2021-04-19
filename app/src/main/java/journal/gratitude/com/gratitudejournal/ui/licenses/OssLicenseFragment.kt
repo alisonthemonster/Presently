@@ -26,9 +26,7 @@ class OssLicenseFragment(val license: OssLicensesActivity.License): Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_license, container, false)
-
         val content = root.findViewById<TextView>(R.id.content)
-
 
         viewModel.loadLicense(license)
         viewModel.licenseLD.observe(viewLifecycleOwner, object : Observer<OssLicensesActivity.License?> {

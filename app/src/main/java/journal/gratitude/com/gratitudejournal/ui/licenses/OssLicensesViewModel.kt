@@ -19,15 +19,9 @@ class OssLicensesViewModel(application: Application): AndroidViewModel(applicati
 
     private lateinit var licensesInputStream: InputStreamReader
 
-    init {
-//        licensesInputStream = InputStreamReader(getApplication<Application>().resources.openRawResource(R.raw.third_party_licenses))
-    }
     fun loadMenu() {
         val inStream = getApplication<Application>().resources.openRawResource(R.raw.third_party_license_metadata)
         val scanner = Scanner(inStream)
-        var start = 0
-        var end = 0
-        val menuValues = mutableListOf<OssLicensesActivity.License>()
         viewModelScope.launch {
             val libs = mutableListOf<OssLicensesActivity.License>()
             while (scanner.hasNextLine()) {
@@ -38,6 +32,9 @@ class OssLicensesViewModel(application: Application): AndroidViewModel(applicati
                 val lengthString = line.subSequence(firstDelimIndex + 1, secondDelimIndex).toString()
                 val library = line.subSequence(secondDelimIndex, line.length).toString()
                 libs.add(OssLicensesActivity.License(Integer.parseInt(startString), Integer.parseInt(lengthString), libName = library))
+            }
+            libs.sortBy {
+                it.libName.toLowerCase()
             }
             menuMLD.postValue(libs)
         }
