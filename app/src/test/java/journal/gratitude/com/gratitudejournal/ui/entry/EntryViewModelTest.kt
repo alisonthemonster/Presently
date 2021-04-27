@@ -63,7 +63,7 @@ class EntryViewModelTest {
 
     @Test
     fun `GIVEN entry view model WHEN changePrompt is called THEN the state is updated`() {
-        val initialState = EntryState(LocalDate.now(), "", null, "quote", false, 0, listOf("one", "two"))
+        val initialState = EntryState(LocalDate.now(), "", null, "quote", false, 0, listOf("one", "two"), false)
         viewModel = EntryViewModel(initialState, repository)
         viewModel.changePrompt()
 
@@ -75,7 +75,7 @@ class EntryViewModelTest {
 
     @Test
     fun `GIVEN entry view model WHEN onTextChanged is called THEN the state is updated`() {
-        val initialState = EntryState(LocalDate.now(), "", null, "quote", false, 0, listOf("one", "two"))
+        val initialState = EntryState(LocalDate.now(), "", null, "quote", false, 0, listOf("one", "two"), false)
         viewModel = EntryViewModel(initialState, repository)
         viewModel.onTextChanged("new text")
 
@@ -87,7 +87,7 @@ class EntryViewModelTest {
 
     @Test
     fun `GIVEN entry view model WHEN setDate is called THEN the state is updated`() {
-        val initialState = EntryState(LocalDate.now(), "", null, "quote", false, 0, listOf("one", "two"))
+        val initialState = EntryState(LocalDate.now(), "", null, "quote", false, 0, listOf("one", "two"), false)
         viewModel = EntryViewModel(initialState, repository)
         viewModel.setDate("2021-03-02")
 

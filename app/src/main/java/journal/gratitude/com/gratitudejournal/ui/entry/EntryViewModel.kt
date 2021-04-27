@@ -30,8 +30,12 @@ class EntryViewModel @AssistedInject constructor(
     }
 
     fun onTextChanged(newText: String) {
-        setState {
-            copy(entryContent = newText, hasUserEdits = true)
+        withState { oldState ->
+            if (oldState.entryContent != newText) {
+                setState {
+                    copy(entryContent = newText, hasUserEdits = true)
+                }
+            }
         }
     }
 
@@ -40,6 +44,9 @@ class EntryViewModel @AssistedInject constructor(
             val entry = Entry(it.date, it.entryContent)
             viewModelScope.launch(Dispatchers.IO) {
                 repository.addEntry(entry)
+                setState {
+                    copy(isSaved = true)
+                }
             }
         }
     }
@@ -69,7 +76,7 @@ class EntryViewModel @AssistedInject constructor(
             val prompts = viewModelContext.activity.resources.getStringArray(R.array.prompts)
             prompts.shuffle() //randomise prompts
             val quote = viewModelContext.activity.resources.getStringArray(R.array.inspirations).random()
-            return EntryState(passedInDate, "", null, quote, false, 0, prompts.toList())
+            return EntryState(passedInDate, "", null, quote, false, 0, prompts.toList(), false)
         }
 
         override fun create(viewModelContext: ViewModelContext, state: EntryState): EntryViewModel {
