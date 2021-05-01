@@ -58,7 +58,6 @@
             android:summaryOff="@string/day_of_week_off"
             android:summaryOn="@string/day_of_week_on"
             android:title="@string/day_of_week_title" />
-
         <ListPreference
             android:key="first_day_of_week"
             android:title="@string/first_day_of_week_title"
