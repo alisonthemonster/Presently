@@ -52,8 +52,6 @@ class ContainerActivity : AppCompatActivity() {
         }
 
         NotificationScheduler().configureNotifications(this)
-
-        WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 
     override fun onResume() {
