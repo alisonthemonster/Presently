@@ -47,7 +47,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
     )
     def testTree = fileTree(
             dir: "$buildDir",
-            includes: ['jacoco/testDebugUnitTest.exec', 'firebase/**/*.ec']
+            includes: ['jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec']
     )
 
     getSourceDirectories().setFrom(mainSrc)
