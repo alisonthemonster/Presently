@@ -132,7 +132,7 @@ jobs:
           command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/matrix_0/walleye-27-en_US-portrait/artifacts/sdcard/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
       - run:
           name: Generate JaCoCo report
-          command: ./gradlew -PciBuild=true jacocoTestReport
+          command: ./gradlew -PciBuild=true jacocoFullReport
       - store_artifacts:
           path: firebase/
           destination: /firebase/

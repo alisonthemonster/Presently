@@ -53,6 +53,8 @@ fladle {
     ]
 }
 
+apply from: 'gradle/jacoco_ci.gradle'
+
 allprojects {
     repositories {
         google()
@@ -65,14 +67,6 @@ allprojects {
     project.ext.androidVersionName = createVersionName()
     project.ext.buildNumber = getBuildNumber()
     project.ext.branchName = getBranchName()
-}
-
-subprojects {
-    afterEvaluate { project ->
-        project.apply from: '../jacoco.gradle'
-        project.apply from: '../coveragereporting.gradle'
-
-    }
 }
 
 def createVersionName() {
