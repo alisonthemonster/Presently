@@ -22,6 +22,36 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.osacky.fulladle' version '0.15.1'
+}
+
+fladle {
+    serviceAccountCredentials = project.file("gcloud-service-key.json")
+    projectId = "gratitude-journal-app"
+
+    flankVersion = "21.05.0"
+
+    directoriesToPull = [
+            "/sdcard"
+    ]
+
+    filesToDownload = [
+            "JUnitReport.xml",
+            ".*/coverage/.*",
+            ".*/sdcard/[^/]+\\.ec\$"
+    ]
+
+    environmentVariables = [
+            coverage : "true",
+            coverageFile: "/sdcard/coverage.ec"
+    ]
+
+    devices = [
+            [ "model": "walleye", "version": "27", "locale": "en_US", "orientation": "portrait" ],
+    ]
+}
+
 allprojects {
     repositories {
         google()
