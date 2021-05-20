@@ -23,6 +23,7 @@ class CustomTestRunner : AndroidJUnitRunner() {
     }
 
     override fun finish(resultCode: Int, results: Bundle) {
+        FileRenamer.write(this)
         ScreenshotRunner.onDestroy()
         super.finish(resultCode, results)
     }

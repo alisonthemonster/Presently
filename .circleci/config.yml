@@ -4,7 +4,6 @@ references:
   workspace: &workspace
                ~/src
 
-
   persist_debug_workspace: &persist_debug_workspace
     persist_to_workspace:
       root: *workspace
@@ -73,69 +72,6 @@ references:
 
 jobs:
 
-  report_coverage:
-    <<: *android_config
-    steps:
-      - checkout
-      - *restore_gradle_cache
-      - run:
-          name: Download dependencies
-          command: ./gradlew androidDependencies
-      - *attach_debug_workspace
-      - *attach_firebase_workspace
-      - run:
-          name: Move Firebase coverage report
-          command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/walleye-27-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
-      - run:
-          name: Generate JaCoCo report
-          command: ./gradlew -PciBuild=true jacocoTestReport
-      - store_artifacts:
-          path: app/build/reports/
-          destination: /reports/
-      - store_test_results:
-          path: app/build/reports/
-
-
-  test_instrumented:
-    <<: *gcloud_config
-    steps:
-      - checkout
-      - *attach_debug_workspace
-      - *decrypt_gcloud_key
-      - run:
-          name: Set Google Cloud target project
-          command: gcloud config set project gratitude-journal-app
-      - run:
-          name: Authenticate with Google Cloud
-          command: gcloud auth activate-service-account presently-cicd-service-account@gratitude-journal-app.iam.gserviceaccount.com --key-file ${HOME}/client-secret.json
-      - run:
-          name: Run instrumented test on Firebase Test Lab
-          command: gcloud firebase test android run --type instrumentation --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk --device model=walleye,version=27,locale=en_US,orientation=portrait --environment-variables coverage=true,coverageFile=/sdcard/coverage.ec --directories-to-pull=/sdcard --timeout 20m
-      - run:
-          name: Create directory to store test results
-          command: mkdir firebase
-      - run:
-          name: Download instrumented test results from Firebase Test Lab
-          command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1`*" /root/src/firebase/
-      - run:
-          name: Record to screenshotbot
-          command: |
-            curl https://screenshotbot.io/recorder.sh | sh
-            cd ~/src && ~/screenshotbot/recorder \
-              --directory /root/src/firebase/*/artifacts/sdcard/screenshots/journal.gratitude.com.gratitudejournal.test/screenshots-default/screenshot_bundle.zip \
-              --channel Presently \
-              --metadata /root/src/firebase/*/artifacts/sdcard/screenshots/journal.gratitude.com.gratitudejournal.test/screenshots-default/metadata.xml \
-              --production \
-              --branch ${CIRCLE_BRANCH} \
-              --main-branch develop \
-              --api-key ${SCREENSHOTBOT_API_KEY} \
-              --repo-url ${CIRCLE_REPOSITORY_URL} \
-              --api-secret ${SCREENSHOTBOT_API_SECRET}
-      - *persist_firebase_workspace
-      - store_artifacts:
-          path: firebase/
-          destination: /firebase/
-
   build_debug:
     <<: *android_config
     steps:
@@ -145,30 +81,65 @@ jobs:
       - *save_gradle_cache
       - run:
           name: Gradle build (debug)
-          command: ./gradlew -PciBuild=true :app:assembleDebug :app:assembleAndroidTest
+          command: ./gradlew -PciBuild=true assembleDebug assembleAndroidTest
       - *persist_debug_workspace
       - store_artifacts:
           path: app/build/outputs/apk/
           destination: /apk/
 
+  run_tests_get_coverage:
+    working_directory: ~/src
+    environment:
+      JVM_OPTS: -Xmx3200m
+    docker:
+      - image: circleci/android:api-30 # gcloud is baked into this image
+    steps:
+      - checkout
+      - run:
+          name: Store Google Service Account
+          command: echo $GCLOUD_SERVICE_KEY | base64 -di > gcloud-service-key.json
+      - run:
+          name: Authorize gcloud and set config defaults
+          command: |
+            gcloud auth activate-service-account presently-cicd-service-account@gratitude-journal-app.iam.gserviceaccount.com --key-file gcloud-service-key.json
+            gsutil version -l
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Chmod permissions
+          command: sudo chmod +x ./gradlew
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Build
+          command: ./gradlew assembleDebug assembleDebugAndroidTest --stacktrace
+      - run:
+          name: Test with Firebase Test Lab
+          command: ./gradlew runFlank
+      - run:
+          name: Copy all coverage.ec files to their respective build output package
+          command: ./coverage_mover.sh
+      - run:
+          name: Generate JaCoCo report
+          command: ./gradlew -PciBuild=true jacocoFullReport
+      - store_artifacts:
+          path: build/fladle/
+          destination: results/
+      - store_test_results:
+          path: build/
 
 workflows:
   version: 2
   workflow:
     jobs:
       - build_debug
-      - test_instrumented:
+      - run_tests_get_coverage:
           filters:
             branches:
               # Forked pull requests have CIRCLE_BRANCH set to pull/XXX
               ignore: /pull\/[0-9]+/
-          requires:
-            - build_debug
-      - report_coverage:
-          filters:
-            branches:
-              # Forked pull requests have CIRCLE_BRANCH set to pull/XXX
-              ignore: /pull\/[0-9]+/
-          requires:
-            - build_debug
-            - test_instrumented
