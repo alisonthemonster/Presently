@@ -38,6 +38,8 @@ android {
             }
         }
         buildConfigField "String", "DROPBOX_APP_KEY", "\"${project.property("dropboxAppKey")}\""
+        //Used by custom test runner to tell FTL the module name
+        buildConfigField "String", "PROJECT_PATH", "\"" + project.path + "\""
 
         manifestPlaceholders = [dropboxAppKey: project.property("dropboxAppKey")]
     }
