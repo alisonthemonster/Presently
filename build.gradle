@@ -54,6 +54,7 @@ fladle {
 }
 
 apply from: 'gradle/jacoco_ci.gradle'
+apply from: 'gradle/common.gradle'
 
 allprojects {
     repositories {
