@@ -122,19 +122,16 @@ jobs:
           name: Test with Firebase Test Lab
           command: ./gradlew runFlank
       - run:
-          name: Create directory to store test results
-          command: mkdir firebase
-      - run:
           name: Copy all coverage.ec files to their respective build output package
           command: ./coverage_mover.sh
       - run:
           name: Generate JaCoCo report
           command: ./gradlew -PciBuild=true jacocoFullReport
       - store_artifacts:
-          path: firebase/
-          destination: /firebase/
+          path: build/fladle/
+          destination: results/
       - store_test_results:
-          path: firebase
+          path: build/
 
 workflows:
   version: 2
