@@ -38,6 +38,7 @@ android {
             }
         }
         buildConfigField "String", "DROPBOX_APP_KEY", "\"${project.property("dropboxAppKey")}\""
+        //TODO move this so it will apply to all modules
         //Used by custom test runner to tell FTL the module name
         buildConfigField "String", "PROJECT_PATH", "\"" + project.path + "\""
 
