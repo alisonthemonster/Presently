@@ -129,7 +129,7 @@ jobs:
           command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1`*" ./firebase/
       - run:
           name: Copy coverage.ec file
-          command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/matrix_0/walleye-27-en_US-portrait/artifacts/sdcard/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
+          command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/matrix_0/walleye-27-en_US-portrait/artifacts/sdcard/app-coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
       - run:
           name: Generate JaCoCo report
           command: ./gradlew -PciBuild=true jacocoFullReport

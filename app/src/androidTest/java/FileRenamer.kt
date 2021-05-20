@@ -12,7 +12,7 @@ import java.util.*
 object FileRenamer {
 
     fun write(instrumentation: Instrumentation) {
-        val path = getProjectPath(instrumentation.context)
+        val path = getProjectPath(instrumentation.context)?.trim(':')
         write(path, instrumentation)
     }
 
