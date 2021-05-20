@@ -13,7 +13,9 @@ do
   MODULE=`basename $FILE $EXT`
   echo "$MODULE"
   mkdir -p "$MODULE/build/outputs/code-coverage/connected"
+  echo "$MODULE/build/outputs/code-coverage/connected"
   cp "$FILE" "$MODULE/build/outputs/code-coverage/connected/connected.ec"
+  ls "$MODULE/build/outputs/code-coverage/connected"
 done
 
 # firebase/matrix_0/walleye-27-en_US-portrait/artifacts/sdcard/<app>-coverage.ec

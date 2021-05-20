@@ -125,9 +125,6 @@ jobs:
           name: Create directory to store test results
           command: mkdir firebase
       - run:
-          name: Download instrumented test results from Firebase Test Lab
-          command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-633h5cj3dy2zq-nfytdzn1u6s8i | tail -1`*" ./firebase/
-      - run:
           name: Copy all coverage.ec files to their respective build output package
           command: ./coverage_mover.sh
       - run:
