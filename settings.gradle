@@ -1,2 +1,3 @@
 include ':ui'
 include ':app'
+include ':strings'

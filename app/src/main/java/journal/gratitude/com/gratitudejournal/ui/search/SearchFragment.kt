@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.ui.search
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.KeyEvent
@@ -12,25 +14,27 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionInflater
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.jakewharton.rxbinding2.widget.RxTextView
 import dagger.android.support.DaggerFragment
-import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH_ITEM
 import journal.gratitude.com.gratitudejournal.util.setStatusBarColorsForBackground
+import journal.gratitude.com.gratitudejournal.util.textChanges
 import kotlinx.android.synthetic.main.search_fragment.*
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -42,8 +46,6 @@ class SearchFragment : DaggerFragment() {
     private val viewModel by viewModels<SearchViewModel> { viewModelFactory }
     private lateinit var binding: SearchFragmentBinding
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-
-    private val disposables = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,37 +71,6 @@ class SearchFragment : DaggerFragment() {
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
 
-        val obs = RxTextView.textChanges(search_text)
-            .debounce(300, TimeUnit.MILLISECONDS)
-            .filter { charSequence -> charSequence.isNotBlank() }
-            .map<Any> { charSequence -> charSequence.toString() }
-            .subscribe {
-                val bundle = Bundle()
-                bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, it as String)
-                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
-                search(it)
-            }
-        disposables.add(obs)
-
-        search_text.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    dismissKeyboard()
-                    return true
-                }
-                return false
-            }
-        })
-
-        search_icon.setOnClickListener {
-            dismissKeyboard()
-        }
-
-        back_icon.setOnClickListener {
-            dismissKeyboard()
-            findNavController().navigateUp()
-        }
-
         val adapter = SearchAdapter(requireActivity(), object : SearchAdapter.OnClickListener {
             override fun onClick(
                 clickedDate: LocalDate
@@ -114,13 +85,53 @@ class SearchFragment : DaggerFragment() {
                 }
             }
         })
+
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collect {
+                val refresher = it.refresh
+                val displayEmptyMessage =
+                    (refresher is LoadState.NotLoading && adapter.itemCount == 0)
+
+                search_results?.isVisible = !displayEmptyMessage
+                no_results_icon?.isVisible = displayEmptyMessage
+                // Handle icon display issues in older versions
+                if(Build.VERSION.SDK_INT <= 23)
+                    no_results_icon.imageTintList = context?.getColorStateList(R.color.text_color)
+                no_results?.isVisible = displayEmptyMessage
+            }
+        }
+
         search_results.layoutManager = LinearLayoutManager(context)
         search_results.adapter = adapter
 
-        viewModel.results.observe(viewLifecycleOwner, Observer {
-            binding.viewModel = viewModel
-            adapter.submitList(it)
-        })
+        lifecycleScope.launch {
+            search_text.textChanges()
+                .debounce(300)
+                .filter { charSequence -> !charSequence.isNullOrBlank() }
+                .map { charSequence -> charSequence.toString() }
+                .flatMapLatest { query ->
+                    viewModel.search(query)
+                }
+                .collectLatest {results ->
+                    adapter.submitData(results)
+                }
+        }
+
+        search_text.setOnEditorActionListener { _, actionId, _ ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_SEARCH -> { dismissKeyboard(); true }
+                else -> false
+            }
+        }
+
+        search_icon.setOnClickListener {
+            dismissKeyboard()
+        }
+
+        back_icon.setOnClickListener {
+            dismissKeyboard()
+            findNavController().navigateUp()
+        }
 
         openKeyboard()
 
@@ -134,23 +145,6 @@ class SearchFragment : DaggerFragment() {
         requireActivity().theme.resolveAttribute(R.attr.toolbarColor, typedValue, true)
         setStatusBarColorsForBackground(window, typedValue.data)
         window.statusBarColor = typedValue.data
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        disposables.clear() // Using clear will clear all, but can accept new disposable
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        disposables.dispose() // Using dispose will clear all and set isDisposed = true, so it will not accept any new disposable
-    }
-
-    private fun search(query: String) {
-        if (query.isNotEmpty()) {
-            viewModel.search(query)
-        }
     }
 
     private fun openKeyboard() {
@@ -163,6 +157,5 @@ class SearchFragment : DaggerFragment() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.hideSoftInputFromWindow(search_text.windowToken, 0)
     }
-
 
 }

@@ -1,23 +1,22 @@
 package journal.gratitude.com.gratitudejournal.ui.themes
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.FirebaseAnalytics.Param.*
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.THEME
 import journal.gratitude.com.gratitudejournal.model.Theme
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.THEME_PREF
 import kotlinx.android.synthetic.main.fragment_theme.*
 
-
-class ThemeFragment : Fragment() {
+class ThemeFragment : Fragment(R.layout.fragment_theme) {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -27,10 +26,11 @@ class ThemeFragment : Fragment() {
                 .edit()
                 .putString(THEME_PREF, theme)
                 .apply()
-            val bundle = Bundle()
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, theme)
-            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, theme)
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "theme")
+            val bundle = bundleOf(
+                ITEM_NAME to theme,
+                ITEM_ID to theme,
+                CONTENT_TYPE to "theme"
+            )
             firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
             firebaseAnalytics.setUserProperty(THEME, theme)
             findNavController().navigateUp()
@@ -39,14 +39,6 @@ class ThemeFragment : Fragment() {
     }
 
     private val adapter = ThemeListAdapter(listener)
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_theme, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
