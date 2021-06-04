@@ -1,6 +1,6 @@
 package com.presently.coverage_example
 
-class ClassToTest {
+class KotlinClass {
 
     fun mathIsGreat(): Int {
         return 2*4

@@ -7,15 +7,22 @@ import org.junit.Assert.*
 class MyUnitTest {
     @Test
     fun mathWorks() {
-        val actual = ClassToTest().mathIsGreat()
+        val actual = KotlinClass().mathIsGreat()
         val expected = 8
         assertEquals(expected, actual)
     }
 
-//    @Test
-//    fun wordsWork() {
-//        val actual = ClassToTest().wordsAreCool()
-//        val expected = "So cool"
-//        assertEquals(expected, actual)
-//    }
+    @Test
+    fun wordsWork() {
+        val actual = KotlinClass().wordsAreCool()
+        val expected = "So cool"
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun javaTest() {
+        val actual = JavaClass().thisReturnsTrue()
+        val expected = true
+        assertEquals(expected, actual)
+    }
 }
