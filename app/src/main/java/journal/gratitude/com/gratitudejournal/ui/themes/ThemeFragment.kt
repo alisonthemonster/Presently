@@ -90,6 +90,15 @@ class ThemeFragment : Fragment(R.layout.fragment_theme) {
                 true
             ),
             Theme(
+                "Brayla",
+                ContextCompat.getColor(requireContext(), R.color.braylaToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.braylaBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.braylaToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.braylaMainTextAndButtonColor),
+                R.drawable.ic_brayla,
+                true
+            ),
+            Theme(
                 "Tulip",
                 ContextCompat.getColor(requireContext(), R.color.tulipToolbarColor),
                 ContextCompat.getColor(requireContext(), R.color.tulipBackgroundColor),

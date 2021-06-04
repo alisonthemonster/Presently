@@ -493,4 +493,19 @@
         <item name="entryContentTextColor">@color/marshaMainTextAndButtonColor</item>
         <item name="highlightColor">@color/marshaAndroidWidgetColor</item>
     </style>
+
+    <style name="AppTheme.BRAYLA" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_brayla</item>
+        <item name="timelineLineColor">@color/braylaTimelineColor</item>
+        <item name="backgroundColor">@color/braylaBackgroundColor</item>
+        <item name="hintTextColor">@color/braylaHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/braylaToolbarColor</item>
+        <item name="toolbarItemColor">@color/braylaToolbarItemColor</item>
+        <item name="statusBarColor">@color/braylaStatusBarColor</item>
+        <item name="timelineDateTextColor">@color/braylaDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/braylaMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/braylaMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/braylaMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/braylaAndroidWidgetColor</item>
+    </style>
 </resources>

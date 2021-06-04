@@ -398,4 +398,15 @@
     <color name="marshaToolbarColor">#000000</color>
     <color name="marshaStatusBarColor">#000000</color>
     <color name="marshaToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~BRAYLA THEME~~~~ -->
+    <color name="braylaAndroidWidgetColor">#FF9800</color>
+    <color name="braylaBackgroundColor">#000000</color>
+    <color name="braylaMainTextAndButtonColor">#FFFFFF</color>
+    <color name="braylaHintQuoteTextColor">#A6A6A6</color>
+    <color name="braylaDateTextEntryScreenTextColor">#FFFFFF</color>
+    <color name="braylaTimelineColor">#FFFFFF</color>
+    <color name="braylaToolbarColor">#FFFFFF</color>
+    <color name="braylaStatusBarColor">#FFFFFF</color>
+    <color name="braylaToolbarItemColor">#000000</color>
 </resources>
