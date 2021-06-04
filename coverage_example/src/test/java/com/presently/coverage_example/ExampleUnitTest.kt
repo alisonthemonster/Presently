@@ -8,7 +8,7 @@ class MyUnitTest {
     @Test
     fun mathWorks() {
         val actual = ClassToTest().mathIsGreat()
-        val expected = 8
+        val expected = 6
         assertEquals(expected, actual)
     }
 
