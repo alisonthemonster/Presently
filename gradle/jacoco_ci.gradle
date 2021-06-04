@@ -29,8 +29,6 @@ configure(coveredProject) { prj ->
                           '**/*Test*.*',
                           'android/**/*.*',
                           '**/settings/*.*',
-                          '**/SingleLiveEvent*',
-                          '**/CustomTypefaceSpan*',
                           '**/*Adapter*',
                           '**/model/*.*',
                           '**/room/*.*',

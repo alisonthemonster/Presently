@@ -3,6 +3,8 @@ package com.presently.analytics
 import android.os.Bundle
 import javax.inject.Inject
 
+// TODO for some reason code coverage isn't working despite PresentlyAnalyticsTest
+// Countly code is commented out until we can figure out GDPR for self hosting analytics info
 class RealPresentlyAnalytics @Inject constructor(private val countly: CountlyAnalytics, private val firebase: com.presently.analytics.FirebaseAnalytics) : PresentlyAnalytics {
     override fun recordEvent(event: String) {
 //        countly.recordEvent(event)
