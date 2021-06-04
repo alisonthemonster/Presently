@@ -81,6 +81,15 @@ class ThemeFragment : Fragment(R.layout.fragment_theme) {
                 true
             ),
             Theme(
+                "Marsha",
+                ContextCompat.getColor(requireContext(), R.color.marshaToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.marshaBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.marshaToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.marshaMainTextAndButtonColor),
+                R.drawable.ic_trans_hearts,
+                true
+            ),
+            Theme(
                 "Tulip",
                 ContextCompat.getColor(requireContext(), R.color.tulipToolbarColor),
                 ContextCompat.getColor(requireContext(), R.color.tulipBackgroundColor),

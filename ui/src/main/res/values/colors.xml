@@ -387,4 +387,15 @@
     <color name="loveToolbarColor">#000000</color>
     <color name="loveStatusBarColor">#000000</color>
     <color name="loveToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~MARSHA THEME~~~~ -->
+    <color name="marshaAndroidWidgetColor">#000000</color>
+    <color name="marshaBackgroundColor">#FFFAFA</color>
+    <color name="marshaMainTextAndButtonColor">#000000</color>
+    <color name="marshaHintQuoteTextColor">#4E4E4E</color>
+    <color name="marshaDateTextEntryScreenTextColor">#000000</color>
+    <color name="marshaTimelineColor">#000000</color>
+    <color name="marshaToolbarColor">#000000</color>
+    <color name="marshaStatusBarColor">#000000</color>
+    <color name="marshaToolbarItemColor">#FFFFFF</color>
 </resources>
