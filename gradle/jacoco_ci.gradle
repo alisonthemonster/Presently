@@ -34,6 +34,7 @@ configure(coveredProject) { prj ->
                           '**/*Adapter*',
                           '**/model/*.*',
                           '**/room/*.*',
+                          '**/wiring/*.*',
                           '**/di/*.*',
                           '**/dropbox/*.*',
                           '**/reminders/*.*',
