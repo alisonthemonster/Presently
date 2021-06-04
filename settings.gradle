@@ -1,3 +1,4 @@
 include ':ui'
 include ':app'
 include ':strings'
+include ':coverage_example'
