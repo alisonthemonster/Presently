@@ -22,6 +22,7 @@ subprojects { prj ->
 
         tasks.withType(Test) {
             jacoco.includeNoLocationClasses = true
+            jacoco.excludes = ['jdk.internal.*']
         }
 
         task jacocoReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
