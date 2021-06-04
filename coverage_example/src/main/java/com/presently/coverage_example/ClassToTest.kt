@@ -9,4 +9,8 @@ class ClassToTest {
     fun wordsAreCool(): String {
         return "So cool"
     }
+
+    fun blah(): Int {
+        return 9+1
+    }
 }
