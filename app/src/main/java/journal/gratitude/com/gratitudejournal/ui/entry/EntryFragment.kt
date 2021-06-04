@@ -27,6 +27,7 @@ import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.presently.analytics.PresentlyAnalytics
+import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
@@ -42,7 +43,7 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
-class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
+class EntryFragment : DaggerFragment(R.layout.entry_fragment), MavericksView {
 
     private val viewModel: EntryViewModel by fragmentViewModel()
     private val args: EntryFragmentArgs by navArgs()
