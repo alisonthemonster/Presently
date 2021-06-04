@@ -1,61 +1,83 @@
-def coveredProject = subprojects
+/**
+ *  List of modules that don't require code coverage
+ */
+final ignoredByJacoco = [
+        'ui',
+        'strings'
+]
+
+/**
+ *  Apply additional build steps to sub-projects
+ */
+subprojects { prj ->
+
+    // Apply Jacoco only if the project is not in the ignore list
+    if (!ignoredByJacoco.contains(prj.name)) {
+
+        apply plugin: 'jacoco'
+
+        jacoco {
+            toolVersion = "0.8.5"
+        }
+
+        tasks.withType(Test) {
+            jacoco.includeNoLocationClasses = true
+        }
+
+        task jacocoReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
+            group = 'Reporting'
+            description = 'Generate Jacoco coverage'
+
+            reports {
+                csv.enabled = true
+                xml.enabled = false
+                html.enabled = true
+            }
+
+            // Excluded files
+            def fileFilter = ['**/R.class',
+                              '**/R$*.class',
+                              '**/*BR*.*',
+                              '**/BuildConfig.*',
+                              '**/Manifest*.*',
+                              '**/*Test*.*',
+                              'android/**/*.*',
+                              '**/settings/*.*',
+                              '**/*Adapter*',
+                              '**/model/*.*',
+                              '**/room/*.*',
+                              '**/wiring/*.*',
+                              '**/di/*.*',
+                              '**/dropbox/*.*',
+                              '**/reminders/*.*',
+                              '**/backups/Dropbox/*.*',
+                              '**/backups/UploadToCloudWorker*',
+                              '**/*Binding*.*',
+                              '**/*adapter*.*',
+                              '**/*Activity*.*',
+                              '**/AppLockFragment*',
+                              '**/LocaleHelper*',
+                              '**/TimelineFragment*',
+                              '**/calendar/*.*',]
+
+            final kotlinTree = fileTree(dir: "${prj.buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
+            final javacTree = fileTree(dir: "${prj.buildDir}/intermediates/javac/debug", excludes: fileFilter)
+            final mainSrc = "${prj.projectDir}/src/main/java"
+            logger.lifecycle("main ${mainSrc}")
+
+            sourceDirectories.setFrom files([mainSrc])
+            classDirectories.setFrom files([kotlinTree, javacTree])
+            executionData.setFrom fileTree(dir: prj.buildDir, includes: [
+                    'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+            ])
+        }
+    }
+}
 
 apply plugin: 'jacoco'
 
-configure(coveredProject) { prj ->
-    apply plugin: 'jacoco'
-
-    jacoco {
-        toolVersion = "0.8.5"
-    }
-
-    //runs a coverage check on a module
-    task jacocoReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
-        group = 'Reporting'
-        description = 'Generate Jacoco coverage'
-
-        reports {
-            csv.enabled = true
-            xml.enabled = false
-            html.enabled = true
-        }
-
-        // Excluded files
-        def fileFilter = ['**/R.class',
-                          '**/R$*.class',
-                          '**/*BR*.*',
-                          '**/BuildConfig.*',
-                          '**/Manifest*.*',
-                          '**/*Test*.*',
-                          'android/**/*.*',
-                          '**/settings/*.*',
-                          '**/*Adapter*',
-                          '**/model/*.*',
-                          '**/room/*.*',
-                          '**/wiring/*.*',
-                          '**/di/*.*',
-                          '**/dropbox/*.*',
-                          '**/reminders/*.*',
-                          '**/backups/Dropbox/*.*',
-                          '**/backups/UploadToCloudWorker*',
-                          '**/*Binding*.*',
-                          '**/*adapter*.*',
-                          '**/*Activity*.*',
-                          '**/AppLockFragment*',
-                          '**/LocaleHelper*',
-                          '**/TimelineFragment*',
-                          '**/calendar/*.*',]
-
-        final kotlinTree = fileTree(dir: "${prj.buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
-        final javacTree = fileTree(dir: "${prj.buildDir}/intermediates/javac/debug", excludes: fileFilter)
-        final mainSrc = "${prj.projectDir}/src/main/java"
-
-        sourceDirectories.setFrom files([mainSrc])
-        classDirectories.setFrom files([kotlinTree, javacTree])
-        executionData.setFrom fileTree(dir: prj.buildDir, includes: [
-                'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-        ])
-    }
+jacoco {
+    toolVersion "0.8.5"
 }
 
 /**
@@ -65,11 +87,13 @@ task jacocoFullReport(type: JacocoReport, group: 'Coverage reports') {
     group = 'Reporting'
     description = 'Generates an aggregate report from all subprojects'
 
-    tasks.withType(Test) {
-        ignoreFailures true
+    // Get list of projects which should be included in the report
+    def projects = new ArrayList()
+    subprojects.each { prj ->
+        if (!ignoredByJacoco.contains(prj.name)) {
+            projects.add(prj)
+        }
     }
-
-    def projects = coveredProject
 
     //noinspection GrUnresolvedAccess
     dependsOn(projects.jacocoReport)
