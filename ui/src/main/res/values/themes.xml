@@ -463,4 +463,19 @@
         <item name="entryContentTextColor">@color/ahalyaMainTextAndButtonColor</item>
         <item name="highlightColor">@color/ahalyaAndroidWidgetColor</item>
     </style>
+
+    <style name="AppTheme.LOVEISLOVE" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_rainbow</item>
+        <item name="timelineLineColor">@color/loveTimelineColor</item>
+        <item name="backgroundColor">@color/loveBackgroundColor</item>
+        <item name="hintTextColor">@color/loveHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/loveToolbarColor</item>
+        <item name="toolbarItemColor">@color/loveToolbarItemColor</item>
+        <item name="statusBarColor">@color/loveStatusBarColor</item>
+        <item name="timelineDateTextColor">@color/loveDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/loveMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/loveMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/loveMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/loveAndroidWidgetColor</item>
+    </style>
 </resources>

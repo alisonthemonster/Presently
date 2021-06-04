@@ -376,4 +376,15 @@
     <color name="ahalyaToolbarColor">#000000</color>
     <color name="ahalyaStatusBarColor">#000000</color>
     <color name="ahalyaToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~LOVE IS LOVE THEME~~~~ -->
+    <color name="loveAndroidWidgetColor">#0188CC</color>
+    <color name="loveBackgroundColor">#C6E3F1</color>
+    <color name="loveMainTextAndButtonColor">#000000</color>
+    <color name="loveHintQuoteTextColor">#4E4E4E</color>
+    <color name="loveDateTextEntryScreenTextColor">#000000</color>
+    <color name="loveTimelineColor">#000000</color>
+    <color name="loveToolbarColor">#000000</color>
+    <color name="loveStatusBarColor">#000000</color>
+    <color name="loveToolbarItemColor">#FFFFFF</color>
 </resources>

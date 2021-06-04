@@ -72,6 +72,15 @@ class ThemeFragment : Fragment(R.layout.fragment_theme) {
                 true
             ),
             Theme(
+                "Love is love",
+                ContextCompat.getColor(requireContext(), R.color.loveToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.loveBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.loveToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.loveMainTextAndButtonColor),
+                R.drawable.ic_rainbow,
+                true
+            ),
+            Theme(
                 "Tulip",
                 ContextCompat.getColor(requireContext(), R.color.tulipToolbarColor),
                 ContextCompat.getColor(requireContext(), R.color.tulipBackgroundColor),
