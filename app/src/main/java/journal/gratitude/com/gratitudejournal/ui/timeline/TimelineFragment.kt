@@ -44,8 +44,6 @@ class TimelineFragment : DaggerFragment() {
 
     companion object {
         fun newInstance() = TimelineFragment()
-        const val MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 512
-        const val IMPORT_CSV = 206
     }
 
     @Inject

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -19,16 +20,21 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenCreated
 import androidx.navigation.fragment.findNavController
-import androidx.preference.ListPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.*
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.dropbox.core.android.Auth
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.splitinstall.SplitInstallManager
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
+import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
+import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.presently.analytics.PresentlyAnalytics
 import dagger.android.support.AndroidSupportInjection
@@ -51,19 +57,37 @@ import org.apache.commons.csv.CSVParser
 import org.threeten.bp.LocalDateTime
 import java.io.InputStream
 import java.nio.charset.Charset
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SettingsFragment : PreferenceFragmentCompat(),
-    SharedPreferences.OnSharedPreferenceChangeListener {
+    SharedPreferences.OnSharedPreferenceChangeListener, DialogPreference.TargetFragment {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     lateinit var analytics: PresentlyAnalytics
 
     private val viewModel by viewModels<SettingsViewModel> { viewModelFactory }
+
+    private lateinit var splitInstallManager: SplitInstallManager
+
+    private val listener = SplitInstallStateUpdatedListener { state ->
+        if (state.sessionId() == requestId && state.status() == SplitInstallSessionStatus.INSTALLED) {
+            firebaseAnalytics.logEvent(LANGUAGE_INSTALLED, null)
+            startActivity(Intent.makeRestartActivityTask(activity?.intent?.component))
+        } else if (state.sessionId() == requestId && state.status() == SplitInstallSessionStatus.FAILED) {
+            val errorCode = state.errorCode()
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.recordException(Exception("SplitInstallErrorCode: $errorCode"))
+            Toast.makeText(context, "Error loading language", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private var requestId = 0
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -73,10 +97,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        splitInstallManager = SplitInstallManagerFactory.create(requireContext())
+
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
             v.updatePadding(
-                top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
-                bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+                    top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
+                    bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
             )
             insets
         }
@@ -104,10 +130,19 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
         val share = findPreference<Preference>(getString(R.string.key_share_app))
+
+        // Handle icon issues for android versions < 23
+        if(Build.VERSION.SDK_INT <= 23) {
+            context?.getColor(R.color.text_color)?.let { share?.icon?.setTint(it) }
+            val lang = findPreference<Preference>("app_language")
+            context?.getColor(R.color.text_color)?.let { lang?.icon?.setTint(it) }
+        }
+
         share?.setOnPreferenceClickListener {
             openShareApp()
             true
         }
+
         val privacy = findPreference<Preference>(getString(R.string.key_privacy_policy))
         privacy?.setOnPreferenceClickListener {
             openPrivacyPolicy()
@@ -160,7 +195,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             else -> 2
         }
         cadencePref.setValueIndex(index)
-
         val oneTimeExport = findPreference<Preference>(ONE_TIME_EXPORT_PREF)
         oneTimeExport?.setOnPreferenceClickListener {
             createFileOnDevice()
@@ -212,24 +246,24 @@ class SettingsFragment : PreferenceFragmentCompat(),
             "0" -> {
                 //every day
                 val uploadWorkRequest =
-                    PeriodicWorkRequestBuilder<UploadToCloudWorker>(1, TimeUnit.DAYS)
-                        .addTag(PRESENTLY_BACKUP)
-                        .build()
+                        PeriodicWorkRequestBuilder<UploadToCloudWorker>(1, TimeUnit.DAYS)
+                                .addTag(PRESENTLY_BACKUP)
+                                .build()
                 WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
             }
             "1" -> {
                 //every week
                 val uploadWorkRequest =
-                    PeriodicWorkRequestBuilder<UploadToCloudWorker>(7, TimeUnit.DAYS)
-                        .addTag(PRESENTLY_BACKUP)
-                        .build()
+                        PeriodicWorkRequestBuilder<UploadToCloudWorker>(7, TimeUnit.DAYS)
+                                .addTag(PRESENTLY_BACKUP)
+                                .build()
                 WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
             }
             "2" -> {
                 //every change so do an upload now
                 val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
-                    .addTag(PRESENTLY_BACKUP)
-                    .build()
+                        .addTag(PRESENTLY_BACKUP)
+                        .build()
                 WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
             }
         }
@@ -267,15 +301,39 @@ class SettingsFragment : PreferenceFragmentCompat(),
             }
             BACKUP_CADENCE -> {
                 val cadence =
-                    preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0") ?: "0"
+                        preferenceScreen.sharedPreferences.getString(BACKUP_CADENCE, "0") ?: "0"
                 fireAnalyticsEventForCadence(cadence)
                 createDropboxUploaderWorker(cadence)
+            }
+            APP_LANGUAGE -> {
+                val language = sharedPreferences.getString(APP_LANGUAGE, "unknown")
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, language)
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, language)
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "language")
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+
+                val crashlytics = FirebaseCrashlytics.getInstance()
+
+                val request = SplitInstallRequest.newBuilder()
+                        .addLanguage(Locale.forLanguageTag(language))
+                        .build()
+                splitInstallManager.registerListener(listener)
+                splitInstallManager.startInstall(request)
+                        .addOnSuccessListener {
+                            requestId = it
+                            Toast.makeText(context, R.string.loading_lang, Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { exception ->
+                            crashlytics.recordException(exception)
+                            Toast.makeText(context, "Error loading language", Toast.LENGTH_SHORT).show()
+                        }
             }
         }
     }
 
     private fun fireAnalyticsEventForCadence(
-        cadence: String
+            cadence: String
     ) {
         val cadenceString = when (cadence) {
             "0" -> "Daily"
@@ -301,8 +359,17 @@ class SettingsFragment : PreferenceFragmentCompat(),
             dialogFragment.setTargetFragment(this, 0)
             dialogFragment.show(parentFragmentManager, "DIALOG")
         } else {
-            super.onDisplayPreferenceDialog(preference)
+                val dialogFragment =
+                        CustomListPrefDialogFragCompat.newInstance(preference.getKey())
+            dialogFragment?.setTargetFragment(this, 0)
+            dialogFragment?.show(parentFragmentManager, null);
+
         }
+    }
+
+    override fun onDestroy() {
+        splitInstallManager.unregisterListener(listener)
+        super.onDestroy()
     }
 
 
@@ -311,7 +378,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val navController = findNavController()
         if (navController.currentDestination?.id == R.id.settingsFragment) {
             navController.navigate(
-                R.id.action_settingsFragment_to_themeFragment
+                    R.id.action_settingsFragment_to_themeFragment
             )
         }
     }
@@ -321,8 +388,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         try {
             val browserIntent =
                 Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html")
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html")
                 )
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
@@ -361,8 +428,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         try {
             val browserIntent =
                 Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html")
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html")
                 )
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
@@ -378,8 +445,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         try {
             val browserIntent =
                 Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://presently-app.firebaseapp.com/faq.html")
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://presently-app.firebaseapp.com/faq.html")
                 )
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
@@ -454,8 +521,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private fun importFromCsv(inputStream: InputStream) {
         try {
             val parser = CSVParser.parse(
-                inputStream, Charset.defaultCharset(),
-                CSVFormat.DEFAULT
+                    inputStream, Charset.defaultCharset(),
+                    CSVFormat.DEFAULT
             )
             val realCsvParser = RealCsvParser(parser)
             val entries = convertCsvToEntries(realCsvParser)
@@ -463,6 +530,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             analytics.recordEvent(IMPORTED_DATA_SUCCESS)
             val navController = findNavController()
             navController.navigateUp()
+            //TODO move this hardcoded string to strings.xml
             Toast.makeText(context, "Imported successfully!", Toast.LENGTH_SHORT).show()
         } catch (exception: Exception) {
             analytics.recordEvent(IMPORTING_BACKUP_ERROR)
@@ -481,9 +549,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
             if (uri != null) {
                 lifecycleScope.launch {
                     val csvResult = exportEntriesToCsvFile(
-                        requireContext(),
-                        uri,
-                        viewModel.getEntries()
+                            requireContext(),
+                            uri,
+                            viewModel.getEntries()
                     )
                     when (csvResult) {
                         is CsvUriError -> exportCallback.onFailure(csvResult.exception)
@@ -494,9 +562,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 val crashlytics = FirebaseCrashlytics.getInstance()
                 crashlytics.recordException(NullPointerException("URI was null after user selected file location"))
                 Toast.makeText(
-                    context,
-                    R.string.error_creating_csv_file,
-                    Toast.LENGTH_SHORT
+                        context,
+                        R.string.error_creating_csv_file,
+                        Toast.LENGTH_SHORT
                 ).show()
             }
 
@@ -535,9 +603,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
             val crashlytics = FirebaseCrashlytics.getInstance()
             crashlytics.recordException(exception)
             Toast.makeText(
-                context,
-                "Error : ${exception.localizedMessage}",
-                Toast.LENGTH_SHORT
+                    context,
+                    "Error : ${exception.localizedMessage}",
+                    Toast.LENGTH_SHORT
             )
                 .show()
         }
@@ -557,6 +625,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val DAY_OF_WEEK = "day_of_week"
         const val LINES_PER_ENTRY_IN_TIMELINE = "lines_per_entry_in_timeline"
         const val FIRST_DAY_OF_WEEK = "first_day_of_week"
+        const val APP_LANGUAGE = "app_language"
+
+        const val NO_LANG_PREF = "no_language_selected"
     }
 }
 

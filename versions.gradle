@@ -1,6 +1,6 @@
 ext {
     major = 1
-    minor = 9
+    minor = 13
     patch = 0
     beta = ""
 
@@ -9,14 +9,13 @@ ext {
     androidMinSdk = 23
 
     gradle_version = "3.2.1"
-    kotlin_version = "1.4.0"
+    kotlin_version = "1.4.10"
 
     jacoco_version = "0.8.2"
     lifecycle_version = "2.2.0"
-    room_version = "2.2.5"
     coroutine_version = "0.26.1"
     navigation_version = "2.3.0"
-    dagger_version = "2.28.3"
+    dagger_version = "2.31.2"
 
     //testing
     mockito_version = "2.0.0"

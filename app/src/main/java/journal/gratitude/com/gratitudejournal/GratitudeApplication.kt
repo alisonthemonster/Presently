@@ -1,18 +1,26 @@
 package journal.gratitude.com.gratitudejournal
 
+import android.content.Context
+import androidx.fragment.app.FragmentActivity
 import androidx.work.Configuration
 import androidx.work.WorkManager
+import com.airbnb.mvrx.Mavericks
+import com.google.android.play.core.splitcompat.SplitCompat
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
+import journal.gratitude.com.gratitudejournal.di.ApplicationComponent
 import journal.gratitude.com.gratitudejournal.di.DaggerApplicationComponent
 import journal.gratitude.com.gratitudejournal.di.DaggerAwareWorkerFactory
 import javax.inject.Inject
 
 open class GratitudeApplication: DaggerApplication() {
 
+    lateinit var appComponent: ApplicationComponent
+
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerApplicationComponent.factory().create(applicationContext, this)
+        appComponent = DaggerApplicationComponent.factory().create(applicationContext, this)
+        return appComponent
     }
 
     override fun onCreate() {
@@ -21,6 +29,14 @@ open class GratitudeApplication: DaggerApplication() {
         configureWorkManager()
 
         AndroidThreeTen.init(this)
+
+        Mavericks.initialize(this)
+    }
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(base)
+        // Emulates installation of future on demand modules using SplitCompat.
+        SplitCompat.install(this)
     }
 
     @Inject
@@ -32,4 +48,8 @@ open class GratitudeApplication: DaggerApplication() {
             .build()
         WorkManager.initialize(this, config)
     }
+}
+
+fun FragmentActivity.appComponent(): ApplicationComponent {
+    return (application as GratitudeApplication).appComponent
 }

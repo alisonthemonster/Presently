@@ -279,3 +279,47 @@ Practicați recunoștința cu această aplicație simplă, întotdeauna gratuit�
 În prezent vă permite să: ⁕Scrieți zilnic un motiv pentru care sunteți recunoscător ⁕ Reflectați asupra momentelor trecute în care ați fost recunoscător ⁕ Găsiți motivația prin citate și întrebări ajutătoare ⁕ Setați alarme zilnice pentru a continua practicarea recunoștinței ⁕ Deblocarea aplicației cu ajutorul amprentei digitale sau a ID-ului facial⁕ Faceți backup automat al datelor folosind Dropbox ⁕ Vă găsiți datele din trecut ⁕ Împărtășiți datele cu familia și prietenii ⁕ Exportați / importați datele ⁕ Schimbați temele și culorile preferate
 
 Presently este 100% gratuit și fără anunțuri. Toate informațiile rămân pe dispozitiv și sub controlul tău.
+
+
+## Turkish
+Presently: Minnettarlık günlüğü
+
+Gündelik hayatını ücretsiz ve özel minnettarlık günlüğü Presently ile kutla
+
+Bu basit, her zaman ücretsiz ve özel minnettarlık günlüğü uygulamasıyla minnettarlık alıştırması yapabilirsin.
+
+Presently şunları sağlar:
+⁕ Günlük minnettarlık yazılarını kaydet
+⁕ Geçmişteki minnettarlık anlarına geri dön
+⁕ Alıntılar ve yönlendirmeler yoluyla motivasyon bul
+⁕ Minnettarlık alıştırmasına devam etmek için günlük hatırlatıcılar ayarla
+⁕ Yazılarını parmak izi veya yüz kimliği ile kilitle
+⁕ Yazılarını otomatik olarak Dropbox'a yedekle
+⁕ Eski yazılarını ara
+⁕ Yazılarını ailen ve arkadaşlarınla paylaş
+⁕ Girişlerini içe / dışa aktar
+⁕ En sevdiğin renk şemasını kullan
+
+Presently %100 ücretsiz ve reklamsızdır. Tüm yazıların cihazında ve kontrolünde kalır.
+
+
+## Simplified Chinese
+Presently：感恩日记
+
+使用免费、私人的感恩日记 Presently 来记录日常感恩点滴
+
+使用本款简洁、私人且永久免费的日记应用练习感恩。
+
+Presently 能够
+⁕ 记录日常的感恩点滴
+⁕ 回顾过往的感恩时光
+⁕ 从名言与提示中汲取动力
+⁕ 定时提醒练习感恩
+⁕ 对感恩记录进行指纹或面部锁定
+⁕ 自动备份感恩记录至 Dropbox
+⁕ 搜索过往记录
+⁕ 与亲友分享您的感恩片刻
+⁕ 导入/导出您的感恩点滴
+⁕ 切换至您最喜欢的配色方案
+
+Presently 完全免费，无广告。您的所有记录均保存在您的设备中，由您掌控。

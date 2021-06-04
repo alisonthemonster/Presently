@@ -44,7 +44,13 @@
             android:title="@string/max_lines_title"
             app:min="1"
             app:showSeekBarValue="true" />
-
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="show_quote"
+            android:icon="@drawable/ic_quote"
+            android:summaryOff="@string/show_quote_off"
+            android:summaryOn="@string/show_quote_on"
+            android:title="@string/inspiration_title" />
         <SwitchPreference
             android:defaultValue="false"
             android:icon="@drawable/ic_date"
@@ -52,7 +58,6 @@
             android:summaryOff="@string/day_of_week_off"
             android:summaryOn="@string/day_of_week_on"
             android:title="@string/day_of_week_title" />
-
         <ListPreference
             android:key="first_day_of_week"
             android:title="@string/first_day_of_week_title"
@@ -60,6 +65,15 @@
             app:summary="@string/day_of_week_summary"
             android:entries="@array/DaysOfWeek"
             android:entryValues="@array/DaysOfWeekValues" />
+
+        <ListPreference
+            android:entries="@array/AppLanguage"
+            android:entryValues="@array/AppLanguageValues"
+            android:gravity="center_horizontal"
+            android:icon="@drawable/ic_language"
+            android:key="app_language"
+            android:title="@string/app_language_title"
+            app:summary="@string/app_language_summary" />
 
     </PreferenceCategory>
 

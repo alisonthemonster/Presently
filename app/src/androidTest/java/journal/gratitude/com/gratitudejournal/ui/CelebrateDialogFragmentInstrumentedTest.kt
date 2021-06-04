@@ -55,6 +55,7 @@ class CelebrateDialogFragmentInstrumentedTest {
             )
         )
 
+
         Intents.release()
     }
 

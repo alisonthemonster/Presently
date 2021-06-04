@@ -10,7 +10,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:4.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
@@ -18,8 +18,43 @@ buildscript {
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
         classpath 'com.google.android.gms:oss-licenses-plugin:0.10.2'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.2.0'
+        classpath 'com.facebook.testing.screenshot:plugin:0.13.0'
+        classpath "com.osacky.flank.gradle:fladle:0.15.1"
     }
 }
+
+plugins {
+    id 'com.osacky.fulladle' version '0.15.1'
+}
+
+fladle {
+    serviceAccountCredentials = project.file("gcloud-service-key.json")
+    projectId = "gratitude-journal-app"
+
+    flankVersion = "21.05.0"
+
+    directoriesToPull = [
+            "/sdcard"
+    ]
+
+    filesToDownload = [
+            "JUnitReport.xml",
+            ".*/coverage/.*",
+            ".*/sdcard/[^/]+\\.ec\$"
+    ]
+
+    environmentVariables = [
+            coverage : "true",
+            coverageFile: "/sdcard/coverage.ec"
+    ]
+
+    devices = [
+            [ "model": "walleye", "version": "27", "locale": "en_US", "orientation": "portrait" ],
+    ]
+}
+
+apply from: 'gradle/jacoco_ci.gradle'
+apply from: 'gradle/common.gradle'
 
 allprojects {
     repositories {
@@ -33,14 +68,6 @@ allprojects {
     project.ext.androidVersionName = createVersionName()
     project.ext.buildNumber = getBuildNumber()
     project.ext.branchName = getBranchName()
-}
-
-subprojects {
-    afterEvaluate { project ->
-        project.apply from: '../jacoco.gradle'
-        project.apply from: '../coveragereporting.gradle'
-
-    }
 }
 
 def createVersionName() {

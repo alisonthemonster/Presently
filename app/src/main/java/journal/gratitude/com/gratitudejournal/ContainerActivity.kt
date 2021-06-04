@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal
 import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +12,12 @@ import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.play.core.splitcompat.SplitCompat
+import com.google.firebase.analytics.FirebaseAnalytics
+import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FINGERPRINT
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.THEME_PREF
+import journal.gratitude.com.gratitudejournal.util.LocaleHelper
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import ly.count.android.sdk.Countly
 import java.util.*
@@ -23,11 +28,16 @@ class ContainerActivity : AppCompatActivity() {
         const val CHANNEL_ID = "Presently Gratitude Reminder"
     }
 
+    override fun attachBaseContext(newBase: Context) {
+        val context: Context = LocaleHelper.onAppAttached(newBase)
+        super.attachBaseContext(context)
+        SplitCompat.installActivity(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val currentTheme = sharedPref.getString(THEME_PREF, "original") ?: "original"
         setAppTheme(currentTheme)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_activity)
 

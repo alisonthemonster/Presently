@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal.room
 
 import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
+import androidx.paging.PagingSource
 import androidx.room.*
 import journal.gratitude.com.gratitudejournal.model.Entry
 import kotlinx.coroutines.flow.Flow
@@ -19,13 +19,13 @@ interface EntryDao {
     fun getWrittenDates(): LiveData<List<LocalDate>>
 
     @Query("SELECT * FROM entries WHERE entryDate = :date")
-    fun getEntry(date: LocalDate): LiveData<Entry>
+    suspend fun getEntry(date: LocalDate): Entry
 
     @Delete
     fun delete(entry: Entry)
 
     @Query("SELECT entries.* FROM entries JOIN entriesFts ON (entries.`rowid` = entriesFts.`rowid`) WHERE entriesFts MATCH :query ORDER BY datetime(entriesFts.entryDate) DESC")
-    fun searchAllEntries(query: String): DataSource.Factory<Int, Entry>
+    fun searchAllEntries(query: String): PagingSource<Int, Entry>
 
     @Insert(
         onConflict = OnConflictStrategy.REPLACE
