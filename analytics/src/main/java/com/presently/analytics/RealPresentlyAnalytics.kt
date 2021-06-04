@@ -5,12 +5,12 @@ import javax.inject.Inject
 
 class RealPresentlyAnalytics @Inject constructor(private val countly: CountlyAnalytics, private val firebase: com.presently.analytics.FirebaseAnalytics) : PresentlyAnalytics {
     override fun recordEvent(event: String) {
-        countly.recordEvent(event)
+//        countly.recordEvent(event)
         firebase.logEvent(event)
     }
 
     override fun recordEvent(event: String, details: Map<String, Any>) {
-        countly.recordEvent(event, details)
+//        countly.recordEvent(event, details)
         val bundle = Bundle()
         for (item in details) {
             when (item.value) {
@@ -22,12 +22,12 @@ class RealPresentlyAnalytics @Inject constructor(private val countly: CountlyAna
     }
 
     override fun recordView(viewName: String) {
-        countly.recordView(viewName)
+//        countly.recordView(viewName)
     }
 
     override fun optOutOfAnalytics() {
-        countly.removeConsentAll()
-        //TODO persist this in shared preferences
+//        countly.removeConsentAll()
+        //TODO create a setting for this
     }
 
 }

@@ -26,17 +26,9 @@ import androidx.work.WorkManager
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.jakewharton.rxbinding2.widget.RxTextView
 import com.presently.analytics.PresentlyAnalytics
-import dagger.android.support.DaggerFragment
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
-import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
-import journal.gratitude.com.gratitudejournal.model.*
-import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.milestones
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
@@ -129,7 +121,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
                         ClipboardManager::class.java
                     )
                 clipboard?.setPrimaryClip(ClipData.newPlainText("Gratitude quote", quote))
-                analytics.logEvent(COPIED_QUOTE, null)
+                analytics.recordEvent(COPIED_QUOTE)
                 Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
             })
             true

@@ -45,7 +45,7 @@ android {
 }
 
 dependencies {
-    implementation 'ly.count.android:sdk:20.11.2'
+    api 'ly.count.android:sdk:20.11.2'
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

@@ -13,8 +13,6 @@ import androidx.preference.PreferenceManager
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.play.core.splitcompat.SplitCompat
-import com.google.firebase.analytics.FirebaseAnalytics
-import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FINGERPRINT
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.THEME_PREF
 import journal.gratitude.com.gratitudejournal.util.LocaleHelper
