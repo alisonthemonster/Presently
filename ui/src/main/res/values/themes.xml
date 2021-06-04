@@ -464,7 +464,7 @@
         <item name="highlightColor">@color/ahalyaAndroidWidgetColor</item>
     </style>
 
-    <style name="AppTheme.LOVEISLOVE" parent="AppTheme">
+    <style name="AppTheme.REMMIE" parent="AppTheme">
         <item name="timelineIcon">@drawable/ic_rainbow</item>
         <item name="timelineLineColor">@color/loveTimelineColor</item>
         <item name="backgroundColor">@color/loveBackgroundColor</item>

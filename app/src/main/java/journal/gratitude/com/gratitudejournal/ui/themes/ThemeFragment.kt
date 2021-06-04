@@ -72,7 +72,7 @@ class ThemeFragment : Fragment(R.layout.fragment_theme) {
                 true
             ),
             Theme(
-                "Love is love",
+                "Rem'mie",
                 ContextCompat.getColor(requireContext(), R.color.loveToolbarColor),
                 ContextCompat.getColor(requireContext(), R.color.loveBackgroundColor),
                 ContextCompat.getColor(requireContext(), R.color.loveToolbarItemColor),
