@@ -129,6 +129,9 @@ jobs:
           command: ./gradlew -PciBuild=true jacocoFullReport
       - store_artifacts:
           path: build/fladle/
+          destination: fladle/
+      - store_artifacts:
+          path: build/reports/
           destination: results/
       - store_test_results:
           path: build/
