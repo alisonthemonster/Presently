@@ -17,7 +17,7 @@ subprojects { prj ->
         apply plugin: 'jacoco'
 
         jacoco {
-            toolVersion = "0.8.5"
+            toolVersion = "0.8.7"
         }
 
         tasks.withType(Test) {
@@ -63,7 +63,6 @@ subprojects { prj ->
             final kotlinTree = fileTree(dir: "${prj.buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
             final javacTree = fileTree(dir: "${prj.buildDir}/intermediates/javac/debug", excludes: fileFilter)
             final mainSrc = "${prj.projectDir}/src/main/java"
-            logger.lifecycle("main ${mainSrc}")
 
             sourceDirectories.setFrom files([mainSrc])
             classDirectories.setFrom files([kotlinTree, javacTree])
@@ -77,7 +76,7 @@ subprojects { prj ->
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion "0.8.5"
+    toolVersion "0.8.7"
 }
 
 /**
@@ -99,37 +98,12 @@ task jacocoFullReport(type: JacocoReport, group: 'Coverage reports') {
     dependsOn(projects.jacocoReport)
 
     final sourceDirs = files(projects.jacocoReport.sourceDirectories)
-    final classDirs = files(projects.jacocoReport.classDirectories)
-    final executionDirs = files(projects.jacocoReport.executionData)
-
-    def list = []
-    sourceDirs.each { file ->
-        list << file
-    }
-    list.each {
-        logger.lifecycle("source ${it.path}")
-    }
 
     additionalSourceDirs.setFrom sourceDirs
     sourceDirectories.setFrom sourceDirs
 
     classDirectories.setFrom files(projects.jacocoReport.classDirectories)
     executionData.setFrom files(projects.jacocoReport.executionData)
-
-    def listclass = []
-    def listexecution = []
-    classDirs.each { file ->
-        listclass << file
-    }
-    listclass.each {
-        logger.lifecycle("class directories ${it.path}")
-    }
-    executionDirs.each { file ->
-        listexecution << file
-    }
-    listexecution.each {
-        logger.lifecycle("execution directories ${it.path}")
-    }
 
     reports {
         xml.enabled = true
