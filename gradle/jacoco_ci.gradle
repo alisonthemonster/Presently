@@ -55,6 +55,7 @@ subprojects { prj ->
                               '**/*Binding*.*',
                               '**/*adapter*.*',
                               '**/*Activity*.*',
+                              '**/DataBinderMapperImpl*',
                               '**/AppLockFragment*',
                               '**/LocaleHelper*',
                               '**/TimelineFragment*',
