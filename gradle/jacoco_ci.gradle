@@ -47,7 +47,6 @@ subprojects { prj ->
                               '**/*Adapter*',
                               '**/model/*.*',
                               '**/room/*.*',
-                              '**/wiring/*.*',
                               '**/di/*.*',
                               '**/dropbox/*.*',
                               '**/reminders/*.*',
