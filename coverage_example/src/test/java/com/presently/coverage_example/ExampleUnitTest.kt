@@ -20,6 +20,13 @@ class MyUnitTest {
     }
 
     @Test
+    fun blahTest() {
+        val actual = KotlinClass().blah()
+        val expected = 10
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun javaTest() {
         val actual = JavaClass().thisReturnsTrue()
         val expected = true
