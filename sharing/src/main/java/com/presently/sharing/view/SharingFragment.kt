@@ -104,7 +104,7 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
                 putExtra(Intent.EXTRA_STREAM, uri)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
-            startActivity(Intent.createChooser(intent, "Share your gratitude")) //TODO switch to string resource
+            startActivity(Intent.createChooser(intent, "Share your gratitude"))
         }
     }
 

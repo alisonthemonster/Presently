@@ -9,8 +9,6 @@ data class SharingViewDesign(
     val backgroundColor: Int
 )
 
-//TODO add analytics events
-
 val designs = listOf(
     SharingViewDesign(
         "original",
