@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal
+package journal.gratitude.com.gratitudejournal.testUtils
 
 import android.app.Application
 import android.content.Context
