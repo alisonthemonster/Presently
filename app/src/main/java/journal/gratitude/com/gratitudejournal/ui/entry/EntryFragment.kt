@@ -27,6 +27,7 @@ import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.presently.sharing.view.SharingActivity
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
@@ -93,12 +94,12 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         share_button.setOnClickListener {
             firebaseAnalytics.logEvent(SHARED_ENTRY, null)
             withState(viewModel, {
-                val message = "${it.entryContent} #PresentlyApp"
-                val share = Intent(Intent.ACTION_SEND)
-                share.type = "text/plain"
-                share.putExtra(Intent.EXTRA_TEXT, message)
-
-                startActivity(Intent.createChooser(share, getString(R.string.share_progress)))
+                val message = it.entryContent
+                val intent = Intent(context, SharingActivity::class.java).apply {
+                    putExtra(SharingActivity.EXTRA_SHARING_CONTENT, message)
+                    putExtra(SharingActivity.EXTRA_SHARING_DATE, date.text)
+                }
+                startActivity(intent)
             })
         }
 

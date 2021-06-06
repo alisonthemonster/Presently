@@ -51,8 +51,6 @@ class SearchFragmentInstrumentedTest {
         }
 
         onView(withId(R.id.back_icon)).perform(click())
-        onView(withId(android.R.id.content))
-            .perform(screenshot())
 
         verify(mockNavController).navigateUp()
     }

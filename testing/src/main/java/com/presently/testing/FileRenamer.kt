@@ -1,3 +1,5 @@
+package com.presently.testing
+
 import android.app.Instrumentation
 import android.content.Context
 import android.content.pm.PackageManager

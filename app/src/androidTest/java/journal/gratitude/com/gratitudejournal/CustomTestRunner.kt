@@ -5,13 +5,15 @@ import android.content.Context
 import android.os.Bundle
 import androidx.test.runner.AndroidJUnitRunner
 import com.facebook.testing.screenshot.ScreenshotRunner
+import com.presently.testing.FileRenamer
 import journal.gratitude.com.gratitudejournal.di.TestGratitudeApplication
 
 /**
  * A custom [AndroidJUnitRunner] used to replace the application used in tests with a
- * [TestGratitudeApplication].
+ * [TestGratitudeApplication], set up the Screenshot Runner, and update coverage filenames
+ * after tests complete.
  */
-class CustomTestRunner : AndroidJUnitRunner() {
+class AppCustomTestRunner : AndroidJUnitRunner() {
 
     override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {
         return super.newApplication(cl, TestGratitudeApplication::class.java.name, context)

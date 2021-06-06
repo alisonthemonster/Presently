@@ -14,10 +14,6 @@ import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.Intents.intending
-import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -25,7 +21,6 @@ import androidx.test.espresso.UiController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.facebook.testing.screenshot.Screenshot
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import journal.gratitude.com.gratitudejournal.R
@@ -41,7 +36,6 @@ import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragmentArgs
 import org.hamcrest.CoreMatchers.any
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -77,10 +71,6 @@ class EntryFragmentInstrumentedTest {
             fragmentArgs = bundle.toBundle()
         )
 
-        removeInspiration()
-        onView(withId(android.R.id.content))
-           .perform(screenshot())
-
         onView(withId(R.id.share_button))
             .check(matches(isDisplayed()))
         onView(withId(R.id.prompt_button))
@@ -101,10 +91,6 @@ class EntryFragmentInstrumentedTest {
             fragmentArgs = args.toBundle()
         )
 
-        removeInspiration()
-        onView(withId(android.R.id.content))
-            .perform(screenshot())
-
         onView(withId(R.id.share_button)).check(matches(not(isDisplayed())))
         onView(withId(R.id.prompt_button)).check(matches(isDisplayed()))
     }
@@ -123,50 +109,10 @@ class EntryFragmentInstrumentedTest {
             fragmentArgs = args.toBundle()
         )
 
-        removeInspiration()
-        onView(withId(android.R.id.content))
-            .perform(screenshot())
 
         onView(withId(R.id.entry_text)).check(matches(withHint("What were you grateful for?")))
         onView(withId(R.id.prompt_button)).perform(click())
         onView(withId(R.id.entry_text)).check(matches(not(withHint("What were you grateful for?"))))
-    }
-
-    @Test
-    fun shareButton_opensShareActivity() {
-        Intents.init()
-        val date = LocalDate.of(2019, 3, 22)
-        val mockEntry = Entry(date, "test content")
-        repository.saveEntryBlocking(mockEntry)
-
-        val bundle = EntryFragmentArgs(
-            date.toString(),
-            true,
-            0)
-
-        launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.Base_AppTheme,
-            fragmentArgs = bundle.toBundle()
-        )
-
-        val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
-
-        onView(withId(R.id.share_button)).perform(click())
-
-        intended(
-            allOf(
-                hasAction(Intent.ACTION_CHOOSER),
-                hasExtra(Intent.EXTRA_TITLE, "Share your gratitude progress")
-            )
-        )
-
-        removeInspiration()
-        onView(withId(android.R.id.content))
-            .perform(screenshot())
-
-        Intents.release()
     }
 
     @Test
@@ -355,22 +301,6 @@ class EntryFragmentInstrumentedTest {
         verify(mockNavController).navigateUp()
 
         onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
-    }
-
-    // Make the inspiration message deterministic for screenshot tests
-    fun removeInspiration() {
-        // There's probably a less verbose way to do this correctly,
-        // but this works for now.
-        onView(withId(R.id.inspiration))
-            .perform(object: ViewAction {
-                         override fun getConstraints(): Matcher<View> = any(View::class.java)
-
-                         override fun getDescription() = "Make inspiration message deterministic"
-                         override fun perform(uiController: UiController, view: View) {
-                             val tv = view as TextView
-                             tv.setText("\"This is a wonderful day. I\'ve never seen this day before\" \nMaya Angelou");
-                         }
-            });
     }
 
 }

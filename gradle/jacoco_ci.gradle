@@ -3,7 +3,8 @@
  */
 final ignoredByJacoco = [
         'ui',
-        'strings'
+        'strings',
+        'testing'
 ]
 
 /**
@@ -54,8 +55,7 @@ subprojects { prj ->
                               '**/backups/UploadToCloudWorker*',
                               '**/*Binding*.*',
                               '**/*adapter*.*',
-                              '**/*Activity*.*',
-                              '**/DataBinderMapperImpl*',
+                              '**/ContainerActivity*.*',
                               '**/AppLockFragment*',
                               '**/LocaleHelper*',
                               '**/TimelineFragment*',

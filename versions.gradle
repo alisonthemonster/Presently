@@ -8,10 +8,6 @@ ext {
     androidTargetSdk = 29
     androidMinSdk = 23
 
-    gradle_version = "3.2.1"
-    kotlin_version = "1.4.10"
-
-    jacoco_version = "0.8.2"
     lifecycle_version = "2.2.0"
     coroutine_version = "0.26.1"
     navigation_version = "2.3.0"
