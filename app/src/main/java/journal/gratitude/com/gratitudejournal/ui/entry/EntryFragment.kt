@@ -41,6 +41,8 @@ import kotlinx.android.synthetic.main.entry_fragment.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
@@ -94,8 +96,8 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         share_button.setOnClickListener {
             firebaseAnalytics.logEvent(SHARED_ENTRY, null)
             withState(viewModel, {
-                val message = it.entryContent
-                val dateString = date.text
+                val message = URLEncoder.encode(it.entryContent, StandardCharsets.UTF_8.toString())
+                val dateString =  URLEncoder.encode(date.text.toString(), StandardCharsets.UTF_8.toString())
                 val uri = Uri.parse("presently://sharing/$dateString/$message")
                 findNavController().navigate(uri)
             })

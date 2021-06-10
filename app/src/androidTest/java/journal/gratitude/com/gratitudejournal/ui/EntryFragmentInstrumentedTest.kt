@@ -1,9 +1,11 @@
 package journal.gratitude.com.gratitudejournal.ui
 
 import android.app.Activity
+import android.net.Uri
 import android.view.KeyEvent
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
@@ -12,15 +14,12 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import com.presently.sharing.view.SharingActivity
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.model.Entry
@@ -37,6 +36,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @RunWith(AndroidJUnit4::class)
 class EntryFragmentInstrumentedTest {
@@ -343,18 +344,23 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun entryFragment_clicksShare_opensShareActivity() {
-        Intents.init()
+        val mockNavController = mock<NavController>()
         val date = LocalDate.of(2019, 3, 22)
+        val expectedDateString = URLEncoder.encode("March 22, 2019", StandardCharsets.UTF_8.toString())
+        val expectedContentString = URLEncoder.encode("Test string!", StandardCharsets.UTF_8.toString())
 
         val bundle = EntryFragmentArgs(
             date.toString(),
             true,
             0)
 
-        launchFragmentInContainer<EntryFragment>(
+        val scenario = launchFragmentInContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = bundle.toBundle()
         )
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+        }
 
         onView(withId(R.id.entry_text)).perform(
             typeText("Test string!"),
@@ -363,9 +369,7 @@ class EntryFragmentInstrumentedTest {
 
         onView(withId(R.id.share_button)).perform(click())
 
-        intended(hasComponent(SharingActivity::class.java.name))
-
-        Intents.release()
+        verify(mockNavController).navigate(Uri.parse("presently://sharing/$expectedDateString/$expectedContentString"))
     }
 
 }

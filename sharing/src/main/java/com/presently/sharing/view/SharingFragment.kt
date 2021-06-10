@@ -30,6 +30,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksView {
 
@@ -81,8 +83,8 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
-            val dateString = args.datestring
-            val content = args.contents
+            val dateString = URLDecoder.decode(args.datestring, StandardCharsets.UTF_8.toString())
+            val content = URLDecoder.decode(args.contents, StandardCharsets.UTF_8.toString())
             sharingViewModel.setContents(dateString, content)
         }
     }
