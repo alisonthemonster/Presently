@@ -5,10 +5,9 @@ import android.app.Instrumentation
 import android.content.Intent
 import android.view.View
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.lifecycle.Lifecycle
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
@@ -24,17 +23,18 @@ import com.airbnb.mvrx.mocking.MockBehavior
 import com.airbnb.mvrx.mocking.mockVariants
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.facebook.testing.screenshot.Screenshot
-import com.presently.sharing.view.SharingActivity
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import com.presently.sharing.view.SharingFragment
+import com.presently.sharing.view.SharingFragmentArgs
 import org.hamcrest.CoreMatchers
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.lang.Thread.sleep
 
-//having issues with screenshot bot, might need to figure out shots on our own!
+//TODO fix screenshot bot integration so that we actually use these screenshots
 
 @RunWith(AndroidJUnit4::class)
 class SharingFragmentTest {
@@ -80,8 +80,13 @@ class SharingFragmentTest {
         Intents.init()
 
         //launch fragment
-        val fragment = SharingFragment.newInstance("content", "May 5th")
-        launchFragmentInContainer { fragment }
+        val bundle = SharingFragmentArgs(
+            "content", "May 5th, 2021")
+
+        launchFragmentInContainer<SharingFragment>(
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = bundle.toBundle()
+        )
 
         val intent = Intent()
         val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
@@ -101,19 +106,24 @@ class SharingFragmentTest {
 
     @Test
     fun clickingBackButtonNavigatesBack() {
+        val mockNavController = mock<NavController>()
+
         //launch fragment
-        val intent = Intent(ApplicationProvider.getApplicationContext(), SharingActivity::class.java)
-        intent.putExtra("EXTRA_SHARING_CONTENT", "content")
-        intent.putExtra("EXTRA_SHARING_DATE", "date")
-        val scenario = launchActivity<SharingActivity>(intent)
+        val bundle = SharingFragmentArgs(
+            "content", "May 5th, 2021")
+
+        val scenario = launchFragmentInContainer<SharingFragment>(
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = bundle.toBundle()
+        )
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+        }
 
         //click back button
         onView(withId(R.id.back_icon)).perform(ViewActions.click())
 
-        sleep(500)
-
-        //verify fragment is gone
-        assert(scenario.state == Lifecycle.State.DESTROYED)
+        verify(mockNavController).navigateUp()
     }
 }
 

@@ -81,4 +81,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
     androidTestImplementation 'androidx.test:rules:1.3.0'
     androidTestImplementation 'com.airbnb.android:mavericks-testing:2.2.0'
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_version"
+    androidTestImplementation 'org.mockito:mockito-android:2.23.0'
 }
