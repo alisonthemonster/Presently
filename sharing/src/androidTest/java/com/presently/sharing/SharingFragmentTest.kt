@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -55,7 +56,12 @@ class SharingFragmentTest {
             mockedViewProvider.createView(mockBehavior)
         }
         for ((testNum, fragment) in fragments.withIndex()) {
-            launchFragmentInContainer { fragment.viewInstance }
+            val bundle = SharingFragmentArgs(
+                "content", "May 5th, 2021")
+            launchFragmentInContainer(
+                fragmentArgs = bundle.toBundle(),
+                instantiate = {fragment.viewInstance}
+            )
             onView(withId(android.R.id.content)).perform(ScreenshotAction("test--${testNum}"))
         }
     }
@@ -63,8 +69,12 @@ class SharingFragmentTest {
     @Test
     fun clickingThemeOptionChangesPreview() {
         //launch fragment
+        val bundle = SharingFragmentArgs(
+            "content", "May 5th, 2021")
+
         launchFragmentInContainer<SharingFragment>(
-            themeResId = R.style.Base_AppTheme
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = bundle.toBundle()
         )
 
         //click second item in recycler view
