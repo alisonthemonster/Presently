@@ -72,6 +72,33 @@ class ThemeFragment : Fragment(R.layout.fragment_theme) {
                 true
             ),
             Theme(
+                "Rem'mie",
+                ContextCompat.getColor(requireContext(), R.color.loveToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.loveBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.loveToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.loveMainTextAndButtonColor),
+                R.drawable.ic_rainbow,
+                true
+            ),
+            Theme(
+                "Marsha",
+                ContextCompat.getColor(requireContext(), R.color.marshaToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.marshaBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.marshaToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.marshaMainTextAndButtonColor),
+                R.drawable.ic_trans_hearts,
+                true
+            ),
+            Theme(
+                "Brayla",
+                ContextCompat.getColor(requireContext(), R.color.braylaToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.braylaBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.braylaToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.braylaMainTextAndButtonColor),
+                R.drawable.ic_brayla,
+                true
+            ),
+            Theme(
                 "Tulip",
                 ContextCompat.getColor(requireContext(), R.color.tulipToolbarColor),
                 ContextCompat.getColor(requireContext(), R.color.tulipBackgroundColor),

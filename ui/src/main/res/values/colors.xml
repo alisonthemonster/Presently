@@ -376,4 +376,37 @@
     <color name="ahalyaToolbarColor">#000000</color>
     <color name="ahalyaStatusBarColor">#000000</color>
     <color name="ahalyaToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~LOVE IS LOVE THEME~~~~ -->
+    <color name="loveAndroidWidgetColor">#0188CC</color>
+    <color name="loveBackgroundColor">#C6E3F1</color>
+    <color name="loveMainTextAndButtonColor">#000000</color>
+    <color name="loveHintQuoteTextColor">#4E4E4E</color>
+    <color name="loveDateTextEntryScreenTextColor">#000000</color>
+    <color name="loveTimelineColor">#000000</color>
+    <color name="loveToolbarColor">#000000</color>
+    <color name="loveStatusBarColor">#000000</color>
+    <color name="loveToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~MARSHA THEME~~~~ -->
+    <color name="marshaAndroidWidgetColor">#000000</color>
+    <color name="marshaBackgroundColor">#FFFAFA</color>
+    <color name="marshaMainTextAndButtonColor">#000000</color>
+    <color name="marshaHintQuoteTextColor">#4E4E4E</color>
+    <color name="marshaDateTextEntryScreenTextColor">#000000</color>
+    <color name="marshaTimelineColor">#000000</color>
+    <color name="marshaToolbarColor">#000000</color>
+    <color name="marshaStatusBarColor">#000000</color>
+    <color name="marshaToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~BRAYLA THEME~~~~ -->
+    <color name="braylaAndroidWidgetColor">#FF9800</color>
+    <color name="braylaBackgroundColor">#000000</color>
+    <color name="braylaMainTextAndButtonColor">#FFFFFF</color>
+    <color name="braylaHintQuoteTextColor">#A6A6A6</color>
+    <color name="braylaDateTextEntryScreenTextColor">#FFFFFF</color>
+    <color name="braylaTimelineColor">#FFFFFF</color>
+    <color name="braylaToolbarColor">#FFFFFF</color>
+    <color name="braylaStatusBarColor">#FFFFFF</color>
+    <color name="braylaToolbarItemColor">#000000</color>
 </resources>

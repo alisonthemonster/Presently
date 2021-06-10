@@ -463,4 +463,49 @@
         <item name="entryContentTextColor">@color/ahalyaMainTextAndButtonColor</item>
         <item name="highlightColor">@color/ahalyaAndroidWidgetColor</item>
     </style>
+
+    <style name="AppTheme.REMMIE" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_rainbow</item>
+        <item name="timelineLineColor">@color/loveTimelineColor</item>
+        <item name="backgroundColor">@color/loveBackgroundColor</item>
+        <item name="hintTextColor">@color/loveHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/loveToolbarColor</item>
+        <item name="toolbarItemColor">@color/loveToolbarItemColor</item>
+        <item name="statusBarColor">@color/loveStatusBarColor</item>
+        <item name="timelineDateTextColor">@color/loveDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/loveMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/loveMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/loveMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/loveAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.MARSHA" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_trans_hearts</item>
+        <item name="timelineLineColor">@color/marshaTimelineColor</item>
+        <item name="backgroundColor">@color/marshaBackgroundColor</item>
+        <item name="hintTextColor">@color/marshaHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/marshaToolbarColor</item>
+        <item name="toolbarItemColor">@color/marshaToolbarItemColor</item>
+        <item name="statusBarColor">@color/marshaStatusBarColor</item>
+        <item name="timelineDateTextColor">@color/marshaDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/marshaMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/marshaMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/marshaMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/marshaAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.BRAYLA" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_brayla</item>
+        <item name="timelineLineColor">@color/braylaTimelineColor</item>
+        <item name="backgroundColor">@color/braylaBackgroundColor</item>
+        <item name="hintTextColor">@color/braylaHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/braylaToolbarColor</item>
+        <item name="toolbarItemColor">@color/braylaToolbarItemColor</item>
+        <item name="statusBarColor">@color/braylaStatusBarColor</item>
+        <item name="timelineDateTextColor">@color/braylaDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/braylaMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/braylaMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/braylaMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/braylaAndroidWidgetColor</item>
+    </style>
 </resources>
