@@ -71,4 +71,24 @@ class SharingViewModelTest {
             assertFalse(it.clicksShare)
         }
     }
+
+    @Test
+    fun `GIVEN a sharing view model WHEN `() {
+        val initialState = SharingViewState(
+            "",
+            "",
+            SharingViewDesign(
+                "original", R.color.originalTimelineColor,
+                R.color.originalTimelineColor,
+                R.color.originalBackgroundColor,
+            ),
+            clicksShare = true
+        )
+        val viewModel = SharingViewModel(initialState)
+        viewModel.setContents("dateString", "content")
+        withState(viewModel) {
+            assert(it.dateString == "dateString")
+            assert(it.content == "content")
+        }
+    }
 }

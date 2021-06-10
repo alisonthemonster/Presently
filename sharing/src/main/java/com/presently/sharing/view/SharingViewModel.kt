@@ -7,6 +7,12 @@ import com.presently.sharing.data.SharingViewState
 class SharingViewModel(initialState: SharingViewState) :
     MavericksViewModel<SharingViewState>(initialState) {
 
+    fun setContents(dateString: String, content: String) {
+        setState {
+            copy(dateString = dateString, content = content)
+        }
+    }
+
     fun selectColorScheme(newDesign: SharingViewDesign) {
         setState {
             copy(viewDesign = newDesign)

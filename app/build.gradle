@@ -21,10 +21,8 @@ android {
         minSdkVersion project.ext.androidMinSdk
         targetSdkVersion project.ext.androidTargetSdk
 
-        versionCode 67
+        versionCode 70
         versionName project.ext.androidVersionName
-        //TODO wire up to CI
-        //buildConfigField 'int', 'BUILD_NUMBER', "${project.ext.buildNumber}"
 
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8

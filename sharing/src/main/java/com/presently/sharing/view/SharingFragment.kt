@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.mvrx.*
 import com.airbnb.mvrx.mocking.MavericksViewMocks
@@ -32,6 +34,7 @@ import java.io.File
 class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksView {
 
     private val sharingViewModel: SharingViewModel by activityViewModel()
+    private val args: SharingFragmentArgs by navArgs()
 
     private var _binding: FragmentSharingBinding? = null
     private val binding get() = _binding!!
@@ -68,10 +71,20 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
         }
 
         binding.backIcon.setOnClickListener {
-            requireActivity().finish()
+            findNavController().navigateUp()
         }
 
         firebaseAnalytics.logEvent("viewedShareScreen", null)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (savedInstanceState == null) {
+            val dateString = args.datestring
+            val content = args.contents
+            sharingViewModel.setContents(dateString, content)
+        }
     }
 
     override fun invalidate() {
@@ -167,17 +180,6 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
 
     interface OnDesignSelectedListener {
         fun onDesignSelected(design: SharingViewDesign)
-    }
-
-    companion object {
-
-        fun newInstance(content: String, date: String): SharingFragment {
-            val fragment = SharingFragment()
-            fragment.arguments = SharingArgs(content, date).asMavericksArgs()
-
-            return fragment
-        }
-
     }
 
 }

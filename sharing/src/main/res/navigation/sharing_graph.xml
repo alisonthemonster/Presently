@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sharing_graph"
+    app:startDestination="@id/sharingFragment">
+
+    <fragment
+        android:id="@+id/sharingFragment"
+        android:name="com.presently.sharing.view.SharingFragment"
+        android:label="fragment_sharing"
+        tools:layout="@layout/fragment_sharing" >
+        <deepLink app:uri="presently://sharing/{datestring}/{contents}"/>
+        <argument
+            android:name="contents"
+            app:argType="string" />
+        <argument
+            android:name="datestring"
+            app:argType="string" />
+    </fragment>
+</navigation>

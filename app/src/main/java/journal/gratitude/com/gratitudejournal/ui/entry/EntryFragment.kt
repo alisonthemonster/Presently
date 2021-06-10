@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 import android.content.*
 import android.graphics.Color
 import android.graphics.drawable.Animatable
+import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -27,7 +28,6 @@ import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.presently.sharing.view.SharingActivity
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
@@ -95,11 +95,9 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
             firebaseAnalytics.logEvent(SHARED_ENTRY, null)
             withState(viewModel, {
                 val message = it.entryContent
-                val intent = Intent(context, SharingActivity::class.java).apply {
-                    putExtra(SharingActivity.EXTRA_SHARING_CONTENT, message)
-                    putExtra(SharingActivity.EXTRA_SHARING_DATE, date.text)
-                }
-                startActivity(intent)
+                val dateString = date.text
+                val uri = Uri.parse("presently://sharing/$dateString/$message")
+                findNavController().navigate(uri)
             })
         }
 
