@@ -1,10 +1,10 @@
 package journal.gratitude.com.gratitudejournal
 
 import android.content.Context
-import androidx.fragment.app.FragmentActivity
+import androidx.activity.ComponentActivity
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import com.airbnb.mvrx.Mavericks
+import com.airbnb.mvrx.mocking.MockableMavericks
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
@@ -30,7 +30,7 @@ open class GratitudeApplication: DaggerApplication() {
 
         AndroidThreeTen.init(this)
 
-        Mavericks.initialize(this)
+        MockableMavericks.initialize(this)
     }
 
     override fun attachBaseContext(base: Context) {
@@ -50,6 +50,6 @@ open class GratitudeApplication: DaggerApplication() {
     }
 }
 
-fun FragmentActivity.appComponent(): ApplicationComponent {
+fun ComponentActivity.appComponent(): ApplicationComponent {
     return (application as GratitudeApplication).appComponent
 }

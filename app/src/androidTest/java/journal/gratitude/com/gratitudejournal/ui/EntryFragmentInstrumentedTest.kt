@@ -1,31 +1,23 @@
 package journal.gratitude.com.gratitudejournal.ui
 
 import android.app.Activity
-import android.app.Instrumentation
-import android.content.Intent
+import android.net.Uri
 import android.view.KeyEvent
-import android.view.View
-import android.widget.TextView
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.Intents.intending
-import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.espresso.UiController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.facebook.testing.screenshot.Screenshot
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import journal.gratitude.com.gratitudejournal.R
@@ -38,16 +30,14 @@ import journal.gratitude.com.gratitudejournal.testUtils.saveEntryBlocking
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragmentArgs
-import org.hamcrest.CoreMatchers.any
 import org.hamcrest.CoreMatchers.not
-import org.hamcrest.Matcher
-import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
-
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @RunWith(AndroidJUnit4::class)
 class EntryFragmentInstrumentedTest {
@@ -60,6 +50,48 @@ class EntryFragmentInstrumentedTest {
     @Before
     fun setupDaggerComponent() {
         repository = rule.component.entryRepository
+    }
+
+    @Test
+    fun todaysEntry_showsTodayDateStrings() {
+        val date = LocalDate.now()
+
+        val mockEntry = Entry(date, "test content")
+        repository.saveEntryBlocking(mockEntry)
+
+        val bundle = EntryFragmentArgs(
+            date.toString(),
+            true,
+            0)
+
+        launchFragmentInContainer<EntryFragment>(
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = bundle.toBundle()
+        )
+
+        onView(withId(R.id.date)).check(matches(withText("Today")))
+        onView(withId(R.id.thankful_for)).check(matches(withText("I am grateful for")))
+    }
+
+    @Test
+    fun yesterdaysEntry_showsYesterdayDateStrings() {
+        val date = LocalDate.now().minusDays(1)
+
+        val mockEntry = Entry(date, "test content")
+        repository.saveEntryBlocking(mockEntry)
+
+        val bundle = EntryFragmentArgs(
+            date.toString(),
+            true,
+            0)
+
+        launchFragmentInContainer<EntryFragment>(
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = bundle.toBundle()
+        )
+
+        onView(withId(R.id.date)).check(matches(withText("Yesterday")))
+        onView(withId(R.id.thankful_for)).check(matches(withText("I was grateful for")))
     }
 
     @Test
@@ -77,10 +109,6 @@ class EntryFragmentInstrumentedTest {
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = bundle.toBundle()
         )
-
-        removeInspiration()
-        onView(withId(android.R.id.content))
-           .perform(screenshot())
 
         onView(withId(R.id.share_button))
             .check(matches(isDisplayed()))
@@ -102,10 +130,6 @@ class EntryFragmentInstrumentedTest {
             fragmentArgs = args.toBundle()
         )
 
-        removeInspiration()
-        onView(withId(android.R.id.content))
-            .perform(screenshot())
-
         onView(withId(R.id.share_button)).check(matches(not(isDisplayed())))
         onView(withId(R.id.prompt_button)).check(matches(isDisplayed()))
     }
@@ -124,50 +148,10 @@ class EntryFragmentInstrumentedTest {
             fragmentArgs = args.toBundle()
         )
 
-        removeInspiration()
-        onView(withId(android.R.id.content))
-            .perform(screenshot())
 
         onView(withId(R.id.entry_text)).check(matches(withHint("What were you grateful for?")))
         onView(withId(R.id.prompt_button)).perform(click())
         onView(withId(R.id.entry_text)).check(matches(not(withHint("What were you grateful for?"))))
-    }
-
-    @Test
-    fun shareButton_opensShareActivity() {
-        Intents.init()
-        val date = LocalDate.of(2019, 3, 22)
-        val mockEntry = Entry(date, "test content")
-        repository.saveEntryBlocking(mockEntry)
-
-        val bundle = EntryFragmentArgs(
-            date.toString(),
-            true,
-            0)
-
-        launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.Base_AppTheme,
-            fragmentArgs = bundle.toBundle()
-        )
-
-        val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        intending(anyIntent()).respondWith(intentResult)
-
-        onView(withId(R.id.share_button)).perform(click())
-
-        intended(
-            allOf(
-                hasAction(Intent.ACTION_CHOOSER),
-                hasExtra(Intent.EXTRA_TITLE, "Share your gratitude progress")
-            )
-        )
-
-        removeInspiration()
-        onView(withId(android.R.id.content))
-            .perform(screenshot())
-
-        Intents.release()
     }
 
     @Test
@@ -358,20 +342,32 @@ class EntryFragmentInstrumentedTest {
         onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
     }
 
-    // Make the inspiration message deterministic for screenshot tests
-    fun removeInspiration() {
-        // There's probably a less verbose way to do this correctly,
-        // but this works for now.
-        onView(withId(R.id.inspiration))
-            .perform(object: ViewAction {
-                         override fun getConstraints(): Matcher<View> = any(View::class.java)
+    @Test
+    fun entryFragment_clicksShare_opensShareActivity() {
+        val mockNavController = mock<NavController>()
+        val date = LocalDate.of(2019, 3, 22)
 
-                         override fun getDescription() = "Make inspiration message deterministic"
-                         override fun perform(uiController: UiController, view: View) {
-                             val tv = view as TextView
-                             tv.setText("\"This is a wonderful day. I\'ve never seen this day before\" \nMaya Angelou");
-                         }
-            });
+        val bundle = EntryFragmentArgs(
+            date.toString(),
+            true,
+            0)
+
+        val scenario = launchFragmentInContainer<EntryFragment>(
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = bundle.toBundle()
+        )
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+        }
+
+        onView(withId(R.id.entry_text)).perform(
+            typeText("Test string!"),
+            closeSoftKeyboard()
+        )
+
+        onView(withId(R.id.share_button)).perform(click())
+
+        verify(mockNavController).navigate(any<Uri>())
     }
 
 }

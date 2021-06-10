@@ -5,6 +5,8 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/appLockFragment">
 
+    <include app:graph="@navigation/sharing_graph"/>
+
     <fragment
         android:id="@+id/appLockFragment"
         android:name="journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment"

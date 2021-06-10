@@ -53,12 +53,9 @@ class DaggerMavericksViewModelFactory<VM : MavericksViewModel<S>, S : MavericksS
     private val viewModelClass: Class<VM>
 ) : MavericksViewModelFactory<VM, S> {
 
-    override fun create(viewModelContext: ViewModelContext, state: S): VM? {
-        return createViewModel(viewModelContext.activity, state)
-    }
+    override fun create(viewModelContext: ViewModelContext, state: S): VM {
+        val viewModelFactoryMap = viewModelContext.activity.appComponent().viewModelFactories()
 
-    private fun <VM : MavericksViewModel<S>, S : MavericksState> createViewModel(fragmentActivity: FragmentActivity, state: S): VM {
-        val viewModelFactoryMap = fragmentActivity.appComponent().viewModelFactories()
         val viewModelFactory = viewModelFactoryMap[viewModelClass]
 
         @Suppress("UNCHECKED_CAST")
