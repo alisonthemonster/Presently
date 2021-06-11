@@ -6,10 +6,14 @@ import android.graphics.Canvas
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -26,6 +30,7 @@ import com.presently.sharing.data.SharingViewDesign
 import com.presently.sharing.data.SharingViewState
 import com.presently.sharing.data.designs
 import com.presently.sharing.databinding.FragmentSharingBinding
+import com.presently.ui.setStatusBarColorsForBackground
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -77,14 +82,25 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
         }
 
         firebaseAnalytics.logEvent("viewedShareScreen", null)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.sharingContainer) { v, insets ->
+            v.updatePadding(top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top)
+            insets
+        }
+
+        val window = requireActivity().window
+        val typedValue = TypedValue()
+        requireActivity().theme.resolveAttribute(R.attr.toolbarColor, typedValue, true)
+        setStatusBarColorsForBackground(window, typedValue.data)
+        window.statusBarColor = typedValue.data
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
-            val dateString = URLDecoder.decode(args.datestring, StandardCharsets.UTF_8.toString())
-            val content = URLDecoder.decode(args.contents, StandardCharsets.UTF_8.toString())
+            val dateString = URLDecoder.decode(args.datestring, "UTF-8")
+            val content = URLDecoder.decode(args.contents, "UTF-8")
             sharingViewModel.setContents(dateString, content)
         }
     }

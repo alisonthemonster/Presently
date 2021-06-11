@@ -1,15 +1,20 @@
 package journal.gratitude.com.gratitudejournal.ui.themes
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.FirebaseAnalytics.Param.*
+import com.presently.ui.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.THEME
 import journal.gratitude.com.gratitudejournal.model.Theme
@@ -335,6 +340,17 @@ class ThemeFragment : Fragment(R.layout.fragment_theme) {
         back_icon.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        ViewCompat.setOnApplyWindowInsetsListener(theme_container) { v, insets ->
+            v.updatePadding(top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top)
+            insets
+        }
+
+        val window = requireActivity().window
+        val typedValue = TypedValue()
+        requireActivity().theme.resolveAttribute(com.presently.sharing.R.attr.toolbarColor, typedValue, true)
+        setStatusBarColorsForBackground(window, typedValue.data)
+        window.statusBarColor = typedValue.data
     }
 
     interface OnThemeSelectedListener {

@@ -34,7 +34,7 @@ import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
-import journal.gratitude.com.gratitudejournal.util.setStatusBarColorsForBackground
+import com.presently.ui.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.util.textChanges
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import kotlinx.android.synthetic.main.entry_fragment.*
@@ -42,7 +42,6 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
@@ -96,8 +95,8 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         share_button.setOnClickListener {
             firebaseAnalytics.logEvent(SHARED_ENTRY, null)
             withState(viewModel, {
-                val message = URLEncoder.encode(it.entryContent, StandardCharsets.UTF_8.toString())
-                val dateString =  URLEncoder.encode(date.text.toString(), StandardCharsets.UTF_8.toString())
+                val message = URLEncoder.encode(it.entryContent, "UTF-8")
+                val dateString =  URLEncoder.encode(date.text.toString(), "UTF-8")
                 val uri = Uri.parse("presently://sharing/$dateString/$message")
                 findNavController().navigate(uri)
             })

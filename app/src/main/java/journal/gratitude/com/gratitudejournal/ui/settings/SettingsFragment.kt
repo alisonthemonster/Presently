@@ -20,7 +20,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenCreated
 import androidx.navigation.fragment.findNavController
 import androidx.preference.*
 import androidx.work.OneTimeWorkRequestBuilder
@@ -49,7 +48,7 @@ import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUpload
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
-import journal.gratitude.com.gratitudejournal.util.setStatusBarColorsForBackground
+import com.presently.ui.setStatusBarColorsForBackground
 import kotlinx.coroutines.launch
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
