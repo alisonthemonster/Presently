@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.util
+package com.presently.ui
 
 import android.view.View
 import android.view.Window

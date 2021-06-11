@@ -1,17 +1,14 @@
 package journal.gratitude.com.gratitudejournal.ui.search
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
@@ -29,7 +26,7 @@ import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH_ITEM
-import journal.gratitude.com.gratitudejournal.util.setStatusBarColorsForBackground
+import com.presently.ui.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.util.textChanges
 import kotlinx.android.synthetic.main.search_fragment.*
 import kotlinx.coroutines.flow.*
@@ -50,7 +47,7 @@ class SearchFragment : DaggerFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = SearchFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
