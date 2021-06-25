@@ -21,7 +21,7 @@ android {
         minSdkVersion project.ext.androidMinSdk
         targetSdkVersion project.ext.androidTargetSdk
 
-        versionCode 73
+        versionCode 74
         versionName project.ext.androidVersionName
 
         compileOptions {
