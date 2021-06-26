@@ -7,17 +7,17 @@ import dagger.hilt.testing.TestInstallIn
 import journal.gratitude.com.gratitudejournal.di.CloudUploadModule
 import journal.gratitude.com.gratitudejournal.fakes.FakeCloudUploader
 import journal.gratitude.com.gratitudejournal.util.backups.CloudProvider
-//
-//@Module
-//@TestInstallIn(
-//    components = [SingletonComponent::class],
-//    replaces = [CloudUploadModule::class]
-//)
-//object FakeCloudUploadModule {
-//
-//    @Provides
-//    fun provideCloudUpload(): CloudProvider {
-//        return FakeCloudUploader()
-//    }
-//
-//}
+
+@Module
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [CloudUploadModule::class]
+)
+object FakeCloudUploadModule {
+
+    @Provides
+    fun provideCloudUpload(): CloudProvider {
+        return FakeCloudUploader()
+    }
+
+}

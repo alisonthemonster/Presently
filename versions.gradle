@@ -11,7 +11,6 @@ ext {
     lifecycle_version = "2.2.0"
     coroutine_version = "0.26.1"
     navigation_version = "2.3.0"
-    dagger_version = "2.31.2"
 
     //testing
     mockito_version = "2.0.0"

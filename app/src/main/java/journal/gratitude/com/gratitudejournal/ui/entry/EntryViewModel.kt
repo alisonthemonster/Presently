@@ -8,7 +8,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.EntryPoints
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.appComponent
 import journal.gratitude.com.gratitudejournal.di.AssistedViewModelFactory
 import journal.gratitude.com.gratitudejournal.di.CreateMavericksViewModelComponent
 import journal.gratitude.com.gratitudejournal.di.HiltMavericksEntryPoint
