@@ -20,6 +20,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
@@ -37,6 +38,7 @@ import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class EntryFragmentInstrumentedTest {
 
