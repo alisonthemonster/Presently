@@ -16,15 +16,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.*
@@ -33,23 +32,16 @@ import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.DAY_OF_WEEK
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.LINES_PER_ENTRY_IN_TIMELINE
 import com.presently.ui.setStatusBarColorsForBackground
+import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 import java.util.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
+class TimelineFragment : Fragment() {
 
-class TimelineFragment : DaggerFragment() {
-
-    companion object {
-        fun newInstance() = TimelineFragment()
-    }
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel by viewModels<TimelineViewModel> { viewModelFactory }
+    private val viewModel: TimelineViewModel by viewModels()
 
     private lateinit var adapter: TimelineAdapter
     private lateinit var binding: TimelineFragmentBinding
@@ -78,7 +70,7 @@ class TimelineFragment : DaggerFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = TimelineFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
 

@@ -5,7 +5,6 @@ import android.net.Uri
 import android.view.KeyEvent
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
@@ -20,8 +19,8 @@ import androidx.test.uiautomator.UiDevice
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
+import dagger.hilt.android.testing.HiltAndroidRule
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.testUtils.getText
@@ -36,20 +35,20 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
+import javax.inject.Inject
 
 @RunWith(AndroidJUnit4::class)
 class EntryFragmentInstrumentedTest {
 
-    private lateinit var repository: EntryRepository
-
     @get:Rule
-    val rule = DaggerTestApplicationRule()
+    var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var repository: EntryRepository
 
     @Before
-    fun setupDaggerComponent() {
-        repository = rule.component.entryRepository
+    fun init() {
+        hiltRule.inject()
     }
 
     @Test

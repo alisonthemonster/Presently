@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.ui
 
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
@@ -13,41 +12,47 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nhaarman.mockitokotlin2.*
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.testUtils.RecyclerViewItemCountAssertion.Companion.withItemCount
+import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragmentDirections
+import kotlinx.android.synthetic.main.fragment_milestone_dialog.*
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.time.LocalDate
+import javax.inject.Inject
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class SearchFragmentInstrumentedTest {
 
-    private lateinit var repository: EntryRepository
-
     @get:Rule
-    val rule = DaggerTestApplicationRule()
+    var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var repository: EntryRepository
 
     @Before
-    fun setupDaggerComponent() {
-        repository = rule.component.entryRepository
+    fun init() {
+        hiltRule.inject()
     }
 
     @Test
     fun search_pressBackButton_navigateUp() {
         val mockNavController = mock<NavController>()
-        val scenario = launchFragmentInContainer<SearchFragment>(
+        val scenario = launchFragmentInHiltContainer<SearchFragment>(
             themeResId = R.style.Base_AppTheme
         )
-        scenario.onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+        scenario!!.onActivity { activity ->
+            Navigation.setViewNavController(activity.requireViewById(android.R.id.content), mockNavController)
         }
 
         onView(withId(R.id.back_icon)).perform(click())
@@ -57,7 +62,7 @@ class SearchFragmentInstrumentedTest {
 
     @Test
     fun search_showsResults() {
-        launchFragmentInContainer<SearchFragment>(
+        launchFragmentInHiltContainer<SearchFragment>(
             themeResId = R.style.Base_AppTheme
         )
 
@@ -74,7 +79,7 @@ class SearchFragmentInstrumentedTest {
 
     @Test
     fun search_doesntSearchEmptyStrings() {
-        launchFragmentInContainer<SearchFragment>(
+        launchFragmentInHiltContainer<SearchFragment>(
             themeResId = R.style.Base_AppTheme
         )
 
@@ -94,11 +99,11 @@ class SearchFragmentInstrumentedTest {
         val mockNavigationDestination = mock<NavDestination>()
         mockNavigationDestination.id = R.id.searchFragment
         whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
-        val scenario = launchFragmentInContainer<SearchFragment>(
+        val scenario = launchFragmentInHiltContainer<SearchFragment>(
             themeResId = R.style.Base_AppTheme
         )
-        scenario.onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+        scenario!!.onActivity { activity ->
+            Navigation.setViewNavController(activity.requireViewById(android.R.id.content), mockNavController)
         }
 
         onView(withId(R.id.search_text)).perform(

@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal
 
+import android.app.Application
 import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.work.Configuration
@@ -7,21 +8,15 @@ import androidx.work.WorkManager
 import com.airbnb.mvrx.mocking.MockableMavericks
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.jakewharton.threetenabp.AndroidThreeTen
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
+import dagger.hilt.android.HiltAndroidApp
 import journal.gratitude.com.gratitudejournal.di.ApplicationComponent
-import journal.gratitude.com.gratitudejournal.di.DaggerApplicationComponent
 import journal.gratitude.com.gratitudejournal.di.DaggerAwareWorkerFactory
 import javax.inject.Inject
 
-open class GratitudeApplication: DaggerApplication() {
+@HiltAndroidApp
+open class GratitudeApplication: Application() {
 
     lateinit var appComponent: ApplicationComponent
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        appComponent = DaggerApplicationComponent.factory().create(applicationContext, this)
-        return appComponent
-    }
 
     override fun onCreate() {
         super.onCreate()

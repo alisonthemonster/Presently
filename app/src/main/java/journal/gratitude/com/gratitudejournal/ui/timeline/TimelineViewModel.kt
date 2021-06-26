@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.milestones
@@ -17,6 +18,7 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
+@HiltViewModel
 class TimelineViewModel @Inject constructor(private val repository: EntryRepository) : ViewModel() {
 
     val entries = MutableLiveData<List<TimelineItem>>()

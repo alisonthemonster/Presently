@@ -49,6 +49,7 @@ import journal.gratitude.com.gratitudejournal.util.reminders.NotificationSchedul
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
 import com.presently.ui.setStatusBarColorsForBackground
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -59,13 +60,11 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener, DialogPreference.TargetFragment {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel by viewModels<SettingsViewModel> { viewModelFactory }
+    private val viewModel: SettingsViewModel by viewModels()
 
     private lateinit var splitInstallManager: SplitInstallManager
 
@@ -84,11 +83,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private var requestId = 0
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
