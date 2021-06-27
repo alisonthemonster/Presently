@@ -78,7 +78,7 @@ class EntryFragmentInstrumentedTest {
     fun yesterdaysEntry_showsYesterdayDateStrings() {
         val date = LocalDate.now().minusDays(1)
 
-        val mockEntry = Entry(date, "test content")
+        val mockEntry = Entry(date, "Yesterday's entry hello!")
         repository.saveEntryBlocking(mockEntry)
 
         val bundle = EntryFragmentArgs(

@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.testUtils
 
 
 import android.app.Application
+import android.app.Instrumentation
 import android.content.Context
 import android.os.Bundle
 import androidx.test.runner.AndroidJUnitRunner
@@ -16,7 +17,7 @@ import dagger.hilt.android.testing.HiltTestApplication
 class AppCustomTestRunner : AndroidJUnitRunner() {
 
     override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {
-        return super.newApplication(cl, HiltTestApplication::class.java.name, context)
+        return super.newApplication(cl, HiltTestApplication_Application::class.java.name, context)
     }
 
     override fun onCreate(args: Bundle) {
@@ -30,3 +31,4 @@ class AppCustomTestRunner : AndroidJUnitRunner() {
         super.finish(resultCode, results)
     }
 }
+

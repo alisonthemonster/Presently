@@ -7,14 +7,25 @@ import androidx.work.WorkManager
 import com.airbnb.mvrx.mocking.MockableMavericks
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.jakewharton.threetenabp.AndroidThreeTen
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EarlyEntryPoint
+import dagger.hilt.android.EarlyEntryPoints
 import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.components.SingletonComponent
 import journal.gratitude.com.gratitudejournal.di.DaggerAwareWorkerFactory
-import javax.inject.Inject
+
 
 @HiltAndroidApp
-open class GratitudeApplication: Application() {
+class GratitudeApplication : BaseGratitudeApplication()
 
-    @Inject lateinit var daggerAwareWorkerFactory: DaggerAwareWorkerFactory
+open class BaseGratitudeApplication: Application() {
+
+    // Hilt test applications cannot use field injection, so you an entry point instead
+    @EarlyEntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface ApplicationEarlyEntryPoint {
+        fun getDaggerAwareWorkerFactory(): DaggerAwareWorkerFactory
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -33,6 +44,8 @@ open class GratitudeApplication: Application() {
     }
 
     private fun configureWorkManager() {
+        val earlyEntryPoint = EarlyEntryPoints.get(this, ApplicationEarlyEntryPoint::class.java)
+        val daggerAwareWorkerFactory = earlyEntryPoint.getDaggerAwareWorkerFactory()
         val config = Configuration.Builder()
             .setWorkerFactory(daggerAwareWorkerFactory)
             .build()

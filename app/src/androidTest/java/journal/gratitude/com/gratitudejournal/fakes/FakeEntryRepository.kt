@@ -9,8 +9,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.threeten.bp.LocalDate
 import java.util.*
+import javax.inject.Inject
 
-class FakeEntryRepository : EntryRepository {
+class FakeEntryRepository @Inject constructor() : EntryRepository {
 
     //mock of database
     var entriesDatabase: LinkedHashMap<LocalDate, Entry> = LinkedHashMap()
