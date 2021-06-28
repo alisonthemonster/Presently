@@ -16,8 +16,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.mvrx.*
 import com.airbnb.mvrx.mocking.MavericksViewMocks
@@ -35,13 +33,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
 
 class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksView {
 
     private val sharingViewModel: SharingViewModel by activityViewModel()
-    private val args: SharingFragmentArgs by navArgs()
 
     private var _binding: FragmentSharingBinding? = null
     private val binding get() = _binding!!
@@ -78,7 +73,7 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
         }
 
         binding.backIcon.setOnClickListener {
-            findNavController().navigateUp()
+            parentFragmentManager.popBackStack()
         }
 
         firebaseAnalytics.logEvent("viewedShareScreen", null)
@@ -99,8 +94,8 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
-            val dateString = URLDecoder.decode(args.datestring, "UTF-8")
-            val content = URLDecoder.decode(args.contents, "UTF-8")
+            val dateString = requireNotNull(arguments?.getString(SHARING_DATE))
+            val content = requireNotNull(arguments?.getString(SHARING_CONTENT))
             sharingViewModel.setContents(dateString, content)
         }
     }
@@ -198,6 +193,20 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
 
     interface OnDesignSelectedListener {
         fun onDesignSelected(design: SharingViewDesign)
+    }
+
+    companion object {
+        fun newInstance(date: String, content: String): SharingFragment {
+            val args = Bundle()
+            args.putString(SHARING_DATE, date)
+            args.putString(SHARING_CONTENT, content)
+            val fragment = SharingFragment()
+            fragment.arguments = args
+            return fragment
+        }
+
+        private const val SHARING_DATE = "SHARING_DATE"
+        private const val SHARING_CONTENT = "SHARING_CONTENT"
     }
 
 }

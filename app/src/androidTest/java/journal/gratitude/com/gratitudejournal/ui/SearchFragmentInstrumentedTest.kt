@@ -1,31 +1,27 @@
 package journal.gratitude.com.gratitudejournal.ui
 
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.nhaarman.mockitokotlin2.*
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.testUtils.RecyclerViewItemCountAssertion.Companion.withItemCount
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
-import journal.gratitude.com.gratitudejournal.ui.search.SearchFragmentDirections
+import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
 class SearchFragmentInstrumentedTest {
@@ -42,17 +38,15 @@ class SearchFragmentInstrumentedTest {
 
     @Test
     fun search_pressBackButton_navigateUp() {
-        val mockNavController = mock<NavController>()
-        val scenario = launchFragmentInContainer<SearchFragment>(
+        launchFragmentInContainer<TimelineFragment>(
             themeResId = R.style.Base_AppTheme
         )
-        scenario.onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), mockNavController)
-        }
+
+        onView(withId(R.id.search_icon)).perform(click())
 
         onView(withId(R.id.back_icon)).perform(click())
 
-        verify(mockNavController).navigateUp()
+        onView(withId(R.id.container)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -87,19 +81,9 @@ class SearchFragmentInstrumentedTest {
 
     @Test
     fun search_type_clickEntry_navigateToEntry() {
-        val expected =
-            SearchFragmentDirections.actionSearchFragmentToEntryFragment(LocalDate.now().toString())
-
-        val mockNavController = mock<NavController>()
-        val mockNavigationDestination = mock<NavDestination>()
-        mockNavigationDestination.id = R.id.searchFragment
-        whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
-        val scenario = launchFragmentInContainer<SearchFragment>(
+        launchFragmentInContainer<SearchFragment>(
             themeResId = R.style.Base_AppTheme
         )
-        scenario.onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), mockNavController)
-        }
 
         onView(withId(R.id.search_text)).perform(
             typeText("Test string!")
@@ -115,7 +99,7 @@ class SearchFragmentInstrumentedTest {
                 )
             )
 
-        verify(mockNavController).navigate(expected)
+        onView(withId(R.id.thankful_for)).check(ViewAssertions.matches(withText("I was grateful for")))
     }
 
 }
