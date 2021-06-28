@@ -94,24 +94,6 @@ class TimelineFragmentInstrumentedTest {
     }
 
     @Test
-    fun timelineFragment_openCalendar_clicksDate_opensEntry() {
-        launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-
-        onView(withId(R.id.cal_fab)).perform(click())
-        scrollCalendarBackwardsBy(1)
-        onView(withId(R.id.compactcalendar_view)).perform(
-            clickXY(
-                150,
-                300
-            )
-        )
-
-        onView(withId(R.id.thankful_for)).check(matches(withText("I was grateful for")))
-    }
-
-    @Test
     fun timelineFragment_closedCalendar_clickingBack_navigatesBack() {
         val scenario = launchFragmentInContainer<TimelineFragment>(
             themeResId = R.style.Base_AppTheme
