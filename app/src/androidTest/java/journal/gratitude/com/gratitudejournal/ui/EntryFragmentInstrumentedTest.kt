@@ -283,27 +283,4 @@ class EntryFragmentInstrumentedTest {
         onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
     }
 
-    @Test
-    fun entryFragment_clicksShare_opensShareFragment() {
-        val date = LocalDate.of(2019, 3, 22)
-
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, true)
-
-        launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
-        )
-
-        onView(withId(R.id.entry_text)).perform(
-            typeText("Test string!"),
-            closeSoftKeyboard()
-        )
-
-        onView(withId(R.id.share_button)).perform(click())
-
-        onView(withId(R.id.sharing_container)).check(matches(isDisplayed()))
-    }
-
 }
