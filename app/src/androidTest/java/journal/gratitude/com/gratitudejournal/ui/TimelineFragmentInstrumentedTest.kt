@@ -130,51 +130,6 @@ class TimelineFragmentInstrumentedTest {
     }
 
     @Test
-    fun timelineFragment_clicksNewEntry_opensEntry() {
-        launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-
-        onView(withId(R.id.timeline_recycler_view))
-            .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-
-        onView(withId(R.id.date)).check(matches(withText("Today")))
-        onView(withId(R.id.thankful_for)).check(matches(withText("I am grateful for")))
-
-    }
-
-    @Test
-    fun timelineFragment_clicksExistingEntry_opensEntry() {
-        val expectedDate = LocalDate.now()
-        val mockEntry = Entry(expectedDate, "test content")
-        repository.saveEntryBlocking(mockEntry)
-
-       launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-
-        onView(withId(R.id.timeline_recycler_view))
-            .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-
-        onView(withId(R.id.date)).check(matches(withText("Today")))
-        onView(withId(R.id.thankful_for)).check(matches(withText("I was grateful for")))
-    }
-
-    @Test
-    fun timelineFragment_clicksOverflow_opensSettings() {
-        launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-
-        onView(withId(R.id.overflow_button)).perform(click())
-
-        onView(withText("Settings"))
-            .perform(click())
-
-        onView(withId(R.id.settings_container)).check(matches(isDisplayed()))
-    }
-
-    @Test
     fun timelineFragment_clicksOverflow_opensContact() {
         Intents.init()
         launchFragmentInContainer<TimelineFragment>(
@@ -212,17 +167,6 @@ class TimelineFragmentInstrumentedTest {
             )
         )
         Intents.release()
-    }
-
-    @Test
-    fun timelineFragment_clicksSearch() {
-        launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-
-        onView(withId(R.id.search_icon)).perform(click())
-
-        onView(withId(R.id.search_container)).check(matches(isDisplayed()))
     }
 
     private fun scrollCalendarBackwardsBy(months: Int) {

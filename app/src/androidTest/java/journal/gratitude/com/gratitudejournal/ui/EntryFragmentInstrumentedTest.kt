@@ -142,26 +142,6 @@ class EntryFragmentInstrumentedTest {
     }
 
     @Test
-    fun saveButton_navigatesBack() {
-        val date = LocalDate.of(2019, 3, 22)
-
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, true)
-
-        launchFragmentInContainer<EntryFragment>(
-            themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
-        )
-
-        onView(withId(R.id.save_button)).perform(click())
-
-        Thread.sleep(5000)
-
-        onView(withId(R.id.save_button)).check(matches(not(isDisplayed())))
-    }
-
-    @Test
     fun saveButton_onMilestone_showsMilestoneDialog() {
         val date = LocalDate.of(2019, 3, 22)
 
@@ -281,8 +261,7 @@ class EntryFragmentInstrumentedTest {
         //continue clicked
         onView(withId(android.R.id.button1)).perform(click())
 
-        //back navigate
-        //TODO verify fragment is gone
+        onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
     }
 
     @Test
@@ -300,9 +279,6 @@ class EntryFragmentInstrumentedTest {
 
         val mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         mDevice.pressBack()
-
-        //back navigate
-        //TODO verify fragment is gone
 
         onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
     }

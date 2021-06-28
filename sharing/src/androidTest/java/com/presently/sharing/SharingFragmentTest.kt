@@ -111,24 +111,6 @@ class SharingFragmentTest {
         )
         Intents.release()
     }
-
-    @Test
-    fun clickingBackButtonNavigatesBack() {
-        //launch fragment
-        val args = Bundle()
-        args.putString(SharingFragment.SHARING_DATE, "May 5th, 2021")
-        args.putString(SharingFragment.SHARING_CONTENT,  "content")
-
-        val scenario = launchFragmentInContainer<SharingFragment>(
-            themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
-        )
-
-        //click back button
-        onView(withId(R.id.back_icon)).perform(ViewActions.click())
-
-        //TODO verify
-    }
 }
 
 class ScreenshotAction(val name: String) : ViewAction {

@@ -78,28 +78,4 @@ class SearchFragmentInstrumentedTest {
 
         onView(withId(R.id.search_results)).check(withItemCount(0))
     }
-
-    @Test
-    fun search_type_clickEntry_navigateToEntry() {
-        launchFragmentInContainer<SearchFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-
-        onView(withId(R.id.search_text)).perform(
-            typeText("Test string!")
-        )
-
-        onView(isRoot()).perform(waitFor(400))
-
-        onView(withId(R.id.search_results))
-            .perform(
-                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    0,
-                    click()
-                )
-            )
-
-        onView(withId(R.id.thankful_for)).check(ViewAssertions.matches(withText("I was grateful for")))
-    }
-
 }
