@@ -37,19 +37,6 @@ class SearchFragmentInstrumentedTest {
     }
 
     @Test
-    fun search_pressBackButton_navigateUp() {
-        launchFragmentInContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-
-        onView(withId(R.id.search_icon)).perform(click())
-
-        onView(withId(R.id.back_icon)).perform(click())
-
-        onView(withId(R.id.container)).check(matches(isDisplayed()))
-    }
-
-    @Test
     fun search_showsResults() {
         launchFragmentInContainer<SearchFragment>(
             themeResId = R.style.Base_AppTheme
