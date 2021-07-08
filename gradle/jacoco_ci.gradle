@@ -53,6 +53,8 @@ subprojects { prj ->
                               '**/backups/Dropbox/*.*',
                               '**/backups/UploadToCloudWorker*',
                               '**/*Binding*.*',
+                              '**/*Dagger*.*',
+                              '**/*Hilt*.*',
                               '**/DataBinderMapperImpl*.*',
                               '**/ContainerActivity*',
                               '**/AppLockFragment*',
