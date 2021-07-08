@@ -55,6 +55,8 @@ subprojects { prj ->
                               '**/*Binding*.*',
                               '**/*Dagger*.*',
                               '**/*Hilt*.*',
+                              '**/hilt/*.*',
+                              '**/*hilt_aggregated_deps*.*',
                               '**/DataBinderMapperImpl*.*',
                               '**/ContainerActivity*',
                               '**/AppLockFragment*',
