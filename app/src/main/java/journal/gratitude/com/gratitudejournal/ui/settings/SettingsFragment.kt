@@ -20,7 +20,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.preference.*
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
@@ -49,6 +48,7 @@ import journal.gratitude.com.gratitudejournal.util.reminders.NotificationSchedul
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
 import com.presently.ui.setStatusBarColorsForBackground
+import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import kotlinx.coroutines.launch
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -381,12 +381,13 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     private fun openThemes() {
         firebaseAnalytics.logEvent(OPENED_THEMES, null)
-        val navController = findNavController()
-        if (navController.currentDestination?.id == R.id.settingsFragment) {
-            navController.navigate(
-                    R.id.action_settingsFragment_to_themeFragment
-            )
-        }
+
+        val fragment = ThemeFragment()
+        parentFragmentManager
+            .beginTransaction()
+            .replace(R.id.container_fragment, fragment)
+            .addToBackStack(SETTINGS_TO_THEME)
+            .commit()
     }
 
     private fun openTermsAndConditions() {
@@ -534,8 +535,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
             val entries = convertCsvToEntries(realCsvParser)
             viewModel.addEntries(entries)
             firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
-            val navController = findNavController()
-            navController.navigateUp()
+            parentFragmentManager.popBackStack()
+
             //TODO move this hardcoded string to strings.xml
             Toast.makeText(context, "Imported successfully!", Toast.LENGTH_SHORT).show()
         } catch (exception: Exception) {
@@ -631,8 +632,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
         const val LINES_PER_ENTRY_IN_TIMELINE = "lines_per_entry_in_timeline"
         const val FIRST_DAY_OF_WEEK = "first_day_of_week"
         const val APP_LANGUAGE = "app_language"
-
         const val NO_LANG_PREF = "no_language_selected"
+
+        const val SETTINGS_TO_THEME = "SETTINGS_TO_THEME"
     }
 }
 

@@ -3,11 +3,9 @@ package com.presently.sharing
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
@@ -24,10 +22,7 @@ import com.airbnb.mvrx.mocking.MockBehavior
 import com.airbnb.mvrx.mocking.mockVariants
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.facebook.testing.screenshot.Screenshot
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import com.presently.sharing.view.SharingFragment
-import com.presently.sharing.view.SharingFragmentArgs
 import org.hamcrest.CoreMatchers
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -56,10 +51,11 @@ class SharingFragmentTest {
             mockedViewProvider.createView(mockBehavior)
         }
         for ((testNum, fragment) in fragments.withIndex()) {
-            val bundle = SharingFragmentArgs(
-                "content", "May 5th, 2021")
+            val args = Bundle()
+            args.putString(SharingFragment.SHARING_DATE, "May 5th, 2021")
+            args.putString(SharingFragment.SHARING_CONTENT,  "content")
             launchFragmentInContainer(
-                fragmentArgs = bundle.toBundle(),
+                fragmentArgs = args,
                 instantiate = {fragment.viewInstance}
             )
             onView(withId(android.R.id.content)).perform(ScreenshotAction("test--${testNum}"))
@@ -69,12 +65,13 @@ class SharingFragmentTest {
     @Test
     fun clickingThemeOptionChangesPreview() {
         //launch fragment
-        val bundle = SharingFragmentArgs(
-            "content", "May 5th, 2021")
+        val args = Bundle()
+        args.putString(SharingFragment.SHARING_DATE, "May 5th, 2021")
+        args.putString(SharingFragment.SHARING_CONTENT,  "content")
 
         launchFragmentInContainer<SharingFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = bundle.toBundle()
+            fragmentArgs = args
         )
 
         //click second item in recycler view
@@ -90,12 +87,13 @@ class SharingFragmentTest {
         Intents.init()
 
         //launch fragment
-        val bundle = SharingFragmentArgs(
-            "content", "May 5th, 2021")
+        val args = Bundle()
+        args.putString(SharingFragment.SHARING_DATE, "May 5th, 2021")
+        args.putString(SharingFragment.SHARING_CONTENT,  "content")
 
         launchFragmentInContainer<SharingFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = bundle.toBundle()
+            fragmentArgs = args
         )
 
         val intent = Intent()
@@ -112,28 +110,6 @@ class SharingFragmentTest {
             )
         )
         Intents.release()
-    }
-
-    @Test
-    fun clickingBackButtonNavigatesBack() {
-        val mockNavController = mock<NavController>()
-
-        //launch fragment
-        val bundle = SharingFragmentArgs(
-            "content", "May 5th, 2021")
-
-        val scenario = launchFragmentInContainer<SharingFragment>(
-            themeResId = R.style.Base_AppTheme,
-            fragmentArgs = bundle.toBundle()
-        )
-        scenario.onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), mockNavController)
-        }
-
-        //click back button
-        onView(withId(R.id.back_icon)).perform(ViewActions.click())
-
-        verify(mockNavController).navigateUp()
     }
 }
 
