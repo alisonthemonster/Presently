@@ -190,10 +190,10 @@ class TimelineFragment : DaggerFragment() {
         val fragment = SearchFragment()
         parentFragmentManager
             .beginTransaction()
+            .addSharedElement(binding.searchIcon, "search_transition")
             .replace(R.id.container_fragment, fragment)
             .addToBackStack(TIMELINE_TO_SEARCH)
             .commit()
-        //TODO fragment transition
     }
 
     private fun navigateToDate(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int) {
