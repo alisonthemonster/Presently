@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -16,8 +15,10 @@ import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
+import journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FINGERPRINT
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.THEME_PREF
+import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.util.LocaleHelper
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
@@ -85,15 +86,13 @@ class ContainerActivity : AppCompatActivity() {
                 sharedPref.getLong("last_destroy_time", -1L) //check this default makes sense
             val currentTime = Date(System.currentTimeMillis()).time
             val diff = currentTime - lastDestroyTime
-            if (diff > 300000L) {
+            if (diff > 300_000L) {
                 //if more than 5 minutes (300000ms) have passed since last destroy, lock out user
-                val navController = findNavController(R.id.nav_host_fragment)
-                val navInflater = navController.navInflater
-                val graph = navInflater.inflate(R.navigation.nav_graph)
-
-                graph.startDestination = R.id.appLockFragment
-
-                navController.graph = graph
+                val fragment = AppLockFragment()
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container_fragment, fragment)
+                    .commit()
             }
         }
     }

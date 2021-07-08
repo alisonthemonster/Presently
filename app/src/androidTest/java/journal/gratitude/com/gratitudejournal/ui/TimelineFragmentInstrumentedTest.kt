@@ -5,7 +5,7 @@ import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.navigation.*
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
@@ -77,16 +77,9 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_openCalendar_clickingBack_closesCal() {
-        val mockNavController = mock<NavController>()
-        val mockNavigationDestination = mock<NavDestination>()
-        mockNavigationDestination.id = R.id.timelineFragment
-        whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
-        val scenario = launchFragmentInHiltContainer<TimelineFragment>(
+        launchFragmentInHiltContainer<TimelineFragment>(
             themeResId = R.style.Base_AppTheme
         )
-        scenario!!.onActivity { activity ->
-            Navigation.setViewNavController(activity.view, mockNavController)
-        }
 
         onView(withId(R.id.cal_fab)).perform(click())
 
@@ -106,126 +99,6 @@ class TimelineFragmentInstrumentedTest {
         onView(withId(R.id.close_button)).perform(click())
 
         onView(withId(R.id.entry_calendar)).check(matches(not(isDisplayed())))
-    }
-
-    @Test
-    fun timelineFragment_openCalendar_clicksDate_opensEntry() {
-        val mockNavController = mock<NavController>()
-        val mockNavigationDestination = mock<NavDestination>()
-        mockNavigationDestination.id = R.id.timelineFragment
-        whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
-        val scenario = launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-        scenario!!.onActivity { activity ->
-            Navigation.setViewNavController(activity.view, mockNavController)
-        }
-
-        onView(withId(R.id.cal_fab)).perform(click())
-        scrollCalendarBackwardsBy(1)
-        onView(withId(R.id.compactcalendar_view)).perform(
-            clickXY(
-                150,
-                300
-            )
-        )
-
-        verify(mockNavController).navigate(any<NavDirections>())
-    }
-
-    @Test
-    fun timelineFragment_closedCalendar_clickingBack_navigatesBack() {
-        val mockNavController = mock<NavController>()
-        val scenario = launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-        var activity: Activity? = null
-        scenario!!.onActivity { act ->
-            activity = act
-            Navigation.setViewNavController(act.view, mockNavController)
-        }
-
-        onView(withId(R.id.cal_fab)).perform(click())
-        onView(withId(R.id.close_button)).perform(click())
-
-        Espresso.pressBackUnconditionally()
-
-        assertTrue(activity!!.isFinishing)
-    }
-
-    @Test
-    fun timelineFragment_clicksNewEntry_opensEntry() {
-        val expectedDate = LocalDate.now()
-        val expected = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
-            expectedDate.toString(),
-            true,
-            0
-        )
-
-        val mockNavController = mock<NavController>()
-        val mockNavigationDestination = mock<NavDestination>()
-        mockNavigationDestination.id = R.id.timelineFragment
-        whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
-        val scenario = launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-        scenario!!.onActivity { activity ->
-            Navigation.setViewNavController(activity.requireViewById(android.R.id.content), mockNavController)
-        }
-
-        onView(withId(R.id.timeline_recycler_view))
-            .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-
-        verify(mockNavController).navigate(expected)
-    }
-
-    @Test
-    fun timelineFragment_clicksExistingEntry_opensEntry() {
-        val expectedDate = LocalDate.now()
-        val mockEntry = Entry(expectedDate, "test content")
-        val expected = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
-            expectedDate.toString(),
-            false,
-            1
-        )
-        repository.saveEntryBlocking(mockEntry)
-
-        val mockNavController = mock<NavController>()
-        val mockNavigationDestination = mock<NavDestination>()
-        mockNavigationDestination.id = R.id.timelineFragment
-        whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
-        val scenario = launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-        scenario!!.onActivity { activity ->
-            Navigation.setViewNavController(activity.requireViewById(android.R.id.content), mockNavController)
-        }
-
-        onView(withId(R.id.timeline_recycler_view))
-            .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-
-        verify(mockNavController).navigate(expected)
-    }
-
-    @Test
-    fun timelineFragment_clicksOverflow_opensSettings() {
-        val mockNavController = mock<NavController>()
-        val mockNavigationDestination = mock<NavDestination>()
-        mockNavigationDestination.id = R.id.timelineFragment
-        whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
-        val scenario = launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-        scenario!!.onActivity { activity ->
-            Navigation.setViewNavController(activity.requireViewById(android.R.id.content), mockNavController)
-        }
-
-        onView(withId(R.id.overflow_button)).perform(click())
-
-        onView(withText("Settings"))
-            .perform(click())
-
-        verify(mockNavController).navigate(eq(R.id.action_timelineFragment_to_settingsFragment))
     }
 
     @Test
@@ -266,27 +139,6 @@ class TimelineFragmentInstrumentedTest {
             )
         )
         Intents.release()
-    }
-
-    @Test
-    fun timelineFragment_clicksSearch() {
-        val mockNavController = mock<NavController>()
-        val mockNavigationDestination = mock<NavDestination>()
-        mockNavigationDestination.id = R.id.timelineFragment
-        whenever(mockNavController.currentDestination).thenReturn(mockNavigationDestination)
-        val scenario = launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-        scenario!!.onActivity { activity ->
-            Navigation.setViewNavController(activity.requireViewById(android.R.id.content), mockNavController)
-        }
-
-        onView(withId(R.id.search_icon)).perform(click())
-
-        verify(mockNavController).navigate(
-            eq(TimelineFragmentDirections.actionTimelineFragmentToSearchFragment()),
-            any<Navigator.Extras>()
-        )
     }
 
     private fun scrollCalendarBackwardsBy(months: Int) {

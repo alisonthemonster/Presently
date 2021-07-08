@@ -16,7 +16,6 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.ChangeBounds
@@ -27,11 +26,17 @@ import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH_ITEM
+import com.presently.ui.setStatusBarColorsForBackground
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.util.textChanges
 import kotlinx.android.synthetic.main.search_fragment.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
+import javax.inject.Inject
+
+class SearchFragment : DaggerFragment() {
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -69,13 +74,7 @@ class SearchFragment : Fragment() {
                 clickedDate: LocalDate
             ) {
                 firebaseAnalytics.logEvent(CLICKED_SEARCH_ITEM, null)
-
-                val navController = findNavController()
-                if (navController.currentDestination?.id == R.id.searchFragment) {
-                    val directions =
-                        SearchFragmentDirections.actionSearchFragmentToEntryFragment(clickedDate.toString())
-                    navController.navigate(directions)
-                }
+                openEntryScreen(clickedDate)
             }
         })
 
@@ -123,12 +122,12 @@ class SearchFragment : Fragment() {
 
         back_icon.setOnClickListener {
             dismissKeyboard()
-            findNavController().navigateUp()
+            parentFragmentManager.popBackStack()
         }
 
         openKeyboard()
 
-        ViewCompat.setOnApplyWindowInsetsListener(container) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(search_container) { v, insets ->
             v.updatePadding(top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top)
             insets
         }
@@ -138,6 +137,15 @@ class SearchFragment : Fragment() {
         requireActivity().theme.resolveAttribute(R.attr.toolbarColor, typedValue, true)
         setStatusBarColorsForBackground(window, typedValue.data)
         window.statusBarColor = typedValue.data
+    }
+
+    private fun openEntryScreen(clickedDate: LocalDate) {
+        val fragment = EntryFragment.newInstance(clickedDate, null, false)
+        parentFragmentManager
+            .beginTransaction()
+            .replace(R.id.container_fragment, fragment)
+            .addToBackStack(TimelineFragment.TIMELINE_TO_ENTRY)
+            .commit()
     }
 
     private fun openKeyboard() {

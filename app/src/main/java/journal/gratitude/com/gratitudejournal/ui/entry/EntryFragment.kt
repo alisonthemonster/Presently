@@ -3,7 +3,6 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 import android.content.*
 import android.graphics.Color
 import android.graphics.drawable.Animatable
-import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -19,8 +18,6 @@ import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.preference.PreferenceManager
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -28,6 +25,7 @@ import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.presently.sharing.view.SharingFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
@@ -41,12 +39,10 @@ import kotlinx.android.synthetic.main.entry_fragment.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
-import java.net.URLEncoder
 
 class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
     private val viewModel: EntryViewModel by fragmentViewModel()
-    private val args: EntryFragmentArgs by navArgs()
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var sharedPrefs: SharedPreferences
@@ -56,8 +52,8 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         sharedPrefs =  PreferenceManager.getDefaultSharedPreferences(activity)
 
         if (savedInstanceState == null) {
-            val passedInDate = args.date
-            viewModel.setDate(passedInDate)
+            val passedInDate = arguments?.getString(ENTRY_DATE)
+            viewModel.setDate(requireNotNull(passedInDate))
         }
 
         val callback = object : OnBackPressedCallback(true) {
@@ -68,7 +64,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
                     if (isEdited && !isEmpty) {
                         showUnsavedEntryDialog()
                     } else {
-                        findNavController().navigateUp()
+                        parentFragmentManager.popBackStack()
                     }
                 })
             }
@@ -95,10 +91,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         share_button.setOnClickListener {
             firebaseAnalytics.logEvent(SHARED_ENTRY, null)
             withState(viewModel, {
-                val message = URLEncoder.encode(it.entryContent, "UTF-8")
-                val dateString =  URLEncoder.encode(date.text.toString(), "UTF-8")
-                val uri = Uri.parse("presently://sharing/$dateString/$message")
-                findNavController().navigate(uri)
+                openSharingScreen(it.entryContent, date.text.toString())
             })
         }
 
@@ -136,6 +129,15 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
                     viewModel.onTextChanged(it)
                 }
         }
+    }
+
+    private fun openSharingScreen(entryContent: String, entryDate: String) {
+        val fragment = SharingFragment.newInstance(entryDate, entryContent)
+        parentFragmentManager
+            .beginTransaction()
+            .replace(R.id.container_fragment, fragment)
+            .addToBackStack(ENTRY_TO_SHARE)
+            .commit()
     }
 
     override fun invalidate() = withState(viewModel) { state ->
@@ -192,10 +194,10 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
     }
 
     private fun onEntrySaved() {
-        val numEntries = args.numEntries
-        val isNewEntry = args.isNewEntry
+        val isNewEntry = requireNotNull(arguments?.getBoolean(ENTRY_IS_NEW))
 
         if (isNewEntry) {
+            val numEntries = requireNotNull(arguments?.getInt(ENTRY_NUM_ENTRIES))
             val bundle = Bundle()
             bundle.putInt(FirebaseAnalytics.Param.LEVEL, (numEntries + 1))
 
@@ -221,7 +223,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
             WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
         }
 
-        findNavController().navigateUp()
+        parentFragmentManager.popBackStack()
     }
 
     private fun showUnsavedEntryDialog() {
@@ -231,7 +233,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
                 setTitle(R.string.are_you_sure)
                 setMessage(R.string.unsaved_text)
                 setPositiveButton(R.string.continue_to_exit) { dialog, id ->
-                    findNavController().navigateUp()
+                    parentFragmentManager.popBackStack()
                 }
                 setNegativeButton(R.string.cancel) { _, _ -> }
             }
@@ -239,5 +241,25 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
             builder.create()
         }
         alertDialog?.show()
+    }
+
+    companion object {
+        fun newInstance(date: LocalDate, numEntries: Int?, isNewEntry: Boolean): EntryFragment {
+            if (isNewEntry && numEntries == null) {
+                throw IllegalArgumentException("New entries need to keep track of the total entries so far!")
+            }
+            val args = Bundle()
+            args.putString(ENTRY_DATE, date.toString())
+            numEntries?.let { args.putInt(ENTRY_NUM_ENTRIES, numEntries) }
+            args.putBoolean(ENTRY_IS_NEW, isNewEntry)
+            val fragment = EntryFragment()
+            fragment.arguments = args
+            return fragment
+        }
+
+        const val ENTRY_DATE = "ENTRY_DATE"
+        const val ENTRY_NUM_ENTRIES = "ENTRY_NUM_ENTRIES"
+        const val ENTRY_IS_NEW = "ENTRY_IS_NEW"
+        const val ENTRY_TO_SHARE = "ENTRY_TO_SHARE"
     }
 }
