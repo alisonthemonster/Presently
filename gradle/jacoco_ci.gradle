@@ -54,7 +54,6 @@ subprojects { prj ->
                               '**/backups/UploadToCloudWorker*',
                               '**/*Binding*.*',
                               '**/DataBinderMapperImpl*.*',
-                              '**/*adapter*.*',
                               '**/ContainerActivity*',
                               '**/AppLockFragment*',
                               '**/LocaleHelper*',
@@ -163,7 +162,7 @@ def printReport(task) {
     def minTestCoverage = [
             'instruction': 80,
             'line'       : 80,
-            'method'     : 80,
+            'method'     : 78,
             'class'      : 80
     ]
 
