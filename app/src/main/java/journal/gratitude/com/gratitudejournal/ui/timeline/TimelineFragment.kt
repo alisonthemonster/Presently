@@ -19,7 +19,6 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -32,6 +31,9 @@ import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Compa
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.LINES_PER_ENTRY_IN_TIMELINE
 import com.presently.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate

@@ -36,8 +36,6 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
-class SearchFragment : DaggerFragment() {
-
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
