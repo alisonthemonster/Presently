@@ -5,15 +5,11 @@ import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -22,23 +18,17 @@ import com.nhaarman.mockitokotlin2.*
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.testUtils.clickXY
 import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
-import journal.gratitude.com.gratitudejournal.testUtils.saveEntryBlocking
 import journal.gratitude.com.gratitudejournal.testUtils.scroll
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragmentDirections
 import kotlinx.android.synthetic.main.fragment_milestone_dialog.*
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 @HiltAndroidTest
