@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.util.backups
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import dagger.hilt.android.qualifiers.ApplicationContext
 import journal.gratitude.com.gratitudejournal.di.IWorkerFactory
 import journal.gratitude.com.gratitudejournal.model.CloudUploadResult
 import journal.gratitude.com.gratitudejournal.model.UploadError
@@ -59,7 +60,7 @@ class UploadToCloudWorker(
     }
 
     class Factory @Inject constructor(
-        private val context: Provider<Context>, // provide from Application Module
+        @ApplicationContext private val context: Provider<Context>, // provide from Application Module
         private val repository: Provider<EntryRepository>, // provide from Application Module
         private val cloudProvider: Provider<CloudProvider>
     ) : IWorkerFactory<UploadToCloudWorker> {

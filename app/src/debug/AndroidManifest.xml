@@ -6,4 +6,10 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
 
+    <application>
+        <activity
+            android:name=".testUtils.HiltTestActivity"
+            android:exported="false"  />
+    </application>
+
 </manifest>

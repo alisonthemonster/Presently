@@ -1,0 +1,7 @@
+package journal.gratitude.com.gratitudejournal.testUtils
+
+import dagger.hilt.android.testing.CustomTestApplication
+import journal.gratitude.com.gratitudejournal.BaseGratitudeApplication
+
+@CustomTestApplication(BaseGratitudeApplication::class)
+interface HiltTestApplication

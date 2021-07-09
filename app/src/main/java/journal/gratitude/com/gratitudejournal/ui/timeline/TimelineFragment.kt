@@ -16,15 +16,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import dagger.android.support.DaggerFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.*
@@ -33,23 +30,20 @@ import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.DAY_OF_WEEK
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.LINES_PER_ENTRY_IN_TIMELINE
 import com.presently.ui.setStatusBarColorsForBackground
+import dagger.hilt.android.AndroidEntryPoint
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 import java.util.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
+class TimelineFragment : Fragment() {
 
-class TimelineFragment : DaggerFragment() {
-
-    companion object {
-        fun newInstance() = TimelineFragment()
-    }
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel by viewModels<TimelineViewModel> { viewModelFactory }
+    private val viewModel: TimelineViewModel by viewModels()
 
     private lateinit var adapter: TimelineAdapter
     private lateinit var binding: TimelineFragmentBinding
@@ -61,7 +55,9 @@ class TimelineFragment : DaggerFragment() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (entry_calendar?.isVisible != true) {
-                    if (!findNavController().navigateUp()) {
+                    if (parentFragmentManager.backStackEntryCount > 0) {
+                        parentFragmentManager.popBackStack()
+                    } else {
                         //nothing left in back stack we can finish the activity
                         requireActivity().finish()
                     }
@@ -78,7 +74,7 @@ class TimelineFragment : DaggerFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = TimelineFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
 
@@ -146,17 +142,7 @@ class TimelineFragment : DaggerFragment() {
 
         search_icon.setOnClickListener {
             firebaseAnalytics.logEvent(CLICKED_SEARCH, null)
-
-            val action = TimelineFragmentDirections.actionTimelineFragmentToSearchFragment()
-            val extras = FragmentNavigatorExtras(
-                search_icon to "search_transition"
-            )
-
-
-            val navController = findNavController()
-            if (navController.currentDestination?.id == R.id.timelineFragment) {
-                navController.navigate(action, extras)
-            }
+            openSearchScreen()
         }
 
         entry_calendar.setDayClickedListener(object : EntryCalendarListener {
@@ -198,16 +184,23 @@ class TimelineFragment : DaggerFragment() {
         setStatusBarColorsForBackground(window, typedValue.data)
     }
 
+    private fun openSearchScreen() {
+        val fragment = SearchFragment()
+        parentFragmentManager
+            .beginTransaction()
+            .addSharedElement(binding.searchIcon, "search_transition")
+            .replace(R.id.container_fragment, fragment)
+            .addToBackStack(TIMELINE_TO_SEARCH)
+            .commit()
+    }
+
     private fun navigateToDate(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int) {
-        val directions = TimelineFragmentDirections.actionTimelineFragmentToEntryFragment(
-            clickedDate.toString(),
-            isNewEntry,
-            numEntries
-        )
-        val navController = findNavController()
-        if (navController.currentDestination?.id == R.id.timelineFragment) {
-            navController.navigate(directions)
-        }
+        val fragment = EntryFragment.newInstance(clickedDate, numEntries, isNewEntry)
+        parentFragmentManager
+            .beginTransaction()
+            .replace(R.id.container_fragment, fragment)
+            .addToBackStack(TIMELINE_TO_ENTRY)
+            .commit()
     }
 
     private fun openContactForm() {
@@ -246,13 +239,20 @@ class TimelineFragment : DaggerFragment() {
     private fun openSettings() {
         firebaseAnalytics.logEvent(LOOKED_AT_SETTINGS, null)
 
-        val navController = findNavController()
-        if (navController.currentDestination?.id == R.id.timelineFragment) {
-            navController.navigate(
-                R.id.action_timelineFragment_to_settingsFragment
-            )
-        }
+        val fragment = SettingsFragment()
+        parentFragmentManager
+            .beginTransaction()
+            .replace(R.id.container_fragment, fragment)
+            .addToBackStack(TIMELINE_TO_SETTINGS)
+            .commit()
     }
 
+    companion object {
+        fun newInstance() = TimelineFragment()
+
+        const val TIMELINE_TO_ENTRY = "TIMELINE_TO_ENTRY"
+        const val TIMELINE_TO_SEARCH = "TIMELINE_TO_SEARCH"
+        const val TIMELINE_TO_SETTINGS = "TIMELINE_TO_ENTRY"
+    }
 }
 

@@ -9,7 +9,6 @@ import androidx.biometric.BiometricConstants
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -18,6 +17,7 @@ import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_CANCELLED
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_LOCKOUT
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_USER_CANCELLED
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FINGERPRINT
+import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 
 class AppLockFragment : Fragment() {
 
@@ -129,12 +129,15 @@ class AppLockFragment : Fragment() {
     }
 
     private fun moveToTimeline() {
-        val navInflater = findNavController().navInflater
-        val graph = navInflater.inflate(R.navigation.nav_graph)
+        val fragment = TimelineFragment.newInstance()
+        parentFragmentManager
+            .beginTransaction()
+            .replace(R.id.container_fragment, fragment)
+            .commit()
+    }
 
-        graph.startDestination = R.id.timelineFragment
-
-        findNavController().graph = graph
+    companion object {
+        const val LOCK_TO_TIMELINE = "LOCK_TO_TIMELINE"
     }
 
 }

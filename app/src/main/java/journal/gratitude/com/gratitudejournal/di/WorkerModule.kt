@@ -3,10 +3,13 @@ package journal.gratitude.com.gratitudejournal.di
 import androidx.work.ListenableWorker
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
 import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 
 @Module
+@InstallIn(SingletonComponent::class)
 interface WorkerModule {
     @Binds
     @IntoMap

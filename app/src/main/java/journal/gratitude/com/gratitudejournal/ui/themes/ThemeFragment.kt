@@ -9,7 +9,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -38,7 +37,7 @@ class ThemeFragment : Fragment(R.layout.fragment_theme) {
             )
             firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
             firebaseAnalytics.setUserProperty(THEME, theme)
-            findNavController().navigateUp()
+            parentFragmentManager.popBackStack()
             activity?.recreate()
         }
     }
@@ -338,7 +337,7 @@ class ThemeFragment : Fragment(R.layout.fragment_theme) {
         themes.adapter = adapter
 
         back_icon.setOnClickListener {
-            findNavController().navigateUp()
+            parentFragmentManager.popBackStack()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(theme_container) { v, insets ->
