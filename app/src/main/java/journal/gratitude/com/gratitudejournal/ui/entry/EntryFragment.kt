@@ -25,6 +25,7 @@ import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.jakewharton.rxbinding2.widget.RxTextView
 import com.presently.sharing.view.SharingFragment
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
@@ -33,12 +34,12 @@ import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import com.presently.ui.setStatusBarColorsForBackground
-import journal.gratitude.com.gratitudejournal.util.textChanges
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import kotlinx.android.synthetic.main.entry_fragment.*
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
+import java.util.concurrent.TimeUnit
 
 class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
@@ -46,7 +47,9 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var sharedPrefs: SharedPreferences
-  
+
+    private val compositeDisposable = CompositeDisposable()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPrefs =  PreferenceManager.getDefaultSharedPreferences(activity)
@@ -119,16 +122,14 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
             true
         }
 
-        lifecycleScope.launch {
-            entry_text.textChanges()
-                .debounce(200)
-                .map { charSequence ->
-                    charSequence.toString()
-                }
-                .collectLatest {
-                    viewModel.onTextChanged(it)
-                }
-        }
+        val disposable = RxTextView.afterTextChangeEvents(entry_text)
+            .debounce(500, TimeUnit.MILLISECONDS)
+            .skip(1) //skip data binding
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                viewModel.onTextChanged(it.editable().toString())
+            }
+        compositeDisposable.add(disposable)
     }
 
     private fun openSharingScreen(entryContent: String, entryDate: String) {
@@ -162,6 +163,13 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         prompt_button.isVisible = state.isEmpty
         if (state.isSaved) {
             onEntrySaved()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (!compositeDisposable.isDisposed) {
+            compositeDisposable.dispose()
         }
     }
 
