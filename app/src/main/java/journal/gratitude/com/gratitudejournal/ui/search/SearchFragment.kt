@@ -13,15 +13,16 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionInflater
 import com.google.firebase.analytics.FirebaseAnalytics
-import dagger.android.support.DaggerFragment
+import com.presently.ui.setStatusBarColorsForBackground
+import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH_ITEM
@@ -35,12 +36,10 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
-class SearchFragment : DaggerFragment() {
+@AndroidEntryPoint
+class SearchFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel by viewModels<SearchViewModel> { viewModelFactory }
+    private val viewModel: SearchViewModel by viewModels()
     private lateinit var binding: SearchFragmentBinding
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 

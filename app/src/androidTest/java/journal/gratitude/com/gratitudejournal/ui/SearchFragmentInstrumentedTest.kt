@@ -1,44 +1,44 @@
 package journal.gratitude.com.gratitudejournal.ui
 
-import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.nhaarman.mockitokotlin2.*
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.testUtils.RecyclerViewItemCountAssertion.Companion.withItemCount
+import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Inject
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class SearchFragmentInstrumentedTest {
 
-    private lateinit var repository: EntryRepository
-
     @get:Rule
-    val rule = DaggerTestApplicationRule()
+    var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var repository: EntryRepository
 
     @Before
-    fun setupDaggerComponent() {
-        repository = rule.component.entryRepository
+    fun init() {
+        hiltRule.inject()
     }
 
     @Test
     fun search_showsResults() {
-        launchFragmentInContainer<SearchFragment>(
+        launchFragmentInHiltContainer<SearchFragment>(
             themeResId = R.style.Base_AppTheme
         )
 
@@ -55,7 +55,7 @@ class SearchFragmentInstrumentedTest {
 
     @Test
     fun search_doesntSearchEmptyStrings() {
-        launchFragmentInContainer<SearchFragment>(
+        launchFragmentInHiltContainer<SearchFragment>(
             themeResId = R.style.Base_AppTheme
         )
 

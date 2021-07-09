@@ -15,8 +15,12 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.di.DaggerTestApplicationRule
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.testUtils.getText
@@ -30,18 +34,21 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
+import javax.inject.Inject
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class EntryFragmentInstrumentedTest {
 
-    private lateinit var repository: EntryRepository
-
     @get:Rule
-    val rule = DaggerTestApplicationRule()
+    var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var repository: EntryRepository
 
     @Before
-    fun setupDaggerComponent() {
-        repository = rule.component.entryRepository
+    fun init() {
+        hiltRule.inject()
     }
 
     @Test
@@ -68,7 +75,7 @@ class EntryFragmentInstrumentedTest {
     fun yesterdaysEntry_showsYesterdayDateStrings() {
         val date = LocalDate.now().minusDays(1)
 
-        val mockEntry = Entry(date, "test content")
+        val mockEntry = Entry(date, "Yesterday's entry hello!")
         repository.saveEntryBlocking(mockEntry)
 
         val args = Bundle()

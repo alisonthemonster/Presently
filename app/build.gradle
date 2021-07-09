@@ -8,6 +8,7 @@ apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.facebook.testing.screenshot'
+apply plugin: 'dagger.hilt.android.plugin'
 
 allOpen {
     annotation 'journal.gratitude.com.gratitudejournal.util.OpenClass'
@@ -77,18 +78,20 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
     implementation 'androidx.core:core-ktx:1.3.1'
     implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.appcompat:appcompat:1.4.0-alpha02'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.paging:paging-runtime:3.0.0-beta01'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation "androidx.fragment:fragment:1.3.0-alpha08"
-    implementation "androidx.fragment:fragment-ktx:1.3.0-alpha08"
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation "androidx.fragment:fragment-ktx:1.4.0-alpha03"
     implementation "androidx.biometric:biometric:1.0.1"
     implementation "androidx.work:work-runtime-ktx:2.4.0"
     implementation 'com.google.android.play:core:1.10.0'
-
-    implementation "androidx.room:room-ktx:2.3.0-beta01"
-    implementation "androidx.room:room-runtime:2.3.0-beta01"
-    kapt "androidx.room:room-compiler:2.3.0-beta01"
+    implementation 'androidx.paging:paging-runtime:3.1.0-alpha01'
+    implementation "androidx.room:room-ktx:2.4.0-alpha03"
+    implementation "androidx.room:room-runtime:2.4.0-alpha03"
+    kapt "androidx.room:room-compiler:2.4.0-alpha03"
 
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
@@ -96,9 +99,9 @@ dependencies {
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
     implementation 'com.hannesdorfmann:adapterdelegates3:3.1.0'
-    implementation "com.google.android.material:material:1.3.0-alpha02"
+    implementation "com.google.android.material:material:1.4.0-rc01"
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
     implementation 'com.dropbox.core:dropbox-core-sdk:3.1.3'
@@ -111,7 +114,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.2.4'
 
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
 
@@ -119,12 +122,14 @@ dependencies {
     implementation 'com.airbnb.android:mavericks-mocking:2.2.0'
 
     //dependency injection
-    implementation "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    implementation "com.google.dagger:dagger:2.35"
+    kapt "com.google.dagger:dagger-compiler:2.35"
+    implementation "com.google.dagger:dagger-android-support:2.35"
+    kapt "com.google.dagger:dagger-android-processor:2.35"
     compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:0.3.2"
     kapt "com.squareup.inject:assisted-inject-processor-dagger2:0.3.2"
+    implementation 'com.google.dagger:hilt-android:2.35'
+    kapt 'com.google.dagger:hilt-android-compiler:2.35'
 
     testImplementation 'junit:junit:4.13'
     testImplementation 'org.threeten:threetenbp:1.4.1'
@@ -150,8 +155,8 @@ dependencies {
     androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2'
     androidTestImplementation "androidx.work:work-testing:2.4.0"
 
-    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
-    kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:2.35"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.35"
 
     androidTestUtil 'com.android.support.test:orchestrator:1.0.2'
 

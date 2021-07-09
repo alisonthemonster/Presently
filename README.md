@@ -17,11 +17,10 @@ We support several languages currently and are always looking for translators to
    - ViewModel
    - Room (with FTS and Paging v3)
 - Mavericks
-- Navigation Component
 - CircleCI
 - Jacoco coverage reports (integrated with CI)
 - Firebase Crashlytics Crash Reporting
-- Dagger
+- Dagger + Hilt
 - Espresso
 - Firebase Test Lab
 - WorkManager

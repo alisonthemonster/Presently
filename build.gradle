@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        kotlin_version = '1.4.10'
+        kotlin_version = '1.4.32'
     }
     repositories {
         apply from: 'versions.gradle'
@@ -14,12 +14,13 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:0.8.7"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
-        classpath 'com.google.gms:google-services:4.3.3'
+        classpath 'com.google.gms:google-services:4.3.8'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
-        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.2'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.2.0'
+        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.4'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
         classpath 'com.facebook.testing.screenshot:plugin:0.13.0'
         classpath "com.osacky.flank.gradle:fladle:0.15.1"
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
     }
 }
 
