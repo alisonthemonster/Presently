@@ -1,14 +1,14 @@
 package journal.gratitude.com.gratitudejournal.repository
 
-import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.paging.*
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.room.EntryDao
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
-
 
 class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): EntryRepository {
 
@@ -24,16 +24,15 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         return entryDao.getEntriesFlow()
     }
 
-    override suspend fun getEntries(): List<Entry> {
-        return entryDao.getEntries()
+    override suspend fun getEntries(): List<Entry> = withContext(Dispatchers.IO) {
+        entryDao.getEntries()
     }
 
     override fun getWrittenDates(): LiveData<List<LocalDate>> {
         return entryDao.getWrittenDates()
     }
 
-    @WorkerThread
-    override suspend fun addEntry(entry: Entry) {
+    override suspend fun addEntry(entry: Entry) = withContext(Dispatchers.IO) {
         if (entry.entryContent.isEmpty()) {
             entryDao.delete(entry)
         } else {
@@ -41,8 +40,7 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         }
     }
 
-    @WorkerThread
-    override suspend fun addEntries(entries: List<Entry>) {
+    override suspend fun addEntries(entries: List<Entry>)  = withContext(Dispatchers.IO) {
         entryDao.insertEntries(entries)
     }
 

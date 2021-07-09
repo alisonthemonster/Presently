@@ -38,7 +38,6 @@ import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 import java.util.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TimelineFragment : Fragment() {

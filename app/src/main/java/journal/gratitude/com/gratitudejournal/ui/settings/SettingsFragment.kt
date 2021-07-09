@@ -1,7 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -17,8 +16,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
 import androidx.work.OneTimeWorkRequestBuilder
@@ -34,7 +31,6 @@ import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListene
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import dagger.android.support.AndroidSupportInjection
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
@@ -50,6 +46,7 @@ import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragm
 import com.presently.ui.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import dagger.hilt.android.AndroidEntryPoint
+import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.launch
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -64,7 +61,7 @@ import javax.inject.Inject
 class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener, DialogPreference.TargetFragment {
 
-    private val viewModel: SettingsViewModel by viewModels()
+    @Inject lateinit var repository: EntryRepository
 
     private lateinit var splitInstallManager: SplitInstallManager
 
@@ -259,7 +256,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onPause() {
         super.onPause()
-        // Set up a listener whenever a key changes
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
@@ -371,7 +367,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         splitInstallManager.unregisterListener(listener)
         super.onDestroy()
     }
-
 
     private fun openThemes() {
         firebaseAnalytics.logEvent(OPENED_THEMES, null)
@@ -527,9 +522,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
             )
             val realCsvParser = RealCsvParser(parser)
             val entries = convertCsvToEntries(realCsvParser)
-            viewModel.addEntries(entries)
-            firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
-            parentFragmentManager.popBackStack()
+            lifecycleScope.launch {
+                repository.addEntries(entries)
+                firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
+                parentFragmentManager.popBackStack()
+            }
 
             //TODO move this hardcoded string to strings.xml
             Toast.makeText(context, "Imported successfully!", Toast.LENGTH_SHORT).show()
@@ -552,7 +549,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     val csvResult = exportEntriesToCsvFile(
                             requireContext(),
                             uri,
-                            viewModel.getEntries()
+                            repository.getEntries()
                     )
                     when (csvResult) {
                         is CsvUriError -> exportCallback.onFailure(csvResult.exception)
