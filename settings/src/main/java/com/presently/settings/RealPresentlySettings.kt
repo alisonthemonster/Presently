@@ -79,6 +79,18 @@ class RealPresentlySettings(private val sharedPrefs: SharedPreferences): Present
         return sharedPrefs.getBoolean(DAY_OF_WEEK, false) ?: false
     }
 
+    override fun getAccessToken(): String? {
+        return sharedPrefs.getString(ACCESS_TOKEN, null)
+    }
+
+    override fun setAccessToken(newToken: String) {
+        sharedPrefs.edit().putString(ACCESS_TOKEN, newToken).apply()
+    }
+
+    override fun clearAccessToken() {
+        sharedPrefs.edit().remove(ACCESS_TOKEN).apply()
+    }
+
     private fun getDeviceLanguage(): String {
         return Locale.getDefault().toLanguageTag()
     }

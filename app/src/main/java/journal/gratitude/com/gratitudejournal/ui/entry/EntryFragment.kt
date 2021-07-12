@@ -17,7 +17,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.airbnb.mvrx.MavericksView
@@ -50,13 +49,11 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
     @Inject lateinit var settings: PresentlySettings
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-    private lateinit var sharedPrefs: SharedPreferences
 
     private val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedPrefs =  PreferenceManager.getDefaultSharedPreferences(activity)
 
         if (savedInstanceState == null) {
             val passedInDate = arguments?.getString(ENTRY_DATE)
@@ -226,7 +223,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.hideSoftInputFromWindow(entry_text.windowToken, 0)
 
-        val accessToken = sharedPrefs.getString("access-token", null) //TODO
+        val accessToken = settings.getAccessToken()
         val cadence = settings.getAutomaticBackupCadence()
         if (accessToken != null && cadence == BackupCadence.EVERY_CHANGE) {
             val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()

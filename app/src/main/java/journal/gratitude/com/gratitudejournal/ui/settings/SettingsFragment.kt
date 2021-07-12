@@ -166,11 +166,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 firebaseAnalytics.logEvent(DROPBOX_DEAUTH, null)
                 firebaseAnalytics.setUserProperty(DROPBOX_USER, "false")
                 lifecycleScope.launch {
-                    DropboxUploader.deauthorizeDropboxAccess(requireContext())
+                    DropboxUploader.deauthorizeDropboxAccess(requireContext(), settings)
                 }
             } else {
                 firebaseAnalytics.logEvent(DROPBOX_AUTH_ATTEMPT, null)
-                DropboxUploader.authorizeDropboxAccess(requireContext())
+                DropboxUploader.authorizeDropboxAccess(requireContext(), settings)
             }
             true
         }

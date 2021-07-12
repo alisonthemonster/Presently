@@ -1,6 +1,7 @@
 package com.presently.settings.model
 
 const val BACKUP_TOKEN = "dropbox_pref"
+const val ACCESS_TOKEN = "access-token"
 const val BACKUP_CADENCE = "dropbox_cadence"
 const val FINGERPRINT = "fingerprint_lock"
 const val NOTIFS = "notif_parent"

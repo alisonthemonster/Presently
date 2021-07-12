@@ -30,6 +30,11 @@ interface PresentlySettings {
 
     fun shouldShowDayOfWeekInTimeline(): Boolean
 
+    fun getAccessToken(): String?
+
+    fun setAccessToken(newToken: String)
+
+    fun clearAccessToken()
 }
 
 enum class BackupCadence(val index: Int, val string: String) {
