@@ -44,7 +44,7 @@ subprojects { prj ->
                               '**/Manifest*.*',
                               '**/*Test*.*',
                               'android/**/*.*',
-                              '**/ui/settings*.*',
+                              '**/ui/settings/*.*',
                               '**/model/*.*',
                               '**/room/*.*',
                               '**/di/*.*',
