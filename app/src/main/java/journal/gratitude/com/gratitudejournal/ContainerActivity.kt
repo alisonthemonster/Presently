@@ -14,11 +14,12 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
+import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.FINGERPRINT
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.THEME_PREF
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.util.LocaleHelper
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
@@ -32,7 +33,8 @@ class ContainerActivity : AppCompatActivity() {
     }
 
     override fun attachBaseContext(newBase: Context) {
-        val context: Context = LocaleHelper.onAppAttached(newBase)
+        val settings = EntryPointAccessors.fromApplication(newBase, SettingsEntryPoint::class.java).settings
+        val context: Context = LocaleHelper.onAppAttached(newBase, settings)
         super.attachBaseContext(context)
         SplitCompat.installActivity(this)
     }

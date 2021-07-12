@@ -9,11 +9,12 @@ import androidx.preference.PreferenceManager
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class PresentlySettingsModule {
+object PresentlySettingsModule {
 
     @Provides
     fun providesPresentlySettings(sharedPreferences: SharedPreferences): PresentlySettings {
@@ -21,7 +22,7 @@ abstract class PresentlySettingsModule {
     }
 
     @Provides
-    fun providesSharedPreferences(context: Context): SharedPreferences {
+    fun providesSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
