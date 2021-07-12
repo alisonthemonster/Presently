@@ -4,8 +4,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
 import com.presently.settings.PresentlySettings
-import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.APP_LANGUAGE
-import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment.Companion.NO_LANG_PREF
+import com.presently.settings.model.NO_LANG_PREF
 import java.util.*
 
 object LocaleHelper {
@@ -55,7 +54,6 @@ object LocaleHelper {
      * */
     private fun getLastLanguageSaved(settings: PresentlySettings): String {
         val languagePref = settings.getLocale()
-
         return if (languagePref == NO_LANG_PREF) {
             getDeviceLanguage()
         } else {

@@ -32,8 +32,8 @@ interface PresentlySettings {
 
 }
 
-enum class BackupCadence {
-    DAILY,
-    WEEKLY,
-    EVERY_CHANGE
+enum class BackupCadence(val index: Int, val string: String) {
+    DAILY(0, "Daily"),
+    WEEKLY(1, "Weekly"),
+    EVERY_CHANGE(2, "Every change")
 }

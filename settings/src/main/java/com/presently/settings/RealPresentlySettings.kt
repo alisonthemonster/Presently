@@ -1,6 +1,7 @@
 package com.presently.settings
 
 import android.content.SharedPreferences
+import com.presently.settings.model.*
 import java.util.*
 import org.threeten.bp.LocalTime
 
@@ -80,22 +81,6 @@ class RealPresentlySettings(private val sharedPrefs: SharedPreferences): Present
 
     private fun getDeviceLanguage(): String {
         return Locale.getDefault().toLanguageTag()
-    }
-
-    companion object {
-        const val BACKUP_TOKEN = "dropbox_pref"
-        const val BACKUP_CADENCE = "dropbox_cadence"
-        const val FINGERPRINT = "fingerprint_lock"
-        const val NOTIFS = "notif_parent"
-        const val NOTIF_PREF_TIME = "pref_time"
-        const val THEME_PREF = "current_theme"
-        const val SHOW_QUOTE = "show_quote"
-        const val LINES_PER_ENTRY_IN_TIMELINE = "lines_per_entry_in_timeline"
-        const val FIRST_DAY_OF_WEEK = "first_day_of_week"
-        const val APP_LANGUAGE = "app_language"
-        const val DAY_OF_WEEK = "day_of_week"
-        const val NO_LANG_PREF = "no_language_selected"
-        const val ON_PAUSE_TIME = "last_destroy_time"
     }
 
 }
