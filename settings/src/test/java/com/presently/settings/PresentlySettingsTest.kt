@@ -13,7 +13,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings WHEN getCurrentTheme is called THEN shared preferences is called`() {
         val expected = "currTheme"
         val sharedPrefs = getFakeSharedPreferences(expected)
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getCurrentTheme()
         assertThat(actual).isEqualTo(expected)
     }
@@ -24,7 +24,7 @@ class PresentlySettingsTest {
         editString = ""
         val expected = "newTheme"
         val sharedPrefs = getFakeSharedPreferences()
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         settings.setTheme(expected)
 
         assertThat(editStringWasCalled).isTrue()
@@ -35,7 +35,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings WHEN isBiometricsEnabled is called THEN shared preferences is called`() {
         val expected = true
         val sharedPrefs = getFakeSharedPreferences(boolean = expected)
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.isBiometricsEnabled()
         assertThat(actual).isEqualTo(expected)
     }
@@ -45,7 +45,7 @@ class PresentlySettingsTest {
         val expected = true
         val fiveMinutesInThePast = Date(System.currentTimeMillis()).time - 300001L
         val sharedPrefs = getFakeSharedPreferences(long = fiveMinutesInThePast)
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.shouldLockApp()
         assertThat(actual).isEqualTo(expected)
     }
@@ -55,7 +55,7 @@ class PresentlySettingsTest {
         val expected = false
         val now = Date(System.currentTimeMillis()).time
         val sharedPrefs = getFakeSharedPreferences(long = now)
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.shouldLockApp()
         assertThat(actual).isEqualTo(expected)
     }
@@ -64,7 +64,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings WHEN setOnPauseTime is called THEN shared preferences is called`() {
         editLongWasCalled = false
         val sharedPrefs = getFakeSharedPreferences()
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         settings.setOnPauseTime()
 
         assertThat(editLongWasCalled).isTrue()
@@ -74,7 +74,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings and saturday is first day of week WHEN getFirstDayOfWeek is called THEN shared preferences is called`() {
         val expected = Calendar.SATURDAY
         val sharedPrefs = getFakeSharedPreferences(string = "0")
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getFirstDayOfWeek()
         assertThat(actual).isEqualTo(expected)
     }
@@ -83,7 +83,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings and sunday is first day of week WHEN getFirstDayOfWeek is called THEN shared preferences is called`() {
         val expected = Calendar.SUNDAY
         val sharedPrefs = getFakeSharedPreferences(string = "1")
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getFirstDayOfWeek()
         assertThat(actual).isEqualTo(expected)
     }
@@ -92,7 +92,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings and monday is first day of week WHEN getFirstDayOfWeek is called THEN shared preferences is called`() {
         val expected = Calendar.MONDAY
         val sharedPrefs = getFakeSharedPreferences(string = "2")
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getFirstDayOfWeek()
         assertThat(actual).isEqualTo(expected)
     }
@@ -101,7 +101,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings WHEN shouldShowQuote is called THEN shared preferences is called`() {
         val expected = false
         val sharedPrefs = getFakeSharedPreferences(boolean = expected)
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.shouldShowQuote()
         assertThat(actual).isEqualTo(expected)
     }
@@ -110,7 +110,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings and daily cadence WHEN getAutomaticBackupCadence is called THEN shared preferences is called`() {
         val expected = BackupCadence.DAILY
         val sharedPrefs = getFakeSharedPreferences(string = "0")
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getAutomaticBackupCadence()
         assertThat(actual).isEqualTo(expected)
     }
@@ -119,7 +119,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings and weekly cadence WHEN getAutomaticBackupCadence is called THEN shared preferences is called`() {
         val expected = BackupCadence.WEEKLY
         val sharedPrefs = getFakeSharedPreferences(string = "1")
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getAutomaticBackupCadence()
         assertThat(actual).isEqualTo(expected)
     }
@@ -128,7 +128,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings and every change cadence WHEN getAutomaticBackupCadence is called THEN shared preferences is called`() {
         val expected = BackupCadence.EVERY_CHANGE
         val sharedPrefs = getFakeSharedPreferences(string = "2")
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getAutomaticBackupCadence()
         assertThat(actual).isEqualTo(expected)
     }
@@ -136,7 +136,7 @@ class PresentlySettingsTest {
     @Test
     fun `GIVEN RealPresentlySettings with no language preference WHEN getLocale is called THEN locale is checked`() {
         val sharedPrefs = getFakeSharedPreferences(string = null)
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getLocale()
         assertThat(actual).isNotNull()
     }
@@ -145,7 +145,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings WHEN getLocale is called THEN shared preferences is called`() {
         val expected = "fr"
         val sharedPrefs = getFakeSharedPreferences(string = expected)
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getLocale()
         assertThat(actual).isEqualTo(expected)
     }
@@ -154,7 +154,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings WHEN hasEnabledNotifications is called THEN shared preferences is called`() {
         val expected = false
         val sharedPrefs = getFakeSharedPreferences(boolean = expected)
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.hasEnabledNotifications()
         assertThat(actual).isEqualTo(expected)
     }
@@ -163,7 +163,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings with no time set WHEN getNotificationTime is called THEN shared preferences is called`() {
         val expected = LocalTime.parse("21:00")
         val sharedPrefs = getFakeSharedPreferences(string = null)
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getNotificationTime()
         assertThat(actual).isEqualTo(expected)
     }
@@ -172,7 +172,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings WHEN getNotificationTime is called THEN shared preferences is called`() {
         val expected = LocalTime.parse("11:00")
         val sharedPrefs = getFakeSharedPreferences(string = "11:00")
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getNotificationTime()
         assertThat(actual).isEqualTo(expected)
     }
@@ -181,7 +181,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings WHEN getLinesPerEntryInTimeline is called THEN shared preferences is called`() {
         val expected = 12
         val sharedPrefs = getFakeSharedPreferences(int = expected)
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getLinesPerEntryInTimeline()
         assertThat(actual).isEqualTo(expected)
     }
@@ -190,7 +190,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings WHEN shouldShowDayOfWeekInTimeline is called THEN shared preferences is called`() {
         val expected = true
         val sharedPrefs = getFakeSharedPreferences(boolean = expected)
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.shouldShowDayOfWeekInTimeline()
         assertThat(actual).isEqualTo(expected)
     }
@@ -199,7 +199,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings and no token WHEN getAccessToken is called THEN shared preferences is called`() {
         val expected =  null
         val sharedPrefs = getFakeSharedPreferences(string = expected)
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getAccessToken()
         assertThat(actual).isEqualTo(expected)
     }
@@ -208,7 +208,7 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings WHEN getAccessToken is called THEN shared preferences is called`() {
         val expected =  "accessToken"
         val sharedPrefs = getFakeSharedPreferences(string = expected)
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getAccessToken()
         assertThat(actual).isEqualTo(expected)
     }
@@ -219,7 +219,7 @@ class PresentlySettingsTest {
         editString = ""
         val expected = "newAccessToken"
         val sharedPrefs = getFakeSharedPreferences()
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         settings.setAccessToken(expected)
 
         assertThat(editStringWasCalled).isTrue()
@@ -230,10 +230,20 @@ class PresentlySettingsTest {
     fun `GIVEN RealPresentlySettings WHEN clearAccessToken is called THEN shared preferences is called`() {
         removeWasCalled = false
         val sharedPrefs = getFakeSharedPreferences()
-        val settings = RealPresentlySettings(sharedPrefs)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
         settings.clearAccessToken()
 
         assertThat(removeWasCalled).isTrue()
+    }
+
+    @Test
+    fun `GIVEN RealPresentlySettings WHEN getDropboxAppKey is called THEN return app key`() {
+        val sharedPrefs = getFakeSharedPreferences()
+        val expected = "appKey"
+        val settings = RealPresentlySettings(sharedPrefs, expected)
+        val actual = settings.getDropboxAppKey()
+
+        assertThat(actual).isEqualTo(expected)
     }
 
     var editStringWasCalled = false

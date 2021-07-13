@@ -206,7 +206,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         val accessToken = prefs.getString("access-token", null)
         if (accessToken == "attempted") {
-            val token = Auth.getOAuth2Token()
+            val token = Auth.getDbxCredential() //get token from Dropbox Auth activity
             if (token == null) {
                 //user started to auth and didn't succeed
                 firebaseAnalytics.logEvent(DROPBOX_AUTH_QUIT, null)
@@ -216,7 +216,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             } else {
                 firebaseAnalytics.logEvent(DROPBOX_AUTH_SUCCESS, null)
                 firebaseAnalytics.setUserProperty(DROPBOX_USER, "true")
-                prefs.edit().putString("access-token", token).apply()
+                settings.setAccessToken(token)
                 createDropboxUploaderWorker(BackupCadence.DAILY)
             }
         }

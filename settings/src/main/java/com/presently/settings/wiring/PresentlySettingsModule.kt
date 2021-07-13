@@ -17,8 +17,8 @@ import dagger.hilt.components.SingletonComponent
 object PresentlySettingsModule {
 
     @Provides
-    fun providesPresentlySettings(sharedPreferences: SharedPreferences): PresentlySettings {
-        return RealPresentlySettings(sharedPreferences)
+    fun providesPresentlySettings(settings: RealPresentlySettings): PresentlySettings {
+        return settings
     }
 
     @Provides

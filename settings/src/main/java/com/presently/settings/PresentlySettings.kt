@@ -1,5 +1,6 @@
 package com.presently.settings
 
+import com.dropbox.core.oauth.DbxCredential
 import org.threeten.bp.LocalTime
 
 interface PresentlySettings {
@@ -30,11 +31,15 @@ interface PresentlySettings {
 
     fun shouldShowDayOfWeekInTimeline(): Boolean
 
-    fun getAccessToken(): String?
+    fun getAccessToken(): DbxCredential?
 
-    fun setAccessToken(newToken: String)
+    fun setAccessToken(newToken: DbxCredential)
+
+    fun markDropboxAuthInitiated()
 
     fun clearAccessToken()
+
+    fun getDropboxAppKey(): String
 }
 
 enum class BackupCadence(val index: Int, val string: String) {

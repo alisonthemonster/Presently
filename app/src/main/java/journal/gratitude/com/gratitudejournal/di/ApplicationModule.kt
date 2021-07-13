@@ -6,8 +6,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.room.EntryDao
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
+import javax.inject.Named
 
 
 @Module
@@ -24,6 +26,12 @@ object ApplicationModule {
     @Provides
     fun provideDatabase(@ApplicationContext context: Context): EntryDatabase {
         return EntryDatabase.getDatabase(context)
+    }
+
+    @Provides
+    @Named("AppKey")
+    fun provideAppKey(): String {
+        return BuildConfig.DROPBOX_APP_KEY
     }
 
 }

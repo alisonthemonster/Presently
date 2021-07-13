@@ -1,11 +1,18 @@
 package com.presently.settings
 
 import android.content.SharedPreferences
+import com.dropbox.core.oauth.DbxCredential
 import com.presently.settings.model.*
 import java.util.*
 import org.threeten.bp.LocalTime
+import javax.inject.Inject
+import javax.inject.Named
 
-class RealPresentlySettings(private val sharedPrefs: SharedPreferences): PresentlySettings {
+class RealPresentlySettings @Inject constructor(
+    private val sharedPrefs: SharedPreferences,
+    @Named("AppKey") private val appKey: String
+) : PresentlySettings {
+
     override fun getCurrentTheme(): String {
         return sharedPrefs.getString(THEME_PREF, "original") ?: "original"
     }
@@ -34,7 +41,7 @@ class RealPresentlySettings(private val sharedPrefs: SharedPreferences): Present
     }
 
     override fun getFirstDayOfWeek(): Int {
-        return when(sharedPrefs.getString(FIRST_DAY_OF_WEEK, "monday")) {
+        return when (sharedPrefs.getString(FIRST_DAY_OF_WEEK, "monday")) {
             "0" -> Calendar.SATURDAY
             "1" -> Calendar.SUNDAY
             else -> Calendar.MONDAY
@@ -79,16 +86,26 @@ class RealPresentlySettings(private val sharedPrefs: SharedPreferences): Present
         return sharedPrefs.getBoolean(DAY_OF_WEEK, false) ?: false
     }
 
-    override fun getAccessToken(): String? {
-        return sharedPrefs.getString(ACCESS_TOKEN, null)
+    override fun getAccessToken(): DbxCredential? {
+        val serializedToken = sharedPrefs.getString(ACCESS_TOKEN, null) ?: return null
+        if (serializedToken == "attempted") return null
+        return DbxCredential.Reader.readFully(serializedToken)
     }
 
-    override fun setAccessToken(newToken: String) {
-        sharedPrefs.edit().putString(ACCESS_TOKEN, newToken).apply()
+    override fun setAccessToken(newToken: DbxCredential) {
+        sharedPrefs.edit().putString(ACCESS_TOKEN, newToken.toString()).apply()
+    }
+
+    override fun markDropboxAuthInitiated() {
+        sharedPrefs.edit().putString(ACCESS_TOKEN, "attempted").apply()
     }
 
     override fun clearAccessToken() {
         sharedPrefs.edit().remove(ACCESS_TOKEN).apply()
+    }
+
+    override fun getDropboxAppKey(): String {
+        return appKey
     }
 
     private fun getDeviceLanguage(): String {
