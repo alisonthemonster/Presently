@@ -25,6 +25,7 @@ import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
+import com.dropbox.core.oauth.DbxCredential
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.presently.logging.AnalyticsLogger
 import com.presently.settings.BackupCadence
@@ -221,7 +222,9 @@ class EntryFragment : Fragment(), MavericksView {
     }
 
     private fun backupEntryIfNeeded() {
-        val accessToken = settings.getAccessToken()
+        val dbxCredential = settings.getAccessToken()
+        val accessToken: DbxCredential? = if (dbxCredential == "attempted") null else DbxCredential.Reader.readFully(dbxCredential)
+
         val cadence = settings.getAutomaticBackupCadence()
         if (accessToken != null && cadence == BackupCadence.EVERY_CHANGE) {
             val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
