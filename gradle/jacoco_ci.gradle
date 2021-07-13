@@ -56,6 +56,7 @@ subprojects { prj ->
                               '**/*Binding*.*',
                               '**/*Dagger*.*',
                               '**/*Hilt*.*',
+                              '**/*_Factory*.*',
                               '**/*_journal_gratitude_com_gratitudejournal_*.*',
                               '**/hilt/*.*',
                               '**/*hilt_aggregated_deps*.*',

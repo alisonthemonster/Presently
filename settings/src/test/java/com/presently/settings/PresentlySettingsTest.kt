@@ -206,6 +206,16 @@ class PresentlySettingsTest {
     }
 
     @Test
+    fun `GIVEN RealPresentlySettings and attempted token WHEN getAccessToken is called THEN shared preferences is called`() {
+        val expected =  "attempted"
+        val sharedPrefs = getFakeSharedPreferences(string = expected)
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
+        val actual = settings.getAccessToken()
+        assertThat(actual).isNull()
+    }
+
+
+    @Test
     fun `GIVEN RealPresentlySettings WHEN getAccessToken is called THEN shared preferences is called`() {
         val expected = DbxCredential("accessToken", 190, "refreshToken", "appKey").toString()
 
@@ -246,6 +256,17 @@ class PresentlySettingsTest {
         val actual = settings.getDropboxAppKey()
 
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `GIVEN RealPresentlySettings WHEN markDropboxAuthInitiated is called THEN updateSharedPrefs`() {
+        editString = ""
+        val sharedPrefs = getFakeSharedPreferences()
+        val expected = "attempted"
+        val settings = RealPresentlySettings(sharedPrefs, expected)
+        settings.markDropboxAuthInitiated()
+
+        assertThat(editString).isEqualTo(expected)
     }
 
     var editStringWasCalled = false
