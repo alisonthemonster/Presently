@@ -1,6 +1,7 @@
 package com.presently.settings
 
 import android.content.SharedPreferences
+import com.dropbox.core.oauth.DbxCredential
 import com.google.common.truth.Truth.assertThat
 import junit.framework.Assert.fail
 import org.junit.Test
@@ -206,24 +207,25 @@ class PresentlySettingsTest {
 
     @Test
     fun `GIVEN RealPresentlySettings WHEN getAccessToken is called THEN shared preferences is called`() {
-        val expected =  "accessToken"
+        val expected = DbxCredential("accessToken", 190, "refreshToken", "appKey").toString()
+
         val sharedPrefs = getFakeSharedPreferences(string = expected)
         val settings = RealPresentlySettings(sharedPrefs, "appKey")
         val actual = settings.getAccessToken()
-        assertThat(actual).isEqualTo(expected)
+        assertThat(actual.toString()).isEqualTo(expected)
     }
 
     @Test
     fun `GIVEN RealPresentlySettings WHEN setAccessToken is called THEN shared preferences is called`() {
         editStringWasCalled = false
         editString = ""
-        val expected = "newAccessToken"
+        val expected = DbxCredential("accessToken", 190, "refreshToken", "appKey")
         val sharedPrefs = getFakeSharedPreferences()
         val settings = RealPresentlySettings(sharedPrefs, "appKey")
         settings.setAccessToken(expected)
 
         assertThat(editStringWasCalled).isTrue()
-        assertThat(editString).isEqualTo(expected)
+        assertThat(editString).isEqualTo(expected.toString())
     }
 
     @Test
