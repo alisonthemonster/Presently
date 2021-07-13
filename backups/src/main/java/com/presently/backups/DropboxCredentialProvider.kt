@@ -4,8 +4,14 @@ import com.dropbox.core.oauth.DbxCredential
 
 interface DropboxCredentialProvider {
 
-    //get the short lived access token, may need refreshing
+    /**
+     * Returns the short lived access token.
+     */
     fun getAccessToken(): String?
 
+    /**
+     * Refreshes the token and returns it. This call should be made synchronously.
+     * In the event that the token could not be refreshed return null.
+     */
     fun refreshTokens(): String?
 }

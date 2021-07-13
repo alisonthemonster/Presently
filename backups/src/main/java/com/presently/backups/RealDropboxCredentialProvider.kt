@@ -12,16 +12,19 @@ class RealDropboxCredentialProvider @Inject constructor(
         return presentlySettings.getAccessToken()?.accessToken
     }
 
-    //TODO coroutines?
     override fun refreshTokens(): String? {
         val existingToken = requireNotNull(presentlySettings.getAccessToken())
 
-        //make network call with refresh token to get new access token
-        val result = dropboxAuthService.refreshToken(existingToken.refreshToken)
+        //make synchronous network call with refresh token to get new access token
+        val result = dropboxAuthService.refreshToken(
+            refreshToken = existingToken.refreshToken,
+            appKey = presentlySettings.getDropboxAppKey()
+        ).execute().body()
+            ?: return null
         val credential = DbxCredential(
             result.accessToken,
             result.expiresIn,
-            result.refreshToken,
+            existingToken.refreshToken,
             presentlySettings.getDropboxAppKey()
         )
 

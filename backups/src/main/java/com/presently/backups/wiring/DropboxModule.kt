@@ -21,12 +21,9 @@ object DropboxModule {
 
     @Provides
     fun provideOkhttpClient(dropboxCredentialProvider: DropboxCredentialProvider): OkHttpClient {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient.Builder()
             .authenticator(AccessTokenAuthenticator(dropboxCredentialProvider))
             .addInterceptor(AccessTokenInterceptor(dropboxCredentialProvider))
-            .addInterceptor(loggingInterceptor)
             .build()
     }
 
@@ -44,7 +41,7 @@ object DropboxModule {
     fun provideDropboxAuthService(): DropboxAuthService {
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://content.dropboxapi.com/2/")
+            .baseUrl("https://api.dropbox.com/")
             .build()
         return retrofit.create(DropboxAuthService::class.java)
     }
