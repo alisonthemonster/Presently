@@ -202,7 +202,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         val accessToken = prefs.getString("access-token", null)
         if (accessToken == "attempted") {
-            val token = Auth.getOAuth2Token()
+            val token = Auth.getDbxCredential() //get token from Dropbox Auth activity
             if (token == null) {
                 //user started to auth and didn't succeed
                 analytics.recordEvent(DROPBOX_AUTH_QUIT)
@@ -211,7 +211,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 activity?.recreate()
             } else {
                 analytics.recordEvent(DROPBOX_AUTH_SUCCESS)
-                prefs.edit().putString("access-token", token).apply()
+                //put the serialized DbxCredential in SharedPrefs
+                prefs.edit().putString("access-token", token.toString()).apply()
                 createDropboxUploaderWorker(BackupCadence.DAILY)
             }
         }
