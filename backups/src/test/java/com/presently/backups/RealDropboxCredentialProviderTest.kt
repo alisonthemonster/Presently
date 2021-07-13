@@ -5,8 +5,13 @@ import com.google.common.truth.Truth.assertThat
 import com.presently.backups.model.RefreshTokenResponse
 import com.presently.settings.BackupCadence
 import com.presently.settings.PresentlySettings
+import okhttp3.Request
+import okio.Timeout
 import org.junit.Test
 import org.threeten.bp.LocalTime
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RealDropboxCredentialProviderTest {
 
@@ -53,9 +58,48 @@ class RealDropboxCredentialProviderTest {
     }
 
     private val authService = object : DropboxAuthService {
-        override fun refreshToken(refreshToken: String, grantType: String): RefreshTokenResponse {
+        override fun refreshToken(
+            grantType: String,
+            appKey: String,
+            refreshToken: String
+        ): Call<RefreshTokenResponse> {
             refreshTokenPassedIn = refreshToken
-            return RefreshTokenResponse("newAccessToken", 1000, "refreshToken")
+            val response = RefreshTokenResponse("newAccessToken", 1000, "refreshToken")
+            val call = object : Call<RefreshTokenResponse> {
+                override fun clone(): Call<RefreshTokenResponse> {
+                    TODO("Not yet implemented")
+                }
+
+                override fun execute(): Response<RefreshTokenResponse> {
+                    return Response.success(response)
+                }
+
+                override fun enqueue(callback: Callback<RefreshTokenResponse>) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun isExecuted(): Boolean {
+                    TODO("Not yet implemented")
+                }
+
+                override fun cancel() {
+                    TODO("Not yet implemented")
+                }
+
+                override fun isCanceled(): Boolean {
+                    TODO("Not yet implemented")
+                }
+
+                override fun request(): Request {
+                    TODO("Not yet implemented")
+                }
+
+                override fun timeout(): Timeout {
+                    TODO("Not yet implemented")
+                }
+
+            }
+            return call
         }
 
     }
