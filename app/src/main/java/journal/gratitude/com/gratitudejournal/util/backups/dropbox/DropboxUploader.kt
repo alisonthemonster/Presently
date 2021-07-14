@@ -30,7 +30,7 @@ class DropboxUploader(
         return withContext(Dispatchers.IO) {
             try {
                 val requestBody = file.asRequestBody("application/octet-stream".toMediaTypeOrNull())
-                dropboxWebService.uploadFile(requestBody, "{\"path\": \"/PresentlyBackup.csv\",\"mode\": \"overwrite\",\"autorename\": true,\"mute\": false,\"strict_conflict\": false}")
+                dropboxWebService.uploadFile(requestBody, "{\"path\": \"/presently-backup.csv\",\"mode\": \"overwrite\",\"autorename\": true,\"mute\": false,\"strict_conflict\": false}")
                 UploadSuccess
             } catch (e: DbxException) {
                 UploadError(e)
