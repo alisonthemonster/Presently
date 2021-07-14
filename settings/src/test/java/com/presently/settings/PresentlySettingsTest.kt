@@ -214,7 +214,6 @@ class PresentlySettingsTest {
         assertThat(actual).isNull()
     }
 
-
     @Test
     fun `GIVEN RealPresentlySettings WHEN getAccessToken is called THEN shared preferences is called`() {
         val expected = DbxCredential("accessToken", 190, "refreshToken", "appKey").toString()
@@ -224,6 +223,17 @@ class PresentlySettingsTest {
         val actual = settings.getAccessToken()
         assertThat(actual.toString()).isEqualTo(expected)
     }
+
+    @Test
+    fun `GIVEN RealPresentlySettings AND long lived access token WHEN getAccessToken is called THEN shared preferences is called`() {
+        val expected = DbxCredential("longlivedaccesstoken")
+
+        val sharedPrefs = getFakeSharedPreferences(string = "longlivedaccesstoken")
+        val settings = RealPresentlySettings(sharedPrefs, "appKey")
+        val actual = settings.getAccessToken()
+        assertThat(actual.toString()).isEqualTo(expected.toString())
+    }
+
 
     @Test
     fun `GIVEN RealPresentlySettings WHEN setAccessToken is called THEN shared preferences is called`() {
