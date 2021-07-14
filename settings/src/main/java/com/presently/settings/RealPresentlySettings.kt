@@ -89,7 +89,11 @@ class RealPresentlySettings @Inject constructor(
     override fun getAccessToken(): DbxCredential? {
         val serializedToken = sharedPrefs.getString(ACCESS_TOKEN, null) ?: return null
         if (serializedToken == "attempted") return null
-        return DbxCredential.Reader.readFully(serializedToken)
+        if (serializedToken.contains("{")) {
+            //this is a Dropbox auth user with refresh tokens
+            return DbxCredential.Reader.readFully(serializedToken)
+        }
+        return DbxCredential(serializedToken) //this is a legacy Dropbox auth user with a long lasting token
     }
 
     override fun setAccessToken(newToken: DbxCredential) {
