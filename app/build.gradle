@@ -37,7 +37,8 @@ android {
         }
 
         Properties localProperties = getLocalProperties()
-        String dropboxKey = localProperties['DROPBOX_KEY']
+
+        String dropboxKey = System.getenv("DROPBOX_APP_KEY") ?: localProperties['DROPBOX_KEY']
         buildConfigField "String", "DROPBOX_APP_KEY", "\"${dropboxKey}\""
         manifestPlaceholders = [dropboxAppKey: dropboxKey]
     }

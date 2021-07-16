@@ -95,7 +95,7 @@ jobs:
           command: ./gradlew runFlank
       - run:
           name: Copy all coverage.ec files to their respective build output package
-          command: ./scripts/coverage_mover.sh
+          command: ./coverage_mover.sh
       - run:
           name: Generate JaCoCo report
           command: ./gradlew jacocoFullReport
@@ -113,13 +113,7 @@ workflows:
   workflow:
     jobs:
       - build_debug
-        pre-steps:
-            - run:
-              command: source ./scripts/environmentSetup.sh && copyEnvVarsToGradleProperties
       - run_tests_get_coverage:
-          pre-steps:
-            - run:
-              command: source ./scripts/environmentSetup.sh && copyEnvVarsToGradleProperties
           filters:
             branches:
               # Forked pull requests have CIRCLE_BRANCH set to pull/XXX
