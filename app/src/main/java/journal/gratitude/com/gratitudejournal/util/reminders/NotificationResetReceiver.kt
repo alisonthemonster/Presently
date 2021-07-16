@@ -14,8 +14,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class NotificationResetReceiver: BroadcastReceiver() {
 
-    //TODO test this
-
     @Inject
     lateinit var settings: PresentlySettings
 
