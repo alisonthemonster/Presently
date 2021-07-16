@@ -35,9 +35,12 @@ android {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
-        buildConfigField "String", "DROPBOX_APP_KEY", "\"${project.property("dropboxAppKey")}\""
 
-        manifestPlaceholders = [dropboxAppKey: project.property("dropboxAppKey")]
+        Properties localProperties = getLocalProperties()
+
+        String dropboxKey = System.getenv("DROPBOX_APP_KEY") ?: localProperties['DROPBOX_KEY']
+        buildConfigField "String", "DROPBOX_APP_KEY", "\"${dropboxKey}\""
+        manifestPlaceholders = [dropboxAppKey: dropboxKey]
     }
     buildFeatures {
         dataBinding true
@@ -166,3 +169,12 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+
+def getLocalProperties() {
+    Properties props = new Properties()
+    if (file('../local.properties').exists()) {
+        props.load(new FileInputStream(file('../local.properties')))
+    }
+    return props
+}
