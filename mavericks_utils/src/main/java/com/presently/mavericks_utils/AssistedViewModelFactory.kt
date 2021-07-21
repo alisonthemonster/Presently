@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.di
+package com.presently.mavericks_utils
 
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel

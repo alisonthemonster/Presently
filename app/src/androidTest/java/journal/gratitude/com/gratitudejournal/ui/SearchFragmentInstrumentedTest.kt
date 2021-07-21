@@ -5,13 +5,12 @@ import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.nhaarman.mockitokotlin2.*
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.testUtils.RecyclerViewItemCountAssertion.Companion.withItemCount
-import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
+import com.presently.testing.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import org.hamcrest.Matchers.not

@@ -55,6 +55,9 @@ jobs:
           name: Gradle build (debug)
           command: ./gradlew assembleDebug assembleAndroidTest --no-daemon --max-workers=2
       - run:
+          name: install graphviz
+          command: sudo apt-get install graphviz
+      - run:
           name: Create dependency graph
           command: ./gradlew :app:projectDependencyGraph
       - *persist_debug_workspace

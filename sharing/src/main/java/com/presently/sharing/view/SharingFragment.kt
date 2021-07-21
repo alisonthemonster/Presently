@@ -34,17 +34,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksView {
 
-    private val sharingViewModel: SharingViewModel by activityViewModel()
+    private val sharingViewModel: SharingViewModel by fragmentViewModel()
 
     private var _binding: FragmentSharingBinding? = null
     private val binding get() = _binding!!
-
-    @Inject lateinit var analyticsLogger: AnalyticsLogger
 
     private val listener = object : OnDesignSelectedListener {
         override fun onDesignSelected(design: SharingViewDesign) {
@@ -77,8 +74,6 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
             parentFragmentManager.popBackStack()
         }
 
-        analyticsLogger.recordEvent("viewedShareScreen")
-
         ViewCompat.setOnApplyWindowInsetsListener(binding.sharingContainer) { v, insets ->
             v.updatePadding(top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top)
             insets
@@ -110,7 +105,6 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
             binding.sharingPreview.setContent(it.content)
 
             if (it.clicksShare) {
-                analyticsLogger.recordEvent("sharedImage")
                 val bitmap = generateBitmap()
                 shareBitmap(bitmap)
                 sharingViewModel.sharingComplete()

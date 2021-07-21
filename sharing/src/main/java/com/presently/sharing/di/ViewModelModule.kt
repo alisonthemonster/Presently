@@ -1,19 +1,21 @@
-package journal.gratitude.com.gratitudejournal.di
+package com.presently.sharing.di
 
 import com.presently.mavericks_utils.AssistedViewModelFactory
 import com.presently.mavericks_utils.MavericksViewModelComponent
 import com.presently.mavericks_utils.MavericksViewModelKey
+import com.presently.sharing.view.SharingViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.multibindings.IntoMap
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryViewModel
+
+//TODO is this needed?
 
 @Module
 @InstallIn(MavericksViewModelComponent::class)
-interface MavericksViewModelModule {
+interface ViewModelModule {
     @Binds
     @IntoMap
-    @MavericksViewModelKey(EntryViewModel::class)
-    fun entryViewModelFactory(factory: EntryViewModel.Factory): AssistedViewModelFactory<*, *>
+    @MavericksViewModelKey(SharingViewModel::class)
+    fun sharingViewModelFactory(factory: SharingViewModel.Factory): AssistedViewModelFactory<*, *>
 }

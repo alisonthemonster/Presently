@@ -1,13 +1,23 @@
 package com.presently.sharing.view
 
 import com.airbnb.mvrx.MavericksViewModel
+import com.airbnb.mvrx.MavericksViewModelFactory
+import com.presently.logging.AnalyticsLogger
+import com.presently.mavericks_utils.AssistedViewModelFactory
+import com.presently.mavericks_utils.hiltMavericksViewModelFactory
 import com.presently.sharing.data.SharingViewDesign
 import com.presently.sharing.data.SharingViewState
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-class SharingViewModel(initialState: SharingViewState) :
-    MavericksViewModel<SharingViewState>(initialState) {
+class SharingViewModel @AssistedInject constructor(
+    @Assisted initialState: SharingViewState,
+    private val analyticsLogger: AnalyticsLogger
+) : MavericksViewModel<SharingViewState>(initialState) {
 
     fun setContents(dateString: String, content: String) {
+        analyticsLogger.recordEvent("viewedShareScreen")
         setState {
             copy(dateString = dateString, content = content)
         }
@@ -20,6 +30,7 @@ class SharingViewModel(initialState: SharingViewState) :
     }
 
     fun clickFinish() {
+        analyticsLogger.recordEvent("sharedImage")
         setState {
             copy(clicksShare = true)
         }
@@ -30,4 +41,12 @@ class SharingViewModel(initialState: SharingViewState) :
             copy(clicksShare = false)
         }
     }
+
+    @AssistedFactory
+    interface Factory : AssistedViewModelFactory<SharingViewModel, SharingViewState> {
+        override fun create(state: SharingViewState): SharingViewModel
+    }
+
+    companion object : MavericksViewModelFactory<SharingViewModel, SharingViewState> by hiltMavericksViewModelFactory()
+
 }

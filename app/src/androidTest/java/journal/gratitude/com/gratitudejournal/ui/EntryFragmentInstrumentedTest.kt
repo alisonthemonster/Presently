@@ -30,7 +30,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
-import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
+import com.presently.testing.launchFragmentInHiltContainer
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
