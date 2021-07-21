@@ -1,3 +1,6 @@
+// task to generate the dependency graph of the project
+// taken from https://github.com/JakeWharton/SdkSearch/blob/master/gradle/projectDependencyGraph.gradle
+// with changes to support AGP 4.1
 task projectDependencyGraph {
     doLast {
         def dot = new File(rootProject.buildDir, 'reports/dependency-graph/project.dot')
