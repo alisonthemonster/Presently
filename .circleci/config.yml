@@ -51,9 +51,6 @@ jobs:
       - *restore_gradle_cache
       - *android_dependencies
       - *save_gradle_cache
-      - run:
-          name: Create dependency graph
-          command: ./gradlew :app:projectDependencyGraph
       - *persist_debug_workspace
       - store_artifacts:
           path: app/build/outputs/apk/
