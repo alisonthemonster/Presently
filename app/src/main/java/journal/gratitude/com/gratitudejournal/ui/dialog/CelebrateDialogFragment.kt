@@ -10,16 +10,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.presently.logging.AnalyticsLogger
+import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.CLICKED_RATE
 import journal.gratitude.com.gratitudejournal.model.CLICKED_SHARE_MILESTONE
 import kotlinx.android.synthetic.main.fragment_milestone_dialog.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CelebrateDialogFragment : DialogFragment() {
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
+    @Inject lateinit var analyticsLogger: AnalyticsLogger
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_milestone_dialog, container)
@@ -28,7 +30,6 @@ class CelebrateDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
 
         val numEntries = arguments?.getInt(NUM_ENTRIES)
         num_entries.text = numEntries.toString()
@@ -37,7 +38,7 @@ class CelebrateDialogFragment : DialogFragment() {
             dismiss()
         }
         rate_presently.setOnClickListener {
-            firebaseAnalytics.logEvent(CLICKED_RATE, null)
+            analyticsLogger.recordEvent(CLICKED_RATE)
             val appPackageName = context?.packageName
             try {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
@@ -47,7 +48,7 @@ class CelebrateDialogFragment : DialogFragment() {
         }
 
         share_presently.setOnClickListener {
-            firebaseAnalytics.logEvent(CLICKED_SHARE_MILESTONE, null)
+            analyticsLogger.recordEvent(CLICKED_SHARE_MILESTONE)
 
             val share = Intent(Intent.ACTION_SEND)
             share.type = "text/plain"

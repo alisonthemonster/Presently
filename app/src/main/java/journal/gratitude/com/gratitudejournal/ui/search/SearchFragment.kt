@@ -20,7 +20,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionInflater
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.presently.logging.AnalyticsLogger
 import com.presently.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
@@ -33,13 +33,14 @@ import kotlinx.android.synthetic.main.search_fragment.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var binding: SearchFragmentBinding
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    @Inject lateinit var analytics: AnalyticsLogger
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,13 +64,13 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+        analytics.recordView("SearchFragment")
 
         val adapter = SearchAdapter(requireActivity(), object : SearchAdapter.OnClickListener {
             override fun onClick(
                 clickedDate: LocalDate
             ) {
-                firebaseAnalytics.logEvent(CLICKED_SEARCH_ITEM, null)
+                analytics.recordEvent(CLICKED_SEARCH_ITEM)
                 openEntryScreen(clickedDate)
             }
         })

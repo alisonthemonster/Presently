@@ -19,8 +19,8 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.presently.logging.AnalyticsLogger
+import com.presently.logging.CrashReporter
 import com.presently.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
@@ -43,10 +43,11 @@ class TimelineFragment : Fragment() {
 
     private val viewModel: TimelineViewModel by viewModels()
     @Inject lateinit var settings: PresentlySettings
+    @Inject lateinit var analyticsLogger: AnalyticsLogger
+    @Inject lateinit var crashReporter: CrashReporter
 
     private lateinit var adapter: TimelineAdapter
     private lateinit var binding: TimelineFragmentBinding
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,8 +84,6 @@ class TimelineFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
-
         timeline_recycler_view.layoutManager =
             androidx.recyclerview.widget.LinearLayoutManager(context)
 
@@ -102,9 +101,9 @@ class TimelineFragment : Fragment() {
                     numEntries: Int
                 ) {
                     if (isNewEntry) {
-                        firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY, null)
+                        analyticsLogger.recordEvent(CLICKED_NEW_ENTRY)
                     } else {
-                        firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY, null)
+                        analyticsLogger.recordEvent(CLICKED_EXISTING_ENTRY)
                     }
                     navigateToDate(clickedDate, isNewEntry, numEntries)
                 }
@@ -140,7 +139,7 @@ class TimelineFragment : Fragment() {
         })
 
         search_icon.setOnClickListener {
-            firebaseAnalytics.logEvent(CLICKED_SEARCH, null)
+            analyticsLogger.recordEvent(CLICKED_SEARCH)
             openSearchScreen()
         }
 
@@ -152,9 +151,9 @@ class TimelineFragment : Fragment() {
 
             override fun onDateClicked(date: Date, isNewDate: Boolean, numberOfEntries: Int) {
                 if (isNewDate) {
-                    firebaseAnalytics.logEvent(CLICKED_NEW_ENTRY_CALENDAR, null)
+                    analyticsLogger.recordEvent(CLICKED_NEW_ENTRY_CALENDAR)
                 } else {
-                    firebaseAnalytics.logEvent(CLICKED_EXISTING_ENTRY_CALENDAR, null)
+                    analyticsLogger.recordEvent(CLICKED_EXISTING_ENTRY_CALENDAR)
                 }
 
                 navigateToDate(date.toLocalDate(), isNewDate, numberOfEntries)
@@ -162,7 +161,7 @@ class TimelineFragment : Fragment() {
         })
 
         cal_fab.setOnClickListener {
-            firebaseAnalytics.logEvent(OPENED_CALENDAR, null)
+            analyticsLogger.recordEvent(OPENED_CALENDAR)
 
             val animation = CalendarAnimation(cal_fab, entry_calendar)
             animation.openCalendar()
@@ -203,7 +202,7 @@ class TimelineFragment : Fragment() {
     }
 
     private fun openContactForm() {
-        firebaseAnalytics.logEvent(OPENED_CONTACT_FORM, null)
+        analyticsLogger.recordEvent(OPENED_CONTACT_FORM)
 
         val context = context ?: return
         val intent = Intent(Intent.ACTION_SENDTO).apply {
@@ -229,14 +228,13 @@ class TimelineFragment : Fragment() {
         try {
             startActivity(intent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
-            val crashlytics = FirebaseCrashlytics.getInstance()
-            crashlytics.recordException(activityNotFoundException)
+            crashReporter.logHandledException(activityNotFoundException)
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun openSettings() {
-        firebaseAnalytics.logEvent(LOOKED_AT_SETTINGS, null)
+        analyticsLogger.recordEvent(LOOKED_AT_SETTINGS)
 
         val fragment = SettingsFragment()
         parentFragmentManager

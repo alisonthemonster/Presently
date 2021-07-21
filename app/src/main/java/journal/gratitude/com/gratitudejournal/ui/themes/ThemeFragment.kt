@@ -10,8 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.FirebaseAnalytics.Param.*
+import com.presently.logging.AnalyticsLogger
 import com.presently.settings.PresentlySettings
 import com.presently.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,20 +23,14 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ThemeFragment : Fragment(R.layout.fragment_theme) {
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
     @Inject lateinit var settings: PresentlySettings
+    @Inject lateinit var analytics: AnalyticsLogger
 
     private var listener = object : OnThemeSelectedListener {
         override fun onThemeSelected(theme: String) {
             settings.setTheme(theme)
 
-            val bundle = bundleOf(
-                ITEM_NAME to theme,
-                ITEM_ID to theme,
-                CONTENT_TYPE to "theme"
-            )
-            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-            firebaseAnalytics.setUserProperty(THEME, theme)
+            analytics.recordSelectEvent(theme, "theme")
             parentFragmentManager.popBackStack()
             activity?.recreate()
         }
@@ -47,8 +40,6 @@ class ThemeFragment : Fragment(R.layout.fragment_theme) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
 
         val themeList: List<Theme> = listOf(
             Theme(

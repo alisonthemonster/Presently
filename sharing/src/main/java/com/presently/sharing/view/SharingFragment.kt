@@ -21,7 +21,7 @@ import com.airbnb.mvrx.*
 import com.airbnb.mvrx.mocking.MavericksViewMocks
 import com.airbnb.mvrx.mocking.MockableMavericksView
 import com.airbnb.mvrx.mocking.mockSingleViewModel
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.presently.logging.AnalyticsLogger
 import com.presently.sharing.R
 import com.presently.sharing.data.SharingArgs
 import com.presently.sharing.data.SharingViewDesign
@@ -29,11 +29,14 @@ import com.presently.sharing.data.SharingViewState
 import com.presently.sharing.data.designs
 import com.presently.sharing.databinding.FragmentSharingBinding
 import com.presently.ui.setStatusBarColorsForBackground
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksView {
 
     private val sharingViewModel: SharingViewModel by activityViewModel()
@@ -41,7 +44,7 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
     private var _binding: FragmentSharingBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    @Inject lateinit var analyticsLogger: AnalyticsLogger
 
     private val listener = object : OnDesignSelectedListener {
         override fun onDesignSelected(design: SharingViewDesign) {
@@ -62,8 +65,6 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
-
         adapter.addData(designs)
         binding.designList.layoutManager = GridLayoutManager(context, 3)
         binding.designList.adapter = adapter
@@ -76,7 +77,7 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
             parentFragmentManager.popBackStack()
         }
 
-        firebaseAnalytics.logEvent("viewedShareScreen", null)
+        analyticsLogger.recordEvent("viewedShareScreen")
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.sharingContainer) { v, insets ->
             v.updatePadding(top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top)
@@ -109,7 +110,7 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
             binding.sharingPreview.setContent(it.content)
 
             if (it.clicksShare) {
-                firebaseAnalytics.logEvent("sharedImage", null)
+                analyticsLogger.recordEvent("sharedImage")
                 val bitmap = generateBitmap()
                 shareBitmap(bitmap)
                 sharingViewModel.sharingComplete()
