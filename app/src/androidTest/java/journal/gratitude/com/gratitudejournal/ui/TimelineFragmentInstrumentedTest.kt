@@ -46,17 +46,13 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_showsTimeline() {
-        launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
+        launchFragmentInHiltContainer<TimelineFragment>()
         onView(withId(R.id.timeline_recycler_view)).check(matches(isDisplayed()))
     }
 
     @Test
     fun timelineFragment_clickCalendar_opensCalendar() {
-        launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
+        launchFragmentInHiltContainer<TimelineFragment>()
 
         onView(withId(R.id.cal_fab)).perform(click())
 
@@ -65,9 +61,7 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_openCalendar_clickingBack_closesCal() {
-        launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
+        launchFragmentInHiltContainer<TimelineFragment>()
 
         onView(withId(R.id.cal_fab)).perform(click())
 
@@ -78,9 +72,7 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_openCalendar_clickingClose_closesCal() {
-        launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
+        launchFragmentInHiltContainer<TimelineFragment>()
 
         onView(withId(R.id.cal_fab)).perform(click())
 
@@ -92,9 +84,7 @@ class TimelineFragmentInstrumentedTest {
     @Test
     fun timelineFragment_clicksOverflow_opensContact() {
         Intents.init()
-        launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
+        launchFragmentInHiltContainer<TimelineFragment>()
 
         val intent = Intent()
         val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)

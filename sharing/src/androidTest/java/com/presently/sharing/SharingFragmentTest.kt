@@ -77,7 +77,6 @@ class SharingFragmentTest {
         args.putString(SharingFragment.SHARING_CONTENT,  "content")
 
         launchFragmentInHiltContainer<SharingFragment>(
-            themeResId = R.style.Base_AppTheme,
             fragmentArgs = args
         )
 
@@ -99,7 +98,6 @@ class SharingFragmentTest {
         args.putString(SharingFragment.SHARING_CONTENT,  "content")
 
         launchFragmentInHiltContainer<SharingFragment>(
-            themeResId = R.style.Base_AppTheme,
             fragmentArgs = args
         )
 

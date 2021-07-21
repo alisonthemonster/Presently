@@ -9,7 +9,7 @@
     <application>
         <activity
             android:name="com.presently.testing.HiltTestActivity"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/Base.AppTheme"
             android:exported="false"  />
     </application>
 
