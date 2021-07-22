@@ -4,6 +4,7 @@
 final ignoredByJacoco = [
         'ui',
         'strings',
+        'mavericks_utils',
         'testing'
 ]
 
