@@ -55,9 +55,6 @@ jobs:
       - store_artifacts:
           path: app/build/outputs/apk/
           destination: /apk/
-      - store_artifacts:
-          path: build/reports/dependency-graph/
-          destination: /graph/
 
   run_tests_get_coverage:
     working_directory: ~/src

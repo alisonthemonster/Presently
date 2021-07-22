@@ -207,7 +207,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
             analytics.recordEntryAdded(numEntries + 1)
             if (Milestone.milestones.contains(numEntries + 1)) {
                 CelebrateDialogFragment.newInstance(numEntries + 1)
-                    .show(requireFragmentManager(), "CelebrateDialogFragment")
+                    .show(parentFragmentManager, "CelebrateDialogFragment")
             }
         } else {
             analytics.recordEvent(EDITED_EXISTING_ENTRY)

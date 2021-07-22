@@ -1,14 +1,21 @@
 package journal.gratitude.com.gratitudejournal.ui
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.KeyEvent
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.RootMatchers.withDecorView
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -31,6 +38,7 @@ import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 import com.presently.testing.launchFragmentInHiltContainer
+import org.hamcrest.Matchers
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -166,6 +174,77 @@ class EntryFragmentInstrumentedTest {
         onView(withId(R.id.save_button)).perform(click())
 
         onView(withText("Share your achievement")).inRoot(isDialog()).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun saveButton_onMilestone_clickRateOpensStore() {
+        Intents.init()
+
+        val date = LocalDate.of(2019, 3, 22)
+
+        val args = Bundle()
+        args.putString(EntryFragment.ENTRY_DATE, date.toString())
+        args.putBoolean(EntryFragment.ENTRY_IS_NEW, true)
+        args.putInt(EntryFragment.ENTRY_NUM_ENTRIES, 4)
+
+        launchFragmentInHiltContainer<EntryFragment>(
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = args
+        )
+
+        onView(withId(R.id.entry_text)).perform(
+            typeText("Test string!"),
+            closeSoftKeyboard()
+        )
+
+        onView(withId(R.id.save_button)).perform(click())
+
+        onView(withId(R.id.rate_presently)).perform(click())
+
+        val uri = Uri.parse("market://details?id=journal.gratitude.com.gratitudejournal")
+        Intents.intended(
+            Matchers.allOf(
+                IntentMatchers.hasAction(Intent.ACTION_VIEW),
+                IntentMatchers.hasData(uri)
+            )
+        )
+
+        Intents.release()
+    }
+
+    @Test
+    fun saveButton_onMilestone_clickShare_opensShareDialog() {
+        Intents.init()
+
+        val date = LocalDate.of(2019, 3, 22)
+
+        val args = Bundle()
+        args.putString(EntryFragment.ENTRY_DATE, date.toString())
+        args.putBoolean(EntryFragment.ENTRY_IS_NEW, true)
+        args.putInt(EntryFragment.ENTRY_NUM_ENTRIES, 4)
+
+        launchFragmentInHiltContainer<EntryFragment>(
+            themeResId = R.style.Base_AppTheme,
+            fragmentArgs = args
+        )
+
+        onView(withId(R.id.entry_text)).perform(
+            typeText("Test string!"),
+            closeSoftKeyboard()
+        )
+
+        onView(withId(R.id.save_button)).perform(click())
+
+        onView(withId(R.id.share_presently)).perform(click())
+
+        Intents.intended(
+            Matchers.allOf(
+                IntentMatchers.hasAction(Intent.ACTION_CHOOSER),
+                IntentMatchers.hasExtra(Intent.EXTRA_TITLE, "Share your gratitude")
+            )
+        )
+
+        Intents.release()
     }
 
     @Test
