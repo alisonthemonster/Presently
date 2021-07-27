@@ -191,9 +191,6 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
             fragment.arguments = SharingArgs(content, date).asMavericksArgs()
             return fragment
         }
-
-        const val SHARING_DATE = "SHARING_DATE"
-        const val SHARING_CONTENT = "SHARING_CONTENT"
     }
 
 }

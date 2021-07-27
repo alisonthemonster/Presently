@@ -73,9 +73,7 @@ class SharingFragmentTest {
     @Test
     fun clickingThemeOptionChangesPreview() {
         //launch fragment
-        val args = Bundle()
-        args.putString(SharingFragment.SHARING_DATE, "May 5th, 2021")
-        args.putString(SharingFragment.SHARING_CONTENT,  "content")
+        val args = SharingArgs("content", "May 5th, 2021").asMavericksArgs()
 
         launchFragmentInHiltContainer<SharingFragment>(
             fragmentArgs = args
