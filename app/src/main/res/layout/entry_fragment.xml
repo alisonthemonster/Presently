@@ -18,7 +18,6 @@
         android:fontFamily="@font/value_serif"
         android:gravity="bottom"
         android:maxLines="1"
-        android:text="@{viewModel.dateString}"
         android:theme="@style/TextAppearance.Title"
         app:autoSizeMaxTextSize="36sp"
         app:autoSizeMinTextSize="16sp"
