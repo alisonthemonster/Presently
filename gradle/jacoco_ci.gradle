@@ -59,6 +59,7 @@ subprojects { prj ->
                               '**/*Hilt*.*',
                               '**/*_journal_gratitude_com_gratitudejournal_*.*',
                               '**/*_Factory.java',
+                              '**/*_Factory',
                               '**/*_com_presently_*.*',
                               '**/hilt/*.*',
                               '**/*hilt_aggregated_deps*.*',
