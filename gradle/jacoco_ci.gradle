@@ -62,6 +62,7 @@ subprojects { prj ->
                               '**/Dagger*Component.class', // covers component implementations
                               '**/Dagger*Component$Builder.class', // covers component builders
                               '**/*Module_*Factory.class',
+                              '**/*FirebaseCrashReporter_Factory*',
                               '**/*_com_presently_*.*',
                               '**/hilt/*.*',
                               '**/*hilt_aggregated_deps*.*',
