@@ -58,8 +58,10 @@ subprojects { prj ->
                               '**/*Dagger*.*',
                               '**/*Hilt*.*',
                               '**/*_journal_gratitude_com_gratitudejournal_*.*',
-                              '**/*_Factory.java',
-                              '**/*_Factory',
+                              '**/*_MembersInjector.class',
+                              '**/Dagger*Component.class', // covers component implementations
+                              '**/Dagger*Component$Builder.class', // covers component builders
+                              '**/*Module_*Factory.class',
                               '**/*_com_presently_*.*',
                               '**/hilt/*.*',
                               '**/*hilt_aggregated_deps*.*',
