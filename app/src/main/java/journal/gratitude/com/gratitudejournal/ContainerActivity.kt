@@ -11,7 +11,7 @@ import androidx.core.view.WindowCompat
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.play.core.splitcompat.SplitCompat
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.presently.logging.AnalyticsLogger
 import com.presently.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
@@ -31,6 +31,7 @@ class ContainerActivity : AppCompatActivity() {
     }
 
     @Inject lateinit var settings: PresentlySettings
+    @Inject lateinit var analyticsLogger: AnalyticsLogger
 
     override fun attachBaseContext(newBase: Context) {
         val settings = EntryPointAccessors.fromApplication(newBase, SettingsEntryPoint::class.java).settings
@@ -50,8 +51,7 @@ class ContainerActivity : AppCompatActivity() {
         intent.extras?.let {
             val cameFromNotification = it.getBoolean(fromNotification, false)
             if (cameFromNotification) {
-                val mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
-                mFirebaseAnalytics.logEvent(CAME_FROM_NOTIFICATION, null)
+                analyticsLogger.recordEvent(CAME_FROM_NOTIFICATION)
             }
         }
 

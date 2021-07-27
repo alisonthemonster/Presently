@@ -7,7 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
+import com.presently.testing.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import org.junit.Rule
 import org.junit.Test

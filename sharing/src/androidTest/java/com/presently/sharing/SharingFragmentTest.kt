@@ -23,6 +23,9 @@ import com.airbnb.mvrx.mocking.mockVariants
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.facebook.testing.screenshot.Screenshot
 import com.presently.sharing.view.SharingFragment
+import com.presently.testing.launchFragmentInHiltContainer
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -32,8 +35,12 @@ import org.junit.runner.RunWith
 
 //TODO fix screenshot bot integration so that we actually use these screenshots
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class SharingFragmentTest {
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @get:Rule
     val mvrxRule = MvRxTestRule()
@@ -54,7 +61,7 @@ class SharingFragmentTest {
             val args = Bundle()
             args.putString(SharingFragment.SHARING_DATE, "May 5th, 2021")
             args.putString(SharingFragment.SHARING_CONTENT,  "content")
-            launchFragmentInContainer(
+            launchFragmentInHiltContainer(
                 fragmentArgs = args,
                 instantiate = {fragment.viewInstance}
             )
@@ -69,8 +76,7 @@ class SharingFragmentTest {
         args.putString(SharingFragment.SHARING_DATE, "May 5th, 2021")
         args.putString(SharingFragment.SHARING_CONTENT,  "content")
 
-        launchFragmentInContainer<SharingFragment>(
-            themeResId = R.style.Base_AppTheme,
+        launchFragmentInHiltContainer<SharingFragment>(
             fragmentArgs = args
         )
 
@@ -91,8 +97,7 @@ class SharingFragmentTest {
         args.putString(SharingFragment.SHARING_DATE, "May 5th, 2021")
         args.putString(SharingFragment.SHARING_CONTENT,  "content")
 
-        launchFragmentInContainer<SharingFragment>(
-            themeResId = R.style.Base_AppTheme,
+        launchFragmentInHiltContainer<SharingFragment>(
             fragmentArgs = args
         )
 

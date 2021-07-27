@@ -14,15 +14,13 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.nhaarman.mockitokotlin2.*
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
+import com.presently.testing.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.testUtils.scroll
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
-import kotlinx.android.synthetic.main.fragment_milestone_dialog.*
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
@@ -48,17 +46,13 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_showsTimeline() {
-        launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
+        launchFragmentInHiltContainer<TimelineFragment>()
         onView(withId(R.id.timeline_recycler_view)).check(matches(isDisplayed()))
     }
 
     @Test
     fun timelineFragment_clickCalendar_opensCalendar() {
-        launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
+        launchFragmentInHiltContainer<TimelineFragment>()
 
         onView(withId(R.id.cal_fab)).perform(click())
 
@@ -67,9 +61,7 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_openCalendar_clickingBack_closesCal() {
-        launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
+        launchFragmentInHiltContainer<TimelineFragment>()
 
         onView(withId(R.id.cal_fab)).perform(click())
 
@@ -80,9 +72,7 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_openCalendar_clickingClose_closesCal() {
-        launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
+        launchFragmentInHiltContainer<TimelineFragment>()
 
         onView(withId(R.id.cal_fab)).perform(click())
 
@@ -94,9 +84,7 @@ class TimelineFragmentInstrumentedTest {
     @Test
     fun timelineFragment_clicksOverflow_opensContact() {
         Intents.init()
-        launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
+        launchFragmentInHiltContainer<TimelineFragment>()
 
         val intent = Intent()
         val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)

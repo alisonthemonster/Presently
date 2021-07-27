@@ -29,8 +29,8 @@ import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.presently.logging.AnalyticsLogger
+import com.presently.logging.CrashReporter
 import com.presently.settings.BackupCadence
 import com.presently.settings.PresentlySettings
 import com.presently.settings.model.*
@@ -66,29 +66,26 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     @Inject lateinit var repository: EntryRepository
     @Inject lateinit var settings: PresentlySettings
+    @Inject lateinit var analytics: AnalyticsLogger
+    @Inject lateinit var crashReporter: CrashReporter
 
     private lateinit var splitInstallManager: SplitInstallManager
 
     private val listener = SplitInstallStateUpdatedListener { state ->
         if (state.sessionId() == requestId && state.status() == SplitInstallSessionStatus.INSTALLED) {
-            firebaseAnalytics.logEvent(LANGUAGE_INSTALLED, null)
+            analytics.recordEvent(LANGUAGE_INSTALLED)
             startActivity(Intent.makeRestartActivityTask(activity?.intent?.component))
         } else if (state.sessionId() == requestId && state.status() == SplitInstallSessionStatus.FAILED) {
             val errorCode = state.errorCode()
-            val crashlytics = FirebaseCrashlytics.getInstance()
-            crashlytics.recordException(Exception("SplitInstallErrorCode: $errorCode"))
+            crashReporter.logHandledException(Exception("SplitInstallErrorCode: $errorCode"))
             Toast.makeText(context, "Error loading language", Toast.LENGTH_SHORT).show()
         }
     }
 
     private var requestId = 0
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
 
         splitInstallManager = SplitInstallManagerFactory.create(requireContext())
 
@@ -163,13 +160,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
         dropbox?.setOnPreferenceClickListener {
             val wantsToLogin = preferenceScreen.sharedPreferences.getBoolean(BACKUP_TOKEN, false)
             if (!wantsToLogin) {
-                firebaseAnalytics.logEvent(DROPBOX_DEAUTH, null)
-                firebaseAnalytics.setUserProperty(DROPBOX_USER, "false")
+                analytics.recordEvent(DROPBOX_DEAUTH)
                 lifecycleScope.launch {
                     DropboxUploader.deauthorizeDropboxAccess(requireContext(), settings)
                 }
             } else {
-                firebaseAnalytics.logEvent(DROPBOX_AUTH_ATTEMPT, null)
+                analytics.recordEvent(DROPBOX_AUTH_ATTEMPT)
                 DropboxUploader.authorizeDropboxAccess(requireContext(), settings)
             }
             true
@@ -209,13 +205,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
             val token = Auth.getOAuth2Token()
             if (token == null) {
                 //user started to auth and didn't succeed
-                firebaseAnalytics.logEvent(DROPBOX_AUTH_QUIT, null)
+                analytics.recordEvent(DROPBOX_AUTH_QUIT)
                 prefs.edit().putBoolean(BACKUP_TOKEN, false).apply()
                 prefs.edit().remove("access-token").apply()
                 activity?.recreate()
             } else {
-                firebaseAnalytics.logEvent(DROPBOX_AUTH_SUCCESS, null)
-                firebaseAnalytics.setUserProperty(DROPBOX_USER, "true")
+                analytics.recordEvent(DROPBOX_AUTH_SUCCESS)
                 prefs.edit().putString("access-token", token).apply()
                 createDropboxUploaderWorker(BackupCadence.DAILY)
             }
@@ -233,27 +228,23 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 val notifsTurnedOn = settings.hasEnabledNotifications()
                 if (notifsTurnedOn) {
                     NotificationScheduler().configureNotifications(requireContext(), settings)
-                    firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "true")
                 } else {
                     NotificationScheduler().disableNotifications(requireContext())
-                    firebaseAnalytics.logEvent(CANCELLED_NOTIFS, null)
-                    firebaseAnalytics.setUserProperty(HAS_NOTIFICATIONS_TURNED_ON, "false")
+                    analytics.recordEvent(CANCELLED_NOTIFS)
                 }
             }
             FINGERPRINT -> {
                 val biometricsEnabled = settings.isBiometricsEnabled()
                 if (biometricsEnabled) {
-                    firebaseAnalytics.logEvent(BIOMETRICS_SELECT, null)
-                    firebaseAnalytics.setUserProperty(BIOMETRICS_ENABLED, "true")
+                    analytics.recordEvent(BIOMETRICS_SELECT)
                 } else {
-                    firebaseAnalytics.logEvent(BIOMETRICS_DESELECT, null)
-                    firebaseAnalytics.setUserProperty(BIOMETRICS_ENABLED, "false")
+                    analytics.recordEvent(BIOMETRICS_DESELECT)
                 }
             }
             BACKUP_CADENCE -> {
                 //todo test cadence works properly with dropbox
                 val cadence = settings.getAutomaticBackupCadence()
-                fireAnalyticsEventForCadence(cadence, firebaseAnalytics)
+                analytics.recordSelectEvent(cadence.string, "cadence")
                 createDropboxUploaderWorker(cadence)
             }
             APP_LANGUAGE -> {
@@ -264,13 +255,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun updateLanguage(language: String) {
-        val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, language)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, language)
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "language")
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-
-        val crashlytics = FirebaseCrashlytics.getInstance()
+        analytics.recordSelectEvent(language, "language")
 
         val request = SplitInstallRequest.newBuilder()
             .addLanguage(Locale.forLanguageTag(language))
@@ -282,7 +267,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 Toast.makeText(context, R.string.loading_lang, Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { exception ->
-                crashlytics.recordException(exception)
+                crashReporter.logHandledException(exception)
                 Toast.makeText(context, "Error loading language", Toast.LENGTH_SHORT).show()
             }
     }
@@ -316,18 +301,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     }
 
-    private fun fireAnalyticsEventForCadence(
-            cadence: BackupCadence,
-            firebaseAnalytics: FirebaseAnalytics
-    ) {
-        val cadenceString = cadence.string
-        val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, cadenceString)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, cadenceString)
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "cadence")
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-    }
-
     override fun onDisplayPreferenceDialog(preference: Preference) {
         var dialogFragment: DialogFragment? = null
         if (preference is TimePreference) {
@@ -356,7 +329,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun openThemes() {
-        firebaseAnalytics.logEvent(OPENED_THEMES, null)
+        analytics.recordEvent(OPENED_THEMES)
 
         val fragment = ThemeFragment()
         parentFragmentManager
@@ -367,7 +340,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun openTermsAndConditions() {
-        firebaseAnalytics.logEvent(OPENED_TERMS_CONDITIONS, null)
+        analytics.recordEvent(OPENED_TERMS_CONDITIONS)
         try {
             val browserIntent =
                 Intent(
@@ -377,13 +350,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
-            val crashlytics = FirebaseCrashlytics.getInstance()
-            crashlytics.recordException(activityNotFoundException)
+            crashReporter.logHandledException(activityNotFoundException)
         }
     }
 
     private fun openShareApp() {
-        firebaseAnalytics.logEvent(OPENED_SHARE_APP, null)
+        analytics.recordEvent(OPENED_SHARE_APP)
 
         try {
             val appName = getString(R.string.app_name)
@@ -400,13 +372,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
             val chooserIntent = Intent.createChooser(textIntent, appName)
             startActivity(chooserIntent);
         } catch (exception: Exception) {
-            val crashlytics = FirebaseCrashlytics.getInstance()
-            crashlytics.recordException(exception)
+            crashReporter.logHandledException(exception)
         }
     }
 
     private fun openPrivacyPolicy() {
-        firebaseAnalytics.logEvent(OPENED_PRIVACY_POLICY, null)
+        analytics.recordEvent(OPENED_PRIVACY_POLICY)
 
         try {
             val browserIntent =
@@ -417,13 +388,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
-            val crashlytics = FirebaseCrashlytics.getInstance()
-            crashlytics.recordException(activityNotFoundException)
+            crashReporter.logHandledException(activityNotFoundException)
         }
     }
 
     private fun openFaq() {
-        firebaseAnalytics.logEvent(OPENED_FAQ, null)
+        analytics.recordEvent(OPENED_FAQ)
 
         try {
             val browserIntent =
@@ -434,8 +404,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
-            val crashlytics = FirebaseCrashlytics.getInstance()
-            crashlytics.recordException(activityNotFoundException)
+            crashReporter.logHandledException(activityNotFoundException)
         }
     }
 
@@ -470,15 +439,13 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     if (inputStream != null) {
                         importFromCsv(inputStream)
                     } else {
-                        val crashlytics = FirebaseCrashlytics.getInstance()
-                        crashlytics.recordException(NullPointerException("inputStream is null, uri: $uri"))
+                        crashReporter.logHandledException(NullPointerException("inputStream is null, uri: $uri"))
                         Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT)
                             .show()
                     }
                 }
             } else {
-                val crashlytics = FirebaseCrashlytics.getInstance()
-                crashlytics.recordException(NullPointerException("URI was null when receiving file"))
+                crashReporter.logHandledException(NullPointerException("URI was null when receiving file"))
                 Toast.makeText(context, R.string.file_not_csv, Toast.LENGTH_SHORT).show()
             }
         }
@@ -487,12 +454,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
      * Opens the chooser to allow the user to select their CSV file.
      * */
     private fun selectCSVFile() {
-        firebaseAnalytics.logEvent(LOOKED_FOR_DATA, null)
+        analytics.recordEvent(LOOKED_FOR_DATA)
         try {
             readCsvResultContact.launch("text/csv|text/comma-separated-values|application/csv")
         } catch (ex: ActivityNotFoundException) {
-            val crashlytics = FirebaseCrashlytics.getInstance()
-            crashlytics.recordException(ex)
+            crashReporter.logHandledException(ex)
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
         }
     }
@@ -511,16 +477,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
             val entries = convertCsvToEntries(realCsvParser)
             lifecycleScope.launch {
                 repository.addEntries(entries)
-                firebaseAnalytics.logEvent(IMPORTED_DATA_SUCCESS, null)
+                analytics.recordEvent(IMPORTED_DATA_SUCCESS)
                 parentFragmentManager.popBackStack()
             }
 
             //TODO move this hardcoded string to strings.xml
             Toast.makeText(context, "Imported successfully!", Toast.LENGTH_SHORT).show()
         } catch (exception: Exception) {
-            firebaseAnalytics.logEvent(IMPORTING_BACKUP_ERROR, null)
-            val crashlytics = FirebaseCrashlytics.getInstance()
-            crashlytics.recordException(exception)
+            analytics.recordEvent(IMPORTING_BACKUP_ERROR)
+            crashReporter.logHandledException(exception)
 
             Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
         }
@@ -544,8 +509,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     }
                 }
             } else {
-                val crashlytics = FirebaseCrashlytics.getInstance()
-                crashlytics.recordException(NullPointerException("URI was null after user selected file location"))
+                crashReporter.logHandledException(NullPointerException("URI was null after user selected file location"))
                 Toast.makeText(
                         context,
                         R.string.error_creating_csv_file,
@@ -575,8 +539,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
-                        val crashlytics = FirebaseCrashlytics.getInstance()
-                        crashlytics.recordException(e)
+                        crashReporter.logHandledException(e)
                         Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT)
                             .show()
                     }
@@ -584,8 +547,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
 
         override fun onFailure(exception: Exception) {
-            val crashlytics = FirebaseCrashlytics.getInstance()
-            crashlytics.recordException(exception)
+            crashReporter.logHandledException(exception)
             Toast.makeText(
                     context,
                     "Error : ${exception.localizedMessage}",

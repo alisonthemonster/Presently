@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.di
+package com.presently.mavericks_utils
 
 import javax.inject.Scope
 

@@ -22,8 +22,8 @@ import androidx.work.WorkManager
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.jakewharton.rxbinding2.widget.RxTextView
+import com.presently.logging.AnalyticsLogger
 import com.presently.settings.BackupCadence
 import com.presently.settings.PresentlySettings
 import com.presently.sharing.view.SharingFragment
@@ -47,8 +47,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
     private val viewModel: EntryViewModel by fragmentViewModel()
     @Inject lateinit var settings: PresentlySettings
-
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    @Inject lateinit var analytics: AnalyticsLogger
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -78,8 +77,6 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
-
         prepareWindow()
 
         prompt_button.setOnClickListener {
@@ -87,13 +84,13 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
             val d = v.drawable as Animatable?
             d?.start()
 
-            firebaseAnalytics.logEvent(CLICKED_PROMPT, null)
+            analytics.recordEvent(CLICKED_PROMPT)
 
             viewModel.changePrompt()
         }
 
         share_button.setOnClickListener {
-            firebaseAnalytics.logEvent(SHARED_ENTRY, null)
+            analytics.recordEvent(SHARED_ENTRY)
             withState(viewModel, {
                 openSharingScreen(it.entryContent, date.text.toString())
             })
@@ -117,7 +114,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
                         ClipboardManager::class.java
                     )
                 clipboard?.setPrimaryClip(ClipData.newPlainText("Gratitude quote", quote))
-                firebaseAnalytics.logEvent(COPIED_QUOTE, null)
+                analytics.recordEvent(COPIED_QUOTE)
                 Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
             })
             true
@@ -207,16 +204,13 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
         if (isNewEntry) {
             val numEntries = requireNotNull(arguments?.getInt(ENTRY_NUM_ENTRIES))
-            val bundle = Bundle()
-            bundle.putInt(FirebaseAnalytics.Param.LEVEL, (numEntries + 1))
-
-            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle)
+            analytics.recordEntryAdded(numEntries + 1)
             if (Milestone.milestones.contains(numEntries + 1)) {
                 CelebrateDialogFragment.newInstance(numEntries + 1)
-                    .show(requireFragmentManager(), "CelebrateDialogFragment")
+                    .show(parentFragmentManager, "CelebrateDialogFragment")
             }
         } else {
-            firebaseAnalytics.logEvent(EDITED_EXISTING_ENTRY, null)
+            analytics.recordEvent(EDITED_EXISTING_ENTRY)
         }
         viewModel.saveEntry()
         val imm =

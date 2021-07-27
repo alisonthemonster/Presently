@@ -9,8 +9,8 @@ import androidx.biometric.BiometricConstants
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.presently.logging.AnalyticsLogger
+import com.presently.logging.CrashReporter
 import com.presently.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
@@ -25,8 +25,9 @@ class AppLockFragment : Fragment() {
 
     private var fingerprintLock: Boolean = false
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
     @Inject lateinit var settings: PresentlySettings
+    @Inject lateinit var analytics: AnalyticsLogger
+    @Inject lateinit var crashReporter: CrashReporter
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +42,6 @@ class AppLockFragment : Fragment() {
         if (!fingerprintLock)
             moveToTimeline()
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
     }
 
     override fun onResume() {
@@ -61,18 +61,17 @@ class AppLockFragment : Fragment() {
                     ) {
                         super.onAuthenticationError(errorCode, errString)
 
-                        val crashlytics = FirebaseCrashlytics.getInstance()
 
                         when (errorCode) {
                             BiometricConstants.ERROR_NEGATIVE_BUTTON,
                             BiometricConstants.ERROR_USER_CANCELED -> {
-                                firebaseAnalytics.logEvent(BIOMETRICS_USER_CANCELLED, null)
+                                analytics.recordEvent(BIOMETRICS_USER_CANCELLED)
                                 requireActivity().finish()
                             }
                             // Occurs after a few failures,
                             // and blocks us from showing the biometric prompt for a few seconds
                             BiometricConstants.ERROR_LOCKOUT -> {
-                                firebaseAnalytics.logEvent(BIOMETRICS_LOCKOUT, null)
+                                analytics.recordEvent(BIOMETRICS_LOCKOUT)
                                 Toast.makeText(context, R.string.fingerprint_error_lockout_too_many, Toast.LENGTH_SHORT).show()
                                 requireActivity().finish()
                             }
@@ -81,17 +80,17 @@ class AppLockFragment : Fragment() {
                             BiometricConstants.ERROR_LOCKOUT_PERMANENT -> {
                                 //TODO move this hardcoded string to strings.xml
                                 Toast.makeText(context, "Too many failed attempts.", Toast.LENGTH_SHORT).show()
-                                crashlytics.recordException(Exception("Permanent Lockout occurred"))
+                                crashReporter.logHandledException(Exception("Permanent Lockout occurred"))
                                 requireActivity().finish()
                             }
                             BiometricConstants.ERROR_CANCELED -> {
                                 //happens when the sensor is not available
                                 //(happens onPause as well)
-                                firebaseAnalytics.logEvent(BIOMETRICS_CANCELLED, null)
+                                analytics.recordEvent(BIOMETRICS_CANCELLED)
                             }
                             BiometricConstants.ERROR_NO_BIOMETRICS,
                             BiometricConstants.ERROR_NO_DEVICE_CREDENTIAL -> {
-                                crashlytics.recordException(Exception(errString.toString()))
+                                crashReporter.logHandledException(Exception(errString.toString()))
                                 //no finger print is setup
                                 //TODO move this hardcoded string to strings.xml
                                 Toast.makeText(
@@ -101,7 +100,7 @@ class AppLockFragment : Fragment() {
                                 requireActivity().finish()
                             }
                             else -> {
-                                crashlytics.recordException(Exception("Code: $errorCode: $errString"))
+                                crashReporter.logHandledException(Exception("Code: $errorCode: $errString"))
                                 //TODO move this hardcoded string to strings.xml
                                 Toast.makeText(
                                         context,

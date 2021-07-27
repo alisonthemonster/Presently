@@ -13,7 +13,7 @@ import com.presently.sharing.data.SharingViewDesign
 import com.presently.sharing.databinding.ItemDesignBinding
 
 class DesignListAdapter(private val listener: SharingFragment.OnDesignSelectedListener?) :
-    ListAdapter<SharingViewDesign, DesignListAdapter.ThemeViewHolder>(DesignDC()) {
+    ListAdapter<SharingViewDesign, DesignListAdapter.ThemeViewHolder>(DesignDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ThemeViewHolder(
         LayoutInflater.from(parent.context)
@@ -56,7 +56,7 @@ class DesignListAdapter(private val listener: SharingFragment.OnDesignSelectedLi
     }
 
 
-    private class DesignDC : DiffUtil.ItemCallback<SharingViewDesign>() {
+    class DesignDiffUtil : DiffUtil.ItemCallback<SharingViewDesign>() {
         override fun areItemsTheSame(
             oldItem: SharingViewDesign,
             newItem: SharingViewDesign

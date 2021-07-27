@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="journal.gratitude.com.gratitudejournal">
+    package="com.presently.testing">
 
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -8,7 +8,8 @@
 
     <application>
         <activity
-            android:name=".testUtils.HiltTestActivity"
+            android:name="com.presently.testing.HiltTestActivity"
+            android:theme="@style/Base.AppTheme"
             android:exported="false"  />
     </application>
 

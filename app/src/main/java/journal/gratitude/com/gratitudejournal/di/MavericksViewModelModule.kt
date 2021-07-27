@@ -1,5 +1,8 @@
 package journal.gratitude.com.gratitudejournal.di
 
+import com.presently.mavericks_utils.AssistedViewModelFactory
+import com.presently.mavericks_utils.MavericksViewModelComponent
+import com.presently.mavericks_utils.MavericksViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,5 +15,5 @@ interface MavericksViewModelModule {
     @Binds
     @IntoMap
     @MavericksViewModelKey(EntryViewModel::class)
-    fun helloViewModelFactory(factory: EntryViewModel.Factory): AssistedViewModelFactory<*, *>
+    fun entryViewModelFactory(factory: EntryViewModel.Factory): AssistedViewModelFactory<*, *>
 }

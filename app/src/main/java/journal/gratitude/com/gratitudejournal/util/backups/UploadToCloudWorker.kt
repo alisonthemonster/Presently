@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.util.backups
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.presently.logging.CrashReporter
 import dagger.hilt.android.qualifiers.ApplicationContext
 import journal.gratitude.com.gratitudejournal.di.IWorkerFactory
 import journal.gratitude.com.gratitudejournal.model.CloudUploadResult
@@ -22,7 +23,8 @@ class UploadToCloudWorker(
     private val context: Context,
     params: WorkerParameters,
     private val repository: EntryRepository,
-    private val cloudProvider: CloudProvider
+    private val cloudProvider: CloudProvider,
+    private val crashReporter: CrashReporter
 ): CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         //get items
@@ -45,8 +47,11 @@ class UploadToCloudWorker(
         val csvResult = when (val csvResult = fileExporter.exportToCSV(items, file)) {
             is CsvFileCreated -> {
                 //upload to cloud
-                when (cloudProvider.uploadToCloud(csvResult.file)) {
-                    is UploadError -> Result.failure()
+                when (val result = cloudProvider.uploadToCloud(csvResult.file)) {
+                    is UploadError -> {
+                        crashReporter.logHandledException(result.exception)
+                        Result.failure()
+                    }
                     is UploadSuccess -> Result.success()
                 }
             }
@@ -62,14 +67,16 @@ class UploadToCloudWorker(
     class Factory @Inject constructor(
         @ApplicationContext private val context: Provider<Context>, // provide from Application Module
         private val repository: Provider<EntryRepository>, // provide from Application Module
-        private val cloudProvider: Provider<CloudProvider>
+        private val cloudProvider: Provider<CloudProvider>,
+        private val crashReporter: Provider<CrashReporter>
     ) : IWorkerFactory<UploadToCloudWorker> {
         override fun create(params: WorkerParameters): UploadToCloudWorker {
             return UploadToCloudWorker(
                 context.get(),
                 params,
                 repository.get(),
-                cloudProvider.get()
+                cloudProvider.get(),
+                crashReporter.get()
             )
         }
     }

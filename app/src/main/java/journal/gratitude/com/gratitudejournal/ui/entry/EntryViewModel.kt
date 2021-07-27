@@ -3,14 +3,14 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
+import com.presently.mavericks_utils.AssistedViewModelFactory
+import com.presently.mavericks_utils.CreateMavericksViewModelComponent
+import com.presently.mavericks_utils.HiltMavericksEntryPoint
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.EntryPoints
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.di.AssistedViewModelFactory
-import journal.gratitude.com.gratitudejournal.di.CreateMavericksViewModelComponent
-import journal.gratitude.com.gratitudejournal.di.HiltMavericksEntryPoint
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
