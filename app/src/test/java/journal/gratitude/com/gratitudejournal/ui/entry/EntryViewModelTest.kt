@@ -64,16 +64,9 @@ class EntryViewModelTest {
 
         override fun recordView(viewName: String) {}
     }
-    private val application = mock<Application>()
 
     @get:Rule
     val mvrxRule = MvRxTestRule()
-
-    @Before
-    fun before() {
-        whenever(application.resources).thenReturn(mock())
-        whenever(application.resources.getStringArray(anyInt())).thenReturn(arrayOf("InspirationalQuote"))
-    }
 
     @Test
     fun `GIVEN entry view model WHEN changePrompt is called THEN the state is updated`() {
