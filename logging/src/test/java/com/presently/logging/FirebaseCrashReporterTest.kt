@@ -15,6 +15,6 @@ class FirebaseCrashReporterTest {
         val expected = IllegalArgumentException("bad bad times")
         firebaseCrashReporter.logHandledException(expected)
 
-        verify(firebase.recordException(expected))
+        verify(firebase).recordException(expected)
     }
 }
