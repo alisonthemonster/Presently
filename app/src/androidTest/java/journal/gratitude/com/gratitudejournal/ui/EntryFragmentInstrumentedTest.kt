@@ -131,7 +131,7 @@ class EntryFragmentInstrumentedTest {
     fun promptButton_changesHintText() {
         val date = LocalDate.of(2019, 3, 23)
 
-        val args = EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList())
+        val args = EntryArgs(date.toString(), true, 0, "quote", "first hint", listOf("second hint"))
 
 
         launchFragmentInHiltContainer<EntryFragment>(
@@ -140,9 +140,9 @@ class EntryFragmentInstrumentedTest {
         )
 
 
-        onView(withId(R.id.entry_text)).check(matches(withHint("What were you grateful for?")))
+        onView(withId(R.id.entry_text)).check(matches(withHint("first hint")))
         onView(withId(R.id.prompt_button)).perform(click())
-        onView(withId(R.id.entry_text)).check(matches(not(withHint("What were you grateful for?"))))
+        onView(withId(R.id.entry_text)).check(matches(not(withHint("second hint"))))
     }
 
     @Test
