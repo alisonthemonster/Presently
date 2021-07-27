@@ -16,11 +16,8 @@ class SharingViewModel @AssistedInject constructor(
     private val analyticsLogger: AnalyticsLogger
 ) : MavericksViewModel<SharingViewState>(initialState) {
 
-    fun setContents(dateString: String, content: String) {
+    fun onCreate() {
         analyticsLogger.recordEvent("viewedShareScreen")
-        setState {
-            copy(dateString = dateString, content = content)
-        }
     }
 
     fun selectColorScheme(newDesign: SharingViewDesign) {

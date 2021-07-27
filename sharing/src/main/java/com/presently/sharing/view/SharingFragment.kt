@@ -21,7 +21,6 @@ import com.airbnb.mvrx.*
 import com.airbnb.mvrx.mocking.MavericksViewMocks
 import com.airbnb.mvrx.mocking.MockableMavericksView
 import com.airbnb.mvrx.mocking.mockSingleViewModel
-import com.presently.logging.AnalyticsLogger
 import com.presently.sharing.R
 import com.presently.sharing.data.SharingArgs
 import com.presently.sharing.data.SharingViewDesign
@@ -89,11 +88,7 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (savedInstanceState == null) {
-            val dateString = requireNotNull(arguments?.getString(SHARING_DATE))
-            val content = requireNotNull(arguments?.getString(SHARING_CONTENT))
-            sharingViewModel.setContents(dateString, content)
-        }
+        sharingViewModel.onCreate()
     }
 
     override fun invalidate() {
@@ -192,11 +187,8 @@ class SharingFragment : Fragment(R.layout.fragment_sharing), MockableMavericksVi
 
     companion object {
         fun newInstance(date: String, content: String): SharingFragment {
-            val args = Bundle()
-            args.putString(SHARING_DATE, date)
-            args.putString(SHARING_CONTENT, content)
             val fragment = SharingFragment()
-            fragment.arguments = args
+            fragment.arguments = SharingArgs(content, date).asMavericksArgs()
             return fragment
         }
 
