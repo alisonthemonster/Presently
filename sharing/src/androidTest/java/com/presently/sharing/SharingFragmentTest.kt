@@ -18,10 +18,12 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.mocking.MockBehavior
 import com.airbnb.mvrx.mocking.mockVariants
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.facebook.testing.screenshot.Screenshot
+import com.presently.sharing.data.SharingArgs
 import com.presently.sharing.view.SharingFragment
 import com.presently.testing.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -58,9 +60,8 @@ class SharingFragmentTest {
             mockedViewProvider.createView(mockBehavior)
         }
         for ((testNum, fragment) in fragments.withIndex()) {
-            val args = Bundle()
-            args.putString(SharingFragment.SHARING_DATE, "May 5th, 2021")
-            args.putString(SharingFragment.SHARING_CONTENT,  "content")
+            val args = SharingArgs("content", "May 5th, 2021").asMavericksArgs()
+
             launchFragmentInHiltContainer(
                 fragmentArgs = args,
                 instantiate = {fragment.viewInstance}
@@ -93,9 +94,7 @@ class SharingFragmentTest {
         Intents.init()
 
         //launch fragment
-        val args = Bundle()
-        args.putString(SharingFragment.SHARING_DATE, "May 5th, 2021")
-        args.putString(SharingFragment.SHARING_CONTENT,  "content")
+        val args = SharingArgs("content", "May 5th, 2021").asMavericksArgs()
 
         launchFragmentInHiltContainer<SharingFragment>(
             fragmentArgs = args

@@ -142,7 +142,7 @@ class EntryFragmentInstrumentedTest {
 
         onView(withId(R.id.entry_text)).check(matches(withHint("first hint")))
         onView(withId(R.id.prompt_button)).perform(click())
-        onView(withId(R.id.entry_text)).check(matches(not(withHint("second hint"))))
+        onView(withId(R.id.entry_text)).check(matches(withHint("second hint")))
     }
 
     @Test
