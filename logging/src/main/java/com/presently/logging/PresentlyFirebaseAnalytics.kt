@@ -1,14 +1,12 @@
 package com.presently.logging
 
 import android.os.Bundle
-import com.google.firebase.analytics.FirebaseAnalytics
-
 
 internal class PresentlyFirebaseAnalytics(private val firebaseAnalytics: FirebaseAnalytics) :
     AnalyticsLogger {
 
     override fun recordEvent(event: String) {
-        firebaseAnalytics.logEvent(event, null)
+        firebaseAnalytics.logEvent(event)
     }
 
     override fun recordEvent(event: String, details: Map<String, Any>) {
@@ -24,23 +22,23 @@ internal class PresentlyFirebaseAnalytics(private val firebaseAnalytics: Firebas
 
     override fun recordSelectEvent(selectedContent: String, selectedContentType: String) {
         val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selectedContent)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, selectedContent)
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, selectedContentType)
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_NAME, selectedContent)
+        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_ID, selectedContent)
+        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.CONTENT_TYPE, selectedContentType)
+        firebaseAnalytics.logEvent(com.google.firebase.analytics.FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
     override fun recordEntryAdded(numEntries: Int) {
         val bundle = Bundle()
-        bundle.putInt(FirebaseAnalytics.Param.LEVEL, numEntries)
+        bundle.putInt(com.google.firebase.analytics.FirebaseAnalytics.Param.LEVEL, numEntries)
 
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle)
+        firebaseAnalytics.logEvent(com.google.firebase.analytics.FirebaseAnalytics.Event.LEVEL_UP, bundle)
     }
 
     override fun recordView(viewName: String) {
         val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, viewName)
-        bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, "MainActivity")
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
+        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME, viewName)
+        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_CLASS, viewName)
+        firebaseAnalytics.logEvent(com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
     }
 }

@@ -58,6 +58,8 @@ subprojects { prj ->
                               '**/*Dagger*.*',
                               '**/*Hilt*.*',
                               '**/*_journal_gratitude_com_gratitudejournal_*.*',
+                              '**/*_Factory.java',
+                              '**/*_com_presently_*.*',
                               '**/hilt/*.*',
                               '**/*hilt_aggregated_deps*.*',
                               '**/DataBinderMapperImpl*.*',
@@ -65,6 +67,7 @@ subprojects { prj ->
                               '**/AppLockFragment*',
                               '**/LocaleHelper*',
                               '**/TimelineFragment*',
+                              '**/FirebaseAnalytics.kt*', //not going to test 3rd party code
                               '**/calendar/*.*',]
 
             final kotlinTree = fileTree(dir: "${prj.buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)

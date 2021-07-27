@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.presently.logging.AnalyticsLogger
 import com.presently.logging.PresentlyFirebaseAnalytics
+import com.presently.logging.RealFirebaseAnalytics
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,8 +21,13 @@ private annotation class InternalApi
 object AnalyticsModule {
 
     @Provides
-    fun providesAnalyticsLogger(@InternalApi firebase: FirebaseAnalytics): AnalyticsLogger {
+    fun providesAnalyticsLogger(@InternalApi firebase: com.presently.logging.FirebaseAnalytics): AnalyticsLogger {
         return PresentlyFirebaseAnalytics(firebase)
+    }
+
+    @Provides
+    fun provideFirebaseAnalyticsWrapper(@InternalApi firebase: FirebaseAnalytics): com.presently.logging.FirebaseAnalytics {
+        return RealFirebaseAnalytics(firebase)
     }
 
     @Provides
