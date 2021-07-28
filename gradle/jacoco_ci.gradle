@@ -61,8 +61,9 @@ subprojects { prj ->
                               '**/*_MembersInjector.class',
                               '**/Dagger*Component.class', // covers component implementations
                               '**/Dagger*Component$Builder.class', // covers component builders
-                              '**/*Module_*Factory.class',
-                              '**/*FirebaseCrashReporter_Factory*',
+                              '**/*_Factory.class',
+                              '**/*_Factory.java',
+                              '**/*FirebaseCrashReporter_Factory.java',
                               '**/*_com_presently_*.*',
                               '**/hilt/*.*',
                               '**/*hilt_aggregated_deps*.*',
@@ -176,7 +177,7 @@ def printReport(task) {
     def minTestCoverage = [
             'instruction': 80,
             'line'       : 80,
-            'method'     : 78,
+            'method'     : 77,
             'class'      : 80
     ]
 

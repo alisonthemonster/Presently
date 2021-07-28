@@ -20,6 +20,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
+import com.airbnb.mvrx.asMavericksArgs
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
@@ -38,6 +39,7 @@ import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 import com.presently.testing.launchFragmentInHiltContainer
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryArgs
 import org.hamcrest.Matchers
 
 @HiltAndroidTest
@@ -62,13 +64,11 @@ class EntryFragmentInstrumentedTest {
         val mockEntry = Entry(date, "test content")
         repository.saveEntryBlocking(mockEntry)
 
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, false)
+        val args = EntryArgs(date.toString(), false, 1, "quote", "hint", emptyList())
 
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
+            fragmentArgs = args.asMavericksArgs()
         )
 
         onView(withId(R.id.date)).check(matches(withText("Today")))
@@ -82,13 +82,11 @@ class EntryFragmentInstrumentedTest {
         val mockEntry = Entry(date, "Yesterday's entry hello!")
         repository.saveEntryBlocking(mockEntry)
 
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, false)
+        val args = EntryArgs(date.toString(), false, 1, "quote", "hint", emptyList())
 
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
+            fragmentArgs = args.asMavericksArgs()
         )
 
         onView(withId(R.id.date)).check(matches(withText("Yesterday")))
@@ -101,13 +99,11 @@ class EntryFragmentInstrumentedTest {
         val mockEntry = Entry(date, "test content")
         repository.saveEntryBlocking(mockEntry)
 
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, false)
+        val args = EntryArgs(date.toString(), false, 1, "quote", "hint", emptyList())
 
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
+            fragmentArgs = args.asMavericksArgs()
         )
 
         onView(withId(R.id.share_button))
@@ -120,13 +116,11 @@ class EntryFragmentInstrumentedTest {
     fun noEntry_showsPromptButton() {
         val date = LocalDate.of(2019, 3, 23)
 
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, true)
+        val args = EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList())
 
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
+            fragmentArgs = args.asMavericksArgs()
         )
 
         onView(withId(R.id.share_button)).check(matches(not(isDisplayed())))
@@ -137,33 +131,30 @@ class EntryFragmentInstrumentedTest {
     fun promptButton_changesHintText() {
         val date = LocalDate.of(2019, 3, 23)
 
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, true)
+        val args = EntryArgs(date.toString(), true, 0, "quote", "first hint", listOf("second hint"))
+
 
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
+            fragmentArgs = args.asMavericksArgs()
         )
 
 
-        onView(withId(R.id.entry_text)).check(matches(withHint("What were you grateful for?")))
+        onView(withId(R.id.entry_text)).check(matches(withHint("first hint")))
         onView(withId(R.id.prompt_button)).perform(click())
-        onView(withId(R.id.entry_text)).check(matches(not(withHint("What were you grateful for?"))))
+        onView(withId(R.id.entry_text)).check(matches(withHint("second hint")))
     }
 
     @Test
     fun saveButton_onMilestone_showsMilestoneDialog() {
         val date = LocalDate.of(2019, 3, 22)
 
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, true)
-        args.putInt(EntryFragment.ENTRY_NUM_ENTRIES, 4)
+        val args = EntryArgs(date.toString(), true, 4, "quote", "hint", emptyList())
+
 
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
+            fragmentArgs = args.asMavericksArgs()
         )
 
         onView(withId(R.id.entry_text)).perform(
@@ -182,14 +173,11 @@ class EntryFragmentInstrumentedTest {
 
         val date = LocalDate.of(2019, 3, 22)
 
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, true)
-        args.putInt(EntryFragment.ENTRY_NUM_ENTRIES, 4)
+        val args = EntryArgs(date.toString(), true, 4, "quote", "hint", emptyList())
 
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
+            fragmentArgs = args.asMavericksArgs()
         )
 
         onView(withId(R.id.entry_text)).perform(
@@ -218,14 +206,11 @@ class EntryFragmentInstrumentedTest {
 
         val date = LocalDate.of(2019, 3, 22)
 
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, true)
-        args.putInt(EntryFragment.ENTRY_NUM_ENTRIES, 4)
+        val args = EntryArgs(date.toString(), true, 4, "quote", "hint", emptyList())
 
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
+            fragmentArgs = args.asMavericksArgs()
         )
 
         onView(withId(R.id.entry_text)).perform(
@@ -251,13 +236,12 @@ class EntryFragmentInstrumentedTest {
     fun entryFragment_longPressQuote_copiesToClipboard() {
         val date = LocalDate.of(2019, 3, 23)
 
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, true)
+        val args = EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList())
+
 
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
+            fragmentArgs = args.asMavericksArgs()
         )
 
         val quote =
@@ -279,13 +263,11 @@ class EntryFragmentInstrumentedTest {
     fun entryFragment_longPressQuote_showsToast() {
         val date = LocalDate.of(2019, 3, 22)
 
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, true)
+        val args = EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList())
 
         val scenario = launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
+            fragmentArgs = args.asMavericksArgs()
         )
 
         var activity: Activity? = null
@@ -304,13 +286,11 @@ class EntryFragmentInstrumentedTest {
     fun entryFragment_makeEdit_navigatesBack() {
         val date = LocalDate.of(2019, 3, 22)
 
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, true)
+        val args = EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList())
 
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
+            fragmentArgs = args.asMavericksArgs()
         )
 
         //Simulate user typing
@@ -350,13 +330,11 @@ class EntryFragmentInstrumentedTest {
     fun entryFragment_noEdit_navigatesBack_noDialog() {
         val date = LocalDate.of(2019, 3, 22)
 
-        val args = Bundle()
-        args.putString(EntryFragment.ENTRY_DATE, date.toString())
-        args.putBoolean(EntryFragment.ENTRY_IS_NEW, true)
+        val args = EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList())
 
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
-            fragmentArgs = args
+            fragmentArgs = args.asMavericksArgs()
         )
 
         val mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())

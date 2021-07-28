@@ -4,10 +4,11 @@ import com.airbnb.mvrx.withState
 import com.presently.sharing.view.SharingViewModel
 import org.junit.Test
 import com.airbnb.mvrx.test.MvRxTestRule
+import com.google.common.truth.Truth.assertThat
 import com.presently.logging.AnalyticsLogger
+import com.presently.sharing.data.SharingArgs
 import com.presently.sharing.data.SharingViewDesign
 import com.presently.sharing.data.SharingViewState
-import org.junit.Assert.*
 import org.junit.Rule
 
 class SharingViewModelTest {
@@ -46,7 +47,7 @@ class SharingViewModelTest {
         viewModel.selectColorScheme(newDesign)
 
         withState(viewModel) {
-            assertEquals(it.viewDesign, newDesign)
+            assertThat(it.viewDesign).isEqualTo(newDesign)
         }
     }
 
@@ -63,7 +64,7 @@ class SharingViewModelTest {
         viewModel.clickFinish()
 
         withState(viewModel) {
-            assertTrue(it.clicksShare)
+            assertThat(it.clicksShare).isTrue()
         }
     }
 
@@ -96,8 +97,8 @@ class SharingViewModelTest {
         val viewModel = SharingViewModel(initialState, analyticsLogger)
         viewModel.clickFinish()
 
-        assert(recordEventWasCalled)
-        assert(eventString == "sharedImage")
+        assertThat(recordEventWasCalled).isTrue()
+        assertThat(eventString).isEqualTo("sharedImage")
     }
 
     @Test
@@ -114,27 +115,18 @@ class SharingViewModelTest {
         viewModel.sharingComplete()
 
         withState(viewModel) {
-            assertFalse(it.clicksShare)
+            assertThat(it.clicksShare).isFalse()
         }
     }
 
     @Test
-    fun `GIVEN a sharing view model WHEN setContents is called THEN the state changes`() {
-        val initialState = SharingViewState(
-            "",
-            "",
-            SharingViewDesign(
-                "original", R.color.originalTimelineColor,
-                R.color.originalTimelineColor,
-                R.color.originalBackgroundColor,
-            ),
-            clicksShare = true
-        )
+    fun `GIVEN a sharing view model AND SharingArgs WHEN viewModel is created THEN the state is initially set`() {
+        val initialState = SharingViewState(SharingArgs("content", "dateString"))
         val viewModel = SharingViewModel(initialState, analyticsLogger)
-        viewModel.setContents("dateString", "content")
+
         withState(viewModel) {
-            assert(it.dateString == "dateString")
-            assert(it.content == "content")
+            assertThat(it.dateString).isEqualTo("dateString")
+            assertThat(it.content).isEqualTo("content")
         }
     }
 
@@ -168,10 +160,10 @@ class SharingViewModelTest {
             clicksShare = true
         )
         val viewModel = SharingViewModel(initialState, analyticsLogger)
-        viewModel.setContents("dateString", "content")
+        viewModel.onCreate()
 
 
-        assert(recordEventWasCalled)
-        assert(eventString == "viewedShareScreen")
+        assertThat(recordEventWasCalled).isTrue()
+        assertThat(eventString).isEqualTo("viewedShareScreen")
     }
 }

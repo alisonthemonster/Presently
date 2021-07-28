@@ -193,7 +193,12 @@ class TimelineFragment : Fragment() {
     }
 
     private fun navigateToDate(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int) {
-        val fragment = EntryFragment.newInstance(clickedDate, numEntries, isNewEntry)
+        val fragment = EntryFragment.newInstance(
+            clickedDate,
+            numEntries,
+            isNewEntry,
+            resources
+        )
         parentFragmentManager
             .beginTransaction()
             .replace(R.id.container_fragment, fragment)

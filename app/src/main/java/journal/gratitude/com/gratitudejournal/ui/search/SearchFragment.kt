@@ -137,7 +137,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun openEntryScreen(clickedDate: LocalDate) {
-        val fragment = EntryFragment.newInstance(clickedDate, null, false)
+        val fragment = EntryFragment.newInstance(clickedDate, null, false, resources)
         parentFragmentManager
             .beginTransaction()
             .replace(R.id.container_fragment, fragment)

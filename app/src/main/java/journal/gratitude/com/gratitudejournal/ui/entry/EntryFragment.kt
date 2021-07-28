@@ -1,6 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
 import android.content.*
+import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.Animatable
 import android.os.Bundle
@@ -20,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.airbnb.mvrx.MavericksView
+import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -54,10 +56,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (savedInstanceState == null) {
-            val passedInDate = arguments?.getString(ENTRY_DATE)
-            viewModel.setDate(requireNotNull(passedInDate))
-        }
+        viewModel.onCreate()
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -83,8 +82,6 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
             val v = it as ImageView
             val d = v.drawable as Animatable?
             d?.start()
-
-            analytics.recordEvent(CLICKED_PROMPT)
 
             viewModel.changePrompt()
         }
@@ -121,8 +118,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         }
 
         val disposable = RxTextView.afterTextChangeEvents(entry_text)
-            .debounce(500, TimeUnit.MILLISECONDS)
-            .skip(1) //skip data binding
+            .debounce(100, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 viewModel.onTextChanged(it.editable().toString())
@@ -155,12 +151,17 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
             }
         }
         inspiration.text = state.quote
-        entry_text.hint = state.hint ?: getHintString(state.date)
+        entry_text.hint = state.hint
         setEditText(state.entryContent)
         share_button.isVisible = !state.isEmpty
         prompt_button.isVisible = state.isEmpty
         if (state.isSaved) {
             onEntrySaved()
+        }
+        if (state.milestoneNumber != 0) {
+            onEntrySaved()
+            CelebrateDialogFragment.newInstance(state.milestoneNumber)
+                .show(parentFragmentManager, "CelebrateDialogFragment")
         }
     }
 
@@ -170,11 +171,6 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
             compositeDisposable.dispose()
         }
     }
-
-    private fun getHintString(date: LocalDate) = resources.getString(
-        if (date == LocalDate.now()) R.string.what_are_you_thankful_for
-        else R.string.what_were_you_thankful_for
-    )
 
     private fun setEditText(newText: String) {
         val oldText = entry_text.text.toString()
@@ -199,24 +195,13 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         setStatusBarColorsForBackground(window, typedValue.data)
     }
 
-    private fun onEntrySaved() {
-        val isNewEntry = requireNotNull(arguments?.getBoolean(ENTRY_IS_NEW))
-
-        if (isNewEntry) {
-            val numEntries = requireNotNull(arguments?.getInt(ENTRY_NUM_ENTRIES))
-            analytics.recordEntryAdded(numEntries + 1)
-            if (Milestone.milestones.contains(numEntries + 1)) {
-                CelebrateDialogFragment.newInstance(numEntries + 1)
-                    .show(parentFragmentManager, "CelebrateDialogFragment")
-            }
-        } else {
-            analytics.recordEvent(EDITED_EXISTING_ENTRY)
-        }
-        viewModel.saveEntry()
+    private fun hideKeyboard() {
         val imm =
             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.hideSoftInputFromWindow(entry_text.windowToken, 0)
+    }
 
+    private fun backupEntryIfNeeded() {
         val accessToken = settings.getAccessToken()
         val cadence = settings.getAutomaticBackupCadence()
         if (accessToken != null && cadence == BackupCadence.EVERY_CHANGE) {
@@ -225,7 +210,11 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
                 .build()
             WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
         }
+    }
 
+    private fun onEntrySaved() {
+        hideKeyboard()
+        backupEntryIfNeeded()
         parentFragmentManager.popBackStack()
     }
 
@@ -247,22 +236,29 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
     }
 
     companion object {
-        fun newInstance(date: LocalDate, numEntries: Int?, isNewEntry: Boolean): EntryFragment {
+        fun newInstance(date: LocalDate, numEntries: Int?, isNewEntry: Boolean, resources: Resources): EntryFragment {
             if (isNewEntry && numEntries == null) {
                 throw IllegalArgumentException("New entries need to keep track of the total entries so far!")
             }
-            val args = Bundle()
-            args.putString(ENTRY_DATE, date.toString())
-            numEntries?.let { args.putInt(ENTRY_NUM_ENTRIES, numEntries) }
-            args.putBoolean(ENTRY_IS_NEW, isNewEntry)
+
+            val firstHintResource = if (date == LocalDate.now()) {
+                R.string.what_are_you_thankful_for
+            } else {
+                R.string.what_were_you_thankful_for
+            }
+
+            val firstHint = resources.getString(firstHintResource)
+
+            val prompts = resources.getStringArray(R.array.prompts)
+            prompts.shuffle() //randomise prompts
+            val quote = resources.getStringArray(R.array.inspirations).random()
+
             val fragment = EntryFragment()
-            fragment.arguments = args
+            fragment.arguments =
+                EntryArgs(date.toString(), isNewEntry, numEntries, quote, firstHint, prompts.toList()).asMavericksArgs()
             return fragment
         }
 
-        const val ENTRY_DATE = "ENTRY_DATE"
-        const val ENTRY_NUM_ENTRIES = "ENTRY_NUM_ENTRIES"
-        const val ENTRY_IS_NEW = "ENTRY_IS_NEW"
         const val ENTRY_TO_SHARE = "ENTRY_TO_SHARE"
     }
 }

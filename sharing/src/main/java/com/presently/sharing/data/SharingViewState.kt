@@ -11,8 +11,8 @@ import kotlinx.android.parcel.Parcelize
 data class SharingArgs(val content: String, val date: String) : Parcelable
 
 data class SharingViewState(
-    val content: String = "",
-    val dateString: String = "",
+    val content: String,
+    val dateString: String,
     val viewDesign: SharingViewDesign = SharingViewDesign(
         "original",
         R.color.originalTimelineColor,
