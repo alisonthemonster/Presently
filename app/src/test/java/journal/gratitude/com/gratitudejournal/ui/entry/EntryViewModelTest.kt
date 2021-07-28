@@ -1,29 +1,20 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingData
-import com.airbnb.mvrx.withState
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import com.airbnb.mvrx.test.MvRxTestRule
+import com.airbnb.mvrx.withState
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.verify
 import com.presently.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.model.Entry
+import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyInt
 import org.threeten.bp.LocalDate
 
 class EntryViewModelTest {
@@ -254,6 +245,18 @@ class EntryViewModelTest {
 
         assertThat(recordEntryAddedWasCalled).isTrue()
         assertThat(numEntries).isEqualTo(3)
+    }
+
+    @Test
+    fun `GIVEN an entry view model AND an new entry WHEN saveEntry is called THEN the state is updated`() {
+        val initialState = EntryState(LocalDate.now(), "", true, 0, "hint", "quote", false, 0, listOf("one", "two"), false)
+
+        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel.saveEntry()
+
+        withState(viewModel) {
+            assertThat(it.isSaved).isTrue()
+        }
     }
 
     @Test

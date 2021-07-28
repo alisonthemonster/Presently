@@ -71,6 +71,10 @@ class EntryViewModel @AssistedInject constructor(
                     setState {
                         copy(milestoneNumber = totalEntries)
                     }
+                } else {
+                    setState {
+                        copy(isSaved = true)
+                    }
                 }
             } else {
                 analytics.recordEvent(EDITED_EXISTING_ENTRY)
