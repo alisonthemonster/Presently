@@ -352,6 +352,4 @@ class EntryViewModelTest {
             assertThat(it.milestoneNumber).isEqualTo(0)
         }
     }
-
-    //TODO add tests for the arguments
 }
