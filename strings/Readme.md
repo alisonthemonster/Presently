@@ -28,8 +28,18 @@ Presently is 100% free and ad free. All of your entries stay on your device and 
 ```
 
 8. *OPTIONAL*: Create another file called `inspirations.xml` in your directory and copy all of the contents of this [file](https://github.com/alisonthemonster/Presently/blob/develop/strings/src/main/res/values/inspirations.xml). This is optional because these are the app's gratitude quotes and quotes do not always translate well and are very time consuming. They are not a requirement to translate, but are very much appreciated by our users!
-9. When you are happy with your translation, follow [these instructions](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) to create a Pull Request of your translation. A pull request is how code is reviewed and merged into the main codebase. When a Pull Request is created several tests are automatically run to ensure that the app still works as intended. Please add a short description of your translation. 
-10. Respond to any comments and make the necessary changes. If your translation is approved, an owner of the Presently repo will merge your pull request and your translation will go out in the next release!
+9. In this [strings.xml](https://github.com/alisonthemonster/Presently/blob/develop/app/src/main/res/values/strings.xml) file add a row like so and replace `XX` with your locale code, and LANGUAGE with your language name written in your language. For example Français, English, русский. This will be seen by our users when they manually select a language in the settings. Commit your changes.
+```
+<string name="language_XX" translatable="false">LANGUAGE</string>
+```
+10. In this [values.xml](https://github.com/alisonthemonster/Presently/blob/develop/app/src/main/res/values/array.xml#L42) file add another item to the `AppLanguage` array like so:
+```
+    <string-array name="AppLanguage">
+        .. other items
+        <item>@string/language_XX</item>  //replace XX with your locale code
+```
+11. When you are happy with your translation, follow [these instructions](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) to create a Pull Request of your translation. A pull request is how code is reviewed and merged into the main codebase. When a Pull Request is created several tests are automatically run to ensure that the app still works as intended. Please add a short description of your translation. 
+12. Respond to any comments and make the necessary changes. If your translation is approved, an owner of the Presently repo will merge your pull request and your translation will go out in the next release!
 
 ## How to translate Presently without creating a Github Pull Request
 If you don't know how to use Github you can still translate Presently the old fashioned way! Please follow these instructions and send your translated files to gratitude.journal.app@gmail.com and we will add the translation to Github for you!
