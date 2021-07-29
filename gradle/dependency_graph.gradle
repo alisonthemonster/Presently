@@ -3,7 +3,7 @@
 // with changes to support AGP 4.1
 task projectDependencyGraph {
     doLast {
-        def dot = new File(rootProject.buildDir, 'reports/dependency-graph/project.dot')
+        def dot = new File(rootProject.projectDir, 'dependency-graph/project.dot')
         dot.parentFile.mkdirs()
         dot.delete()
 
