@@ -53,6 +53,9 @@ jobs:
 #        env:
 #          coverage: true
 
+      - name: Download
+        run: echo ${{ secrets.GCP_SA_KEY }} > gcloud-service-key.json
+
       - name: Run UI tests in Firebase Test Lab
         uses: eskatos/gradle-command-action@v1
         with:
