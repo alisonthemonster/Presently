@@ -33,6 +33,11 @@ jobs:
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           export_default_credentials: true
 
+      - name: Download Dependencies
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: androidDependencies
+
       - name: Build the app
         uses: eskatos/gradle-command-action@v1
         with:
