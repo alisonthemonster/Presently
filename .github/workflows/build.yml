@@ -53,15 +53,15 @@ jobs:
         run: ./coverage_mover.sh
 
       - name: Generate consolidated coverage report
-          uses: eskatos/gradle-command-action@v1
-          with:
-            arguments: jacocoFullReport
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: jacocoFullReport
 
       - name: Upload Reports
-          uses: actions/upload-artifact@v2
-          with:
-            name: reports
-            path: build/reports/
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: build/reports/
 
 
 
