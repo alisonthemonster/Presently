@@ -40,7 +40,7 @@ jobs:
           wrapper-cache-enabled: true
           dependencies-cache-enabled: true
           configuration-cache-enabled: true
-          arguments: app:build
+          arguments: assembleDebug assembleDebugAndroidTest --stacktrace
 #        env:
 #          coverage: true
 
