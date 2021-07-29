@@ -1,0 +1,68 @@
+
+name: Build Presently
+
+on:
+  # Triggers the workflow on push or pull request events but only for the develop branch
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+  workflow_dispatch:
+
+jobs:
+  build-presently:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up  JDK environment
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.8
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          export_default_credentials: true
+
+      - name: Build the app
+        uses: eskatos/gradle-command-action@v1
+        with:
+          gradle-version: current
+          wrapper-cache-enabled: true
+          dependencies-cache-enabled: true
+          configuration-cache-enabled: true
+          arguments: assembleDebug assembleDebugAndroidTest --stacktrace --no-daemon --max-workers=2
+        env:
+          coverage: true
+
+      - name: Run UI tests in Firebase Test Lab
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: runFlank
+
+      - name: Move coverage reports
+        run: ./coverage_mover.sh
+
+      - name: Generate consolidated coverage report
+          uses: eskatos/gradle-command-action@v1
+          with:
+            arguments: jacocoFullReport
+
+      - name: Upload Reports
+          uses: actions/upload-artifact@v2
+          with:
+            name: reports
+            path: build/reports/
+
+
+
+
