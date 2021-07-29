@@ -36,12 +36,16 @@ jobs:
       - name: Download Dependencies
         uses: eskatos/gradle-command-action@v1
         with:
+          gradle-version: current
+          wrapper-cache-enabled: true
+          dependencies-cache-enabled: true
+          configuration-cache-enabled: true
           arguments: androidDependencies
 
       - name: Build the app
         uses: eskatos/gradle-command-action@v1
         with:
-          gradle-version: 6.7.1
+          gradle-version: current
           wrapper-cache-enabled: true
           dependencies-cache-enabled: true
           configuration-cache-enabled: true

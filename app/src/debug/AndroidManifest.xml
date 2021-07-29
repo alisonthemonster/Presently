@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.presently.testing">
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <application>
+        <activity
+            android:name="com.presently.testing.HiltTestActivity"
+            android:theme="@style/Base.AppTheme"
+            android:exported="false"  />
+    </application>
+
+</manifest>
