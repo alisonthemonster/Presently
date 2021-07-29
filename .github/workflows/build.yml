@@ -42,18 +42,18 @@ jobs:
           configuration-cache-enabled: true
           arguments: androidDependencies
 
-#      - name: Build the app
-#        uses: eskatos/gradle-command-action@v1
-#        with:
-#          gradle-version: current
-#          wrapper-cache-enabled: true
-#          dependencies-cache-enabled: true
-#          configuration-cache-enabled: true
-#          arguments: assembleDebug assembleDebugAndroidTest --stacktrace --no-daemon --max-workers=2
+      - name: Build the app
+        uses: eskatos/gradle-command-action@v1
+        with:
+          gradle-version: current
+          wrapper-cache-enabled: true
+          dependencies-cache-enabled: true
+          configuration-cache-enabled: true
+          arguments: build
 #        env:
 #          coverage: true
 
-      - name: Download
+      - name: Download Google Service Key for Firebase Test Lab
         run: 'echo "$SSH_KEY" > gcloud-service-key.json'
         shell: bash
         env:
