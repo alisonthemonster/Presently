@@ -6,7 +6,9 @@ import android.graphics.Color
 import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
@@ -15,7 +17,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.work.OneTimeWorkRequestBuilder
@@ -38,18 +39,24 @@ import com.presently.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
+import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
 import journal.gratitude.com.gratitudejournal.util.toFullString
-import kotlinx.android.synthetic.main.entry_fragment.*
 import org.threeten.bp.LocalDate
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
+class EntryFragment : Fragment(), MavericksView {
 
     private val viewModel: EntryViewModel by fragmentViewModel()
-    @Inject lateinit var settings: PresentlySettings
-    @Inject lateinit var analytics: AnalyticsLogger
+    @Inject
+    lateinit var settings: PresentlySettings
+    @Inject
+    lateinit var analytics: AnalyticsLogger
+
+    private var _binding: EntryFragmentBinding? = null
+    private val binding get() = _binding!!
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -74,56 +81,68 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = EntryFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         prepareWindow()
 
-        prompt_button.setOnClickListener {
-            val v = it as ImageView
-            val d = v.drawable as Animatable?
-            d?.start()
+        with(binding) {
 
-            viewModel.changePrompt()
-        }
+            promptButton.setOnClickListener {
+                val v = it as ImageView
+                val d = v.drawable as Animatable?
+                d?.start()
 
-        share_button.setOnClickListener {
-            analytics.recordEvent(SHARED_ENTRY)
-            withState(viewModel, {
-                openSharingScreen(it.entryContent, date.text.toString())
-            })
-        }
-
-        save_button.setOnClickListener {
-            viewModel.saveEntry()
-        }
-
-        val showQuote = settings.shouldShowQuote()
-        if (!showQuote) {
-            inspiration.visibility = View.GONE
-        }
-
-        inspiration.setOnLongClickListener {
-            withState(viewModel, {
-                val quote = it.quote
-                val clipboard =
-                    ContextCompat.getSystemService<ClipboardManager>(
-                        requireContext(),
-                        ClipboardManager::class.java
-                    )
-                clipboard?.setPrimaryClip(ClipData.newPlainText("Gratitude quote", quote))
-                analytics.recordEvent(COPIED_QUOTE)
-                Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
-            })
-            true
-        }
-
-        val disposable = RxTextView.afterTextChangeEvents(entry_text)
-            .debounce(100, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                viewModel.onTextChanged(it.editable().toString())
+                viewModel.changePrompt()
             }
-        compositeDisposable.add(disposable)
+
+            shareButton.setOnClickListener {
+                analytics.recordEvent(SHARED_ENTRY)
+                withState(viewModel, {
+                    openSharingScreen(it.entryContent, date.text.toString())
+                })
+            }
+
+            saveButton.setOnClickListener {
+                viewModel.saveEntry()
+            }
+
+            val showQuote = settings.shouldShowQuote()
+            if (!showQuote) {
+                inspiration.visibility = View.GONE
+            }
+
+            inspiration.setOnLongClickListener {
+                withState(viewModel, {
+                    val quote = it.quote
+                    val clipboard =
+                        ContextCompat.getSystemService<ClipboardManager>(
+                            requireContext(),
+                            ClipboardManager::class.java
+                        )
+                    clipboard?.setPrimaryClip(ClipData.newPlainText("Gratitude quote", quote))
+                    analytics.recordEvent(COPIED_QUOTE)
+                    Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
+                })
+                true
+            }
+
+            val disposable = RxTextView.afterTextChangeEvents(entryText)
+                .debounce(100, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    viewModel.onTextChanged(it.editable().toString())
+                }
+            compositeDisposable.add(disposable)
+        }
     }
 
     private fun openSharingScreen(entryContent: String, entryDate: String) {
@@ -138,23 +157,23 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
     override fun invalidate() = withState(viewModel) { state ->
         when (state.date) {
             LocalDate.now() -> {
-                date.text = resources.getString(R.string.today)
-                thankful_for.text = resources.getString(R.string.iam)
+                binding.date.text = resources.getString(R.string.today)
+                binding.thankfulFor.text = resources.getString(R.string.iam)
             }
             LocalDate.now().minusDays(1) -> {
-                date.text = resources.getString(R.string.yesterday)
-                thankful_for.text = resources.getString(R.string.iwas)
+                binding.date.text = resources.getString(R.string.yesterday)
+                binding.thankfulFor.text = resources.getString(R.string.iwas)
             }
             else -> {
-                date.text = state.date.toFullString()
-                thankful_for.text = resources.getString(R.string.iwas)
+                binding.date.text = state.date.toFullString()
+                binding.thankfulFor.text = resources.getString(R.string.iwas)
             }
         }
-        inspiration.text = state.quote
-        entry_text.hint = state.hint
+        binding.inspiration.text = state.quote
+        binding.entryText.hint = state.hint
         setEditText(state.entryContent)
-        share_button.isVisible = !state.isEmpty
-        prompt_button.isVisible = state.isEmpty
+        binding.shareButton.visibility = if (state.isEmpty) View.GONE else View.VISIBLE
+        binding.promptButton.visibility = if (!state.isEmpty) View.GONE else View.VISIBLE
         if (state.isSaved) {
             onEntrySaved()
         }
@@ -173,15 +192,15 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
     }
 
     private fun setEditText(newText: String) {
-        val oldText = entry_text.text.toString()
+        val oldText = binding.entryText.text.toString()
         if (newText != oldText && newText.isNotEmpty()) {
-            entry_text.setText(newText)
-            entry_text.setSelection(newText.length)
+            binding.entryText.setText(newText)
+            binding.entryText.setSelection(newText.length)
         }
     }
 
     private fun prepareWindow() {
-        ViewCompat.setOnApplyWindowInsetsListener(entry) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.entry) { v, insets ->
             val sysWindow =
                 insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
             v.updatePadding(bottom = sysWindow.bottom, top = sysWindow.top)
@@ -198,7 +217,7 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
     private fun hideKeyboard() {
         val imm =
             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-        imm?.hideSoftInputFromWindow(entry_text.windowToken, 0)
+        imm?.hideSoftInputFromWindow(binding.entryText.windowToken, 0)
     }
 
     private fun backupEntryIfNeeded() {
@@ -236,7 +255,12 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
     }
 
     companion object {
-        fun newInstance(date: LocalDate, numEntries: Int?, isNewEntry: Boolean, resources: Resources): EntryFragment {
+        fun newInstance(
+            date: LocalDate,
+            numEntries: Int?,
+            isNewEntry: Boolean,
+            resources: Resources
+        ): EntryFragment {
             if (isNewEntry && numEntries == null) {
                 throw IllegalArgumentException("New entries need to keep track of the total entries so far!")
             }
@@ -255,7 +279,14 @@ class EntryFragment : Fragment(R.layout.entry_fragment), MavericksView {
 
             val fragment = EntryFragment()
             fragment.arguments =
-                EntryArgs(date.toString(), isNewEntry, numEntries, quote, firstHint, prompts.toList()).asMavericksArgs()
+                EntryArgs(
+                    date.toString(),
+                    isNewEntry,
+                    numEntries,
+                    quote,
+                    firstHint,
+                    prompts.toList()
+                ).asMavericksArgs()
             return fragment
         }
 

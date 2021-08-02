@@ -2,9 +2,10 @@ package journal.gratitude.com.gratitudejournal.ui.themes
 
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -15,16 +16,18 @@ import com.presently.settings.PresentlySettings
 import com.presently.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.model.THEME
+import journal.gratitude.com.gratitudejournal.databinding.FragmentThemeBinding
 import journal.gratitude.com.gratitudejournal.model.Theme
-import kotlinx.android.synthetic.main.fragment_theme.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ThemeFragment : Fragment(R.layout.fragment_theme) {
+class ThemeFragment : Fragment() {
 
     @Inject lateinit var settings: PresentlySettings
     @Inject lateinit var analytics: AnalyticsLogger
+
+    private var _binding: FragmentThemeBinding? = null
+    private val binding get() = _binding!!
 
     private var listener = object : OnThemeSelectedListener {
         override fun onThemeSelected(theme: String) {
@@ -37,6 +40,15 @@ class ThemeFragment : Fragment(R.layout.fragment_theme) {
     }
 
     private val adapter = ThemeListAdapter(listener)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentThemeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -322,17 +334,17 @@ class ThemeFragment : Fragment(R.layout.fragment_theme) {
                 R.drawable.ic_flower
             )
         )
-
         adapter.addData(themeList)
-        // Set the adapter
-        themes.layoutManager = GridLayoutManager(context, 3)
-        themes.adapter = adapter
 
-        back_icon.setOnClickListener {
+        // Set the adapter
+        binding.themes.layoutManager = GridLayoutManager(context, 3)
+        binding.themes.adapter = adapter
+
+        binding.backIcon.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(theme_container) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.themeContainer) { v, insets ->
             v.updatePadding(top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top)
             insets
         }

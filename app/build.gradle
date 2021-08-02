@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android-extensions' //remove this
 apply from: '../versions.gradle'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-allopen'
@@ -45,6 +45,7 @@ android {
     }
     buildFeatures {
         dataBinding true
+        viewBinding true
     }
     buildTypes {
         debug {
@@ -106,7 +107,6 @@ dependencies {
 
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
-    implementation 'com.hannesdorfmann:adapterdelegates3:3.1.0'
     implementation "com.google.android.material:material:1.4.0-rc01"
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'

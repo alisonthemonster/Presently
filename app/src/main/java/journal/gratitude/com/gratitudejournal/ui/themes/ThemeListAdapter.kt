@@ -7,16 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.databinding.ItemThemeBinding
 import journal.gratitude.com.gratitudejournal.model.Theme
-import kotlinx.android.synthetic.main.item_theme.view.*
 
 class ThemeListAdapter(private val listener: ThemeFragment.OnThemeSelectedListener?) :
     ListAdapter<Theme, ThemeListAdapter.ThemeViewHolder>(ThemeDC()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ThemeViewHolder(
-        LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_theme, parent, false), listener
+        ItemThemeBinding.inflate(LayoutInflater.from(parent.context), parent, false), listener
     )
 
     override fun onBindViewHolder(holder: ThemeViewHolder, position: Int) = holder.bind(getItem(position))
@@ -26,9 +24,9 @@ class ThemeListAdapter(private val listener: ThemeFragment.OnThemeSelectedListen
     }
 
     inner class ThemeViewHolder(
-        itemView: View,
+        private val binding: ItemThemeBinding,
         private val listener: ThemeFragment.OnThemeSelectedListener?
-    ) : RecyclerView.ViewHolder(itemView), OnClickListener {
+    ) : RecyclerView.ViewHolder(binding.root), OnClickListener {
 
         init {
             itemView.setOnClickListener(this)
@@ -42,19 +40,17 @@ class ThemeListAdapter(private val listener: ThemeFragment.OnThemeSelectedListen
             listener?.onThemeSelected(clicked.name)
         }
 
-        fun bind(item: Theme) = with(itemView) {
-            background_view.setBackgroundColor(item.backgroundColor)
+        fun bind(item: Theme) = with(binding) {
+            backgroundView.setBackgroundColor(item.backgroundColor)
             header.setBackgroundColor(item.headerColor)
             logo.setTextColor(item.headerItemColor)
             icon.setImageResource(item.icon)
             if (!item.multicolorIcon) icon.setColorFilter(item.iconColor) else icon.clearColorFilter()
-            timeline_line.setBackgroundColor(item.headerColor)
-            theme_name.text = item.name
-            theme_name.setTextColor(item.iconColor)
+            timelineLine.setBackgroundColor(item.headerColor)
+            themeName.text = item.name
+            themeName.setTextColor(item.iconColor)
         }
     }
-
-
 
     private class ThemeDC : DiffUtil.ItemCallback<Theme>() {
         override fun areItemsTheSame(

@@ -1,115 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.search.SearchFragment">
 
-    <data>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/toolbarColor"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColor="?attr/toolbarItemColor"
+        android:textSize="32sp"
+        android:theme="@style/TextAppearance.Date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <variable
-            name="viewModel"
-            type="journal.gratitude.com.gratitudejournal.ui.search.SearchViewModel" />
-    </data>
+    <ImageView
+        android:id="@+id/back_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/search_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.search.SearchFragment">
+    <ImageView
+        android:id="@+id/search_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:scaleType="fitCenter"
+        android:transitionName="search_transition"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="@+id/title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_search" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="?attr/toolbarColor"
-            android:padding="10dp"
-            android:textAlignment="center"
-            android:textColor="?attr/toolbarItemColor"
-            android:textSize="32sp"
-            android:theme="@style/TextAppearance.Date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/search_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="@string/search"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"
+        android:textAlignment="viewStart"
+        android:textColor="?attr/toolbarItemColor"
+        android:textColorHint="?attr/hintTextColor"
+        android:textCursorDrawable="@null"
+        app:layout_constraintEnd_toStartOf="@+id/search_icon"
+        app:layout_constraintStart_toEndOf="@+id/back_icon"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/back_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="@+id/title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_results"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_text" />
 
-        <ImageView
-            android:id="@+id/search_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:scaleType="fitCenter"
-            android:transitionName="search_transition"
-            app:layout_constraintBottom_toBottomOf="@+id/title"
-            app:layout_constraintEnd_toEndOf="@+id/title"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_search" />
+    <ImageView
+        android:id="@+id/no_results_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:src="?attr/timelineIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/search_results" />
 
-        <EditText
-            android:id="@+id/search_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:ems="10"
-            android:hint="@string/search"
-            android:imeOptions="actionSearch"
-            android:singleLine="true"
-            android:textAlignment="viewStart"
-            android:textColor="?attr/toolbarItemColor"
-            android:textColorHint="?attr/hintTextColor"
-            android:textCursorDrawable="@null"
-            app:layout_constraintEnd_toStartOf="@+id/search_icon"
-            app:layout_constraintStart_toEndOf="@+id/back_icon"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/no_results"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_results"
+        android:textColor="@color/text_color"
+        app:layout_constraintEnd_toEndOf="@+id/no_results_icon"
+        app:layout_constraintStart_toStartOf="@+id/no_results_icon"
+        app:layout_constraintTop_toBottomOf="@+id/no_results_icon" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_results"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_text" />
-
-        <ImageView
-            android:id="@+id/no_results_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:src="?attr/timelineIcon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/search_results" />
-
-        <TextView
-            android:id="@+id/no_results"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_results"
-            android:textColor="@color/text_color"
-            app:layout_constraintEnd_toEndOf="@+id/no_results_icon"
-            app:layout_constraintStart_toStartOf="@+id/no_results_icon"
-            app:layout_constraintTop_toBottomOf="@+id/no_results_icon" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

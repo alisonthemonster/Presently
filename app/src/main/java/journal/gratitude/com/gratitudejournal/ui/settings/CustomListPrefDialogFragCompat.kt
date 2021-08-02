@@ -2,23 +2,17 @@ package journal.gratitude.com.gratitudejournal.ui.settings
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.AbsListView
+import android.widget.ListView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AlertDialogLayout
-import androidx.appcompat.widget.DialogTitle
-import androidx.core.view.forEach
 import androidx.core.view.get
 import androidx.preference.ListPreferenceDialogFragmentCompat
 import journal.gratitude.com.gratitudejournal.R
-import kotlinx.android.synthetic.main.fragment_theme.view.*
-import kotlinx.android.synthetic.main.item_theme.*
-import org.w3c.dom.Text
-import java.lang.Exception
 
 class CustomListPrefDialogFragCompat: ListPreferenceDialogFragmentCompat() {
     companion object {
@@ -38,7 +32,7 @@ class CustomListPrefDialogFragCompat: ListPreferenceDialogFragmentCompat() {
         val listView = dialog.listView
 
         val theme = context?.theme
-        val attrs: IntArray = IntArray(3)
+        val attrs = IntArray(3)
         attrs[0] = R.attr.backgroundColor
         attrs[1] = R.attr.entryContentTextColor
         val typedArray = theme?.obtainStyledAttributes(attrs)
