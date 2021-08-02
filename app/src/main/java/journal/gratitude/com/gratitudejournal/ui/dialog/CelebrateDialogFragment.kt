@@ -72,7 +72,7 @@ class CelebrateDialogFragment : DialogFragment() {
 
                 val share = Intent(Intent.ACTION_SEND)
                 share.type = "text/plain"
-                val shareText = getString(R.string.share_milestone, numEntries)
+                val shareText = getString(R.string.share_milestone, entryCount)
                 share.putExtra(Intent.EXTRA_TEXT, shareText)
 
                 startActivity(Intent.createChooser(share, getString(R.string.share_your_gratitude)))

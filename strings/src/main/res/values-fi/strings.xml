@@ -91,8 +91,8 @@
     <string name="monday">maanantai</string>
     <string name="day_of_week_summary">Aseta viikon ensimmäinen päivä kalenterinäkymässä</string>
     <string name="first_day_of_week_title">Viikon ensimmäinen päivä</string>
-    <string name="share_milestone">Olen valmistunut %1$d päivä kiitollisuutta kirjaaminen! Join me käyttäen hetkellä App. #PresentlyApp</string>
-    <string name="share_presently">Jaa hetkellä</string>
+    <string name="share_milestone">Olen valmistunut %1$d päivä kiitollisuutta kirjaaminen! Join me käyttäen Presently App. #PresentlyApp</string>
+    <string name="share_presently">Jaa Presently</string>
     <string name="enjoying_presently">Nautitko sovelluksesta? Jaa sovellus ystävien ja perheen kanssa</string>
     <string name="share_app_text">Käytännössä kiitollisuutta tämä yksinkertainen, aina vapaa, ja oma kiitollisuus päiväkirjaa sovellus</string>
     <string name="random">satunnainen</string>
