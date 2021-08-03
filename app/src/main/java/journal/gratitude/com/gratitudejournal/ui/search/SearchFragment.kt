@@ -29,7 +29,6 @@ import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH_ITEM
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.util.textChanges
-import kotlinx.android.synthetic.main.search_fragment.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
@@ -39,16 +38,17 @@ import javax.inject.Inject
 class SearchFragment : Fragment() {
 
     private val viewModel: SearchViewModel by viewModels()
-    private lateinit var binding: SearchFragmentBinding
     @Inject lateinit var analytics: AnalyticsLogger
+
+    private var _binding: SearchFragmentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        binding = SearchFragmentBinding.inflate(inflater, container, false)
-        binding.viewModel = viewModel
+        _binding = SearchFragmentBinding.inflate(inflater, container, false)
 
         val transition =
             TransitionInflater.from(this.activity).inflateTransition(android.R.transition.move)
@@ -66,7 +66,7 @@ class SearchFragment : Fragment() {
 
         analytics.recordView("SearchFragment")
 
-        val adapter = SearchAdapter(requireActivity(), object : SearchAdapter.OnClickListener {
+        val adapter = SearchAdapter(object : SearchAdapter.OnClickListener {
             override fun onClick(
                 clickedDate: LocalDate
             ) {
@@ -81,20 +81,21 @@ class SearchFragment : Fragment() {
                 val displayEmptyMessage =
                     (refresher is LoadState.NotLoading && adapter.itemCount == 0)
 
-                search_results?.isVisible = !displayEmptyMessage
-                no_results_icon?.isVisible = displayEmptyMessage
+                binding.searchResults.isVisible = !displayEmptyMessage
+                binding.noResults.isVisible = displayEmptyMessage
+                binding.noResultsIcon.isVisible = displayEmptyMessage
                 // Handle icon display issues in older versions
                 if(Build.VERSION.SDK_INT <= 23)
-                    no_results_icon.imageTintList = context?.getColorStateList(R.color.text_color)
-                no_results?.isVisible = displayEmptyMessage
+                    binding.noResultsIcon.imageTintList = context?.getColorStateList(R.color.text_color)
+                binding.noResults.isVisible = displayEmptyMessage
             }
         }
 
-        search_results.layoutManager = LinearLayoutManager(context)
-        search_results.adapter = adapter
+        binding.searchResults.layoutManager = LinearLayoutManager(context)
+        binding.searchResults.adapter = adapter
 
         lifecycleScope.launch {
-            search_text.textChanges()
+            binding.searchText.textChanges()
                 .debounce(300)
                 .filter { charSequence -> !charSequence.isNullOrBlank() }
                 .map { charSequence -> charSequence.toString() }
@@ -106,25 +107,25 @@ class SearchFragment : Fragment() {
                 }
         }
 
-        search_text.setOnEditorActionListener { _, actionId, _ ->
+        binding.searchText.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> { dismissKeyboard(); true }
                 else -> false
             }
         }
 
-        search_icon.setOnClickListener {
+        binding.searchIcon.setOnClickListener {
             dismissKeyboard()
         }
 
-        back_icon.setOnClickListener {
+        binding.backIcon.setOnClickListener {
             dismissKeyboard()
             parentFragmentManager.popBackStack()
         }
 
         openKeyboard()
 
-        ViewCompat.setOnApplyWindowInsetsListener(search_container) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.searchContainer) { v, insets ->
             v.updatePadding(top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top)
             insets
         }
@@ -146,14 +147,14 @@ class SearchFragment : Fragment() {
     }
 
     private fun openKeyboard() {
-        search_text.requestFocus()
+        binding.searchText.requestFocus()
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-        imm?.showSoftInput(search_text, InputMethodManager.SHOW_IMPLICIT)
+        imm?.showSoftInput(binding.searchText, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun dismissKeyboard() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-        imm?.hideSoftInputFromWindow(search_text.windowToken, 0)
+        imm?.hideSoftInputFromWindow(binding.searchText.windowToken, 0)
     }
 
 }

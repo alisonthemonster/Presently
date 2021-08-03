@@ -1,7 +1,7 @@
 ext {
     major = 1
-    minor = 14
-    patch = 2
+    minor = 15
+    patch = 1
     beta = ""
 
     androidCompileSdk = 29
@@ -9,12 +9,7 @@ ext {
     androidMinSdk = 23
 
     lifecycle_version = "2.2.0"
-    coroutine_version = "0.26.1"
-    navigation_version = "2.3.0"
 
     //testing
     mockito_version = "2.0.0"
-    core_testing_version = "1.1.1"
-    paging_version = "1.0.1"
-
 }

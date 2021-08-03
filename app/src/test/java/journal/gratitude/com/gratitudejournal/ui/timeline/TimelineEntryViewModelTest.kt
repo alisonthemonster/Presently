@@ -1,6 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.view.View
+import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
@@ -15,7 +16,24 @@ import org.threeten.bp.LocalDate
 
 class TimelineEntryViewModelTest {
 
-    private val onClickListener = mock<TimelineAdapter.OnClickListener>()
+    var onClickWasCalled = false
+    var clickedDateActual = LocalDate.MAX
+    var isNewEntryActual = true
+    var numEntriesActual = -1
+    private val onClickListener = object : OnClickListener {
+        override fun onClick(
+            view: View,
+            clickedDate: LocalDate,
+            isNewEntry: Boolean,
+            numEntries: Int
+        ) {
+            onClickWasCalled = true
+            clickedDateActual = clickedDate
+            isNewEntryActual = isNewEntry
+            numEntriesActual = numEntries
+        }
+
+    }
     private val date = LocalDate.of(2011, 11, 11)
     private val content = "hiiiiiiii"
     private val numEntries = 1
@@ -30,13 +48,24 @@ class TimelineEntryViewModelTest {
 
     @Test
     fun onClick_callsClickListener() {
+        onClickWasCalled = false
+        clickedDateActual = LocalDate.MAX
+        isNewEntryActual = true
+        numEntriesActual = -1
         viewModel.onClick(mock())
 
-        verify(onClickListener).onClick(any(), eq(date), eq(false), eq(numEntries))
+        assertThat(onClickWasCalled).isTrue()
+        assertThat(clickedDateActual).isEqualTo(date)
+        assertThat(numEntriesActual).isEqualTo(1)
+        assertThat(isNewEntryActual).isFalse()
     }
 
     @Test
     fun onClick_callsClickListener_withEmptyContent() {
+        onClickWasCalled = false
+        clickedDateActual = LocalDate.MAX
+        isNewEntryActual = false
+        numEntriesActual = -1
         val viewModel = TimelineEntryViewModel(
             Entry(date, ""),
             false,
@@ -47,11 +76,15 @@ class TimelineEntryViewModelTest {
         )
         viewModel.onClick(mock())
 
-        verify(onClickListener).onClick(any(), eq(date), eq(true), eq(numEntries))
+        assertThat(onClickWasCalled).isTrue()
+
+        assertThat(clickedDateActual).isEqualTo(date)
+        assertThat(numEntriesActual).isEqualTo(1)
+        assertThat(isNewEntryActual).isTrue()
     }
 
     @Test
-    fun isCurrentDate_currentDate_visible() {
+    fun isCurrentDate_currentDate_true() {
         val today = LocalDate.now()
         val viewModel = TimelineEntryViewModel(
             Entry(today, content),
@@ -63,53 +96,15 @@ class TimelineEntryViewModelTest {
         )
 
         val actual = viewModel.isCurrentDate()
-        val expected = View.VISIBLE
 
-        assertEquals(expected, actual)
+        assertThat(actual).isTrue()
     }
 
     @Test
-    fun getHintText_currentDate_presentTense() {
-        val today = LocalDate.now()
-        val viewModel = TimelineEntryViewModel(
-            Entry(today, content),
-            false,
-            numEntries,
-            false,
-            10,
-            onClickListener
-        )
-
-        val actual = viewModel.hintText.get()
-        val expected = R.string.what_are_you_thankful_for_today
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun getHintText_yesterday_pastTense() {
-        val yesterday = LocalDate.now().minusDays(1)
-        val viewModel = TimelineEntryViewModel(
-            Entry(yesterday, content),
-            false,
-            numEntries,
-            false,
-            10,
-            onClickListener
-        )
-
-        val actual = viewModel.hintText.get()
-        val expected = R.string.what_are_you_thankful_for_yesterday
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun isCurrentDate_notCurrentDate_gone() {
+    fun isCurrentDate_notCurrentDate_false() {
         val actual = viewModel.isCurrentDate()
-        val expected = View.GONE
 
-        assertEquals(expected, actual)
+        assertThat(actual).isFalse()
     }
 
     @Test
@@ -141,9 +136,8 @@ class TimelineEntryViewModelTest {
     @Test
     fun isTailVisible_notLastItem_gone() {
         val actual = viewModel.isTailVisible()
-        val expected = View.GONE
 
-        assertEquals(expected, actual)
+        assertThat(actual).isFalse()
     }
 
 
@@ -159,9 +153,8 @@ class TimelineEntryViewModelTest {
         )
 
         val actual = viewModel.isTailVisible()
-        val expected = View.VISIBLE
 
-        assertEquals(expected, actual)
+        assertThat(actual).isTrue()
     }
 
     @Test

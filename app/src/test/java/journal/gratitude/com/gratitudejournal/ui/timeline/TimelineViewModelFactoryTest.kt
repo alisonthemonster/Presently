@@ -1,8 +1,6 @@
-package journal.gratitude.com.gratitudejournal.journal.gratitude.com.gratitudejournal.ui.timeline
+package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import com.nhaarman.mockitokotlin2.mock
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineViewModel
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineViewModelFactory
 import junit.framework.TestCase
 import org.junit.Test
 

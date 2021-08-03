@@ -6,8 +6,8 @@ buildscript {
     }
     repositories {
         apply from: 'versions.gradle'
+        mavenCentral()
         google()
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.1'
@@ -15,12 +15,11 @@ buildscript {
         classpath "org.jacoco:org.jacoco.core:0.8.7"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.8'
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
         classpath 'com.google.android.gms:oss-licenses-plugin:0.10.4'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
         classpath 'com.facebook.testing.screenshot:plugin:0.13.0'
         classpath "com.osacky.flank.gradle:fladle:0.15.1"
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.38.1'
     }
 }
 
@@ -60,7 +59,7 @@ apply from: 'gradle/common.gradle'
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven {
             url 'https://maven.google.com/'
         }

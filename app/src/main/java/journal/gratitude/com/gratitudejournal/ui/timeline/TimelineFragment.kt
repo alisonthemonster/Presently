@@ -23,17 +23,16 @@ import com.presently.logging.AnalyticsLogger
 import com.presently.logging.CrashReporter
 import com.presently.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.ui.calendar.CalendarAnimation
 import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
 import com.presently.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
+import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
-import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.threeten.bp.LocalDate
 import java.util.*
 import javax.inject.Inject
@@ -47,14 +46,16 @@ class TimelineFragment : Fragment() {
     @Inject lateinit var crashReporter: CrashReporter
 
     private lateinit var adapter: TimelineAdapter
-    private lateinit var binding: TimelineFragmentBinding
+
+    private var _binding: TimelineFragmentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (entry_calendar?.isVisible != true) {
+                if (!binding.entryCalendar.isVisible) {
                     if (parentFragmentManager.backStackEntryCount > 0) {
                         parentFragmentManager.popBackStack()
                     } else {
@@ -62,7 +63,7 @@ class TimelineFragment : Fragment() {
                         requireActivity().finish()
                     }
                 } else {
-                    val animation = CalendarAnimation(cal_fab, entry_calendar)
+                    val animation = CalendarAnimation(binding.calFab, binding.entryCalendar)
                     animation.closeCalendar()
                 }
             }
@@ -75,25 +76,22 @@ class TimelineFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = TimelineFragmentBinding.inflate(inflater, container, false)
-        binding.viewModel = viewModel
-
+        _binding = TimelineFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        timeline_recycler_view.layoutManager =
+        binding.timelineRecyclerView.layoutManager =
             androidx.recyclerview.widget.LinearLayoutManager(context)
 
         val showDayOfWeek = settings.shouldShowDayOfWeekInTimeline()
         val linesPerEntry = settings.getLinesPerEntryInTimeline()
         adapter = TimelineAdapter(
-            requireActivity(),
             showDayOfWeek,
             linesPerEntry,
-            object : TimelineAdapter.OnClickListener {
+            object : OnClickListener {
                 override fun onClick(
                     view: View,
                     clickedDate: LocalDate,
@@ -108,9 +106,13 @@ class TimelineFragment : Fragment() {
                     navigateToDate(clickedDate, isNewEntry, numEntries)
                 }
             })
-        timeline_recycler_view.adapter = adapter
+        binding.timelineRecyclerView.adapter = adapter
 
-        overflow_button.setOnClickListener {
+        viewModel.entries.observe(viewLifecycleOwner, {
+            adapter.submitList(it)
+        })
+
+        binding.overflowButton.setOnClickListener {
             PopupMenu(context, it).apply {
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
@@ -130,22 +132,19 @@ class TimelineFragment : Fragment() {
             }
         }
 
-        viewModel.entries.observe(viewLifecycleOwner, Observer {
-            binding.viewModel = viewModel
-        })
 
         viewModel.datesWritten.observe(viewLifecycleOwner, Observer { dates ->
-            entry_calendar.setWrittenDates(dates)
+            binding.entryCalendar.setWrittenDates(dates)
         })
 
-        search_icon.setOnClickListener {
+        binding.searchIcon.setOnClickListener {
             analyticsLogger.recordEvent(CLICKED_SEARCH)
             openSearchScreen()
         }
 
-        entry_calendar.setDayClickedListener(object : EntryCalendarListener {
+        binding.entryCalendar.setDayClickedListener(object : EntryCalendarListener {
             override fun onCloseClicked() {
-                val animation = CalendarAnimation(cal_fab, entry_calendar)
+                val animation = CalendarAnimation(binding.calFab, binding.entryCalendar)
                 animation.closeCalendar()
             }
 
@@ -160,10 +159,10 @@ class TimelineFragment : Fragment() {
             }
         })
 
-        cal_fab.setOnClickListener {
+        binding.calFab.setOnClickListener {
             analyticsLogger.recordEvent(OPENED_CALENDAR)
 
-            val animation = CalendarAnimation(cal_fab, entry_calendar)
+            val animation = CalendarAnimation(binding.calFab, binding.entryCalendar)
             animation.openCalendar()
         }
 
@@ -180,6 +179,11 @@ class TimelineFragment : Fragment() {
         requireActivity().theme.resolveAttribute(R.attr.toolbarColor, typedValue, true)
         window.statusBarColor = typedValue.data
         setStatusBarColorsForBackground(window, typedValue.data)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun openSearchScreen() {
