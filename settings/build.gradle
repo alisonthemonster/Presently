@@ -42,6 +42,7 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.1.1'
 
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
+    implementation 'com.dropbox.core:dropbox-core-sdk:4.0.0'
 
     //dependency injection
     implementation "com.google.dagger:dagger:2.31.2"

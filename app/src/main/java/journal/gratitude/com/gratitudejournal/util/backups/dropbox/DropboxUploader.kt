@@ -25,16 +25,6 @@ class DropboxUploader(val context: Context, val settings: PresentlySettings):
 
     override suspend fun uploadToCloud(file: File): CloudUploadResult {
         return withContext(Dispatchers.IO) {
-//            val accessToken: DbxCredential? = when {
-//                serializedToken == "attempted" -> null
-//                serializedToken == null -> null
-//                serializedToken.contains("{") -> DbxCredential.Reader.readFully(serializedToken)
-//                else -> {
-//                    //this user does not have a refresh token
-//                    DbxCredential(serializedToken)
-//                }
-//            }
-
             val accessToken = settings.getAccessToken()
             val requestConfig = DbxRequestConfig.newBuilder("PresentlyAndroid")
                 .build()
@@ -59,7 +49,7 @@ class DropboxUploader(val context: Context, val settings: PresentlySettings):
     companion object {
 
         fun authorizeDropboxAccess(context: Context, settings: PresentlySettings) {
-            settings.setAccessToken("attempted")
+            settings.markDropboxAuthInitiated()
 
             val clientIdentifier = "PresentlyAndroid/${BuildConfig.VERSION_NAME}"
             val requestConfig = DbxRequestConfig(clientIdentifier)

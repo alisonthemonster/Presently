@@ -1,5 +1,6 @@
 package com.presently.settings
 
+import com.dropbox.core.oauth.DbxCredential
 import org.threeten.bp.LocalTime
 
 interface PresentlySettings {
@@ -30,9 +31,15 @@ interface PresentlySettings {
 
     fun shouldShowDayOfWeekInTimeline(): Boolean
 
-    fun getAccessToken(): String?
+    fun getAccessToken(): DbxCredential?
 
-    fun setAccessToken(newToken: String)
+    fun setAccessToken(newToken: DbxCredential)
+
+    fun wasDropboxAuthInitiated(): Boolean
+
+    fun markDropboxAuthAsCancelled()
+
+    fun markDropboxAuthInitiated()
 
     fun clearAccessToken()
 }
