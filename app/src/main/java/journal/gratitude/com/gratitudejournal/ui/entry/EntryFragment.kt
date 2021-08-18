@@ -223,10 +223,9 @@ class EntryFragment : Fragment(), MavericksView {
 
     private fun backupEntryIfNeeded() {
         val dbxCredential = settings.getAccessToken()
-        val accessToken: DbxCredential? = if (dbxCredential == "attempted") null else DbxCredential.Reader.readFully(dbxCredential)
 
         val cadence = settings.getAutomaticBackupCadence()
-        if (accessToken != null && cadence == BackupCadence.EVERY_CHANGE) {
+        if (dbxCredential != null && cadence == BackupCadence.EVERY_CHANGE) {
             val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
                 .addTag(DropboxUploader.PRESENTLY_BACKUP)
                 .build()
