@@ -1,6 +1,7 @@
 package com.presently.settings
 
 import android.content.SharedPreferences
+import com.dropbox.core.oauth.DbxCredential
 import com.google.common.truth.Truth.assertThat
 import junit.framework.Assert.fail
 import org.junit.Test
@@ -205,25 +206,76 @@ class PresentlySettingsTest {
     }
 
     @Test
-    fun `GIVEN RealPresentlySettings WHEN getAccessToken is called THEN shared preferences is called`() {
-        val expected =  "accessToken"
-        val sharedPrefs = getFakeSharedPreferences(string = expected)
+    fun `GIVEN RealPresentlySettings AND a user that attempted to auth with Dropbox WHEN getAccessToken is called THEN shared preferences is called`() {
+        val expected = null
+        val sharedPrefs = getFakeSharedPreferences(string = "attempted")
         val settings = RealPresentlySettings(sharedPrefs)
         val actual = settings.getAccessToken()
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
+    fun `GIVEN RealPresentlySettings WHEN getAccessToken is called THEN shared preferences is called`() {
+        val expected =  DbxCredential("accessToken")
+        val sharedPrefs = getFakeSharedPreferences(string = "accessToken")
+        val settings = RealPresentlySettings(sharedPrefs)
+        val actual = settings.getAccessToken()
+        assertThat(actual.toString()).isEqualTo(expected.toString())
+    }
+
+    @Test
+    fun `GIVEN RealPresentlySettings AND a serialized DbxCredential with refresh tokens WHEN getAccessToken is called THEN shared preferences is called`() {
+        val expected =  DbxCredential("accessToken", 1000L, "refreshtoken", "appkey", null)
+        val sharedPrefs = getFakeSharedPreferences(string = expected.toString())
+        val settings = RealPresentlySettings(sharedPrefs)
+        val actual = settings.getAccessToken()
+        assertThat(actual.toString()).isEqualTo(expected.toString())
+    }
+
+    @Test
     fun `GIVEN RealPresentlySettings WHEN setAccessToken is called THEN shared preferences is called`() {
         editStringWasCalled = false
         editString = ""
-        val expected = "newAccessToken"
+        val credential = DbxCredential("accessToken", 1000L, "refreshtoken", "appkey", null)
+        val expected = credential.toString()
         val sharedPrefs = getFakeSharedPreferences()
         val settings = RealPresentlySettings(sharedPrefs)
-        settings.setAccessToken(expected)
+        settings.setAccessToken(credential)
 
         assertThat(editStringWasCalled).isTrue()
         assertThat(editString).isEqualTo(expected)
+    }
+
+    @Test
+    fun `GIVEN RealPresentlySettings WHEN markDropboxAuthInitiated is called THEN shared preferences is called`() {
+        editStringWasCalled = false
+        editString = ""
+        val expected = "attempted"
+        val sharedPrefs = getFakeSharedPreferences()
+        val settings = RealPresentlySettings(sharedPrefs)
+        settings.markDropboxAuthInitiated()
+
+        assertThat(editStringWasCalled).isTrue()
+        assertThat(editString).isEqualTo(expected)
+    }
+
+    @Test
+    fun `GIVEN RealPresentlySettings AND a user that attempted to auth with dropbox WHEN wasDropboxAuthInitiated is called THEN return true`() {
+        val sharedPrefs = getFakeSharedPreferences(string = "attempted")
+        val settings = RealPresentlySettings(sharedPrefs)
+        val actual = settings.wasDropboxAuthInitiated()
+        assertThat(actual).isTrue()
+    }
+
+    @Test
+    fun `GIVEN RealPresentlySettings WHEN markDropboxAuthAsCancelled is called THEN shared preferences is called`() {
+        removeWasCalled = false
+        putBooleanWasCalled = false
+        val sharedPrefs = getFakeSharedPreferences()
+        val settings = RealPresentlySettings(sharedPrefs)
+        settings.markDropboxAuthAsCancelled()
+
+        assertThat(removeWasCalled).isTrue()
     }
 
     @Test
@@ -240,6 +292,7 @@ class PresentlySettingsTest {
     var editString = ""
     var editLongWasCalled = false
     var removeWasCalled = false
+    var putBooleanWasCalled = false
 
     private fun getFakeSharedPreferences(string: String? = "", int: Int = 0, long: Long = 0L, boolean: Boolean = false): SharedPreferences {
         val editor = object : SharedPreferences.Editor {
@@ -273,7 +326,7 @@ class PresentlySettingsTest {
             }
 
             override fun putBoolean(key: String?, value: Boolean): SharedPreferences.Editor {
-                fail("putBoolean should not be called")
+                putBooleanWasCalled = true
                 return this
             }
 

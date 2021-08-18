@@ -7,7 +7,6 @@ import java.util.*
 import org.threeten.bp.LocalTime
 
 class RealPresentlySettings(private val sharedPrefs: SharedPreferences) : PresentlySettings {
-    //TODO update tests
 
     override fun getCurrentTheme(): String {
         return sharedPrefs.getString(THEME_PREF, "original") ?: "original"
@@ -87,9 +86,13 @@ class RealPresentlySettings(private val sharedPrefs: SharedPreferences) : Presen
         return when {
             serializedToken == "attempted" -> null
             serializedToken == null -> null
-            serializedToken.contains("{") -> DbxCredential.Reader.readFully(serializedToken)
+            serializedToken.contains("{") -> {
+                //this user has a refresh token
+                DbxCredential.Reader.readFully(serializedToken)
+            }
             else -> {
-                //this user does not have a refresh token
+                //this user has a long lived access token
+                    //users who auth'd with Dropbox before
                 DbxCredential(serializedToken)
             }
         }
