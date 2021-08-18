@@ -205,11 +205,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
             val token = Auth.getDbxCredential() //get token from Dropbox Auth activity
             if (token == null) {
                 //user started to auth and didn't succeed
-                analytics.recordEvent(DROPBOX_AUTH_QUIT) //TODO move analytics into the settings module
                 settings.markDropboxAuthAsCancelled()
                 activity?.recreate()
             } else {
-                analytics.recordEvent(DROPBOX_AUTH_SUCCESS) //TODO move analytics into the settings module
                 settings.setAccessToken(token)
                 createDropboxUploaderWorker(BackupCadence.DAILY)
             }

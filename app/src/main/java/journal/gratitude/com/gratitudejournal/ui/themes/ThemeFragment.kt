@@ -30,7 +30,6 @@ class ThemeFragment : Fragment(R.layout.fragment_theme) {
         override fun onThemeSelected(theme: String) {
             settings.setTheme(theme)
 
-            analytics.recordSelectEvent(theme, "theme")
             parentFragmentManager.popBackStack()
             activity?.recreate()
         }
