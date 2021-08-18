@@ -2,11 +2,18 @@ package com.presently.settings
 
 import android.content.SharedPreferences
 import com.dropbox.core.oauth.DbxCredential
+import com.presently.logging.AnalyticsLogger
+import com.presently.logging.DROPBOX_AUTH_QUIT
+import com.presently.logging.DROPBOX_AUTH_SUCCESS
 import com.presently.settings.model.*
 import java.util.*
 import org.threeten.bp.LocalTime
+import javax.inject.Inject
 
-class RealPresentlySettings(private val sharedPrefs: SharedPreferences) : PresentlySettings {
+class RealPresentlySettings @Inject constructor(
+    private val sharedPrefs: SharedPreferences,
+    private val analytics: AnalyticsLogger
+) : PresentlySettings {
 
     override fun getCurrentTheme(): String {
         return sharedPrefs.getString(THEME_PREF, "original") ?: "original"
@@ -16,6 +23,8 @@ class RealPresentlySettings(private val sharedPrefs: SharedPreferences) : Presen
         sharedPrefs.edit()
             .putString(THEME_PREF, themeName)
             .apply()
+
+        analytics.recordSelectEvent(themeName, "theme")
     }
 
     override fun isBiometricsEnabled(): Boolean {
@@ -99,6 +108,7 @@ class RealPresentlySettings(private val sharedPrefs: SharedPreferences) : Presen
     }
 
     override fun setAccessToken(newToken: DbxCredential) {
+        analytics.recordEvent(DROPBOX_AUTH_SUCCESS)
         sharedPrefs.edit().putString(ACCESS_TOKEN, newToken.toString()).apply()
     }
 
@@ -114,6 +124,7 @@ class RealPresentlySettings(private val sharedPrefs: SharedPreferences) : Presen
     override fun markDropboxAuthAsCancelled() {
         sharedPrefs.edit().putBoolean(BACKUP_TOKEN, false).apply() //reset the switch preference
         sharedPrefs.edit().remove(ACCESS_TOKEN).apply()
+        analytics.recordEvent(DROPBOX_AUTH_QUIT)
     }
 
     override fun clearAccessToken() {
