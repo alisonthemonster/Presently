@@ -46,7 +46,9 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_showsTimeline() {
-        launchFragmentInHiltContainer<TimelineFragment>()
+        launchFragmentInHiltContainer<TimelineFragment>(
+            themeResId = R.style.Base_AppTheme
+        )
         onView(withId(R.id.timeline_recycler_view)).check(matches(isDisplayed()))
     }
 
