@@ -7,7 +7,7 @@
     android:id="@+id/container"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context=".ui.timeline.TimelineFragment">
+    tools:context="com.presently.timeline.view.TimelineFragment">
 
     <View
         android:background="?attr/toolbarColor"

@@ -2,14 +2,8 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.view.View
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineAdapter
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineEntryViewModel
+import journal.gratitude.com.gratitudejournal.model.TimelineEntry
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 import org.threeten.bp.LocalDate
@@ -38,7 +32,7 @@ class TimelineEntryViewModelTest {
     private val content = "hiiiiiiii"
     private val numEntries = 1
     private val viewModel = TimelineEntryViewModel(
-        Entry(date, content),
+        TimelineEntry(date, content),
         false,
         numEntries,
         false,
@@ -67,7 +61,7 @@ class TimelineEntryViewModelTest {
         isNewEntryActual = false
         numEntriesActual = -1
         val viewModel = TimelineEntryViewModel(
-            Entry(date, ""),
+            TimelineEntry(date, ""),
             false,
             numEntries,
             false,
@@ -87,7 +81,7 @@ class TimelineEntryViewModelTest {
     fun isCurrentDate_currentDate_true() {
         val today = LocalDate.now()
         val viewModel = TimelineEntryViewModel(
-            Entry(today, content),
+            TimelineEntry(today, content),
             false,
             numEntries,
             false,
@@ -111,7 +105,7 @@ class TimelineEntryViewModelTest {
     fun isEmptyState_emptyState_visible() {
         val content = ""
         val viewModel = TimelineEntryViewModel(
-            Entry(date, content),
+            TimelineEntry(date, content),
             false,
             numEntries,
             false,
@@ -144,7 +138,7 @@ class TimelineEntryViewModelTest {
     @Test
     fun isTailVisible_LastItem_visible() {
         val viewModel = TimelineEntryViewModel(
-            Entry(date, content),
+            TimelineEntry(date, content),
             true,
             numEntries,
             false,
@@ -175,7 +169,7 @@ class TimelineEntryViewModelTest {
     @Test
     fun getDayString_showDayOfWeekTrue_dayOfWeek() {
         val viewModel = TimelineEntryViewModel(
-            Entry(date, content),
+            TimelineEntry(date, content),
             false,
             numEntries,
             true,

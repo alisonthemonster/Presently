@@ -7,11 +7,12 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.presently.presently_local_source.model.Entry
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.ItemMilestoneBinding
 import journal.gratitude.com.gratitudejournal.databinding.ItemTimelineEntryBinding
-import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
+import journal.gratitude.com.gratitudejournal.model.TimelineEntry
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import org.threeten.bp.LocalDate
 
@@ -42,7 +43,7 @@ class TimelineAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is Entry -> R.layout.item_timeline_entry
+            is TimelineEntry -> R.layout.item_timeline_entry
             is Milestone -> R.layout.item_milestone
         }
     }
@@ -57,10 +58,10 @@ class TimelineAdapter(
                 val isLastItem = position == (itemCount - 1)
                 var numEntries = 0
                 for (entry in currentList) {
-                    if (entry is Entry && entry.entryContent.isNotEmpty()) numEntries++
+                    if (entry is TimelineEntry && entry.content.isNotEmpty()) numEntries++
                 }
                 val viewModel = TimelineEntryViewModel(
-                    item as Entry,
+                    item as TimelineEntry,
                     isLastItem,
                     numEntries,
                     showDayOfWeek,
@@ -118,8 +119,8 @@ class TimelineAdapter(
             oldItem: TimelineItem,
             newItem: TimelineItem
         ): Boolean {
-            return if (oldItem is Entry && newItem is Entry) {
-                oldItem.entryDate == newItem.entryDate
+            return if (oldItem is TimelineEntry && newItem is TimelineEntry) {
+                oldItem.date == newItem.date
             } else if (oldItem is Milestone && newItem is Milestone) {
                 oldItem.number == newItem.number
             } else {

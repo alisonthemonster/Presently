@@ -1,6 +1,6 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
-import journal.gratitude.com.gratitudejournal.model.Entry
+import com.presently.presently_local_source.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvString
 import org.junit.Test
 import org.threeten.bp.LocalDate

@@ -3,8 +3,8 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 import android.annotation.SuppressLint
 import android.os.Parcelable
 import com.airbnb.mvrx.MavericksState
-import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.parcelize.Parcelize
+import com.presently.date_utils.toLocalDate
 import org.threeten.bp.LocalDate
 
 @SuppressLint("ParcelCreator")

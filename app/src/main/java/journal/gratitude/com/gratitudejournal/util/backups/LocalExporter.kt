@@ -6,11 +6,11 @@ import android.net.Uri
 import journal.gratitude.com.gratitudejournal.model.CsvUriCreated
 import journal.gratitude.com.gratitudejournal.model.CsvUriError
 import journal.gratitude.com.gratitudejournal.model.CsvUriResult
-import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.DATE_COLUMN_HEADER
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.ENTRY_COLUMN_HEADER
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvString
-import journal.gratitude.com.gratitudejournal.util.toLocalDate
+import com.presently.date_utils.toLocalDate
+import com.presently.presently_local_source.model.Entry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream

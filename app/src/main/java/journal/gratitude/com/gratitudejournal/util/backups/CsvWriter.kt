@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
-import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.util.toDatabaseString
+import com.presently.date_utils.toDatabaseString
+import com.presently.presently_local_source.model.Entry
 import org.apache.commons.text.StringEscapeUtils
 
 object CsvWriter {

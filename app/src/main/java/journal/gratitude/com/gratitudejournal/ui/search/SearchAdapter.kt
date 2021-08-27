@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.presently.date_utils.toShortMonthString
+import com.presently.presently_local_source.model.Entry
 import journal.gratitude.com.gratitudejournal.databinding.ItemSearchResultBinding
-import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.util.toShortMonthString
 import org.threeten.bp.LocalDate
 
 class SearchAdapter(private val onClickListener: OnClickListener) : PagingDataAdapter<Entry, SearchAdapter.SearchEntryViewHolder>(COMPARATOR) {

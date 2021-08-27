@@ -1,17 +1,10 @@
 package journal.gratitude.com.gratitudejournal.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import org.threeten.bp.LocalDate
 
 sealed class TimelineItem
 
-@Entity(tableName = "entries")
-data class Entry(
-    @PrimaryKey
-    val entryDate: LocalDate,
-    val entryContent: String
-): TimelineItem()
+data class TimelineEntry(val date: LocalDate, val content: String): TimelineItem()
 
 data class Milestone(val number: Int,
                      val numString: String): TimelineItem() {

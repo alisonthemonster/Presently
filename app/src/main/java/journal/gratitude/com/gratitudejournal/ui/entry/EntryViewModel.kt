@@ -5,26 +5,26 @@ import com.airbnb.mvrx.MavericksViewModelFactory
 import com.presently.logging.AnalyticsLogger
 import com.presently.mavericks_utils.AssistedViewModelFactory
 import com.presently.mavericks_utils.hiltMavericksViewModelFactory
+import com.presently.presently_local_source.PresentlyLocalSource
+import com.presently.presently_local_source.model.Entry
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
 import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
-import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.launch
 
 class EntryViewModel @AssistedInject constructor(
     @Assisted initialState: EntryState,
     private val analytics: AnalyticsLogger,
-    private val repository: EntryRepository
+    private val localSource: PresentlyLocalSource
 ) : MavericksViewModel<EntryState>(initialState) {
 
     init {
         withState {
             viewModelScope.launch {
-                val entry = repository.getEntry(it.date)
+                val entry = localSource.getEntry(it.date)
                 if (entry != null) {
                     setState {
                         copy(entryContent = entry.entryContent)
@@ -62,7 +62,7 @@ class EntryViewModel @AssistedInject constructor(
         withState {
             val entry = Entry(it.date, it.entryContent)
             viewModelScope.launch {
-                repository.addEntry(entry)
+                localSource.addEntry(entry)
             }
             if (it.isNewEntry) {
                 val totalEntries = (it.numberExistingEntries ?: 0) + 1

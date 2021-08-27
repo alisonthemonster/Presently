@@ -2,14 +2,14 @@ package journal.gratitude.com.gratitudejournal.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import com.presently.presently_local_source.PresentlyLocalSource
 
 @Suppress("UNCHECKED_CAST")
 class SearchViewModelFactory(
-    private val repository: EntryRepository
+    private val localSource: PresentlyLocalSource
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return SearchViewModel(repository) as T
+        return SearchViewModel(localSource) as T
     }
 }
