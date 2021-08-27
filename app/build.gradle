@@ -31,11 +31,6 @@ android {
         }
 
         testInstrumentationRunner "journal.gratitude.com.gratitudejournal.testUtils.AppCustomTestRunner"
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas")
-            }
-        }
 
         Properties localProperties = getLocalProperties()
 
@@ -57,9 +52,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
-    }
+
     testOptions {
         animationsDisabled true
 
