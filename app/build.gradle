@@ -131,6 +131,9 @@ dependencies {
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2'
     testImplementation 'com.airbnb.android:mavericks-testing:2.0.0'
     testImplementation "com.google.truth:truth:1.1.3"
+    testImplementation ('org.threeten:threetenbp:1.4.1'){
+        exclude group:'com.jakewharton.threetenabp', module:'threetenabp'
+    }
 
     androidTestImplementation project(':testing')
     androidTestImplementation 'androidx.test:runner:1.3.0'
