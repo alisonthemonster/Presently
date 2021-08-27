@@ -14,13 +14,13 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.presently.presently_local_source.PresentlyLocalSource
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import com.presently.testing.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.testUtils.scroll
-import com.presently.timeline.view.TimelineFragment
+import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
@@ -37,7 +37,7 @@ class TimelineFragmentInstrumentedTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var repository: EntryRepository
+    lateinit var localSource: PresentlyLocalSource
 
     @Before
     fun init() {
