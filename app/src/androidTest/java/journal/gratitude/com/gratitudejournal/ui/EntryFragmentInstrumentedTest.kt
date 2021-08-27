@@ -17,14 +17,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.airbnb.mvrx.asMavericksArgs
+import com.presently.presently_local_source.PresentlyLocalSource
+import com.presently.presently_local_source.model.Entry
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.testUtils.getText
 import journal.gratitude.com.gratitudejournal.testUtils.isEditTextValueEqualTo
-import journal.gratitude.com.gratitudejournal.testUtils.saveEntryBlocking
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import org.hamcrest.CoreMatchers.not
@@ -36,6 +35,7 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 import com.presently.testing.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryArgs
+import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.Matchers
 
 @HiltAndroidTest
@@ -46,7 +46,7 @@ class EntryFragmentInstrumentedTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var repository: EntryRepository
+    lateinit var presentlyLocalSource: PresentlyLocalSource
 
     @Before
     fun init() {
@@ -54,11 +54,11 @@ class EntryFragmentInstrumentedTest {
     }
 
     @Test
-    fun todaysEntry_showsTodayDateStrings() {
+    fun todaysEntry_showsTodayDateStrings() = runBlockingTest {
         val date = LocalDate.now()
 
         val mockEntry = Entry(date, "test content")
-        repository.saveEntryBlocking(mockEntry)
+        presentlyLocalSource.addEntry(mockEntry)
 
         val args = EntryArgs(date.toString(), false, 1, "quote", "hint", emptyList())
 
@@ -72,11 +72,11 @@ class EntryFragmentInstrumentedTest {
     }
 
     @Test
-    fun yesterdaysEntry_showsYesterdayDateStrings() {
+    fun yesterdaysEntry_showsYesterdayDateStrings()  = runBlockingTest {
         val date = LocalDate.now().minusDays(1)
 
         val mockEntry = Entry(date, "Yesterday's entry hello!")
-        repository.saveEntryBlocking(mockEntry)
+        presentlyLocalSource.addEntry(mockEntry)
 
         val args = EntryArgs(date.toString(), false, 1, "quote", "hint", emptyList())
 
@@ -90,10 +90,10 @@ class EntryFragmentInstrumentedTest {
     }
 
     @Test
-    fun writtenEntry_showsShareButton() {
+    fun writtenEntry_showsShareButton() = runBlockingTest {
         val date = LocalDate.of(2019, 3, 22)
         val mockEntry = Entry(date, "test content")
-        repository.saveEntryBlocking(mockEntry)
+        presentlyLocalSource.addEntry(mockEntry)
 
         val args = EntryArgs(date.toString(), false, 1, "quote", "hint", emptyList())
 
@@ -129,7 +129,6 @@ class EntryFragmentInstrumentedTest {
 
         val args = EntryArgs(date.toString(), true, 0, "quote", "first hint", listOf("second hint"))
 
-
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = args.asMavericksArgs()
@@ -146,7 +145,6 @@ class EntryFragmentInstrumentedTest {
         val date = LocalDate.of(2019, 3, 22)
 
         val args = EntryArgs(date.toString(), true, 4, "quote", "hint", emptyList())
-
 
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,

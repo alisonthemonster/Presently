@@ -1,40 +1,40 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.view.View
-import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.util.toFullString
-import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
+import com.presently.date_utils.toFullString
+import com.presently.date_utils.toStringWithDayOfWeek
+import journal.gratitude.com.gratitudejournal.model.TimelineEntry
 import org.threeten.bp.LocalDate
 
 class TimelineEntryViewModel(
-        private val timelineItem: Entry,
-        private val isLastItem: Boolean,
-        private val numEntries: Int,
-        private val showDayOfWeek: Boolean,
-        val maxLines: Int,
-        private val clickListener: OnClickListener
+    private val timelineItem: TimelineEntry,
+    private val isLastItem: Boolean,
+    private val numEntries: Int,
+    private val showDayOfWeek: Boolean,
+    val maxLines: Int,
+    private val clickListener: OnClickListener
 ) {
 
-    val content = timelineItem.entryContent
+    val content = timelineItem.content
 
     fun dateString(): String {
         return if (showDayOfWeek) {
-            timelineItem.entryDate.toStringWithDayOfWeek()
+            timelineItem.date.toStringWithDayOfWeek()
         } else {
-            timelineItem.entryDate.toFullString()
+            timelineItem.date.toFullString()
         }
     }
 
     fun onClick(view: View) {
-        clickListener.onClick(view, timelineItem.entryDate, timelineItem.entryContent == "", numEntries)
+        clickListener.onClick(view, timelineItem.date, timelineItem.content == "", numEntries)
     }
 
     fun isCurrentDate(): Boolean {
-        return timelineItem.entryDate == LocalDate.now()
+        return timelineItem.date == LocalDate.now()
     }
 
     fun isEmptyState(): Int {
-        return if (timelineItem.entryContent.isEmpty()) {
+        return if (timelineItem.content.isEmpty()) {
             View.VISIBLE
         } else {
             View.GONE

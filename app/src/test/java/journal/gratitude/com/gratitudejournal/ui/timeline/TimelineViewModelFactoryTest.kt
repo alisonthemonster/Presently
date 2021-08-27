@@ -1,18 +1,22 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
+import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.mock
-import junit.framework.TestCase
+import com.presently.presently_local_source.PresentlyLocalSource
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
+
 
 class TimelineViewModelFactoryTest {
 
-    private val factory = TimelineViewModelFactory(mock())
+    private val localSource = mock<PresentlyLocalSource>()
+    private val factory = TimelineViewModelFactory(localSource)
 
     @Test
-    fun create_createsAViewModel() {
+    fun create_createsAViewModel() = runBlockingTest {
         val actual = factory.create(TimelineViewModel::class.java)
-        val expected = TimelineViewModel(mock())
+        val expected = TimelineViewModel(localSource)
 
-        TestCase.assertEquals(expected.getTimelineItems(), actual.getTimelineItems())
+       assertThat(actual.getDatesWritten()).isEqualTo(expected.getDatesWritten())
     }
 }

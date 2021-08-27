@@ -26,6 +26,7 @@ import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.jakewharton.rxbinding2.widget.RxTextView
+import com.presently.date_utils.toFullString
 import com.presently.logging.AnalyticsLogger
 import com.presently.settings.BackupCadence
 import com.presently.settings.PresentlySettings
@@ -40,8 +41,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
-import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
-import journal.gratitude.com.gratitudejournal.util.toFullString
 import org.threeten.bp.LocalDate
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

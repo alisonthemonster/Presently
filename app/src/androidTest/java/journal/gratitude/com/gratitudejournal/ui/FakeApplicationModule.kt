@@ -1,28 +1,26 @@
 package journal.gratitude.com.gratitudejournal.ui
 
+import com.presently.presently_local_source.PresentlyLocalSource
+import com.presently.presently_local_source.wiring.PresentlyLocalSourceModule
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import journal.gratitude.com.gratitudejournal.di.ApplicationModule
-import journal.gratitude.com.gratitudejournal.di.RepositoryModule
-import journal.gratitude.com.gratitudejournal.fakes.FakeEntryRepository
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.fakes.FakePresentlyLocalSource
 import javax.inject.Singleton
 
 /**
- * EntryRepository binding to use in tests.
+ * PresentlyLocalSource binding to use in tests.
  *
- * Hilt will inject a [FakeEntryRepository] instead of a [EntryRepositoryImpl].
+ * Hilt will inject a [FakePresentlyLocalSource] instead of a [RealPresentlyLocalSource].
  */
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [RepositoryModule::class]
+    replaces = [PresentlyLocalSourceModule::class]
 )
-abstract class FakeRepositoryModule {
+abstract class FakeLocalSourceModule {
     @Singleton
     @Binds
-    abstract fun bindRepository(repo: FakeEntryRepository): EntryRepository
+    abstract fun bindLocalSource(repo: FakePresentlyLocalSource): PresentlyLocalSource
 }

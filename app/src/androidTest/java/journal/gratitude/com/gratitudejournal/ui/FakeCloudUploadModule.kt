@@ -22,5 +22,5 @@ import javax.inject.Singleton
 abstract class FakeCloudUploadModule {
     @Singleton
     @Binds
-    abstract fun bindCloudProvider(repo: FakeCloudUploader): CloudProvider
+    abstract fun bindCloudProvider(cloudProvider: FakeCloudUploader): CloudProvider
 }

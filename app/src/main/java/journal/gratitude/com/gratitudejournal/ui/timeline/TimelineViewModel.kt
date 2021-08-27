@@ -1,102 +1,93 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.presently.presently_local_source.PresentlyLocalSource
+import com.presently.presently_local_source.model.Entry
 import dagger.hilt.android.lifecycle.HiltViewModel
-import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.milestones
+import journal.gratitude.com.gratitudejournal.model.TimelineEntry
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
-class TimelineViewModel @Inject constructor(private val repository: EntryRepository) : ViewModel() {
+class TimelineViewModel @Inject constructor(private val localSource: PresentlyLocalSource) : ViewModel() {
 
-    val entries = MutableLiveData<List<TimelineItem>>()
-    val datesWritten: LiveData<List<LocalDate>> = repository.getWrittenDates()
+    suspend fun getDatesWritten(): List<LocalDate> = localSource.getWrittenDates()
 
-    private var parentJob = Job()
-    private val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.Main
-    private val scope = CoroutineScope(coroutineContext)
+    fun getTimelineItems(): Flow<List<TimelineItem>> {
+        return localSource.getEntriesFlow().map { entries ->
+            val today = LocalDate.now()
+            val yesterday = today.minusDays(1)
 
-    init {
-        scope.launch {
-            repository.getEntriesFlow().collect { list ->
-                val today = LocalDate.now()
-                val yesterday = LocalDate.now().minusDays(1)
-                when {
-                    list.isEmpty() -> {
-                        entries.value = listOf<TimelineItem>(
-                            Entry(today, ""),
-                            Entry(yesterday, "")
-                        )
+            when {
+                entries.isEmpty() -> {
+                    //create placeholders for today and yesterday
+                    listOf<TimelineItem>(
+                        TimelineEntry(today, ""),
+                        TimelineEntry(yesterday, "")
+                    )
+                }
+                entries.size < 2 -> {
+                    //user has only ever written one day
+                    val newList = mutableListOf<TimelineItem>()
+                    newList.addAll(entries.map { TimelineEntry(it.entryDate, it.entryContent) })
+                    if (entries[0].entryDate != today) {
+                        newList.add(0, TimelineEntry(today, ""))
                     }
-                    list.size < 2 -> {
-                        //user has only ever written one day
-                        val newList = mutableListOf<TimelineItem>()
-                        newList.addAll(list)
-                        if (list[0].entryDate != today) {
-                            newList.add(0, Entry(today, ""))
-                        }
-                        if (list[0].entryDate != yesterday) {
-                            newList.add(1, Entry(yesterday, ""))
-                        }
-                        entries.value = newList
+                    if (entries[0].entryDate != yesterday) {
+                        newList.add(1, TimelineEntry(yesterday, ""))
                     }
-                    else -> {
-                        val latest = list[0]
-                        val listWithHints = mutableListOf<Entry>()
-                        listWithHints.addAll(list)
-                        if (latest.entryDate != today) {
-                            //they dont have the latest
-                            listWithHints.add(0, Entry(today, ""))
-                        }
-                        if (listWithHints[1].entryDate != yesterday) {
-                            listWithHints.add(1, Entry(yesterday, ""))
-                        }
+                    newList
+                }
+                entries.size < 2 -> {
+                    //user has only ever written one day
+                    val newList: MutableList<TimelineItem> =
+                        entries.map { TimelineEntry(it.entryDate, it.entryContent) }.toMutableList()
+                    if (entries[0].entryDate != today) {
+                        newList.add(0, TimelineEntry(today, ""))
+                    }
+                    if (entries[0].entryDate != yesterday) {
+                        newList.add(1, TimelineEntry(yesterday, ""))
+                    }
+                    newList
+                }
+                else -> {
+                    val listWithPlaceholders  =
+                        entries.map { TimelineEntry(it.entryDate, it.entryContent) }.toMutableList()
+                    val latest = entries[0]
+                    if (latest.entryDate != today) {
+                        listWithPlaceholders.add(0, TimelineEntry(today, ""))
+                    }
+                    if (listWithPlaceholders[1].date != yesterday) {
+                        listWithPlaceholders.add(1, TimelineEntry(yesterday, ""))
+                    }
 
-                        val listWithHintsAndMilestones = mutableListOf<TimelineItem>()
-
-                        var numEntries = 0
-                        for (index in listWithHints.size - 1 downTo 0) {
-                            listWithHintsAndMilestones.add(0, listWithHints[index])
-                            if (listWithHints[index].entryContent.isNotEmpty()) {
-                                numEntries++
-                                if (milestones.contains(numEntries)) {
-                                    listWithHintsAndMilestones.add(0, Milestone.create(numEntries))
-                                }
+                    val listWithHintsAndMilestones = mutableListOf<TimelineItem>()
+                    var numEntries = 0
+                    for (index in listWithPlaceholders.size - 1 downTo 0) {
+                        listWithHintsAndMilestones.add(0, listWithPlaceholders[index])
+                        if (listWithPlaceholders[index].content.isNotEmpty()) {
+                            numEntries++
+                            if (milestones.contains(numEntries)) {
+                                listWithHintsAndMilestones.add(0, Milestone.create(numEntries))
                             }
-
                         }
-                        entries.value = listWithHintsAndMilestones
                     }
+                    listWithHintsAndMilestones
                 }
             }
-
         }
     }
 
-    fun getTimelineItems(): List<TimelineItem> {
-        return entries.value ?: emptyList()
-    }
-
-    fun addEntries(entries: List<Entry>) = scope.launch(Dispatchers.IO) {
-        repository.addEntries(entries)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        parentJob.cancel()
+    fun addEntries(entries: List<Entry>) {
+        viewModelScope.launch {
+            localSource.addEntries(entries)
+        }
     }
 }

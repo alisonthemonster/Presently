@@ -1,14 +1,12 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingData
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.airbnb.mvrx.withState
 import com.google.common.truth.Truth.assertThat
 import com.presently.logging.AnalyticsLogger
-import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import com.presently.presently_local_source.PresentlyLocalSource
+import com.presently.presently_local_source.model.Entry
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -21,12 +19,12 @@ class EntryViewModelTest {
 
     private lateinit var viewModel: EntryViewModel
 
-    private val repository = object : EntryRepository {
-        override suspend fun getEntry(date: LocalDate): Entry? {
+    private val localSource = object : PresentlyLocalSource {
+        override suspend fun getEntry(date: LocalDate): Entry {
             return Entry(date, "hii there")
         }
 
-        override suspend fun getEntriesFlow(): Flow<List<Entry>> {
+        override fun getEntriesFlow(): Flow<List<Entry>> {
             return flowOf(listOf(Entry(LocalDate.of(2021, 2, 28), "hii there")))
         }
 
@@ -34,8 +32,8 @@ class EntryViewModelTest {
             return listOf(Entry(LocalDate.of(2021, 2, 28), "hii there"))
         }
 
-        override fun getWrittenDates(): LiveData<List<LocalDate>> {
-            return MutableLiveData(listOf(LocalDate.of(2021, 2, 28)))
+        override suspend fun getWrittenDates(): List<LocalDate> {
+            return listOf(LocalDate.of(2021, 2, 28))
         }
 
         override suspend fun addEntry(entry: Entry) = Unit
@@ -62,7 +60,7 @@ class EntryViewModelTest {
     @Test
     fun `GIVEN entry view model WHEN changePrompt is called THEN the state is updated`() {
         val initialState = EntryState(LocalDate.now(), "", true, null, "hint", "quote", false, 0, listOf("one", "two"), false)
-        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel = EntryViewModel(initialState, analytics, localSource)
         viewModel.changePrompt()
 
         withState(viewModel) {
@@ -91,7 +89,7 @@ class EntryViewModelTest {
             override fun recordView(viewName: String) {}
         }
 
-        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel = EntryViewModel(initialState, analytics, localSource)
         viewModel.changePrompt()
 
         assertThat(eventName).isEqualTo("clickedNewPrompt")
@@ -101,7 +99,7 @@ class EntryViewModelTest {
     @Test
     fun `GIVEN entry view model WHEN onTextChanged is called THEN the state is updated`() {
         val initialState = EntryState(LocalDate.now(), "", true, null, "hint", "quote", false, 0, listOf("one", "two"), false)
-        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel = EntryViewModel(initialState, analytics, localSource)
         viewModel.onTextChanged("new text")
 
         withState(viewModel) {
@@ -130,7 +128,7 @@ class EntryViewModelTest {
             }
         }
 
-        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel = EntryViewModel(initialState, analytics, localSource)
         viewModel.onCreate()
 
         assertThat(viewScreenWasCalled).isTrue()
@@ -141,17 +139,17 @@ class EntryViewModelTest {
     fun `GIVEN an entry view model WHEN the view model is created THEN the entry is fetched`() {
         val initialState = EntryState(LocalDate.now(), "", true, null, "hint", "quote", false, 0, listOf("one", "two"), false)
         var getEntryWasCalled = false
-        val repository = object : EntryRepository {
-            override suspend fun getEntry(date: LocalDate): Entry? {
+        val localSource = object : PresentlyLocalSource {
+            override suspend fun getEntry(date: LocalDate): Entry {
                 getEntryWasCalled = true
                 return Entry(date, "hii there")
             }
 
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
+            override fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
 
             override suspend fun getEntries(): List<Entry> = emptyList()
 
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
+            override suspend fun getWrittenDates(): List<LocalDate> = emptyList()
 
             override suspend fun addEntry(entry: Entry) = Unit
 
@@ -160,23 +158,23 @@ class EntryViewModelTest {
             override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
         }
 
-        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel = EntryViewModel(initialState, analytics, localSource)
 
         assertThat(getEntryWasCalled).isTrue()
     }
 
     @Test
-    fun `GIVEN an entry view model WHEN saveEntry is called THEN the entry is added to the repository`() {
+    fun `GIVEN an entry view model WHEN saveEntry is called THEN the entry is added to the localSource`() {
         val initialState = EntryState(LocalDate.now(), "", true, null, "hint", "quote", false, 0, listOf("one", "two"), false)
         var addEntryWasCalled = false
-        val repository = object : EntryRepository {
+        val localSource = object : PresentlyLocalSource {
             override suspend fun getEntry(date: LocalDate): Entry? = null
 
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
+            override fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
 
             override suspend fun getEntries(): List<Entry> = emptyList()
 
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
+            override suspend fun getWrittenDates(): List<LocalDate> = emptyList()
 
             override suspend fun addEntry(entry: Entry) {
                 addEntryWasCalled = true
@@ -187,7 +185,7 @@ class EntryViewModelTest {
             override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
         }
 
-        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel = EntryViewModel(initialState, analytics, localSource)
         viewModel.saveEntry()
 
         assertThat(addEntryWasCalled).isTrue()
@@ -213,7 +211,7 @@ class EntryViewModelTest {
             override fun recordView(viewName: String) {}
         }
 
-        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel = EntryViewModel(initialState, analytics, localSource)
         viewModel.saveEntry()
 
         assertThat(recordEventWasCalled).isTrue()
@@ -240,7 +238,7 @@ class EntryViewModelTest {
             override fun recordView(viewName: String) {}
         }
 
-        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel = EntryViewModel(initialState, analytics, localSource)
         viewModel.saveEntry()
 
         assertThat(recordEntryAddedWasCalled).isTrue()
@@ -251,7 +249,7 @@ class EntryViewModelTest {
     fun `GIVEN an entry view model AND an new entry WHEN saveEntry is called THEN the state is updated`() {
         val initialState = EntryState(LocalDate.now(), "", true, 0, "hint", "quote", false, 0, listOf("one", "two"), false)
 
-        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel = EntryViewModel(initialState, analytics, localSource)
         viewModel.saveEntry()
 
         withState(viewModel) {
@@ -263,7 +261,7 @@ class EntryViewModelTest {
     fun `GIVEN an entry view model AND an new entry AND 4 existing entries WHEN saveEntry is called THEN the state is updated`() {
         val initialState = EntryState(LocalDate.now(), "", true, 4, "hint", "quote", false, 0, listOf("one", "two"), false)
 
-        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel = EntryViewModel(initialState, analytics, localSource)
         viewModel.saveEntry()
 
         withState(viewModel) {
@@ -275,7 +273,7 @@ class EntryViewModelTest {
     fun `GIVEN an entry view model AND an existing entry WHEN saveEntry is called THEN the state is updated`() {
         val initialState = EntryState(LocalDate.now(), "", false, 4, "hint", "quote", false, 0, listOf("one", "two"), false)
 
-        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel = EntryViewModel(initialState, analytics, localSource)
         viewModel.saveEntry()
 
         withState(viewModel) {
@@ -287,14 +285,14 @@ class EntryViewModelTest {
     fun `GIVEN EntryArgs AND a new entry WHEN the viewModel is created THEN the initial state is set`() {
         val entryArgs = EntryArgs(LocalDate.now().toString(), true, 0, "Quote", "What are you grateful for?", listOf("one", "two", "three"))
         val initialState = EntryState(entryArgs)
-        val repository = object : EntryRepository {
+        val localSource = object : PresentlyLocalSource {
             override suspend fun getEntry(date: LocalDate): Entry? = null
 
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
+            override fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
 
             override suspend fun getEntries(): List<Entry> = emptyList()
 
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
+            override suspend fun getWrittenDates(): List<LocalDate> = emptyList()
 
             override suspend fun addEntry(entry: Entry) {}
 
@@ -303,7 +301,7 @@ class EntryViewModelTest {
             override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
         }
 
-        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel = EntryViewModel(initialState, analytics, localSource)
 
         withState(viewModel) {
             assertThat(it.date).isEqualTo(LocalDate.now())
@@ -324,14 +322,14 @@ class EntryViewModelTest {
     fun `GIVEN EntryArgs AND a existing entry WHEN the viewModel is created THEN the initial state is set`() {
         val entryArgs = EntryArgs(LocalDate.now().toString(), false, 0, "Quote", "What are you grateful for?", listOf("one", "two", "three"))
         val initialState = EntryState(entryArgs)
-        val repository = object : EntryRepository {
+        val localSource = object : PresentlyLocalSource {
             override suspend fun getEntry(date: LocalDate): Entry? = null
 
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
+            override fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
 
             override suspend fun getEntries(): List<Entry> = emptyList()
 
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
+            override suspend fun getWrittenDates(): List<LocalDate> = emptyList()
 
             override suspend fun addEntry(entry: Entry) {}
 
@@ -339,7 +337,7 @@ class EntryViewModelTest {
 
             override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
         }
-        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel = EntryViewModel(initialState, analytics, localSource)
 
         withState(viewModel) {
             assertThat(it.date).isEqualTo(LocalDate.now())

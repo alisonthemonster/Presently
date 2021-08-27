@@ -1,9 +1,9 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
 import com.nhaarman.mockitokotlin2.*
+import com.presently.presently_local_source.model.Entry
 import journal.gratitude.com.gratitudejournal.model.CsvFileCreated
 import journal.gratitude.com.gratitudejournal.model.CsvFileError
-import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvString
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

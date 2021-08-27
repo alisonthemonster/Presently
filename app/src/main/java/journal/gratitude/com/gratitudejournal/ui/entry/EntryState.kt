@@ -3,8 +3,7 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 import android.annotation.SuppressLint
 import android.os.Parcelable
 import com.airbnb.mvrx.MavericksState
-import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.util.toLocalDate
+import com.presently.date_utils.toLocalDate
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.LocalDate
 

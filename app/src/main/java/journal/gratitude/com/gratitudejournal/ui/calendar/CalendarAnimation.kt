@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator
 import android.view.View
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-
 class CalendarAnimation(private val fabView: FloatingActionButton, private val calendarView: EntryCalendarView) {
 
     fun openCalendar() {

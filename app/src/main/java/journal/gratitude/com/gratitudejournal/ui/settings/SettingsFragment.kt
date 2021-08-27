@@ -31,6 +31,7 @@ import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListene
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import com.presently.logging.AnalyticsLogger
 import com.presently.logging.CrashReporter
+import com.presently.presently_local_source.PresentlyLocalSource
 import com.presently.settings.BackupCadence
 import com.presently.settings.PresentlySettings
 import com.presently.settings.model.*
@@ -49,7 +50,6 @@ import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragm
 import com.presently.ui.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import dagger.hilt.android.AndroidEntryPoint
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.launch
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -64,7 +64,7 @@ import javax.inject.Inject
 class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener, DialogPreference.TargetFragment {
 
-    @Inject lateinit var repository: EntryRepository
+    @Inject lateinit var localSource: PresentlyLocalSource
     @Inject lateinit var settings: PresentlySettings
     @Inject lateinit var analytics: AnalyticsLogger
     @Inject lateinit var crashReporter: CrashReporter
@@ -476,7 +476,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             val realCsvParser = RealCsvParser(parser)
             val entries = convertCsvToEntries(realCsvParser)
             lifecycleScope.launch {
-                repository.addEntries(entries)
+                localSource.addEntries(entries)
                 analytics.recordEvent(IMPORTED_DATA_SUCCESS)
                 parentFragmentManager.popBackStack()
             }
@@ -501,7 +501,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     val csvResult = exportEntriesToCsvFile(
                             requireContext(),
                             uri,
-                            repository.getEntries()
+                            localSource.getEntries()
                     )
                     when (csvResult) {
                         is CsvUriError -> exportCallback.onFailure(csvResult.exception)
