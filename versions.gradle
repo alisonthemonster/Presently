@@ -5,7 +5,7 @@ ext {
     beta = ""
 
     androidCompileSdk = 29
-    androidTargetSdk = 29
+    androidTargetSdk = 30
     androidMinSdk = 23
 
     lifecycle_version = "2.2.0"
