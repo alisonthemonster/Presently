@@ -177,7 +177,7 @@ def printReport(task) {
     def minTestCoverage = [
             'instruction': 80,
             'line'       : 80,
-            'method'     : 77,
+            'method'     : 75, //lowered because of this issue: https://github.com/airbnb/mavericks/issues/552
             'class'      : 80
     ]
 
