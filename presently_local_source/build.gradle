@@ -59,9 +59,9 @@ dependencies {
 
     //room + paging
     implementation 'androidx.paging:paging-runtime:3.1.0-alpha01'
-    implementation "androidx.room:room-ktx:2.4.0-alpha04"
-    implementation "androidx.room:room-runtime:2.4.0-alpha04"
-    kapt "androidx.room:room-compiler:2.4.0-alpha04"
+    implementation "androidx.room:room-ktx:2.4.0-alpha03"
+    implementation "androidx.room:room-runtime:2.4.0-alpha03"
+    kapt "androidx.room:room-compiler:2.4.0-alpha03"
 
     //assorted
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
@@ -90,7 +90,8 @@ dependencies {
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.room:room-testing:2.4.0-alpha04"
+    androidTestImplementation "androidx.room:room-testing:2.3.0-beta01"
     androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
     androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
+
 }
