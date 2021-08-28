@@ -25,11 +25,8 @@ const val OPENED_SHARE_APP = "openedShareApp"
 const val OPENED_TERMS_CONDITIONS = "openedTermsAndConditions"
 const val OPENED_THEMES = "openedThemes"
 const val OPENED_FAQ = "openedFaq"
-const val DROPBOX_USER = "isDropboxUser"
 const val DROPBOX_DEAUTH = "dropboxDeauthorization"
 const val DROPBOX_AUTH_ATTEMPT = "dropboxAuthorizaitonAttempt"
-const val DROPBOX_AUTH_SUCCESS = "dropboxAuthorizaitonSuccess"
-const val DROPBOX_AUTH_QUIT = "dropboxAuthorizaitonQuit"
 const val LANGUAGE_INSTALLED = "languageInstalled"
 
 //BIOMETRIC EVENTS
