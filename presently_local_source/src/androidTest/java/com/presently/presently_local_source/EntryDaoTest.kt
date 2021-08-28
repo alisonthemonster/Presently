@@ -52,7 +52,7 @@ class EntryDaoTest {
     }
 
     @Test
-    fun writeMultipleEntries() {
+    fun writeMultipleEntries() = runBlockingTest {
         entryDao.insertEntries(mockEntriesSorted)
 
         val actualEntry = entryDao.getEntries()
@@ -60,7 +60,7 @@ class EntryDaoTest {
     }
 
     @Test
-    fun getEntriesReturnsEntries() {
+    fun getEntriesReturnsEntries() = runBlockingTest {
         entryDao.insertEntry(entryTwo)
         entryDao.insertEntry(entryThree)
         entryDao.insertEntry(entryOne)
@@ -71,7 +71,7 @@ class EntryDaoTest {
     }
 
     @Test
-    fun deleteEntryRemovesEntry() {
+    fun deleteEntryRemovesEntry() = runBlockingTest {
         entryDao.insertEntries(mockEntriesSorted)
         entryDao.delete(entryTwo)
 
