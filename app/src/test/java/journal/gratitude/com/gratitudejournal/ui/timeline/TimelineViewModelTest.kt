@@ -5,6 +5,7 @@ import androidx.paging.PagingData
 import com.google.common.truth.Truth.assertThat
 import com.presently.presently_local_source.PresentlyLocalSource
 import com.presently.presently_local_source.model.Entry
+import com.presently.testing.MainCoroutineRule
 import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.model.TimelineEntry
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
@@ -19,6 +20,9 @@ class TimelineViewModelTest {
     @Rule
     @JvmField
     val rule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val coroutineRule = MainCoroutineRule()
 
     @Test
     fun `GIVEN a user with no entries WHEN getTimelineItems is called THEN return a list with today and yesterday placeholders`() = runBlockingTest {
@@ -491,5 +495,32 @@ class TimelineViewModelTest {
         val actual = viewModel.getDatesWritten()
 
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `GIVEN a list of entries WHEN addEntries is called THEN the local source is called`() {
+        var addEntriesWasCalled = false
+        val localSource = object : PresentlyLocalSource {
+            override suspend fun getEntry(date: LocalDate): Entry { return Entry(date, "hii there") }
+
+            override fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
+
+            override suspend fun getEntries(): List<Entry> = emptyList()
+
+            override suspend fun getWrittenDates(): List<LocalDate> = emptyList()
+
+            override suspend fun addEntry(entry: Entry) = Unit
+
+            override suspend fun addEntries(entries: List<Entry>) {
+                addEntriesWasCalled = true
+            }
+
+            override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
+        }
+
+        val viewModel = TimelineViewModel(localSource)
+        viewModel.addEntries(emptyList())
+
+        assertThat(addEntriesWasCalled).isTrue()
     }
 }
