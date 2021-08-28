@@ -4,10 +4,8 @@ import androidx.paging.*
 import com.presently.presently_local_source.database.EntryDao
 import com.presently.presently_local_source.model.Entry
 import com.presently.presently_local_source.model.EntryEntity
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
@@ -26,15 +24,15 @@ class RealPresentlyLocalSource @Inject constructor(private val entryDao: EntryDa
         }
     }
 
-    override suspend fun getEntries(): List<Entry> = withContext(Dispatchers.IO) {
-        entryDao.getEntries().map { it.toEntry() }
+    override suspend fun getEntries(): List<Entry> {
+        return entryDao.getEntries().map { it.toEntry() }
     }
 
-    override suspend fun getWrittenDates(): List<LocalDate>  = withContext(Dispatchers.IO) {
-        entryDao.getWrittenDates()
+    override suspend fun getWrittenDates(): List<LocalDate> {
+        return entryDao.getWrittenDates()
     }
 
-    override suspend fun addEntry(entry: Entry) = withContext(Dispatchers.IO) {
+    override suspend fun addEntry(entry: Entry) {
         if (entry.entryContent.isEmpty()) {
             entryDao.delete(entry.toEntryEntity())
         } else {
@@ -42,7 +40,7 @@ class RealPresentlyLocalSource @Inject constructor(private val entryDao: EntryDa
         }
     }
 
-    override suspend fun addEntries(entries: List<Entry>) = withContext(Dispatchers.IO) {
+    override suspend fun addEntries(entries: List<Entry>) {
         entryDao.insertEntries(entries.map { it.toEntryEntity() })
     }
 
