@@ -1,11 +1,20 @@
 package com.presently.settings
 
 import android.content.SharedPreferences
+import com.dropbox.core.oauth.DbxCredential
+import com.presently.logging.AnalyticsLogger
+import com.presently.logging.DROPBOX_AUTH_QUIT
+import com.presently.logging.DROPBOX_AUTH_SUCCESS
 import com.presently.settings.model.*
 import java.util.*
 import org.threeten.bp.LocalTime
+import javax.inject.Inject
 
-class RealPresentlySettings(private val sharedPrefs: SharedPreferences): PresentlySettings {
+class RealPresentlySettings @Inject constructor(
+    private val sharedPrefs: SharedPreferences,
+    private val analytics: AnalyticsLogger
+) : PresentlySettings {
+
     override fun getCurrentTheme(): String {
         return sharedPrefs.getString(THEME_PREF, "original") ?: "original"
     }
@@ -14,6 +23,8 @@ class RealPresentlySettings(private val sharedPrefs: SharedPreferences): Present
         sharedPrefs.edit()
             .putString(THEME_PREF, themeName)
             .apply()
+
+        analytics.recordSelectEvent(themeName, "theme")
     }
 
     override fun isBiometricsEnabled(): Boolean {
@@ -34,7 +45,7 @@ class RealPresentlySettings(private val sharedPrefs: SharedPreferences): Present
     }
 
     override fun getFirstDayOfWeek(): Int {
-        return when(sharedPrefs.getString(FIRST_DAY_OF_WEEK, "monday")) {
+        return when (sharedPrefs.getString(FIRST_DAY_OF_WEEK, "monday")) {
             "0" -> Calendar.SATURDAY
             "1" -> Calendar.SUNDAY
             else -> Calendar.MONDAY
@@ -79,12 +90,41 @@ class RealPresentlySettings(private val sharedPrefs: SharedPreferences): Present
         return sharedPrefs.getBoolean(DAY_OF_WEEK, false) ?: false
     }
 
-    override fun getAccessToken(): String? {
-        return sharedPrefs.getString(ACCESS_TOKEN, null)
+    override fun getAccessToken(): DbxCredential? {
+        val serializedToken = sharedPrefs.getString(ACCESS_TOKEN, null)
+        return when {
+            serializedToken == "attempted" -> null
+            serializedToken == null -> null
+            serializedToken.contains("{") -> {
+                //this user has a refresh token
+                DbxCredential.Reader.readFully(serializedToken)
+            }
+            else -> {
+                //this user has a long lived access token
+                    //users who auth'd with Dropbox before
+                DbxCredential(serializedToken)
+            }
+        }
     }
 
-    override fun setAccessToken(newToken: String) {
-        sharedPrefs.edit().putString(ACCESS_TOKEN, newToken).apply()
+    override fun setAccessToken(newToken: DbxCredential) {
+        analytics.recordEvent(DROPBOX_AUTH_SUCCESS)
+        sharedPrefs.edit().putString(ACCESS_TOKEN, newToken.toString()).apply()
+    }
+
+    override fun markDropboxAuthInitiated() {
+        sharedPrefs.edit().putString(ACCESS_TOKEN, "attempted").apply()
+    }
+
+    override fun wasDropboxAuthInitiated(): Boolean {
+        val token = sharedPrefs.getString(ACCESS_TOKEN, null) ?: return false
+        return token == "attempted"
+    }
+
+    override fun markDropboxAuthAsCancelled() {
+        sharedPrefs.edit().putBoolean(BACKUP_TOKEN, false).apply() //reset the switch preference
+        sharedPrefs.edit().remove(ACCESS_TOKEN).apply()
+        analytics.recordEvent(DROPBOX_AUTH_QUIT)
     }
 
     override fun clearAccessToken() {

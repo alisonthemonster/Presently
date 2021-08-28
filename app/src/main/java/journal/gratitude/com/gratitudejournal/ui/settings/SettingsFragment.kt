@@ -200,18 +200,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
         // Set up a listener whenever a key changes
         prefs.registerOnSharedPreferenceChangeListener(this)
 
-        val accessToken = prefs.getString("access-token", null)
-        if (accessToken == "attempted") {
-            val token = Auth.getOAuth2Token()
+        // If we just resumed after launching the Dropbox activity
+        if (settings.wasDropboxAuthInitiated()) {
+            val token = Auth.getDbxCredential() //get token from Dropbox Auth activity
             if (token == null) {
                 //user started to auth and didn't succeed
-                analytics.recordEvent(DROPBOX_AUTH_QUIT)
-                prefs.edit().putBoolean(BACKUP_TOKEN, false).apply()
-                prefs.edit().remove("access-token").apply()
+                settings.markDropboxAuthAsCancelled()
                 activity?.recreate()
             } else {
-                analytics.recordEvent(DROPBOX_AUTH_SUCCESS)
-                prefs.edit().putString("access-token", token).apply()
+                settings.setAccessToken(token)
                 createDropboxUploaderWorker(BackupCadence.DAILY)
             }
         }

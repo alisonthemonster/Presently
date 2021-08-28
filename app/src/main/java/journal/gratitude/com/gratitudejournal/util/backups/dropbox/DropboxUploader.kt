@@ -5,6 +5,7 @@ import androidx.work.WorkManager
 import com.dropbox.core.DbxException
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.android.Auth
+import com.dropbox.core.oauth.DbxCredential
 import com.dropbox.core.v2.DbxClientV2
 import com.dropbox.core.v2.files.WriteMode
 import com.presently.settings.PresentlySettings
@@ -48,8 +49,11 @@ class DropboxUploader(val context: Context, val settings: PresentlySettings):
     companion object {
 
         fun authorizeDropboxAccess(context: Context, settings: PresentlySettings) {
-            settings.setAccessToken("attempted")
-            Auth.startOAuth2Authentication(context, BuildConfig.DROPBOX_APP_KEY)
+            settings.markDropboxAuthInitiated()
+
+            val clientIdentifier = "PresentlyAndroid/${BuildConfig.VERSION_NAME}"
+            val requestConfig = DbxRequestConfig(clientIdentifier)
+            Auth.startOAuth2PKCE(context, BuildConfig.DROPBOX_APP_KEY, requestConfig)
         }
 
         suspend fun deauthorizeDropboxAccess(context: Context, settings: PresentlySettings) {
