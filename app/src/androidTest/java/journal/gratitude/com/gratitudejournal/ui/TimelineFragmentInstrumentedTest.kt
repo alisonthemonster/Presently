@@ -15,18 +15,22 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.presently.presently_local_source.PresentlyLocalSource
+import com.presently.presently_local_source.model.Entry
+import com.presently.presently_local_source.model.EntryEntity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
 import com.presently.testing.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.testUtils.scroll
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
+import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -48,6 +52,19 @@ class TimelineFragmentInstrumentedTest {
     fun timelineFragment_showsTimeline() {
         launchFragmentInHiltContainer<TimelineFragment>()
         onView(withId(R.id.timeline_recycler_view)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun timelineFragment_showsTimeline_withMilestones() = runBlockingTest {
+        val today = LocalDate.now()
+        var date = today.minusDays(3)
+        for (i in 0 until 5) {
+            val entry = Entry(date, "Entry")
+            localSource.addEntry(entry)
+            date = date.minusDays(1)
+        }
+        launchFragmentInHiltContainer<TimelineFragment>()
+        onView(withId(R.id.days_of_gratitude)).check(matches(isDisplayed()))
     }
 
     @Test
