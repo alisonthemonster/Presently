@@ -12,7 +12,7 @@ interface EntryDao {
     fun getEntriesFlow(): Flow<List<EntryEntity>>
 
     @Query("SELECT * FROM entries ORDER BY datetime(entryDate) DESC")
-    fun getEntries(): List<EntryEntity>
+    suspend fun getEntries(): List<EntryEntity>
 
     @Query("SELECT entryDate FROM entries ORDER BY datetime(entryDate) DESC")
     suspend fun getWrittenDates(): List<LocalDate>
@@ -21,7 +21,7 @@ interface EntryDao {
     suspend fun getEntry(date: LocalDate): EntryEntity? //todo this can be null right?
 
     @Delete
-    fun delete(entry: EntryEntity)
+    suspend fun delete(entry: EntryEntity)
 
     @Query("SELECT entries.* FROM entries JOIN entriesFts ON (entries.`rowid` = entriesFts.`rowid`) WHERE entriesFts MATCH :query ORDER BY datetime(entriesFts.entryDate) DESC")
     fun searchAllEntries(query: String): PagingSource<Int, EntryEntity>
@@ -29,11 +29,11 @@ interface EntryDao {
     @Insert(
         onConflict = OnConflictStrategy.REPLACE
     )
-    fun insertEntry(entry: EntryEntity)
+    suspend fun insertEntry(entry: EntryEntity)
 
     @Insert(
         onConflict = OnConflictStrategy.REPLACE
     )
-    fun insertEntries(entry: List<EntryEntity>)
+    suspend fun insertEntries(entries: List<EntryEntity>)
 
 }

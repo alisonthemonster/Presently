@@ -59,9 +59,9 @@ dependencies {
 
     //room + paging
     implementation 'androidx.paging:paging-runtime:3.1.0-alpha01'
-    implementation "androidx.room:room-ktx:2.4.0-alpha03"
-    implementation "androidx.room:room-runtime:2.4.0-alpha03"
-    kapt "androidx.room:room-compiler:2.4.0-alpha03"
+    implementation "androidx.room:room-ktx:2.4.0-alpha04"
+    implementation "androidx.room:room-runtime:2.4.0-alpha04"
+    kapt "androidx.room:room-compiler:2.4.0-alpha04"
 
     //assorted
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
@@ -77,13 +77,11 @@ dependencies {
     kapt 'com.google.dagger:hilt-android-compiler:2.38.1'
 
 
-    testImplementation 'junit:junit:4.13'
-    testImplementation "androidx.room:room-testing:2.3.0-beta01"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_version"
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation "androidx.room:room-testing:2.4.0-alpha04"
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2'
-    testImplementation 'com.airbnb.android:mavericks-testing:2.0.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
     testImplementation "com.google.truth:truth:1.1.3"
     testImplementation ('org.threeten:threetenbp:1.4.1'){
         exclude group:'com.jakewharton.threetenabp', module:'threetenabp'
@@ -92,8 +90,7 @@ dependencies {
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.room:room-testing:2.3.0-beta01"
+    androidTestImplementation "androidx.room:room-testing:2.4.0-alpha04"
     androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
     androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
-
 }
