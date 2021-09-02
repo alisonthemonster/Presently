@@ -65,13 +65,13 @@
     <string name="notifs_name">Kennisgewings</string>
     <string name="appearance">Voorkoms</string>
     <string name="about">App Inligting</string>
-    <string name="select_a_theme">Kies 'n tema</string>
+    <string name="select_a_theme">Kies \'n tema</string>
     <string name="theme">Tema</string>
     <string name="open_source">Oopbronlisensies</string>
     <string name="open_source_info">Lees oopbronbiblioteeklisensies</string>
     <string name="permission_export">Toestemming is nodig om data uit te voer</string>
     <string name="error_parsing">Kon nie lêer ontleed nie</string>
-    <string name="file_not_csv">Lêer moet 'n CSV wees</string>
+    <string name="file_not_csv">Lêer moet \'n CSV wees</string>
     <string name="error_creating_csv_file">Kon nie CSV-lêer op toestel skep nie</string>
     <string name="no_app_found">Geen program gevind om hierdie lêer oop te maak nie</string>
     <string name="copied">Gekopieer</string>
@@ -80,7 +80,7 @@
     <string name="lock_summary">Presently is gesluit, ontsluit om voort te gaan</string>
     <string name="lock_setting_summary_on">Presently sluit met die biometriese skandeerder van u toestel.</string>
     <string name="lock_setting_summary_off">Presently kan sluit met die biometriese skandeerder van u toestel (as dit deur die toestel ondersteun word).</string>
-    <string name="fingerprint_error_lockout_too_many">Te veel pogings tot biometriese verifikasie. Probeer asseblief oor 'n paar minute weer.</string>
+    <string name="fingerprint_error_lockout_too_many">Te veel pogings tot biometriese verifikasie. Probeer asseblief oor \'n paar minute weer.</string>
     <string name="continue_to_exit">Gaan voort</string>
     <string name="are_you_sure">Is jy seker jy wil teruggaan?</string>
     <string name="unsaved_text">U inskrywing is nie gestoor nie en u veranderinge sal verlore gaan!</string>
@@ -90,11 +90,11 @@
     <string name="every">Op elke verandering</string>
     <string name="dropbox_summary_off">Meld aan met u Dropbox-rekening om u inskrywings outomaties te rugsteun</string>
     <string name="dropbox_summary_on">U inskrywings word in Dropbox gerugsteun</string>
-    <string name="dropbox_setting_title">Maak 'n rugsteun van u data met Dropbox</string>
+    <string name="dropbox_setting_title">Maak \'n rugsteun van u data met Dropbox</string>
     <string name="dropbox_backup_frequency">Gereeldheid van Dropbox Rugsteun</string>
     <string name="one_time_export_summary">Voer u inskrywings as CSV uit na u toestel</string>
     <string name="one_time_export">Voer inskrywings uit na CSV</string>
-    <string name="import_summary">Kies 'n gerugsteunde CSV-lêer om in te voer</string>
+    <string name="import_summary">Kies \'n gerugsteunde CSV-lêer om in te voer</string>
     <string name="backup_and_restore">Rugsteun &amp; Herstel</string>
     <string name="day_of_week_off">Datum sluit nie die dag van die week in nie</string>
     <string name="day_of_week_on">Datum sluit die dag van die week in</string>
@@ -108,4 +108,10 @@
     <string name="first_day_of_week_title">Eerste dag van die week</string>
     <string name="share_milestone">Ek het vir %1$d dae dankbaarheids inskrywings gemaak! Sluit by my aan deur die Presently App. #PresentlyApp</string>
     <string name="share_app_text">Oefen dankbaarheid met hierdie eenvoudige, altyd gratis en private dankbaarheidsjoernaal app</string>
+    <string name="app_language_title">App taal</string>
+    <string name="app_language_summary">Kies die toepaslikke taal vir die app.</string>
+    <string name="loading_lang">Besig om u Taal keuse te laai, gee asseblief \'n oomblik</string>
+    <string name="show_quote_off">Dankbaarheidsaanhalings sal nie op tuisblad gewys word nie</string>
+    <string name="show_quote_on">Dankbaarheidsaanhalings sal op tuisblad gewys word nie</string>
+    <string name="inspiration_title">Inspirerende aanhalings</string>
 </resources>
