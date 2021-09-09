@@ -43,7 +43,7 @@ Presently is 100% free and ad free. All of your entries stay on your device and 
 
 ## How to translate Presently without creating a Github Pull Request
 If you don't know how to use Github you can still translate Presently the old fashioned way! Please follow these instructions and send your translated files to gratitude.journal.app@gmail.com and we will add the translation to Github for you!
-1. Download the [strings.xml file]((https://github.com/alisonthemonster/Presently/blob/develop/strings/src/main/res/values/strings.xml) to your computer and translate the copy following the guide below.
+1. Download the [strings.xml file](https://github.com/alisonthemonster/Presently/blob/develop/strings/src/main/res/values/strings.xml) to your computer and translate the copy following the guide below.
 2. Download the [prompts.xml file](https://github.com/alisonthemonster/Presently/blob/develop/strings/src/main/res/values/prompts.xml) to your computer and translate the copy following the guide below on string arrays.
 3. Translate the following copy and save it in a file:
 ```
