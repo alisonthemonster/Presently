@@ -93,9 +93,6 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:2.4.0"
     implementation 'com.google.android.play:core:1.10.0'
     implementation 'androidx.paging:paging-runtime:3.1.0-alpha01'
-    implementation "androidx.room:room-ktx:2.4.0-alpha03"
-    implementation "androidx.room:room-runtime:2.4.0-alpha03"
-    kapt "androidx.room:room-compiler:2.4.0-alpha03"
 
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
