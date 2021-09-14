@@ -15,8 +15,8 @@
     <string name="channel_description">Codzienne przypomnienia, aby zapisać, za co jesteś wdzięczny</string>
     <string name="today">Dzisiaj</string>
     <string name="yesterday">Wczoraj</string>
-    <string name="iwas">Byłem wdzięczny za</string>
-    <string name="iam">Jestem wdzięczny za</string>
+    <string name="iwas">Czułem wdzięczność za</string>
+    <string name="iam">Czuję wdzięczność za</string>
     <string name="save">Zapisz</string>
     <string name="back_up_entries_to_csv">Utwórz kopię zapasową</string>
     <string name="export_success">Dane wyeksportowane do Twojego urządzenias</string>
