@@ -22,15 +22,19 @@ class NotificationScheduler {
         const val PENDING_INTENT = 101
     }
 
-    // Called when app starts, notification time changes, device reboots, time zone changes, etc
+    // Called to ensure the notification is properly scheduled or cancelled
     fun configureNotifications(context: Context, settings: PresentlySettings) {
         val hasNotificationsOn = settings.hasEnabledNotifications()
-        if (hasNotificationsOn) {
+        val hasDisabledAlarmReminders = settings.hasUserDisabledAlarmReminders(context)
+        if (hasNotificationsOn && !hasDisabledAlarmReminders) {
             val alarmTime = settings.getNotificationTime()
             setNotificationTime(context, alarmTime)
+        } else {
+            disableNotifications(context)
         }
     }
 
+    //sets the repeating alarm, that when triggered will send the notification
     fun setNotificationTime(context: Context, alarmTime: LocalTime) {
         val intent = Intent(context, ReminderReceiver::class.java)
         val alarmIntent = intent.let {
@@ -68,10 +72,9 @@ class NotificationScheduler {
         )
 
         val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
-        alarmManager.setInexactRepeating(
+        alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             alarmTimeCal.timeInMillis,
-            AlarmManager.INTERVAL_DAY,
             alarmIntent
         )
     }

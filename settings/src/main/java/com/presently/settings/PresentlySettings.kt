@@ -1,5 +1,6 @@
 package com.presently.settings
 
+import android.content.Context
 import com.dropbox.core.oauth.DbxCredential
 import org.threeten.bp.LocalTime
 
@@ -26,6 +27,10 @@ interface PresentlySettings {
     fun hasEnabledNotifications(): Boolean
 
     fun getNotificationTime(): LocalTime
+
+    fun hasUserDisabledAlarmReminders(context: Context): Boolean
+
+    fun onAlarmPermissionChange(context: Context)
 
     fun getLinesPerEntryInTimeline(): Int
 

@@ -4,7 +4,15 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_view"
+        android:key="key_notifs_category"
         android:title="@string/notifs_name">
+
+        <Preference
+            android:icon="@drawable/ic_tiny_flower"
+            android:key="notifs_disabled"
+            android:defaultValue="true"
+            android:title="Notifications have been disabled at a system level"
+            android:summary="Click here to enable in system settings"/>
 
         <SwitchPreference
             android:defaultValue="true"

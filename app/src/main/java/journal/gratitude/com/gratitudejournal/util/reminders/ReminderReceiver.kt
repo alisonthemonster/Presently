@@ -7,15 +7,22 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.presently.settings.PresentlySettings
+import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.ContainerActivity.Companion.CHANNEL_ID
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler.Companion.ALARM_TYPE_RTC
+import javax.inject.Inject
 
 /**
  *  Receives broadcasts from an alarm and creates notifications
  */
+@AndroidEntryPoint
 class ReminderReceiver : BroadcastReceiver() {
+
+    @Inject
+    lateinit var settings: PresentlySettings
 
     override fun onReceive(context: Context, intent: Intent) {
         val openActivityIntent = Intent(context, ContainerActivity::class.java)
@@ -30,6 +37,9 @@ class ReminderReceiver : BroadcastReceiver() {
 
         //Build notification
         createLocalNotification(context, pendingIntent)
+
+        //Schedule tomorrows alarm
+        NotificationScheduler().configureNotifications(context, settings)
     }
 
     private fun createLocalNotification(context: Context, pendingIntent: PendingIntent) {

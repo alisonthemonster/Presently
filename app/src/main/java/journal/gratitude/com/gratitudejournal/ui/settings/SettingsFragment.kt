@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
@@ -191,6 +192,23 @@ class SettingsFragment : PreferenceFragmentCompat(),
             BiometricManager.from(requireContext())
                 .canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
         fingerprint?.parent!!.isEnabled = canAuthenticateUsingFingerPrint
+
+        val alarmDisabled = findPreference<Preference>(NOTIFS_DISABLED)
+        val notifsCategory = findPreference<PreferenceCategory>(NOTIFS_CATEGORY)
+        if (alarmDisabled?.isEnabled == true) {
+            //if the alarm hasn't been disabled then hide the explanation row
+            notifsCategory?.removePreference(alarmDisabled)
+        } else {
+            alarmDisabled?.setOnPreferenceClickListener {
+                //open exact alarm settings
+                Intent().apply {
+                    action = ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+                }.also {
+                    startActivity(it)
+                }
+                true
+            }
+        }
     }
 
     override fun onResume() {
