@@ -4,8 +4,8 @@ ext {
     patch = 0
     beta = ""
 
-    androidCompileSdk = 29
-    androidTargetSdk = 29
+    androidCompileSdk = 30
+    androidTargetSdk = 30
     androidMinSdk = 23
 
     lifecycle_version = "2.2.0"
