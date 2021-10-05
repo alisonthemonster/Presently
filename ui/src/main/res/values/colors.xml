@@ -409,4 +409,37 @@
     <color name="braylaToolbarColor">#FFFFFF</color>
     <color name="braylaStatusBarColor">#FFFFFF</color>
     <color name="braylaToolbarItemColor">#000000</color>
+
+    <!-- ~~~~AUTUMN THEME~~~~ -->
+    <color name="autumnAndroidWidgetColor">#A98043</color>
+    <color name="autumnBackgroundColor">#F4E8DB</color>
+    <color name="autumnMainTextAndButtonColor">#4B3534</color>
+    <color name="autumnHintQuoteTextColor">#676363</color>
+    <color name="autumnDateTextEntryScreenTextColor">#4B3534</color>
+    <color name="autumnTimelineColor">#4B3534</color>
+    <color name="autumnToolbarColor">#A98043</color>
+    <color name="autumnStatusBarColor">#A98043</color>
+    <color name="autumnToolbarItemColor">#000000</color>
+
+    <!-- ~~~~PUMPKIN THEME~~~~ -->
+    <color name="pumpkinAndroidWidgetColor">#F2B374</color>
+    <color name="pumpkinBackgroundColor">#C19191</color>
+    <color name="pumpkinMainTextAndButtonColor">#4E351F</color>
+    <color name="pumpkinHintQuoteTextColor">#A6A6A6</color>
+    <color name="pumpkinDateTextEntryScreenTextColor">#4E351F</color>
+    <color name="pumpkinTimelineColor">#4E351F</color>
+    <color name="pumpkinToolbarColor">#4E351F</color>
+    <color name="pumpkinStatusBarColor">#4E351F</color>
+    <color name="pumpkinToolbarItemColor">#000000</color>
+
+    <!-- ~~~~BETTY THEME~~~~ -->
+    <color name="bettyAndroidWidgetColor">#833722</color>
+    <color name="bettyBackgroundColor">#FCDAD1</color>
+    <color name="bettyMainTextAndButtonColor">#4B3534</color>
+    <color name="bettyHintQuoteTextColor">#A6A6A6</color>
+    <color name="bettyDateTextEntryScreenTextColor">#4B3534</color>
+    <color name="bettyTimelineColor">#4B3534</color>
+    <color name="bettyToolbarColor">#4B3534</color>
+    <color name="bettyStatusBarColor">#4B3534</color>
+    <color name="bettyToolbarItemColor">#000000</color>
 </resources>

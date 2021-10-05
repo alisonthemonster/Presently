@@ -508,4 +508,50 @@
         <item name="entryContentTextColor">@color/braylaMainTextAndButtonColor</item>
         <item name="highlightColor">@color/braylaAndroidWidgetColor</item>
     </style>
+
+    <style name="AppTheme.AUTUMN" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_autumn_leaves</item>
+        <item name="timelineLineColor">@color/autumnTimelineColor</item>
+        <item name="backgroundColor">@color/autumnBackgroundColor</item>
+        <item name="hintTextColor">@color/autumnHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/autumnToolbarColor</item>
+        <item name="toolbarItemColor">@color/autumnToolbarItemColor</item>
+        <item name="statusBarColor">@color/autumnStatusBarColor</item>
+        <item name="timelineDateTextColor">@color/autumnDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/autumnMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/autumnMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/autumnMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/autumnAndroidWidgetColor</item>
+    </style>
+
+
+    <style name="AppTheme.PUMPKIN" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_pumpkin</item>
+        <item name="timelineLineColor">@color/pumpkinTimelineColor</item>
+        <item name="backgroundColor">@color/pumpkinBackgroundColor</item>
+        <item name="hintTextColor">@color/pumpkinHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/pumpkinToolbarColor</item>
+        <item name="toolbarItemColor">@color/pumpkinToolbarItemColor</item>
+        <item name="statusBarColor">@color/pumpkinStatusBarColor</item>
+        <item name="timelineDateTextColor">@color/pumpkinDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/pumpkinMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/pumpkinMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/pumpkinMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/pumpkinAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.BETTY" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_betty</item>
+        <item name="timelineLineColor">@color/bettyTimelineColor</item>
+        <item name="backgroundColor">@color/bettyBackgroundColor</item>
+        <item name="hintTextColor">@color/bettyHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/bettyToolbarColor</item>
+        <item name="toolbarItemColor">@color/bettyToolbarItemColor</item>
+        <item name="statusBarColor">@color/bettyStatusBarColor</item>
+        <item name="timelineDateTextColor">@color/bettyDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/bettyMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/bettyMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/bettyMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/bettyAndroidWidgetColor</item>
+    </style>
 </resources>
