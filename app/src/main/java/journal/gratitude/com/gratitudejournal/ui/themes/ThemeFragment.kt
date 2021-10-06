@@ -62,20 +62,47 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_flower
             ),
             Theme(
-                "Dawn",
-                ContextCompat.getColor(requireContext(), R.color.dawnToolbarColor),
-                ContextCompat.getColor(requireContext(), R.color.dawnBackgroundColor),
-                ContextCompat.getColor(requireContext(), R.color.dawnToolbarItemColor),
-                ContextCompat.getColor(requireContext(), R.color.dawnMainTextAndButtonColor),
-                R.drawable.ic_sun_icon
+                "Midnight",
+                ContextCompat.getColor(requireContext(), R.color.midnightToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.midnightBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.midnightToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.midnightMainTextAndButtonColor),
+                R.drawable.ic_moon
             ),
             Theme(
-                "Daisy",
-                ContextCompat.getColor(requireContext(), R.color.daisyToolbarColor),
-                ContextCompat.getColor(requireContext(), R.color.daisyBackgroundColor),
-                ContextCompat.getColor(requireContext(), R.color.daisyToolbarItemColor),
-                ContextCompat.getColor(requireContext(), R.color.daisyMainTextAndButtonColor),
-                R.drawable.daisies,
+                "Brittany",
+                ContextCompat.getColor(requireContext(), R.color.brittanyToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.brittanyBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.brittanyToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.brittanyMainTextAndButtonColor),
+                R.drawable.ic_brittany,
+                true
+            ),
+            Theme(
+                "Boo",
+                ContextCompat.getColor(requireContext(), R.color.booToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.booBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.booToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.booMainTextAndButtonColor),
+                R.drawable.ic_boo,
+                true
+            ),
+            Theme(
+                "Autumn",
+                ContextCompat.getColor(requireContext(), R.color.autumnToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.autumnBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.autumnToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.autumnMainTextAndButtonColor),
+                R.drawable.ic_autumn_leaves,
+                true
+            ),
+            Theme(
+                "Betty",
+                ContextCompat.getColor(requireContext(), R.color.bettyToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.bettyBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.bettyToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.bettyMainTextAndButtonColor),
+                R.drawable.ic_betty,
                 true
             ),
             Theme(
@@ -106,6 +133,23 @@ class ThemeFragment : Fragment() {
                 true
             ),
             Theme(
+                "Dawn",
+                ContextCompat.getColor(requireContext(), R.color.dawnToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.dawnBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.dawnToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.dawnMainTextAndButtonColor),
+                R.drawable.ic_sun_icon
+            ),
+            Theme(
+                "Daisy",
+                ContextCompat.getColor(requireContext(), R.color.daisyToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.daisyBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.daisyToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.daisyMainTextAndButtonColor),
+                R.drawable.daisies,
+                true
+            ),
+            Theme(
                 "Tulip",
                 ContextCompat.getColor(requireContext(), R.color.tulipToolbarColor),
                 ContextCompat.getColor(requireContext(), R.color.tulipBackgroundColor),
@@ -122,14 +166,7 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.wavesMainTextAndButtonColor),
                 R.drawable.ic_wave
             ),
-            Theme(
-                "Midnight",
-                ContextCompat.getColor(requireContext(), R.color.midnightToolbarColor),
-                ContextCompat.getColor(requireContext(), R.color.midnightBackgroundColor),
-                ContextCompat.getColor(requireContext(), R.color.midnightToolbarItemColor),
-                ContextCompat.getColor(requireContext(), R.color.midnightMainTextAndButtonColor),
-                R.drawable.ic_moon
-            ),
+
             Theme(
                 "Sunlight",
                 ContextCompat.getColor(requireContext(), R.color.sunlightToolbarColor),
@@ -146,15 +183,6 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.katieToolbarItemColor),
                 ContextCompat.getColor(requireContext(), R.color.katieMainTextAndButtonColor),
                 R.drawable.ic_katie,
-                true
-            ),
-            Theme(
-                "Brittany",
-                ContextCompat.getColor(requireContext(), R.color.brittanyToolbarColor),
-                ContextCompat.getColor(requireContext(), R.color.brittanyBackgroundColor),
-                ContextCompat.getColor(requireContext(), R.color.brittanyToolbarItemColor),
-                ContextCompat.getColor(requireContext(), R.color.brittanyMainTextAndButtonColor),
-                R.drawable.ic_brittany,
                 true
             ),
             Theme(
