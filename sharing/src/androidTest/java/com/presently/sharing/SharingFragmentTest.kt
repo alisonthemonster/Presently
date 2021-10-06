@@ -3,9 +3,7 @@ package com.presently.sharing
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
@@ -17,7 +15,6 @@ import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.mocking.MockBehavior
 import com.airbnb.mvrx.mocking.mockVariants
@@ -33,12 +30,10 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
 //TODO fix screenshot bot integration so that we actually use these screenshots
 
 @HiltAndroidTest
-@RunWith(AndroidJUnit4::class)
 class SharingFragmentTest {
 
     @get:Rule
