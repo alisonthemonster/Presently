@@ -424,7 +424,7 @@
     <!-- ~~~~BETTY THEME~~~~ -->
     <color name="bettyAndroidWidgetColor">#833722</color>
     <color name="bettyBackgroundColor">#FCDAD1</color>
-    <color name="bettyMainTextAndButtonColor">#DD8777</color>
+    <color name="bettyMainTextAndButtonColor">#A04A32</color>
     <color name="bettyHintQuoteTextColor">#CF988E</color>
     <color name="bettyDateTextEntryScreenTextColor">#4B3534</color>
     <color name="bettyTimelineColor">#F3A799</color>
