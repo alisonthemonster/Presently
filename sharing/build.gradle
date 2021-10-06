@@ -16,8 +16,6 @@ android {
     defaultConfig {
         minSdkVersion project.ext.androidMinSdk
         targetSdkVersion project.ext.androidTargetSdk
-        versionCode 1
-        versionName "1.0"
         testInstrumentationRunner "com.presently.sharing.CustomTestRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
