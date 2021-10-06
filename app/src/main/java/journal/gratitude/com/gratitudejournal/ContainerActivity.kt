@@ -151,6 +151,9 @@ class ContainerActivity : AppCompatActivity() {
             "Autumn" -> setTheme(R.style.AppTheme_AUTUMN)
             "Betty" -> setTheme(R.style.AppTheme_BETTY)
             "Boo" -> setTheme(R.style.AppTheme_BOO)
+            "You" -> setTheme(R.style.AppTheme_YOU_ONE)
+            "Yours" -> setTheme(R.style.AppTheme_YOU_TWO)
+            "All Yours" -> setTheme(R.style.AppTheme_YOU_THREE)
             else -> setTheme(R.style.Base_AppTheme)
         }
     }

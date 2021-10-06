@@ -7,6 +7,46 @@
     <color name="originalHintTextColor">#79736a</color>
     <color name="originalBackgroundColor">#dbd1c7</color>
 
+    <!-- MATERIAL YOU THEMES -->
+    <color name="youOneAndroidWidgetColor">@color/material_you_accent_one_dark</color>
+    <color name="youOneBackgroundColor">@color/material_you_accent_one_light</color>
+    <color name="youOneMainTextAndButtonColor">#000000</color>
+    <color name="youOneHintQuoteTextColor">#505050</color>
+    <color name="youOneDateTextEntryScreenTextColor">#000000</color>
+    <color name="youOneTimelineColor">#000000</color>
+    <color name="youOneToolbarColor">@color/material_you_accent_one</color>
+    <color name="youOneStatusBarColor">@color/material_you_accent_one_dark</color>
+    <color name="youOneToolbarItemColor">#FFFFFF</color>
+    <color name="youTwoAndroidWidgetColor">@color/material_you_accent_two_dark</color>
+    <color name="youTwoBackgroundColor">@color/material_you_accent_two_light</color>
+    <color name="youTwoMainTextAndButtonColor">#000000</color>
+    <color name="youTwoHintQuoteTextColor">#505050</color>
+    <color name="youTwoDateTextEntryScreenTextColor">#000000</color>
+    <color name="youTwoTimelineColor">#000000</color>
+    <color name="youTwoToolbarColor">@color/material_you_accent_two</color>
+    <color name="youTwoStatusBarColor">@color/material_you_accent_two_dark</color>
+    <color name="youTwoToolbarItemColor">#FFFFFF</color>
+    <color name="youThreeAndroidWidgetColor">@color/material_you_accent_three_dark</color>
+    <color name="youThreeBackgroundColor">@color/material_you_accent_three_light</color>
+    <color name="youThreeMainTextAndButtonColor">#000000</color>
+    <color name="youThreeHintQuoteTextColor">#505050</color>
+    <color name="youThreeDateTextEntryScreenTextColor">#000000</color>
+    <color name="youThreeTimelineColor">#000000</color>
+    <color name="youThreeToolbarColor">@color/material_you_accent_three</color>
+    <color name="youThreeStatusBarColor">@color/material_you_accent_three_dark</color>
+    <color name="youThreeToolbarItemColor">#FFFFFF</color>
+    <!-- These colors are just here so the app compiles, only API 31 can use Material You -->
+    <!-- See values-v31 for the definitions of the Material You colors -->
+    <color name="material_you_accent_one">#000000</color>
+    <color name="material_you_accent_one_light">#000000</color>
+    <color name="material_you_accent_one_dark">#000000</color>
+    <color name="material_you_accent_two">#000000</color>
+    <color name="material_you_accent_two_light">#000000</color>
+    <color name="material_you_accent_two_dark">#000000</color>
+    <color name="material_you_accent_three">#000000</color>
+    <color name="material_you_accent_three_light">#000000</color>
+    <color name="material_you_accent_three_dark">#000000</color>
+
     <!-- ~~~~SUNSET THEME~~~~ -->
     <color name="sunsetAndroidWidgetColor">#A47272</color>
     <color name="sunsetBackgroundColor">#303030</color>

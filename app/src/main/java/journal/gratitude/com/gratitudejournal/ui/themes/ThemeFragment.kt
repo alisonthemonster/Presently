@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.themes
 
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -52,7 +53,7 @@ class ThemeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val themeList: List<Theme> = listOf(
+        val themeList = mutableListOf(
             Theme(
                 "Original",
                 ContextCompat.getColor(requireContext(), R.color.originalTimelineColor),
@@ -166,7 +167,6 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.wavesMainTextAndButtonColor),
                 R.drawable.ic_wave
             ),
-
             Theme(
                 "Sunlight",
                 ContextCompat.getColor(requireContext(), R.color.sunlightToolbarColor),
@@ -361,6 +361,36 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_flower
             )
         )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            themeList.addAll(listOf(
+                Theme(
+                    "You",
+                    ContextCompat.getColor(requireContext(), R.color.youOneToolbarColor),
+                    ContextCompat.getColor(requireContext(), R.color.youOneBackgroundColor),
+                    ContextCompat.getColor(requireContext(), R.color.youOneToolbarItemColor),
+                    ContextCompat.getColor(requireContext(), R.color.youOneMainTextAndButtonColor),
+                    R.drawable.ic_flower
+                ),
+                Theme(
+                    "Yours",
+                    ContextCompat.getColor(requireContext(), R.color.youTwoToolbarColor),
+                    ContextCompat.getColor(requireContext(), R.color.youTwoBackgroundColor),
+                    ContextCompat.getColor(requireContext(), R.color.youTwoToolbarItemColor),
+                    ContextCompat.getColor(requireContext(), R.color.youTwoMainTextAndButtonColor),
+                    R.drawable.ic_flower
+                ),
+                Theme(
+                    "All Yours",
+                    ContextCompat.getColor(requireContext(), R.color.youThreeToolbarColor),
+                    ContextCompat.getColor(requireContext(), R.color.youThreeBackgroundColor),
+                    ContextCompat.getColor(requireContext(), R.color.youThreeToolbarItemColor),
+                    ContextCompat.getColor(requireContext(), R.color.youThreeMainTextAndButtonColor),
+                    R.drawable.ic_flower
+                ))
+            )
+        }
+
         adapter.addData(themeList)
 
         // Set the adapter

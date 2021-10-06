@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="material_you_accent_one">@android:color/system_accent1_500</color>
+    <color name="material_you_accent_one_light">@android:color/system_accent1_200</color>
+    <color name="material_you_accent_one_dark">@android:color/system_accent1_800</color>
+
+    <color name="material_you_accent_two">@android:color/system_accent2_500</color>
+    <color name="material_you_accent_two_light">@android:color/system_accent2_200</color>
+    <color name="material_you_accent_two_dark">@android:color/system_accent2_800</color>
+
+    <color name="material_you_accent_three">@android:color/system_accent3_500</color>
+    <color name="material_you_accent_three_light">@android:color/system_accent3_200</color>
+    <color name="material_you_accent_three_dark">@android:color/system_accent3_800</color>
+</resources>

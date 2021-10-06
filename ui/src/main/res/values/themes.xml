@@ -29,6 +29,51 @@
         <item name="android:fontFamily">@font/larsseit_medium</item>
     </style>
 
+    <style name="AppTheme.YOU_ONE" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="timelineLineColor">@color/youOneTimelineColor</item>
+        <item name="backgroundColor">@color/youOneBackgroundColor</item>
+        <item name="hintTextColor">@color/youOneHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/youOneToolbarColor</item>
+        <item name="toolbarItemColor">@color/youOneToolbarItemColor</item>
+        <item name="statusBarColor">@color/youOneStatusBarColor</item>
+        <item name="timelineDateTextColor">@color/youOneDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/youOneMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/youOneMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/youOneMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/youOneAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.YOU_TWO" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="timelineLineColor">@color/youTwoTimelineColor</item>
+        <item name="backgroundColor">@color/youTwoBackgroundColor</item>
+        <item name="hintTextColor">@color/youTwoHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/youTwoToolbarColor</item>
+        <item name="toolbarItemColor">@color/youTwoToolbarItemColor</item>
+        <item name="statusBarColor">@color/youTwoStatusBarColor</item>
+        <item name="timelineDateTextColor">@color/youTwoDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/youTwoMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/youTwoMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/youTwoMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/youTwoAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.YOU_THREE" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="timelineLineColor">@color/youThreeTimelineColor</item>
+        <item name="backgroundColor">@color/youThreeBackgroundColor</item>
+        <item name="hintTextColor">@color/youThreeHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/youThreeToolbarColor</item>
+        <item name="toolbarItemColor">@color/youThreeToolbarItemColor</item>
+        <item name="statusBarColor">@color/youThreeStatusBarColor</item>
+        <item name="timelineDateTextColor">@color/youThreeDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/youThreeMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/youThreeMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/youThreeMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/youThreeAndroidWidgetColor</item>
+    </style>
+
     <style name="AppTheme.SUNSET" parent="AppTheme">
         <item name="timelineIcon">@drawable/ic_sun_icon</item>
         <item name="timelineLineColor">@color/sunsetTimelineColor</item>
