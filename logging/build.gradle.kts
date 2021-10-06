@@ -5,24 +5,22 @@ plugins {
 }
 
 android {
-    compileSdkVersion(project.ext.androidCompileSdk)
+    compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
-        minSdkVersion(project.ext.androidMinSdk)
-        targetSdkVersion(project.ext.androidTargetSdk)
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = Versions.MIN_SDK
+        targetSdk = Versions.TARGET_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles = "consumer-rules.pro"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         getByName("debug") {
-            testCoverageEnabled = project.hasProperty("coverage")
+            isTestCoverageEnabled = project.hasProperty("coverage")
         }
         getByName("release") {
-            minifyEnabled = false
+            isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
@@ -37,27 +35,27 @@ android {
     }
 
     dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
-        implementation("androidx.core:core-ktx:1.6.0")
+        implementation(Libraries.kotlin_stdlib)
+        implementation(Libraries.androidx_core_ktx)
 
-        api(platform("com.google.firebase:firebase-bom:28.2.1"))
-        api("com.google.firebase:firebase-analytics-ktx")
-        api("com.google.firebase:firebase-crashlytics")
+        api(platform(Libraries.firebase_bom))
+        api(Libraries.firebase_analytics_ktx)
+        api(Libraries.firebase_crashlytics)
 
-        implementation("com.google.dagger:dagger:2.31.2")
-        kapt("com.google.dagger:dagger-compiler:2.31.2")
-        implementation("com.google.dagger:dagger-android-support:2.31.2")
-        kapt("com.google.dagger:dagger-android-processor:2.31.2")
-        compileOnly("com.squareup.inject:assisted-inject-annotations-dagger2:0.3.2")
-        kapt("com.squareup.inject:assisted-inject-processor-dagger2:0.3.2")
-        implementation("com.google.dagger:hilt-android:2.38.1")
-        kapt("com.google.dagger:hilt-android-compiler:2.38.1")
-        implementatio("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
-        kapt("androidx.hilt:hilt-compiler:1.0.0")
+        implementation(Libraries.dagger)
+        kapt(Libraries.dagger_compiler)
+        implementation(Libraries.dagger_android_support)
+        kapt(Libraries.dagger_android_processor)
+        compileOnly(Libraries.assisted_inject_annotations)
+        kapt(Libraries.assisted_inject_processor)
+        implementation(Libraries.hilt)
+        kapt(Libraries.hilt_compiler)
+        implementation(Libraries.hilt_viewmodel)
+        kapt(Libraries.hilt_android_compiler)
 
-        testImplementation("junit:junit:4.13.2")
-        testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0")
-        testImplementation("org.robolectric:robolectric:4.6.1")
-        testImplementation("com.google.truth:truth:1.1.3")
+        testImplementation(TestLibraries.junit)
+        testImplementation(TestLibraries.mockito_kotlin)
+        testImplementation(TestLibraries.robolectric)
+        testImplementation(TestLibraries.truth)
     }
 }
