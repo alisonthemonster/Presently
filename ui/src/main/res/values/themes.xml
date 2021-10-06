@@ -524,22 +524,6 @@
         <item name="highlightColor">@color/autumnAndroidWidgetColor</item>
     </style>
 
-
-    <style name="AppTheme.PUMPKIN" parent="AppTheme">
-        <item name="timelineIcon">@drawable/ic_pumpkin</item>
-        <item name="timelineLineColor">@color/pumpkinTimelineColor</item>
-        <item name="backgroundColor">@color/pumpkinBackgroundColor</item>
-        <item name="hintTextColor">@color/pumpkinHintQuoteTextColor</item>
-        <item name="toolbarColor">@color/pumpkinToolbarColor</item>
-        <item name="toolbarItemColor">@color/pumpkinToolbarItemColor</item>
-        <item name="statusBarColor">@color/pumpkinStatusBarColor</item>
-        <item name="timelineDateTextColor">@color/pumpkinDateTextEntryScreenTextColor</item>
-        <item name="timelineContentTextColor">@color/pumpkinMainTextAndButtonColor</item>
-        <item name="entryHeaderTextColor">@color/pumpkinMainTextAndButtonColor</item>
-        <item name="entryContentTextColor">@color/pumpkinMainTextAndButtonColor</item>
-        <item name="highlightColor">@color/pumpkinAndroidWidgetColor</item>
-    </style>
-
     <style name="AppTheme.BETTY" parent="AppTheme">
         <item name="timelineIcon">@drawable/ic_betty</item>
         <item name="timelineLineColor">@color/bettyTimelineColor</item>
@@ -553,5 +537,20 @@
         <item name="entryHeaderTextColor">@color/bettyMainTextAndButtonColor</item>
         <item name="entryContentTextColor">@color/bettyMainTextAndButtonColor</item>
         <item name="highlightColor">@color/bettyAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.BOO" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_boo</item>
+        <item name="timelineLineColor">@color/booTimelineColor</item>
+        <item name="backgroundColor">@color/booBackgroundColor</item>
+        <item name="hintTextColor">@color/booHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/booToolbarColor</item>
+        <item name="toolbarItemColor">@color/booToolbarItemColor</item>
+        <item name="statusBarColor">@color/booStatusBarColor</item>
+        <item name="timelineDateTextColor">@color/booDateTextEntryScreenTextColor</item>
+        <item name="timelineContentTextColor">@color/booMainTextAndButtonColor</item>
+        <item name="entryHeaderTextColor">@color/booMainTextAndButtonColor</item>
+        <item name="entryContentTextColor">@color/booMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/booAndroidWidgetColor</item>
     </style>
 </resources>

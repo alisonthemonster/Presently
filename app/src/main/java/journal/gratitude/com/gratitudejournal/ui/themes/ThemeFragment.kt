@@ -79,21 +79,21 @@ class ThemeFragment : Fragment() {
                 true
             ),
             Theme(
+                "Boo",
+                ContextCompat.getColor(requireContext(), R.color.booToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.booBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.booToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.booMainTextAndButtonColor),
+                R.drawable.ic_boo,
+                true
+            ),
+            Theme(
                 "Autumn",
                 ContextCompat.getColor(requireContext(), R.color.autumnToolbarColor),
                 ContextCompat.getColor(requireContext(), R.color.autumnBackgroundColor),
                 ContextCompat.getColor(requireContext(), R.color.autumnToolbarItemColor),
                 ContextCompat.getColor(requireContext(), R.color.autumnMainTextAndButtonColor),
                 R.drawable.ic_autumn_leaves,
-                true
-            ),
-            Theme(
-                "Pumpkin",
-                ContextCompat.getColor(requireContext(), R.color.pumpkinToolbarColor),
-                ContextCompat.getColor(requireContext(), R.color.pumpkinBackgroundColor),
-                ContextCompat.getColor(requireContext(), R.color.pumpkinToolbarItemColor),
-                ContextCompat.getColor(requireContext(), R.color.pumpkinMainTextAndButtonColor),
-                R.drawable.ic_pumpkin,
                 true
             ),
             Theme(
