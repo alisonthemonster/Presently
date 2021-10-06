@@ -4,13 +4,15 @@ plugins {
     id 'kotlin-kapt'
 }
 
+apply from: '../versions.gradle'
+
 android {
-    compileSdkVersion 30
+    compileSdkVersion project.ext.androidCompileSdk
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        minSdkVersion 23
-        targetSdkVersion 30
+        minSdkVersion project.ext.androidMinSdk
+        targetSdkVersion project.ext.androidTargetSdk
         versionCode 1
         versionName "1.0"
 
