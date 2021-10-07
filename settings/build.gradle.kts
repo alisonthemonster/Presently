@@ -43,7 +43,7 @@ dependencies {
     implementation(Libraries.androidx_compat)
     implementation(Libraries.androidx_preference_ktx)
 
-    implementation(Libraries.three_then_abp)
+    implementation(Libraries.three_ten_abp)
     implementation(Libraries.dropbox_sdk)
 
     //dependency injection

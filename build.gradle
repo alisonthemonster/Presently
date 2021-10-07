@@ -5,7 +5,6 @@ buildscript {
         kotlin_version = '1.4.32'
     }
     repositories {
-        apply from: 'versions.gradle'
         mavenCentral()
         google()
     }
@@ -64,27 +63,4 @@ allprojects {
             url 'https://maven.google.com/'
         }
     }
-
-    project.ext.androidVersionName = createVersionName()
-    project.ext.buildNumber = getBuildNumber()
-    project.ext.branchName = getBranchName()
 }
-
-def createVersionName() {
-    return major + "." + minor + "." + patch + beta
-}
-
-String getBranchName() {
-    return project.hasProperty("branchName") ? ((String) project.properties['branchName']).toString() : ""
-}
-
-//get the build number from the build server
-String getBuildNumber() {
-    return project.hasProperty("buildNumber") ? ((String) project.properties['buildNumber']).toString() : ""
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
-// TODO add detekt

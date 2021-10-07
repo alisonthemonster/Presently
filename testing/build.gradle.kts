@@ -41,7 +41,7 @@ dependencies {
     implementation(Libraries.kotlin_stdlib)
     implementation(Libraries.androidx_core_ktx)
     implementation(Libraries.androidx_compat)
-    implementation(Libraries.androidx_arch_testing)
+    implementation(TestLibraries.androidx_arch_testing)
 
     implementation(Libraries.hilt)
     implementation(TestLibraries.hilt_android_testing)
