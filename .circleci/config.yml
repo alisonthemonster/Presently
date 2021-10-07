@@ -29,7 +29,7 @@ references:
 
 
   gradle_key: &gradle_key
-                v3-jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+                v3-jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle.kts" }}
 
   restore_gradle_cache: &restore_gradle_cache
     restore_cache:

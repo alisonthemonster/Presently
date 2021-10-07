@@ -4,7 +4,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("kotlin-android-extensions") //TODO remove this
+    id("kotlin-parcelize")
     id("com.facebook.testing.screenshot")
     id("dagger.hilt.android.plugin")
     id("com.google.android.gms.oss-licenses-plugin")
