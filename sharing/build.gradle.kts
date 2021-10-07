@@ -14,7 +14,7 @@ android {
         minSdk = Versions.MIN_SDK
         targetSdk = Versions.TARGET_SDK
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.presently.sharing.CustomTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 

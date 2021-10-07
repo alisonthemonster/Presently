@@ -16,6 +16,7 @@ object Versions {
     const val ANDROIDX_TEST_ESPRESSO = "3.3.0"
     const val ANDROIDX_TEST_RULES = "1.3.0"
     const val ANDROIDX_PREF_KTX = "1.1.1"
+    const val ANDROIDX_ARCH_CORE = "2.1.0" //https://developer.android.com/jetpack/androidx/releases/arch-core
     const val FIREBASE = "28.2.1" //https://firebase.google.com/support/release-notes/android
     const val DAGGER = "2.38.1" //https://github.com/google/dagger/releases
     const val ASSISTED_INJECT = "0.3.2" //TODO use dagger's version: https://dagger.dev/dev-guide/assisted-injection.html
@@ -55,6 +56,7 @@ object Libraries {
    const val androidx_lifecycle_runtime_ktx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.ANDROIDX_LIFECYCLE}"
    const val androidx_recycler_view = "androidx.recyclerview:recyclerview:${Versions.ANDROIDX_RECYCLER_VIEW}"
    const val androidx_preference_ktx = "androidx.preference:preference-ktx:${Versions.ANDROIDX_PREF_KTX}"
+   const val androidx_arch_testing = "androidx.arch.core:core-testing:${Versions.ANDROIDX_ARCH_CORE}"
    const val three_then_abp = "com.jakewharton.threetenabp:threetenabp:${Versions.THREE_TEN_ABP}"
    const val dropbox_sdk = "com.dropbox.core:dropbox-core-sdk:${Versions.DROPBOX_SDK}"
 }
@@ -73,5 +75,5 @@ object TestLibraries {
     const val androidx_test_espresso_contrib = "androidx.test.espresso:espresso-contrib:${Versions.ANDROIDX_TEST_ESPRESSO}"
     const val androidx_test_espresso_intents = "androidx.test.espresso:espresso-intents:${Versions.ANDROIDX_TEST_ESPRESSO}"
     const val androidx_test_rules = "androidx.test.rules:${Versions.ANDROIDX_TEST_RULES}"
-    const val hilt_android_testing = "hilt-android-testing::${Versions.DAGGER}"
+    const val hilt_android_testing = "com.google.dagger:hilt-android-testing:${Versions.DAGGER}"
 }
