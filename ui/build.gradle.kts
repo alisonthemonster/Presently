@@ -28,5 +28,6 @@ android {
     dependencies {
         implementation(Libraries.kotlin_stdlib)
         implementation(Libraries.androidx_core_ktx)
+        implementation(Libraries.material)
     }
 }
