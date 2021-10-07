@@ -313,7 +313,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             dialogFragment.show(parentFragmentManager, "DIALOG")
         } else {
                 val dialogFragment =
-                        CustomListPrefDialogFragCompat.newInstance(preference.getKey())
+                        CustomListPrefDialogFragCompat.newInstance(preference.key)
             dialogFragment?.setTargetFragment(this, 0)
             dialogFragment?.show(parentFragmentManager, null);
 

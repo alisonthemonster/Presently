@@ -245,7 +245,7 @@ class EntryFragment : Fragment(), MavericksView {
             builder.apply {
                 setTitle(R.string.are_you_sure)
                 setMessage(R.string.unsaved_text)
-                setPositiveButton(R.string.continue_to_exit) { dialog, id ->
+                setPositiveButton(R.string.continue_to_exit) { _, _ ->
                     parentFragmentManager.popBackStack()
                 }
                 setNegativeButton(R.string.cancel) { _, _ -> }
