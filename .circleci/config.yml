@@ -76,7 +76,7 @@ jobs:
             gcloud auth activate-service-account presently-cicd-service-account@gratitude-journal-app.iam.gserviceaccount.com --key-file gcloud-service-key.json
             gsutil version -l
       - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle.kts" }}
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
@@ -86,7 +86,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle.kts" }}
       - run:
           name: Build
           command: ./gradlew -Pcoverage assembleDebug assembleDebugAndroidTest --stacktrace --no-daemon --max-workers=2
