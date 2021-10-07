@@ -61,6 +61,7 @@ dependencies {
     implementation(Libraries.androidx_viewmodel_ktx)
     implementation(Libraries.androidx_lifecycle_runtime_ktx)
     implementation(Libraries.androidx_recycler_view)
+    implementation(Libraries.material)
 
     implementation(Libraries.mavericks)
     implementation(Libraries.mavericks_mocking)
