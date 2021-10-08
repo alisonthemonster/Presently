@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="inspirations">
+        <item>\"Her şeye sahip olmanın sırrı zaten sahip olduklarını bilmektir\" \nAnonim</item>
+        <item>\"Minnettar olma yeteneğine sahip olanlar, azamete ulaşma yeteneğine sahip olanlardır\" \nSteve Maraboli</item>
+        <item>\"Hayatımızda fark yaratan insanlara durup teşekkür edecek zamanı bulmalıyız\" \nJohn F Kennedy</item>
+        <item>\"Bugün harika bir gün. Bu günü daha önce hiç görmedim\" \nMaya Angelou</item>
+        <item>\"Başkasının bulutundaki gökkuşağı ol\" \nMaya Angelou</item>
+        <item>\"Minnettarlığımıza odaklandığımızda, hayal kırıklığı dalgasından kurtulur ve aşk dalgasıyla kaplanırız. \" \nKristin Armstrong</item>
+        <item>\"Bizi mutlu eden insanlara minnettar olalım\" \nMarcel Proust</item>
+        <item>\"Çok sayıda küçük zevk mutluluğu oluşturur\" \nCharles Baudelaire</item>
+        <item>\"Minnettarlık kalbin hafızasıdır\" \nJean Baptiste Massieu</item>
+        <item>\"Hayatımın tüm büyük nimetleri bugün düşüncelerimde mevcut\" \nPhoebe Cary</item>
+        <item>\"Hayatını daha çok över ve kutlarsan, daha çok övecek ve kutlayacak şey çıkar karşına\" \nOprah Winfrey</item>
+        <item>\"Sahip oldukların için minnet duy; böylece daha fazlasına sahip olacaksın.\" \nOprah Winfrey</item>
+        <item>\"Sadece kalplerimizin hazinelerinin bilincinde olduğu anlarda yaşadığımız söylenebilir.\" \nThornton Wilder</item>
+        <item>\"Kendini bil ki kendini geliştirebilesin\" \nAuguste Compte</item>
+        <item>\"Gayet pozitif bir düşünce her şeyi değiştirdi\" \nAvantik</item>
+        <item>\"Minnettarlık, gözlerini evrenin sınırsız potansiyeline açar\" \nStephen Richards</item>
+        <item>\"Küçük şeylerin tadını çıkar, çünkü bir gün geriye dönüp baktığında bunların büyük şeyler olduğunu fark edebilirsin.\" \nRobert Brault</item>
+        <item>\"Her insanın biraz sahip olduğu geçmiş talihsizliklerin değil, her insanın bolca sahip olduğu mevcut nimetlerin üzerine düşün.\" \nCharles Dickens</item>
+        <item>\"Hayatında zaten sahip olduğun iyiliği kabul etmek, tüm bolluğun temelidir.\" \nEckhart Tolle</item>
+        <item>\"Minnettarlık, kendi kendimize basabileceğimiz ve iflas korkusu olmadan harcayabileceğimiz bir para birimidir.\" \nFred De Witt Van Amburgh</item>
+        <item>\"Sahip olmadıkları için üzülmek yerine sahip oldukları için sevinen insan bilgedir.\" \nEpictetus</item>
+        <item>\"Nimetlerimi saymaya başladığımda tüm hayatım düzene oturdu\" \nWillie Nelson</item>
+        <item>\"Ne kadar minnettar olursam o kadar güzellik görüyorum\" \nMary Davis</item>
+        <item>\"Minnettarlıkla yaşanan bir hayata sakinlik ve sessiz bir neşe var.\" \nRalph H. Blum</item>
+        <item>\"Neşenin kökü minnettarlıktır\" \nDavid Steindl-Rast</item>
+        <item>\"Minnettarlık, asil ruhların işaretidir\" \nEzop</item>
+        <item>\"Minnettar olduğunda korku kaybolur ve bolluk ortaya çıkar\" \nAnthony Robbins</item>
+        <item>\"Tüm sanatların özü minnettarlıktır.\" \nFriedrich Nietzsche</item>
+        <item>\"Minnettarlığı bir pelerin gibi giyersen hayatınızın her köşesini besleyecek\" \nMevlana</item>
+        <item>\"Hayatında ettiğin tek dua \'Teşekkür ederim\' olsa yeterlı olur\" \nMeister Eckhart</item>
+        <item>\"Minnettarlık, sahip olduğumuz şeyi yeterli hale getirir\" \nMelody Beattie</item>
+        <item>\"Küçük şeyler için minnet duyarsan çok şey bulacaksın\" \nHausa Atasözü</item>
+        <item>\"Sadece bir kez yaşarsın, ama doğru yaşarsan bir kez yeter\" \nMae West</item>
+        <item>\"Hayat söz konusu olduğunda en önemli şey, bir şeyleri hafife almak ya da minnet duymaktır\" \nG. K. Chesterton</item>
+        <item>\"Minnettarlığı hissetmek ve bunu ifade etmemek, bir hediyeyi paketleyip vermemek gibidir\" \nWilliam Arthur Ward</item>
+        <item>\"Hayatını yaşamanın sadece iki yolu var. Biri sanki hiçbir şey mucize değilmiş gibi. Diğeri ise her şey bir mucize gibi.\" \nAlbert Einstein</item>
+        <item>\"Minnettarlık, hafıza sancılarını sakin bir neşeye dönüştürür\" \nDietrich Bonhoeffer</item>
+        <item>\"Minnettarlık zenginliktir. Şikayet yoksulluktur.\" \nDoris Day</item>
+        <item>\"Minnettarlık, hafıza akılda değil kalpte saklandığında ortaya çıkar\" \nLionel Hampton</item>
+        <item>\"Minnettarlıkla yükselelim ve bizi kaplamasına izin verelim\" \nGrace Gealey</item>
+        <item>\"Sessiz minnetin kimseye pek bir anlamı yoktur\" \nGertrude Stein</item>
+        <item>\"Dünyayı minnet şarkılarınla doldur\" \nCharles Spurgeon</item>
+        <item>\"Hiçbir iyiliği çok erken yapamazsın, çünkü ne zaman çok geç olacağını asla bilemezsin\" \nRalph Waldo Emerson</item>
+        <item>\"Başarıya ulaşan hiç kimse başkalarının yardımı olmadan başaramaz, bilge ve kendine güvenen insan ise bu yardımı minnettarlıkla kabul eder.\" \nAlfred North Whitehead</item>
+        <item>\"İyiyi bul ve yücelt\" \nAlex Haley</item>
+        <item>\"Sürpriz, minnettarlığın tohumudur. Sürprizlerden haberdar ol\" \nDavid Steindl-Rast</item>
+        <item>\"Minnettarlık merakla ikiye katlanan mutluluktur\" \nG. K. Chesterton</item>
+        <item>\"Minnettarlık ruhtan doğan en güzel çiçektir\" \nHenry Ward Beecher</item>
+        <item>\"Bizi minnettar kılan şey mutluluk değildir. Bizi mutlu eden şey minnettarlıktır.\" \nDavid Steindl-Rast</item>
+        <item>\"Bolluk, edindiğimiz bir şey değildir. Kendimizi sahip olduklarımıza odakladığımızda ortaya çıkan bir şeydir\" \nWayne W Dyer</item>
+        <item>\"Minnettarlık göstermek, insanların birbirleri için yapabileceği en basit ama en güçlü şeylerden biridir\" \nRandy Pausch</item>
+        <item>\"Sen olmasaydın belki de hiç görülmemiş olabilecek şeyi görünür kıl\" \nRobert Bresson</item>
+        <item>\"İyiye odaklandığın zaman iyi, daha iyi olur\" \nAbraham Hicks</item>
+        <item>\"Refah içinde cömert, zorluk içinde minnettar ol\" \nBahá’u’lláh</item>
+        <item>\"Minnettarlık hissedilmezse bir hiçtir\" \nJamie Varon</item>
+        <item>\"Kendinliğin kuyusundan iç ve yeniden başla\" \nCharles Bukowski</item>
+        <item>\"Kırılmışlık karşısında minnettarlığın iyileştirme gücü vardır. Umutsuzluk karşısında minnettarlığın umut getirme gücü vardır.\" \nRobert A Emmons</item>
+        <item>\"Minnettarlık sadece erdemlerin en büyüğü değil, aynı zamanda diğer erdemlerin de ebeveynidir\" \nMarcus Tullius Cicero</item>
+        <item>\"Her şeyin kıymetini bil\" \nJohn Berger</item>
+        <item>\"Yaşadığın sürece önünde daha fazlası var\" \nMorgan Harper Nichols</item>
+        <item>\"Kalbimi iyileştiren şeyleri yapmak için gereken zamana değerim\" \nMorgan Harper Nichols</item>
+        <item>\"Kalbin hala atıyor ve hala iyileşmek için yer var\" \nMorgan Harper Nichols</item>
+        <item>\"Karşılaştırma yerine kutlamayı seç\" \nMorgan Harper Nichols</item>
+        <item>\"Ayağınla dünyayı öpüyormuşsun gibi yürü.\" \nThich Nhat Hanh</item>
+        <item>\"Kendime karşı iyi davranmıyorsam, başka birinin bana iyi davranmasını nasıl bekleyebilirim?\" \nMaya Angelou</item>
+        <item>\"Ne olursa olsun ya da bugün ne kadar kötü görünürse görünsün, hayat devam ediyor ve yarın daha iyi olacak\" \nMaya Angelou</item>
+        <item>\"Çok fazla şeyden mahrum bırakıldıysam da, çok, çok daha fazla şey bana verildi\" \nHelen Keller</item>
+        <item>\"Aşk korkuyu ortadan kaldırır ve minnettarlık gururu yenebilir\" \nLouisa May Alcott</item>
+        <item>\"Her yeni günü minnettarlık, umut ve sevgi ile kucakla\" \nLailah Gifty Akita</item>
+        <item>\"Sahip olmayı istediğin şeylerin sahip olduğun şeyleri unutturmasına asla izin verme\" \nSanchita Pandey</item>
+        <item>\"Genelde, daha iyi olabilecek olan şey daha kötü de olabilir\" \nMokokoma Mokhonoana</item>
+        <item>\"Şükreden ruh her şeyde huzur bulabilir\" \nHannah Whitall Smith</item>
+        <item>\"Basit yaşamak sevmeyi basitleştirir\" \nbell hooks</item>
+        <item>\"Aşk bir eylemdir, asla sadece bir duygu değildir\" \nbell hooks</item>
+        <item>\"Karanlıkta da ışık vardır, sadece bulman gerek\" \nbell hooks</item>
+        <item>\"Duygularımız, bizi bilgiye ulaştıran en gerçek yollarımızdır\" \nAudre Lorde</item>
+        <item>\"Sonuçta, düşündüğümüzden çok daha fazlasına dayanabiliriz\" \nFrida Kahlo</item>
+        <item>\"Mutluluk, hazır bulunan bir şey değildir. Kendi eylemlerinden gelir\" \nDalai Lama XIV</item>
+        <item>\"Kendi kendimizle barışmadıkça dış dünyayla huzuru asla sağlayamayız\" \nDalai Lama XIV</item>
+        <item>\"Acı kaçınılmazdır. Acı çekmek ise bir seçimdir\" \nHaruki Murakami</item>
+        <item>\"Sadece verdiklerimize sahibiz\" \nIsabel Allende</item>
+        <item>\"Unutulmaması gerekeni yaz\" \nIsabel Allende</item>
+        <item>\"Kendi hayat hikayenin anlatıcısı sensin ve kendi efsaneni ya yaratabilirsin ya da yaratamazsın.\" \nIsabel Allende</item>
+        <item>\"Şu anda senin ve benim varolduğumuzdan emin olmam yeterli\" \nGabriel García Márquez</item>
+        <item>\"Her zaman geriye sevecek bir şey kalır\" \nGabriel García Márquez</item>
+        <item>\"Şükretmek için bir neden görmüyorsan, hata kendinde yatıyordur.\" \nTecumseh</item>
+        <item>\"Minnettarlık, karşılaştırmadan kurtulmanın yoludur.\" \nRobyn Conley Downs</item>
+        <item>\"İyimserlik, kullanımla güçlenen bir kastır\" \nRobin Roberts</item>
+        <item>\"Seni harekete geçireni yap. Sana dinginlik veren şeyi kucakla\" \nQ. Gibson</item>
+        <item>\"Sığ parçalarınla oturursan en derin dalgalarda hayatta kalmayı öğreneceksin\" \nQ. Gibson</item>
+        <item>\"Kendinle yakınlaş, her zaman kendine biraz daha yaklaşacak alan vardır\" \nQ. Gibson</item>
+        <item>\"Zihnim güzel bir yer, güzelce sularım ki başkaları da bahçemden beslensin\" \nQ. Gibson</item>
+        <item>\"Sen gökyüzüsün. Geriye kalan her şey havanın farklı halleri\" \nPema Chödrön</item>
+        <item>\"Artık olmadığım insanı, şu an olduğum insana yer açmak için geride bırakıyorum\" \nLalah Delia</item>
+        <item>\"İyileşme, yalnızca iyileşme sürecine teslim olursanız işe yarar\" \nLalah Delia</item>
+        <item>\"Mükemmelliğin yerine bütünlüğün peşinde koşmak ne kadar da özgürleştirici\" \nMorgan Harper Nichols</item>
+    </string-array>
+    <string-array name="prompts">
+        <item>Seni gülümseten şey nedir?</item>
+        <item>Bu odada minnettar olunacak bir şey nedir?</item>
+        <item>Hayatta olduğun için seni ne mutlu eder?</item>
+        <item>Sana yardım eden biri kim?</item>
+        <item>Sana akıl hocalığı yapan biri kim?</item>
+        <item>Sana bir şey öğreten biri kim?</item>
+        <item>Sevdiğin biri kim?</item>
+        <item>Seni seven biri kim?</item>
+        <item>Minnettar olduğun bir arkadaşın kim?</item>
+        <item>Doğadaki ne için minnettarsın?</item>
+        <item>Hangi yeteneğin veya becerin için minnettarsın?</item>
+        <item>Hangi anın için minnettarsın?</item>
+        <item>Bu gün birisi sana yardım etti mi?</item>
+        <item>Bu gün seni ne mutlu etti?</item>
+        <item>Kendinle gurur duyduğun ne var?</item>
+        <item>Yetiştirilme tarzının hangi yönü için minnettarsın?</item>
+        <item>Kariyerinin veya işinin hangi yönü için minnettarsın?</item>
+        <item>Hangi özgürlüklerin için minnettarsın?</item>
+        <item>Seni güldüren şey nedir?</item>
+        <item>Kendinle ilgili minnettar olduğun bir şey nedir?</item>
+        <item>Bugün gördüğün en güzel şey neydi?</item>
+        <item>Hangi kitap için minnettarsın?</item>
+        <item>Hangi şarkı veya müzik için minnettarsın?</item>
+        <item>Hayatını kolaylaştıran bir şey nedir?</item>
+        <item>Seni her zaman neşelendiren şey nedir?</item>
+        <item>Sana kim ilham veriyor?</item>
+        <item>Hangi teknoloji veya araç için minnettarsın?</item>
+        <item>Sahip olduğun hangi fırsat için minnettarsın?</item>
+        <item>Vücudun veya sağlığınla ilgili minnettar olduğun bir şey nedir?</item>
+        <item>Hangi yer için minnettarsın?</item>
+        <item>Hangi koku için minnettarsın?</item>
+        <item>Hangi tat için minnettarsın?</item>
+        <item>Hangi bilgi için minnettarsın?</item>
+        <item>Minnettar olduğun basit bir zevk nedir?</item>
+        <item>Hangi hobilerin için minnettarsın?</item>
+        <item>Hangi ses için minnettarsın?</item>
+        <item>Hangi küçük şey için minnettarsın?</item>
+        <item>Öğrendiğin için minnet duyduğun bir şey nedir?</item>
+        <item>Şehrindeki neye minnettarsın?</item>
+        <item>Evinle ilgili neye minnettarsın?</item>
+        <item>Hangi tavsiyeyi duyduğun için minnettarsın?</item>
+        <item>Ailenle ilgili neye minnettarsın?</item>
+        <item>Şu anki mevsimle ilgili neye minnettarsın?</item>
+        <item>Hangi aktivite için minnettarsın?</item>
+    </string-array>
+    <string name="about">Uygulama Bilgisi</string>
+    <string name="app_language_summary">Varsayılan uygulama dilini ayarlayın</string>
+    <string name="app_language_title">Uygulama dili</string>
+    <string name="appearance">Görünüm</string>
+    <string name="are_you_sure">Geri dönmek istediğine emin misin?</string>
+    <string name="back_up_entries_to_csv">Yazıları yedekle</string>
+    <string name="backup_and_restore">Yedekleme &amp; Onarma</string>
+    <string name="cancel">İptal et</string>
+    <string name="change_time">Günlük hatırlatma saatini değiştir</string>
+    <string name="channel_description">Neye minnet duyduğuna dikkatini çekmek için günlük hatırlatıcı</string>
+    <string name="channel_name">Presently Hatırlatıcısı</string>
+    <string name="close">Kapat</string>
+    <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">
+        Tebrikler! Seninle gurur duyuyoruz ve minnettarlığını kaydetmek için Presently\'i seçtiğin için minnettarız.
+    </string>
+    <string name="contact_us">İletişime geç</string>
+    <string name="continue_to_exit">Devam et</string>
+    <string name="copied">Panoya kopyalandı</string>
+    <string name="daily">Günlük</string>
+    <string name="day_of_week_off">Tarih, haftanın gününü içermez</string>
+    <string name="day_of_week_on">Tarih, haftanın gününü içerir</string>
+    <string name="day_of_week_summary">Haftanın ilk gününü takvimde ayarla</string>
+    <string name="day_of_week_title">Tarih stili</string>
+    <string name="days_of">minnettarlık günü</string>
+    <string name="days_of_gratitude">minnettarlık günü!</string>
+    <string name="dropbox_backup_frequency">Dropbox Yedekleme Sıklığı</string>
+    <string name="dropbox_setting_title">Verilerini Dropbox ile yedekle</string>
+    <string name="dropbox_summary_off">Yazılarını otomatik olarak yedeklemek için Dropbox hesabınla giriş yap</string>
+    <string name="dropbox_summary_on">Yazıların Dropbox\'a yedekleniyor</string>
+    <string name="enjoying_presently">Presently\'yi beğendin mi? Uygulamayı ailen ve arkadaşlarınla paylaş</string>
+    <string name="error_creating_csv_file">Cihazda CSV dosyası oluşturma hatası</string>
+    <string name="error_parsing">Dosya ayrıştırılırken hata oluştu</string>
+    <string name="every">Her değişiklikte</string>
+    <string name="export_success">Veriler cihazına aktarıldı</string>
+    <string name="faq">SSS</string>
+    <string name="file_not_csv">Dosya CSV olmalı</string>
+    <string name="fingerprint_error_lockout_too_many">Çok fazla biyometrik kimlik doğrulama denemesi. Lütfen birkaç dakika içinde tekrar deneyin.</string>
+    <string name="first_day_of_week_title">Haftanın ilk günü</string>
+    <string name="get_a_new_prompt">Yardım al</string>
+    <string name="iam">Minnettarım</string>
+    <string name="import_data_dialog">İçe aktarmak istediğine emin misin?</string>
+    <string name="import_data_dialog_message">İçe aktarılan veriler mevcut yazıların üzerine yazılabilir.</string>
+    <string name="import_entries_from_backup">Yazıları yedekten içe aktar</string>
+    <string name="import_summary">İçe aktarmak için yedeklenmiş bir CSV dosyası seç</string>
+    <string name="inspiration_title">İlham verici sözler</string>
+    <string name="iwas">Minnettardım</string>
+    <string name="loading_lang">Yükleniyor lütfen bekleyin</string>
+    <string name="lock_setting_summary_off">Presently cihazının biyometrik tarayıcısı ile kilitlenebilir (cihazın destekliyorsa).</string>
+    <string name="lock_setting_summary_on">Presently cihazının biyometrik tarayıcısı ile kilitlenecek.</string>
+    <string name="lock_summary">Presently kilitli, devam etmek için kilidi aç</string>
+    <string name="lock_title">Presently\'yi aç</string>
+    <string name="max_lines_summary">Zaman çizelgesinde gösterilen satır sayısı. Girişe tıkladığında tam metin görünür.</string>
+    <string name="max_lines_title">Zaman Çizelgesi Yazı Uzunluğu</string>
+    <string name="monday">Pazartesi</string>
+    <string name="no_app_found">Bu dosyayı açacak uygulama bulunamadı</string>
+    <string name="no_results">Sonuç yok</string>
+    <string name="notification_settings">Ayarlar</string>
+    <string name="notifs">Günlük Hatırlatma Bildirimleri</string>
+    <string name="notifs_name">Bildirimler</string>
+    <string name="notifs_off">Günlük hatırlatma bildirimleri kapalı</string>
+    <string name="notifs_on">Günlük hatırlatma bildirimleri açık</string>
+    <string name="ok">İçe aktar</string>
+    <string name="one_time_export">Yazılarını CSV\'ye aktar</string>
+    <string name="one_time_export_summary">Yazılarını cihazına manuel olarak CSV formatında aktar</string>
+    <string name="open">Aç</string>
+    <string name="open_source">Açık Kaynak Lisanslaeı</string>
+    <string name="open_source_info">Açık kaynak kütüphanesi lisanslarını oku</string>
+    <string name="permission_export">Verileri dışa aktarmak için izin gerekli</string>
+    <string name="presently" translatable="false">Presently</string>
+    <string name="privacy_policy">Gizlilik Politikası</string>
+    <string name="random">Rastgele</string>
+    <string name="rate_presently">Presently\'yi oyla</string>
+    <string name="read_faq">Presently\'nin sıkça sorulan sorularını oku</string>
+    <string name="read_privacy">Presently\'nin gizlilik politikasını oku</string>
+    <string name="read_tc">Şartlar &amp; Koşullarımızı oku</string>
+    <string name="reminder_title">Presently Minnettarlık Hatırlatıcısı</string>
+    <string name="saturday">Cumartesi</string>
+    <string name="save">Kaydet</string>
+    <string name="search">Ara</string>
+    <string name="security">Güvenlik</string>
+    <string name="select_a_theme">Tema seç</string>
+    <string name="settings">Ayarlar</string>
+    <string name="share_app_text">Basit, her zaman ücretsiz ve kişisel minnettarlık günlüğü uygulamasıyla minnet duygunu geliştir</string>
+    <string name="share_milestone">%1$d günlük minnettarlık günlüğünü tamamladım! Presently uygulamasını kullanarak bana katıl. #PresentlyApp</string>
+    <string name="share_presently">Presently\'yi Paylaş</string>
+    <string name="share_progress">Minnettarlık ilerlemeni paylaş</string>
+    <string name="share_your_achievement">Başarını paylaş</string>
+    <string name="share_your_gratitude">Minnettarlığını paylaş</string>
+    <string name="show_quote_off">Şükran alıntıları giriş sayfasında gösterilmeyecek</string>
+    <string name="show_quote_on">Şükran alıntıları giriş sayfasında gösterilecek</string>
+    <string name="sunday">Pazar</string>
+    <string name="terms_conditions">Şartlar &amp; Koşullar</string>
+    <string name="theme">Tema</string>
+    <string name="theme_change">20\'den fazla tema ve renk şemasından birini seç</string>
+    <string name="time_title">Hatırlatma Bildirimlerini Ayarla</string>
+    <string name="today">Bugün</string>
+    <string name="unsaved_text">Yazın kaydedilmedi ve değişiklikler kaybolacak!</string>
+    <string name="version_number">Versiyon numarası</string>
+    <string name="weekly">Haftalık</string>
+    <string name="what_are_you_thankful_for">Ne için minnettarsın?</string>
+    <string name="what_are_you_thankful_for_today">Bugün ne için minnettarsın?</string>
+    <string name="what_are_you_thankful_for_yesterday">Dün ne için minnettardın?</string>
+    <string name="what_were_you_thankful_for">Ne için minnettardın?</string>
+    <string name="yesterday">Dün</string>
+</resources>

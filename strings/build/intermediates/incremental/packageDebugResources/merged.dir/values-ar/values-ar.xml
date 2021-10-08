@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="inspirations">
+        <item>\"ليست البهجة في الأشياء، بل فينا نحن\" \nغير معروف</item>
+        <item>\"أولئك الذين لديهم القدرة على أن يكونوا ممتنين هم الذين لديهم القدرة على تحقيق العظمة\" \nستيف مارابولي</item>
+        <item>\"يجب أن نجد وقت لنشكر الأشخاص الذين يحدثون فرقاً في حياتنا\" \nجون ف. كينيدي</item>
+        <item>\"هذا يوم رائع. لم أر مثل هذا اليوم من قبل\" \nمايا أنجيلو</item>
+        <item>\"‏حاول ان تكون قوس قزح في سحابة شخص آخر\" \nمايا أنجيلو</item>
+        <item>\"عندما نركز على امتناننا، ينخفض مد خيبة الأمل و يرتفع جزر الحب \" \nكريستين ارمسترونغ</item>
+        <item>\"دعونا نكون ممتنين للأشخاص الذين يجعلوننا سعداء\" \nمارسيل بروست</item>
+        <item>\"العديد من المسرات الصغيرة تشكل السعادة\" \nتشارلز بودلير</item>
+        <item>\"الامتنان هو ذكرى القلب\" \nجان بابتيست ماسيو</item>
+        <item>\"كل البركات العظيمة في حياتي موجودة في أفكاري اليوم\" \nفيبي كاري</item>
+        <item>\"كلما حمدت حياتك واحتفلت بها، كلما زاد ما بها للاحتفال \" \nأوبرا وينفري</item>
+        <item>\"كن شاكرا على كل ما تملك وستجد نفسك تملك المزيد\" \nأوبرا وينفري</item>
+        <item>\"باستطاعتنا ان تقول اننا على قيد الحياة في تلك اللحظات عندما تدرك قلوبنا كنوزهم\" \nثورنتون وايلدر</item>
+        <item>\"استبدل توقعاتك بالشكر و سترى عالمك يتغير بالكامل على الفور\" \nتوني روبنز</item>
+        <item>\"تعرف على نفسك لتحسين نفسك\" \nأوغست كونت</item>
+        <item>\"فكرة إيجابية هادئة غيرت كل شيء\" \nافنتك</item>
+        <item>\"الامتنان يفتح عينيك على الإمكانات غير المحدودة للكون\" \nستيفن ريتشاردز</item>
+        <item>\"استمتع بالأشياء الصغيرة، لأنك في يوم ما قد تنظر إلى الوراء وتدرك أنها كانت الأشياء الكبيرة\" \nروبرت براولت</item>
+        <item>\"فكر ملياً في بركاتك الحالية التي لدى كل رجل الكثير منها، و ليس على مصائلك الماضية والتي لدى جميع الرجال بعضاَ منها\" \nتشارلز ديكنز</item>
+        <item>\"إن إدراك الخير الموجود في حياتك هو أساس الوفرة\" \nإيكهارت تول</item>
+        <item>\"الامتنان هو عملة يمكننا أن نكسبها بأنفسنا، وننفقها دون الخوف من الإفلاس\" \nفريد دي ويت فان امبورغ</item>
+        <item>\"الشخص الحكيم لا يحزن على الأشياء التي لا يملكها، لكنه يفرح بالتي يملكها\" \nأبكتيتوس</item>
+        <item>\"عندما بدأت في حساب بركاتي، انقلبت حياتي كلها\" \nويلي نيلسون</item>
+        <item>\"كلما امتننت ازداد جمال الدنيا\" \nماري ديفيس</item>
+        <item>\"هناك هدوء في الحياة المليئة بالامتنان، فرحة هادئة\" \nرالف بلوم</item>
+        <item>\"اصل الفرح هو الامتنان\" \nديفيد شتايندل راست</item>
+        <item>\"الشكر علامة النفوس النبيلة\" \nايسوب</item>
+        <item>\"عندما تكون ممتناً، يختفي الخوف وتظهر وفرة\" \nتوني روبنز</item>
+        <item>\"جوهر الفن الجميل و العظيم هو الامتنان.\" \nفريدريش نيتشه</item>
+        <item>\"ارتدي الامتنان مثل عباءة وستغذي كل زاوية في حياتك\" \nرومي</item>
+        <item>\"إذا كانت صلاتك الوحيدة في حياتك كلها هي الشكر فستكون كافية\" \nمايستر إيكهارت</item>
+        <item>\"الامتنان يحول ما لدينا إلى ما يكفي\" \nميلودي بيتي</item>
+        <item>\"اشكر القليل وستجد الكثير\" \nمثل هوسا </item>
+        <item>\"أنت تعيش حياتك مرة واحدة فقط، ولكن إذا عشت بطريقة صحيحة، فإن مرة واحدة تكفي\" \nماي ويست</item>
+        <item>\"عندما يتعلق الأمر بالحياة، فإن الشيء الحاسم هو ما إذا كنت تأخذ الأشياء كأمر مسلم به أو تأخذها بإمتنان\" \nج. ك. تشيسترتون</item>
+        <item>\"الشعور بالامتنان دون التعبير عنه يشبه القيام بتغليف هدية وعدم تقديمها إلى من تود أن تهديها إليه\" \nوليام آرثر وارد</item>
+        <item>\"لا يوجد سوى طريقتين لتعيش حياتك. الاولى كما لو أن لا شيء معجزة. والآخر هو أن تعتبر كل شيء معجزة\" \nالبرت اينشتاين</item>
+        <item>\"يتحول الامتنان من آلام الذاكرة إلى فرحة هادئة\" \nديتريش بونهوفر</item>
+        <item>\"لا نحتاج إلى السحر لتغيير العالم، فنحن نمتلك كل القوة التي نحتاجها داخل أنفسنا\" \nج. ك. رولينغ</item>
+        <item>\"الشكر هو كل الغنى والشكوى هي الفقر\" \nدوريس داي</item>
+        <item>\"العرفان هو عندما يتم تخزين الذاكرة في القلب وليس في العقل\" \nليونيل هامبتون</item>
+        <item>\"دعونا نتضخم بالامتنان ونتركه يطغى علينا\" \nغريس جيلي</item>
+        <item>\"الامتنان الصامت لا يثقل على أحد\" \nجيرترود شتاين</item>
+        <item>\"املأ الأرض بأغاني عرفانك\" \nتشارلز سبورجون</item>
+        <item>\قم بعمل لطيف حتى لو كان وقت مبكراً للغاية لأنك لا تعرف متى سيفوتك الأوان\" \nرالف والدو ايمرسون</item>
+        <item>\"لا أحد يحقق النجاح دون مساعدة الآخرين، يقدر الحكيم والواثق هذه المساعدة بامتنان\" \nألفريد نورث وايتهيد</item>
+        <item>\"اعثر على الخير و مجده\" \nاليكس هالي</item>
+        <item>\"المفاجأة هي بذرة الامتنان. كن واعياً للمفاجآت\" \nديفيد شتايندل راست</item>
+        <item>\"قدم الشكر للبركات المجهولة التي تنتظرك في المستقبل\" \nمثل الأمريكيين الأصليين</item>
+        <item>\"الامتنان هو السعادة مضاعفة بالعجب\" \nج. ك. تشيسترتون</item>
+        <item>\"الامتنان هو أروع زهرة تنبع من الروح\" \nهنري وارد بيشر</item>
+        <item>\"السعادة لا تجعلنا ممتنين بل الامتنان ما يجعلنا سعداء\" \nديفيد شتايندل راست</item>
+        <item>\"الوفرة لا تكتسب. إنها شيء نتناغم معها\" \nواين وداير</item>
+        <item>\"إظهار الامتنان هي احدى أبسط وأقوى الأشياء التي يمكن للبشر القيام بها لبعضهم البعض\" \nراندي باوش</item>
+        <item>\"اجعل الشيء الغير مرئي سابقاً بدونك مرئياً\" \nروبرت بريسون</item>
+    </string-array>
+    <string-array name="prompts">
+        <item>ما هو الشيء الذي جعلك تبتسم؟</item>
+        <item>اذكر شيء ممتن له في هذه الغرفة؟</item>
+        <item>ما الذي يجعلك سعيداً لكونك على قيد الحياة؟</item>
+        <item>سَمِّ شخص ساعدك؟</item>
+        <item>سَمِّ شخص قام بإرشادك؟</item>
+        <item>سَمِّ شخص علمك شيئاً؟</item>
+        <item>سَمِّ شخص تحبه؟</item>
+        <item>سَمِّ شخص يحبك؟</item>
+        <item>من الصديق الذي تشعر بالامتنان له؟</item>
+        <item>ما في الطبيعة تشعر بالامتنان له؟</item>
+        <item>ما الموهبة أو المهارة التي تشعر بالامتنان لها؟</item>
+        <item>ما الذاكرة التي تشعر بالامتنان لها؟</item>
+        <item>هل ساعدك شخص  في هذا اليوم؟</item>
+        <item>ما الذي جعلك تشعر بالسعادة في هذا اليوم؟</item>
+        <item>بماذا تفتخر بنفسك؟</item>
+        <item>ما الذي تشتكر له في تربيتك؟</item>
+        <item>ما الذي تمتن له في حياتك المهنية أو عملك؟</item>
+        <item>ما الحريات التي تشعر بالامتنان لها؟</item>
+        <item>اذكر شيء جعلك تضحك؟</item>
+        <item>ما هو الشيء الوحيد الذي تشعر بالامتنان له عن نفسك؟</item>
+        <item>ما أجمل شيء في هذا اليوم؟</item>
+        <item>سَمِّ كتاب ممتن له؟</item>
+        <item>ما الأغنية أو الموسيقى التي تشعر بالامتنان لها؟</item>
+        <item>ما هو الشيء الذي يجعل حياتك أسهل؟</item>
+        <item>ما هو الشيء الذي يفرحك دائماً؟</item>
+        <item>من الذي يلهمك؟</item>
+        <item>ما هي التكنولوجيا أو الأداة التي تشعر بالامتنان لها؟</item>
+        <item>ما الفرصة التي تشعر بالامتنان لها؟</item>
+        <item>ما هو الشيء الذي تشعر بالامتنان له في جسمك أو صحتك؟</item>
+        <item>ما هو المكان الذي تشعر بالامتنان له؟</item>
+        <item>ما هي الرائحة التي تشعر بالامتنان لها؟</item>
+        <item>ما هو الطعم الذي تشعر بالامتنان له؟</item>
+        <item>ما هي المعرفة التي تشعر بالامتنان لها؟</item>
+        <item>ما هي المتعة البسيطة التي تشعر بالامتنان لها؟</item>
+        <item>ما هي الهوايات الممتن لها؟</item>
+        <item>ما هو الصوت التي تشعر بالامتنان له؟</item>
+        <item>اذكر شيء صغير تشعر بالامتنان له؟</item>
+        <item>ما هو الشيء الذي تشعر بالامتنان لتعلمه؟</item>
+        <item>ما الذي تشعر بالامتنان له في مدينتك أو قريتك؟</item>
+        <item>ما الذي تشعر بالامتنان له في منزلك؟</item>
+        <item>ما النصيحة التي تشعر بالامتنان لسماعها؟</item>
+        <item>ما الذي تشعر بالامتنان له في عائلتك؟</item>
+        <item>ما الذي تشعر بالامتنان له في الموسم الحالي؟</item>
+        <item>ما النشاط الذي تشعر بالامتنان له؟</item>
+    </string-array>
+    <string name="about">معلومات التطبيق</string>
+    <string name="app_language_summary">تعيين لغة التطبيق الافتراضية</string>
+    <string name="app_language_title">لغة التطبيق</string>
+    <string name="appearance">مظهر</string>
+    <string name="are_you_sure">هل أنت متأكد أنك تريد العودة؟</string>
+    <string name="back_up_entries_to_csv">الإدخالات المحفوظة</string>
+    <string name="backup_and_restore">النسخ الاحتياطي واستعادة</string>
+    <string name="cancel">إلغاء</string>
+    <string name="change_time">تغيير وقت الاشعارات اليومية</string>
+    <string name="channel_description">تذكير يومي لتدوين امتناناتك</string>
+    <string name="channel_name">تذكيرات تطبيق برزنتلي</string>
+    <string name="close">إغلاق</string>
+    <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">
+       مبروك! نحن فخورون بك و ممتنين لإختيارك تطبيق برزنتلي لتدوين امتنانك
+    </string>
+    <string name="contact_us">اتصل بنا</string>
+    <string name="continue_to_exit">متابعة</string>
+    <string name="copied">نسخ إلى الحافظة</string>
+    <string name="daily">اليومي</string>
+    <string name="day_of_week_off">لا يشمل التاريخ يوم من أيام الأسبوع</string>
+    <string name="day_of_week_on">يشمل التاريخ يوم من الأسبوع</string>
+    <string name="day_of_week_summary">قم بتعيين اليوم الأول من الأسبوع في طريقة عرض التقويم</string>
+    <string name="day_of_week_title">نمط التاريخ</string>
+    <string name="days_of">أيام الامتنان</string>
+    <string name="days_of_gratitude">أيام الامتنان</string>
+    <string name="dropbox_backup_frequency">تردد النسخ الاحتياطي Dropbox</string>
+    <string name="dropbox_setting_title">نسخ بياناتك احتياطيًا باستخدام Dropbox</string>
+    <string name="dropbox_summary_off">قم بتسجيل الدخول باستخدام حساب Dropbox الخاص بك لعمل نسخة احتياطية من إدخالاتك تلقائيًا</string>
+    <string name="dropbox_summary_on">يتم نسخ إدخالاتك احتياطيًا إلى Dropbox</string>
+    <string name="enjoying_presently">هل تستمتع بالتطبيق؟ شارك التطبيق مع أصدقائك وعائلتك</string>
+    <string name="error_creating_csv_file">خطأ في إنشاء ملف CSV على الجهاز</string>
+    <string name="error_parsing">فشل في تحليل الملف</string>
+    <string name="every">مع كل تغيير</string>
+    <string name="export_success">تم تصدير البيانات إلى جهازك</string>
+    <string name="faq">أسئلة متكررة</string>
+    <string name="file_not_csv">يجب أن يكون الملف CSV</string>
+    <string name="fingerprint_error_lockout_too_many">محاولات المصادقة البيومترية كثيرة. يرجى المحاولة مرة أخرى في بضع دقائق</string>
+    <string name="first_day_of_week_title">اول يوم من الاسبوع</string>
+    <string name="get_a_new_prompt">احصل على سؤال جديد </string>
+    <string name="iam">أشعر بالامتنان الى</string>
+    <string name="import_data_dialog">هل أنت متأكد أنك تريد الاستيراد؟</string>
+    <string name="import_data_dialog_message">البيانات المستوردة قد تستبدل الإدخالات الموجودة</string>
+    <string name="import_entries_from_backup">استيراد إدخالات من النسخة الاحتياطية</string>
+    <string name="import_summary">حدد ملف CSV احتياطي لاستيراده</string>
+    <string name="inspiration_title">اقتباس موحي</string>
+    <string name="iwas">شعرت بالامتنان الى </string>
+    <string name="loading_lang">جاري التحميل الرجاءالانتظار</string>
+    <string name="lock_setting_summary_off">تطبيق برزنتلي يقفل مع الماسح الضوئي البيومترية في (إذا ما كان مدعوم من قبل الجهاز)</string>
+    <string name="lock_setting_summary_on">تطبيق برزنتلي سيقفل مع الماسح الضوئي البيومترية في جهازك</string>
+    <string name="lock_summary">تطبيق برزنتلي مغلق، افتح التطبيق للمتابعة</string>
+    <string name="lock_title">فتح تطبيق برزنتلي</string>
+    <string name="max_lines_summary">عدد الأسطر الموضحة في المخطط الزمني. النص الكامل مرئي عند النقر فوق الإدخال.</string>
+    <string name="max_lines_title">طول معاينة الإدخال</string>
+    <string name="monday">الإثنين</string>
+    <string name="no_app_found">لم يتم العثور على تطبيق لفتح هذا الملف</string>
+    <string name="no_results">لا توجد نتائج</string>
+    <string name="notification_settings">الإعدادات</string>
+    <string name="notifs">إشعارات التذكير اليومية</string>
+    <string name="notifs_name">إشعارات</string>
+    <string name="notifs_off">إشعارات التذكير اليومية معطلة</string>
+    <string name="notifs_on">إشعارات التذكير اليومية قيد التشغيل</string>
+    <string name="ok">استيراد</string>
+    <string name="one_time_export">إدخالات التصدير إلى CSV</string>
+    <string name="one_time_export_summary">قم يدويًا بتصدير إدخالاتك إلى تنسيق CSV إلى جهازك</string>
+    <string name="open">افتح</string>
+    <string name="open_source">تراخيص البرامج مفتوحة المصدر</string>
+    <string name="open_source_info">اقرأ تراخيص المكتبة مفتوحة المصدر</string>
+    <string name="permission_export">بحاجة لإذن لتصدير البيانات</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="random">عشوائية</string>
+    <string name="rate_presently">قيّم تطبيق برزنتلي</string>
+    <string name="read_faq">اقرأ أسئلة تطبيق برزنتلي المتكررة</string>
+    <string name="read_privacy">اقرأ سياسة الخصوصية التابعة لتطبيق برزنتلي</string>
+    <string name="read_tc">اقرأ أحكام و شروط تطبيق برزنتلي</string>
+    <string name="reminder_title">تذكير الامتنان من تطبيق برزنتلي</string>
+    <string name="saturday">يوم السبت</string>
+    <string name="save">حفظ</string>
+    <string name="search">ابحث</string>
+    <string name="security">حماية</string>
+    <string name="select_a_theme">اختر احد خيارات المظهر</string>
+    <string name="settings">الإعدادات</string>
+    <string name="share_app_text">ممارسة الامتنان مع هذا بسيط، ودائما مجانا، والامتنان الخاص التطبيق اليومية</string>
+    <string name="share_milestone">أكملت %1$d أيام اليومية الامتنان! تاريخ لي باستخدام التطبيق في الوقت الحاضر.</string>
+    <string name="share_presently">مشاركة في الوقت الحاضر</string>
+    <string name="share_progress">شارك تقدمك في الامتنان</string>
+    <string name="share_your_achievement">شارك انجازاتك</string>
+    <string name="share_your_gratitude">شارك امتنانك</string>
+    <string name="show_quote_off">لن يتم عرض اقتباسات الامتنان في صفحة الدخول</string>
+    <string name="show_quote_on">سيتم عرض اقتباسات الامتنان في صفحة الدخول</string>
+    <string name="sunday">الأحد</string>
+    <string name="terms_conditions">الأحكام والشروط</string>
+    <string name="theme">المظهر</string>
+    <string name="theme_change">غير مظهر التطبيق</string>
+    <string name="time_title">عدل اشعارات التذكير</string>
+    <string name="today">اليوم</string>
+    <string name="unsaved_text">البيانات غير محفوظة و ستؤدي الى فقدان تغييراتك</string>
+    <string name="version_number">رقم الإصدار</string>
+    <string name="weekly">أسبوعي</string>
+    <string name="what_are_you_thankful_for">ما الذي تشعر بالامتنان له؟</string>
+    <string name="what_are_you_thankful_for_today">ما الشيء الذي تشعر بالامتنان له اليوم؟</string>
+    <string name="what_are_you_thankful_for_yesterday">ما الشيء الذي شعرت بالامتنان له البارحة؟</string>
+    <string name="what_were_you_thankful_for">ما هو الشيء الذي شعرت بالامتنان له؟</string>
+    <string name="yesterday">البارحة</string>
+</resources>

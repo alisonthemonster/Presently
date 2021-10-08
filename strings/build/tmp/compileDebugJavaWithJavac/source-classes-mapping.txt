@@ -1,0 +1,2 @@
+com/presently/strings/BuildConfig.java
+ com.presently.strings.BuildConfig

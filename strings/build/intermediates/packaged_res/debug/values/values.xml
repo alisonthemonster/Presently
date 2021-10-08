@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="AppLanguage">
+        <item>@string/language_en</item>
+        <item>@string/language_ar</item>
+        <item>@string/language_de</item>
+        <item>@string/language_es</item>
+        <item>@string/language_fi</item>
+        <item>@string/language_fr</item>
+        <item>@string/language_hr</item>
+        <item>@string/language_it</item>
+        <item>@string/language_nl</item>
+        <item>@string/language_pl</item>
+        <item>@string/language_pt</item>
+        <item>@string/language_pt_br</item>
+        <item>@string/language_ro</item>
+        <item>@string/language_ru</item>
+        <item>@string/language_sk</item>
+        <item>@string/language_tr</item>
+        <item>@string/language_af</item>
+    </string-array>
+    <string-array name="AppLanguageValues">
+        <item>en</item>
+        <item>ar</item>
+        <item>de</item>
+        <item>es</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>hr</item>
+        <item>it</item>
+        <item>nl</item>
+        <item>pl</item>
+        <item>pt</item>
+        <item>pt-BR</item>
+        <item>ro</item>
+        <item>ru</item>
+        <item>sk</item>
+        <item>tr</item>
+        <item>af</item>
+    </string-array>
+    <string-array name="BackupCadence">
+        <item>@string/daily</item>
+        <item>@string/weekly</item>
+        <item>@string/every</item>
+    </string-array>
+    <string-array name="BackupCadenceValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="DaysOfWeek">
+        <item>@string/saturday</item>
+        <item>@string/sunday</item>
+        <item>@string/monday</item>
+    </string-array>
+    <string-array name="DaysOfWeekValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="ThemeList">
+        <item>Original</item>
+        <item>Sunset</item>
+        <item>Moonlight</item>
+        <item>Midnight</item>
+        <item>Dusk</item>
+        <item>Ivy</item>
+        <item>Wesley</item>
+        <item>Moss</item>
+        <item>Glacier</item>
+        <item>Clean</item>
+        <item>Gelato</item>
+        <item>Waves</item>
+    </string-array>
+    <string-array name="inspirations">
+        <item>\"The secret to having it all is knowing you already do\" \nUnknown</item>
+        <item>\"Those who have the ability to be grateful are the ones who have the ability to achieve greatness\" \nSteve Maraboli</item>
+        <item>\"We must find time to stop and thank the people who make a difference in our lives\" \nJohn F Kennedy</item>
+        <item>\"This is a wonderful day. I\'ve never seen this day before\" \nMaya Angelou</item>
+        <item>\"Be a rainbow in someone else\'s cloud\" \nMaya Angelou</item>
+        <item>\"When we focus on our gratitude, the tide of disappointment goes out and the tide of love rushes in. \" \nKristin Armstrong</item>
+        <item>\"Let us be grateful to the people who make us happy\" \nMarcel Proust</item>
+        <item>\"A multitude of small delights constitutes happiness\" \nCharles Baudelaire</item>
+        <item>\"Gratitude is the memory of the heart\" \nJean Baptiste Massieu</item>
+        <item>\"All the great blessings of my life are present in my thoughts today\" \nPhoebe Cary</item>
+        <item>\"The more you praise and celebrate your life, the more there is in life to celebrate\" \nOprah Winfrey</item>
+        <item>\"Be thankful for what you have; you\'ll end up having more.\" \nOprah Winfrey</item>
+        <item>\"We can only be said to be alive those moments when our hearts are conscious of their treasures\" \nThornton Wilder</item>
+        <item>\"Know yourself to improve yourself\" \nAuguste Compte</item>
+        <item>\"A quiet positive thought changed it all\" \nAvantik</item>
+        <item>\"Gratitude opens your eyes to the limitless potential of the universe\" \nStephen Richards</item>
+        <item>\"Enjoy the little things, for one day you may look back and realize they were the big things.\" \nRobert Brault</item>
+        <item>\"Reflect upon your present blessings, of which every man has plenty; not on your past misfortunes, of which all men have some.\" \nCharles Dickens</item>
+        <item>\"Acknowledging the good that you already have in your life is the foundation for all abundance.\" \nEckhart Tolle</item>
+        <item>\"Gratitude is a currency that we can mint for ourselves, and spend without fear of bankruptcy.\" \nFred De Witt Van Amburgh</item>
+        <item>\"He is a wise man who does not grieve for the things which he has not, but rejoices for those which he has.\" \nEpictetus</item>
+        <item>\"When I started counting my blessings, my whole life turned around\" \nWillie Nelson</item>
+        <item>\"The more grateful I am, the more beauty I see\" \nMary Davis</item>
+        <item>\"There is a calmness to a life lived in gratitude, a quiet joy.\" \nRalph H. Blum</item>
+        <item>\"The root of joy is gratefulness\" \nDavid Steindl-Rast</item>
+        <item>\"Gratitude is the sign of noble souls\" \nAesop</item>
+        <item>\"When you are grateful, fear disappears and abundance appears\" \nAnthony Robbins</item>
+        <item>\"The essence of all beautiful art, all great art, is gratitude.\" \nFriedrich Nietzsche</item>
+        <item>\"Wear gratitude like a cloak and it will feed every corner of your life\" \nRumi</item>
+        <item>\"If the only prayer you ever say in your life is Thank You, it will be enough\" \nMeister Eckhart</item>
+        <item>\"Gratitude turns what we have into enough\" \nMelody Beattie</item>
+        <item>\"Give thanks for a little and you will find a lot\" \nHausa Proverb</item>
+        <item>\"You only live once, but if you do it right, once is enough\" \nMae West</item>
+        <item>\"When it comes to life the critical thing is whether you take things for granted or take them with gratitude\" \nG. K. Chesterton</item>
+        <item>\"Feeling gratitude and not expressing it is like wrapping a present and not giving it\" \nWilliam Arthur Ward</item>
+        <item>\"There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.\" \nAlbert Einstein</item>
+        <item>\"Gratitude changes the pangs of memory into a tranquil joy\" \nDietrich Bonhoeffer</item>
+        <item>\"Gratitude is riches. Complaint is poverty.\" \nDoris Day</item>
+        <item>\"Gratitude is when memory is stored in the heart and not in the mind\" \nLionel Hampton</item>
+        <item>\"Let us swell with gratitude and allow it to overwhelm us\" \nGrace Gealey</item>
+        <item>\"Silent gratitude isn\'t very much to anyone\" \nGertrude Stein</item>
+        <item>\"Fill the earth with your songs of gratitude\" \nCharles Spurgeon</item>
+        <item>\"You cannot do a kindness too soon, for you never know when it will be too late\" \nRalph Waldo Emerson</item>
+        <item>\"No one who achieves success does so without the help of others, the wise and confident acknowledge this help with gratitude\" \nAlfred North Whitehead</item>
+        <item>\"Find the good and praise it\" \nAlex Haley</item>
+        <item>\"Surprise is the seed of gratefulness. Become aware of surprises\" \nDavid Steindl-Rast</item>
+        <item>\"Gratitude is happiness doubled by wonder\" \nG. K. Chesterton</item>
+        <item>\"Gratitude is the fairest blossom which springs from the soul\" \nHenry Ward Beecher</item>
+        <item>\"Happiness is not what makes us grateful. It is gratefulness that makes us happy.\" \nDavid Steindl-Rast</item>
+        <item>\"Abundance is not something we acquire. It is something we tune into.\" \nWayne W Dyer</item>
+        <item>\"Showing gratitude is one of the simplest yet most powerful things humans can do for each other\" \nRandy Pausch</item>
+        <item>\"Make visible what, without you, might perhaps never have been seen\" \nRobert Bresson</item>
+        <item>\"When you focus on the good, the good gets better\" \nAbraham Hicks</item>
+        <item>\"Be generous in prosperity, and thankful in adversity\" \nBahá’u’lláh</item>
+        <item>\"Gratitude is nothing if it\'s not felt\" \nJamie Varon</item>
+        <item>\"Drink from the well of your self and begin again\" \nCharles Bukowski</item>
+        <item>\"In the face of brokeness, gratitude has the power to heal. In the face of despair, gratitude has the power to bring hope.\" \nRobert A Emmons</item>
+        <item>\"Gratitude is not only the greatest of the virtues, it is the parent of all the others\" \nMarcus Tullius Cicero</item>
+        <item>\"Hold everything dear\" \nJohn Berger</item>
+        <item>\"As long as you are living there is more ahead of you\" \nMorgan Harper Nichols</item>
+        <item>\"I am worthy of the time it takes to do the things that heal my heart\" \nMorgan Harper Nichols</item>
+        <item>\"Your heart is still beating and there is still room for healing\" \nMorgan Harper Nichols</item>
+        <item>\"Choose celebration over comparison\" \nMorgan Harper Nichols</item>
+        <item>\"Walk as if you are kissing the Earth with your feet.\" \nThich Nhat Hanh</item>
+        <item>\"If I am not good to myself, how can I expect anyone else to be good to me?\" \nMaya Angelou</item>
+        <item>\"No matter what happens, or how bad it seems today, life does go on, and it will be better tomorrow\" \nMaya Angelou</item>
+        <item>\"If much has been denied me, much, very much, has been given me\" \nHelen Keller</item>
+        <item>\"For love casts out fear, and gratitude can conquer pride\" \nLouisa May Alcott</item>
+        <item>\"Embrace every new day with gratitude, hope and love\" \nLailah Gifty Akita</item>
+        <item>\"Never let the things you want make you forget the things you have\" \nSanchita Pandey</item>
+        <item>\"Usually, that which could have been better could have been worse\" \nMokokoma Mokhonoana</item>
+        <item>\"The soul that gives thanks can find comfort in everything\" \nHannah Whitall Smith</item>
+        <item>\"Living simply makes loving simple\" \nbell hooks</item>
+        <item>\"Love is an action, never simply a feeling\" \nbell hooks</item>
+        <item>\"There is light in darkness, you just have to find it\" \nbell hooks</item>
+        <item>\"Our feelings are our most genuine paths to knowledge\" \nAudre Lorde</item>
+        <item>\"At the end of the day, we can endure much more than we think we can\" \nFrida Kahlo</item>
+        <item>\"Happiness is not something ready made. It comes from your own actions\" \nDalai Lama XIV</item>
+        <item>\"We can never obtain peace in the outer world until we make peace with ourselves\" \nDalai Lama XIV</item>
+        <item>\"Pain is inevitable. Suffering is optional\" \nHaruki Murakami</item>
+        <item>\"We only have what we give\" \nIsabel Allende</item>
+        <item>\"Write what should not be forgotten\" \nIsabel Allende</item>
+        <item>\"You are the storyteller of your own life, and you can create your own legend, or not.\" \nIsabel Allende</item>
+        <item>\"It\'s enough for me to be sure that you and I exist at this moment\" \nGabriel García Márquez</item>
+        <item>\"There is always something left to love\" \nGabriel García Márquez</item>
+        <item>\"If you see no reason to give thanks, the fault lies in yourself.\" \nTecumseh</item>
+        <item>\"Gratitude is the direct way out of comparison.\" \nRobyn Conley Downs</item>
+        <item>\"Optimism is a muscle that gets stronger with use\" \nRobin Roberts</item>
+        <item>\"Do what moves you. Embrace what gives you stillness\" \nQ. Gibson</item>
+        <item>\"Sit with your shallow parts and you will learn to survive the deepest tides\" \nQ. Gibson</item>
+        <item>\"Come closer to yourself there\'s always room\" \nQ. Gibson</item>
+        <item>\"My mind is a beautiful place, I water it well so that others can be fed from my garden\" \nQ. Gibson</item>
+        <item>\"You are the sky. Everything else is just weather\" \nPema Chödrön</item>
+        <item>\"Letting go of who I\'m not any longer, to make room for who I am\" \nLalah Delia</item>
+        <item>\"Healing only works if you surrender to its process\" \nLalah Delia</item>
+        <item>\"How liberating is it to pursue wholeness instead of perfection\" \nMorgan Harper Nichols</item>
+    </string-array>
+    <string-array name="prompts">
+            <item>What is something that made you smile?</item>
+            <item>What is something to be grateful for in this room?</item>
+            <item>What makes you happy to be alive?</item>
+            <item>Who is someone that helped you?</item>
+            <item>Who is someone that has mentored you?</item>
+            <item>Who is someone that taught you something?</item>
+            <item>Who is someone that you love?</item>
+            <item>Who is someone that loves you?</item>
+            <item>Who is a friend that you are grateful for?</item>
+            <item>What in nature are you grateful for?</item>
+            <item>What talent or skill are you grateful for?</item>
+            <item>What memory are you grateful for?</item>
+            <item>Did someone help you on this day?</item>
+            <item>What made you feel happy on this day?</item>
+            <item>What are you proud of yourself for?</item>
+            <item>What about your upbringing are you thankful for?</item>
+            <item>What about your career or work are you grateful for?</item>
+            <item>What freedoms are you grateful for?</item>
+            <item>What is something that made you laugh?</item>
+            <item>What is one thing you are grateful for about yourself?</item>
+            <item>What was the most beautiful thing you saw on this day?</item>
+            <item>What book are you grateful for?</item>
+            <item>What song or music are you grateful for?</item>
+            <item>What is something that makes your life easier?</item>
+            <item>What is something that always cheers you up?</item>
+            <item>Who inspires you?</item>
+            <item>What technology or tool are you grateful for?</item>
+            <item>What opportunity are you grateful for?</item>
+            <item>What is something about your body or your health that you are grateful for?</item>
+            <item>What place are you grateful for?</item>
+            <item>What smell are you grateful for?</item>
+            <item>What taste are you grateful for?</item>
+            <item>What knowledge are you grateful for?</item>
+            <item>What is a simple pleasure you\'re grateful for?</item>
+            <item>What hobbies are you grateful for?</item>
+            <item>What sound are you grateful for?</item>
+            <item>What small thing are you grateful for?</item>
+            <item>What is something you are grateful to have learned?</item>
+            <item>What are you grateful for in your city or town?</item>
+            <item>What are you grateful for about your home?</item>
+            <item>What advice are you grateful to have heard?</item>
+            <item>What are you grateful for about your family?</item>
+            <item>What are you grateful for about the current season?</item>
+            <item>What activity are you grateful for?</item>
+    </string-array>
+    <string name="about">App Information</string>
+    <string name="app_language_summary">Set default app language</string>
+    <string name="app_language_title">Application language</string>
+    <string name="app_name" translatable="false">Presently</string>
+    <string name="appearance">Appearance</string>
+    <string name="are_you_sure">Are you sure you want to go back?</string>
+    <string name="back_up_entries_to_csv">Backup entries</string>
+    <string name="backup_and_restore">Backup &amp; Restore</string>
+    <string name="cancel">Cancel</string>
+    <string name="change_time">Change your daily reminder time</string>
+    <string name="channel_description">Daily reminders to note what you\'re grateful for</string>
+    <string name="channel_name">Presently Reminder</string>
+    <string name="close">Close</string>
+    <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">
+        Congratulations! We\'re so proud of you and so grateful you chose Presently to record your gratitude.
+    </string>
+    <string name="contact_us">Contact Us</string>
+    <string name="continue_to_exit">Continue</string>
+    <string name="copied">Copied to clipboard</string>
+    <string name="daily">Daily</string>
+    <string name="day_of_week_off">Date does not include day of the week</string>
+    <string name="day_of_week_on">Date includes day of the week</string>
+    <string name="day_of_week_summary">Set the first day of the week in the calendar view</string>
+    <string name="day_of_week_title">Date Style</string>
+    <string name="days_of">days of gratitude</string>
+    <string name="days_of_gratitude">days of gratitude!</string>
+    <string name="dropbox_backup_frequency">Dropbox Backup Frequency</string>
+    <string name="dropbox_setting_title">Back up your data with Dropbox</string>
+    <string name="dropbox_summary_off">Log in with your Dropbox account to automatically back up your entries</string>
+    <string name="dropbox_summary_on">Your entries are being backed up to Dropbox</string>
+    <string name="enjoying_presently">Enjoying Presently? Share the app with your friends and family</string>
+    <string name="error_creating_csv_file">Error creating CSV file on device</string>
+    <string name="error_parsing">Error parsing file</string>
+    <string name="every">On every change</string>
+    <string name="export_success">Data exported to your device</string>
+    <string name="faq">FAQ</string>
+    <string name="file_not_csv">File must be a CSV</string>
+    <string name="fingerprint_error_lockout_too_many">Too many biometric authentication attempts. Please try again in a few minutes.</string>
+    <string name="first_day_of_week_title">First day of the week</string>
+    <string name="get_a_new_prompt">Get a prompt</string>
+    <string name="iam">I am grateful for</string>
+    <string name="import_data_dialog">Are you sure you want to import?</string>
+    <string name="import_data_dialog_message">Imported data could overwrite existing entries.</string>
+    <string name="import_entries_from_backup">Import entries from backup</string>
+    <string name="import_summary">Select a backed up CSV file to import</string>
+    <string name="inspiration_title">Inspirational quotes</string>
+    <string name="iwas">I was grateful for</string>
+    <string name="key_faq" translatable="false">faq</string>
+    <string name="key_open_source" translatable="false">open_source</string>
+    <string name="key_privacy_policy" translatable="false">privacy_policy</string>
+    <string name="key_share_app" translatable="false">share_app</string>
+    <string name="key_terms_conditions" translatable="false">terms_conditions</string>
+    <string name="key_version" translatable="false">version</string>
+    <string name="language_af" translatable="false">Afrikaans</string>
+    <string name="language_ar" translatable="false">عربي</string>
+    <string name="language_de" translatable="false">Deutsche</string>
+    <string name="language_en" translatable="false">English</string>
+    <string name="language_es" translatable="false">Español</string>
+    <string name="language_fi" translatable="false">Suomalainen</string>
+    <string name="language_fr" translatable="false">Français</string>
+    <string name="language_hr" translatable="false">Hrvatski</string>
+    <string name="language_it" translatable="false">Italiano</string>
+    <string name="language_nl" translatable="false">Nederlands</string>
+    <string name="language_pl" translatable="false">Polskie</string>
+    <string name="language_pt" translatable="false">Português</string>
+    <string name="language_pt_br" translatable="false">Portugues do Brasil</string>
+    <string name="language_ro" translatable="false">Română</string>
+    <string name="language_ru" translatable="false">русский</string>
+    <string name="language_sk" translatable="false">Slovák</string>
+    <string name="language_tr" translatable="false">Türkçe</string>
+    <string name="loading_lang">Loading language, please wait</string>
+    <string name="lock_setting_summary_off">Presently can lock with your device\'s biometric scanner (if supported by device).</string>
+    <string name="lock_setting_summary_on">Presently will lock with your device\'s biometric scanner.</string>
+    <string name="lock_summary">Presently is locked, unlock to continue</string>
+    <string name="lock_title">Unlock Presently</string>
+    <string name="max_lines_summary">Number of lines shown in the timeline. The full text is visible when you click the entry.</string>
+    <string name="max_lines_title">Timeline Entry Length</string>
+    <string name="monday">Monday</string>
+    <string name="no_app_found">No app found to open this file</string>
+    <string name="no_results">No results</string>
+    <string name="notification_settings">Settings</string>
+    <string name="notifs">Daily Reminder Notifications</string>
+    <string name="notifs_name">Notifications</string>
+    <string name="notifs_off">Daily reminder notifications are off</string>
+    <string name="notifs_on">Daily reminder notifications are on</string>
+    <string name="ok">Import</string>
+    <string name="one_time_export">Export entries to CSV</string>
+    <string name="one_time_export_summary">Manually export your entries to CSV format to your device</string>
+    <string name="open">Open</string>
+    <string name="open_source">Open Source Licenses</string>
+    <string name="open_source_info">Read open source library licenses</string>
+    <string name="permission_export">Permission is needed to export data</string>
+    <string name="presently" translatable="false">Presently</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="random">Random</string>
+    <string name="rate_presently">Rate Presently</string>
+    <string name="read_faq">Read Presently\'s frequently asked questions</string>
+    <string name="read_privacy">Read Presently\'s privacy policy</string>
+    <string name="read_tc">Read our terms &amp; conditions</string>
+    <string name="reminder_title">Presently Gratitude Reminder</string>
+    <string name="saturday">Saturday</string>
+    <string name="save">Save</string>
+    <string name="search">Search</string>
+    <string name="security">Security</string>
+    <string name="select_a_theme">Select a theme</string>
+    <string name="settings">Settings</string>
+    <string name="share_app_text">Practice gratitude with this simple, always free, and private gratitude journaling app</string>
+    <string name="share_milestone">I completed %1$d days of gratitude journaling! Join me using the Presently App. #PresentlyApp</string>
+    <string name="share_presently">Share Presently</string>
+    <string name="share_progress">Share your gratitude progress</string>
+    <string name="share_your_achievement">Share your achievement</string>
+    <string name="share_your_gratitude">Share your gratitude</string>
+    <string name="show_quote_off">Gratitude quotes will not be shown on entry page</string>
+    <string name="show_quote_on">Gratitude quotes will be shown on entry page</string>
+    <string name="sunday">Sunday</string>
+    <string name="terms_conditions">Terms &amp; Conditions</string>
+    <string name="theme">Theme</string>
+    <string name="theme_change">Choose from over 20 different themes and color schemes</string>
+    <string name="time_title">Adjust Reminder Notifications</string>
+    <string name="today">Today</string>
+    <string name="unsaved_text">Your entry is unsaved and your changes will be lost!</string>
+    <string name="version_number">Version Number</string>
+    <string name="weekly">Weekly</string>
+    <string name="what_are_you_thankful_for">What are you grateful for?</string>
+    <string name="what_are_you_thankful_for_today">What are you grateful for today?</string>
+    <string name="what_are_you_thankful_for_yesterday">What were you grateful for yesterday?</string>
+    <string name="what_were_you_thankful_for">What were you grateful for?</string>
+    <string name="yesterday">Yesterday</string>
+</resources>

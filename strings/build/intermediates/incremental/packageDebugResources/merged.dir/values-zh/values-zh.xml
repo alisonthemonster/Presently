@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="inspirations">
+        <item>\"拥有这一切的秘诀就是知道您已经做过\" \nUnknown</item>
+        <item>\"那些有感恩能力的人是有能力实现大事的人\" \nSteve Maraboli</item>
+        <item>\"我们必须抽出时间停下来，感谢那些改变我们生活的人们\" \nJohn F Kennedy</item>
+        <item>\"这是美好的一天。我从前未见过这么美好的一天\" \nMaya Angelou</item>
+        <item>\"成为别人云中的彩虹\" \nMaya Angelou</item>
+        <item>\"当我们专注于感激之情时，失望的浪潮就会消散，爱的浪潮会涌入。\" \nKristin Armstrong</item>
+        <item>\"让我们感谢使我们幸福的人们\" \nMarcel Proust</item>
+        <item>\"众多的小快乐可以构成幸福\" \nCharles Baudelaire</item>
+        <item>\"感恩是心灵的记忆\" \nJean Baptiste Massieu</item>
+        <item>\"我一生中所有的美好祝福都存在于我今天的思想中\" \nPhoebe Cary</item>
+        <item>\"您越称赞和庆祝自己的生活，就越有生活可以庆祝\" \nOprah Winfrey</item>
+        <item>\"感谢你所拥有的；您最终将拥有更多。\" \nOprah Winfrey</item>
+        <item>\"只能说当我们内心意识到像宝藏的那一刻时我们才是活着的\" \nThornton Wilder</item>
+        <item>\"认识自己来进步自己\" \nAuguste Compte</item>
+        <item>\"一个安静的积极思想改变了一切\" \nAvantik</item>
+        <item>\"感恩让您睁开眼睛，欣赏无限的宇宙潜力\" \nStephen Richards</item>
+        <item>\"享受小事情，有一天，您可能会回顾并意识到它们是大事情。\" \nRobert Brault</item>
+        <item>\"反思你现在的幸福，每个人都有很多。而不是你过去的不幸，所有的人都有一些。\" \nCharles Dickens</item>
+        <item>\"认识到自己已经拥有的美好生活是一切充实的基础。\" \nEckhart Tolle</item>
+        <item>\"感恩是一种我们可以为自己铸造的货币，并且可以在不担心破产的情况下消费。\" \nFred De Witt Van Amburgh</item>
+        <item>\"他是一个明智的人，不会为自己所没有的事情感到悲伤，而为自己所拥有的那些事情感到高兴。\" \nEpictetus</item>
+        <item>\"当我开始数我的幸福时，我的一生都翻转了\" \nWillie Nelson</item>
+        <item>\"我越感恩，我看到的美丽就越多\" \nMary Davis</item>
+        <item>\"感恩的生活是一种平静，是一种宁静的喜悦。\" \nRalph H. Blum</item>
+        <item>\"喜悦的根源在于感恩\" \nDavid Steindl-Rast</item>
+        <item>\"感恩是高尚灵魂的标志\" \nAesop</item>
+        <item>\"当您感恩时，恐惧就会消失，富足就会出现\" \nAnthony Robbins</item>
+        <item>\"所有美丽的艺术，所有伟大的艺术的精髓在于感恩。\" \nFriedrich Nietzsche</item>
+        <item>\"像斗篷一样穿上感恩之心，它将带给您生活的每个角落\" \nRumi</item>
+        <item>\"如果您一生中唯一要说的祈祷是“谢谢”，那就足够了\" \nMeister Eckhart</item>
+        <item>\"感恩使我们拥有的东西变得足够\" \nMelody Beattie</item>
+        <item>\"多感恩，你会发现很多\" \nHausa Proverb</item>
+        <item>\"人只活一次，但若活得好活一次足够了\" \nMae West</item>
+        <item>\"当涉及到生活时，关键的是要把事情视为理所当然还是怀着感激之情\" \nG. K. Chesterton</item>
+        <item>\"感激而不表达，就像包着礼物而不送礼物\" \nWilliam Arthur Ward</item>
+        <item>\"生活只有两种方式。一个好像没有什么是奇迹。另一个好像一切都是奇迹。\" \nAlbert Einstein</item>
+        <item>\"感恩将痛苦记忆变成了宁静的喜悦\" \nDietrich Bonhoeffer</item>
+        <item>\"感恩是财富。投诉就是贫穷。\" \nDoris Day</item>
+        <item>\"感恩是将记忆记在心里，而不是头脑\" \nLionel Hampton</item>
+        <item>\"让我们满怀感激，让它压倒我们\" \nGrace Gealey</item>
+        <item>\"对任何人来说，沉默的感激都不是什么\" \nGertrude Stein</item>
+        <item>\"用感激之歌充满大地\" \nCharles Spurgeon</item>
+        <item>\"您不能过早行善，因为您永远不知道何时会太晚\" \nRalph Waldo Emerson</item>
+        <item>\"没有他人的帮助，一个人就无法取得成功。明智和自信的人会感激地承认这些帮助\" \nAlfred North Whitehead</item>
+        <item>\"找到优点并赞美它\" \nAlex Haley</item>
+        <item>\"惊喜是感恩之源。要时时意识到惊喜\" \nDavid Steindl-Rast</item>
+        <item>\"感谢已经来临的未知祝福\" \nNative American Proverb</item>
+        <item>\"感恩使幸福倍增\" \nG. K. Chesterton</item>
+        <item>\"感恩是心灵发芽的最美丽的花朵\" \nHenry Ward Beecher</item>
+        <item>\"幸福不是让我们感激的东西。是感恩使我们感到幸福\" \nDavid Steindl-Rast</item>
+        <item>\"丰盛不是我们获得的。这是我们调整的东西。\" \nWayne W Dyer</item>
+        <item>\"表达感激之情是人类可以彼此做的最简单但最有力的事情之一\" \nRandy Pausch</item>
+        <item>\"观察一样事情，也许你可能会发现从未见过的东西\" \nRobert Bresson</item>
+        <item>\"当您专注于好的事情时，事情就会变得更好\" \nAbraham Hicks</item>
+        <item>\"变得慷慨既繁荣，在逆境中学会感恩\" \nBahá’u’lláh</item>
+        <item>\"感恩不算什么如果它是没有感觉的\" \nJamie Varon</item>
+        <item>\"灌溉自己的好然后重新开始\" \nCharles Bukowski</item>
+        <item>\"面对破裂，感激之情可以治愈。面对绝望，感激可以带来希望。\" \nRobert A Emmons</item>
+        <item>\"感恩不仅是最大的美德，也是所有其他美德的父母\" \nMarcus Tullius Cicero</item>
+        <item>\"珍惜一切\" \nJohn Berger</item>
+    </string-array>
+</resources>
