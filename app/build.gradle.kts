@@ -160,12 +160,7 @@ dependencies {
 }
 
 fun getVersionName(): String {
-    val inDebug = true //TODO
-    val version = "${Versions.MAJOR}.${Versions.MINOR}.${Versions.PATCH}"
-    if (inDebug) {
-        return version + "--DEBUG"
-    }
-    return version
+    return "${Versions.MAJOR}.${Versions.MINOR}.${Versions.PATCH}"
 }
 
 fun getDropboxKey(): String {
