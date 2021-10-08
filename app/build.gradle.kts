@@ -27,12 +27,6 @@ android {
 
         testInstrumentationRunner = "journal.gratitude.com.gratitudejournal.testUtils.AppCustomTestRunner"
 
-//        kapt {
-//            arguments {
-//                arg("room.schemaLocation", "$projectDir/schemas")
-//            }
-//        }
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
@@ -101,7 +95,6 @@ dependencies {
     implementation(Libraries.androidx_room_ktx)
     kapt(Libraries.androidx_room_compiler)
 
-    implementation(Libraries.androidx_lifecycle_ext)
     implementation(Libraries.androidx_livedata_ktx)
     implementation(Libraries.androidx_viewmodel_ktx)
     kapt(Libraries.androidx_lifecycle_compiler)
@@ -133,7 +126,9 @@ dependencies {
     kapt(Libraries.hilt_compiler)
 
     testImplementation(TestLibraries.junit)
-    testImplementation(Libraries.three_ten_abp)
+    testImplementation(TestLibraries.three_ten_abp) {
+        exclude(group = "com.jakewharton.threetenabp", module = "threetenabp")
+    }
     testImplementation(TestLibraries.androidx_room_testing)
     testImplementation(TestLibraries.mockito_kotlin)
     testImplementation(TestLibraries.androidx_arch_testing)
@@ -152,7 +147,7 @@ dependencies {
     androidTestImplementation(TestLibraries.androidx_test_espresso_intents)
     androidTestImplementation(TestLibraries.truth)
     androidTestImplementation(TestLibraries.mockito_kotlin)
-    androidTestImplementation(Libraries.three_ten_abp)
+    androidTestImplementation(TestLibraries.three_ten_abp)
     androidTestImplementation(TestLibraries.androidx_test_uiautomator)
     androidTestImplementation(TestLibraries.kotlin_coroutines_test)
     androidTestImplementation(TestLibraries.androidx_work_testing)

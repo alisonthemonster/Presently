@@ -13,10 +13,9 @@ object Versions {
     const val KOTLIN_COROUTINES = "1.5.0" //https://github.com/Kotlin/kotlinx.coroutines/releases/
     const val KOTLIN_COROUTINES_TEST = "1.3.2"
     const val ANDROIDX_CORE_KTX = "1.6.0" //https://developer.android.com/jetpack/androidx/releases/core
-    const val ANDROIDX_COMPAT = "1.3.0"
-    const val ANDROIDX_CONSTRAINT = "2.0.4"
-    const val ANDROIDX_LIFECYCLE_EXT = "2.2.0"
-    const val ANDROIDX_LIFECYCLE = "2.3.1"
+    const val ANDROIDX_COMPAT = "1.3.0" //https://developer.android.com/jetpack/androidx/releases/appcompat
+    const val ANDROIDX_CONSTRAINT = "2.0.4" //https://developer.android.com/jetpack/androidx/releases/constraintlayout
+    const val ANDROIDX_LIFECYCLE = "2.3.1" //https://developer.android.com/jetpack/androidx/releases/lifecycle
     const val ANDROIDX_RECYCLER_VIEW = "1.2.0"
     const val FRAGMENT_TESTING = "1.3.4"
     const val ANDROIDX_BIOMETRIC = "1.0.1"
@@ -79,8 +78,7 @@ object Libraries {
    const val androidx_compat = "androidx.appcompat:appcompat:${Versions.ANDROIDX_COMPAT}"
    const val androidx_constraint_layout = "androidx.constraintlayout:constraintlayout:${Versions.ANDROIDX_CONSTRAINT}"
    const val androidx_fragment = "androidx.fragment:fragment-ktx:${Versions.ANDROIDX_FRAGMENT_KTX}"
-   const val androidx_lifecycle_ext = "androidx.lifecycle:lifecycle-extensions:${Versions.ANDROIDX_LIFECYCLE_EXT}"
-   const val androidx_lifecycle_compiler = "androidx.lifecycle:lifecycle-compiler:${Versions.ANDROIDX_LIFECYCLE_EXT}"
+   const val androidx_lifecycle_compiler = "androidx.lifecycle:lifecycle-compiler:${Versions.ANDROIDX_LIFECYCLE}"
    const val androidx_viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.ANDROIDX_LIFECYCLE}"
    const val androidx_livedata_ktx = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.ANDROIDX_LIFECYCLE}"
    const val androidx_lifecycle_runtime_ktx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.ANDROIDX_LIFECYCLE}"
@@ -131,4 +129,5 @@ object TestLibraries {
     const val espresso_core = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO}"
     const val espresso_contrib = "androidx.test.espresso:espresso-contrib:${Versions.ESPRESSO}"
     const val test_orchestrator = "com.android.support.test:orchestrator:${Versions.TEST_ORCHESTRATOR}"
+    const val three_ten_abp = "org.threeten:threetenbp:${Versions.THREE_TEN_ABP}"
 }

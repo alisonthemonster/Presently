@@ -57,7 +57,6 @@ dependencies {
     implementation(Libraries.androidx_core_ktx)
     implementation(Libraries.androidx_compat)
     implementation(Libraries.androidx_constraint_layout)
-    implementation(Libraries.androidx_lifecycle_ext)
     implementation(Libraries.androidx_viewmodel_ktx)
     implementation(Libraries.androidx_lifecycle_runtime_ktx)
     implementation(Libraries.androidx_recycler_view)
