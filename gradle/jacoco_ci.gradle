@@ -132,10 +132,10 @@ task jacocoFullReport(type: JacocoReport, group: 'Coverage reports') {
         }
     }
 
-    doFirst {
-        //noinspection GroovyAssignabilityCheck
-        executionData.setFrom files(executionData.findAll { it.exists() })
-    }
+//    doFirst {
+//        //noinspection GroovyAssignabilityCheck
+//        executionData.setFrom files(executionData.findAll { it.exists() })
+//    }
 
     doLast {
         printReport("jacocoFullReport")
