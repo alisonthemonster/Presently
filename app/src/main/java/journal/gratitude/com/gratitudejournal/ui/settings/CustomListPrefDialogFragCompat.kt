@@ -2,7 +2,6 @@ package journal.gratitude.com.gratitudejournal.ui.settings
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -16,7 +15,7 @@ import journal.gratitude.com.gratitudejournal.R
 
 class CustomListPrefDialogFragCompat: ListPreferenceDialogFragmentCompat() {
     companion object {
-        fun newInstance(key: String?): CustomListPrefDialogFragCompat? {
+        fun newInstance(key: String?): CustomListPrefDialogFragCompat {
             val fragment = CustomListPrefDialogFragCompat()
             val b = Bundle(1)
             b.putString(ARG_KEY, key)
@@ -45,9 +44,9 @@ class CustomListPrefDialogFragCompat: ListPreferenceDialogFragmentCompat() {
             /**
              * Must make sure the dialog is created before we can access views
              */
-            dialog.setOnShowListener(DialogInterface.OnShowListener {
+            dialog.setOnShowListener {
                 setDialogTitleColor(textColor)
-                setColorListItemColor(listView, textColor!!)
+                setColorListItemColor(listView, textColor)
 
                 /*
                    When items are scrolled in ListView, items are created and removed,
@@ -55,16 +54,19 @@ class CustomListPrefDialogFragCompat: ListPreferenceDialogFragmentCompat() {
                  */
                 listView.setOnScrollListener(object : AbsListView.OnScrollListener {
                     override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {}
+
                     /*
                        Use this method instead of other to avoid having wait the end of scroll event
                      */
-                    override fun onScroll(view: AbsListView?, firstVisibleItem: Int,
-                                          visibleItemCount: Int, totalItemCount: Int) {
-                        setColorListItemColor(listView, textColor!!)
+                    override fun onScroll(
+                        view: AbsListView?, firstVisibleItem: Int,
+                        visibleItemCount: Int, totalItemCount: Int
+                    ) {
+                        setColorListItemColor(listView, textColor)
                     }
                 })
 
-            })
+            }
         }
 
         return dialog
@@ -73,7 +75,7 @@ class CustomListPrefDialogFragCompat: ListPreferenceDialogFragmentCompat() {
     private fun setColorListItemColor(listView: ListView, color: Int) {
         for (i in 0 until listView.count) {
             try {
-                listView.get(i).findViewById<TextView>(android.R.id.text1).setTextColor(color!!)
+                listView[i].findViewById<TextView>(android.R.id.text1).setTextColor(color)
             } catch (e: IndexOutOfBoundsException) {
                 // Exception is caused by accessing item not rendered in listview
             }
@@ -81,13 +83,10 @@ class CustomListPrefDialogFragCompat: ListPreferenceDialogFragmentCompat() {
     }
 
     private  fun setDialogTitleColor(color: Int) {
-        var dialogTitle: TextView? = null
         val titleId = resources.getIdentifier("alertTitle", "id", context?.packageName)
         if (titleId > 0) {
-            dialogTitle = dialog?.findViewById<TextView>(titleId)!!
-            if (color != null) {
-                dialogTitle?.setTextColor(color)
-            }
+            val dialogTitle: TextView? = dialog?.findViewById(titleId)
+            dialogTitle?.setTextColor(color)
         }
     }
 }

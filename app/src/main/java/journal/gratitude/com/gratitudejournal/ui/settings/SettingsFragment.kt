@@ -313,9 +313,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
             dialogFragment.show(parentFragmentManager, "DIALOG")
         } else {
                 val dialogFragment =
-                        CustomListPrefDialogFragCompat.newInstance(preference.getKey())
-            dialogFragment?.setTargetFragment(this, 0)
-            dialogFragment?.show(parentFragmentManager, null);
+                        CustomListPrefDialogFragCompat.newInstance(preference.key)
+            dialogFragment.setTargetFragment(this, 0)
+            dialogFragment.show(parentFragmentManager, null);
 
         }
     }
@@ -414,7 +414,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             builder.apply {
                 setTitle(R.string.import_data_dialog)
                 setMessage(R.string.import_data_dialog_message)
-                setPositiveButton(R.string.ok) { dialog, id ->
+                setPositiveButton(R.string.ok) { _, _ ->
                     selectCSVFile()
                 }
                 setNegativeButton(R.string.cancel) { _, _ -> }

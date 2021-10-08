@@ -87,7 +87,7 @@ class RealPresentlySettings @Inject constructor(
     }
 
     override fun shouldShowDayOfWeekInTimeline(): Boolean {
-        return sharedPrefs.getBoolean(DAY_OF_WEEK, false) ?: false
+        return sharedPrefs.getBoolean(DAY_OF_WEEK, false)
     }
 
     override fun getAccessToken(): DbxCredential? {
