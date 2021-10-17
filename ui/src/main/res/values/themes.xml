@@ -583,6 +583,8 @@
         <item name="entryHeaderColor">@color/joyEntryHeaderColor</item>
         <item name="entryBodyColor">@color/joyEntryBodyColor</item>
         <item name="entryHintColor">@color/joyEntryHintColor</item>
+
+        <item name="highlightColor">@color/joyAndroidWidgetColor</item>
     </style>
 
     <style name="AppTheme.PASSION" parent="AppTheme">
@@ -604,6 +606,8 @@
         <item name="entryHeaderColor">@color/passionEntryHeaderColor</item>
         <item name="entryBodyColor">@color/passionEntryBodyColor</item>
         <item name="entryHintColor">@color/passionEntryHintColor</item>
+
+        <item name="highlightColor">@color/passionAndroidWidgetColor</item>
     </style>
 
     <style name="AppTheme.CALM" parent="AppTheme">
@@ -625,5 +629,7 @@
         <item name="entryHeaderColor">@color/calmEntryHeaderColor</item>
         <item name="entryBodyColor">@color/calmEntryBodyColor</item>
         <item name="entryHintColor">@color/calmEntryHintColor</item>
+
+        <item name="highlightColor">@color/calmAndroidWidgetColor</item>
     </style>
 </resources>

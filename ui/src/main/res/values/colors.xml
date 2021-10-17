@@ -474,7 +474,7 @@
     <color name="passionToolbarLogoColor">#F2A7A1</color>
     <color name="passionTimelineHeaderColor">#FFFFFF</color>
     <color name="passionTimelineBodyColor">#E180D3</color>
-    <color name="passionTimelineHintColor">#F7EEF8</color>
+    <color name="passionTimelineHintColor">#FFE6FF</color>
     <color name="passionFabColor">#F2A7A1</color>
     <color name="passionFabTextColor">#FFFFFF</color>
     <color name="passionEntryHeaderColor">#F2A7A1</color>
@@ -493,7 +493,7 @@
     <color name="calmToolbarLogoColor">#697AD6</color>
     <color name="calmTimelineHeaderColor">#FFFFFF</color>
     <color name="calmTimelineBodyColor">#697AD6</color>
-    <color name="calmTimelineHintColor">#FFFFFF</color>
+    <color name="calmTimelineHintColor">#E7EBFF</color>
     <color name="calmFabColor">#FFFFFF</color>
     <color name="calmFabTextColor">#BBC4FB</color>
     <color name="calmEntryHeaderColor">#7985DB</color>
