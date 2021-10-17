@@ -100,7 +100,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val window = requireActivity().window
         window.statusBarColor = Color.TRANSPARENT
         val typedValue = TypedValue()
-        requireActivity().theme.resolveAttribute(R.attr.backgroundColor, typedValue, true)
+        requireActivity().theme.resolveAttribute(R.attr.timelineBackgroundColor, typedValue, true)
         setStatusBarColorsForBackground(window, typedValue.data)
     }
 

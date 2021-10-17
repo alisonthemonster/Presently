@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?attr/backgroundColor"
+    android:background="?attr/timelineBackgroundColor"
     android:id="@+id/container"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
@@ -59,7 +59,7 @@
         app:srcCompat="@drawable/ic_title" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:background="?attr/backgroundColor"
+        android:background="?attr/timelineBackgroundColor"
         android:id="@+id/timeline_recycler_view"
         android:layout_height="0dp"
         android:layout_width="0dp"
@@ -73,11 +73,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_width="wrap_content"
-        app:backgroundTint="?attr/toolbarColor"
+        app:backgroundTint="?attr/fabColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_calendar"
-        app:tint="?attr/toolbarItemColor" />
+        app:tint="?attr/fabTextColor" />
 
     <journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarView
         android:clickable="true"

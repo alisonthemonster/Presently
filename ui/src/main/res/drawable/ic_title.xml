@@ -1,7 +1,7 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="493dp"
     android:height="105dp"
-    android:tint="?attr/toolbarItemColor"
+    android:tint="?attr/presentlyLogoColor"
     android:viewportWidth="493"
     android:viewportHeight="105">
   <path

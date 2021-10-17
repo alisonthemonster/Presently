@@ -442,4 +442,28 @@
     <color name="booToolbarColor">#000000</color>
     <color name="booStatusBarColor">#000000</color>
     <color name="booToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~JOY THEME~~~~ -->
+    <color name="joyAndroidWidgetColor">#298582</color>
+    <color name="joyTimelineBackgroundColor">#B8EEEE</color>
+    <color name="joyEntryBackgroundColor">#FFFFFF</color>
+    <color name="joySettingsBackgroundColor">#DFA700</color>
+    <color name="joyTimelineColor">#77C4CC</color>
+    <color name="joyToolbarColor">#FFFFFF</color>
+    <color name="joyStatusBarColor">#FFFFFF</color>
+    <color name="joyToolbarItemColor">#B8EEEE</color>
+    <color name="joyToolbarLogoColor">#DFA700</color>
+    <color name="joyTimelineHeaderColor">#FFFFFF</color>
+    <color name="joyTimelineBodyColor">#298582</color>
+    <color name="joyTimelineHintColor">#91CFCC</color>
+    <color name="joyFabColor">#DFA700</color>
+    <color name="joyFabTextColor">#FFFFFF</color>
+    <color name="joyEntryHeaderColor">#DFA700</color>
+    <color name="joyEntryBodyColor">#298582</color>
+    <color name="joyEntryHintColor">#91CFCC</color>
+
+
+    <color name="joyMainTextAndButtonColor">#E57ED7</color>
+    <color name="joyDateTextEntryScreenTextColor">#FFFFFF</color>
+
 </resources>

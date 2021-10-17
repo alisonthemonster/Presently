@@ -25,7 +25,6 @@ import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
-import com.dropbox.core.oauth.DbxCredential
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.presently.logging.AnalyticsLogger
 import com.presently.settings.BackupCadence
@@ -41,7 +40,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
-import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import org.threeten.bp.LocalDate
 import java.util.concurrent.TimeUnit
@@ -211,7 +209,7 @@ class EntryFragment : Fragment(), MavericksView {
         val window = requireActivity().window
         window.statusBarColor = Color.TRANSPARENT
         val typedValue = TypedValue()
-        requireActivity().theme.resolveAttribute(R.attr.backgroundColor, typedValue, true)
+        requireActivity().theme.resolveAttribute(R.attr.timelineBackgroundColor, typedValue, true)
         setStatusBarColorsForBackground(window, typedValue.data)
     }
 
