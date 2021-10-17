@@ -462,8 +462,23 @@
     <color name="joyEntryBodyColor">#298582</color>
     <color name="joyEntryHintColor">#91CFCC</color>
 
-
-    <color name="joyMainTextAndButtonColor">#E57ED7</color>
-    <color name="joyDateTextEntryScreenTextColor">#FFFFFF</color>
+    <!-- ~~~~PASSION THEME~~~~ -->
+    <color name="passionAndroidWidgetColor">#F2A7A1</color>
+    <color name="passionTimelineBackgroundColor">#F8CDFA</color>
+    <color name="passionEntryBackgroundColor">#FFFFFF</color>
+    <color name="passionSettingsBackgroundColor">#FFFFFF</color>
+    <color name="passionTimelineColor">#FFFFFF</color>
+    <color name="passionToolbarColor">#FFFFFF</color>
+    <color name="passionStatusBarColor">#FFFFFF</color>
+    <color name="passionToolbarItemColor">#F2A7A1</color>
+    <color name="passionToolbarLogoColor">#F2A7A1</color>
+    <color name="passionTimelineHeaderColor">#FFFFFF</color>
+    <color name="passionTimelineBodyColor">#E180D3</color>
+    <color name="passionTimelineHintColor">#EBB9EA</color>
+    <color name="passionFabColor">#F2A7A1</color>
+    <color name="passionFabTextColor">#FFFFFF</color>
+    <color name="passionEntryHeaderColor">#F2A7A1</color>
+    <color name="passionEntryBodyColor">#E180D3</color>
+    <color name="passionEntryHintColor">#FAD8D9</color>
 
 </resources>

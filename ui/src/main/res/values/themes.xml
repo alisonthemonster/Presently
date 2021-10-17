@@ -584,4 +584,25 @@
         <item name="entryBodyColor">@color/joyEntryBodyColor</item>
         <item name="entryHintColor">@color/joyEntryHintColor</item>
     </style>
+
+    <style name="AppTheme.PASSION" parent="AppTheme">
+        <!--   Colors for the Timeline screen    -->
+        <item name="timelineIcon">@drawable/ic_passion</item>
+        <item name="timelineBackgroundColor">@color/passionTimelineBackgroundColor</item>
+        <item name="timelineLineColor">@color/passionTimelineColor</item>
+        <item name="timelineHeaderColor">@color/passionTimelineHeaderColor</item>
+        <item name="timelineBodyColor">@color/passionTimelineBodyColor</item>
+        <item name="timelineHintColor">@color/passionTimelineHintColor</item>
+        <item name="toolbarColor">@color/passionToolbarColor</item>
+        <item name="toolbarItemColor">@color/passionToolbarItemColor</item>
+        <item name="presentlyLogoColor">@color/passionToolbarLogoColor</item>
+        <item name="statusBarColor">@color/passionStatusBarColor</item>
+        <item name="fabColor">@color/passionFabColor</item>
+        <item name="fabTextColor">@color/passionFabTextColor</item>
+        <!--   Colors for the Entry screen    -->
+        <item name="entryBackgroundColor">@color/passionEntryBackgroundColor</item>
+        <item name="entryHeaderColor">@color/passionEntryHeaderColor</item>
+        <item name="entryBodyColor">@color/passionEntryBodyColor</item>
+        <item name="entryHintColor">@color/passionEntryHintColor</item>
+    </style>
 </resources>
