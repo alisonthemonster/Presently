@@ -79,6 +79,33 @@ class ThemeFragment : Fragment() {
                 true
             ),
             Theme(
+                "Calm",
+                ContextCompat.getColor(requireContext(), R.color.calmToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.calmTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.calmToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.calmTimelineHeaderColor),
+                R.drawable.ic_calm,
+                true
+            ),
+            Theme(
+                "Passion",
+                ContextCompat.getColor(requireContext(), R.color.passionToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.passionTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.passionToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.passionTimelineHeaderColor),
+                R.drawable.ic_passion,
+                true
+            ),
+            Theme(
+                "Joy",
+                ContextCompat.getColor(requireContext(), R.color.joyToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.joyTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.joyToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.joyTimelineHeaderColor),
+                R.drawable.ic_joy,
+                true
+            ),
+            Theme(
                 "Boo",
                 ContextCompat.getColor(requireContext(), R.color.booToolbarColor),
                 ContextCompat.getColor(requireContext(), R.color.booBackgroundColor),

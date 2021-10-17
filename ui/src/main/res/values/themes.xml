@@ -605,4 +605,25 @@
         <item name="entryBodyColor">@color/passionEntryBodyColor</item>
         <item name="entryHintColor">@color/passionEntryHintColor</item>
     </style>
+
+    <style name="AppTheme.CALM" parent="AppTheme">
+        <!--   Colors for the Timeline screen    -->
+        <item name="timelineIcon">@drawable/ic_calm</item>
+        <item name="timelineBackgroundColor">@color/calmTimelineBackgroundColor</item>
+        <item name="timelineLineColor">@color/calmTimelineColor</item>
+        <item name="timelineHeaderColor">@color/calmTimelineHeaderColor</item>
+        <item name="timelineBodyColor">@color/calmTimelineBodyColor</item>
+        <item name="timelineHintColor">@color/calmTimelineHintColor</item>
+        <item name="toolbarColor">@color/calmToolbarColor</item>
+        <item name="toolbarItemColor">@color/calmToolbarItemColor</item>
+        <item name="presentlyLogoColor">@color/calmToolbarLogoColor</item>
+        <item name="statusBarColor">@color/calmStatusBarColor</item>
+        <item name="fabColor">@color/calmFabColor</item>
+        <item name="fabTextColor">@color/calmFabTextColor</item>
+        <!--   Colors for the Entry screen    -->
+        <item name="entryBackgroundColor">@color/calmEntryBackgroundColor</item>
+        <item name="entryHeaderColor">@color/calmEntryHeaderColor</item>
+        <item name="entryBodyColor">@color/calmEntryBodyColor</item>
+        <item name="entryHintColor">@color/calmEntryHintColor</item>
+    </style>
 </resources>
