@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prompts">
+            <item>是什麼讓你微笑？</item>
+            <item>在這個房間裏有什麼值得感恩的？</item>
+            <item>什麼讓你快樂地活著？</item>
+            <item>幫助過你的人是誰？</item>
+            <item>誰是指導過你的人？</item>
+            <item>誰教過你一些東西？</item>
+            <item>誰是你愛的人？</item>
+            <item>誰是愛你的人？</item>
+            <item>誰是你感恩的朋友？</item>
+            <item>你對自然界的什麼心存感恩？</item>
+            <item>你對什麼才能或技能心存感恩？</item>
+            <item>你對什麼記憶心存感恩？</item>
+            <item>這一天有人幫你嗎？</item>
+            <item>是什麼讓你在這一天感到快樂？</item>
+            <item>你因什麼感到自豪？</item>
+            <item>你對你被養育有什麼感恩之情？</item>
+            <item>你對你的事業或工作有什麼感恩之情？</item>
+            <item>你對擁有什麼自由心存感恩？</item>
+            <item>什麼讓你開懷大笑？</item>
+            <item>你對自己感恩的一件事是什麼？</item>
+            <item>你在這一天看到的最美麗的東西是什麼？</item>
+            <item>你對什麼書心存感恩？</item>
+            <item>你對什麼歌曲或音樂心存感恩？</item>
+            <item>什麼能讓你的生活更輕鬆？</item>
+            <item>什麼事情總是讓你振奮？</item>
+            <item>誰給了你靈感？</item>
+            <item>你感恩什麼技術或工具？</item>
+            <item>你感恩什麼機會？</item>
+            <item>您對自己的身體或健康有什麼感恩之情？</item>
+            <item>你感恩什麼地方？</item>
+            <item>你感恩什麼氣味？</item>
+            <item>你感恩什麼味道？</item>
+            <item>你對什麼知識心存感恩？</item>
+            <item>你感恩什麼簡單的快樂？</item>
+            <item>你對什麼愛好心存感恩？</item>
+            <item>你感恩什麼聲音？</item>
+            <item>你對什麼小事心存感恩？</item>
+            <item>學到了什麼讓你心存感恩？</item>
+            <item>你對你所在的城市或城鎮有什麼感恩之情？</item>
+            <item>你對家有什麼感恩之情？</item>
+            <item>你對聽到什麼建議心存感恩？</item>
+            <item>你對你的家人有什麼感恩之情？</item>
+            <item>你對現在的季節有何感恩之情？</item>
+            <item>你對什麼活動心存感恩？</item>
+    </string-array>
+</resources>
