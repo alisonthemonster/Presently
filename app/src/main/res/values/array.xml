@@ -57,6 +57,7 @@
         <item>@string/language_sk</item>
         <item>@string/language_tr</item>
         <item>@string/language_af</item>
+        <item>@string/language_zh_hk</item>
     </string-array>
 
     <string-array name="AppLanguageValues">
