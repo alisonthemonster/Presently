@@ -100,7 +100,6 @@ class RealPresentlySettings @Inject constructor(
     override fun onAlarmPermissionChange(context: Context) {
         val alarmsAreDisabled = hasUserDisabledAlarmReminders(context)
         sharedPrefs.edit().putBoolean(NOTIFS_DISABLED, alarmsAreDisabled).apply()
-        //TODO show a row in the settings showing that notifications have been disabled
     }
 
     override fun getLinesPerEntryInTimeline(): Int {

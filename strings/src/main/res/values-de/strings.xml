@@ -101,4 +101,6 @@
     <string name="show_quote_off">Dankbarkeitszitate werden auf der Einstiegsseite nicht angezeigt</string>
     <string name="show_quote_on">Dankbarkeitszitate werden auf der Einstiegsseite angezeigt</string>
     <string name="inspiration_title">Inspirerende Zitate</string>
+    <string name="alarm_disabled_title">Benachrichtigungen wurden auf Systemebene deaktiviert</string>
+    <string name="alarm_disabled_body">Klicken Sie hier, um in den Systemeinstellungen zu aktivieren</string>
 </resources>

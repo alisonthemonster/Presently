@@ -11,8 +11,8 @@
             android:icon="@drawable/ic_tiny_flower"
             android:key="notifs_disabled"
             android:defaultValue="true"
-            android:title="Notifications have been disabled at a system level"
-            android:summary="Click here to enable in system settings"/>
+            android:title="@string/alarm_disabled_title"
+            android:summary="@string/alarm_disabled_body"/>
 
         <SwitchPreference
             android:defaultValue="true"

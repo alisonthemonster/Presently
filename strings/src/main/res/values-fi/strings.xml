@@ -102,4 +102,6 @@
     <string name="show_quote_off">Kiitosta lainausmerkkejä ei näytetä pääsivulla</string>
     <string name="show_quote_on">Kiitollisuuden lainaukset näytetään pääsivulla</string>
     <string name="inspiration_title">Inspiroivia lainauksia</string>
+    <string name="alarm_disabled_title">Ilmoitukset on poistettu käytöstä järjestelmätasolla</string>
+    <string name="alarm_disabled_body">Napsauta tätä ottaaksesi käyttöön järjestelmän asetuksissa</string>
 </resources>

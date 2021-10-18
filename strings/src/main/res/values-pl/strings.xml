@@ -100,4 +100,6 @@
     <string name="show_quote_off">Cytaty wdzięczności nie będą wyświetlane na stronie startowej</string>
     <string name="show_quote_on">Cytaty wdzięczności zostaną wyświetlone na stronie startowej</string>
     <string name="inspiration_title">Inspirujące cytaty</string>
+    <string name="alarm_disabled_title">Powiadomienia zostały wyłączone na poziomie systemu</string>
+    <string name="alarm_disabled_body">Kliknij tutaj, aby włączyć w ustawieniach systemu</string>
 </resources>

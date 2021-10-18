@@ -103,4 +103,6 @@
     <string name="show_quote_off">Las citas de agradecimiento no se mostrarán en la página de entrada</string>
     <string name="show_quote_on">Las citas de agradecimiento se mostrarán en la página de entrada</string>
     <string name="inspiration_title">Citas de inspiración</string>
+    <string name="alarm_disabled_title">Las notificaciones se han deshabilitado a nivel del sistema</string>
+    <string name="alarm_disabled_body">Haga clic aquí para habilitar en la configuración del sistema</string>
 </resources>

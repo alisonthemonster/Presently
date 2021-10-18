@@ -102,4 +102,6 @@
     <string name="show_quote_off">Les citations de gratitude ne seront pas affichées sur la page d\'entrée</string>
     <string name="show_quote_on">Les citations de gratitude seront affichées sur la page d\'entrée</string>
     <string name="inspiration_title">Citations inspirantes</string>
+    <string name="alarm_disabled_title">Les notifications ont été désactivées au niveau du système</string>
+    <string name="alarm_disabled_body">Cliquez ici pour activer dans les paramètres système</string>
 </resources>

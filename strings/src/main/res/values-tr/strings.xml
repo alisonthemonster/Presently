@@ -103,4 +103,6 @@
     <string name="show_quote_off">Şükran alıntıları giriş sayfasında gösterilmeyecek</string>
     <string name="show_quote_on">Şükran alıntıları giriş sayfasında gösterilecek</string>
     <string name="inspiration_title">İlham verici sözler</string>
+    <string name="alarm_disabled_title">Bildirimler sistem düzeyinde devre dışı bırakıldı</string>
+    <string name="alarm_disabled_body">Sistem ayarlarında etkinleştirmek için buraya tıklayın</string>
 </resources>

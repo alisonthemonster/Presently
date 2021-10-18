@@ -114,4 +114,6 @@
     <string name="show_quote_off">Dankbaarheidsaanhalings sal nie op tuisblad gewys word nie</string>
     <string name="show_quote_on">Dankbaarheidsaanhalings sal op tuisblad gewys word nie</string>
     <string name="inspiration_title">Inspirerende aanhalings</string>
+    <string name="alarm_disabled_title">Kennisgewings is op stelselvlak gedeaktiveer</string>
+    <string name="alarm_disabled_body">Klik hier om die stelselinstellings moontlik te maak</string>
 </resources>

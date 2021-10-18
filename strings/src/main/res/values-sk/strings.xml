@@ -103,4 +103,6 @@
     <string name="show_quote_off">Citácie vďačnosti sa nebudú zobrazovať na vstupnej stránke</string>
     <string name="show_quote_on">Citácie vďačnosti sa zobrazia na vstupnej stránke</string>
     <string name="inspiration_title">Inšpiratívne citáty</string>
+    <string name="alarm_disabled_title">Upozornenia boli na systémovej úrovni zakázané</string>
+    <string name="alarm_disabled_body">Kliknutím sem povolíte v systémových nastaveniach</string>
 </resources>

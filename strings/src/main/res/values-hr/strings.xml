@@ -100,4 +100,6 @@
     <string name="show_quote_off">Citati zahvalnosti neće biti prikazani na ulaznoj stranici</string>
     <string name="show_quote_on">Citati zahvalnosti bit će prikazani na ulaznoj stranici</string>
     <string name="inspiration_title">Inspiracijski citati</string>
+    <string name="alarm_disabled_title">Obavijesti su onemogućene na razini sustava</string>
+    <string name="alarm_disabled_body">Kliknite ovdje za omogućavanje u postavkama sustava</string>
 </resources>
