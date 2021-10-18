@@ -28,7 +28,7 @@ object Versions {
     const val ANDROIDX_TEST_CORE_KTX = "1.4.1-alpha03"
     const val ANDROIDX_TEST_ESPRESSO = "3.3.0"
     const val ANDROIDX_TEST_RULES = "1.3.0"
-    const val ANDROIDX_TEST_RUNNER = "1.3.0"
+    const val ANDROIDX_TEST_RUNNER = "1.4.0"
     const val ANDROIDX_TEST_UIAUTOMATOR = "2.2.0"
     const val ANDROIDX_PREF_KTX = "1.1.1"
     const val ANDROIDX_ARCH_CORE = "2.1.0" //https://developer.android.com/jetpack/androidx/releases/arch-core
