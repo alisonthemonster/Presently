@@ -20,11 +20,12 @@ object Versions {
     const val FRAGMENT_TESTING = "1.3.4"
     const val ANDROIDX_BIOMETRIC = "1.0.1"
     const val ANDROIDX_TEST_JUNIT = "1.1.2"
-    const val ANDROIDX_WORK = "2.4.0"
-    const val ANDROIDX_ROOM = "2.4.0-alpha03"
+    const val ANDROIDX_WORK = "2.7.0-rc01"
+    const val ANDROIDX_ROOM = "2.4.0-alpha05" //https://developer.android.com/jetpack/androidx/releases/room
+    const val ANDROIDX_ROOM_PAGING = "2.4.0-beta01" //https://developer.android.com/jetpack/androidx/releases/room
     const val ANDROIDX_PAGING = "3.1.0-alpha01" //https://developer.android.com/jetpack/androidx/releases/paging
     const val ANDROIDX_FRAGMENT_KTX = "1.3.6" //https://developer.android.com/jetpack/androidx/releases/fragment
-    const val ANDROIDX_TEST_CORE_KTX = "1.3.0"
+    const val ANDROIDX_TEST_CORE_KTX = "1.4.1-alpha03"
     const val ANDROIDX_TEST_ESPRESSO = "3.3.0"
     const val ANDROIDX_TEST_RULES = "1.3.0"
     const val ANDROIDX_TEST_RUNNER = "1.3.0"
@@ -90,6 +91,7 @@ object Libraries {
    const val androidx_room_ktx = "androidx.room:room-ktx:${Versions.ANDROIDX_ROOM}"
    const val androidx_room_runtime = "androidx.room:room-runtime:${Versions.ANDROIDX_ROOM}"
    const val androidx_room_compiler = "androidx.room:room-compiler:${Versions.ANDROIDX_ROOM}"
+   const val androidx_room_paging = "androidx.room:room-paging:${Versions.ANDROIDX_ROOM_PAGING}"
    const val three_ten_abp = "com.jakewharton.threetenabp:threetenabp:${Versions.THREE_TEN_ABP}"
    const val dropbox_sdk = "com.dropbox.core:dropbox-core-sdk:${Versions.DROPBOX_SDK}"
    const val play_core = "com.google.android.play:core:${Versions.PLAY_CORE}"

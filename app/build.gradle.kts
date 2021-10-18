@@ -91,6 +91,7 @@ dependencies {
     implementation(Libraries.androidx_work_runtime_ktx)
     implementation(Libraries.play_core)
     implementation(Libraries.androidx_paging_runtime)
+    implementation(Libraries.androidx_room_paging)
     implementation(Libraries.androidx_room_runtime)
     implementation(Libraries.androidx_room_ktx)
     kapt(Libraries.androidx_room_compiler)

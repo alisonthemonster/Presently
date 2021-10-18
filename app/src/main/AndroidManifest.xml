@@ -14,8 +14,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ContainerActivity"
-            android:windowSoftInputMode="adjustResize">
-
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -24,7 +24,8 @@
         <activity
             android:name="com.dropbox.core.android.AuthActivity"
             android:configChanges="orientation|keyboard"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:exported="true">
             <intent-filter>
                 <data android:scheme="db-${dropboxAppKey}" />
                 <action android:name="android.intent.action.VIEW" />
@@ -38,7 +39,8 @@
 
         <receiver
             android:name=".util.reminders.NotificationResetReceiver"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false"> <!-- If "false", the only messages the broadcast receiver can receive are those sent by the system, components of the same application, or applications with the same user ID.-->
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
@@ -46,12 +48,13 @@
             </intent-filter>
         </receiver>
 
+
+        <!-- Disabling default initializer for WorkManager so we can have our own custom init in GratitudeApplication -->
         <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
-            android:enabled="false"
-            android:exported="false"
-            tools:replace="android:authorities" />
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="remove">
+        </provider>
 
         <meta-data
             android:name="google_analytics_adid_collection_enabled"

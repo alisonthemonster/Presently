@@ -38,7 +38,7 @@ class NotificationScheduler {
                 context,
                 PENDING_INTENT,
                 it,
-                0 //implicitly cancel the existing alarm and then set it for the newly-specified time
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
 
@@ -87,7 +87,9 @@ class NotificationScheduler {
         val pendingIntent = intent.let {
             PendingIntent.getBroadcast(
                 context,
-                PENDING_INTENT, it, 0
+                PENDING_INTENT,
+                it,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
 
