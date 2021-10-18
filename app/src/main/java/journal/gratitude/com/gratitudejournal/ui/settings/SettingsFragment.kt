@@ -195,7 +195,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         val alarmDisabled = findPreference<Preference>(NOTIFS_DISABLED)
         val notifsCategory = findPreference<PreferenceCategory>(NOTIFS_CATEGORY)
-        if (alarmDisabled?.isEnabled == true) {
+        if (!settings.hasUserDisabledAlarmReminders(requireContext())) {
             //if the alarm hasn't been disabled then hide the explanation row
             notifsCategory?.removePreference(alarmDisabled)
         } else {
@@ -208,6 +208,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 }
                 true
             }
+            val prefTime = findPreference<Preference>(NOTIF_PREF_TIME)
+            val notifs = findPreference<Preference>(NOTIFS)
+            prefTime?.isEnabled = false
+            notifs?.isEnabled = false
         }
     }
 

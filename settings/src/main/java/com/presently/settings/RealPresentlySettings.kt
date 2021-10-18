@@ -97,11 +97,6 @@ class RealPresentlySettings @Inject constructor(
         }
     }
 
-    override fun onAlarmPermissionChange(context: Context) {
-        val alarmsAreDisabled = hasUserDisabledAlarmReminders(context)
-        sharedPrefs.edit().putBoolean(NOTIFS_DISABLED, alarmsAreDisabled).apply()
-    }
-
     override fun getLinesPerEntryInTimeline(): Int {
         return sharedPrefs.getInt(LINES_PER_ENTRY_IN_TIMELINE, 10)
     }

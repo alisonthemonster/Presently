@@ -21,14 +21,10 @@ class AlarmPermissionReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         //permission for our exact alarm has changed
         if (intent.action == AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED) {
-            //update settings with latest permission
-            settings.onAlarmPermissionChange(context)
-
             //reconfigure the notification scheduling with latest permission
             val notificationScheduler = NotificationScheduler()
             notificationScheduler.configureNotifications(context, settings)
         }
     }
-
 
 }

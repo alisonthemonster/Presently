@@ -30,8 +30,6 @@ interface PresentlySettings {
 
     fun hasUserDisabledAlarmReminders(context: Context): Boolean
 
-    fun onAlarmPermissionChange(context: Context)
-
     fun getLinesPerEntryInTimeline(): Int
 
     fun shouldShowDayOfWeekInTimeline(): Boolean

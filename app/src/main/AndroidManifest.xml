@@ -41,7 +41,7 @@
         <receiver
             android:name=".util.reminders.AlarmPermissionReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false"> <!-- If "false", the only messages the broadcast receiver can receive are those sent by the system, components of the same application, or applications with the same user ID.-->
             <intent-filter>
                 <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
             </intent-filter>
