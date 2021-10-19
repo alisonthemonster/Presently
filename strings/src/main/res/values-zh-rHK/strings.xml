@@ -1,0 +1,135 @@
+<resources>
+    <!--  No need to translate these following strings  -->
+    <string name="app_name" translatable="false">Presently</string>
+    <string name="key_faq" translatable="false">faq</string>
+    <string name="key_share_app" translatable="false">share_app</string>
+    <string name="key_privacy_policy" translatable="false">privacy_policy</string>
+    <string name="key_terms_conditions" translatable="false">terms_conditions</string>
+    <string name="key_open_source" translatable="false">open_source</string>
+    <string name="key_version" translatable="false">version</string>
+
+    <string name="language_en" translatable="false">English</string>
+    <string name="language_ar" translatable="false">عربي</string>
+    <string name="language_hr" translatable="false">Hrvatski</string>
+    <string name="language_nl" translatable="false">Nederlands</string>
+    <string name="language_fi" translatable="false">Suomalainen</string>
+    <string name="language_fr" translatable="false">Français</string>
+    <string name="language_de" translatable="false">Deutsche</string>
+    <string name="language_it" translatable="false">Italiano</string>
+    <string name="language_pl" translatable="false">Polskie</string>
+    <string name="language_pt" translatable="false">Português</string>
+    <string name="language_pt_br" translatable="false">Portugues do Brasil</string>
+    <string name="language_ro" translatable="false">Română</string>
+    <string name="language_ru" translatable="false">русский</string>
+    <string name="language_sk" translatable="false">Slovák</string>
+    <string name="language_es" translatable="false">Español</string>
+    <string name="language_tr" translatable="false">Türkçe</string>
+    <string name="language_af" translatable="false">Afrikaans</string>
+
+    <!--  Begin translations from here down  -->
+
+    <string name="random">隨機</string>
+    <string name="what_are_you_thankful_for">你感恩什麼？</string>
+    <string name="what_were_you_thankful_for">過去你感恩什麼？</string>
+    <string name="what_are_you_thankful_for_today">今天你感恩什麼？</string>
+    <string name="what_are_you_thankful_for_yesterday">昨天你感恩什麼？</string>
+    <string name="notification_settings">設定</string>
+    <string name="privacy_policy">隱私權政策</string>
+    <string name="share_presently">分享 Presently</string>
+    <string name="enjoying_presently">喜歡 Presently？分享給你的朋友和家人</string>
+    <string name="read_privacy">閱讀 Presently 的隱私權政策</string>
+    <string name="faq">常見問題</string>
+    <string name="read_faq">閱讀 Presently 的常見問題</string>
+    <string name="contact_us">聯繫我們</string>
+    <string name="terms_conditions">條款及細則</string>
+    <string name="read_tc">閱讀條款及細則</string>
+    <string name="channel_name">Presently 提醒</string>
+    <string name="channel_description">每日提醒，記下你所感恩的</string>
+    <string name="today">今天</string>
+    <string name="yesterday">昨天</string>
+    <string name="iwas">我曾感恩</string>
+    <string name="iam">我感恩</string>
+    <string name="save">儲存</string>
+    <string name="back_up_entries_to_csv">備份條目</string>
+    <string name="export_success">數據已匯出至你的設備</string>
+    <string name="open">打開</string>
+    <string name="import_entries_from_backup">從備份匯入條目</string>
+    <string name="ok">匯入</string>
+    <string name="cancel">取消</string>
+    <string name="import_data_dialog">您確定要匯入嗎？</string>
+    <string name="import_data_dialog_message">匯入的數據可能會覆蓋現有條目。</string>
+    <string name="days_of_gratitude">日的感恩！</string>
+    <string name="days_of">日的感恩</string>
+    <string name="rate_presently">為 Presently 評分</string>
+    <string name="share_your_achievement">分享你的成就</string>
+    <string name="congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude">
+        恭喜！我們為你感到自豪，也很感謝你選擇 Presently 來記錄你所感恩的
+    </string>
+    <string name="search">搜索</string>
+    <string name="presently" translatable="false">Presently</string>
+    <string name="close">關閉</string>
+    <string name="get_a_new_prompt">取得提示</string>
+    <string name="share_your_gratitude">分享你所感恩的</string>
+    <string name="no_results">沒有結果</string>
+    <string name="settings">設定</string>
+    <string name="reminder_title">Presently 感恩提醒</string>
+    <string name="share_progress">分享你的感恩進度</string>
+    <string name="change_time">更改每日提醒時間</string>
+    <string name="time_title">調整提醒通知</string>
+    <string name="theme_change">從 20 多種不同的主題和配色方案中選擇</string>
+    <string name="notifs_off">每日提醒通知已關閉</string>
+    <string name="notifs_on">每日提醒通知已開啟</string>
+    <string name="notifs">每日提醒通知</string>
+    <string name="notifs_name">通知</string>
+    <string name="appearance">外觀</string>
+    <string name="about">應用程式資訊</string>
+    <string name="select_a_theme">選擇一個主題</string>
+    <string name="theme">主題</string>
+    <string name="open_source">開源授權</string>
+    <string name="open_source_info">閱讀開源函式庫授權</string>
+    <string name="permission_export">需要權限來匯出數據</string>
+    <string name="error_parsing">解析檔案時出錯</string>
+    <string name="file_not_csv">檔案類型必須為 CSV</string>
+    <string name="error_creating_csv_file">在設備上創建 CSV 檔案時出錯</string>
+    <string name="no_app_found">未找到可打開此檔案的應用程式</string>
+    <string name="copied">複製到剪貼板</string>
+    <string name="security">安全性</string>
+    <string name="lock_title">解鎖 Presently</string>
+    <string name="lock_summary">已鎖定 Presently，解鎖以繼續</string>
+    <string name="lock_setting_summary_on">使用裝置的生物識別掃描儀來鎖定 Presently</string>
+    <string name="lock_setting_summary_off">可以使用裝置的生物識別掃描儀來鎖定 Presently （如果裝置支持）</string>
+    <string name="fingerprint_error_lockout_too_many">生物識別身份驗證嘗試次數過多。請在幾分鐘後再試一次。</string>
+    <string name="continue_to_exit">繼續</string>
+    <string name="are_you_sure">你確定要返回嗎？</string>
+    <string name="unsaved_text">你的內容未保存，將丟失所做的更改！</string>
+    <string name="version_number">版本號</string>
+    <string name="daily">每天</string>
+    <string name="weekly">每周</string>
+    <string name="every">每一次改變</string>
+    <string name="dropbox_summary_off">登錄你的 Dropbox 帳戶以自動備份你的條目</string>
+    <string name="dropbox_summary_on">您的條目正在備份到 Dropbox</string>
+    <string name="dropbox_setting_title">使用 Dropbox 備份你的數據</string>
+    <string name="dropbox_backup_frequency">Dropbox 備份頻率</string>
+    <string name="one_time_export_summary">手動將你的條目以 CSV 格式匯出到你的設備</string>
+    <string name="one_time_export">將條目匯出為 CSV 類型檔案</string>
+    <string name="import_summary">選擇要匯入的 CSV 備份檔案</string>
+    <string name="backup_and_restore">備份和還原</string>
+    <string name="day_of_week_off">日期不包括星期幾</string>
+    <string name="day_of_week_on">日期包括星期幾</string>
+    <string name="day_of_week_title">日期樣式</string>
+    <string name="max_lines_title">時間線條目長度</string>
+    <string name="max_lines_summary">時間線中顯示的行數。點擊條目時可以看到全文。</string>
+    <string name="saturday">星期六</string>
+    <string name="sunday">星期日</string>
+    <string name="monday">星期一</string>
+    <string name="day_of_week_summary">設置月曆裏一周的第一天</string>
+    <string name="first_day_of_week_title">一周的第一天</string>
+    <string name="share_milestone">我完成 %1$d 日的感恩日記！加入我，一起使用 Presently。 #PresentlyApp</string>
+    <string name="share_app_text">使用這個簡單、永遠免費和私人的感恩日記來練習紀錄感恩</string>
+    <string name="app_language_title">應用程式語言</string>
+    <string name="app_language_summary">設置程式默認語言</string>
+    <string name="loading_lang">載入語言中，請稍等</string>
+    <string name="show_quote_off">感恩格言不會顯示在書寫頁面上</string>
+    <string name="show_quote_on">感恩格言會顯示在書寫頁面上</string>
+    <string name="inspiration_title">勵志名言</string>
+</resources>
