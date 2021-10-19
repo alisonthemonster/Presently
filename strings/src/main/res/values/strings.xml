@@ -25,7 +25,7 @@
     <string name="language_es" translatable="false">Español</string>
     <string name="language_tr" translatable="false">Türkçe</string>
     <string name="language_af" translatable="false">Afrikaans</string>
-    <string name="language_zh_rhk" translatable="false">繁體中文(香港)</string>
+    <string name="language_zh_hk" translatable="false">繁體中文(香港)</string>
 
     <!--  Begin translations from here down  -->
 
