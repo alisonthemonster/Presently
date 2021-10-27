@@ -7,7 +7,7 @@ import com.presently.logging.DROPBOX_AUTH_QUIT
 import com.presently.logging.DROPBOX_AUTH_SUCCESS
 import com.presently.settings.model.*
 import java.util.*
-import org.threeten.bp.LocalTime
+import java.time.LocalTime
 import javax.inject.Inject
 
 class RealPresentlySettings @Inject constructor(

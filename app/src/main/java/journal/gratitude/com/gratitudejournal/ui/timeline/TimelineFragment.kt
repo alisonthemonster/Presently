@@ -33,7 +33,7 @@ import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
 

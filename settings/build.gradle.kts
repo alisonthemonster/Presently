@@ -28,6 +28,8 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        // Flag to enable support for the new language APIs
+        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -43,7 +45,6 @@ dependencies {
     implementation(Libraries.androidx_compat)
     implementation(Libraries.androidx_preference_ktx)
 
-    implementation(Libraries.three_ten_abp)
     implementation(Libraries.dropbox_sdk)
 
     //dependency injection
@@ -57,6 +58,9 @@ dependencies {
     kapt(Libraries.hilt_compiler)
     implementation(Libraries.hilt_viewmodel)
     kapt(Libraries.hilt_android_compiler)
+
+    //desugaring for java.time library
+    coreLibraryDesugaring(Libraries.desguar_jdk)
 
     testImplementation(TestLibraries.junit)
     testImplementation(TestLibraries.truth)

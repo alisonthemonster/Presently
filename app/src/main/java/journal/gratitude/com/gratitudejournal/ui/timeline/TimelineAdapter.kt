@@ -13,7 +13,7 @@ import journal.gratitude.com.gratitudejournal.databinding.ItemTimelineEntryBindi
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 class TimelineAdapter(
     private val showDayOfWeek: Boolean,

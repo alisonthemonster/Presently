@@ -18,7 +18,7 @@ import journal.gratitude.com.gratitudejournal.util.getYearString
 import journal.gratitude.com.gratitudejournal.util.toDate
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import journal.gratitude.com.gratitudejournal.util.toMonthString
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
 

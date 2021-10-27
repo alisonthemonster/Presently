@@ -7,7 +7,7 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
 

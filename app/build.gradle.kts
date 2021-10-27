@@ -65,6 +65,8 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        // Flag to enable support for the new language APIs
+        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -99,7 +101,6 @@ dependencies {
     implementation(Libraries.androidx_viewmodel_ktx)
     kapt(Libraries.androidx_lifecycle_compiler)
 
-    implementation(Libraries.three_ten_abp)
     implementation(Libraries.kotlin_coroutines_android)
     implementation(Libraries.material)
     implementation(Libraries.play_services_oss_licenses)
@@ -125,10 +126,10 @@ dependencies {
     implementation(Libraries.hilt)
     kapt(Libraries.hilt_compiler)
 
+    //desugaring for java.time library
+    coreLibraryDesugaring(Libraries.desguar_jdk)
+
     testImplementation(TestLibraries.junit)
-    testImplementation(TestLibraries.three_ten_abp) {
-        exclude(group = "com.jakewharton.threetenabp", module = "threetenabp")
-    }
     testImplementation(TestLibraries.androidx_room_testing)
     testImplementation(TestLibraries.mockito_kotlin)
     testImplementation(TestLibraries.androidx_arch_testing)
@@ -147,7 +148,6 @@ dependencies {
     androidTestImplementation(TestLibraries.androidx_test_espresso_intents)
     androidTestImplementation(TestLibraries.truth)
     androidTestImplementation(TestLibraries.mockito_kotlin)
-    androidTestImplementation(TestLibraries.three_ten_abp)
     androidTestImplementation(TestLibraries.androidx_test_uiautomator)
     androidTestImplementation(TestLibraries.kotlin_coroutines_test)
     androidTestImplementation(TestLibraries.androidx_work_testing)

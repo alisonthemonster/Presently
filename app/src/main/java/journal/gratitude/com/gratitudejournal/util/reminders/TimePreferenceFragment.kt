@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.TimePicker
 import androidx.preference.PreferenceDialogFragmentCompat
-import org.threeten.bp.LocalTime
+import java.time.LocalTime
 
 class TimePreferenceFragment: PreferenceDialogFragmentCompat() {
 

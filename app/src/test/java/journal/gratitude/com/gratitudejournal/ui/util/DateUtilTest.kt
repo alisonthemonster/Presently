@@ -3,7 +3,7 @@ package journal.gratitude.com.gratitudejournal.ui.util
 import journal.gratitude.com.gratitudejournal.util.*
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import java.text.SimpleDateFormat
 import java.util.*
 

@@ -4,7 +4,7 @@ import android.view.View
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 class TimelineEntryViewModel(
         private val timelineItem: Entry,

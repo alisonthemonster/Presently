@@ -31,7 +31,7 @@ import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.util.textChanges
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import javax.inject.Inject
 
 @AndroidEntryPoint

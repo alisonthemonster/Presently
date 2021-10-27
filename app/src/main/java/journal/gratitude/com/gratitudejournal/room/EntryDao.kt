@@ -5,7 +5,7 @@ import androidx.paging.PagingSource
 import androidx.room.*
 import journal.gratitude.com.gratitudejournal.model.Entry
 import kotlinx.coroutines.flow.Flow
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 @Dao
 interface EntryDao {

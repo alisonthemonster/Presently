@@ -1,7 +1,7 @@
 package com.presently.settings
 
 import com.dropbox.core.oauth.DbxCredential
-import org.threeten.bp.LocalTime
+import java.time.LocalTime
 
 interface PresentlySettings {
 

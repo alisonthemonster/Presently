@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import journal.gratitude.com.gratitudejournal.databinding.ItemSearchResultBinding
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.toShortMonthString
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 class SearchAdapter(private val onClickListener: OnClickListener) : PagingDataAdapter<Entry, SearchAdapter.SearchEntryViewHolder>(COMPARATOR) {
 

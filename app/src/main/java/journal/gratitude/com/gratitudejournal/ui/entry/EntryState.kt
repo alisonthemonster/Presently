@@ -5,7 +5,7 @@ import android.os.Parcelable
 import com.airbnb.mvrx.MavericksState
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.parcelize.Parcelize
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 @SuppressLint("ParcelCreator")
 @Parcelize

@@ -43,7 +43,7 @@ import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
 import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding
 import journal.gratitude.com.gratitudejournal.util.toFullString
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

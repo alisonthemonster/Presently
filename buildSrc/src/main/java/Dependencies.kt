@@ -43,7 +43,6 @@ object Versions {
     const val ROBOLECTRIC = "4.6.1" //https://github.com/robolectric/robolectric/releases/
     const val TRUTH = "1.1.3"
     const val MAVERICKS = "2.2.0" //https://github.com/airbnb/mavericks/releases
-    const val THREE_TEN_ABP = "1.2.2"
     const val MATERIAL = "1.4.0-rc01"
     const val OSS_LICENSES = "17.0.0"
     const val COMPACT_CAL_VIEW = "3.0.0"
@@ -54,6 +53,7 @@ object Versions {
     const val RX_BINDING = "2.1.1"
     const val ESPRESSO = "3.3.0"
     const val TEST_ORCHESTRATOR = "1.0.2"
+    const val DESUGAR_JDK = "1.0.9"
 }
 
 object Libraries {
@@ -90,7 +90,6 @@ object Libraries {
    const val androidx_room_ktx = "androidx.room:room-ktx:${Versions.ANDROIDX_ROOM}"
    const val androidx_room_runtime = "androidx.room:room-runtime:${Versions.ANDROIDX_ROOM}"
    const val androidx_room_compiler = "androidx.room:room-compiler:${Versions.ANDROIDX_ROOM}"
-   const val three_ten_abp = "com.jakewharton.threetenabp:threetenabp:${Versions.THREE_TEN_ABP}"
    const val dropbox_sdk = "com.dropbox.core:dropbox-core-sdk:${Versions.DROPBOX_SDK}"
    const val play_core = "com.google.android.play:core:${Versions.PLAY_CORE}"
    const val material = "com.google.android.material:material:${Versions.MATERIAL}"
@@ -102,6 +101,7 @@ object Libraries {
    const val rxandroid = "io.reactivex.rxjava2:rxandroid:${Versions.RX_ANDROID}"
    const val rxkotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.RX_KOTLIN}" //TODO do we need?
    const val rxbinding = "com.jakewharton.rxbinding2:rxbinding:${Versions.RX_BINDING}"
+   const val desguar_jdk = "com.android.tools:desugar_jdk_libs:${Versions.DESUGAR_JDK}"
 }
 
 object TestLibraries {
@@ -129,5 +129,4 @@ object TestLibraries {
     const val espresso_core = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO}"
     const val espresso_contrib = "androidx.test.espresso:espresso-contrib:${Versions.ESPRESSO}"
     const val test_orchestrator = "com.android.support.test:orchestrator:${Versions.TEST_ORCHESTRATOR}"
-    const val three_ten_abp = "org.threeten:threetenbp:${Versions.THREE_TEN_ABP}"
 }

@@ -8,7 +8,7 @@ import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvSt
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyString
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException

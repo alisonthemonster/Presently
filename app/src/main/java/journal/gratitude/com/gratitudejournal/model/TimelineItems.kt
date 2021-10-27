@@ -2,7 +2,7 @@ package journal.gratitude.com.gratitudejournal.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 sealed class TimelineItem
 

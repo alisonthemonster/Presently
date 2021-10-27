@@ -8,7 +8,7 @@ import journal.gratitude.com.gratitudejournal.room.EntryDao
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import kotlin.test.Test
 
 class EntryRepositoryTest {

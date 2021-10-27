@@ -20,7 +20,7 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 class TimelineViewModelTest {
 

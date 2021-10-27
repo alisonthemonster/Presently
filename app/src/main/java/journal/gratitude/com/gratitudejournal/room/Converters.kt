@@ -3,7 +3,7 @@ package journal.gratitude.com.gratitudejournal.room
 import androidx.room.TypeConverter
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 object Converters {
     @TypeConverter
