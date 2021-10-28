@@ -110,7 +110,7 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.calmTimelineHeaderColor),
                 R.drawable.ic_calm,
                 true,
-                Designer("Tishya Oedit", "https://tishyaoedit.com/")
+                Designer("Tishya Oedit", "https://www.instagram.com/linesbytish/")
             ),
             Theme(
                 "Passion",
@@ -120,7 +120,7 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.passionTimelineHeaderColor),
                 R.drawable.ic_passion,
                 true,
-                Designer("Tishya Oedit", "https://tishyaoedit.com/")
+                Designer("Tishya Oedit", "https://www.instagram.com/linesbytish/")
             ),
             Theme(
                 "Joy",
@@ -130,7 +130,7 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.joyTimelineHeaderColor),
                 R.drawable.ic_joy,
                 true,
-                Designer("Tishya Oedit", "https://tishyaoedit.com/")
+                Designer("Tishya Oedit", "https://www.instagram.com/linesbytish/")
             ),
             Theme(
                 "Boo",
