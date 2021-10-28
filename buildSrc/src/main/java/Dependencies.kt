@@ -1,7 +1,7 @@
 object Versions {
     const val COMPILE_SDK = 31
     const val TARGET_SDK = 30
-    const val MIN_SDK = 21
+    const val MIN_SDK = 23
 
     const val APP_VERSION_CODE = 80
 
@@ -20,7 +20,7 @@ object Versions {
     const val FRAGMENT_TESTING = "1.3.4"
     const val ANDROIDX_BIOMETRIC = "1.0.1"
     const val ANDROIDX_TEST_JUNIT = "1.1.2"
-    const val ANDROIDX_WORK = "2.4.0"
+    const val ANDROIDX_WORK = "2.7.0-rc01"
     const val ANDROIDX_ROOM = "2.4.0-alpha03"
     const val ANDROIDX_PAGING = "3.1.0-alpha01" //https://developer.android.com/jetpack/androidx/releases/paging
     const val ANDROIDX_FRAGMENT_KTX = "1.3.6" //https://developer.android.com/jetpack/androidx/releases/fragment

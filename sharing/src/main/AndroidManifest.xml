@@ -3,10 +3,6 @@
     package="com.presently.sharing">
 
     <application>
-        <activity
-            android:name=".view.SharingActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
 
         <provider
             android:name="com.presently.sharing.data.SharingFileProvider"
