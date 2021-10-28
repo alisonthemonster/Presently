@@ -61,7 +61,7 @@
         android:singleLine="true"
         android:textAlignment="viewStart"
         android:textColor="?attr/toolbarItemColor"
-        android:textColorHint="?attr/hintTextColor"
+        android:textColorHint="?attr/timelineHintColor"
         android:textCursorDrawable="@null"
         app:layout_constraintEnd_toStartOf="@+id/search_icon"
         app:layout_constraintStart_toEndOf="@+id/back_icon"

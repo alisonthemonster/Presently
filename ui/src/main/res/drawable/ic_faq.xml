@@ -10,9 +10,9 @@
       android:pathData="M61.15,61.222V69.415"
       android:strokeWidth="6"
       android:fillColor="#00000000"
-      android:strokeColor="?attr/backgroundColor"
+      android:strokeColor="?attr/timelineBackgroundColor"
       android:strokeLineCap="round"/>
   <path
       android:pathData="M61.15,53.357m-2.622,0a2.622,2.622 0,1 1,5.243 0a2.622,2.622 0,1 1,-5.243 0"
-      android:fillColor="?attr/backgroundColor"/>
+      android:fillColor="?attr/timelineBackgroundColor"/>
 </vector>

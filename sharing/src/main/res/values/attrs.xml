@@ -3,6 +3,6 @@
     <declare-styleable name="OriginalView">
         <attr name="headerTextColor" format="color" />
         <attr name="bodyTextColor" format="color" />
-        <attr name="backgroundColor" format="color" />
+        <attr name="timelineBackgroundColor" format="color" />
     </declare-styleable>
 </resources>
