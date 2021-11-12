@@ -3,11 +3,11 @@ object Versions {
     const val TARGET_SDK = 30
     const val MIN_SDK = 23
 
-    const val APP_VERSION_CODE = 80
+    const val APP_VERSION_CODE = 81
 
     const val MAJOR = 1
-    const val MINOR = 17
-    const val PATCH = 1
+    const val MINOR = 18
+    const val PATCH = 0
 
     const val KOTLIN = "1.4.32" //https://developer.android.com/jetpack/androidx/releases/core
     const val KOTLIN_COROUTINES = "1.5.0" //https://github.com/Kotlin/kotlinx.coroutines/releases/
