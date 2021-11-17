@@ -75,8 +75,6 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
         return false
     }
 
-    override fun onAlarmPermissionChange(context: Context) {}
-
     override fun getLinesPerEntryInTimeline(): Int {
         return 10
     }
