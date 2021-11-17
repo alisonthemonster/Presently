@@ -1,34 +1,4 @@
 <resources>
-    <!--  No need to translate these following strings  -->
-    <string name="app_name" translatable="false">Presently</string>
-    <string name="key_faq" translatable="false">faq</string>
-    <string name="key_share_app" translatable="false">share_app</string>
-    <string name="key_privacy_policy" translatable="false">privacy_policy</string>
-    <string name="key_terms_conditions" translatable="false">terms_conditions</string>
-    <string name="key_open_source" translatable="false">open_source</string>
-    <string name="key_version" translatable="false">version</string>
-
-    <string name="language_en" translatable="false">English</string>
-    <string name="language_ar" translatable="false">عربي</string>
-    <string name="language_hr" translatable="false">Hrvatski</string>
-    <string name="language_nl" translatable="false">Nederlands</string>
-    <string name="language_fi" translatable="false">Suomalainen</string>
-    <string name="language_fr" translatable="false">Français</string>
-    <string name="language_de" translatable="false">Deutsche</string>
-    <string name="language_it" translatable="false">Italiano</string>
-    <string name="language_pl" translatable="false">Polskie</string>
-    <string name="language_pt" translatable="false">Português</string>
-    <string name="language_pt_br" translatable="false">Portugues do Brasil</string>
-    <string name="language_ro" translatable="false">Română</string>
-    <string name="language_ru" translatable="false">русский</string>
-    <string name="language_sk" translatable="false">Slovák</string>
-    <string name="language_es" translatable="false">Español</string>
-    <string name="language_tr" translatable="false">Türkçe</string>
-    <string name="language_af" translatable="false">Afrikaans</string>
-
-    <!--  Begin translations from here down  -->
-
-    <string name="random">Random</string>
     <string name="what_are_you_thankful_for">What are you grateful for?</string>
     <string name="what_were_you_thankful_for">What were you grateful for?</string>
     <string name="what_are_you_thankful_for_today">What are you grateful for today?</string>
@@ -56,6 +26,7 @@
     <string name="import_entries_from_backup">Import entries from backup</string>
     <string name="ok">Import</string>
     <string name="cancel">Cancel</string>
+    <string name="random">Random</string>
     <string name="import_data_dialog">Are you sure you want to import?</string>
     <string name="import_data_dialog_message">Imported data could overwrite existing entries.</string>
     <string name="days_of_gratitude">days of gratitude!</string>
@@ -76,7 +47,7 @@
     <string name="share_progress">Share your gratitude progress</string>
     <string name="change_time">Change your daily reminder time</string>
     <string name="time_title">Adjust Reminder Notifications</string>
-    <string name="theme_change">Choose from over 20 different themes and color schemes</string>
+    <string name="theme_change">Choose from over 30 different themes and color schemes</string>
     <string name="notifs_off">Daily reminder notifications are off</string>
     <string name="notifs_on">Daily reminder notifications are on</string>
     <string name="notifs">Daily Reminder Notifications</string>

@@ -30,7 +30,7 @@ class OriginalView(context: Context, attrs: AttributeSet) : ConstraintLayout(con
         ).apply {
 
             try {
-                mBackgroundColor = getColor(R.styleable.OriginalView_backgroundColor, 1)
+                mBackgroundColor = getColor(R.styleable.OriginalView_timelineBackgroundColor, 1)
                 mHeaderTextColor = getColor(R.styleable.OriginalView_headerTextColor, 1)
                 mContentTextColor = getColor(R.styleable.OriginalView_bodyTextColor, 1)
             } finally {

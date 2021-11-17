@@ -442,4 +442,62 @@
     <color name="booToolbarColor">#000000</color>
     <color name="booStatusBarColor">#000000</color>
     <color name="booToolbarItemColor">#FFFFFF</color>
+
+    <!-- ~~~~JOY THEME~~~~ -->
+    <color name="joyAndroidWidgetColor">#298582</color>
+    <color name="joyTimelineBackgroundColor">#B8EEEE</color>
+    <color name="joyEntryBackgroundColor">#FFFFFF</color>
+    <color name="joySettingsBackgroundColor">#DFA700</color>
+    <color name="joyTimelineColor">#77C4CC</color>
+    <color name="joyToolbarColor">#FFFFFF</color>
+    <color name="joyStatusBarColor">#FFFFFF</color>
+    <color name="joyToolbarItemColor">#B8EEEE</color>
+    <color name="joyToolbarLogoColor">#DFA700</color>
+    <color name="joyTimelineHeaderColor">#FFFFFF</color>
+    <color name="joyTimelineBodyColor">#298582</color>
+    <color name="joyTimelineHintColor">#91CFCC</color>
+    <color name="joyFabColor">#DFA700</color>
+    <color name="joyFabTextColor">#FFFFFF</color>
+    <color name="joyEntryHeaderColor">#DFA700</color>
+    <color name="joyEntryBodyColor">#298582</color>
+    <color name="joyEntryHintColor">#91CFCC</color>
+
+    <!-- ~~~~PASSION THEME~~~~ -->
+    <color name="passionAndroidWidgetColor">#F2A7A1</color>
+    <color name="passionTimelineBackgroundColor">#F8CDFA</color>
+    <color name="passionEntryBackgroundColor">#FFFFFF</color>
+    <color name="passionSettingsBackgroundColor">#FFFFFF</color>
+    <color name="passionTimelineColor">#FFFFFF</color>
+    <color name="passionToolbarColor">#FFFFFF</color>
+    <color name="passionStatusBarColor">#FFFFFF</color>
+    <color name="passionToolbarItemColor">#F2A7A1</color>
+    <color name="passionToolbarLogoColor">#F2A7A1</color>
+    <color name="passionTimelineHeaderColor">#FFFFFF</color>
+    <color name="passionTimelineBodyColor">#E180D3</color>
+    <color name="passionTimelineHintColor">#FFE6FF</color>
+    <color name="passionFabColor">#F2A7A1</color>
+    <color name="passionFabTextColor">#FFFFFF</color>
+    <color name="passionEntryHeaderColor">#F2A7A1</color>
+    <color name="passionEntryBodyColor">#E180D3</color>
+    <color name="passionEntryHintColor">#FAD8D9</color>
+
+    <!-- ~~~~CALM THEME~~~~ -->
+    <color name="calmAndroidWidgetColor">#697AD6</color>
+    <color name="calmTimelineBackgroundColor">#BBC4FB</color>
+    <color name="calmEntryBackgroundColor">#FFFFFF</color>
+    <color name="calmSettingsBackgroundColor">#FFFFFF</color>
+    <color name="calmTimelineColor">#FFFFFF</color>
+    <color name="calmToolbarColor">#FFFFFF</color>
+    <color name="calmStatusBarColor">#FFFFFF</color>
+    <color name="calmToolbarItemColor">#BAC6FF</color>
+    <color name="calmToolbarLogoColor">#697AD6</color>
+    <color name="calmTimelineHeaderColor">#FFFFFF</color>
+    <color name="calmTimelineBodyColor">#697AD6</color>
+    <color name="calmTimelineHintColor">#E7EBFF</color>
+    <color name="calmFabColor">#FFFFFF</color>
+    <color name="calmFabTextColor">#BBC4FB</color>
+    <color name="calmEntryHeaderColor">#7985DB</color>
+    <color name="calmEntryBodyColor">#7985DB</color>
+    <color name="calmEntryHintColor">#BBC4FB</color>
+
 </resources>

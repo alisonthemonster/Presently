@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
 
-    <solid android:color="?attr/backgroundColor" />
+    <solid android:color="?attr/timelineBackgroundColor" />
 
     <stroke
         android:width="3dp"

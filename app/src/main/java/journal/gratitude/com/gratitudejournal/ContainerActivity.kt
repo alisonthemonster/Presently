@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -57,7 +58,11 @@ class ContainerActivity : AppCompatActivity() {
 
         NotificationScheduler().configureNotifications(this, settings)
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        if (resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            //lays app behind system bars
+                //not in landscape mode so navigation bar doesn't block UI
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+        }
     }
 
     override fun onResume() {
@@ -151,6 +156,9 @@ class ContainerActivity : AppCompatActivity() {
             "Autumn" -> setTheme(R.style.AppTheme_AUTUMN)
             "Betty" -> setTheme(R.style.AppTheme_BETTY)
             "Boo" -> setTheme(R.style.AppTheme_BOO)
+            "Calm" -> setTheme(R.style.AppTheme_CALM)
+            "Passion" -> setTheme(R.style.AppTheme_PASSION)
+            "Joy" -> setTheme(R.style.AppTheme_JOY)
             else -> setTheme(R.style.Base_AppTheme)
         }
     }

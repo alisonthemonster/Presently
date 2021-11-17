@@ -41,12 +41,24 @@ class ThemeListAdapter(private val listener: ThemeFragment.OnThemeSelectedListen
         }
 
         fun bind(item: Theme) = with(binding) {
+            if (item.designer != null) {
+                designerName.visibility = View.VISIBLE
+                designerBackground.visibility = View.VISIBLE
+                designerName.text = item.designer.designerName
+                designerBackground.setBackgroundColor(item.headerItemColor)
+                designerName.setTextColor(item.headerColor)
+                designerName.setOnClickListener { listener?.onDesignerClicked(item.designer) }
+            } else {
+                designerName.visibility = View.GONE
+                designerBackground.visibility = View.GONE
+            }
             backgroundView.setBackgroundColor(item.backgroundColor)
             header.setBackgroundColor(item.headerColor)
             logo.setTextColor(item.headerItemColor)
             icon.setImageResource(item.icon)
             if (!item.multicolorIcon) icon.setColorFilter(item.iconColor) else icon.clearColorFilter()
             timelineLine.setBackgroundColor(item.headerColor)
+
             themeName.text = item.name
             themeName.setTextColor(item.iconColor)
         }

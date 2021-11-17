@@ -1,10 +1,14 @@
 package journal.gratitude.com.gratitudejournal.ui.themes
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -12,11 +16,14 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.presently.logging.AnalyticsLogger
+import com.presently.logging.CrashReporter
 import com.presently.settings.PresentlySettings
 import com.presently.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.FragmentThemeBinding
+import journal.gratitude.com.gratitudejournal.model.Designer
+import journal.gratitude.com.gratitudejournal.model.OPENED_PRIVACY_POLICY
 import journal.gratitude.com.gratitudejournal.model.Theme
 import javax.inject.Inject
 
@@ -25,6 +32,7 @@ class ThemeFragment : Fragment() {
 
     @Inject lateinit var settings: PresentlySettings
     @Inject lateinit var analytics: AnalyticsLogger
+    @Inject lateinit var crashReporter: CrashReporter
 
     private var _binding: FragmentThemeBinding? = null
     private val binding get() = _binding!!
@@ -35,6 +43,22 @@ class ThemeFragment : Fragment() {
 
             parentFragmentManager.popBackStack()
             activity?.recreate()
+        }
+
+        override fun onDesignerClicked(designer: Designer) {
+            analytics.recordEvent(OPENED_PRIVACY_POLICY)
+
+            try {
+                val browserIntent =
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(designer.designerWebsite)
+                    )
+                startActivity(browserIntent)
+            } catch (activityNotFoundException: ActivityNotFoundException) {
+                Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
+                crashReporter.logHandledException(activityNotFoundException)
+            }
         }
     }
 
@@ -77,6 +101,36 @@ class ThemeFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.brittanyMainTextAndButtonColor),
                 R.drawable.ic_brittany,
                 true
+            ),
+            Theme(
+                "Calm",
+                ContextCompat.getColor(requireContext(), R.color.calmToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.calmTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.calmToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.calmTimelineHeaderColor),
+                R.drawable.ic_calm,
+                true,
+                Designer("Tishya Oedit", "https://www.instagram.com/linesbytish/")
+            ),
+            Theme(
+                "Passion",
+                ContextCompat.getColor(requireContext(), R.color.passionToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.passionTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.passionToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.passionTimelineHeaderColor),
+                R.drawable.ic_passion,
+                true,
+                Designer("Tishya Oedit", "https://www.instagram.com/linesbytish/")
+            ),
+            Theme(
+                "Joy",
+                ContextCompat.getColor(requireContext(), R.color.joyToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.joyTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.joyToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.joyTimelineHeaderColor),
+                R.drawable.ic_joy,
+                true,
+                Designer("Tishya Oedit", "https://www.instagram.com/linesbytish/")
             ),
             Theme(
                 "Boo",
@@ -385,6 +439,7 @@ class ThemeFragment : Fragment() {
 
     interface OnThemeSelectedListener {
         fun onThemeSelected(theme: String)
+        fun onDesignerClicked(designer: Designer)
     }
 
 }
