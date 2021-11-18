@@ -12,7 +12,7 @@ import org.threeten.bp.LocalTime
 import java.util.*
 
 /**
- * Schedules or cancels repeating broadcasts to the ReminderReceiver at the specified time
+ * Schedules or cancels broadcasts to the ReminderReceiver at the specified time
  *
  */
 class NotificationScheduler {
@@ -36,15 +36,12 @@ class NotificationScheduler {
 
     //sets the repeating alarm, that when triggered will send the notification
     fun setNotificationTime(context: Context, alarmTime: LocalTime) {
-        val intent = Intent(context, ReminderReceiver::class.java)
-        val alarmIntent = intent.let {
-            PendingIntent.getBroadcast(
+        val alarmIntent = PendingIntent.getBroadcast(
                 context,
                 PENDING_INTENT,
-                it,
+                Intent(context, ReminderReceiver::class.java),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
-        }
 
         val alarmTimeCal = if (LocalTime.now().isAfter(alarmTime)) {
             //today's alarm already happened use start the next one tomorrow
@@ -86,15 +83,13 @@ class NotificationScheduler {
 
     //cancels any existing notifications
     private fun cancelNotifications(context: Context) {
-        val intent = Intent(context, ReminderReceiver::class.java)
-        val pendingIntent = intent.let {
+        val pendingIntent =
             PendingIntent.getBroadcast(
                 context,
                 PENDING_INTENT,
-                it,
+                Intent(context, ReminderReceiver::class.java),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
-        }
 
         pendingIntent.cancel()
         val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
