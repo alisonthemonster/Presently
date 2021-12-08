@@ -11,7 +11,7 @@ import dagger.assisted.AssistedInject
 import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
 import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.model.Milestone
+import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilestone
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.launch
 
@@ -67,7 +67,7 @@ class EntryViewModel @AssistedInject constructor(
             if (it.isNewEntry) {
                 val totalEntries = (it.numberExistingEntries ?: 0) + 1
                 analytics.recordEntryAdded(totalEntries)
-                if (Milestone.milestones.contains(totalEntries)) {
+                if (isMilestone(totalEntries)) {
                     setState {
                         copy(milestoneNumber = totalEntries)
                     }
