@@ -19,7 +19,8 @@ class NotificationScheduler {
 
     companion object {
         const val ALARM_TYPE_RTC = 100
-        const val PENDING_INTENT = 101
+        const val PENDING_INTENT = 101 //used for old repeating alarms
+        const val EXACT_ALARM_REQUEST_CODE = 102 //new request code for exact alarms
     }
 
     // Called to ensure the notification is properly scheduled or cancelled
@@ -34,11 +35,14 @@ class NotificationScheduler {
         }
     }
 
-    //sets the repeating alarm, that when triggered will send the notification
+    //sets the exact alarm, that when triggered will send the notification
     fun setNotificationTime(context: Context, alarmTime: LocalTime) {
+        //cancel the old repeating alarm if present (we want to only use exact alarms from now on)
+        cancelOldAlarms(context)
+
         val alarmIntent = PendingIntent.getBroadcast(
                 context,
-                PENDING_INTENT,
+                EXACT_ALARM_REQUEST_CODE,
                 Intent(context, ReminderReceiver::class.java),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
@@ -86,7 +90,7 @@ class NotificationScheduler {
         val pendingIntent =
             PendingIntent.getBroadcast(
                 context,
-                PENDING_INTENT,
+                EXACT_ALARM_REQUEST_CODE,
                 Intent(context, ReminderReceiver::class.java),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
@@ -104,5 +108,19 @@ class NotificationScheduler {
             PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
             PackageManager.DONT_KILL_APP
         )
+    }
+
+    private fun cancelOldAlarms(context: Context) {
+        val pendingIntent =
+            PendingIntent.getBroadcast(
+                context,
+                PENDING_INTENT,
+                Intent(context, ReminderReceiver::class.java),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
+        pendingIntent.cancel()
+        val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
     }
 }
