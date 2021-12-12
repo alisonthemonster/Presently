@@ -8,6 +8,7 @@ jobs:
   build_debug:
     executor:
       name: android/android-machine
+      resource-class: large
     steps:
       - checkout
       - android/restore-gradle-cache
@@ -24,6 +25,7 @@ jobs:
     working_directory: ~/src
     executor:
       name: android/android-machine
+      resource-class: large
     steps:
       - checkout
       - run:
