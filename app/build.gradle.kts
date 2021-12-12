@@ -121,8 +121,6 @@ dependencies {
     kapt(Libraries.dagger_compiler)
     implementation(Libraries.dagger_android_support)
     kapt(Libraries.dagger_android_processor)
-    compileOnly(Libraries.assisted_inject_annotations)
-    kapt(Libraries.assisted_inject_processor)
     implementation(Libraries.hilt)
     kapt(Libraries.hilt_compiler)
 
@@ -165,6 +163,6 @@ fun getVersionName(): String {
 }
 
 fun getDropboxKey(): String {
-    val localPropsKey = gradleLocalProperties(rootDir).getProperty("DROPBOX_KEY")
+    val localPropsKey = gradleLocalProperties(rootDir).getProperty("DROPBOX_KEY") ?: "missing_local_key"
     return System.getenv("DROPBOX_APP_KEY") ?: localPropsKey
 }
