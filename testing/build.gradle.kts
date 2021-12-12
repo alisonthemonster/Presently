@@ -35,6 +35,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    //needed for kotlin_coroutines_test
+    packagingOptions {
+        exclude ("META-INF/AL2.0")
+        exclude ("META-INF/LGPL2.1")
+    }
 }
 
 dependencies {
@@ -43,6 +49,7 @@ dependencies {
     implementation(Libraries.androidx_compat)
     implementation(Libraries.material)
     implementation(TestLibraries.androidx_arch_testing)
+    implementation(TestLibraries.kotlin_coroutines_test)
 
     implementation(Libraries.hilt)
     implementation(TestLibraries.hilt_android_testing)

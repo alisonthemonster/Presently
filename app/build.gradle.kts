@@ -27,12 +27,6 @@ android {
 
         testInstrumentationRunner = "journal.gratitude.com.gratitudejournal.testUtils.AppCustomTestRunner"
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
-            }
-        }
-
         val dropboxKey = getDropboxKey()
         buildConfigField("String", "DROPBOX_APP_KEY", "\"${dropboxKey}\"")
         manifestPlaceholders["dropboxAppKey"] = dropboxKey
@@ -54,11 +48,6 @@ android {
         }
     }
 
-    sourceSets {
-        getByName("androidTest").assets.srcDirs("$projectDir/schemas")
-    }
-
-
     testOptions.unitTests.isIncludeAndroidResources = true
     testOptions.animationsDisabled = true
 
@@ -70,6 +59,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    //needed for kotlin_coroutines_test
+    packagingOptions {
+        exclude ("META-INF/AL2.0")
+        exclude ("META-INF/LGPL2.1")
+    }
 }
 
 dependencies {
@@ -79,6 +74,8 @@ dependencies {
     implementation(project(":sharing"))
     implementation(project(":strings"))
     implementation(project(":ui"))
+    implementation(project(":presently_local_source"))
+    implementation(project(":date_utils"))
 
     implementation(Libraries.kotlin_stdlib)
     implementation(Libraries.androidx_compat)
@@ -91,16 +88,13 @@ dependencies {
     implementation(Libraries.androidx_work_runtime_ktx)
     implementation(Libraries.play_core)
     implementation(Libraries.androidx_paging_runtime)
-//    implementation(Libraries.androidx_room_paging)
-    implementation(Libraries.androidx_room_runtime)
-    implementation(Libraries.androidx_room_ktx)
     kapt(Libraries.androidx_room_compiler)
 
     implementation(Libraries.androidx_livedata_ktx)
     implementation(Libraries.androidx_viewmodel_ktx)
     kapt(Libraries.androidx_lifecycle_compiler)
 
-    implementation(Libraries.three_ten_abp)
+    //implementation(Libraries.three_ten_abp)
     implementation(Libraries.kotlin_coroutines_android)
     implementation(Libraries.material)
     implementation(Libraries.play_services_oss_licenses)
@@ -141,7 +135,7 @@ dependencies {
     androidTestImplementation(TestLibraries.androidx_arch_testing)
     androidTestImplementation(TestLibraries.espresso_core)
     androidTestImplementation(TestLibraries.espresso_contrib)
-    androidTestImplementation(TestLibraries.androidx_room_testing)
+//    androidTestImplementation(TestLibraries.androidx_room_testing)
     androidTestImplementation(TestLibraries.androidx_test_junit)
     androidTestImplementation(TestLibraries.androidx_test_espresso_intents)
     androidTestImplementation(TestLibraries.truth)

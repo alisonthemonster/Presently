@@ -9,7 +9,7 @@ object Versions {
     const val MINOR = 18
     const val PATCH = 0
 
-    const val KOTLIN = "1.4.32" //https://developer.android.com/jetpack/androidx/releases/core
+    const val KOTLIN = "1.4.32"
     const val KOTLIN_COROUTINES = "1.5.0" //https://github.com/Kotlin/kotlinx.coroutines/releases/
     const val KOTLIN_COROUTINES_TEST = "1.3.2"
     const val ANDROIDX_CORE_KTX = "1.6.0" //https://developer.android.com/jetpack/androidx/releases/core
@@ -104,7 +104,7 @@ object Libraries {
 object TestLibraries {
     const val junit = "junit:junit:${Versions.JUNIT}"
     const val kotlin_test_junit = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.KOTLIN}"
-    const val kotlin_coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.KOTLIN_COROUTINES_TEST}"
+    const val kotlin_coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.KOTLIN_COROUTINES}"
     const val mockito_kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.MOCKITO_KOTLIN}"
     const val mockito_android = "org.mockito:mockito-android:${Versions.MOCKITO_ANDROID}"
     const val robolectric = "org.robolectric:robolectric:${Versions.ROBOLECTRIC}"

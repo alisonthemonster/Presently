@@ -41,7 +41,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
-import journal.gratitude.com.gratitudejournal.util.toFullString
 import org.threeten.bp.LocalDate
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
