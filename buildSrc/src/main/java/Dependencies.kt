@@ -33,7 +33,6 @@ object Versions {
     const val ANDROIDX_ARCH_CORE = "2.1.0" //https://developer.android.com/jetpack/androidx/releases/arch-core
     const val FIREBASE = "28.2.1" //https://firebase.google.com/support/release-notes/android
     const val DAGGER = "2.38.1" //https://github.com/google/dagger/releases
-    const val ASSISTED_INJECT = "0.3.2" //TODO use dagger's version: https://dagger.dev/dev-guide/assisted-injection.html
     const val HILT_ANDROID = "1.0.0-alpha03" //https://developer.android.com/jetpack/androidx/releases/hilt
     const val JUNIT = "4.13.2"
     const val DROPBOX_SDK = "4.0.0"
@@ -71,8 +70,6 @@ object Libraries {
    const val hilt_compiler = "com.google.dagger:hilt-android-compiler:${Versions.DAGGER}"
    const val hilt_viewmodel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.HILT_ANDROID}"
    const val hilt_android_compiler = "androidx.hilt:hilt-compiler:${Versions.HILT_ANDROID}"
-   const val assisted_inject_annotations = "com.squareup.inject:assisted-inject-annotations-dagger2:${Versions.ASSISTED_INJECT}"
-   const val assisted_inject_processor = "com.squareup.inject:assisted-inject-processor-dagger2:${Versions.ASSISTED_INJECT}"
    const val mavericks = "com.airbnb.android:mavericks:${Versions.MAVERICKS}"
    const val mavericks_mocking = "com.airbnb.android:mavericks-mocking:${Versions.MAVERICKS}"
    const val androidx_compat = "androidx.appcompat:appcompat:${Versions.ANDROIDX_COMPAT}"
