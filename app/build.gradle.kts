@@ -165,6 +165,6 @@ fun getVersionName(): String {
 }
 
 fun getDropboxKey(): String {
-    val localPropsKey = gradleLocalProperties(rootDir).getProperty("DROPBOX_KEY")
+    val localPropsKey = gradleLocalProperties(rootDir).getProperty("DROPBOX_KEY") ?: "missing_local_key"
     return System.getenv("DROPBOX_APP_KEY") ?: localPropsKey
 }
