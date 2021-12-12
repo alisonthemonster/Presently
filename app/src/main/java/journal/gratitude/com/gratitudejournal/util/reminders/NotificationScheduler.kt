@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.preference.PreferenceManager
+import com.presently.settings.PresentlySettings
 import org.threeten.bp.LocalTime
 import java.util.*
 
@@ -23,12 +23,10 @@ class NotificationScheduler {
     }
 
     // Called when app starts, notification time changes, device reboots, time zone changes, etc
-    fun configureNotifications(context: Context) {
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
-        val hasNotificationsOn = sharedPref.getBoolean("notif_parent", true)
+    fun configureNotifications(context: Context, settings: PresentlySettings) {
+        val hasNotificationsOn = settings.hasEnabledNotifications()
         if (hasNotificationsOn) {
-            val prefTime = sharedPref.getString("pref_time", "21:00")
-            val alarmTime = LocalTime.parse(prefTime)
+            val alarmTime = settings.getNotificationTime()
             setNotificationTime(context, alarmTime)
         }
     }
@@ -40,7 +38,7 @@ class NotificationScheduler {
                 context,
                 PENDING_INTENT,
                 it,
-                0 //implicitly cancel the existing alarm and then set it for the newly-specified time
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
 
@@ -89,7 +87,9 @@ class NotificationScheduler {
         val pendingIntent = intent.let {
             PendingIntent.getBroadcast(
                 context,
-                PENDING_INTENT, it, 0
+                PENDING_INTENT,
+                it,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
 

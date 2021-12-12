@@ -1,30 +1,39 @@
 package journal.gratitude.com.gratitudejournal.ui.search
 
-import android.app.Activity
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
-import com.hannesdorfmann.adapterdelegates3.AdapterDelegatesManager
+import journal.gratitude.com.gratitudejournal.databinding.ItemSearchResultBinding
 import journal.gratitude.com.gratitudejournal.model.Entry
+import journal.gratitude.com.gratitudejournal.util.toShortMonthString
 import org.threeten.bp.LocalDate
 
-class SearchAdapter(activity: Activity, onClickListener: OnClickListener) : PagedListAdapter<Entry, RecyclerView.ViewHolder>(COMPARATOR) {
+class SearchAdapter(private val onClickListener: OnClickListener) : PagingDataAdapter<Entry, SearchAdapter.SearchEntryViewHolder>(COMPARATOR) {
 
-    private val delegatesManager = AdapterDelegatesManager<List<Entry>>()
-
-    init {
-        delegatesManager.addDelegate(SearchEntryAdapterDelegate(activity, onClickListener))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchEntryViewHolder {
+        val binding = ItemSearchResultBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return SearchEntryViewHolder(binding)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return delegatesManager.onCreateViewHolder(parent, viewType)
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchEntryViewHolder, position: Int) {
         val item = getItem(position)
-        val list = if (item == null) emptyList() else listOf(item)
-        return delegatesManager.onBindViewHolder(list, 0, holder)
+        item?.let {
+            holder.bind(item)
+        }
+    }
+
+    inner class SearchEntryViewHolder(private val binding: ItemSearchResultBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(entry: Entry) {
+            binding.content.text = entry.entryContent
+            binding.year.text = entry.entryDate.year.toString()
+            binding.day.text = entry.entryDate.dayOfMonth.toString()
+            binding.month.text = entry.entryDate.month.toShortMonthString()
+            binding.searchResultContainer.setOnClickListener {
+                onClickListener.onClick(entry.entryDate)
+            }
+        }
     }
 
     companion object {

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="customAttrs">
+        <attr name="timelineIcon" format="reference" />
+        <attr name="timelineLineColor" format="color" />
+        <attr name="timelineBackgroundColor" format="color" />
+<!--        <attr name="timelineHeaderColor" format="color" />-->
+        <attr name="timelineHintColor" format="color" />
+
+        <attr name="entryBackgroundColor" format="color" />
+        <attr name="entryHintColor" format="color" />
+        <attr name="toolbarColor" format="color" />
+        <attr name="toolbarItemColor" format="color" />
+        <attr name="presentlyLogoColor" format="color" />
+        <attr name="statusBarColor" format="color" />
+        <attr name="timelineHeaderColor" format="color" />
+        <attr name="timelineBodyColor" format="color" />
+        <attr name="entryHeaderColor" format="color" />
+        <attr name="entryBodyColor" format="color" />
+        <attr name="highlightColor" format="color" />
+        <attr name="fabColor" format="color" />
+        <attr name="fabTextColor" format="color" />
+    </declare-styleable>
+</resources>

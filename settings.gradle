@@ -1,1 +1,8 @@
+include ':ui'
 include ':app'
+include ':strings'
+include ':settings'
+include ':sharing'
+include ':testing'
+include ':logging'
+include ':mavericks_utils'

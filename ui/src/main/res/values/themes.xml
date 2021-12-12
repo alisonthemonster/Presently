@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Base.AppTheme" />
+
+    <!-- Base application theme. -->
+    <style name="Base.AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:statusBarColor">?attr/statusBarColor</item>
+        <item name="colorPrimary">?attr/timelineLineColor</item>
+        <item name="colorSecondary">?attr/highlightColor</item>
+        <item name="android:textColorSecondary">?attr/timelineHintColor</item>
+        <item name="android:colorBackground">?attr/timelineBackgroundColor</item>
+        <item name="snackbarButtonStyle">@style/snackbar_button</item>
+
+        <!--   Colors for the Timeline screen    -->
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="timelineBackgroundColor">@color/originalBackgroundColor</item>
+        <item name="timelineLineColor">@color/originalTimelineColor</item>
+        <item name="timelineHeaderColor">@color/originalTimelineColor</item>
+        <item name="timelineBodyColor">@color/originalTimelineColor</item>
+        <item name="timelineHintColor">@color/originalHintTextColor</item>
+        <item name="toolbarColor">@color/originalTimelineColor</item>
+        <item name="toolbarItemColor">@color/originalBackgroundColor</item>
+        <item name="presentlyLogoColor">?attr/toolbarItemColor</item>
+        <item name="statusBarColor">@color/originalTimelineColor</item>
+        <item name="fabColor">?attr/toolbarColor</item>
+        <item name="fabTextColor">?attr/toolbarItemColor</item>
+
+        <!--   Colors for the Entry screen    -->
+        <item name="entryBackgroundColor">?attr/timelineBackgroundColor</item>
+        <item name="entryHeaderColor">@color/originalTimelineColor</item>
+        <item name="entryBodyColor">@color/originalTimelineColor</item>
+        <item name="entryHintColor">?attr/timelineHintColor</item>
+
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+        <item name="highlightColor">@color/originalTimelineColor</item>
+        <item name="fontFamily">@font/larsseit_medium</item>
+        <item name="android:fontFamily">@font/larsseit_medium</item>
+    </style>
+
+    <style name="AppTheme.SUNSET" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_sun_icon</item>
+        <item name="timelineLineColor">@color/sunsetTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/sunsetBackgroundColor</item>
+        <item name="timelineHintColor">@color/sunsetLighterTextColor</item>
+        <item name="toolbarColor">@color/sunsetToolbarColor</item>
+        <item name="toolbarItemColor">@color/sunsetToolbarItemColor</item>
+        <item name="statusBarColor">@color/sunsetStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/sunsetPrimaryColor</item>
+        <item name="timelineBodyColor">@color/sunsetPrimaryColor</item>
+        <item name="entryHeaderColor">@color/sunsetPrimaryColor</item>
+        <item name="entryBodyColor">@color/sunsetPrimaryColor</item>
+        <item name="highlightColor">@color/sunsetAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.MOONLIGHT" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_moon</item>
+        <item name="timelineLineColor">@color/moonlightTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/moonlightBackgroundColor</item>
+        <item name="timelineHintColor">@color/moonlightHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/moonlightToolbarColor</item>
+        <item name="toolbarItemColor">@color/moonlightToolbarItemColor</item>
+        <item name="statusBarColor">@color/moonlightStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/moonlightMainTextAndButtonColor</item>
+        <item name="timelineBodyColor">@color/moonlightMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/moonlightDateTextEntryScreenTextColor</item>
+        <item name="entryBodyColor">@color/moonlightDateTextEntryScreenTextColor</item>
+        <item name="highlightColor">@color/moonlightAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.DAWN" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_sun_icon</item>
+        <item name="timelineLineColor">@color/dawnTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/dawnBackgroundColor</item>
+        <item name="timelineHintColor">@color/dawnHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/dawnToolbarColor</item>
+        <item name="toolbarItemColor">@color/dawnToolbarItemColor</item>
+        <item name="statusBarColor">@color/dawnStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/dawnDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/dawnMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/dawnMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/dawnMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/dawnAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.MIDNIGHT" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_moon</item>
+        <item name="timelineLineColor">@color/midnightTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/midnightBackgroundColor</item>
+        <item name="timelineHintColor">@color/midnightHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/midnightToolbarColor</item>
+        <item name="toolbarItemColor">@color/midnightToolbarItemColor</item>
+        <item name="statusBarColor">@color/midnightStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/midnightDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/midnightMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/midnightMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/midnightMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/midnightAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.IVY" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="timelineLineColor">@color/ivyTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/ivyBackgroundColor</item>
+        <item name="timelineHintColor">@color/ivyHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/ivyToolbarColor</item>
+        <item name="toolbarItemColor">@color/ivyToolbarItemColor</item>
+        <item name="statusBarColor">@color/ivyStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/ivyDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/ivyMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/ivyMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/ivyMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/ivyAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.WESLEY" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_cube</item>
+        <item name="timelineLineColor">@color/wesleyTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/wesleyBackgroundColor</item>
+        <item name="timelineHintColor">@color/wesleyHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/wesleyToolbarColor</item>
+        <item name="toolbarItemColor">@color/wesleyToolbarItemColor</item>
+        <item name="statusBarColor">@color/wesleyStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/wesleyDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/wesleyMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/wesleyMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/wesleyMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/wesleyAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.MOSS" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="timelineLineColor">@color/mossTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/mossBackgroundColor</item>
+        <item name="timelineHintColor">@color/mossHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/mossToolbarColor</item>
+        <item name="toolbarItemColor">@color/mossToolbarItemColor</item>
+        <item name="statusBarColor">@color/mossStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/mossDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/mossMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/mossMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/mossMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/mossAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.CLEAN" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="timelineLineColor">@color/cleanTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/cleanBackgroundColor</item>
+        <item name="timelineHintColor">@color/cleanHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/cleanToolbarColor</item>
+        <item name="toolbarItemColor">@color/cleanToolbarItemColor</item>
+        <item name="statusBarColor">@color/cleanStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/cleanDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/cleanMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/cleanMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/cleanMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/cleanAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.GLACIER" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_cube</item>
+        <item name="timelineLineColor">@color/glacierTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/glacierBackgroundColor</item>
+        <item name="timelineHintColor">@color/glacierHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/glacierToolbarColor</item>
+        <item name="toolbarItemColor">@color/glacierToolbarItemColor</item>
+        <item name="statusBarColor">@color/glacierStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/glacierDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/glacierMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/glacierMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/glacierMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/glacierAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.GELATO" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_flower</item>
+        <item name="timelineLineColor">@color/gelatoTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/gelatoBackgroundColor</item>
+        <item name="timelineHintColor">@color/gelatoHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/gelatoToolbarColor</item>
+        <item name="toolbarItemColor">@color/gelatoToolbarItemColor</item>
+        <item name="statusBarColor">@color/gelatoStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/gelatoDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/gelatoMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/gelatoMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/gelatoMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/gelatoAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.WAVES" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_wave</item>
+        <item name="timelineLineColor">@color/wavesTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/wavesBackgroundColor</item>
+        <item name="timelineHintColor">@color/wavesHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/wavesToolbarColor</item>
+        <item name="toolbarItemColor">@color/wavesToolbarItemColor</item>
+        <item name="statusBarColor">@color/wavesStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/wavesDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/wavesMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/wavesMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/wavesMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/wavesAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.BEACH" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_shell</item>
+        <item name="timelineLineColor">@color/beachTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/beachBackgroundColor</item>
+        <item name="timelineHintColor">@color/beachHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/beachToolbarColor</item>
+        <item name="toolbarItemColor">@color/beachToolbarItemColor</item>
+        <item name="statusBarColor">@color/beachStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/beachDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/beachMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/beachMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/beachMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/beachAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.FIELD" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_field</item>
+        <item name="timelineLineColor">@color/fieldTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/fieldBackgroundColor</item>
+        <item name="timelineHintColor">@color/fieldHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/fieldToolbarColor</item>
+        <item name="toolbarItemColor">@color/fieldToolbarItemColor</item>
+        <item name="statusBarColor">@color/fieldStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/fieldDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/fieldMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/fieldMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/fieldMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/fieldAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.WESTERN" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_cactus</item>
+        <item name="timelineLineColor">@color/westernTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/westernBackgroundColor</item>
+        <item name="timelineHintColor">@color/westernHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/westernToolbarColor</item>
+        <item name="toolbarItemColor">@color/westernToolbarItemColor</item>
+        <item name="statusBarColor">@color/westernStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/westernDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/westernMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/westernMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/westernMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/westernAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.SUNLIGHT" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_sunshine</item>
+        <item name="timelineLineColor">@color/sunlightTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/sunlightBackgroundColor</item>
+        <item name="timelineHintColor">@color/sunlightHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/sunlightToolbarColor</item>
+        <item name="toolbarItemColor">@color/sunlightToolbarItemColor</item>
+        <item name="statusBarColor">@color/sunlightStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/sunlightDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/sunlightMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/sunlightMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/sunlightMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/sunlightAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.TULIP" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_tulip</item>
+        <item name="timelineLineColor">@color/tulipTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/tulipBackgroundColor</item>
+        <item name="timelineHintColor">@color/tulipHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/tulipToolbarColor</item>
+        <item name="toolbarItemColor">@color/tulipToolbarItemColor</item>
+        <item name="statusBarColor">@color/tulipStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/tulipDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/tulipMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/tulipMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/tulipMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/tulipAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.ROSIE" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_rosie</item>
+        <item name="timelineLineColor">@color/rosieTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/rosieBackgroundColor</item>
+        <item name="timelineHintColor">@color/rosieHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/rosieToolbarColor</item>
+        <item name="toolbarItemColor">@color/rosieToolbarItemColor</item>
+        <item name="statusBarColor">@color/rosieStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/rosieDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/rosieMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/rosieMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/rosieMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/rosieAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.DAISY" parent="AppTheme">
+        <item name="timelineIcon">@drawable/daisies</item>
+        <item name="timelineLineColor">@color/daisyTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/daisyBackgroundColor</item>
+        <item name="timelineHintColor">@color/daisyHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/daisyToolbarColor</item>
+        <item name="toolbarItemColor">@color/daisyToolbarItemColor</item>
+        <item name="statusBarColor">@color/daisyStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/daisyDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/daisyMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/daisyMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/daisyMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/daisyAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.MATISSE" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_matisse</item>
+        <item name="timelineLineColor">@color/matisseTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/matisseBackgroundColor</item>
+        <item name="timelineHintColor">@color/matisseHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/matisseToolbarColor</item>
+        <item name="toolbarItemColor">@color/matisseToolbarItemColor</item>
+        <item name="statusBarColor">@color/matisseStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/matisseDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/matisseMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/matisseMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/matisseMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/matisseAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.CLOUDS" parent="AppTheme">
+        <item name="timelineIcon">@drawable/clouds</item>
+        <item name="timelineLineColor">@color/cloudsTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/cloudsBackgroundColor</item>
+        <item name="timelineHintColor">@color/cloudsHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/cloudsToolbarColor</item>
+        <item name="toolbarItemColor">@color/cloudsToolbarItemColor</item>
+        <item name="statusBarColor">@color/cloudsStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/cloudsDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/cloudsMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/cloudsMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/cloudsMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/cloudsAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.MONSTERA" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_monstera</item>
+        <item name="timelineLineColor">@color/monsteraTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/monsteraBackgroundColor</item>
+        <item name="timelineHintColor">@color/monsteraHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/monsteraToolbarColor</item>
+        <item name="toolbarItemColor">@color/monsteraToolbarItemColor</item>
+        <item name="statusBarColor">@color/monsteraStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/monsteraDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/monsteraMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/monsteraMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/monsteraMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/monsteraAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.LOTUS" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_lotus</item>
+        <item name="timelineLineColor">@color/lotusTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/lotusBackgroundColor</item>
+        <item name="timelineHintColor">@color/lotusHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/lotusToolbarColor</item>
+        <item name="toolbarItemColor">@color/lotusToolbarItemColor</item>
+        <item name="statusBarColor">@color/lotusStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/lotusDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/lotusMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/lotusMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/lotusMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/lotusAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.KATIE" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_katie</item>
+        <item name="timelineLineColor">@color/katieTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/katieBackgroundColor</item>
+        <item name="timelineHintColor">@color/katieHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/katieToolbarColor</item>
+        <item name="toolbarItemColor">@color/katieToolbarItemColor</item>
+        <item name="statusBarColor">@color/katieStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/katieDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/katieMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/katieMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/katieMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/katieAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.BRITTANY" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_brittany</item>
+        <item name="timelineLineColor">@color/brittanyTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/brittanyBackgroundColor</item>
+        <item name="timelineHintColor">@color/brittanyHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/brittanyToolbarColor</item>
+        <item name="toolbarItemColor">@color/brittanyToolbarItemColor</item>
+        <item name="statusBarColor">@color/brittanyStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/brittanyDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/brittanyMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/brittanyMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/brittanyMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/brittanyAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.JUNGLE" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_tiger</item>
+        <item name="timelineLineColor">@color/jungleTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/jungleBackgroundColor</item>
+        <item name="timelineHintColor">@color/jungleHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/jungleToolbarColor</item>
+        <item name="toolbarItemColor">@color/jungleToolbarItemColor</item>
+        <item name="statusBarColor">@color/jungleStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/jungleDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/jungleMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/jungleMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/jungleMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/jungleAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.JULIE" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_julie</item>
+        <item name="timelineLineColor">@color/julieTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/julieBackgroundColor</item>
+        <item name="timelineHintColor">@color/julieHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/julieToolbarColor</item>
+        <item name="toolbarItemColor">@color/julieToolbarItemColor</item>
+        <item name="statusBarColor">@color/julieStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/julieDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/julieMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/julieMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/julieMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/julieAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.ELLEN" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_ellen</item>
+        <item name="timelineLineColor">@color/ellenTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/ellenBackgroundColor</item>
+        <item name="timelineHintColor">@color/ellenHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/ellenToolbarColor</item>
+        <item name="toolbarItemColor">@color/ellenToolbarItemColor</item>
+        <item name="statusBarColor">@color/ellenStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/ellenDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/ellenMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/ellenMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/ellenMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/ellenAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.DANAH" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_danah</item>
+        <item name="timelineLineColor">@color/danahTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/danahBackgroundColor</item>
+        <item name="timelineHintColor">@color/danahHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/danahToolbarColor</item>
+        <item name="toolbarItemColor">@color/danahToolbarItemColor</item>
+        <item name="statusBarColor">@color/danahStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/danahDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/danahMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/danahMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/danahMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/danahAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.AHALYA" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_butterfly</item>
+        <item name="timelineLineColor">@color/ahalyaTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/ahalyaBackgroundColor</item>
+        <item name="timelineHintColor">@color/ahalyaHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/ahalyaToolbarColor</item>
+        <item name="toolbarItemColor">@color/ahalyaToolbarItemColor</item>
+        <item name="statusBarColor">@color/ahalyaStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/ahalyaDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/ahalyaMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/ahalyaMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/ahalyaMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/ahalyaAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.REMMIE" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_rainbow</item>
+        <item name="timelineLineColor">@color/loveTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/loveBackgroundColor</item>
+        <item name="timelineHintColor">@color/loveHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/loveToolbarColor</item>
+        <item name="toolbarItemColor">@color/loveToolbarItemColor</item>
+        <item name="statusBarColor">@color/loveStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/loveDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/loveMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/loveMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/loveMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/loveAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.MARSHA" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_trans_hearts</item>
+        <item name="timelineLineColor">@color/marshaTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/marshaBackgroundColor</item>
+        <item name="timelineHintColor">@color/marshaHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/marshaToolbarColor</item>
+        <item name="toolbarItemColor">@color/marshaToolbarItemColor</item>
+        <item name="statusBarColor">@color/marshaStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/marshaDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/marshaMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/marshaMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/marshaMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/marshaAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.BRAYLA" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_brayla</item>
+        <item name="timelineLineColor">@color/braylaTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/braylaBackgroundColor</item>
+        <item name="timelineHintColor">@color/braylaHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/braylaToolbarColor</item>
+        <item name="toolbarItemColor">@color/braylaToolbarItemColor</item>
+        <item name="statusBarColor">@color/braylaStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/braylaDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/braylaMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/braylaMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/braylaMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/braylaAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.AUTUMN" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_autumn_leaves</item>
+        <item name="timelineLineColor">@color/autumnTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/autumnBackgroundColor</item>
+        <item name="timelineHintColor">@color/autumnHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/autumnToolbarColor</item>
+        <item name="toolbarItemColor">@color/autumnToolbarItemColor</item>
+        <item name="statusBarColor">@color/autumnStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/autumnDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/autumnMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/autumnMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/autumnMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/autumnAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.BETTY" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_betty</item>
+        <item name="timelineLineColor">@color/bettyTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/bettyBackgroundColor</item>
+        <item name="timelineHintColor">@color/bettyHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/bettyToolbarColor</item>
+        <item name="toolbarItemColor">@color/bettyToolbarItemColor</item>
+        <item name="statusBarColor">@color/bettyStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/bettyDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/bettyMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/bettyMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/bettyMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/bettyAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.BOO" parent="AppTheme">
+        <item name="timelineIcon">@drawable/ic_boo</item>
+        <item name="timelineLineColor">@color/booTimelineColor</item>
+        <item name="timelineBackgroundColor">@color/booBackgroundColor</item>
+        <item name="timelineHintColor">@color/booHintQuoteTextColor</item>
+        <item name="toolbarColor">@color/booToolbarColor</item>
+        <item name="toolbarItemColor">@color/booToolbarItemColor</item>
+        <item name="statusBarColor">@color/booStatusBarColor</item>
+        <item name="timelineHeaderColor">@color/booDateTextEntryScreenTextColor</item>
+        <item name="timelineBodyColor">@color/booMainTextAndButtonColor</item>
+        <item name="entryHeaderColor">@color/booMainTextAndButtonColor</item>
+        <item name="entryBodyColor">@color/booMainTextAndButtonColor</item>
+        <item name="highlightColor">@color/booAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.JOY" parent="AppTheme">
+        <!--   Colors for the Timeline screen    -->
+        <item name="timelineIcon">@drawable/ic_joy</item>
+        <item name="timelineBackgroundColor">@color/joyTimelineBackgroundColor</item>
+        <item name="timelineLineColor">@color/joyTimelineColor</item>
+        <item name="timelineHeaderColor">@color/joyTimelineHeaderColor</item>
+        <item name="timelineBodyColor">@color/joyTimelineBodyColor</item>
+        <item name="timelineHintColor">@color/joyTimelineHintColor</item>
+        <item name="toolbarColor">@color/joyToolbarColor</item>
+        <item name="toolbarItemColor">@color/joyToolbarItemColor</item>
+        <item name="presentlyLogoColor">@color/joyToolbarLogoColor</item>
+        <item name="statusBarColor">@color/joyStatusBarColor</item>
+        <item name="fabColor">@color/joyFabColor</item>
+        <item name="fabTextColor">@color/joyFabTextColor</item>
+        <!--   Colors for the Entry screen    -->
+        <item name="entryBackgroundColor">@color/joyEntryBackgroundColor</item>
+        <item name="entryHeaderColor">@color/joyEntryHeaderColor</item>
+        <item name="entryBodyColor">@color/joyEntryBodyColor</item>
+        <item name="entryHintColor">@color/joyEntryHintColor</item>
+
+        <item name="highlightColor">@color/joyAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.PASSION" parent="AppTheme">
+        <!--   Colors for the Timeline screen    -->
+        <item name="timelineIcon">@drawable/ic_passion</item>
+        <item name="timelineBackgroundColor">@color/passionTimelineBackgroundColor</item>
+        <item name="timelineLineColor">@color/passionTimelineColor</item>
+        <item name="timelineHeaderColor">@color/passionTimelineHeaderColor</item>
+        <item name="timelineBodyColor">@color/passionTimelineBodyColor</item>
+        <item name="timelineHintColor">@color/passionTimelineHintColor</item>
+        <item name="toolbarColor">@color/passionToolbarColor</item>
+        <item name="toolbarItemColor">@color/passionToolbarItemColor</item>
+        <item name="presentlyLogoColor">@color/passionToolbarLogoColor</item>
+        <item name="statusBarColor">@color/passionStatusBarColor</item>
+        <item name="fabColor">@color/passionFabColor</item>
+        <item name="fabTextColor">@color/passionFabTextColor</item>
+        <!--   Colors for the Entry screen    -->
+        <item name="entryBackgroundColor">@color/passionEntryBackgroundColor</item>
+        <item name="entryHeaderColor">@color/passionEntryHeaderColor</item>
+        <item name="entryBodyColor">@color/passionEntryBodyColor</item>
+        <item name="entryHintColor">@color/passionEntryHintColor</item>
+
+        <item name="highlightColor">@color/passionAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.CALM" parent="AppTheme">
+        <!--   Colors for the Timeline screen    -->
+        <item name="timelineIcon">@drawable/ic_calm</item>
+        <item name="timelineBackgroundColor">@color/calmTimelineBackgroundColor</item>
+        <item name="timelineLineColor">@color/calmTimelineColor</item>
+        <item name="timelineHeaderColor">@color/calmTimelineHeaderColor</item>
+        <item name="timelineBodyColor">@color/calmTimelineBodyColor</item>
+        <item name="timelineHintColor">@color/calmTimelineHintColor</item>
+        <item name="toolbarColor">@color/calmToolbarColor</item>
+        <item name="toolbarItemColor">@color/calmToolbarItemColor</item>
+        <item name="presentlyLogoColor">@color/calmToolbarLogoColor</item>
+        <item name="statusBarColor">@color/calmStatusBarColor</item>
+        <item name="fabColor">@color/calmFabColor</item>
+        <item name="fabTextColor">@color/calmFabTextColor</item>
+        <!--   Colors for the Entry screen    -->
+        <item name="entryBackgroundColor">@color/calmEntryBackgroundColor</item>
+        <item name="entryHeaderColor">@color/calmEntryHeaderColor</item>
+        <item name="entryBodyColor">@color/calmEntryBodyColor</item>
+        <item name="entryHintColor">@color/calmEntryHintColor</item>
+
+        <item name="highlightColor">@color/calmAndroidWidgetColor</item>
+    </style>
+</resources>

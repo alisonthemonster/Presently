@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="searchEntryViewModel"
-            type="journal.gratitude.com.gratitudejournal.ui.search.SearchEntryViewModel" />
-    </data>
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{searchEntryViewModel::onClick}">
+        android:id="@+id/search_result_container">
 
         <TextView
             android:id="@+id/month"
@@ -27,8 +16,8 @@
             android:layout_marginEnd="8dp"
             android:text="@{searchEntryViewModel.month}"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.SearchDate"
             android:textSize="18sp"
+            android:theme="@style/TextAppearance.SearchDate"
             app:layout_constraintBottom_toTopOf="@+id/day"
             app:layout_constraintEnd_toStartOf="@+id/content"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -42,10 +31,9 @@
             android:id="@+id/day"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{searchEntryViewModel.day}"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.SearchDate"
             android:textSize="34sp"
+            android:theme="@style/TextAppearance.SearchDate"
             app:layout_constraintBottom_toTopOf="@+id/year"
             app:layout_constraintEnd_toEndOf="@+id/month"
             app:layout_constraintStart_toStartOf="@+id/month"
@@ -57,9 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="@{searchEntryViewModel.year}"
-            android:textAppearance="@style/TextAppearance.SearchDate"
             android:textSize="18sp"
+            android:theme="@style/TextAppearance.SearchDate"
             app:layout_constraintBottom_toBottomOf="@+id/content"
             app:layout_constraintEnd_toEndOf="@+id/day"
             app:layout_constraintStart_toStartOf="@+id/day"
@@ -67,26 +54,23 @@
             tools:text="2019" />
 
         <TextView
-                android:id="@+id/content"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
-                android:ellipsize="end"
-                android:maxLines="6"
-                android:text="@{searchEntryViewModel.content}"
-                android:textAlignment="viewStart"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="5"
-                app:layout_constraintStart_toEndOf="@+id/month"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Hello there this is some hot content." />
+            android:id="@+id/content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:ellipsize="end"
+            android:maxLines="6"
+            android:textAlignment="viewStart"
+            android:textColor="?attr/timelineBodyColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="5"
+            app:layout_constraintStart_toEndOf="@+id/month"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Hello there this is some hot content." />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>

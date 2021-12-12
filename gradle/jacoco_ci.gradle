@@ -1,0 +1,209 @@
+/**
+ *  List of modules that don't require code coverage
+ */
+final ignoredByJacoco = [
+        'ui',
+        'strings',
+        'mavericks_utils',
+        'testing'
+]
+
+/**
+ *  Apply additional build steps to sub-projects
+ */
+subprojects { prj ->
+
+    // Apply Jacoco only if the project is not in the ignore list
+    if (!ignoredByJacoco.contains(prj.name)) {
+
+        apply plugin: 'jacoco'
+
+        jacoco {
+            toolVersion = "0.8.7"
+        }
+
+        tasks.withType(Test) {
+            jacoco.includeNoLocationClasses = true
+            jacoco.excludes = ['jdk.internal.*']
+        }
+
+        task jacocoReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
+            group = 'Reporting'
+            description = 'Generate Jacoco coverage'
+
+            reports {
+                csv.enabled = true
+                xml.enabled = false
+                html.enabled = true
+            }
+
+            // Excluded files
+            def fileFilter = ['**/R.class',
+                              '**/R$*.class',
+                              '**/*BR*.*',
+                              '**/BuildConfig.*',
+                              '**/Manifest*.*',
+                              '**/*Test*.*',
+                              'android/**/*.*',
+                              '**/ui/settings/*.*',
+                              '**/model/*.*',
+                              '**/room/*.*',
+                              '**/di/*.*',
+                              '**/dropbox/*.*',
+                              '**/*Module*.*',
+                              '**/reminders/*.*',
+                              '**/backups/Dropbox/*.*',
+                              '**/backups/UploadToCloudWorker*',
+                              '**/*Binding*.*',
+                              '**/*Dagger*.*',
+                              '**/*Hilt*.*',
+                              '**/*_journal_gratitude_com_gratitudejournal_*.*',
+                              '**/*_MembersInjector.class',
+                              '**/Dagger*Component.class', // covers component implementations
+                              '**/Dagger*Component$Builder.class', // covers component builders
+                              '**/*_Factory.class',
+                              '**/*_Factory.java',
+                              '**/*FirebaseCrashReporter_Factory.java',
+                              '**/*_com_presently_*.*',
+                              '**/hilt/*.*',
+                              '**/*hilt_aggregated_deps*.*',
+                              '**/DataBinderMapperImpl*.*',
+                              '**/ContainerActivity*',
+                              '**/AppLockFragment*',
+                              '**/LocaleHelper*',
+                              '**/TimelineFragment*',
+                              '**/FirebaseAnalytics.kt*', //not going to test 3rd party code
+                              '**/calendar/*.*',]
+
+            final kotlinTree = fileTree(dir: "${prj.buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
+            final javacTree = fileTree(dir: "${prj.buildDir}/intermediates/javac/debug", excludes: fileFilter)
+            final mainSrc = "${prj.projectDir}/src/main/java"
+
+            sourceDirectories.setFrom files([mainSrc])
+            classDirectories.setFrom files([kotlinTree, javacTree])
+            executionData.setFrom fileTree(dir: prj.buildDir, includes: [
+                    'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+            ])
+        }
+    }
+}
+
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion "0.8.7"
+}
+
+/**
+ *  Root task that generates an aggregated Jacoco test coverage report for all sub-projects
+ */
+task jacocoFullReport(type: JacocoReport, group: 'Coverage reports') {
+    group = 'Reporting'
+    description = 'Generates an aggregate report from all subprojects'
+
+    // Get list of projects which should be included in the report
+    def projects = new ArrayList()
+    subprojects.each { prj ->
+        if (!ignoredByJacoco.contains(prj.name)) {
+            projects.add(prj)
+        }
+    }
+
+    //noinspection GrUnresolvedAccess
+    dependsOn(projects.jacocoReport)
+
+    final sourceDirs = files(projects.jacocoReport.sourceDirectories)
+
+    additionalSourceDirs.setFrom sourceDirs
+    sourceDirectories.setFrom sourceDirs
+
+    classDirectories.setFrom files(projects.jacocoReport.classDirectories)
+    executionData.setFrom files(projects.jacocoReport.executionData)
+
+    reports {
+        xml.enabled = true
+        html {
+            enabled true
+            destination file('build/reports/jacoco/html')
+        }
+        csv {
+            enabled true
+            destination file('build/reports/jacoco/jacocoFullReport.csv')
+        }
+    }
+
+//    doFirst {
+//        //noinspection GroovyAssignabilityCheck
+//        executionData.setFrom files(executionData.findAll { it.exists() })
+//    }
+
+    doLast {
+        printReport("jacocoFullReport")
+    }
+}
+
+def printReport(task) {
+    def report = file("$buildDir/reports/jacoco/${task}/${task}.xml")
+    logger.lifecycle("Checking reports from ${report}")
+
+    def parser = new XmlParser()
+    parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+    parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
+    def results = parser.parse(report)
+
+    def percentage = {
+        if (it == null) {
+            100
+        } else {
+            def covered = it.'@covered' as Double
+            def missed = it.'@missed' as Double
+            (covered / (covered + missed) * 100).round(2)
+        }
+    }
+
+    def counters = results.counter
+    def metrics = [:]
+    metrics << [
+            'instruction': percentage(counters.find { it.'@type'.equals('INSTRUCTION') }),
+            'line'       : percentage(counters.find { it.'@type'.equals('LINE') }),
+            'method'     : percentage(counters.find { it.'@type'.equals('METHOD') }),
+            'class'      : percentage(counters.find { it.'@type'.equals('CLASS') })
+    ]
+
+    def failures = []
+    def passes = []
+
+    // Fail the task if the coverage is below these numbers
+    def minTestCoverage = [
+            'instruction': 80,
+            'line'       : 80,
+            'method'     : 77,
+            'class'      : 80
+    ]
+
+    metrics.each {
+        def limit = minTestCoverage[it.key]
+        if (it.value < limit) {
+            failures.add("- ${it.key} coverage rate is ${it.value}%, the minimum is ${limit}")
+        } else {
+            passes.add("- ${it.key} coverage rate is ${it.value}%")
+        }
+    }
+
+    if (failures) {
+        logger.log(LogLevel.ERROR, "\n\n CODE COVERAGE FAILED!!!")
+        failures.forEach {
+            logger.quiet(it)
+        }
+        passes.each {
+            logger.quiet(it)
+        }
+        throw new GradleException("Code coverage failed")
+    } else {
+        logger.quiet("\n\n Code coverage passed!")
+        passes.each {
+            logger.quiet(it)
+        }
+    }
+
+}

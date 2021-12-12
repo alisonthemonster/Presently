@@ -1,60 +1,66 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext {
+        kotlin_version = '1.4.32'
+    }
     repositories {
-        apply from: 'versions.gradle'
+        mavenCentral()
         google()
-        jcenter()
-        maven {
-            url 'https://maven.fabric.io/public'
-        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:7.0.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jacoco:org.jacoco.core:$jacoco_version"
+        classpath "org.jacoco:org.jacoco.core:0.8.7"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
-        classpath "com.google.gms:google-services:$google_services_version"
-        classpath "io.fabric.tools:gradle:$fabric_version"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0-alpha02"
-        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.0'
+        classpath 'com.google.gms:google-services:4.3.8'
+        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.4'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
+        classpath 'com.facebook.testing.screenshot:plugin:0.13.0'
+        classpath "com.osacky.flank.gradle:fladle:0.15.1"
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.38.1'
     }
 }
+
+plugins {
+    id 'com.osacky.fulladle' version '0.15.1'
+}
+
+fladle {
+    serviceAccountCredentials = project.file("gcloud-service-key.json")
+    projectId = "gratitude-journal-app"
+
+    flankVersion = "21.05.0"
+
+    directoriesToPull = [
+            "/sdcard"
+    ]
+
+    filesToDownload = [
+            "JUnitReport.xml",
+            ".*/coverage/.*",
+            ".*/sdcard/[^/]+\\.ec\$"
+    ]
+
+    environmentVariables = [
+            coverage : "true",
+            coverageFile: "/sdcard/coverage.ec"
+    ]
+
+    devices = [
+            [ "model": "walleye", "version": "27", "locale": "en_US", "orientation": "portrait" ],
+    ]
+}
+
+apply from: 'gradle/jacoco_ci.gradle'
+apply from: 'gradle/common.gradle'
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven {
             url 'https://maven.google.com/'
         }
     }
-
-    project.ext.androidVersionName = createVersionName()
-    project.ext.buildNumber = getBuildNumber()
-    project.ext.branchName = getBranchName()
 }
-
-def createVersionName() {
-    def buildNumber = getBuildNumber()
-    def patchNumber = 0
-    if (getBranchName().startsWith("release/")) {
-        patchNumber = buildNumber - 1
-    }
-    return major + "." + minor + "." + patchNumber
-}
-
-String getBranchName() {
-    return project.hasProperty("branchName") ? ((String) project.properties['branchName']).toString() : ""
-}
-
-//get the build number from the build server
-String getBuildNumber() {
-    return project.hasProperty("buildNumber") ? ((String) project.properties['buildNumber']).toString() : ""
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
-// TODO add detekt

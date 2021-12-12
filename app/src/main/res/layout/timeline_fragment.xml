@@ -1,98 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/timelineBackgroundColor"
+    android:id="@+id/container"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context=".ui.timeline.TimelineFragment">
 
-    <data>
+    <View
+        android:background="?attr/toolbarColor"
+        android:id="@+id/toolbar_background"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <variable
-            name="viewModel"
-            type="journal.gratitude.com.gratitudejournal.ui.timeline.TimelineViewModel" />
-    </data>
+    <ImageView
+        android:contentDescription="@string/settings"
+        android:cropToPadding="false"
+        android:id="@+id/overflow_button"
+        android:layout_height="35dp"
+        android:layout_marginEnd="16dp"
+        android:layout_width="40dp"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title"
+        app:srcCompat="@drawable/ic_overflow" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:attr/colorPrimary"
-        tools:context=".ui.timeline.TimelineFragment">
+    <ImageView
+        android:contentDescription="@string/search"
+        android:id="@+id/search_icon"
+        android:layout_height="30dp"
+        android:layout_marginStart="24dp"
+        android:layout_width="30dp"
+        android:transitionName="search_transition"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_search" />
 
-        <ImageView
-            android:id="@+id/overflow_button"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:layout_marginEnd="16dp"
-            android:cropToPadding="false"
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/title"
-            app:srcCompat="@drawable/ic_overflow"
-            android:contentDescription="@string/settings" />
+    <ImageView
+        android:contentDescription="@string/presently"
+        android:id="@+id/title"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_width="0dp"
+        android:padding="13dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/overflow_button"
+        app:layout_constraintStart_toEndOf="@+id/search_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_title" />
 
-        <ImageView
-            android:id="@+id/search_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/search"
-            android:transitionName="search_transition"
-            app:layout_constraintBottom_toBottomOf="@+id/title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_search" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:background="?attr/timelineBackgroundColor"
+        android:id="@+id/timeline_recycler_view"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
-        <ImageView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@string/presently"
-            android:padding="13dp"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toStartOf="@+id/overflow_button"
-            app:layout_constraintStart_toEndOf="@+id/search_icon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_title" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cal_fab"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_width="wrap_content"
+        app:backgroundTint="?attr/fabColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_calendar"
+        app:tint="?attr/fabTextColor" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/timeline_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:data="@{viewModel.getEntriesList()}"
-            android:background="?android:attr/colorBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+    <journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarView
+        android:clickable="true"
+        android:elevation="12dp"
+        android:focusable="true"
+        android:id="@+id/entry_calendar"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/overflow_button" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/cal_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:src="@drawable/ic_calendar"
-            app:backgroundTint="?android:attr/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="?android:attr/colorForeground" />
-
-        <journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarView
-            android:id="@+id/entry_calendar"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            android:elevation="12dp"
-            android:focusable="true"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/overflow_button" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

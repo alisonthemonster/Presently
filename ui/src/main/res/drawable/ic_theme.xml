@@ -1,0 +1,29 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="122dp"
+    android:height="122dp"
+    android:viewportWidth="122"
+    android:viewportHeight="122">
+  <path
+      android:strokeWidth="1"
+      android:pathData="M61.564,90.504L61.532,90.5H61.5C44.931,90.5 31.5,77.068 31.5,60.5C31.5,43.931 44.931,30.5 61.5,30.5C78.059,30.5 91.485,43.917 91.5,60.472C90.719,67.414 86.721,69.343 84.978,69.5H75C74.076,69.5 72.711,69.8 71.565,70.708C70.396,71.633 69.5,73.156 69.5,75.5V85.969C69.385,86.858 68.867,88.168 67.672,89.166C66.479,90.162 64.56,90.889 61.564,90.504Z"
+      android:fillColor="@color/text_color"
+      android:strokeColor="@color/text_color"/>
+  <path
+      android:pathData="M57,41m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+      android:fillColor="?attr/timelineBackgroundColor"/>
+  <path
+      android:pathData="M45,50m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+      android:fillColor="?attr/timelineBackgroundColor"/>
+  <path
+      android:pathData="M41,66m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+      android:fillColor="?attr/timelineBackgroundColor"/>
+  <path
+      android:pathData="M57.5,78.5m-6.5,0a6.5,6.5 0,1 1,13 0a6.5,6.5 0,1 1,-13 0"
+      android:fillColor="?attr/timelineBackgroundColor"/>
+  <path
+      android:pathData="M81,59m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+      android:fillColor="?attr/timelineBackgroundColor"/>
+  <path
+      android:pathData="M72,45m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+      android:fillColor="?attr/timelineBackgroundColor"/>
+</vector>

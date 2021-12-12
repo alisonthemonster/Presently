@@ -1,15 +1,14 @@
 package journal.gratitude.com.gratitudejournal.repository
 
-import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
+import androidx.paging.*
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.room.EntryDao
-import journal.gratitude.com.gratitudejournal.util.OpenForTesting
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
-
 
 class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): EntryRepository {
 
@@ -17,20 +16,23 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         private const val PAGE_SIZE = 20
     }
 
-    override fun getEntry(date: LocalDate): LiveData<Entry> {
+    override suspend fun getEntry(date: LocalDate): Entry {
         return entryDao.getEntry(date)
     }
 
-    override fun getAllEntries(): LiveData<List<Entry>> {
-        return entryDao.getEntries()
+    override suspend fun getEntriesFlow(): Flow<List<Entry>> {
+        return entryDao.getEntriesFlow()
+    }
+
+    override suspend fun getEntries(): List<Entry> = withContext(Dispatchers.IO) {
+        entryDao.getEntries()
     }
 
     override fun getWrittenDates(): LiveData<List<LocalDate>> {
         return entryDao.getWrittenDates()
     }
 
-    @WorkerThread
-    override suspend fun addEntry(entry: Entry) {
+    override suspend fun addEntry(entry: Entry) = withContext(Dispatchers.IO) {
         if (entry.entryContent.isEmpty()) {
             entryDao.delete(entry)
         } else {
@@ -38,21 +40,21 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         }
     }
 
-    @WorkerThread
-    override suspend fun addEntries(entries: List<Entry>) {
+    override suspend fun addEntries(entries: List<Entry>)  = withContext(Dispatchers.IO) {
         entryDao.insertEntries(entries)
     }
 
-    override fun searchEntries(query: String): LiveData<PagedList<Entry>> {
+    override fun searchEntries(query: String): Flow<PagingData<Entry>> {
         val escapedQuery = query.replace("\"", "")
         val wildcardQuery = String.format("*%s*", escapedQuery)
 
-        val pagedListConfig = PagedList.Config.Builder()
-            .setEnablePlaceholders(true)
-            .setInitialLoadSizeHint(PAGE_SIZE)
-            .setPageSize(PAGE_SIZE)
-            .build()
-        return LivePagedListBuilder(entryDao.searchAllEntries(wildcardQuery), pagedListConfig).build()
+        val searchAllEntries = entryDao.searchAllEntries(wildcardQuery)
+        return Pager(
+            PagingConfig(pageSize = PAGE_SIZE)
+        ) {
+            searchAllEntries
+        }.flow
+
     }
 
 }

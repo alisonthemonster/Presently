@@ -1,45 +1,134 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
-import android.app.Activity
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import com.hannesdorfmann.adapterdelegates3.AdapterDelegatesManager
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.databinding.ItemMilestoneBinding
+import journal.gratitude.com.gratitudejournal.databinding.ItemTimelineEntryBinding
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.ui.bindingadapter.BindableAdapter
+import journal.gratitude.com.gratitudejournal.model.Milestone
+import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import org.threeten.bp.LocalDate
 
-class TimelineAdapter(activity: Activity, onClickListener: OnClickListener) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>(), BindableAdapter<List<Entry>> {
+class TimelineAdapter(
+    private val showDayOfWeek: Boolean,
+    private val linesPerEntry: Int,
+    private val onClickListener: OnClickListener
+) : ListAdapter<TimelineItem, TimelineAdapter.TimelineViewHolder>(TimelineDiffUtil()) {
 
-    private lateinit var entries: List<Entry>
-
-    private val delegatesManager = AdapterDelegatesManager<List<Entry>>()
-
-    init {
-        delegatesManager.addDelegate(TimelineEntryAdapterDelegate(activity, onClickListener))
-    }
-
-    override fun setData(data: List<Entry>) {
-        entries = data
-
-        notifyDataSetChanged()
-    }
-
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
-        return delegatesManager.onCreateViewHolder(viewGroup, viewType)
-    }
-
-    override fun getItemCount(): Int {
-        return entries.size
-    }
-
-    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
-        return delegatesManager.onBindViewHolder(entries, position, holder)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): TimelineViewHolder {
+        return when (viewType) {
+            R.layout.item_timeline_entry -> {
+                val binding = ItemTimelineEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TimelineViewHolder.EntryViewHolder(binding)
+            }
+            R.layout.item_milestone -> {
+                val binding = ItemMilestoneBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TimelineViewHolder.MilestoneViewHolder(binding)
+            }
+            else -> {
+                throw IllegalStateException("Unsupported view type: $viewType")
+            }
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return delegatesManager.getItemViewType(entries, position)
+        return when (getItem(position)) {
+            is Entry -> R.layout.item_timeline_entry
+            is Milestone -> R.layout.item_milestone
+        }
     }
 
-    interface OnClickListener {
-        fun onClick(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int)
+    override fun onBindViewHolder(
+        holder: TimelineViewHolder,
+        position: Int
+    ) {
+        val item = getItem(position)
+        when (holder) {
+            is TimelineViewHolder.EntryViewHolder -> {
+                val isLastItem = position == (itemCount - 1)
+                var numEntries = 0
+                for (entry in currentList) {
+                    if (entry is Entry && entry.entryContent.isNotEmpty()) numEntries++
+                }
+                val viewModel = TimelineEntryViewModel(
+                    item as Entry,
+                    isLastItem,
+                    numEntries,
+                    showDayOfWeek,
+                    linesPerEntry,
+                    onClickListener
+                )
+                holder.bind(viewModel)
+            }
+            is TimelineViewHolder.MilestoneViewHolder -> holder.bind(item as Milestone)
+        }
     }
+
+    sealed class TimelineViewHolder(view: View): RecyclerView.ViewHolder(view) {
+
+        class EntryViewHolder(val binding: ItemTimelineEntryBinding) :
+            TimelineViewHolder(binding.root) {
+
+            fun bind(viewModel: TimelineEntryViewModel) {
+
+                binding.date.text = viewModel.dateString()
+                binding.content.text = viewModel.content
+                binding.content.maxLines = viewModel.maxLines
+                val hintTextResource =
+                    if (viewModel.isCurrentDate()) R.string.what_are_you_thankful_for_today else R.string.what_are_you_thankful_for_yesterday
+                binding.emptyState.text = binding.root.context.resources.getText(hintTextResource)
+                binding.emptyState.visibility = viewModel.isEmptyState()
+
+                binding.tailCircle.isVisible = viewModel.isTailVisible()
+                binding.timelineCircleFilled.isVisible = viewModel.isCurrentDate()
+                binding.timelineIcon.isVisible = viewModel.isTailVisible()
+
+                binding.entryContainer.setOnClickListener {
+                    viewModel.onClick(it)
+                }
+            }
+        }
+
+        class MilestoneViewHolder(private val binding: ItemMilestoneBinding) :
+            TimelineViewHolder(binding.root) {
+            fun bind(milestone: Milestone) {
+                binding.number.text = milestone.numString
+            }
+        }
+    }
+
+    class TimelineDiffUtil : DiffUtil.ItemCallback<TimelineItem>() {
+        override fun areItemsTheSame(
+            oldItem: TimelineItem,
+            newItem: TimelineItem
+        ): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(
+            oldItem: TimelineItem,
+            newItem: TimelineItem
+        ): Boolean {
+            return if (oldItem is Entry && newItem is Entry) {
+                oldItem.entryDate == newItem.entryDate
+            } else if (oldItem is Milestone && newItem is Milestone) {
+                oldItem.number == newItem.number
+            } else {
+                false
+            }
+        }
+    }
+}
+
+interface OnClickListener {
+    fun onClick(view: View, clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int)
 }

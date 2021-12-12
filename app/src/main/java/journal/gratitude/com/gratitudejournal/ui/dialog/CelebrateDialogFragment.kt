@@ -10,56 +10,81 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.presently.logging.AnalyticsLogger
+import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.databinding.FragmentMilestoneDialogBinding
 import journal.gratitude.com.gratitudejournal.model.CLICKED_RATE
 import journal.gratitude.com.gratitudejournal.model.CLICKED_SHARE_MILESTONE
-import kotlinx.android.synthetic.main.dialog_fragment.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CelebrateDialogFragment : DialogFragment() {
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    @Inject
+    lateinit var analyticsLogger: AnalyticsLogger
 
+    private var _binding: FragmentMilestoneDialogBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_fragment, container)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentMilestoneDialogBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+        val entryCount = requireNotNull(arguments?.getInt(NUM_ENTRIES))
 
-        val numEntries = arguments?.getInt(NUM_ENTRIES)
-        num_entries.text = numEntries.toString()
+        with(binding) {
+            numEntries.text = entryCount.toString()
 
-        rate_presently.setOnClickListener {
-            firebaseAnalytics.logEvent(CLICKED_RATE, null)
-            val appPackageName = context?.packageName
-            try {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
-            } catch (exception: android.content.ActivityNotFoundException) {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+            close.setOnClickListener {
+                dismiss()
+            }
+            ratePresently.setOnClickListener {
+                analyticsLogger.recordEvent(CLICKED_RATE)
+                val appPackageName = context?.packageName
+                try {
+                    startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=$appPackageName")
+                        )
+                    )
+                } catch (exception: android.content.ActivityNotFoundException) {
+                    startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                        )
+                    )
+                }
+            }
+
+            sharePresently.setOnClickListener {
+                analyticsLogger.recordEvent(CLICKED_SHARE_MILESTONE)
+
+                val share = Intent(Intent.ACTION_SEND)
+                share.type = "text/plain"
+                val shareText = getString(R.string.share_milestone, entryCount)
+                share.putExtra(Intent.EXTRA_TEXT, shareText)
+
+                startActivity(Intent.createChooser(share, getString(R.string.share_your_gratitude)))
             }
         }
-
-        share_presently.setOnClickListener {
-            firebaseAnalytics.logEvent(CLICKED_SHARE_MILESTONE, null)
-
-            val share = Intent(Intent.ACTION_SEND)
-            share.type = "text/plain"
-            share.putExtra(Intent.EXTRA_TEXT, "I completed $numEntries days of gratitude journaling! Join me using the Presently App.")
-
-            startActivity(Intent.createChooser(share, "Share your gratitude"))
-        }
-
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.MilestoneDialog)
+        setStyle(STYLE_NO_FRAME, R.style.MilestoneDialog)
         return dialog
     }
 
@@ -85,7 +110,6 @@ class CelebrateDialogFragment : DialogFragment() {
             return dialog
         }
     }
-
 
 
 }
