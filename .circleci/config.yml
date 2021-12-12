@@ -16,35 +16,6 @@ references:
         - app/build/outputs/code-coverage
         - app/build/test-results
 
-  android_config: &android_config
-    working_directory: *workspace
-    docker:
-      - image: circleci/android:api-29
-    environment:
-      TERM: dumb
-      JAVA_OPTS: -Xmx2048m
-      GRADLE_OPTS: -Xmx2048m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-
-  android_dependencies: &android_dependencies
-    run:
-      name: Download Android Dependencies
-      command: ./gradlew androidDependencies
-
-
-  gradle_key: &gradle_key
-                v3-jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle.kts" }}
-
-  restore_gradle_cache: &restore_gradle_cache
-    restore_cache:
-      key: *gradle_key
-
-  save_gradle_cache: &save_gradle_cache
-    save_cache:
-      key: *gradle_key
-      paths:
-        - ~/.gradle
-        - ~/.m2
-
 jobs:
 
   build_debug:
@@ -58,16 +29,15 @@ jobs:
             test-command: ./gradlew assembleDebug assembleAndroidTest
       - android/save-gradle-cache
       - android/save-build-cache
+      - *persist_debug_workspace
       - store_artifacts:
           path: app/build/outputs/apk/
           destination: /apk/
 
   run_tests_get_coverage:
     working_directory: ~/src
-    environment:
-      JVM_OPTS: -Xmx3200m
-    docker:
-      - image: circleci/android:api-30 # gcloud is baked into this image
+    executor:
+      name: android/android-machine
     steps:
       - checkout
       - run:
@@ -78,21 +48,11 @@ jobs:
           command: |
             gcloud auth activate-service-account presently-cicd-service-account@gratitude-journal-app.iam.gserviceaccount.com --key-file gcloud-service-key.json
             gsutil version -l
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle.kts" }}
-      - run:
-          name: Chmod permissions
-          command: sudo chmod +x ./gradlew
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle.kts" }}
+      - android/restore-gradle-cache
+      - android/restore-build-cache
       - run:
           name: Build
-          command: ./gradlew -Pcoverage assembleDebug assembleDebugAndroidTest --stacktrace --no-daemon --max-workers=2
+          command: ./gradlew -Pcoverage assembleDebug assembleDebugAndroidTest --stacktrace
       - run:
           name: Test with Firebase Test Lab
           command: ./gradlew runFlank
@@ -102,6 +62,8 @@ jobs:
       - run:
           name: Generate JaCoCo report
           command: ./gradlew jacocoFullReport
+      - android/save-gradle-cache
+      - android/save-build-cache
       - store_artifacts:
           path: build/fladle/
           destination: fladle/
