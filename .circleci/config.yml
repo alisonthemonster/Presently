@@ -3,19 +3,6 @@ version: 2.1
 orbs:
   android: circleci/android@1.0.3
 
-references:
-  workspace: &workspace
-               ~/src
-
-  persist_debug_workspace: &persist_debug_workspace
-    persist_to_workspace:
-      root: *workspace
-      paths:
-        - app/build/intermediates
-        - app/build/outputs/apk
-        - app/build/outputs/code-coverage
-        - app/build/test-results
-
 jobs:
 
   build_debug:
@@ -29,7 +16,6 @@ jobs:
             test-command: ./gradlew assembleDebug assembleAndroidTest
       - android/save-gradle-cache
       - android/save-build-cache
-      - *persist_debug_workspace
       - store_artifacts:
           path: app/build/outputs/apk/
           destination: /apk/
