@@ -12,8 +12,7 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 
-//TODO make this work
-//apply from: "../gradle/dependency_graph.gradle"
+apply(from = "../gradle/dependency_graph.gradle")
 
 android {
     compileSdk = Versions.COMPILE_SDK
