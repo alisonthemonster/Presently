@@ -7,9 +7,10 @@ import dagger.Module
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import java.lang.Exception
+import javax.inject.Inject
 import javax.inject.Singleton
 
-class FakeCrashReporter: CrashReporter {
+class FakeCrashReporter @Inject constructor(): CrashReporter {
     override fun logHandledException(exception: Exception) {}
     override fun optOutOfCrashReporting() {}
     override fun optIntoCrashReporting() {}
