@@ -103,4 +103,9 @@
     <string name="show_quote_off">感恩格言不會顯示在書寫頁面上</string>
     <string name="show_quote_on">感恩格言會顯示在書寫頁面上</string>
     <string name="inspiration_title">勵志名言</string>
+    <string name="analytics_opt_out_title">分析數據收集</string>
+    <string name="analytics_opted_in_desc">應用程序正在收集匿名、加密的分析信息，以幫助診斷問題和監控趨勢</string>
+    <string name="analytics_opted_out_desc">應用程序未收集任何分析信息</string>
+    <string name="analytics_opt_out_success">分析數據被刪除，不再記錄！</string>
+    <string name="analytics_opt_in_success">分析數據再次被記錄！</string>
 </resources>

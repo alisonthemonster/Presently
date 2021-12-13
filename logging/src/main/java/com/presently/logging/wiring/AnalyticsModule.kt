@@ -3,6 +3,7 @@ package com.presently.logging.wiring
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.presently.logging.AnalyticsLogger
+import com.presently.logging.CrashReporter
 import com.presently.logging.PresentlyFirebaseAnalytics
 import com.presently.logging.RealFirebaseAnalytics
 import dagger.Module
@@ -21,8 +22,11 @@ private annotation class InternalApi
 object AnalyticsModule {
 
     @Provides
-    fun providesAnalyticsLogger(@InternalApi firebase: com.presently.logging.FirebaseAnalytics): AnalyticsLogger {
-        return PresentlyFirebaseAnalytics(firebase)
+    fun providesAnalyticsLogger(
+        @InternalApi firebase: com.presently.logging.FirebaseAnalytics,
+        crashReporting: CrashReporter
+    ): AnalyticsLogger {
+        return PresentlyFirebaseAnalytics(firebase, crashReporting)
     }
 
     @Provides

@@ -100,4 +100,9 @@
     <string name="show_quote_off">Cytaty wdzięczności nie będą wyświetlane na stronie startowej</string>
     <string name="show_quote_on">Cytaty wdzięczności zostaną wyświetlone na stronie startowej</string>
     <string name="inspiration_title">Inspirujące cytaty</string>
+    <string name="analytics_opt_out_title">Zbieranie danych analitycznych</string>
+    <string name="analytics_opted_in_desc">Aplikacja zbiera anonimowe, zaszyfrowane informacje analityczne, aby pomóc w diagnozowaniu problemów i monitorowaniu trendów</string>
+    <string name="analytics_opted_out_desc">Aplikacja nie zbiera żadnych informacji analitycznych</string>
+    <string name="analytics_opt_out_success">Dane analityczne są usuwane i nie są już rejestrowane!</string>
+    <string name="analytics_opt_in_success">Dane analityczne są ponownie rejestrowane!</string>
 </resources>

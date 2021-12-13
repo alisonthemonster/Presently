@@ -327,11 +327,21 @@ class PresentlySettingsTest {
         assertThat(removeWasCalled).isTrue()
     }
 
+    @Test
+    fun `GIVEN RealPresentlySettings WHEN isOptedIntoAnalytics is called THEN shared preferences is called`() {
+        val expected = true
+        val sharedPrefs = getFakeSharedPreferences(boolean = expected)
+        val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
+        val actual = settings.isOptedIntoAnalytics()
+        assertThat(actual).isEqualTo(expected)
+    }
+
     var recordEventWasCalled = false
     var recordedEvent = ""
     var recordSelectEventWasCalled = false
     var content = ""
     var contentType = ""
+    var analyticsIsOptedIn = false
 
     private val fakeAnalyticsLogger = object : AnalyticsLogger {
         override fun recordEvent(event: String) {
@@ -357,6 +367,13 @@ class PresentlySettingsTest {
             fail("recordView should not be called")
         }
 
+        override fun optOutOfAnalytics() {
+            analyticsIsOptedIn = false
+        }
+
+        override fun optIntoAnalytics() {
+            analyticsIsOptedIn = true
+        }
     }
 
     var editStringWasCalled = false

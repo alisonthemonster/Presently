@@ -2,7 +2,10 @@ package com.presently.logging
 
 import android.os.Bundle
 
-internal class PresentlyFirebaseAnalytics(private val firebaseAnalytics: FirebaseAnalytics) :
+internal class PresentlyFirebaseAnalytics(
+    private val firebaseAnalytics: FirebaseAnalytics,
+    private val crashReporter: CrashReporter
+) :
     AnalyticsLogger {
 
     override fun recordEvent(event: String) {
@@ -22,23 +25,58 @@ internal class PresentlyFirebaseAnalytics(private val firebaseAnalytics: Firebas
 
     override fun recordSelectEvent(selectedContent: String, selectedContentType: String) {
         val bundle = Bundle()
-        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_NAME, selectedContent)
-        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_ID, selectedContent)
-        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.CONTENT_TYPE, selectedContentType)
-        firebaseAnalytics.logEvent(com.google.firebase.analytics.FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+        bundle.putString(
+            com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_NAME,
+            selectedContent
+        )
+        bundle.putString(
+            com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_ID,
+            selectedContent
+        )
+        bundle.putString(
+            com.google.firebase.analytics.FirebaseAnalytics.Param.CONTENT_TYPE,
+            selectedContentType
+        )
+        firebaseAnalytics.logEvent(
+            com.google.firebase.analytics.FirebaseAnalytics.Event.SELECT_CONTENT,
+            bundle
+        )
     }
 
     override fun recordEntryAdded(numEntries: Int) {
         val bundle = Bundle()
         bundle.putInt(com.google.firebase.analytics.FirebaseAnalytics.Param.LEVEL, numEntries)
 
-        firebaseAnalytics.logEvent(com.google.firebase.analytics.FirebaseAnalytics.Event.LEVEL_UP, bundle)
+        firebaseAnalytics.logEvent(
+            com.google.firebase.analytics.FirebaseAnalytics.Event.LEVEL_UP,
+            bundle
+        )
     }
 
     override fun recordView(viewName: String) {
         val bundle = Bundle()
-        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME, viewName)
-        bundle.putString(com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_CLASS, viewName)
-        firebaseAnalytics.logEvent(com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
+        bundle.putString(
+            com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME,
+            viewName
+        )
+        bundle.putString(
+            com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_CLASS,
+            viewName
+        )
+        firebaseAnalytics.logEvent(
+            com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW,
+            bundle
+        )
+    }
+
+    override fun optOutOfAnalytics() {
+        firebaseAnalytics.deleteAllAnalyticsDataForUser()
+        firebaseAnalytics.setAnalyticsCollection(enabled = false)
+        crashReporter.optOutOfCrashReporting()
+    }
+
+    override fun optIntoAnalytics() {
+        firebaseAnalytics.setAnalyticsCollection(enabled = true)
+        crashReporter.optIntoCrashReporting()
     }
 }
