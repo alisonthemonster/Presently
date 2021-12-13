@@ -46,6 +46,7 @@ subprojects { prj ->
                               '**/*Test*.*',
                               'android/**/*.*',
                               '**/ui/settings/*.*',
+                              '**/model/*.*',
                               '**/di/*.*',
                               '**/dropbox/*.*',
                               '**/*Module*.*',
@@ -131,11 +132,6 @@ task jacocoFullReport(type: JacocoReport, group: 'Coverage reports') {
             destination file('build/reports/jacoco/jacocoFullReport.csv')
         }
     }
-
-//    doFirst {
-//        //noinspection GroovyAssignabilityCheck
-//        executionData.setFrom files(executionData.findAll { it.exists() })
-//    }
 
     doLast {
         printReport("jacocoFullReport")
