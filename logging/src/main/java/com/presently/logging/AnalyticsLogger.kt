@@ -11,4 +11,7 @@ interface AnalyticsLogger {
 
     fun recordView(viewName: String)
 
+    fun optOutOfAnalytics()
+
+    fun optIntoAnalytics()
 }

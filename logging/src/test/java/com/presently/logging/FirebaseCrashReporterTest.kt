@@ -17,4 +17,22 @@ class FirebaseCrashReporterTest {
 
         verify(firebase).recordException(expected)
     }
+
+    @Test
+    fun `GIVEN a FirebaseCrashReporter WHEN optOutOfCrashReporting THEN setCrashlyticsCollectionEnabled recordException is called`() {
+        val firebase = mock<FirebaseCrashlytics>()
+        val firebaseCrashReporter = FirebaseCrashReporter(firebase)
+        firebaseCrashReporter.optOutOfCrashReporting()
+
+        verify(firebase).setCrashlyticsCollectionEnabled(false)
+    }
+
+    @Test
+    fun `GIVEN a FirebaseCrashReporter WHEN optIntoCrashReporting THEN setCrashlyticsCollectionEnabled recordException is called`() {
+        val firebase = mock<FirebaseCrashlytics>()
+        val firebaseCrashReporter = FirebaseCrashReporter(firebase)
+        firebaseCrashReporter.optIntoCrashReporting()
+
+        verify(firebase).setCrashlyticsCollectionEnabled(true)
+    }
 }

@@ -60,6 +60,7 @@
     <string name="permission_export">Este necesară permisiunea pentru a exporta datele</string>
     <string name="error_parsing">Eroare la analizarea fișierului</string>
     <string name="file_not_csv">Fișierul trebuie să fie un CSV</string>
+    <string name="error_creating_csv_file">Eroare la crearea fișierului CSV pe dispozitiv</string>
     <string name="no_app_found">Nu a fost găsită nicio aplicație care să deschidă acest fișier</string>
     <string name="copied">Copiat în clipboard</string>
     <string name="security">Secuitate</string>
@@ -102,4 +103,9 @@
     <string name="show_quote_off">Citatele de recunoștință nu vor fi afișate pe pagina de intrare</string>
     <string name="show_quote_on">Citatele de recunoștință vor fi afișate pe pagina de intrare</string>
     <string name="inspiration_title">Citate inspirationale</string>
+    <string name="analytics_opt_out_title">Colectarea datelor analitice</string>
+    <string name="analytics_opted_in_desc">Aplicația colectează informații de analiză anonimizate și criptate pentru a ajuta la diagnosticarea problemelor și pentru a monitoriza tendințele</string>
+    <string name="analytics_opted_out_desc">Aplicația nu colectează informații de analiză</string>
+    <string name="analytics_opt_out_success">Datele statistice sunt șterse și nu mai sunt înregistrate!</string>
+    <string name="analytics_opt_in_success">Datele statistice sunt din nou înregistrate!</string>
 </resources>

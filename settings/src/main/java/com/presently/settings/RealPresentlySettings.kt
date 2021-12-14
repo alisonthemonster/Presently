@@ -131,6 +131,10 @@ class RealPresentlySettings @Inject constructor(
         sharedPrefs.edit().remove(ACCESS_TOKEN).apply()
     }
 
+    override fun isOptedIntoAnalytics(): Boolean {
+        return sharedPrefs.getBoolean(ANALYTICS_OPT_IN_PREF, true)
+    }
+
     private fun getDeviceLanguage(): String {
         return Locale.getDefault().toLanguageTag()
     }

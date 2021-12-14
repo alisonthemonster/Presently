@@ -248,6 +248,16 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 val language = settings.getLocale()
                 updateLanguage(language)
             }
+            ANALYTICS_OPT_IN_PREF -> {
+                val isOptedIn = settings.isOptedIntoAnalytics()
+                if (isOptedIn) {
+                    analytics.optIntoAnalytics()
+                    Toast.makeText(context, R.string.analytics_opt_in_success, Toast.LENGTH_SHORT).show()
+                } else {
+                    analytics.optOutOfAnalytics()
+                    Toast.makeText(context, R.string.analytics_opt_out_success, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

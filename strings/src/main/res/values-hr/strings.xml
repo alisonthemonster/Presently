@@ -27,6 +27,7 @@
     <string name="open">Otvoreno</string>
     <string name="import_entries_from_backup">Uvoz unosa iz siguronosne kopije</string>
     <string name="ok">Uvoz</string>
+    <string name="cancel">Otkazati</string>
     <string name="import_data_dialog">Jeste li sigurni da želite uvesti?</string>
     <string name="import_data_dialog_message">Uvezeni podaci mogu prebrisati postojećeunose.</string>
     <string name="days_of_gratitude">dani zahvalnost!</string>
@@ -100,4 +101,9 @@
     <string name="show_quote_off">Citati zahvalnosti neće biti prikazani na ulaznoj stranici</string>
     <string name="show_quote_on">Citati zahvalnosti bit će prikazani na ulaznoj stranici</string>
     <string name="inspiration_title">Inspiracijski citati</string>
+    <string name="analytics_opt_out_title">Prikupljanje podataka iz analitike</string>
+    <string name="analytics_opted_in_desc">Aplikacija prikuplja anonimizirane, šifrirane analitičke informacije kako bi pomogla u dijagnosticiranju problema i praćenju trendova</string>
+    <string name="analytics_opted_out_desc">Aplikacija ne prikuplja nikakve analitičke podatke</string>
+    <string name="analytics_opt_out_success">Podaci Analyticsa se brišu i više se ne bilježe!</string>
+    <string name="analytics_opt_in_success">Podaci analitike se ponovno bilježe!</string>
 </resources>

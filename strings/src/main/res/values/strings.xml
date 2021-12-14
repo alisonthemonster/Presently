@@ -103,4 +103,9 @@
     <string name="show_quote_off">Gratitude quotes will not be shown on entry page</string>
     <string name="show_quote_on">Gratitude quotes will be shown on entry page</string>
     <string name="inspiration_title">Inspirational quotes</string>
+    <string name="analytics_opt_out_title">Analytics data collection</string>
+    <string name="analytics_opted_in_desc">Presently is collecting anonymized, encrypted analytics information to help diagnose problems and monitor trends</string>
+    <string name="analytics_opted_out_desc">Presently is not collecting any analytics information</string>
+    <string name="analytics_opt_out_success">Analytics data is deleted and no longer recorded!</string>
+    <string name="analytics_opt_in_success">Analytics data is being recorded again!</string>
 </resources>

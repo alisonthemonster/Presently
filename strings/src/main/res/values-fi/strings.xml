@@ -102,4 +102,9 @@
     <string name="show_quote_off">Kiitosta lainausmerkkejä ei näytetä pääsivulla</string>
     <string name="show_quote_on">Kiitollisuuden lainaukset näytetään pääsivulla</string>
     <string name="inspiration_title">Inspiroivia lainauksia</string>
+    <string name="analytics_opt_out_title">Analytics-tietojen kerääminen</string>
+    <string name="analytics_opted_in_desc">Sovellus kerää anonymisoituja, salattuja analytiikkatietoja auttaakseen diagnosoimaan ongelmia ja seuraamaan trendejä</string>
+    <string name="analytics_opted_out_desc">Sovellus ei kerää analytiikkatietoja</string>
+    <string name="analytics_opt_out_success">Analytics-tiedot poistetaan, eikä niitä enää tallenneta!</string>
+    <string name="analytics_opt_in_success">Analyysitietoja tallennetaan jälleen!</string>
 </resources>
