@@ -108,4 +108,6 @@
     <string name="analytics_opted_out_desc">Presently is not collecting any analytics information</string>
     <string name="analytics_opt_out_success">Analytics data is deleted and no longer recorded!</string>
     <string name="analytics_opt_in_success">Analytics data is being recorded again!</string>
+    <string name="backup_channel_name">Presently Automatic Backup Issues</string>
+    <string name="backup_channel_description">Notifications for issues with automatic backup</string>
 </resources>

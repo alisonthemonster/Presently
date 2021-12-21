@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -210,6 +211,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             } else {
                 settings.setAccessToken(token)
                 createDropboxUploaderWorker(BackupCadence.DAILY)
+                cancelDropboxFailureNotifications() //now that user has auth'd cancel any notifs about previous failure
             }
         }
     }
@@ -305,7 +307,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
             }
         }
+    }
 
+    private fun cancelDropboxFailureNotifications() {
+        val notificationManager = NotificationManagerCompat.from(requireContext())
+        notificationManager.cancel(UploadToCloudWorker.BACKUP_NOTIFICATION_ID)
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
