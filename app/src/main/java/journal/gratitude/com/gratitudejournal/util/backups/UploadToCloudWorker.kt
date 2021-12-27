@@ -4,21 +4,21 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.dropbox.core.InvalidAccessTokenException
 import com.dropbox.core.v2.files.UploadErrorException
 import com.presently.logging.CrashReporter
 import com.presently.settings.PresentlySettings
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.ContainerActivity.Companion.BACKUP_STATUS_CHANNEL
 import journal.gratitude.com.gratitudejournal.ContainerActivity.Companion.NOTIFICATION_SCREEN_EXTRA
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.di.IWorkerFactory
 import journal.gratitude.com.gratitudejournal.model.CloudUploadResult
 import journal.gratitude.com.gratitudejournal.model.UploadError
 import journal.gratitude.com.gratitudejournal.model.UploadSuccess
@@ -30,17 +30,16 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileWriter
-import javax.inject.Inject
-import javax.inject.Provider
 
-class UploadToCloudWorker(
-    private val context: Context,
-    params: WorkerParameters,
+@HiltWorker
+class UploadToCloudWorker @AssistedInject constructor(
+    @Assisted val appContext: Context,
+    @Assisted workerParams: WorkerParameters,
     private val repository: EntryRepository,
     private val cloudProvider: CloudProvider,
     private val crashReporter: CrashReporter,
     private val settings: PresentlySettings
-) : CoroutineWorker(context, params) {
+) : CoroutineWorker(appContext, workerParams) {
     override suspend fun doWork(): Result {
         //get items
         val items = repository.getEntries()
@@ -52,7 +51,7 @@ class UploadToCloudWorker(
 
         //create temp file
         val file =
-            withContext(IO) { File.createTempFile("tempPresentlyBackup", null, context.cacheDir) }
+            withContext(IO) { File.createTempFile("tempPresentlyBackup", null, appContext.cacheDir) }
 
         //create csv
         val fileExporter = withContext(IO) {
@@ -67,7 +66,7 @@ class UploadToCloudWorker(
                     is UploadError -> {
                         if (result.exception is InvalidAccessTokenException) {
                             sendDropboxAuthFailureNotification()
-                            deauthorizeDropboxAccess(context, settings)
+                            deauthorizeDropboxAccess(appContext, settings)
                         }
                         if (result.exception.isInsufficientSpace()) {
                             sendDropboxTooFullNotification()
@@ -98,7 +97,7 @@ class UploadToCloudWorker(
             ).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
-        val helpPagePendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, helpPageIntent, 0)
+        val helpPagePendingIntent: PendingIntent = PendingIntent.getActivity(appContext, 0, helpPageIntent, 0)
 
         val accountPageIntent =
             Intent(
@@ -107,9 +106,9 @@ class UploadToCloudWorker(
             ).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
-        val accountPagePendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, accountPageIntent, 0)
+        val accountPagePendingIntent: PendingIntent = PendingIntent.getActivity(appContext, 0, accountPageIntent, 0)
 
-        val builder = NotificationCompat.Builder(context, BACKUP_STATUS_CHANNEL)
+        val builder = NotificationCompat.Builder(appContext, BACKUP_STATUS_CHANNEL)
             .setSmallIcon(R.drawable.ic_app_icon)
             .setContentTitle("Presently Automatic Backup Failure")
             .setContentText("Presently failed to backup your data because your Dropbox is full. Tap to view your Dropbox account.")
@@ -120,20 +119,20 @@ class UploadToCloudWorker(
             .addAction(R.drawable.ic_faq, "Learn more", helpPagePendingIntent) //open dropbox help page
             .setAutoCancel(true)
 
-        val notificationManager = NotificationManagerCompat.from(context)
+        val notificationManager = NotificationManagerCompat.from(appContext)
         notificationManager.notify(BACKUP_NOTIFICATION_ID, builder.build())
     }
 
     private fun sendDropboxAuthFailureNotification() {
         //todo test with fingerprint enabled
         //Launch the settings screen
-        val intent = Intent(context, ContainerActivity::class.java).apply {
+        val intent = Intent(appContext, ContainerActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         intent.putExtra(NOTIFICATION_SCREEN_EXTRA, "Settings")
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(appContext, 0, intent, 0)
 
-        val builder = NotificationCompat.Builder(context, BACKUP_STATUS_CHANNEL)
+        val builder = NotificationCompat.Builder(appContext, BACKUP_STATUS_CHANNEL)
             .setSmallIcon(R.drawable.ic_app_icon)
             .setContentTitle("Presently Automatic Backup Failure")
             .setContentText("There was a problem with your Dropbox account, click here to reconnect to Dropbox to resume automatic backups.")
@@ -143,36 +142,16 @@ class UploadToCloudWorker(
             .setContentIntent(pendingIntent)
             .setAutoCancel(false) //removed when user re-auths
 
-        val notificationManager = NotificationManagerCompat.from(context)
+        val notificationManager = NotificationManagerCompat.from(appContext)
         notificationManager.notify(BACKUP_NOTIFICATION_ID, builder.build())
     }
 
     companion object {
         val BACKUP_NOTIFICATION_ID = 98104
     }
-
-    class Factory @Inject constructor(
-        @ApplicationContext private val context: Provider<Context>, // provide from Application Module
-        private val repository: Provider<EntryRepository>, // provide from Application Module
-        private val cloudProvider: Provider<CloudProvider>,
-        private val crashReporter: Provider<CrashReporter>,
-        private val settings: Provider<PresentlySettings>
-    ) : IWorkerFactory<UploadToCloudWorker> {
-        override fun create(params: WorkerParameters): UploadToCloudWorker {
-            return UploadToCloudWorker(
-                context.get(),
-                params,
-                repository.get(),
-                cloudProvider.get(),
-                crashReporter.get(),
-                settings.get()
-            )
-        }
-    }
 }
 
 private fun Exception.isInsufficientSpace(): Boolean {
-    Log.d("blerg", "in isInsufficientSpace")
     return this is UploadErrorException && this.userMessage.text.contains("insufficient_space")
 }
 

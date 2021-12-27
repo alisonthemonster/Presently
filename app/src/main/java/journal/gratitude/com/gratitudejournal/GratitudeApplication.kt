@@ -2,35 +2,24 @@ package journal.gratitude.com.gratitudejournal
 
 import android.app.Application
 import android.content.Context
+import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import androidx.work.WorkManager
 import com.airbnb.mvrx.mocking.MockableMavericks
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.jakewharton.threetenabp.AndroidThreeTen
-import dagger.hilt.InstallIn
-import dagger.hilt.android.EarlyEntryPoint
-import dagger.hilt.android.EarlyEntryPoints
 import dagger.hilt.android.HiltAndroidApp
-import dagger.hilt.components.SingletonComponent
-import journal.gratitude.com.gratitudejournal.di.DaggerAwareWorkerFactory
-
+import javax.inject.Inject
 
 @HiltAndroidApp
 class GratitudeApplication : BaseGratitudeApplication()
 
-open class BaseGratitudeApplication: Application() {
+open class BaseGratitudeApplication: Application(), Configuration.Provider {
 
-    // Hilt test applications cannot use field injection, so you an entry point instead
-    @EarlyEntryPoint
-    @InstallIn(SingletonComponent::class)
-    interface ApplicationEarlyEntryPoint {
-        fun getDaggerAwareWorkerFactory(): DaggerAwareWorkerFactory
-    }
+    @Inject lateinit var workerFactory: HiltWorkerFactory
 
     override fun onCreate() {
         super.onCreate()
 
-        configureWorkManager()
 
         AndroidThreeTen.init(this)
 
@@ -43,12 +32,8 @@ open class BaseGratitudeApplication: Application() {
         SplitCompat.install(this)
     }
 
-    private fun configureWorkManager() {
-        val earlyEntryPoint = EarlyEntryPoints.get(this, ApplicationEarlyEntryPoint::class.java)
-        val daggerAwareWorkerFactory = earlyEntryPoint.getDaggerAwareWorkerFactory()
-        val config = Configuration.Builder()
-            .setWorkerFactory(daggerAwareWorkerFactory)
+    override fun getWorkManagerConfiguration() =
+        Configuration.Builder()
+            .setWorkerFactory(workerFactory)
             .build()
-        WorkManager.initialize(this, config)
-    }
 }

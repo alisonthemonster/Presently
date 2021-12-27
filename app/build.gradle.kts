@@ -123,6 +123,8 @@ dependencies {
     kapt(Libraries.dagger_android_processor)
     implementation(Libraries.hilt)
     kapt(Libraries.hilt_compiler)
+    kapt(Libraries.hilt_android_compiler)
+    implementation(Libraries.androidx_hilt_work)
 
     testImplementation(TestLibraries.junit)
     testImplementation(TestLibraries.three_ten_abp) {
