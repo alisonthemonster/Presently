@@ -8,25 +8,25 @@
         android:strokeLineJoin="round"
         android:strokeWidth="4"
         android:fillColor="#00000000"
-        android:strokeColor="#000000"
+        android:strokeColor="@color/text_color"
         android:strokeLineCap="round"/>
     <path
         android:pathData="M40.444,83.311V67.133M53.956,83.311V58.422M66.044,83.311V75.222V67.133M79.733,83.311V65.978V48.645"
         android:strokeLineJoin="round"
         android:strokeWidth="8"
         android:fillColor="#00000000"
-        android:strokeColor="#000000"
+        android:strokeColor="@color/text_color"
         android:strokeLineCap="round"/>
     <path
         android:pathData="M44.889,55.222C44.889,57.677 42.899,59.667 40.444,59.667C37.99,59.667 36,57.677 36,55.222C36,52.768 37.99,50.778 40.444,50.778C42.899,50.778 44.889,52.768 44.889,55.222Z"
-        android:fillColor="#000000"/>
+        android:fillColor="@color/text_color"/>
     <path
         android:pathData="M58.044,47.4C58.044,49.855 56.055,51.844 53.6,51.844C51.145,51.844 49.156,49.855 49.156,47.4C49.156,44.945 51.145,42.956 53.6,42.956C56.055,42.956 58.044,44.945 58.044,47.4Z"
-        android:fillColor="#000000"/>
+        android:fillColor="@color/text_color"/>
     <path
         android:pathData="M71.2,55.222C71.2,57.677 69.21,59.667 66.756,59.667C64.301,59.667 62.311,57.677 62.311,55.222C62.311,52.768 64.301,50.778 66.756,50.778C69.21,50.778 71.2,52.768 71.2,55.222Z"
-        android:fillColor="#000000"/>
+        android:fillColor="@color/text_color"/>
     <path
         android:pathData="M84,37.444C84,39.899 82.01,41.889 79.556,41.889C77.101,41.889 75.111,39.899 75.111,37.444C75.111,34.99 77.101,33 79.556,33C82.01,33 84,34.99 84,37.444Z"
-        android:fillColor="#000000"/>
+        android:fillColor="@color/text_color"/>
 </vector>
