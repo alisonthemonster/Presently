@@ -51,6 +51,7 @@ import com.presently.ui.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.util.backups.RealUploader.Companion.BACKUP_NOTIFICATION_ID
 import kotlinx.coroutines.launch
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -311,7 +312,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     private fun cancelDropboxFailureNotifications() {
         val notificationManager = NotificationManagerCompat.from(requireContext())
-        notificationManager.cancel(UploadToCloudWorker.BACKUP_NOTIFICATION_ID)
+        notificationManager.cancel(BACKUP_NOTIFICATION_ID)
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {

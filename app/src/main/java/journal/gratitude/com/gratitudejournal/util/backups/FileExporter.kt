@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
+import com.presently.coroutine_utils.AppCoroutineDispatchers
 import journal.gratitude.com.gratitudejournal.model.CsvFileCreated
 import journal.gratitude.com.gratitudejournal.model.CsvFileError
 import journal.gratitude.com.gratitudejournal.model.CsvFileResult
@@ -10,13 +11,13 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileWriter
 
-class FileExporter(private val fileWriter: FileWriter) {
+class FileExporter(private val fileWriter: FileWriter, private val dispatchers: AppCoroutineDispatchers) {
 
     /*
     * Takes in entries and creates a CSV
     */
     suspend fun exportToCSV(items: List<Entry>, file: File): CsvFileResult {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatchers.io) {
             try {
                 val csvString = createCsvString(items)
                 fileWriter.write(csvString)
