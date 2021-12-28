@@ -4,14 +4,9 @@ import android.content.Context
 import androidx.work.WorkManager
 import com.dropbox.core.DbxException
 import com.dropbox.core.DbxRequestConfig
-import com.dropbox.core.InvalidAccessTokenException
-import com.dropbox.core.LocalizedText
 import com.dropbox.core.android.Auth
-import com.dropbox.core.oauth.DbxCredential
 import com.dropbox.core.v2.DbxClientV2
-import com.dropbox.core.v2.files.UploadErrorException
 import com.dropbox.core.v2.files.WriteMode
-import com.presently.coroutine_utils.AppCoroutineDispatchers
 import com.presently.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.model.CloudUploadResult
@@ -31,27 +26,26 @@ class DropboxUploader(val context: Context, val settings: PresentlySettings):
     CloudProvider {
 
     override suspend fun uploadToCloud(file: File): CloudUploadResult {
-        return UploadError(UploadErrorException("routename", "message", LocalizedText("insufficient_space", "en"), com.dropbox.core.v2.files.UploadError.OTHER))
-//        return withContext(Dispatchers.IO) {
-//            val accessToken = settings.getAccessToken()
-//            val requestConfig = DbxRequestConfig.newBuilder("PresentlyAndroid")
-//                .build()
-//
-//            val client = DbxClientV2(requestConfig, accessToken)
-//
-//            try {
-//                FileInputStream(file).use { inputStream ->
-//                    client.files().uploadBuilder("/presently-backup.csv")
-//                        .withMode(WriteMode.OVERWRITE)
-//                        .uploadAndFinish(inputStream)
-//                    UploadSuccess
-//                }
-//            } catch (e: DbxException) {
-//                UploadError(e)
-//            } catch (e: IOException) {
-//                UploadError(e)
-//            }
-//        }
+        return withContext(Dispatchers.IO) {
+            val accessToken = settings.getAccessToken()
+            val requestConfig = DbxRequestConfig.newBuilder("PresentlyAndroid")
+                .build()
+
+            val client = DbxClientV2(requestConfig, accessToken)
+
+            try {
+                FileInputStream(file).use { inputStream ->
+                    client.files().uploadBuilder("/presently-backup.csv")
+                        .withMode(WriteMode.OVERWRITE)
+                        .uploadAndFinish(inputStream)
+                    UploadSuccess
+                }
+            } catch (e: DbxException) {
+                UploadError(e)
+            } catch (e: IOException) {
+                UploadError(e)
+            }
+        }
     }
 
     companion object {
