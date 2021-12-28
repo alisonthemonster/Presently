@@ -5,8 +5,9 @@ final ignoredByJacoco = [
         'ui',
         'strings',
         'mavericks_utils',
-        'testing'
-]
+        'testing',
+        'coroutine_utils'
+    ]
 
 /**
  *  Apply additional build steps to sub-projects

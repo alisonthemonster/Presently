@@ -107,4 +107,10 @@
     <string name="analytics_opted_out_desc">Presently ne collecte aucune information d\'analysen</string>
     <string name="analytics_opt_out_success">Les données analytiques sont supprimées et ne sont plus enregistrées!</string>
     <string name="analytics_opt_in_success">Les données analytiques sont à nouveau enregistrées!</string>
+    <string name="backup_channel_name">Problèmes de sauvegarde automatique de Presently</string>
+    <string name="backup_channel_description">Notifications pour les problèmes avec la sauvegarde automatique</string>
+    <string name="backup_failure_notif_header">Échec de la sauvegarde automatique de Presently</string>
+    <string name="dropbox_too_full_notif_body">Presently n\'a pas réussi à sauvegarder vos données car votre Dropbox est pleine. Appuyez pour afficher votre compte Dropbox</string>
+    <string name="dropbox_sync_error_notif_body">Il y a eu un problème avec votre compte Dropbox, cliquez ici pour vous reconnecter à Dropbox et reprendre les sauvegardes automatiques.</string>
+    <string name="learn_more">Apprendre encore plus</string>
 </resources>

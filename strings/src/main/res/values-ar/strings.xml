@@ -108,4 +108,10 @@
     <string name="analytics_opted_out_desc">التطبيق لا يجمع أي معلومات تحليلية</string>
     <string name="analytics_opt_out_success">يتم حذف بيانات التحليلات ولم تعد مسجلة!</string>
     <string name="analytics_opt_in_success">يتم تسجيل بيانات التحليلات مرة أخرى!</string>
+    <string name="backup_channel_name">قضايا النسخ الاحتياطي التلقائي</string>
+    <string name="backup_channel_description">إخطارات لمشاكل النسخ الاحتياطي التلقائي</string>
+    <string name="backup_failure_notif_header">فشل النسخ الاحتياطي التلقائي</string>
+    <string name="dropbox_too_full_notif_body">فشل التطبيق في الاحتفاظ بنسخة احتياطية من بياناتك لأن Dropbox الخاص بك ممتلئ. انقر لعرض حساب Dropbox الخاص بك</string>
+    <string name="dropbox_sync_error_notif_body">كانت هناك مشكلة في حساب Dropbox الخاص بك ، انقر هنا لإعادة الاتصال بـ Dropbox لاستئناف النسخ الاحتياطية التلقائية.</string>
+    <string name="learn_more">يتعلم أكثر</string>
 </resources>

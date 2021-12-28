@@ -107,4 +107,10 @@
     <string name="analytics_opted_out_desc">Sovellus ei kerää analytiikkatietoja</string>
     <string name="analytics_opt_out_success">Analytics-tiedot poistetaan, eikä niitä enää tallenneta!</string>
     <string name="analytics_opt_in_success">Analyysitietoja tallennetaan jälleen!</string>
+    <string name="backup_channel_name">Presentlyhin automaattisen varmuuskopioinnin ongelmat</string>
+    <string name="backup_channel_description">Ilmoitukset automaattisen varmuuskopioinnin ongelmista</string>
+    <string name="backup_failure_notif_header">Presentlhin automaattinen varmuuskopiointivirhe</string>
+    <string name="dropbox_too_full_notif_body">Presentlhin ei pystynyt varmuuskopioimaan tietojasi, koska Dropboxisi on täynnä. Napauta nähdäksesi Dropbox-tilisi</string>
+    <string name="dropbox_sync_error_notif_body">Dropbox-tililläsi oli ongelma. Napsauta tätä yhdistääksesi uudelleen Dropboxiin jatkaaksesi automaattista varmuuskopiointia.</string>
+    <string name="learn_more">Lue lisää</string>
 </resources>

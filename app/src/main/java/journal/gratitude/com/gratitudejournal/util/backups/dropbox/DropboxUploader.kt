@@ -5,7 +5,6 @@ import androidx.work.WorkManager
 import com.dropbox.core.DbxException
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.android.Auth
-import com.dropbox.core.oauth.DbxCredential
 import com.dropbox.core.v2.DbxClientV2
 import com.dropbox.core.v2.files.WriteMode
 import com.presently.settings.PresentlySettings
@@ -13,12 +12,15 @@ import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.model.CloudUploadResult
 import journal.gratitude.com.gratitudejournal.model.UploadError
 import journal.gratitude.com.gratitudejournal.model.UploadSuccess
-import journal.gratitude.com.gratitudejournal.util.backups.CloudProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
+
+interface CloudProvider {
+    suspend fun uploadToCloud(file: File): CloudUploadResult
+}
 
 class DropboxUploader(val context: Context, val settings: PresentlySettings):
     CloudProvider {
@@ -56,17 +58,17 @@ class DropboxUploader(val context: Context, val settings: PresentlySettings):
             Auth.startOAuth2PKCE(context, BuildConfig.DROPBOX_APP_KEY, requestConfig)
         }
 
-        suspend fun deauthorizeDropboxAccess(context: Context, settings: PresentlySettings) {
-            withContext(Dispatchers.IO) {
-                val accessToken = settings.getAccessToken()
+        fun deauthorizeDropboxAccess(context: Context, settings: PresentlySettings) {
+            val accessToken = settings.getAccessToken()
+            if (accessToken != null) {
                 val requestConfig = DbxRequestConfig.newBuilder("PresentlyAndroid")
                     .build()
                 val client = DbxClientV2(requestConfig, accessToken)
                 client.auth().tokenRevoke()
-
-                settings.clearAccessToken()
-                WorkManager.getInstance(context).cancelAllWorkByTag(PRESENTLY_BACKUP)
             }
+
+            settings.clearAccessToken()
+            WorkManager.getInstance(context).cancelAllWorkByTag(PRESENTLY_BACKUP)
         }
 
         const val PRESENTLY_BACKUP = "PRESENTLY_BACKUP"

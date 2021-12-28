@@ -106,4 +106,10 @@
     <string name="analytics_opted_out_desc">App sammelt keine Analyseinformationen</string>
     <string name="analytics_opt_out_success">Analytics-Daten werden gelöscht und nicht mehr erfasst!</string>
     <string name="analytics_opt_in_success">Analytics-Daten werden wieder aufgezeichnet!</string>
+    <string name="backup_channel_name">Probleme mit der automatischen Sicherung von Presently</string>
+    <string name="backup_channel_description">Benachrichtigungen bei Problemen mit der automatischen Sicherung</string>
+    <string name="backup_failure_notif_header">Presently Automatisches Backup fehlgeschlagen</string>
+    <string name="dropbox_too_full_notif_body">Presently konnte Ihre Daten nicht sichern, da Ihre Dropbox voll ist. Tippen Sie hier, um Ihr Dropbox-Konto anzuzeigen.</string>
+    <string name="dropbox_sync_error_notif_body">Es ist ein Problem mit Ihrem Dropbox-Konto aufgetreten. Klicken Sie hier, um sich erneut mit Dropbox zu verbinden und die automatischen Backups fortzusetzen.</string>
+    <string name="learn_more">Mehr erfahren</string>
 </resources>

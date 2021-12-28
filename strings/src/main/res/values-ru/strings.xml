@@ -107,4 +107,10 @@
     <string name="analytics_opted_out_desc">Приложение не собирает аналитическую информацию</string>
     <string name="analytics_opt_out_success">Данные аналитики удаляются и больше не записываются!</string>
     <string name="analytics_opt_in_success">Данные аналитики снова записываются!</string>
+    <string name="backup_channel_name">Проблемы с автоматическим резервным копированием Presently</string>
+    <string name="backup_channel_description">Уведомления о проблемах с автоматическим резервным копированием</string>
+    <string name="backup_failure_notif_header">Ошибка автоматического резервного копирования Presently</string>
+    <string name="dropbox_too_full_notif_body">Presently не удалось создать резервную копию ваших данных, потому что ваш Dropbox заполнен. Нажмите, чтобы просмотреть свою учетную запись Dropbox.</string>
+    <string name="dropbox_sync_error_notif_body">Возникла проблема с вашей учетной записью Dropbox. Нажмите здесь, чтобы повторно подключиться к Dropbox и возобновить автоматическое резервное копирование.</string>
+    <string name="learn_more">Выучить больше</string>
 </resources>

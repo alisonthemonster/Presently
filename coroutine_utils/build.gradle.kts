@@ -17,7 +17,7 @@ android {
 
     buildTypes {
         getByName("debug") {
-            isTestCoverageEnabled = project.hasProperty("coverage")
+            isTestCoverageEnabled = false
         }
         getByName("release") {
             isMinifyEnabled = false
@@ -33,28 +33,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-}
 
-dependencies {
-    implementation(project(":logging"))
-
-    implementation(Libraries.kotlin_stdlib)
-    implementation(Libraries.androidx_core_ktx)
-    implementation(Libraries.androidx_compat)
-    implementation(Libraries.androidx_preference_ktx)
-
-    implementation(Libraries.three_ten_abp)
-    implementation(Libraries.dropbox_sdk)
-
-    //dependency injection
-    implementation(Libraries.dagger)
-    kapt(Libraries.dagger_compiler)
-    implementation(Libraries.dagger_android_support)
-    kapt(Libraries.dagger_android_processor)
-    implementation(Libraries.hilt)
-    kapt(Libraries.hilt_compiler)
-    kapt(Libraries.hilt_android_compiler)
-
-    testImplementation(TestLibraries.junit)
-    testImplementation(TestLibraries.truth)
+    dependencies {
+        implementation(Libraries.kotlin_stdlib)
+        implementation(Libraries.androidx_core_ktx)
+        implementation(Libraries.kotlin_coroutines_android)
+    }
 }

@@ -29,6 +29,8 @@ class ContainerActivity : AppCompatActivity() {
 
     companion object {
         const val CHANNEL_ID = "Presently Gratitude Reminder"
+        const val BACKUP_STATUS_CHANNEL = "Presently Automatic Backup Status"
+        const val NOTIFICATION_SCREEN_EXTRA = "NOTIFICATION_EXTRA"
     }
 
     @Inject lateinit var settings: PresentlySettings
@@ -47,7 +49,7 @@ class ContainerActivity : AppCompatActivity() {
         setAppTheme(currentTheme)
         setContentView(R.layout.container_activity)
 
-        createNotificationChannel()
+        createNotificationChannels()
 
         intent.extras?.let {
             val cameFromNotification = it.getBoolean(fromNotification, false)
@@ -104,18 +106,20 @@ class ContainerActivity : AppCompatActivity() {
         }
     }
 
-    private fun createNotificationChannel() {
+    private fun createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.channel_name)
-            val description = getString(R.string.channel_description)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, name, importance)
-            channel.description = description
-            channel.enableVibration(true)
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
+            val notificationChannel = NotificationChannel(CHANNEL_ID, getString(R.string.channel_name),  NotificationManager.IMPORTANCE_DEFAULT)
+            notificationChannel.description = getString(R.string.channel_description)
+            notificationChannel.enableVibration(true)
+
+            val backupChannel = NotificationChannel(BACKUP_STATUS_CHANNEL, getString(R.string.backup_channel_name), NotificationManager.IMPORTANCE_HIGH)
+            backupChannel.description = getString(R.string.backup_channel_description)
+            backupChannel.enableVibration(true)
+
             val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
+
+            notificationManager.createNotificationChannels(listOf(notificationChannel, backupChannel))
+
         }
     }
 

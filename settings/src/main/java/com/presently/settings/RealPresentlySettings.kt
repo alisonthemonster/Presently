@@ -129,6 +129,7 @@ class RealPresentlySettings @Inject constructor(
 
     override fun clearAccessToken() {
         sharedPrefs.edit().remove(ACCESS_TOKEN).apply()
+        sharedPrefs.edit().putBoolean(BACKUP_TOKEN, false).apply()
     }
 
     override fun isOptedIntoAnalytics(): Boolean {

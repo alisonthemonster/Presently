@@ -12,8 +12,7 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 
-//TODO make this work
-//apply from: "../gradle/dependency_graph.gradle"
+apply(from = "../gradle/dependency_graph.gradle")
 
 android {
     compileSdk = Versions.COMPILE_SDK
@@ -79,6 +78,7 @@ dependencies {
     implementation(project(":sharing"))
     implementation(project(":strings"))
     implementation(project(":ui"))
+    implementation(project(":coroutine_utils"))
 
     implementation(Libraries.kotlin_stdlib)
     implementation(Libraries.androidx_compat)
@@ -123,6 +123,8 @@ dependencies {
     kapt(Libraries.dagger_android_processor)
     implementation(Libraries.hilt)
     kapt(Libraries.hilt_compiler)
+    kapt(Libraries.hilt_android_compiler)
+    implementation(Libraries.androidx_hilt_work)
 
     testImplementation(TestLibraries.junit)
     testImplementation(TestLibraries.three_ten_abp) {
@@ -143,6 +145,7 @@ dependencies {
     androidTestImplementation(TestLibraries.espresso_contrib)
     androidTestImplementation(TestLibraries.androidx_room_testing)
     androidTestImplementation(TestLibraries.androidx_test_junit)
+    androidTestImplementation(TestLibraries.kotlin_test_junit)
     androidTestImplementation(TestLibraries.androidx_test_espresso_intents)
     androidTestImplementation(TestLibraries.truth)
     androidTestImplementation(TestLibraries.mockito_kotlin)
