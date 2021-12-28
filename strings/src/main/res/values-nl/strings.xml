@@ -105,4 +105,10 @@
     <string name="analytics_opted_out_desc">App verzamelt geen analytische informatie</string>
     <string name="analytics_opt_out_success">Analytics-gegevens worden verwijderd en niet langer geregistreerd!</string>
     <string name="analytics_opt_in_success">Analytics-gegevens worden weer geregistreerd!</string>
+    <string name="backup_channel_name">Problemen met automatische back-up met Presently</string>
+    <string name="backup_channel_description">Meldingen voor problemen met automatische back-up</string>
+    <string name="backup_failure_notif_header">Automatische back-up van Presently mislukt</string>
+    <string name="dropbox_too_full_notif_body">Presently kan geen back-up van je gegevens maken omdat je Dropbox vol is. Tik om je Dropbox-account te bekijken</string>
+    <string name="dropbox_sync_error_notif_body">Er was een probleem met je Dropbox-account. Klik hier om opnieuw verbinding te maken met Dropbox om de automatische back-ups te hervatten.</string>
+    <string name="learn_more">Leer meer</string>
 </resources>

@@ -108,4 +108,10 @@
     <string name="analytics_opted_out_desc">Presently no recopila información analítica.</string>
     <string name="analytics_opt_out_success">¡Los datos de análisis se eliminan y ya no se registran!</string>
     <string name="analytics_opt_in_success">¡Los datos analíticos se están registrando de nuevo!</string>
+    <string name="backup_channel_name">Problemas de copia de seguridad automática de Presently</string>
+    <string name="backup_channel_description">Notificaciones de problemas con la copia de respaldo automático</string>
+    <string name="backup_failure_notif_header">Fallo de copia de respaldo automático de Presently</string>
+    <string name="dropbox_too_full_notif_body">Presently no pudo hacer una copia de respaldo de sus datos porque su Dropbox está lleno. Toque para ver su cuenta de Dropbox</string>
+    <string name="dropbox_sync_error_notif_body">Hubo un problema con su cuenta de Dropbox, haga clic aquí para volver a conectarse a Dropbox y reanudar las copias de respaldo automáticos.</string>
+    <string name="learn_more">Aprende más</string>
 </resources>
