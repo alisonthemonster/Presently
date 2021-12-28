@@ -42,7 +42,7 @@ class AppLockFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         fingerprintLock = settings.isBiometricsEnabled()
         if (!fingerprintLock) {
-            val screen = activity?.intent?.extras?.getString(ContainerActivity.NOTIFICATION_SCREEN_EXTRA) ?: "Timeline"
+            val screen = activity?.intent?.extras?.getString(ContainerActivity.NOTIFICATION_SCREEN_EXTRA) ?: TIMELINE_SCREEN
             enterApp(screen)
         }
 
@@ -119,7 +119,7 @@ class AppLockFragment : Fragment() {
                             result: BiometricPrompt.AuthenticationResult
                     ) {
                         super.onAuthenticationSucceeded(result)
-                        val screen = activity?.intent?.extras?.getString(ContainerActivity.NOTIFICATION_SCREEN_EXTRA) ?: "Timeline"
+                        val screen = activity?.intent?.extras?.getString(ContainerActivity.NOTIFICATION_SCREEN_EXTRA) ?: TIMELINE_SCREEN
                         enterApp(screen)
                     }
                 })
@@ -136,8 +136,8 @@ class AppLockFragment : Fragment() {
 
     private fun enterApp(screenToOpen: String) {
         val fragment = when (screenToOpen) {
-            "Timeline" -> TimelineFragment.newInstance()
-            "Settings" -> SettingsFragment()
+            TIMELINE_SCREEN -> TimelineFragment.newInstance()
+            SETTINGS_SCREEN -> SettingsFragment()
             else -> throw IllegalArgumentException("Unknown screen to open")
         }
 
@@ -145,6 +145,11 @@ class AppLockFragment : Fragment() {
             .beginTransaction()
             .replace(R.id.container_fragment, fragment)
             .commit()
+    }
+
+    companion object {
+        const val TIMELINE_SCREEN = "Timeline"
+        const val SETTINGS_SCREEN = "Settings"
     }
 
 }

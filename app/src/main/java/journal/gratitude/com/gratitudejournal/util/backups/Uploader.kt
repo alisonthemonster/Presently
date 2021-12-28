@@ -16,14 +16,19 @@ import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment.Companion.SETTINGS_SCREEN
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.CloudProvider
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import kotlinx.coroutines.withContext
-import org.threeten.bp.LocalDate
 import java.io.File
 import java.io.FileWriter
 import javax.inject.Inject
 
+/**
+ * A class that will handle the backup upload to the cloud. It also handles any errors that
+ * the cloud provider may return.
+ *
+ */
 class RealUploader @Inject constructor(
     private val dispatchers: AppCoroutineDispatchers,
     private val repository: EntryRepository,
@@ -129,8 +134,12 @@ class RealUploader @Inject constructor(
         val intent = Intent(appContext, ContainerActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        intent.putExtra(ContainerActivity.NOTIFICATION_SCREEN_EXTRA, "Settings")//todo move to a constant
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(appContext, 0, intent, 0) //todo PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        intent.putExtra(ContainerActivity.NOTIFICATION_SCREEN_EXTRA, SETTINGS_SCREEN)
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(
+            appContext,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
         val notifBody = appContext.getString(R.string.dropbox_sync_error_notif_body)
         val builder = NotificationCompat.Builder(
