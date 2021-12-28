@@ -87,7 +87,6 @@ class ContainerActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        //todo is this needed?
         val isBiometricsEnabled = settings.isBiometricsEnabled()
         if (isBiometricsEnabled) {
             if (settings.shouldLockApp()) {
