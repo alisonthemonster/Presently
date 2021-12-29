@@ -8,9 +8,16 @@ import junit.framework.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import java.lang.Exception
 
 @RunWith(RobolectricTestRunner::class)
 class PresentlyFirebaseAnalyticsTest {
+
+    private val crashReporter = object : CrashReporter {
+        override fun logHandledException(exception: Exception) {}
+        override fun optOutOfCrashReporting() {}
+        override fun optIntoCrashReporting() {}
+    }
 
     @Test
     fun `GIVEN PresentlyFirebaseAnalytics WHEN recordEvent called THEN firebase is called`() {
@@ -26,8 +33,16 @@ class PresentlyFirebaseAnalyticsTest {
                 fail("bundle logEvent shouldn't be called")
             }
 
+            override fun deleteAllAnalyticsDataForUser() {
+                fail("bundle deleteAllAnalyticsDataForUser shouldn't be called")
+            }
+
+            override fun setAnalyticsCollection(enabled: Boolean) {
+                fail("bundle setAnalyticsCollection shouldn't be called")
+            }
+
         }
-        val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics)
+        val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics, crashReporter)
 
         val expected = "eventName"
         presentlyAnalytics.recordEvent(expected)
@@ -52,8 +67,15 @@ class PresentlyFirebaseAnalyticsTest {
                 bundle = b
             }
 
+            override fun deleteAllAnalyticsDataForUser() {
+                fail("bundle deleteAllAnalyticsDataForUser shouldn't be called")
+            }
+
+            override fun setAnalyticsCollection(enabled: Boolean) {
+                fail("bundle setAnalyticsCollection shouldn't be called")
+            }
         }
-        val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics)
+        val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics, crashReporter)
 
         val expected = "eventName"
         val given = mapOf("a" to "apple", "b" to 11)
@@ -81,8 +103,15 @@ class PresentlyFirebaseAnalyticsTest {
                 bundle = b
             }
 
+            override fun deleteAllAnalyticsDataForUser() {
+                fail("bundle deleteAllAnalyticsDataForUser shouldn't be called")
+            }
+
+            override fun setAnalyticsCollection(enabled: Boolean) {
+                fail("bundle setAnalyticsCollection shouldn't be called")
+            }
         }
-        val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics)
+        val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics, crashReporter)
 
         val expected = "eventName"
         val expectedType = "eventType"
@@ -114,8 +143,15 @@ class PresentlyFirebaseAnalyticsTest {
                 bundle = b
             }
 
+            override fun deleteAllAnalyticsDataForUser() {
+                fail("bundle deleteAllAnalyticsDataForUser shouldn't be called")
+            }
+
+            override fun setAnalyticsCollection(enabled: Boolean) {
+                fail("bundle setAnalyticsCollection shouldn't be called")
+            }
         }
-        val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics)
+        val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics, crashReporter)
 
         val expected = 100
         val expectedBundle = bundleOf(
@@ -144,8 +180,15 @@ class PresentlyFirebaseAnalyticsTest {
                 bundle = b
             }
 
+            override fun deleteAllAnalyticsDataForUser() {
+                fail("bundle deleteAllAnalyticsDataForUser shouldn't be called")
+            }
+
+            override fun setAnalyticsCollection(enabled: Boolean) {
+                fail("bundle setAnalyticsCollection shouldn't be called")
+            }
         }
-        val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics)
+        val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics, crashReporter)
 
         val expected = "MyFragment"
         val expectedBundle = bundleOf(
@@ -157,5 +200,88 @@ class PresentlyFirebaseAnalyticsTest {
         assertThat(logEventWasCalled).isTrue()
         assertThat(eventName).isEqualTo("screen_view")
         assertThat(bundle.toString()).isEqualTo(expectedBundle.toString())
+    }
+
+    @Test
+    fun `GIVEN PresentlyFirebaseAnalytics WHEN optOutOfAnalytics called THEN firebase is called`() {
+        var deleteAllWasCalled = false
+        var setAnalyticsCollectionWasCalled = false
+        var optOutOfCrashReportingWasCalled = false
+        val firebaseAnalytics = object : FirebaseAnalytics {
+            override fun logEvent(event: String) {
+                fail("logEvent shouldn't be called")
+            }
+
+            override fun logEvent(event: String, bundle: Bundle) {
+                fail("bundle logEvent shouldn't be called")
+            }
+
+            override fun deleteAllAnalyticsDataForUser() {
+                deleteAllWasCalled = true
+            }
+
+            override fun setAnalyticsCollection(enabled: Boolean) {
+                if (!enabled) {
+                    setAnalyticsCollectionWasCalled = true
+                }
+            }
+
+        }
+
+        val crashReporter = object : CrashReporter {
+            override fun logHandledException(exception: Exception) {}
+            override fun optOutOfCrashReporting() {
+                optOutOfCrashReportingWasCalled = true
+            }
+            override fun optIntoCrashReporting() {}
+        }
+        val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics, crashReporter)
+
+        presentlyAnalytics.optOutOfAnalytics()
+
+        assertThat(optOutOfCrashReportingWasCalled).isTrue()
+        assertThat(deleteAllWasCalled).isTrue()
+        assertThat(setAnalyticsCollectionWasCalled).isTrue()
+    }
+
+
+    @Test
+    fun `GIVEN PresentlyFirebaseAnalytics WHEN optIntoAnalytics called THEN firebase is called`() {
+        var setAnalyticsCollectionWasCalled = false
+        var optIntoCrashReportingWasCalled = false
+        val firebaseAnalytics = object : FirebaseAnalytics {
+            override fun logEvent(event: String) {
+                fail("logEvent shouldn't be called")
+            }
+
+            override fun logEvent(event: String, bundle: Bundle) {
+                fail("bundle logEvent shouldn't be called")
+            }
+
+            override fun deleteAllAnalyticsDataForUser() {
+                fail("deleteAllAnalyticsDataForUser shouldn't be called")
+            }
+
+            override fun setAnalyticsCollection(enabled: Boolean) {
+                if (enabled) {
+                    setAnalyticsCollectionWasCalled = true
+                }
+            }
+
+        }
+
+        val crashReporter = object : CrashReporter {
+            override fun logHandledException(exception: Exception) {}
+            override fun optOutOfCrashReporting() {}
+            override fun optIntoCrashReporting() {
+                optIntoCrashReportingWasCalled = true
+            }
+        }
+        val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics, crashReporter)
+
+        presentlyAnalytics.optIntoAnalytics()
+
+        assertThat(optIntoCrashReportingWasCalled).isTrue()
+        assertThat(setAnalyticsCollectionWasCalled).isTrue()
     }
 }

@@ -104,4 +104,15 @@
     <string name="inspiration_title">Citazioni ispiratrici</string>
     <string name="alarm_disabled_title">Le notifiche sono state disabilitate a livello di sistema</string>
     <string name="alarm_disabled_body">Fare clic qui per abilitare nelle impostazioni di sistema</string>
+    <string name="analytics_opt_out_title">Raccolta dati analitici</string>
+    <string name="analytics_opted_in_desc">L\'app raccoglie informazioni analitiche anonime e crittografate per aiutare a diagnosticare problemi e monitorare le tendenze</string>
+    <string name="analytics_opted_out_desc">L\'app non raccoglie informazioni analitiche</string>
+    <string name="analytics_opt_out_success">I dati analitici vengono cancellati e non più registrati!</string>
+    <string name="analytics_opt_in_success">I dati di analisi vengono nuovamente registrati!</string>
+    <string name="backup_channel_name">Problemi di backup automatico di Presently</string>
+    <string name="backup_channel_description">Notifiche per problemi con il backup automatico</string>
+    <string name="backup_failure_notif_header">Errore di backup automatico di Presently</string>
+    <string name="dropbox_too_full_notif_body">Presently non è riuscita a eseguire il backup dei tuoi dati perché il tuo Dropbox è pieno. Tocca per visualizzare il tuo account Dropbox</string>
+    <string name="dropbox_sync_error_notif_body">Si è verificato un problema con il tuo account Dropbox, fai clic qui per riconnetterti a Dropbox e riprendere i backup automatici.</string>
+    <string name="learn_more">Scopri di più</string>
 </resources>

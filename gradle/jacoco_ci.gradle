@@ -5,8 +5,9 @@ final ignoredByJacoco = [
         'ui',
         'strings',
         'mavericks_utils',
-        'testing'
-]
+        'testing',
+        'coroutine_utils'
+    ]
 
 /**
  *  Apply additional build steps to sub-projects
@@ -72,7 +73,7 @@ subprojects { prj ->
                               '**/AppLockFragment*',
                               '**/LocaleHelper*',
                               '**/TimelineFragment*',
-                              '**/FirebaseAnalytics.kt*', //not going to test 3rd party code
+                              '**/FirebaseAnalytics.kt', //not going to test 3rd party code
                               '**/calendar/*.*',]
 
             final kotlinTree = fileTree(dir: "${prj.buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)

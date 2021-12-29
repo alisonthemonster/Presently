@@ -6,6 +6,7 @@
     <string name="key_terms_conditions" translatable="false">terms_conditions</string>
     <string name="key_open_source" translatable="false">open_source</string>
     <string name="key_version" translatable="false">version</string>
+    <string name="key_opt_out" translatable="false">analytics_opt_out</string>
 
     <string name="language_en" translatable="false">English</string>
     <string name="language_ar" translatable="false">عربي</string>

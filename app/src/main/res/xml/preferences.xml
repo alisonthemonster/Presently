@@ -165,6 +165,14 @@
             android:summary="@string/open_source_info"
             android:title="@string/open_source" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_analytics"
+            android:key="@string/key_opt_out"
+            android:summaryOff="@string/analytics_opted_out_desc"
+            android:summaryOn="@string/analytics_opted_in_desc"
+            android:title="@string/analytics_opt_out_title" />
+
         <Preference
             android:icon="@drawable/ic_tiny_flower"
             android:key="@string/key_version"

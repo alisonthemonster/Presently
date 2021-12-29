@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -51,6 +52,7 @@ import com.presently.ui.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.util.backups.RealUploader.Companion.BACKUP_NOTIFICATION_ID
 import kotlinx.coroutines.launch
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -232,6 +234,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             } else {
                 settings.setAccessToken(token)
                 createDropboxUploaderWorker(BackupCadence.DAILY)
+                cancelDropboxFailureNotifications() //now that user has auth'd cancel any notifs about previous failure
             }
         }
     }
@@ -269,6 +272,16 @@ class SettingsFragment : PreferenceFragmentCompat(),
             APP_LANGUAGE -> {
                 val language = settings.getLocale()
                 updateLanguage(language)
+            }
+            ANALYTICS_OPT_IN_PREF -> {
+                val isOptedIn = settings.isOptedIntoAnalytics()
+                if (isOptedIn) {
+                    analytics.optIntoAnalytics()
+                    Toast.makeText(context, R.string.analytics_opt_in_success, Toast.LENGTH_SHORT).show()
+                } else {
+                    analytics.optOutOfAnalytics()
+                    Toast.makeText(context, R.string.analytics_opt_out_success, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -317,7 +330,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
             }
         }
+    }
 
+    private fun cancelDropboxFailureNotifications() {
+        val notificationManager = NotificationManagerCompat.from(requireContext())
+        notificationManager.cancel(BACKUP_NOTIFICATION_ID)
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {

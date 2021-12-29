@@ -27,6 +27,7 @@
     <string name="open">Otvoreno</string>
     <string name="import_entries_from_backup">Uvoz unosa iz siguronosne kopije</string>
     <string name="ok">Uvoz</string>
+    <string name="cancel">Otkazati</string>
     <string name="import_data_dialog">Jeste li sigurni da želite uvesti?</string>
     <string name="import_data_dialog_message">Uvezeni podaci mogu prebrisati postojećeunose.</string>
     <string name="days_of_gratitude">dani zahvalnost!</string>
@@ -102,4 +103,15 @@
     <string name="inspiration_title">Inspiracijski citati</string>
     <string name="alarm_disabled_title">Obavijesti su onemogućene na razini sustava</string>
     <string name="alarm_disabled_body">Kliknite ovdje za omogućavanje u postavkama sustava</string>
+    <string name="analytics_opt_out_title">Prikupljanje podataka iz analitike</string>
+    <string name="analytics_opted_in_desc">Aplikacija prikuplja anonimizirane, šifrirane analitičke informacije kako bi pomogla u dijagnosticiranju problema i praćenju trendova</string>
+    <string name="analytics_opted_out_desc">Aplikacija ne prikuplja nikakve analitičke podatke</string>
+    <string name="analytics_opt_out_success">Podaci Analyticsa se brišu i više se ne bilježe!</string>
+    <string name="analytics_opt_in_success">Podaci analitike se ponovno bilježe!</string>
+    <string name="backup_channel_name">Presently automatikus biztonsági mentési problémák</string>
+    <string name="backup_channel_description">Értesítések az automatikus biztonsági mentéssel kapcsolatos problémákról</string>
+    <string name="backup_failure_notif_header">Presently automatikus biztonsági mentési hiba</string>
+    <string name="dropbox_too_full_notif_body">Presently nem sikerült biztonsági másolatot készítenie az adatokról, mert a Dropbox megtelt. Érintse meg a Dropbox-fiók megtekintéséhez</string>
+    <string name="dropbox_sync_error_notif_body">Probléma lépett fel a Dropbox-fiókjával. Kattintson ide, hogy újra csatlakozzon a Dropboxhoz az automatikus biztonsági mentések folytatásához.</string>
+    <string name="learn_more">Tudj meg többet</string>
 </resources>

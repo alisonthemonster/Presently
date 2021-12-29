@@ -105,4 +105,15 @@
     <string name="inspiration_title">Inspirerende aanhalings</string>
     <string name="alarm_disabled_title">Kennisgewings is op stelselvlak gedeaktiveer</string>
     <string name="alarm_disabled_body">Klik hier om die stelselinstellings moontlik te maak</string>
+    <string name="analytics_opt_out_title">Analytics data-insameling</string>
+    <string name="analytics_opted_in_desc">App samel anonieme, geënkripteerde ontledingsinligting in om probleme te diagnoseer en neigings te monitor</string>
+    <string name="analytics_opted_out_desc">Die toepassing samel geen analitiese inligting in nie</string>
+    <string name="analytics_opt_out_success">Analytics-data word uitgevee en nie meer aangeteken nie!!</string>
+    <string name="analytics_opt_in_success">Ontledingsdata word weer aangeteken!</string>
+    <string name="backup_channel_name">Presently outomatiese rugsteunprobleme</string>
+    <string name="backup_channel_description">Kennisgewings vir probleme met outomatiese rugsteun</string>
+    <string name="backup_failure_notif_header">Presently outomatiese rugsteun mislukking</string>
+    <string name="dropbox_too_full_notif_body">Presently kon nie jou data rugsteun nie omdat jou Dropbox vol is. Tik om jou Dropbox-rekening te sien.</string>
+    <string name="dropbox_sync_error_notif_body">Daar was \'n probleem met jou Dropbox-rekening, klik hier om weer aan Dropbox te koppel om outomatiese rugsteun te hervat.</string>
+    <string name="learn_more">Leer meer</string>
 </resources>

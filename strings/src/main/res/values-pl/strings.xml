@@ -102,4 +102,15 @@
     <string name="inspiration_title">Inspirujące cytaty</string>
     <string name="alarm_disabled_title">Powiadomienia zostały wyłączone na poziomie systemu</string>
     <string name="alarm_disabled_body">Kliknij tutaj, aby włączyć w ustawieniach systemu</string>
+    <string name="analytics_opt_out_title">Zbieranie danych analitycznych</string>
+    <string name="analytics_opted_in_desc">Aplikacja zbiera anonimowe, zaszyfrowane informacje analityczne, aby pomóc w diagnozowaniu problemów i monitorowaniu trendów</string>
+    <string name="analytics_opted_out_desc">Aplikacja nie zbiera żadnych informacji analitycznych</string>
+    <string name="analytics_opt_out_success">Dane analityczne są usuwane i nie są już rejestrowane!</string>
+    <string name="analytics_opt_in_success">Dane analityczne są ponownie rejestrowane!</string>
+    <string name="backup_channel_name">Problemy z automatycznym tworzeniem kopii zapasowych Presently</string>
+    <string name="backup_channel_description">Powiadomienia o problemach z automatycznym tworzeniem kopii zapasowych</string>
+    <string name="backup_failure_notif_header">Awaria automatycznej kopii zapasowej Presently</string>
+    <string name="dropbox_too_full_notif_body">Presently nie utworzyła kopii zapasowej Twoich danych, ponieważ Twój Dropbox jest pełny. Dotknij, aby wyświetlić swoje konto Dropbox</string>
+    <string name="dropbox_sync_error_notif_body">Wystąpił problem z Twoim kontem Dropbox. Kliknij tutaj, aby ponownie połączyć się z Dropbox i wznowić automatyczne tworzenie kopii zapasowych.</string>
+    <string name="learn_more">Ucz się więcej</string>
 </resources>

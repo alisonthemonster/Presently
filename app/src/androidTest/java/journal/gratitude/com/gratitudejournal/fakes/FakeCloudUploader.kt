@@ -2,7 +2,7 @@ package journal.gratitude.com.gratitudejournal.fakes
 
 import journal.gratitude.com.gratitudejournal.model.CloudUploadResult
 import journal.gratitude.com.gratitudejournal.model.UploadSuccess
-import journal.gratitude.com.gratitudejournal.util.backups.CloudProvider
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.CloudProvider
 import java.io.File
 import javax.inject.Inject
 

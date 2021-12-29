@@ -105,4 +105,15 @@
     <string name="inspiration_title">Inšpiratívne citáty</string>
     <string name="alarm_disabled_title">Upozornenia boli na systémovej úrovni zakázané</string>
     <string name="alarm_disabled_body">Kliknutím sem povolíte v systémových nastaveniach</string>
+    <string name="analytics_opt_out_title">Zhromažďovanie údajov služby Analytics</string>
+    <string name="analytics_opted_in_desc">Aplikácia zhromažďuje anonymizované, šifrované analytické informácie, ktoré pomáhajú diagnostikovať problémy a monitorovať trendy</string>
+    <string name="analytics_opted_out_desc">Aplikácia nezhromažďuje žiadne analytické informácie</string>
+    <string name="analytics_opt_out_success">Údaje Analytics sa vymažú a už sa nezaznamenávajú!</string>
+    <string name="analytics_opt_in_success">Údaje služby Analytics sa znova zaznamenávajú!</string>
+    <string name="backup_channel_name">Presently Problémy s automatickým zálohovaním</string>
+    <string name="backup_channel_description">Upozornenia na problémy s automatickým zálohovaním</string>
+    <string name="backup_failure_notif_header">Presently zlyhalo automatické zálohovanie</string>
+    <string name="dropbox_too_full_notif_body">Presently zlyhala pri zálohovaní vašich údajov, pretože váš Dropbox je plný. Klepnutím zobrazíte svoj účet Dropbox</string>
+    <string name="dropbox_sync_error_notif_body">Vyskytol sa problém s vaším účtom Dropbox. Kliknutím sem sa znova pripojte k Dropboxu a obnovte automatické zálohovanie.</string>
+    <string name="learn_more">Uč sa viac</string>
 </resources>

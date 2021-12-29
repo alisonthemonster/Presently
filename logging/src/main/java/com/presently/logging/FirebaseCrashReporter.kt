@@ -9,4 +9,14 @@ internal class FirebaseCrashReporter @Inject constructor(private val firebase: F
     override fun logHandledException(exception: Exception) {
         firebase.recordException(exception)
     }
+
+    override fun optOutOfCrashReporting() {
+        //The override value persists across launches of Presently
+        firebase.setCrashlyticsCollectionEnabled(false)
+    }
+
+    override fun optIntoCrashReporting() {
+        //The override value persists across launches of Presently
+        firebase.setCrashlyticsCollectionEnabled(true)
+    }
 }

@@ -54,6 +54,10 @@ class EntryViewModelTest {
         override fun recordEntryAdded(numEntries: Int)  {}
 
         override fun recordView(viewName: String) {}
+
+        override fun optOutOfAnalytics() {}
+
+        override fun optIntoAnalytics() {}
     }
 
     @get:Rule
@@ -89,6 +93,10 @@ class EntryViewModelTest {
             override fun recordEntryAdded(numEntries: Int)  {}
 
             override fun recordView(viewName: String) {}
+
+            override fun optOutOfAnalytics() {}
+
+            override fun optIntoAnalytics() {}
         }
 
         viewModel = EntryViewModel(initialState, analytics, repository)
@@ -128,6 +136,10 @@ class EntryViewModelTest {
                 viewScreenWasCalled = true
                 screenName = viewName
             }
+
+            override fun optOutOfAnalytics() {}
+
+            override fun optIntoAnalytics() {}
         }
 
         viewModel = EntryViewModel(initialState, analytics, repository)
@@ -211,6 +223,10 @@ class EntryViewModelTest {
             override fun recordEntryAdded(numEntries: Int)  {}
 
             override fun recordView(viewName: String) {}
+
+            override fun optOutOfAnalytics() {}
+
+            override fun optIntoAnalytics() {}
         }
 
         viewModel = EntryViewModel(initialState, analytics, repository)
@@ -238,6 +254,10 @@ class EntryViewModelTest {
             }
 
             override fun recordView(viewName: String) {}
+
+            override fun optOutOfAnalytics() {}
+
+            override fun optIntoAnalytics() {}
         }
 
         viewModel = EntryViewModel(initialState, analytics, repository)

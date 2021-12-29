@@ -105,4 +105,15 @@
     <string name="inspiration_title">İlham verici sözler</string>
     <string name="alarm_disabled_title">Bildirimler sistem düzeyinde devre dışı bırakıldı</string>
     <string name="alarm_disabled_body">Sistem ayarlarında etkinleştirmek için buraya tıklayın</string>
+    <string name="analytics_opt_out_title">Analitik veri toplama</string>
+    <string name="analytics_opted_in_desc">Uygulama, sorunları teşhis etmeye ve eğilimleri izlemeye yardımcı olmak için anonimleştirilmiş, şifrelenmiş analitik bilgileri topluyor</string>
+    <string name="analytics_opted_out_desc">Uygulama herhangi bir analiz bilgisi toplamıyor</string>
+    <string name="analytics_opt_out_success">Analiz verileri silinir ve artık kaydedilmez!</string>
+    <string name="analytics_opt_in_success">Analitik verileri yeniden kaydediliyor!</string>
+    <string name="backup_channel_name">Presently Otomatik Yedekleme Sorunları</string>
+    <string name="backup_channel_description">Otomatik yedekleme ile ilgili sorunlar için bildirimler</string>
+    <string name="backup_failure_notif_header">Presently Otomatik Yedekleme Hatası</string>
+    <string name="dropbox_too_full_notif_body">Presently, Dropbox\'ınız dolu olduğu için verilerinizi yedekleyemedi. Dropbox hesabınızı görüntülemek için dokunun</string>
+    <string name="dropbox_sync_error_notif_body">Dropbox hesabınızla ilgili bir sorun oluştu, otomatik yedeklemeleri sürdürmek üzere Dropbox\'a yeniden bağlanmak için burayı tıklayın.</string>
+    <string name="learn_more">Daha fazla bilgi edin</string>
 </resources>

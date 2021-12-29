@@ -96,4 +96,6 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
     override fun markDropboxAuthInitiated() {}
 
     override fun clearAccessToken() { }
+
+    override fun isOptedIntoAnalytics(): Boolean = true
 }

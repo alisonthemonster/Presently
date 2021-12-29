@@ -13,10 +13,12 @@ import com.presently.logging.AnalyticsLogger
 import com.presently.logging.CrashReporter
 import com.presently.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
+import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_CANCELLED
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_LOCKOUT
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_USER_CANCELLED
+import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import javax.inject.Inject
 
@@ -32,15 +34,17 @@ class AppLockFragment : Fragment() {
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return View(context)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fingerprintLock = settings.isBiometricsEnabled()
-        if (!fingerprintLock)
-            moveToTimeline()
+        if (!fingerprintLock) {
+            val screen = activity?.intent?.extras?.getString(ContainerActivity.NOTIFICATION_SCREEN_EXTRA) ?: TIMELINE_SCREEN
+            enterApp(screen)
+        }
 
     }
 
@@ -115,7 +119,8 @@ class AppLockFragment : Fragment() {
                             result: BiometricPrompt.AuthenticationResult
                     ) {
                         super.onAuthenticationSucceeded(result)
-                        moveToTimeline()
+                        val screen = activity?.intent?.extras?.getString(ContainerActivity.NOTIFICATION_SCREEN_EXTRA) ?: TIMELINE_SCREEN
+                        enterApp(screen)
                     }
                 })
 
@@ -129,8 +134,13 @@ class AppLockFragment : Fragment() {
         biometricPrompt.authenticate(promptInfo)
     }
 
-    private fun moveToTimeline() {
-        val fragment = TimelineFragment.newInstance()
+    private fun enterApp(screenToOpen: String) {
+        val fragment = when (screenToOpen) {
+            TIMELINE_SCREEN -> TimelineFragment.newInstance()
+            SETTINGS_SCREEN -> SettingsFragment()
+            else -> throw IllegalArgumentException("Unknown screen to open")
+        }
+
         parentFragmentManager
             .beginTransaction()
             .replace(R.id.container_fragment, fragment)
@@ -138,7 +148,8 @@ class AppLockFragment : Fragment() {
     }
 
     companion object {
-        const val LOCK_TO_TIMELINE = "LOCK_TO_TIMELINE"
+        const val TIMELINE_SCREEN = "Timeline"
+        const val SETTINGS_SCREEN = "Settings"
     }
 
 }

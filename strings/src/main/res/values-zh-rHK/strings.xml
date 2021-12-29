@@ -103,4 +103,15 @@
     <string name="show_quote_off">感恩格言不會顯示在書寫頁面上</string>
     <string name="show_quote_on">感恩格言會顯示在書寫頁面上</string>
     <string name="inspiration_title">勵志名言</string>
+    <string name="analytics_opt_out_title">分析數據收集</string>
+    <string name="analytics_opted_in_desc">應用程序正在收集匿名、加密的分析信息，以幫助診斷問題和監控趨勢</string>
+    <string name="analytics_opted_out_desc">應用程序未收集任何分析信息</string>
+    <string name="analytics_opt_out_success">分析數據被刪除，不再記錄！</string>
+    <string name="analytics_opt_in_success">分析數據再次被記錄！</string>
+    <string name="backup_channel_name">Presently 自动备份问题</string>
+    <string name="backup_channel_description">自动备份问题的通知</string>
+    <string name="backup_failure_notif_header">Presently 自动备份失败</string>
+    <string name="dropbox_too_full_notif_body">Presently 未能备份您的数据，因为您的 Dropbox 已满。 点按即可查看您的 Dropbox 帐户</string>
+    <string name="dropbox_sync_error_notif_body">您的 Dropbox 帐户出现问题，请单击此处重新连接到 Dropbox 以恢复自动备份。</string>
+    <string name="learn_more">学到更多</string>
 </resources>

@@ -46,11 +46,8 @@ android {
         kapt(Libraries.dagger_compiler)
         implementation(Libraries.dagger_android_support)
         kapt(Libraries.dagger_android_processor)
-        compileOnly(Libraries.assisted_inject_annotations)
-        kapt(Libraries.assisted_inject_processor)
         implementation(Libraries.hilt)
         kapt(Libraries.hilt_compiler)
-        implementation(Libraries.hilt_viewmodel)
         kapt(Libraries.hilt_android_compiler)
 
         testImplementation(TestLibraries.junit)

@@ -8,7 +8,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import journal.gratitude.com.gratitudejournal.util.backups.CloudProvider
+import journal.gratitude.com.gratitudejournal.util.backups.RealUploader
+import journal.gratitude.com.gratitudejournal.util.backups.Uploader
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.CloudProvider
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import javax.inject.Singleton
 
@@ -22,4 +24,6 @@ object CloudUploadModule {
         return DropboxUploader(context, settings)
     }
 
+    @Provides
+    fun provideUploader(uploader: RealUploader): Uploader = uploader
 }

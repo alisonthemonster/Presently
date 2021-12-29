@@ -45,6 +45,8 @@ interface PresentlySettings {
     fun markDropboxAuthInitiated()
 
     fun clearAccessToken()
+
+    fun isOptedIntoAnalytics(): Boolean
 }
 
 enum class BackupCadence(val index: Int, val string: String) {

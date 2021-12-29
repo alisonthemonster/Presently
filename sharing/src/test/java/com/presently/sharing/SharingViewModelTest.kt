@@ -26,6 +26,10 @@ class SharingViewModelTest {
         override fun recordEntryAdded(numEntries: Int) {}
 
         override fun recordView(viewName: String) {}
+
+        override fun optOutOfAnalytics() {}
+
+        override fun optIntoAnalytics() {}
     }
 
     @Test
@@ -85,6 +89,10 @@ class SharingViewModelTest {
             override fun recordEntryAdded(numEntries: Int) {}
 
             override fun recordView(viewName: String) {}
+
+            override fun optOutOfAnalytics() {}
+
+            override fun optIntoAnalytics() {}
         }
 
         val initialState = SharingViewState(
@@ -147,6 +155,10 @@ class SharingViewModelTest {
             override fun recordEntryAdded(numEntries: Int) {}
 
             override fun recordView(viewName: String) {}
+
+            override fun optOutOfAnalytics() {}
+
+            override fun optIntoAnalytics() {}
         }
 
         val initialState = SharingViewState(
