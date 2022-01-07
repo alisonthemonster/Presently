@@ -95,6 +95,7 @@ class UploaderTest {
         override fun getLocale(): String = fail("Not needed in this test")
         override fun hasEnabledNotifications(): Boolean = fail("Not needed in this test")
         override fun getNotificationTime(): LocalTime = fail("Not needed in this test")
+        override fun hasUserDisabledAlarmReminders(context: Context): Boolean = fail("Not needed in this test")
         override fun getLinesPerEntryInTimeline(): Int = fail("Not needed in this test")
         override fun shouldShowDayOfWeekInTimeline(): Boolean = fail("Not needed in this test")
         override fun wasDropboxAuthInitiated(): Boolean = fail("Not needed in this test")
