@@ -49,7 +49,7 @@ class TimelineFragment : Fragment() {
     @Inject lateinit var crashReporter: CrashReporter
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var fastScrollView: FastScrollView
+    private lateinit var fastScrollTrack: FastScrollTrack
     private lateinit var fastScrollThumb: FastScrollThumbView
     private lateinit var timelineAdapterdapter: TimelineAdapter
 
@@ -116,11 +116,11 @@ class TimelineFragment : Fragment() {
             adapter = timelineAdapterdapter
         }
 
-        fastScrollView = binding.fastScrollView
+        fastScrollTrack = binding.fastScrollView
         fastScrollThumb = binding.fastScrollThumb
 
-        fastScrollView.setRecyclerView(recyclerView)
-        fastScrollThumb.setupWithFastScroller(fastScrollView)
+        fastScrollTrack.setRecyclerView(recyclerView)
+        fastScrollThumb.setupWithFastScroller(fastScrollTrack)
 
         viewModel.entries.observe(viewLifecycleOwner, { timelineItems ->
             timelineAdapterdapter.submitList(timelineItems)

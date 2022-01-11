@@ -23,8 +23,8 @@ class FastScrollThumbView @JvmOverloads constructor(
     defStyleAttr
 ), ItemSelectedCallback {
 
-    private val isSetup: Boolean get() = (fastScrollView != null)
-    private var fastScrollView: FastScrollView? = null
+    private val isSetup: Boolean get() = (fastScrollTrack != null)
+    private var fastScrollTrack: FastScrollTrack? = null
 
     private val thumbView: ViewGroup
     private val textView: TextView
@@ -54,12 +54,12 @@ class FastScrollThumbView @JvmOverloads constructor(
         textView.text = monthYear
     }
 
-    fun setupWithFastScroller(fastScrollView: FastScrollView) {
+    fun setupWithFastScroller(fastScrollTrack: FastScrollTrack) {
         check(!isSetup) { "Only set this view's FastScrollerView once!" }
-        this.fastScrollView = fastScrollView
+        this.fastScrollTrack = fastScrollTrack
 
-        fastScrollView.itemSelectedCallback = this
-        fastScrollView.onItemIndicatorTouched = { isTouched ->
+        fastScrollTrack.itemSelectedCallback = this
+        fastScrollTrack.onItemIndicatorTouched = { isTouched ->
             if (isTouched) {
                 thumbView.visibility = View.VISIBLE
             } else {

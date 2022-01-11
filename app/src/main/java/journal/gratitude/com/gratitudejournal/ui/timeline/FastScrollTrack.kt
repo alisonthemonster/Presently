@@ -14,22 +14,14 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import kotlin.math.min
 
-//convert this into a list of dates that scales to fit the space somehow?
-    //if less than x items dont show scrubber (return early)
-    //no ui except maybe the years?
-    //calculate the pixels available and use math to figure out where each header would be??
-
-
-//every day written gets a point in the total area
-    //for each item
-        //place at += totalAvailableSize/totalNumEntries
-        //scrolls to the exact item but the thumb says the month and year
-
-//todo integrate into coordinator layout somehow to also hide fab and to hide/show scrubber when scrolling?
+//todo integrate into coordinator layout somehow to only make this track visible when scrolling
 
 //todo how to have selected item change when user manually scrolls through?
 
-class FastScrollView @JvmOverloads constructor(
+//todo test how this feels with a few items
+    //and also test with 31ish items all in the same month
+
+class FastScrollTrack @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.indicatorFastScrollerStyle,
@@ -151,9 +143,7 @@ class FastScrollView @JvmOverloads constructor(
 
         val views = ArrayList<View>() //todo since we aren't combining icons with text maybe we dont need a list of views?
 
-        //the reddit version has both icons and text and it batches all the text items next to each other in a row, binds the icon, and then continues
-        //since this is only working with text we can just put all the text into one textview
-        views.add(createTextViewFromList(scrubberItems))
+        views.add(createTrack(scrubberItems))
 
         //add each view to the linearlayout
         views.forEach(::addView)
@@ -161,10 +151,8 @@ class FastScrollView @JvmOverloads constructor(
 
     //combines a list of strings to make one big text view
         //the tag will allow the touch listener to figure out which item its touching
-    private fun createTextViewFromList(scrubberItems: List<String>): View {
+    private fun createTrack(scrubberItems: List<String>): View {
         val textView = LayoutInflater.from(context).inflate(R.layout.view_scroller_track, this, false)
-
-        //todo we need to create a view here that uses the same math as in onTouchEvent to put
 
         return textView.apply {
             tag = scrubberItems //using the tag so that we can later look through the items in this textview
@@ -194,7 +182,7 @@ class FastScrollView @JvmOverloads constructor(
                 val dates = view.tag as List<String> //all of the dates in the timeline
 
                 val textIndicatorsTouchY = touchY - view.top
-                val textLineHeight = view.height / dates.size //the height of each date
+                val textLineHeight = (view.height) / dates.size //the height of each date
                 val touchedIndicatorIndex = min(
                     textIndicatorsTouchY / textLineHeight,
                     dates.lastIndex
