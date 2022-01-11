@@ -119,16 +119,11 @@ class TimelineFragment : Fragment() {
         fastScrollView = binding.fastScrollView
         fastScrollThumb = binding.fastScrollThumb
 
+        fastScrollView.setRecyclerView(recyclerView)
+        fastScrollThumb.setupWithFastScroller(fastScrollView)
+
         viewModel.entries.observe(viewLifecycleOwner, { timelineItems ->
             timelineAdapterdapter.submitList(timelineItems)
-            //todo this is the wrong place, we only want to be doing this once
-                //maybe we move this logic into the view?
-            fastScrollView.setRecyclerView(recyclerView) { position ->
-                timelineItems[position].takeIf { it is Entry }?.let {
-                    (it as Entry).entryDate.toMonthYearString()
-                }
-            }
-            fastScrollThumb.setupWithFastScroller(fastScrollView)
         })
 
         binding.overflowButton.setOnClickListener {
@@ -281,7 +276,7 @@ class TimelineFragment : Fragment() {
     }
 }
 
-private fun LocalDate?.toMonthYearString(): String {
+fun LocalDate?.toMonthYearString(): String {
     val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
     return formatter.format(this)
 }

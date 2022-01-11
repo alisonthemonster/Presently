@@ -10,18 +10,23 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.getColorStateListOrThrow
-import androidx.core.content.res.getResourceIdOrThrow
-import androidx.core.content.res.use
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.model.Entry
 import kotlin.math.min
 
 //convert this into a list of dates that scales to fit the space somehow?
     //if less than x items dont show scrubber (return early)
     //no ui except maybe the years?
+    //calculate the pixels available and use math to figure out where each header would be??
 
+
+//every day written gets a point in the total area
+    //for each item
+        //place at += totalAvailableSize/totalNumEntries
+
+//integrate into coordinator layout somehow to also hide fab and to hide/show scrubber when scrolling?
 
 //todo how to have selected item change when user manually scrolls through?
 
@@ -43,7 +48,7 @@ class FastScrollView @JvmOverloads constructor(
 
     //these all get provided by the client
     private var recyclerView: RecyclerView? = null
-    private var adapter: RecyclerView.Adapter<*>? = null
+    private var adapter: TimelineAdapter? = null
         set(value) {
             field?.unregisterAdapterDataObserver(adapterDataObserver)
             field = value
@@ -52,13 +57,10 @@ class FastScrollView @JvmOverloads constructor(
                 postUpdateItemIndicators()
             }
         }
-    private lateinit var getItemIndicatorText: (Int) -> String?
 
-
+    //these are used to connect with a thumb view
     var itemSelectedCallback: ItemSelectedCallback? = null
-
-    //this can be used if we want to show an additional view like FastScrollerThumbView when we're touching over an item
-    internal var onItemIndicatorTouched: ((Boolean) -> Unit)? = null
+    var onItemIndicatorTouched: ((Boolean) -> Unit)? = null
 
     //the actual items that will be in the scrubber view
         //string is what the item will show and the int is the position
@@ -80,21 +82,17 @@ class FastScrollView @JvmOverloads constructor(
         gravity = Gravity.CENTER
     }
 
-
     //sets up the tracking of the adapter
     fun setRecyclerView(
-        recyclerView: RecyclerView,
-        getItemIndicatorText: (Int) -> String?
+        recyclerView: RecyclerView
     ) {
         check(!isSetup) { "Only set this view's RecyclerView once!" }
 
         //set the recyclerview
         this.recyclerView = recyclerView
-        //set the mapper from position to data
-        this.getItemIndicatorText = getItemIndicatorText
 
         //set the adapter
-        this.adapter = recyclerView.adapter.also {
+        this.adapter = (recyclerView.adapter as TimelineAdapter).also {
             if (it != null) {
                 updateItemIndicators()
             }
@@ -104,7 +102,7 @@ class FastScrollView @JvmOverloads constructor(
         recyclerView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             // RecyclerView#setAdapter calls requestLayout, so this can detect adapter changes
             if (recyclerView.adapter !== adapter) {
-                adapter = recyclerView.adapter
+                adapter = recyclerView.adapter as TimelineAdapter
             }
         }
     }
@@ -128,7 +126,7 @@ class FastScrollView @JvmOverloads constructor(
         scrubberItemsData.clear()
 
         //recreate the scrubber items list and put it into scrubberItemsData
-        createScrubberItemList(recyclerView!!, getItemIndicatorText)
+        createScrubberItemList(recyclerView!!)
             .toCollection(scrubberItemsData)
 
         //bind views
@@ -140,10 +138,14 @@ class FastScrollView @JvmOverloads constructor(
     //analogous to ItemIndicatorsBuilder
         //todo maybe instead of removing dupes for ours it creates like headers and then items
         //where headers are the dates and items will be used to represent how much space goes between headers
-    private fun createScrubberItemList(recyclerView: RecyclerView, getItemForPosition: (Int) -> String?): List<Pair<String, Int>> {
+    private fun createScrubberItemList(recyclerView: RecyclerView): List<Pair<String, Int>> {
         return (0 until recyclerView.adapter!!.itemCount).mapNotNull { position ->
-            val itemText = getItemForPosition(position)
-            itemText?.let { itemText to position }
+            val blah = (recyclerView.adapter as TimelineAdapter).getItemForPosition(position).takeIf { it is Entry }?.let {
+                (it as Entry).entryDate.toMonthYearString()
+            }
+//            val itemText = getItemForPosition(position)
+//            itemText?.let { itemText to position }
+            blah?.let { blah to position }
         }.distinctBy { it.first } //use the text to exclude any duplicates of this item category
         //todo the other impl has extra filtering that i'm not sure what for
     }

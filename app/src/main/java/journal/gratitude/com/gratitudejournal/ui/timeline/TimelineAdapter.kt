@@ -21,6 +21,10 @@ class TimelineAdapter(
     private val onClickListener: OnClickListener
 ) : ListAdapter<TimelineItem, TimelineAdapter.TimelineViewHolder>(TimelineDiffUtil()) {
 
+    fun getItemForPosition(position: Int): TimelineItem {
+        return getItem(position)
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
