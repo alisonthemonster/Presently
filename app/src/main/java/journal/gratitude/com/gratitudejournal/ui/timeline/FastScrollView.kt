@@ -25,8 +25,9 @@ import kotlin.math.min
 //every day written gets a point in the total area
     //for each item
         //place at += totalAvailableSize/totalNumEntries
+        //scrolls to the exact item but the thumb says the month and year
 
-//integrate into coordinator layout somehow to also hide fab and to hide/show scrubber when scrolling?
+//todo integrate into coordinator layout somehow to also hide fab and to hide/show scrubber when scrolling?
 
 //todo how to have selected item change when user manually scrolls through?
 
@@ -93,9 +94,7 @@ class FastScrollView @JvmOverloads constructor(
 
         //set the adapter
         this.adapter = (recyclerView.adapter as TimelineAdapter).also {
-            if (it != null) {
-                updateItemIndicators()
-            }
+            updateItemIndicators()
         }
 
         //todo what is this used for?
@@ -126,8 +125,7 @@ class FastScrollView @JvmOverloads constructor(
         scrubberItemsData.clear()
 
         //recreate the scrubber items list and put it into scrubberItemsData
-        createScrubberItemList(recyclerView!!)
-            .toCollection(scrubberItemsData)
+        createScrubberItemList().toCollection(scrubberItemsData)
 
         //bind views
         bindItemViews()
@@ -135,17 +133,13 @@ class FastScrollView @JvmOverloads constructor(
 
 
     //uses the mapper that the client provided and creates a list from it removing duplicates
-    //analogous to ItemIndicatorsBuilder
-        //todo maybe instead of removing dupes for ours it creates like headers and then items
-        //where headers are the dates and items will be used to represent how much space goes between headers
-    private fun createScrubberItemList(recyclerView: RecyclerView): List<Pair<String, Int>> {
-        return (0 until recyclerView.adapter!!.itemCount).mapNotNull { position ->
-            val blah = (recyclerView.adapter as TimelineAdapter).getItemForPosition(position).takeIf { it is Entry }?.let {
+    private fun createScrubberItemList(): List<Pair<String, Int>> {
+        val adapter = recyclerView!!.adapter as TimelineAdapter
+        return (0 until adapter.itemCount).mapNotNull { position ->
+            val itemText = adapter.getItemForPosition(position).takeIf { it is Entry }?.let {
                 (it as Entry).entryDate.toMonthYearString()
             }
-//            val itemText = getItemForPosition(position)
-//            itemText?.let { itemText to position }
-            blah?.let { blah to position }
+            itemText?.let { itemText to position }
         }.distinctBy { it.first } //use the text to exclude any duplicates of this item category
         //todo the other impl has extra filtering that i'm not sure what for
     }
@@ -170,10 +164,9 @@ class FastScrollView @JvmOverloads constructor(
     //combines a list of strings to make one big text view
         //the tag will allow the touch listener to figure out which item its touching
     private fun createTextViewFromList(scrubberItems: List<String>): TextView {
-        return (LayoutInflater.from(context).inflate(
-            R.layout.scrubber_item, this, false
-        ) as TextView).apply {
-            textColor?.let(::setTextColor)
+        val textView = LayoutInflater.from(context).inflate(R.layout.scrubber_item, this, false) as TextView
+        return textView.apply {
+            setTextColor(textColor)
             text = scrubberItems.joinToString(separator = "\n") { it }
             tag = scrubberItems //using the tag so that we can later look through the items in this textview
         }
@@ -243,9 +236,7 @@ class FastScrollView @JvmOverloads constructor(
         )
 
         // change text color for selected item
-        pressedTextColor?.let { color ->
-            TextColorUtil.highlightAtIndex(view as TextView, textLine, color)
-        }
+        TextColorUtil.highlightAtIndex(view as TextView, textLine, pressedTextColor)
 
         // callback
        itemSelectedCallback?.onItemSelected(touchedItem, centerY, positionOfTouchedItem)
