@@ -85,11 +85,9 @@
         android:id="@+id/fast_scroll_thumb"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/fast_scroll_view"
         app:layout_constraintEnd_toStartOf="@+id/fast_scroll_view"
-        app:layout_constraintTop_toTopOf="@+id/fast_scroll_view"
-    />
+        app:layout_constraintTop_toTopOf="@+id/fast_scroll_view" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/cal_fab"
