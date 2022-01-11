@@ -11,6 +11,7 @@ import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.util.toLocalDate
 
 class FastScrollThumbView @JvmOverloads constructor(
     context: Context,
@@ -44,11 +45,13 @@ class FastScrollThumbView @JvmOverloads constructor(
 
     }
 
-    override fun onItemSelected(item: String, indicatorCenterY: Int, itemPosition: Int) {
+    override fun onItemSelected(item: String, indicatorCenterY: Int) {
         val thumbTargetY = indicatorCenterY.toFloat() - (thumbView.measuredHeight / 2)
         thumbAnimation.animateToFinalPosition(thumbTargetY)
 
-        textView.text = item
+        val date = item.toLocalDate()
+        val monthYear = date.toMonthYearString()
+        textView.text = monthYear
     }
 
     fun setupWithFastScroller(fastScrollView: FastScrollView) {

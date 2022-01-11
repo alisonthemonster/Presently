@@ -281,3 +281,7 @@ fun LocalDate?.toMonthYearString(): String {
     return formatter.format(this)
 }
 
+fun LocalDate?.toMonthString(): String {
+    val formatter = DateTimeFormatter.ofPattern("MMMM")
+    return formatter.format(this)
+}

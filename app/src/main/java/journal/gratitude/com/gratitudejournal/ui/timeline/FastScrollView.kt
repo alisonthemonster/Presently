@@ -1,19 +1,18 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.os.Build
 import android.util.AttributeSet
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
+import org.threeten.bp.LocalDate
 import kotlin.math.min
 
 //convert this into a list of dates that scales to fit the space somehow?
@@ -64,7 +63,7 @@ class FastScrollView @JvmOverloads constructor(
     var onItemIndicatorTouched: ((Boolean) -> Unit)? = null
 
     //the actual items that will be in the scrubber view
-        //string is what the item will show and the int is the position
+        //string is what the item will show and the int is the position in the timeline list
     private val scrubberItemsData: MutableList<Pair<String, Int>> = ArrayList()
     private val scrubberItems: List<String>
         get() = scrubberItemsData.map { it.first }
@@ -132,16 +131,16 @@ class FastScrollView @JvmOverloads constructor(
     }
 
 
-    //uses the mapper that the client provided and creates a list from it removing duplicates
+    //takes the items in the adapter and creates a list of entries with their actual posiiton in the list
+        //this is necessary because we have milestones we need to not count in the scrubber scaling calculations
     private fun createScrubberItemList(): List<Pair<String, Int>> {
         val adapter = recyclerView!!.adapter as TimelineAdapter
+        //removes all the milestones
         return (0 until adapter.itemCount).mapNotNull { position ->
-            val itemText = adapter.getItemForPosition(position).takeIf { it is Entry }?.let {
-                (it as Entry).entryDate.toMonthYearString()
-            }
-            itemText?.let { itemText to position }
-        }.distinctBy { it.first } //use the text to exclude any duplicates of this item category
-        //todo the other impl has extra filtering that i'm not sure what for
+            val item = adapter.getItemForPosition(position)
+            val entry = if (item is Entry) item else null
+            entry?.let { entry.entryDate.toString() to position }
+        }
     }
 
     //iterates through the items and creates the views to go in the linear layout
@@ -163,11 +162,12 @@ class FastScrollView @JvmOverloads constructor(
 
     //combines a list of strings to make one big text view
         //the tag will allow the touch listener to figure out which item its touching
-    private fun createTextViewFromList(scrubberItems: List<String>): TextView {
-        val textView = LayoutInflater.from(context).inflate(R.layout.scrubber_item, this, false) as TextView
+    private fun createTextViewFromList(scrubberItems: List<String>): View {
+        val textView = LayoutInflater.from(context).inflate(R.layout.scrubber_track, this, false)
+
+        //todo we need to create a view here that uses the same math as in onTouchEvent to put
+
         return textView.apply {
-            setTextColor(textColor)
-            text = scrubberItems.joinToString(separator = "\n") { it }
             tag = scrubberItems //using the tag so that we can later look through the items in this textview
         }
     }
@@ -186,25 +186,24 @@ class FastScrollView @JvmOverloads constructor(
 
         var consumed = false
         val touchY = event.y.toInt()
-        // walks the children
-            // in our case we will only have one child that is a text view
-            // but in the reddit view we will have textviews and icons
+        // todo this is weird because we have a linearlayout but we only ever put the textview in it lols
         children.forEach { view ->
             //find the view in the children that has the touch happening to it
             if (view.containsY(touchY)) {
+                //TODO this logic is close!!
                 @Suppress("UNCHECKED_CAST")
-                val textInCurrentChild = view.tag as List<String> //get the children for this section of text
+                val dates = view.tag as List<String> //all of the dates in the timeline
 
                 val textIndicatorsTouchY = touchY - view.top
-                val textLineHeight = view.height / textInCurrentChild.size //the height of each child of text
+                val textLineHeight = view.height / dates.size //the height of each date
                 val touchedIndicatorIndex = min(
                     textIndicatorsTouchY / textLineHeight,
-                    textInCurrentChild.lastIndex
+                    dates.lastIndex
                 )
-                val touchedIndicator = textInCurrentChild[touchedIndicatorIndex]
+                val touchedDate = dates[touchedIndicatorIndex]
 
                 val centerY = view.y.toInt() + (textLineHeight / 2) + (touchedIndicatorIndex * textLineHeight)
-                selectItemIndicator(touchedIndicator, centerY, view, textLine = touchedIndicatorIndex)
+                selectItemIndicator(touchedDate, centerY, view, textLine = touchedIndicatorIndex)
 
                 consumed = true
             }
@@ -218,10 +217,11 @@ class FastScrollView @JvmOverloads constructor(
         // makes haptic feedback
         // highlights the currently touched item visually
     private fun selectItemIndicator(touchedItem: String, centerY: Int, view: View, textLine: Int) {
-        //look up in our list the touched text and find its position
+        //look up in our list the touched date to find its position in the entire timeline
         val positionOfTouchedItem = scrubberItemsData.first { it.first == touchedItem }.let { it.second }
         if (positionOfTouchedItem != lastSelectedPosition) {
-            clearSelectedItem() //this item is no longer the one being touched
+            //we're on a new item so clear the old one and update
+            clearSelectedItem()
             lastSelectedPosition = positionOfTouchedItem
             scrollToPosition(positionOfTouchedItem)
         }
@@ -235,11 +235,10 @@ class FastScrollView @JvmOverloads constructor(
             }
         )
 
-        // change text color for selected item
-        TextColorUtil.highlightAtIndex(view as TextView, textLine, pressedTextColor)
+        //todo move a lil mini scrubber here somehow
 
         // callback
-       itemSelectedCallback?.onItemSelected(touchedItem, centerY, positionOfTouchedItem)
+       itemSelectedCallback?.onItemSelected(touchedItem, centerY)
     }
 
     // resets so there is no currently selected item in the view
@@ -300,15 +299,9 @@ fun View.throwIfMissingAttrs(@StyleRes styleRes: Int, block: () -> Unit) {
 }
 
 
-@ColorInt
-internal fun ColorStateList.getColorForState(stateSet: IntArray): Int? {
-    return getColorForState(stateSet, defaultColor).takeIf { it != defaultColor }
-}
-
 interface ItemSelectedCallback {
     fun onItemSelected(
         item: String,
-        indicatorCenterY: Int,
-        itemPosition: Int
+        indicatorCenterY: Int
     )
 }
