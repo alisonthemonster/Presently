@@ -4,5 +4,4 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:includeFontPadding="false"
-    android:background="@color/monsteraAndroidWidgetColor"
-    />
+/>

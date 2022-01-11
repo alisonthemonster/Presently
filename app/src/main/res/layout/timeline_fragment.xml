@@ -59,10 +59,10 @@
         app:srcCompat="@drawable/ic_title" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:background="?attr/timelineBackgroundColor"
         android:id="@+id/timeline_recycler_view"
-        android:layout_height="0dp"
         android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/timelineBackgroundColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,14 +72,11 @@
         android:id="@+id/fast_scroll_view"
         android:layout_width="50dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         android:textAppearance="?android:textAppearanceSmall"
         android:textColor="@color/calmAndroidWidgetColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_background" />
+        app:layout_constraintTop_toTopOf="@+id/timeline_recycler_view" />
 
     <journal.gratitude.com.gratitudejournal.ui.timeline.FastScrollThumbView
         android:id="@+id/fast_scroll_thumb"

@@ -12,7 +12,6 @@ import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
-import org.threeten.bp.LocalDate
 import kotlin.math.min
 
 //convert this into a list of dates that scales to fit the space somehow?
@@ -163,7 +162,7 @@ class FastScrollView @JvmOverloads constructor(
     //combines a list of strings to make one big text view
         //the tag will allow the touch listener to figure out which item its touching
     private fun createTextViewFromList(scrubberItems: List<String>): View {
-        val textView = LayoutInflater.from(context).inflate(R.layout.scrubber_track, this, false)
+        val textView = LayoutInflater.from(context).inflate(R.layout.view_scroller_track, this, false)
 
         //todo we need to create a view here that uses the same math as in onTouchEvent to put
 
