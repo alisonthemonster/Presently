@@ -19,6 +19,8 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.presently.logging.AnalyticsLogger
 import com.presently.logging.CrashReporter
 import com.presently.settings.PresentlySettings
@@ -34,6 +36,7 @@ import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
 
@@ -45,7 +48,9 @@ class TimelineFragment : Fragment() {
     @Inject lateinit var analyticsLogger: AnalyticsLogger
     @Inject lateinit var crashReporter: CrashReporter
 
-    private lateinit var adapter: TimelineAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var fastScrollView: FastScrollView
+    private lateinit var timelineAdapterdapter: TimelineAdapter
 
     private var _binding: TimelineFragmentBinding? = null
     private val binding get() = _binding!!
@@ -83,12 +88,9 @@ class TimelineFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.timelineRecyclerView.layoutManager =
-            androidx.recyclerview.widget.LinearLayoutManager(context)
-
         val showDayOfWeek = settings.shouldShowDayOfWeekInTimeline()
         val linesPerEntry = settings.getLinesPerEntryInTimeline()
-        adapter = TimelineAdapter(
+        timelineAdapterdapter = TimelineAdapter(
             showDayOfWeek,
             linesPerEntry,
             object : OnClickListener {
@@ -106,10 +108,22 @@ class TimelineFragment : Fragment() {
                     navigateToDate(clickedDate, isNewEntry, numEntries)
                 }
             })
-        binding.timelineRecyclerView.adapter = adapter
 
-        viewModel.entries.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
+        recyclerView = binding.timelineRecyclerView
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = timelineAdapterdapter
+        }
+
+        fastScrollView = binding.fastScrollView
+
+        viewModel.entries.observe(viewLifecycleOwner, { timelineItems ->
+            timelineAdapterdapter.submitList(timelineItems)
+            fastScrollView.setRecyclerView(recyclerView) { position ->
+                timelineItems[position].takeIf { it is Entry }?.let {
+                    (it as Entry).entryDate.toMonthYearString()
+                }
+            }
         })
 
         binding.overflowButton.setOnClickListener {
@@ -260,5 +274,10 @@ class TimelineFragment : Fragment() {
         const val TIMELINE_TO_SEARCH = "TIMELINE_TO_SEARCH"
         const val TIMELINE_TO_SETTINGS = "TIMELINE_TO_ENTRY"
     }
+}
+
+private fun LocalDate?.toMonthYearString(): String {
+    val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
+    return formatter.format(this)
 }
 

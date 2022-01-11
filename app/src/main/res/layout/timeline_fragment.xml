@@ -68,6 +68,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
+    <journal.gratitude.com.gratitudejournal.ui.timeline.FastScrollView
+        android:id="@+id/fast_scroll_view"
+        android:layout_width="102dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/calmAndroidWidgetColor"
+        android:textAppearance="?android:textAppearanceSmall"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/cal_fab"
         android:layout_height="wrap_content"

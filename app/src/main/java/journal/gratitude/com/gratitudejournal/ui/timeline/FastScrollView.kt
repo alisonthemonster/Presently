@@ -1,18 +1,33 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
+import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Build
-import android.view.HapticFeedbackConstants
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
+import android.util.AttributeSet
+import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.annotation.StyleRes
+import androidx.core.content.res.getColorStateListOrThrow
+import androidx.core.content.res.getResourceIdOrThrow
+import androidx.core.content.res.use
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import journal.gratitude.com.gratitudejournal.R
 import kotlin.math.min
 
-class FastScrollView: LinearLayout {
+class FastScrollView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = R.attr.indicatorFastScrollerStyle,
+    defStyleRes: Int = R.style.Widget_IndicatorFastScroll_FastScroller
+) : LinearLayout(
+    context,
+    attrs,
+    defStyleAttr,
+    defStyleRes
+) {
 
     private val adapterDataObserver: RecyclerView.AdapterDataObserver = createAdapterDataObserver()
 
@@ -44,11 +59,45 @@ class FastScrollView: LinearLayout {
 
     private val isSetup: Boolean get() = (recyclerView != null)
     private var lastSelectedPosition: Int? = null
+    private var pressedTextColor: Int? = null
+
+    var textAppearanceRes: Int = 0
+        set(value) {
+            field = value
+            bindItemViews()
+        }
+
+    var textColor: ColorStateList? = null
+        set(value) {
+            field = value
+            pressedTextColor = value?.getColorForState(intArrayOf(android.R.attr.state_activated))
+            bindItemViews()
+        }
+
+    init {
+        //get the attributes and store them as vars
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.FastScrollView,
+            defStyleAttr,
+            defStyleRes
+        ).use { attrsArray ->
+            throwIfMissingAttrs(styleRes = R.style.Widget_IndicatorFastScroll_FastScroller) {
+                textAppearanceRes = attrsArray.getResourceIdOrThrow(R.styleable.FastScrollView_android_textAppearance)
+                textColor = attrsArray.getColorStateListOrThrow(R.styleable.FastScrollView_android_textColor)
+            }
+        }
+
+        isFocusableInTouchMode = true
+        isClickable = true
+        orientation = VERTICAL
+        gravity = Gravity.CENTER
+    }
 
 
     fun setRecyclerView(
         recyclerView: RecyclerView,
-        getItemIndicatorText: (Int) -> String
+        getItemIndicatorText: (Int) -> String?
     ) {
         check(!isSetup) { "Only set this view's RecyclerView once!" }
 
@@ -112,6 +161,7 @@ class FastScrollView: LinearLayout {
         //todo the other impl has extra filtering that i'm not sure what for
     }
 
+    //iterates through the items and creates the views to go in the linear layout
     private fun bindItemViews() {
         //reset the linear layout
         removeAllViews()
@@ -133,7 +183,7 @@ class FastScrollView: LinearLayout {
         return (LayoutInflater.from(context).inflate(
             R.layout.scrubber_item, this, false
         ) as TextView).apply {
-            //todo set the attributes of the text view
+            textColor?.let(::setTextColor)
             text = scrubberItems.joinToString(separator = "\n") { it }
             tag = scrubberItems //using the tag so that we can later look through the items in this textview
         }
@@ -180,9 +230,9 @@ class FastScrollView: LinearLayout {
         return consumed
     }
 
-    // scrolls the list!
-    // makes haptic feedback
-    // highlights the currently touched item
+        // scrolls the list!
+        // makes haptic feedback
+        // highlights the currently touched item visually
     private fun selectItemIndicator(touchedItem: String, centerY: Int, view: View, textLine: Int) {
         //look up in our list the touched text and find its position
         val positionOfTouchedItem = scrubberItemsData.first { it.first == touchedItem }.let { it.second }
@@ -201,7 +251,10 @@ class FastScrollView: LinearLayout {
             }
         )
 
-        //todo style the text
+        // change text color for selected item
+        pressedTextColor?.let { color ->
+            TextColorUtil.highlightAtIndex(view as TextView, textLine, color)
+        }
     }
 
     // resets so there is no currently selected item in the view
@@ -209,7 +262,7 @@ class FastScrollView: LinearLayout {
     private fun clearSelectedItem() {
         lastSelectedPosition = null
         children.filterIsInstance<TextView>().forEach {
-            //todo clear styling if we choose to add this for selected item
+            TextColorUtil.clearHighlight(it)
         }
     }
 
@@ -247,3 +300,22 @@ class FastScrollView: LinearLayout {
 }
 
 fun View.containsY(y: Int) = y in (top until bottom)
+
+fun View.throwIfMissingAttrs(@StyleRes styleRes: Int, block: () -> Unit) {
+    try {
+        block()
+    } catch (e: IllegalArgumentException) {
+        throw IllegalArgumentException(
+            "This ${this::class.java.simpleName} is missing an attribute. " +
+                    "Add it to its style, or make the style inherit from " +
+                    "${resources.getResourceName(styleRes)}.",
+            e
+        )
+    }
+}
+
+
+@ColorInt
+internal fun ColorStateList.getColorForState(stateSet: IntArray): Int? {
+    return getColorForState(stateSet, defaultColor).takeIf { it != defaultColor }
+}

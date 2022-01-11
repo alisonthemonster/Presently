@@ -4,4 +4,9 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
     </style>
+
+    <style name="Widget.IndicatorFastScroll.FastScroller" parent="android:Widget">
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
 </resources>
