@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.getColorStateListOrThrow
 import androidx.core.content.res.getResourceIdOrThrow
 import androidx.core.content.res.use
@@ -16,6 +17,13 @@ import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import journal.gratitude.com.gratitudejournal.R
 import kotlin.math.min
+
+//convert this into a list of dates that scales to fit the space somehow?
+    //if less than x items dont show scrubber (return early)
+    //no ui except maybe the years?
+
+
+//todo how to have selected item change when user manually scrolls through?
 
 class FastScrollView @JvmOverloads constructor(
     context: Context,
@@ -33,7 +41,6 @@ class FastScrollView @JvmOverloads constructor(
 
     private var isUpdateItemIndicatorsPosted = false
 
-
     //these all get provided by the client
     private var recyclerView: RecyclerView? = null
     private var adapter: RecyclerView.Adapter<*>? = null
@@ -47,47 +54,26 @@ class FastScrollView @JvmOverloads constructor(
         }
     private lateinit var getItemIndicatorText: (Int) -> String?
 
+
+    var itemSelectedCallback: ItemSelectedCallback? = null
+
     //this can be used if we want to show an additional view like FastScrollerThumbView when we're touching over an item
     internal var onItemIndicatorTouched: ((Boolean) -> Unit)? = null
 
     //the actual items that will be in the scrubber view
         //string is what the item will show and the int is the position
     private val scrubberItemsData: MutableList<Pair<String, Int>> = ArrayList()
-    val scrubberItems: List<String>
+    private val scrubberItems: List<String>
         get() = scrubberItemsData.map { it.first }
 
 
     private val isSetup: Boolean get() = (recyclerView != null)
     private var lastSelectedPosition: Int? = null
-    private var pressedTextColor: Int? = null
 
-    var textAppearanceRes: Int = 0
-        set(value) {
-            field = value
-            bindItemViews()
-        }
-
-    var textColor: ColorStateList? = null
-        set(value) {
-            field = value
-            pressedTextColor = value?.getColorForState(intArrayOf(android.R.attr.state_activated))
-            bindItemViews()
-        }
+    private val pressedTextColor: Int = ContextCompat.getColor(context, R.color.joyFabColor)
+    private val textColor: Int = ContextCompat.getColor(context, R.color.joyTimelineBodyColor)
 
     init {
-        //get the attributes and store them as vars
-        context.theme.obtainStyledAttributes(
-            attrs,
-            R.styleable.FastScrollView,
-            defStyleAttr,
-            defStyleRes
-        ).use { attrsArray ->
-            throwIfMissingAttrs(styleRes = R.style.Widget_IndicatorFastScroll_FastScroller) {
-                textAppearanceRes = attrsArray.getResourceIdOrThrow(R.styleable.FastScrollView_android_textAppearance)
-                textColor = attrsArray.getColorStateListOrThrow(R.styleable.FastScrollView_android_textColor)
-            }
-        }
-
         isFocusableInTouchMode = true
         isClickable = true
         orientation = VERTICAL
@@ -95,6 +81,7 @@ class FastScrollView @JvmOverloads constructor(
     }
 
 
+    //sets up the tracking of the adapter
     fun setRecyclerView(
         recyclerView: RecyclerView,
         getItemIndicatorText: (Int) -> String?
@@ -179,6 +166,7 @@ class FastScrollView @JvmOverloads constructor(
     }
 
     //combines a list of strings to make one big text view
+        //the tag will allow the touch listener to figure out which item its touching
     private fun createTextViewFromList(scrubberItems: List<String>): TextView {
         return (LayoutInflater.from(context).inflate(
             R.layout.scrubber_item, this, false
@@ -190,6 +178,7 @@ class FastScrollView @JvmOverloads constructor(
     }
 
     //handles the scrolling when this view is touched
+        //calculates which date in the view the user is touching
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
         //if user lifts their finger off the view
@@ -212,7 +201,7 @@ class FastScrollView @JvmOverloads constructor(
                 val textInCurrentChild = view.tag as List<String> //get the children for this section of text
 
                 val textIndicatorsTouchY = touchY - view.top
-                val textLineHeight = view.height / textInCurrentChild.size //the height of each row of text
+                val textLineHeight = view.height / textInCurrentChild.size //the height of each child of text
                 val touchedIndicatorIndex = min(
                     textIndicatorsTouchY / textLineHeight,
                     textInCurrentChild.lastIndex
@@ -255,6 +244,9 @@ class FastScrollView @JvmOverloads constructor(
         pressedTextColor?.let { color ->
             TextColorUtil.highlightAtIndex(view as TextView, textLine, color)
         }
+
+        // callback
+       itemSelectedCallback?.onItemSelected(touchedItem, centerY, positionOfTouchedItem)
     }
 
     // resets so there is no currently selected item in the view
@@ -266,11 +258,11 @@ class FastScrollView @JvmOverloads constructor(
         }
     }
 
-
+    //todo how to make it scroll so its at the top of the window
     private fun scrollToPosition(position: Int) {
         recyclerView!!.apply {
             stopScroll()
-            smoothScrollToPosition(position)
+            scrollToPosition(position)
         }
     }
 
@@ -318,4 +310,12 @@ fun View.throwIfMissingAttrs(@StyleRes styleRes: Int, block: () -> Unit) {
 @ColorInt
 internal fun ColorStateList.getColorForState(stateSet: IntArray): Int? {
     return getColorForState(stateSet, defaultColor).takeIf { it != defaultColor }
+}
+
+interface ItemSelectedCallback {
+    fun onItemSelected(
+        item: String,
+        indicatorCenterY: Int,
+        itemPosition: Int
+    )
 }

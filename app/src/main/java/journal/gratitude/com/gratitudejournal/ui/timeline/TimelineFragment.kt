@@ -50,6 +50,7 @@ class TimelineFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var fastScrollView: FastScrollView
+    private lateinit var fastScrollThumb: FastScrollThumbView
     private lateinit var timelineAdapterdapter: TimelineAdapter
 
     private var _binding: TimelineFragmentBinding? = null
@@ -116,14 +117,18 @@ class TimelineFragment : Fragment() {
         }
 
         fastScrollView = binding.fastScrollView
+        fastScrollThumb = binding.fastScrollThumb
 
         viewModel.entries.observe(viewLifecycleOwner, { timelineItems ->
             timelineAdapterdapter.submitList(timelineItems)
+            //todo this is the wrong place, we only want to be doing this once
+                //maybe we move this logic into the view?
             fastScrollView.setRecyclerView(recyclerView) { position ->
                 timelineItems[position].takeIf { it is Entry }?.let {
                     (it as Entry).entryDate.toMonthYearString()
                 }
             }
+            fastScrollThumb.setupWithFastScroller(fastScrollView)
         })
 
         binding.overflowButton.setOnClickListener {
