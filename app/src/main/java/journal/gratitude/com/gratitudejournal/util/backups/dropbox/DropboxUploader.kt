@@ -58,17 +58,19 @@ class DropboxUploader(val context: Context, val settings: PresentlySettings):
             Auth.startOAuth2PKCE(context, BuildConfig.DROPBOX_APP_KEY, requestConfig)
         }
 
-        fun deauthorizeDropboxAccess(context: Context, settings: PresentlySettings) {
-            val accessToken = settings.getAccessToken()
-            if (accessToken != null) {
-                val requestConfig = DbxRequestConfig.newBuilder("PresentlyAndroid")
-                    .build()
-                val client = DbxClientV2(requestConfig, accessToken)
-                client.auth().tokenRevoke()
-            }
+        suspend fun deauthorizeDropboxAccess(context: Context, settings: PresentlySettings) {
+            withContext(Dispatchers.IO) {
+                val accessToken = settings.getAccessToken()
+                if (accessToken != null) {
+                    val requestConfig = DbxRequestConfig.newBuilder("PresentlyAndroid")
+                        .build()
+                    val client = DbxClientV2(requestConfig, accessToken)
+                    client.auth().tokenRevoke()
+                }
 
-            settings.clearAccessToken()
-            WorkManager.getInstance(context).cancelAllWorkByTag(PRESENTLY_BACKUP)
+                settings.clearAccessToken()
+                WorkManager.getInstance(context).cancelAllWorkByTag(PRESENTLY_BACKUP)
+            }
         }
 
         const val PRESENTLY_BACKUP = "PRESENTLY_BACKUP"
