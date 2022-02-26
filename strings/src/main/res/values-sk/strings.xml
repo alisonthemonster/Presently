@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="what_are_you_thankful_for">Za čo si vďačný?</string>
-    <string name="what_were_you_thankful_for">Za čo si dnes vďační? </string>
-    <string name="what_are_you_thankful_for_today">Za čo si dnes vďační?</string>
-    <string name="what_are_you_thankful_for_yesterday">Za co si bol vďační včera?</string>
+    <string name="what_were_you_thankful_for">Za čo si dnes vďačný?</string>
+    <string name="what_are_you_thankful_for_today">Za čo si dnes vďačný?</string>
+    <string name="what_are_you_thankful_for_yesterday">Za čo si bol vďačný včera?</string>
     <string name="notification_settings">Nastavenia</string>
     <string name="privacy_policy">Zásady ochrany osobných údajov</string>
     <string name="read_privacy">Prečítať Zásady ochrany osobných údajov (EN)</string>
