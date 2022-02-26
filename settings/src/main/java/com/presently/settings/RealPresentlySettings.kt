@@ -1,6 +1,9 @@
 package com.presently.settings
 
+import android.app.AlarmManager
+import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import com.dropbox.core.oauth.DbxCredential
 import com.presently.logging.AnalyticsLogger
 import com.presently.logging.DROPBOX_AUTH_QUIT
@@ -80,6 +83,18 @@ class RealPresentlySettings @Inject constructor(
     override fun getNotificationTime(): LocalTime {
         val prefTime = sharedPrefs.getString(NOTIF_PREF_TIME, "21:00")
         return LocalTime.parse(prefTime)
+    }
+
+    override fun hasUserDisabledAlarmReminders(context: Context): Boolean {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            //the user is on 12+ so we have to check if we still have permission
+            !alarmManager.canScheduleExactAlarms()
+        } else {
+            //a pre 12 user cannot disable exact alarms
+            false
+        }
     }
 
     override fun getLinesPerEntryInTimeline(): Int {

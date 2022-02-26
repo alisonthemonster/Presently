@@ -103,6 +103,8 @@
     <string name="show_quote_off">Citatele de recunoștință nu vor fi afișate pe pagina de intrare</string>
     <string name="show_quote_on">Citatele de recunoștință vor fi afișate pe pagina de intrare</string>
     <string name="inspiration_title">Citate inspirationale</string>
+    <string name="alarm_disabled_title">Notificările au fost dezactivate la nivel de sistem</string>
+    <string name="alarm_disabled_body">Faceți clic aici pentru a activa setările de sistems</string>
     <string name="analytics_opt_out_title">Colectarea datelor analitice</string>
     <string name="analytics_opted_in_desc">Aplicația colectează informații de analiză anonimizate și criptate pentru a ajuta la diagnosticarea problemelor și pentru a monitoriza tendințele</string>
     <string name="analytics_opted_out_desc">Aplicația nu colectează informații de analiză</string>
