@@ -3,10 +3,10 @@ object Versions {
     const val TARGET_SDK = 31
     const val MIN_SDK = 23
 
-    const val APP_VERSION_CODE = 83
+    const val APP_VERSION_CODE = 86
 
     const val MAJOR = 1
-    const val MINOR = 19
+    const val MINOR = 20
     const val PATCH = 0
 
     const val KOTLIN = "1.4.32" //https://developer.android.com/jetpack/androidx/releases/core
@@ -18,7 +18,7 @@ object Versions {
     const val ANDROIDX_LIFECYCLE = "2.3.1" //https://developer.android.com/jetpack/androidx/releases/lifecycle
     const val ANDROIDX_RECYCLER_VIEW = "1.2.0"
     const val FRAGMENT_TESTING = "1.3.4"
-    const val ANDROIDX_BIOMETRIC = "1.0.1" //https://developer.android.com/jetpack/androidx/releases/biometric
+    const val ANDROIDX_BIOMETRIC = "1.2.0-alpha04" //https://developer.android.com/jetpack/androidx/releases/biometric
     const val ANDROIDX_TEST_JUNIT = "1.1.2"
     const val ANDROIDX_WORK = "2.7.1" //https://developer.android.com/jetpack/androidx/releases/work
     const val ANDROIDX_ROOM = "2.4.0-alpha03" //https://developer.android.com/jetpack/androidx/releases/room
