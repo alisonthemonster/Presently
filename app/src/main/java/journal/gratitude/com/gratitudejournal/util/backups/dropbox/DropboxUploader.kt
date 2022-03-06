@@ -12,6 +12,7 @@ import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.model.CloudUploadResult
 import journal.gratitude.com.gratitudejournal.model.UploadError
 import journal.gratitude.com.gratitudejournal.model.UploadSuccess
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -58,8 +59,12 @@ class DropboxUploader(val context: Context, val settings: PresentlySettings):
             Auth.startOAuth2PKCE(context, BuildConfig.DROPBOX_APP_KEY, requestConfig)
         }
 
-        suspend fun deauthorizeDropboxAccess(context: Context, settings: PresentlySettings) {
-            withContext(Dispatchers.IO) {
+        suspend fun deauthorizeDropboxAccess(
+            context: Context,
+            settings: PresentlySettings,
+            dispatcher: CoroutineDispatcher = Dispatchers.IO
+        ) {
+            withContext(dispatcher) {
                 val accessToken = settings.getAccessToken()
                 if (accessToken != null) {
                     val requestConfig = DbxRequestConfig.newBuilder("PresentlyAndroid")

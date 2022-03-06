@@ -64,7 +64,7 @@ class RealUploader @Inject constructor(
                     is UploadError -> {
                         if (result.exception is InvalidAccessTokenException) {
                             sendDropboxAuthFailureNotification(appContext)
-                            DropboxUploader.deauthorizeDropboxAccess(appContext, settings)
+                            DropboxUploader.deauthorizeDropboxAccess(appContext, settings, dispatchers.io)
                         }
                         if (result.exception.isInsufficientSpace()) {
                             sendDropboxTooFullNotification(appContext)
