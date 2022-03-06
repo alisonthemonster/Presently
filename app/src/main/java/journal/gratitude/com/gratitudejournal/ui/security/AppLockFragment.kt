@@ -1,5 +1,8 @@
 package journal.gratitude.com.gratitudejournal.ui.security
 
+import android.hardware.biometrics.BiometricManager.Authenticators.BIOMETRIC_WEAK
+import android.hardware.biometrics.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -114,13 +117,16 @@ class AppLockFragment : Fragment() {
                     }
                 })
 
-        val promptInfo = BiometricPrompt.PromptInfo.Builder()
-                .setTitle(getString(R.string.lock_title))
-                .setSubtitle(getString(R.string.lock_summary))
-//                .setNegativeButtonText(getString(R.string.cancel))
-                .setConfirmationRequired(false)
-                .setDeviceCredentialAllowed(true)
-                .build()
+        val promptInfo = BiometricPrompt.PromptInfo.Builder().apply {
+            setTitle(getString(R.string.lock_title))
+            setSubtitle(getString(R.string.lock_summary))
+            setConfirmationRequired(false)
+            if (Build.VERSION.SDK_INT > 29) {
+                setAllowedAuthenticators(BIOMETRIC_WEAK or DEVICE_CREDENTIAL)
+            } else {
+                setDeviceCredentialAllowed(true)
+            }
+        }.build()
 
         biometricPrompt.authenticate(promptInfo)
     }
