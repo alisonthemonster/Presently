@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui
 
+import android.content.Context
 import com.dropbox.core.oauth.DbxCredential
 import com.presently.settings.BackupCadence
 import com.presently.settings.PresentlySettings
@@ -68,6 +69,10 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
 
     override fun getNotificationTime(): LocalTime {
         return LocalTime.parse("21:00")
+    }
+
+    override fun hasUserDisabledAlarmReminders(context: Context): Boolean {
+        return false
     }
 
     override fun getLinesPerEntryInTimeline(): Int {

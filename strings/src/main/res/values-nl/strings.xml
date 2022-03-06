@@ -100,6 +100,8 @@
     <string name="show_quote_off">Citaten van dankbaarheid worden niet weergegeven op de invoerpagina</string>
     <string name="show_quote_on">Citaten van dankbaarheid worden weergegeven op de invoerpagina</string>
     <string name="inspiration_title">Inspirerende citaten</string>
+    <string name="alarm_disabled_title">Meldingen zijn uitgeschakeld op systeemniveau</string>
+    <string name="alarm_disabled_body">Klik hier om in systeeminstellingen in te schakelen</string>
     <string name="analytics_opt_out_title">Verzameling van Analytics-gegevens</string>
     <string name="analytics_opted_in_desc">App verzamelt geanonimiseerde, versleutelde analytische informatie om problemen te diagnosticeren en trends te volgen</string>
     <string name="analytics_opted_out_desc">App verzamelt geen analytische informatie</string>

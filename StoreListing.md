@@ -1,5 +1,5 @@
 ## English
-*[NOTE TO TRANSLATORS: please keep the following line under 50 characters long]*
+*[NOTE TO TRANSLATORS: please keep the following line under 30 characters long]*
 
 Presently: A gratitude journal
 
