@@ -105,6 +105,7 @@ dependencies {
     implementation(Libraries.compose_tooling)
     implementation(Libraries.compose_viewmodel)
     implementation(Libraries.compose_hilt_navigation)
+    implementation(Libraries.compose_accompanist_navigation_animation)
 
     implementation(Libraries.androidx_livedata_ktx)
     implementation(Libraries.androidx_viewmodel_ktx)

@@ -55,6 +55,7 @@ object Versions {
     const val TEST_ORCHESTRATOR = "1.0.2"
     const val COMPOSE = "1.1.1"
     const val COMPOSE_ACTIVITY = "1.4.0"
+    const val ACCOMPANIST = "0.24.5-alpha"
 }
 
 object Libraries {
@@ -108,6 +109,7 @@ object Libraries {
    const val compose_tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
    const val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.ANDROIDX_LIFECYCLE}"
    const val compose_hilt_navigation = "androidx.hilt:hilt-navigation-compose:${Versions.HILT_ANDROID}"
+   const val compose_accompanist_navigation_animation = "com.google.accompanist:accompanist-navigation-animation:${Versions.ACCOMPANIST}"
 }
 
 object TestLibraries {
