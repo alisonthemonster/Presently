@@ -40,6 +40,7 @@ android {
     buildFeatures {
         dataBinding = true //TODO are we still using this?
         viewBinding = true
+        compose = true
     }
 
     buildTypes {
@@ -51,6 +52,10 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.1.1"
     }
 
     sourceSets {

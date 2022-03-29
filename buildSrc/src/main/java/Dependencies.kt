@@ -9,7 +9,7 @@ object Versions {
     const val MINOR = 20
     const val PATCH = 0
 
-    const val KOTLIN = "1.4.32" //https://developer.android.com/jetpack/androidx/releases/core
+    const val KOTLIN = "1.5.21" //https://developer.android.com/jetpack/androidx/releases/core
     const val KOTLIN_COROUTINES = "1.5.0" //https://github.com/Kotlin/kotlinx.coroutines/releases/
     const val KOTLIN_COROUTINES_TEST = "1.3.2"
     const val ANDROIDX_CORE_KTX = "1.6.0" //https://developer.android.com/jetpack/androidx/releases/core
@@ -53,6 +53,8 @@ object Versions {
     const val RX_BINDING = "2.1.1"
     const val ESPRESSO = "3.3.0"
     const val TEST_ORCHESTRATOR = "1.0.2"
+    const val COMPOSE = "1.1.1"
+    const val COMPOSE_ACTIVITY = "1.4.0"
 }
 
 object Libraries {
@@ -99,6 +101,11 @@ object Libraries {
    const val rxandroid = "io.reactivex.rxjava2:rxandroid:${Versions.RX_ANDROID}"
    const val rxkotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.RX_KOTLIN}" //TODO do we need?
    const val rxbinding = "com.jakewharton.rxbinding2:rxbinding:${Versions.RX_BINDING}"
+   const val compose_activities = "androidx.activity:activity-compose:${Versions.COMPOSE_ACTIVITY}"
+   const val compose_material = "androidx.compose.material:material:${Versions.COMPOSE}"
+   const val compose_animation = "androidx.compose.animation:animation:${Versions.COMPOSE}"
+   const val compose_tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
+   const val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.ANDROIDX_LIFECYCLE}"
 }
 
 object TestLibraries {
@@ -127,4 +134,5 @@ object TestLibraries {
     const val espresso_contrib = "androidx.test.espresso:espresso-contrib:${Versions.ESPRESSO}"
     const val test_orchestrator = "com.android.support.test:orchestrator:${Versions.TEST_ORCHESTRATOR}"
     const val three_ten_abp = "org.threeten:threetenbp:${Versions.THREE_TEN_ABP}"
+    const val compose_ui_testing = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}"
 }
