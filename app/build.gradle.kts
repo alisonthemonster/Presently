@@ -100,6 +100,12 @@ dependencies {
     implementation(Libraries.androidx_room_ktx)
     kapt(Libraries.androidx_room_compiler)
 
+    implementation(Libraries.compose_ui)
+    implementation(Libraries.compose_material)
+    implementation(Libraries.compose_tooling)
+    implementation(Libraries.compose_viewmodel)
+    implementation(Libraries.compose_hilt_navigation)
+
     implementation(Libraries.androidx_livedata_ktx)
     implementation(Libraries.androidx_viewmodel_ktx)
     kapt(Libraries.androidx_lifecycle_compiler)

@@ -9,7 +9,7 @@ object Versions {
     const val MINOR = 20
     const val PATCH = 0
 
-    const val KOTLIN = "1.5.21" //https://developer.android.com/jetpack/androidx/releases/core
+    const val KOTLIN = "1.6.10" //https://developer.android.com/jetpack/androidx/releases/core
     const val KOTLIN_COROUTINES = "1.5.0" //https://github.com/Kotlin/kotlinx.coroutines/releases/
     const val KOTLIN_COROUTINES_TEST = "1.3.2"
     const val ANDROIDX_CORE_KTX = "1.6.0" //https://developer.android.com/jetpack/androidx/releases/core
@@ -102,10 +102,12 @@ object Libraries {
    const val rxkotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.RX_KOTLIN}" //TODO do we need?
    const val rxbinding = "com.jakewharton.rxbinding2:rxbinding:${Versions.RX_BINDING}"
    const val compose_activities = "androidx.activity:activity-compose:${Versions.COMPOSE_ACTIVITY}"
+   const val compose_ui = "androidx.compose.ui:ui:${Versions.COMPOSE}"
    const val compose_material = "androidx.compose.material:material:${Versions.COMPOSE}"
    const val compose_animation = "androidx.compose.animation:animation:${Versions.COMPOSE}"
    const val compose_tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
    const val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.ANDROIDX_LIFECYCLE}"
+   const val compose_hilt_navigation = "androidx.hilt:hilt-navigation-compose:${Versions.HILT_ANDROID}"
 }
 
 object TestLibraries {
