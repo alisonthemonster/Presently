@@ -23,7 +23,6 @@ import org.threeten.bp.LocalDate
 fun Timeline(
     onEntryClicked: (date: LocalDate) -> Unit
 ) {
-    Log.d("blerg", "Timeline")
     val viewModel = hiltViewModel<TimelineeViewModel>()
     val state = viewModel.state.collectAsState()
 

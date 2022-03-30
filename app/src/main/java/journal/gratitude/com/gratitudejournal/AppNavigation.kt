@@ -10,8 +10,10 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
+import journal.gratitude.com.gratitudejournal.ui.entry.Entry
 import journal.gratitude.com.gratitudejournal.ui.timeline.Timeline
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
+import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import org.threeten.bp.LocalDate
 
 internal sealed class Screen(val route: String) {
@@ -56,7 +58,14 @@ internal fun AppNavigation(
             )
         ) {
             val date = it.arguments?.getString("entry-date")
-            Text("oh shit you're on another screen for $date")
+            Entry(
+                date?.toLocalDate() ?: LocalDate.now(),
+                onEntrySaved = { milestoneNumber ->
+                if (milestoneNumber != null) {
+                    //todo how will we pass this back?
+                }
+                navController.navigateUp()
+            })
         }
     }
 }
