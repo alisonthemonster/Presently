@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal
 
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,6 +23,7 @@ internal sealed class Screen(val route: String) {
     object Settings : Screen("settings")
     object Share : Screen("share")
     object Search : Screen("search")
+    object Themes : Screen("themes")
     object Entry : Screen("entry/{entry-date}") {
         fun createRoute(entryDate: LocalDate): String {
             return "entry/${entryDate.toDatabaseString()}"
@@ -36,7 +37,6 @@ internal fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
 ) {
-    Log.d("blerg", "AppNavigation")
     AnimatedNavHost(
         modifier = modifier,
         navController = navController,
@@ -48,6 +48,15 @@ internal fun AppNavigation(
             Timeline(
                 onEntryClicked = { date ->
                     navController.navigate(Screen.Entry.createRoute(date))
+                },
+                onSearchClicked = {
+                    navController.navigate(Screen.Search.createRoute())
+                },
+                onThemesClicked = {
+                    navController.navigate(Screen.Themes.createRoute())
+                },
+                onSettingsClicked = {
+                    navController.navigate(Screen.Settings.createRoute())
                 }
             )
         }
@@ -61,11 +70,43 @@ internal fun AppNavigation(
             Entry(
                 date?.toLocalDate() ?: LocalDate.now(),
                 onEntrySaved = { milestoneNumber ->
-                if (milestoneNumber != null) {
-                    //todo how will we pass this back?
-                }
-                navController.navigateUp()
-            })
+                    if (milestoneNumber != null) {
+                        //todo how will we pass this back?
+                    }
+                    navController.navigateUp()
+                },
+                onShareClicked = { date, content ->
+                    navController.navigate(Screen.Share.createRoute())
+                },
+            )
+        }
+        composable(
+            route = Screen.Share.route,
+        ) {
+            Column() {
+                Text("SHARE")
+            }
+        }
+        composable(
+            route = Screen.Search.route,
+        ) {
+            Column() {
+                Text("SEARCH")
+            }
+        }
+        composable(
+            route = Screen.Themes.route,
+        ) {
+            Column() {
+                Text("THEMES")
+            }
+        }
+        composable(
+            route = Screen.Settings.route,
+        ) {
+            Column() {
+                Text("SETTINGS")
+            }
         }
     }
 }

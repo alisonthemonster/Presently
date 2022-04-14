@@ -37,7 +37,6 @@ class EntryyViewModel @Inject constructor(
         when (entryEvent) {
             EntryEvent.OnHintClicked -> changeHint()
             EntryEvent.OnSaveClicked -> saveEntry()
-            EntryEvent.OnShareClicked -> TODO()
             is EntryEvent.OnTextChanged -> {
                 _state.value = _state.value.copy(content = entryEvent.newText)
             }

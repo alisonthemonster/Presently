@@ -9,15 +9,21 @@ import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringArrayResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
+import kotlin.random.Random
 
 @Composable
 fun Entry(
     date: LocalDate,
-    onEntrySaved: (milestoneNumber: Int?) -> Unit
+    onEntrySaved: (milestoneNumber: Int?) -> Unit,
+    onShareClicked: (date: String, content: String) -> Unit
 ) {
     val viewModel = hiltViewModel<EntryyViewModel>()
     val state = viewModel.state.collectAsState()
@@ -29,17 +35,21 @@ fun Entry(
             modifier = Modifier.fillMaxWidth(),
             state = state.value,
             handleEvent = viewModel::handleEvent,
-            onEntrySaved = onEntrySaved
+            onEntrySaved = onEntrySaved,
+            onShareClicked = onShareClicked
         )
     }
 }
+
+//todo this all gets reset on rotation!!! waaaa
 
 @Composable
 fun EntryContent(
     modifier: Modifier = Modifier,
     state: EntryViewState,
     handleEvent: (EntryEvent) -> Unit,
-    onEntrySaved: (milestoneNumber: Int?) -> Unit
+    onEntrySaved: (milestoneNumber: Int?) -> Unit,
+    onShareClicked: (date: String, content: String) -> Unit
 ) {
     Column {
         Text(
@@ -72,7 +82,7 @@ fun EntryContent(
                         contentDescription = "Hint")
                 }
             } else {
-                IconButton(onClick = { handleEvent(EntryEvent.OnShareClicked) }) {
+                IconButton(onClick = { onShareClicked(state.date.toFullString(), state.content) }) {
                     Icon(
                         imageVector = Icons.Default.Check,
                         contentDescription = "Hint")
@@ -85,8 +95,9 @@ fun EntryContent(
                 Text(text = "Save")
             }
         }
-        Text(text = "A quote will go here!")
-
+        val quotes = stringArrayResource(id = R.array.inspirations)
+        val randomValue: Int = remember { Random.nextInt(quotes.size) }
+        Text(text = quotes[randomValue])
     }
 
 }
