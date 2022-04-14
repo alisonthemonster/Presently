@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.toFullString
@@ -28,6 +29,8 @@ fun Entry(
     val viewModel = hiltViewModel<EntryyViewModel>()
     val state = viewModel.state.collectAsState()
 
+    //TODO this gets called waaaaaay too many times
+        //think we need to add some remembers to this shit
     viewModel.fetchContent(date)
 
     MaterialTheme {
@@ -40,8 +43,6 @@ fun Entry(
         )
     }
 }
-
-//todo this all gets reset on rotation!!! waaaa
 
 @Composable
 fun EntryContent(
@@ -72,7 +73,21 @@ fun EntryContent(
             onValueChange = {
                 handleEvent(EntryEvent.OnTextChanged(it))
             },
-            placeholder = { Text(text = state.hint) }
+            placeholder = {
+                val hintNumber = state.promptNumber
+                if (hintNumber == -1) {
+                    Text(text = if (state.date == LocalDate.now()) {
+                        stringResource(id = R.string.what_are_you_thankful_for)
+                    } else {
+                        stringResource(id = R.string.what_were_you_thankful_for)
+                    })
+                } else {
+                    //todo this is lost on rotation
+                    val hints = stringArrayResource(id = R.array.prompts)
+                    hints.shuffle()
+                    Text(text = hints[hintNumber % hints.size])
+                }
+            }
         )
         Row() {
             if (state.shouldShowHintButton) {

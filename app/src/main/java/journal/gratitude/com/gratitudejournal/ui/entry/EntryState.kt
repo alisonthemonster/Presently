@@ -14,12 +14,10 @@ data class EntryViewState(
     val isNewEntry: Boolean = true,
     val numberExistingEntries: Int? = null,
     val hasUserEdits: Boolean = false,
-    val promptNumber: Int = 0,
-    val promptsList: List<String> = listOf(""),
+    val promptNumber: Int = -1,
     val isSaved: Boolean = false,
     val milestoneNumber: Int = 0
 ) {
-    val hint = promptsList[promptNumber]
     val shouldShowHintButton = content.isEmpty()
 }
 

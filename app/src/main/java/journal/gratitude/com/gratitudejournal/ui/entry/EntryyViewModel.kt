@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.presently.logging.AnalyticsLogger
@@ -9,6 +10,7 @@ import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
 import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilestone
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineEvent
+import journal.gratitude.com.gratitudejournal.util.toFullString
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -23,7 +25,12 @@ class EntryyViewModel @Inject constructor(
     private val _state = MutableStateFlow(EntryViewState())
     val state: StateFlow<EntryViewState> = _state
 
+    init {
+        Log.d("blerg", "viewmodelinit")
+    }
+
     fun fetchContent(date: LocalDate) {
+        Log.d("blerg", "fetching content for ${date.toFullString()}")
         viewModelScope.launch {
             val content = repository.getEntry(date)
             _state.value = _state.value.copy(
@@ -67,9 +74,7 @@ class EntryyViewModel @Inject constructor(
     private fun changeHint() {
         analytics.recordEvent(CLICKED_PROMPT)
         val currentPromptNumber = _state.value.promptNumber
-        val prompts = _state.value.promptsList
-        val newPromptNumber =
-            if (currentPromptNumber < prompts.size - 1) currentPromptNumber + 1 else 0
+        val newPromptNumber = currentPromptNumber + 1
         _state.value = _state.value.copy(promptNumber = newPromptNumber)
     }
 
