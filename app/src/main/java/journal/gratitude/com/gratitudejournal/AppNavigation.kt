@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import journal.gratitude.com.gratitudejournal.ui.entry.Entry
+import journal.gratitude.com.gratitudejournal.ui.search.Search
 import journal.gratitude.com.gratitudejournal.ui.timeline.Timeline
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
@@ -90,9 +91,11 @@ internal fun AppNavigation(
         composable(
             route = Screen.Search.route,
         ) {
-            Column() {
-                Text("SEARCH")
-            }
+            Search(
+                onEntryClicked = { date ->
+                    navController.navigate(Screen.Entry.createRoute(date))
+                },
+            )
         }
         composable(
             route = Screen.Themes.route,

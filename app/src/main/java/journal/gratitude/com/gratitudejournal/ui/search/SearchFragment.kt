@@ -100,7 +100,7 @@ class SearchFragment : Fragment() {
                 .filter { charSequence -> !charSequence.isNullOrBlank() }
                 .map { charSequence -> charSequence.toString() }
                 .flatMapLatest { query ->
-                    viewModel.search(query)
+                    viewModel.searchPaged(query)
                 }
                 .collectLatest {results ->
                     adapter.submitData(results)

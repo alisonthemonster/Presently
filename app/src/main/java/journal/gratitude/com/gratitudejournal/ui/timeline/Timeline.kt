@@ -118,7 +118,7 @@ fun NavigationDrawer(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    Text("Drawer title", modifier = Modifier.padding(16.dp))
+    Text(stringResource(R.string.presently), modifier = Modifier.padding(16.dp))
     Divider()
     NavigationDrawerItem(
         title = stringResource(id = R.string.search),

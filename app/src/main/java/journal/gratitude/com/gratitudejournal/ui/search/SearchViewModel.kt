@@ -11,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(private val repository: EntryRepository) : ViewModel() {
 
-    fun search(queryString: String): Flow<PagingData<Entry>> {
+    fun searchPaged(queryString: String): Flow<PagingData<Entry>> {
         return repository.searchEntries(queryString)
     }
 }

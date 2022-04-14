@@ -57,4 +57,10 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
 
     }
 
+    override suspend fun search(query: String): List<Entry> {
+        val escapedQuery = query.replace("\"", "")
+        val wildcardQuery = String.format("*%s*", escapedQuery)
+        return entryDao.search(wildcardQuery)
+    }
+
 }
