@@ -18,7 +18,6 @@ import dagger.hilt.android.EntryPointAccessors
 import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment
-import journal.gratitude.com.gratitudejournal.util.LocaleHelper
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
 import javax.inject.Inject

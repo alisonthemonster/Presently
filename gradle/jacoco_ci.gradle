@@ -71,7 +71,6 @@ subprojects { prj ->
                               '**/DataBinderMapperImpl*.*',
                               '**/ContainerActivity*',
                               '**/AppLockFragment*',
-                              '**/LocaleHelper*',
                               '**/TimelineFragment*',
                               '**/FirebaseAnalytics.kt', //not going to test 3rd party code
                               '**/calendar/*.*',]
