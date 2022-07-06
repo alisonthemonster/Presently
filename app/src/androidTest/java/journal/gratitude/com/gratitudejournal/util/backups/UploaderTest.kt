@@ -13,7 +13,6 @@ import com.dropbox.core.v2.files.UploadError.OTHER
 import com.dropbox.core.v2.files.UploadErrorException
 import com.google.common.truth.Truth.assertThat
 import com.presently.coroutine_utils.AppCoroutineDispatchers
-import com.presently.logging.AnalyticsLogger
 import com.presently.logging.CrashReporter
 import com.presently.settings.BackupCadence
 import com.presently.settings.PresentlySettings
@@ -24,8 +23,8 @@ import journal.gratitude.com.gratitudejournal.model.UploadSuccess
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.CloudProvider
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
@@ -37,10 +36,12 @@ class UploaderTest {
 
     private val context = ApplicationProvider.getApplicationContext<Context>()
 
+    private val dispatcher = StandardTestDispatcher()
+
     private val dispatchers = AppCoroutineDispatchers(
-        io = TestCoroutineDispatcher(),
-        computation = TestCoroutineDispatcher(),
-        main = TestCoroutineDispatcher()
+        io = dispatcher,
+        computation = dispatcher,
+        main = dispatcher
     )
 
     private val repo = object : EntryRepository {
@@ -104,20 +105,8 @@ class UploaderTest {
         override fun isOptedIntoAnalytics(): Boolean = fail("Not needed in this test")
     }
 
-    private val analytics = object : AnalyticsLogger {
-        override fun recordEvent(event: String) = fail("Not needed in this test")
-        override fun recordEvent(event: String, details: Map<String, Any>) =
-            fail("Not needed in this test")
-        override fun recordSelectEvent(selectedContent: String, selectedContentType: String) =
-            fail("Not needed in this test")
-        override fun recordEntryAdded(numEntries: Int) = fail("Not needed in this test")
-        override fun recordView(viewName: String) = fail("Not needed in this test")
-        override fun optOutOfAnalytics() = fail("Not needed in this test")
-        override fun optIntoAnalytics() = fail("Not needed in this test")
-    }
-
     @Test
-    fun emptyRepositoryDoesNothing() = runBlockingTest {
+    fun emptyRepositoryDoesNothing() = runTest {
         wasCloudProviderCalled = false
         val repo = object : EntryRepository {
             override suspend fun getEntries(): List<Entry> {
@@ -141,7 +130,7 @@ class UploaderTest {
     }
 
     @Test
-    fun successfulUpload() = runBlockingTest {
+    fun successfulUpload() = runTest(dispatcher) {
         wasCloudProviderCalled = false
         val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings)
         val actual = uploader.uploadEntries(context)
@@ -151,7 +140,7 @@ class UploaderTest {
     }
 
     @Test
-    fun invalidAccessTokenUpload() = runBlockingTest {
+    fun invalidAccessTokenUpload() = runTest(dispatcher) {
         wasAccessTokenCleared = false
         crashReporter.loggedException = null
         val exception = InvalidAccessTokenException("requestId", "message", INVALID_ACCESS_TOKEN)
@@ -170,7 +159,7 @@ class UploaderTest {
     }
 
     @Test
-    fun insufficientSpaceUpload() = runBlockingTest {
+    fun insufficientSpaceUpload() = runTest(dispatcher) {
         wasAccessTokenCleared = false
         crashReporter.loggedException = null
         val exception = UploadErrorException("/route", "requestId", LocalizedText("insufficient_space", "en_US"), OTHER)

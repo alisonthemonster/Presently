@@ -5,8 +5,7 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.repository.EntryRepositoryImpl
 import journal.gratitude.com.gratitudejournal.room.EntryDao
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.threeten.bp.LocalDate
 import kotlin.test.Test
@@ -24,14 +23,14 @@ class EntryRepositoryTest {
     }
 
     @Test
-    fun getEntry_CallsDaoOnce() = runBlockingTest {
+    fun getEntry_CallsDaoOnce() = runTest {
         repository.getEntry(LocalDate.now())
 
         verify(entryDao, times(1)).getEntry(any())
     }
 
     @Test
-    fun getEntry_CallsDaoWithRightDate() = runBlockingTest {
+    fun getEntry_CallsDaoWithRightDate() = runTest {
         val expectedDate = LocalDate.now()
         repository.getEntry(expectedDate)
 
@@ -39,61 +38,45 @@ class EntryRepositoryTest {
     }
 
     @Test
-    fun getEntries_CallsDaoOnce() {
-        runBlocking {
-            // Will be launched in the mainThreadSurrogate dispatcher
-            repository.getEntries()
-        }
+    fun getEntries_CallsDaoOnce() = runTest {
+        repository.getEntries()
+
         verify(entryDao, times(1)).getEntries()
     }
 
     @Test
-    fun getEntriesFlow_CallsDaoOnce() {
-        runBlocking {
-            // Will be launched in the mainThreadSurrogate dispatcher
-            repository.getEntriesFlow()
-        }
+    fun getEntriesFlow_CallsDaoOnce() = runTest {
+        repository.getEntriesFlow()
+
         verify(entryDao, times(1)).getEntriesFlow()
     }
 
     @Test
-    fun addEntry_CallsDaoOnce() {
-        runBlocking {
-            repository.addEntry(Entry(LocalDate.now(), "Henlo!"))
-
-        }
+    fun addEntry_CallsDaoOnce() = runTest {
+        repository.addEntry(Entry(LocalDate.now(), "Henlo!"))
 
         verify(entryDao, times(1)).insertEntry(any())
     }
 
     @Test
-    fun addEntryEmpty_CallsDaoDelete() {
-        runBlocking {
-            repository.addEntry(Entry(LocalDate.now(), ""))
-
-        }
+    fun addEntryEmpty_CallsDaoDelete() = runTest {
+        repository.addEntry(Entry(LocalDate.now(), ""))
 
         verify(entryDao, times(1)).delete(any())
     }
 
     @Test
-    fun addEntry_CallsDaoWithCorrectEntry() {
+    fun addEntry_CallsDaoWithCorrectEntry() = runTest {
         val expectedEntry = Entry(LocalDate.now(), "Hello!")
-        runBlocking {
-            repository.addEntry(expectedEntry)
-
-        }
+        repository.addEntry(expectedEntry)
 
         verify(entryDao).insertEntry(expectedEntry)
     }
 
     @Test
-    fun addEntries_CallsDaoWithCorrectEntry() {
+    fun addEntries_CallsDaoWithCorrectEntry() = runTest {
         val expectedEntry = listOf(Entry(LocalDate.now(), "Hello!"))
-        runBlocking {
-            repository.addEntries(expectedEntry)
-
-        }
+        repository.addEntries(expectedEntry)
 
         verify(entryDao).insertEntries(expectedEntry)
     }

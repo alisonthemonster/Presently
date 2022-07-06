@@ -4,9 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import journal.gratitude.com.gratitudejournal.util.LiveDataTestUtil
 import journal.gratitude.com.gratitudejournal.model.Entry
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -41,7 +40,7 @@ class EntryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeEntryAndReadInList() = runBlockingTest {
+    fun writeEntryAndReadInList() = runTest {
         val date = LocalDate.of(2012, 1, 1)
         val expectedEntry = Entry(date, "Test content")
         entryDao.insertEntry(expectedEntry)

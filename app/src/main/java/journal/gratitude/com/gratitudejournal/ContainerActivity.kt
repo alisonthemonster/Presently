@@ -3,7 +3,6 @@ package journal.gratitude.com.gratitudejournal
 import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
@@ -14,8 +13,6 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.presently.logging.AnalyticsLogger
 import com.presently.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.EntryPointAccessors
-import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
