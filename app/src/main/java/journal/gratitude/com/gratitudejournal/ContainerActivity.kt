@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.play.core.splitcompat.SplitCompat
 import com.presently.logging.AnalyticsLogger
 import com.presently.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,13 +34,6 @@ class ContainerActivity : AppCompatActivity() {
 
     @Inject lateinit var settings: PresentlySettings
     @Inject lateinit var analyticsLogger: AnalyticsLogger
-
-    override fun attachBaseContext(newBase: Context) {
-        val settings = EntryPointAccessors.fromApplication(newBase, SettingsEntryPoint::class.java).settings
-        val context: Context = LocaleHelper.onAppAttached(newBase, settings)
-        super.attachBaseContext(context)
-        SplitCompat.installActivity(this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

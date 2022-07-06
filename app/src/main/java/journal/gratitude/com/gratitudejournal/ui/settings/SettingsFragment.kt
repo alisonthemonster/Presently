@@ -12,8 +12,10 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -26,11 +28,6 @@ import androidx.work.WorkManager
 import com.dropbox.core.android.Auth
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.play.core.splitinstall.SplitInstallManager
-import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
-import com.google.android.play.core.splitinstall.SplitInstallRequest
-import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
-import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import com.presently.logging.AnalyticsLogger
 import com.presently.logging.CrashReporter
 import com.presently.settings.BackupCadence
@@ -72,25 +69,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
     @Inject lateinit var analytics: AnalyticsLogger
     @Inject lateinit var crashReporter: CrashReporter
 
-    private lateinit var splitInstallManager: SplitInstallManager
-
-    private val listener = SplitInstallStateUpdatedListener { state ->
-        if (state.sessionId() == requestId && state.status() == SplitInstallSessionStatus.INSTALLED) {
-            analytics.recordEvent(LANGUAGE_INSTALLED)
-            startActivity(Intent.makeRestartActivityTask(activity?.intent?.component))
-        } else if (state.sessionId() == requestId && state.status() == SplitInstallSessionStatus.FAILED) {
-            val errorCode = state.errorCode()
-            crashReporter.logHandledException(Exception("SplitInstallErrorCode: $errorCode"))
-            Toast.makeText(context, "Error loading language", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     private var requestId = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        splitInstallManager = SplitInstallManagerFactory.create(requireContext())
 
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
             v.updatePadding(
@@ -288,20 +270,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     private fun updateLanguage(language: String) {
         analytics.recordSelectEvent(language, "language")
-
-        val request = SplitInstallRequest.newBuilder()
-            .addLanguage(Locale.forLanguageTag(language))
-            .build()
-        splitInstallManager.registerListener(listener)
-        splitInstallManager.startInstall(request)
-            .addOnSuccessListener {
-                requestId = it
-                Toast.makeText(context, R.string.loading_lang, Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener { exception ->
-                crashReporter.logHandledException(exception)
-                Toast.makeText(context, "Error loading language", Toast.LENGTH_SHORT).show()
-            }
+        val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(language)
+        AppCompatDelegate.setApplicationLocales(appLocale)
     }
 
     private fun createDropboxUploaderWorker(cadence: BackupCadence) {
@@ -360,7 +330,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     override fun onDestroy() {
-        splitInstallManager.unregisterListener(listener)
         super.onDestroy()
     }
 

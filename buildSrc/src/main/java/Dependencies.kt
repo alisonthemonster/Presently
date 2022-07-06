@@ -1,6 +1,6 @@
 object Versions {
-    const val COMPILE_SDK = 31
-    const val TARGET_SDK = 31
+    const val COMPILE_SDK = 33
+    const val TARGET_SDK = 33
     const val MIN_SDK = 23
 
     const val APP_VERSION_CODE = 86
@@ -9,11 +9,11 @@ object Versions {
     const val MINOR = 20
     const val PATCH = 0
 
-    const val KOTLIN = "1.4.32" //https://developer.android.com/jetpack/androidx/releases/core
-    const val KOTLIN_COROUTINES = "1.5.0" //https://github.com/Kotlin/kotlinx.coroutines/releases/
+    const val KOTLIN = "1.7.0" //https://kotlinlang.org/docs/releases.html#release-details
+    const val KOTLIN_COROUTINES = "1.6.3" //https://github.com/Kotlin/kotlinx.coroutines/releases/
     const val KOTLIN_COROUTINES_TEST = "1.3.2"
     const val ANDROIDX_CORE_KTX = "1.6.0" //https://developer.android.com/jetpack/androidx/releases/core
-    const val ANDROIDX_COMPAT = "1.3.0" //https://developer.android.com/jetpack/androidx/releases/appcompat
+    const val ANDROIDX_COMPAT = "1.6.0-alpha05" //https://developer.android.com/jetpack/androidx/releases/appcompat
     const val ANDROIDX_CONSTRAINT = "2.0.4" //https://developer.android.com/jetpack/androidx/releases/constraintlayout
     const val ANDROIDX_LIFECYCLE = "2.3.1" //https://developer.android.com/jetpack/androidx/releases/lifecycle
     const val ANDROIDX_RECYCLER_VIEW = "1.2.0"
@@ -32,7 +32,7 @@ object Versions {
     const val ANDROIDX_PREF_KTX = "1.1.1"
     const val ANDROIDX_ARCH_CORE = "2.1.0" //https://developer.android.com/jetpack/androidx/releases/arch-core
     const val FIREBASE = "28.2.1" //https://firebase.google.com/support/release-notes/android
-    const val DAGGER = "2.38.1" //https://github.com/google/dagger/releases
+    const val DAGGER = "2.42" //https://github.com/google/dagger/releases
     const val HILT_ANDROID = "1.0.0" //https://developer.android.com/jetpack/androidx/releases/hilt
     const val JUNIT = "4.13.2"
     const val DROPBOX_SDK = "5.1.1" //https://github.com/dropbox/dropbox-sdk-java/releases
