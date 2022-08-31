@@ -14,7 +14,7 @@ jobs:
       - android/restore-gradle-cache
       - android/restore-build-cache
       - android/run-tests:
-            test-command: ./gradlew assembleDebug assembleAndroidTest
+            test-command: ./gradlew assembleDebug
       - android/save-gradle-cache
       - android/save-build-cache
       - store_artifacts:
@@ -42,13 +42,13 @@ jobs:
           name: Build
           command: ./gradlew -Pcoverage assembleDebug assembleDebugAndroidTest --stacktrace
       - run:
-          name: Test with Firebase Test Lab
+          name: Run UI tests with Firebase Test Lab
           command: ./gradlew runFlank
       - run:
           name: Copy all coverage.ec files to their respective build output package
           command: ./coverage_mover.sh
       - run:
-          name: Generate JaCoCo report
+          name: Run unit tests and generate combine coverage report
           command: ./gradlew jacocoFullReport
       - android/save-gradle-cache
       - android/save-build-cache
