@@ -125,7 +125,7 @@ class EntryRepositoryTest {
     }
 
     @Test
-    fun getWrittenDates_callsDaoGetWrittenDates() {
+    fun getWrittenDates_callsDaoGetWrittenDates() = runBlockingTest {
         repository.getWrittenDates()
 
         verify(entryDao, times(1)).getWrittenDates()

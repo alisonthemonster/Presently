@@ -1,8 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import androidx.paging.PagingData
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
+import com.google.common.truth.Truth.assertThat
 import com.presently.coroutine_utils.AppCoroutineDispatchers
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
@@ -22,7 +21,7 @@ class TimelineViewModelTest {
 
     private val repository = object : EntryRepository {
         override suspend fun getEntry(date: LocalDate): Entry? = null
-        override fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
+        override fun getEntriesFlow(): Flow<List<Entry>> = flowOf(emptyList())
         override suspend fun getEntries(): List<Entry> = emptyList()
         override suspend fun getWrittenDates(): List<LocalDate> = emptyList()
         override suspend fun addEntry(entry: Entry) {}
@@ -72,7 +71,7 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository, dispatchers)
 
         val actual = viewModel.getTimelineItems().first()
-        assertEquals(expectedList, actual)
+        assertThat(actual).isEqualTo(expectedList)
     }
 
     @Test
@@ -93,7 +92,7 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository, dispatchers)
 
         val actual = viewModel.getTimelineItems().first()
-        assertEquals(expectedList, actual)
+        assertThat(actual).isEqualTo(expectedList)
     }
 
     @Test
@@ -115,7 +114,7 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository, dispatchers)
 
         val actual = viewModel.getTimelineItems().first()
-        assertEquals(expectedList, actual)
+        assertThat(actual).isEqualTo(expectedList)
     }
 
     @Test
@@ -136,7 +135,7 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository, dispatchers)
 
         val actual = viewModel.getTimelineItems().first()
-        assertEquals(expectedList, actual)
+        assertThat(actual).isEqualTo(expectedList)
     }
 
     @Test
@@ -158,7 +157,7 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository, dispatchers)
 
         val actual = viewModel.getTimelineItems().first()
-        assertEquals(expectedList, actual)
+        assertThat(actual).isEqualTo(expectedList)
     }
 
     @Test
@@ -179,7 +178,7 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository, dispatchers)
 
         val actual = viewModel.getTimelineItems().first()
-        assertEquals(expectedList, actual)
+        assertThat(actual).isEqualTo(expectedList)
     }
 
     @Test
@@ -207,7 +206,7 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository, dispatchers)
 
         val actual = viewModel.getTimelineItems().first()
-        assertEquals(expectedList, actual)
+        assertThat(actual).isEqualTo(expectedList)
     }
 
     @Test
@@ -242,7 +241,7 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository, dispatchers)
 
         val actual = viewModel.getTimelineItems().first()
-        assertEquals(expectedList, actual)
+        assertThat(actual).isEqualTo(expectedList)
     }
 
     @Test
@@ -276,7 +275,7 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository, dispatchers)
 
         val actual = viewModel.getTimelineItems().first()
-        assertEquals(expectedList, actual)
+        assertThat(actual).isEqualTo(expectedList)
     }
 
     @Test
@@ -315,7 +314,7 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository, dispatchers)
 
         val actual = viewModel.getTimelineItems().first()
-        assertEquals(expectedList, actual)
+        assertThat(actual).isEqualTo(expectedList)
     }
 
     @Test
@@ -355,7 +354,7 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository, dispatchers)
 
         val actual = viewModel.getTimelineItems().first()
-        assertEquals(expectedList, actual)
+        assertThat(actual).isEqualTo(expectedList)
     }
 
     @Test
@@ -401,13 +400,25 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository, dispatchers)
 
         val actual = viewModel.getTimelineItems().first()
-        assertEquals(expectedList, actual)
+        assertThat(actual).isEqualTo(expectedList)
     }
 
     @Test
     fun init_callsGetWrittenDates() = runBlockingTest {
-        TimelineViewModel(repository, dispatchers)
+        val repository = object : EntryRepository {
+            override suspend fun getEntry(date: LocalDate): Entry? = null
+            override fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
+            override suspend fun getEntries(): List<Entry> = emptyList()
+            override suspend fun getWrittenDates(): List<LocalDate> = listOf(LocalDate.now())
+            override suspend fun addEntry(entry: Entry) {}
+            override suspend fun addEntries(entries: List<Entry>) = Unit
+            override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
+        }
+        val viewModel = TimelineViewModel(repository, dispatchers)
 
-        verify(repository, times(1)).getWrittenDates()
+        val expected = listOf(LocalDate.now())
+        val actual = viewModel.getDatesWritten()
+
+        assertThat(actual).isEqualTo(expected)
     }
 }
