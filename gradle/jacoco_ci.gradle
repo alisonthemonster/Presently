@@ -72,7 +72,6 @@ subprojects { prj ->
                               '**/ContainerActivity*',
                               '**/AppLockFragment*',
                               '**/LocaleHelper*',
-//                              '**/TimelineFragment*',
                               '**/FirebaseAnalytics.kt', //not going to test 3rd party code
                               '**/calendar/*.*',]
 
@@ -178,7 +177,7 @@ def printReport(task) {
     def minTestCoverage = [
             'instruction': 80,
             'line'       : 80,
-            'method'     : 77,
+            'method'     : 75, //mavericks adds lots of methods that we cannot test
             'class'      : 80
     ]
 
