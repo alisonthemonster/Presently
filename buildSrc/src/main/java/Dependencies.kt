@@ -1,5 +1,5 @@
 object Versions {
-    const val COMPILE_SDK = 31
+    const val COMPILE_SDK = 33
     const val TARGET_SDK = 31
     const val MIN_SDK = 23
 
@@ -32,7 +32,7 @@ object Versions {
     const val ANDROIDX_PREF_KTX = "1.1.1"
     const val ANDROIDX_ARCH_CORE = "2.1.0" //https://developer.android.com/jetpack/androidx/releases/arch-core
     const val FIREBASE = "28.2.1" //https://firebase.google.com/support/release-notes/android
-    const val DAGGER = "2.38.1" //https://github.com/google/dagger/releases
+    const val DAGGER = "2.42" //https://github.com/google/dagger/releases
     const val HILT_ANDROID = "1.0.0" //https://developer.android.com/jetpack/androidx/releases/hilt
     const val JUNIT = "4.13.2"
     const val DROPBOX_SDK = "5.1.1" //https://github.com/dropbox/dropbox-sdk-java/releases
@@ -44,6 +44,7 @@ object Versions {
     const val MAVERICKS = "2.2.0" //https://github.com/airbnb/mavericks/releases
     const val THREE_TEN_ABP = "1.3.1" //https://github.com/JakeWharton/ThreeTenABP/tags
     const val MATERIAL = "1.4.0-rc01"
+    const val MATERIAL_3 = "1.0.0-beta01" //https://developer.android.com/jetpack/androidx/releases/compose-material3
     const val OSS_LICENSES = "17.0.0"
     const val COMPACT_CAL_VIEW = "3.0.0"
     const val APACHE = "1.6"
@@ -105,6 +106,7 @@ object Libraries {
    const val compose_activities = "androidx.activity:activity-compose:${Versions.COMPOSE_ACTIVITY}"
    const val compose_ui = "androidx.compose.ui:ui:${Versions.COMPOSE}"
    const val compose_material = "androidx.compose.material:material:${Versions.COMPOSE}"
+   const val compose_material3 = "androidx.compose.material3:material3:${Versions.MATERIAL_3}"
    const val compose_animation = "androidx.compose.animation:animation:${Versions.COMPOSE}"
    const val compose_tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
    const val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.ANDROIDX_LIFECYCLE}"

@@ -9,7 +9,6 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun Container() {
-    Log.d("blerg", "container")
     val navController = rememberAnimatedNavController()
 
     AppNavigation(navController = navController)

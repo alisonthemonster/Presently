@@ -102,6 +102,7 @@ dependencies {
 
     implementation(Libraries.compose_ui)
     implementation(Libraries.compose_material)
+    implementation(Libraries.compose_material3)
     implementation(Libraries.compose_tooling)
     implementation(Libraries.compose_viewmodel)
     implementation(Libraries.compose_hilt_navigation)

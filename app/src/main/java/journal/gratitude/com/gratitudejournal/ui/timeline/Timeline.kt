@@ -7,13 +7,12 @@ import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,12 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
+import androidx.compose.ui.unit.sp
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.hilt.navigation.compose.hiltViewModel
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
-import journal.gratitude.com.gratitudejournal.model.OPENED_CONTACT_FORM
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import kotlinx.coroutines.CoroutineScope
@@ -57,6 +57,7 @@ fun Timeline(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimelineContent(
     modifier: Modifier = Modifier,
@@ -81,21 +82,23 @@ fun TimelineContent(
             )
         },
         topBar = {
-            TopAppBar() {
-                IconButton(onClick = {
-                    scope.launch {
-                        scaffoldState.drawerState.apply {
-                            if (isClosed) open() else close()
+            CenterAlignedTopAppBar(
+                title = { Text(stringResource(id = R.string.presently)) },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        scope.launch {
+                            scaffoldState.drawerState.apply {
+                                if (isClosed) open() else close()
+                            }
                         }
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Menu,
+                            contentDescription = "Menu" //todo extract into string resource
+                        )
                     }
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.Menu,
-                        contentDescription = "Menu" //todo extract into string resource
-                    )
                 }
-                Text(stringResource(id = R.string.presently))
-            }
+            )
         }
     ) {
         Column {
@@ -204,44 +207,22 @@ fun TimelineList(
     onEntryClicked: (date: LocalDate) -> Unit
 ) {
     LazyColumn {
-        items(timelineItems) { timelineItem ->
+        itemsIndexed(timelineItems) { index, timelineItem ->
             when (timelineItem) {
                 is Entry -> {
-                    if (timelineItem.entryContent.isEmpty()) {
-                        HintRow(
-                            entryDate = timelineItem.entryDate,
-                            onEntryClicked = onEntryClicked
-                        )
-                    } else {
-                        EntryRow(
-                            modifier = modifier,
-                            entryDate = timelineItem.entryDate,
-                            entryContent = timelineItem.entryContent,
-                            onEntryClicked = onEntryClicked
-                        )
-                    }
+                    EntryRow(
+                        modifier = modifier,
+                        entryDate = timelineItem.entryDate,
+                        entryContent = timelineItem.entryContent,
+                        onEntryClicked = onEntryClicked,
+                        isLastEntry = index == timelineItems.size - 1
+                    )
                 }
                 is Milestone -> {
                     MilestoneRow(milestoneNumber = timelineItem.number)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun HintRow(
-    modifier: Modifier = Modifier,
-    entryDate: LocalDate,
-    onEntryClicked: (date: LocalDate) -> Unit,
-) {
-    Column(
-        modifier = modifier.clickable {
-            onEntryClicked(entryDate)
-        },
-    ) {
-        Text(text = entryDate.toStringWithDayOfWeek())
-        Text(text = if (entryDate == LocalDate.now()) "What are you grateful for?" else "What were you grateful for?")
     }
 }
 
@@ -258,15 +239,36 @@ fun EntryRow(
     modifier: Modifier = Modifier,
     entryDate: LocalDate,
     entryContent: String,
+    isLastEntry: Boolean = false,
     onEntryClicked: (date: LocalDate) -> Unit,
 ) {
     Column(
-        modifier = modifier.clickable {
-            onEntryClicked(entryDate)
-        },
+        modifier = modifier
+            .clickable { onEntryClicked(entryDate) }
+            .padding(8.dp),
     ) {
-        Text(text = entryDate.toStringWithDayOfWeek())
-        Text(text = entryContent)
+        val content = entryContent.ifEmpty {
+                if (entryDate == LocalDate.now()) {
+                    "What are you grateful for?"
+                } else {
+                    "What were you grateful for?"
+                }
+            }
+        Text(
+            text = entryDate.toStringWithDayOfWeek(),
+            fontSize = 18.sp,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+        Text(
+            text = content,
+            fontSize = 14.sp
+        )
+        if (isLastEntry) {
+            Icon(
+                imageVector = Icons.Default.Favorite,
+                contentDescription = null
+            )
+        }
     }
 
 }
