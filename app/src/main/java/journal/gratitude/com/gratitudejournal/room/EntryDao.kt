@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.room
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.room.*
 import journal.gratitude.com.gratitudejournal.model.Entry
@@ -16,7 +15,7 @@ interface EntryDao {
     fun getEntries(): List<Entry>
 
     @Query("SELECT entryDate FROM entries ORDER BY datetime(entryDate) DESC")
-    fun getWrittenDates(): LiveData<List<LocalDate>>
+    suspend fun getWrittenDates(): List<LocalDate>
 
     @Query("SELECT * FROM entries WHERE entryDate = :date")
     suspend fun getEntry(date: LocalDate): Entry

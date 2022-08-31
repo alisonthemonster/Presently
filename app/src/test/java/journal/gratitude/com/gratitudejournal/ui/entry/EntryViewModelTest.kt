@@ -1,7 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+
 import androidx.paging.PagingData
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.airbnb.mvrx.withState
@@ -26,7 +25,7 @@ class EntryViewModelTest {
             return Entry(date, "hii there")
         }
 
-        override suspend fun getEntriesFlow(): Flow<List<Entry>> {
+        override fun getEntriesFlow(): Flow<List<Entry>> {
             return flowOf(listOf(Entry(LocalDate.of(2021, 2, 28), "hii there")))
         }
 
@@ -34,8 +33,8 @@ class EntryViewModelTest {
             return listOf(Entry(LocalDate.of(2021, 2, 28), "hii there"))
         }
 
-        override fun getWrittenDates(): LiveData<List<LocalDate>> {
-            return MutableLiveData(listOf(LocalDate.of(2021, 2, 28)))
+        override suspend fun getWrittenDates(): List<LocalDate> {
+            return listOf(LocalDate.of(2021, 2, 28))
         }
 
         override suspend fun addEntry(entry: Entry) = Unit
@@ -159,11 +158,11 @@ class EntryViewModelTest {
                 return Entry(date, "hii there")
             }
 
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
+            override fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
 
             override suspend fun getEntries(): List<Entry> = emptyList()
 
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
+            override suspend fun getWrittenDates(): List<LocalDate> = emptyList()
 
             override suspend fun addEntry(entry: Entry) = Unit
 
@@ -184,11 +183,11 @@ class EntryViewModelTest {
         val repository = object : EntryRepository {
             override suspend fun getEntry(date: LocalDate): Entry? = null
 
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
+            override fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
 
             override suspend fun getEntries(): List<Entry> = emptyList()
 
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
+            override suspend fun getWrittenDates(): List<LocalDate> = emptyList()
 
             override suspend fun addEntry(entry: Entry) {
                 addEntryWasCalled = true
@@ -310,11 +309,11 @@ class EntryViewModelTest {
         val repository = object : EntryRepository {
             override suspend fun getEntry(date: LocalDate): Entry? = null
 
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
+            override fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
 
             override suspend fun getEntries(): List<Entry> = emptyList()
 
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
+            override suspend fun getWrittenDates(): List<LocalDate> = emptyList()
 
             override suspend fun addEntry(entry: Entry) {}
 
@@ -347,11 +346,11 @@ class EntryViewModelTest {
         val repository = object : EntryRepository {
             override suspend fun getEntry(date: LocalDate): Entry? = null
 
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
+            override fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
 
             override suspend fun getEntries(): List<Entry> = emptyList()
 
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
+            override suspend fun getWrittenDates(): List<LocalDate> = emptyList()
 
             override suspend fun addEntry(entry: Entry) {}
 

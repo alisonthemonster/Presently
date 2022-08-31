@@ -95,7 +95,6 @@ dependencies {
     implementation(Libraries.androidx_room_ktx)
     kapt(Libraries.androidx_room_compiler)
 
-    implementation(Libraries.androidx_livedata_ktx)
     implementation(Libraries.androidx_viewmodel_ktx)
     kapt(Libraries.androidx_lifecycle_compiler)
 

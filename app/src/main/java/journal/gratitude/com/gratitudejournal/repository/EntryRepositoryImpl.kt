@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.*
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.room.EntryDao
@@ -20,7 +19,7 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         return entryDao.getEntry(date)
     }
 
-    override suspend fun getEntriesFlow(): Flow<List<Entry>> {
+    override fun getEntriesFlow(): Flow<List<Entry>> {
         return entryDao.getEntriesFlow()
     }
 
@@ -28,7 +27,7 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         entryDao.getEntries()
     }
 
-    override fun getWrittenDates(): LiveData<List<LocalDate>> {
+    override suspend fun getWrittenDates(): List<LocalDate> {
         return entryDao.getWrittenDates()
     }
 

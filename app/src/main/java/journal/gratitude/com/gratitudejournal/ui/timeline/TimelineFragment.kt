@@ -18,7 +18,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.presently.logging.AnalyticsLogger
 import com.presently.logging.CrashReporter
 import com.presently.settings.PresentlySettings
@@ -33,6 +33,8 @@ import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import java.util.*
 import javax.inject.Inject
@@ -108,10 +110,6 @@ class TimelineFragment : Fragment() {
             })
         binding.timelineRecyclerView.adapter = adapter
 
-        viewModel.entries.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
-        })
-
         binding.overflowButton.setOnClickListener {
             PopupMenu(context, it).apply {
                 setOnMenuItemClickListener { item ->
@@ -132,10 +130,16 @@ class TimelineFragment : Fragment() {
             }
         }
 
+        lifecycleScope.launch {
+            viewModel.getTimelineItems().collect {
+                adapter.submitList(it)
+            }
+        }
 
-        viewModel.datesWritten.observe(viewLifecycleOwner, Observer { dates ->
+        lifecycleScope.launch {
+            val dates = viewModel.getDatesWritten()
             binding.entryCalendar.setWrittenDates(dates)
-        })
+        }
 
         binding.searchIcon.setOnClickListener {
             analyticsLogger.recordEvent(CLICKED_SEARCH)

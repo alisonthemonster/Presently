@@ -1,7 +1,6 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import androidx.test.core.app.ApplicationProvider
 import androidx.work.ListenableWorker
@@ -49,8 +48,8 @@ class UploaderTest {
         }
 
         override suspend fun getEntry(date: LocalDate): Entry = fail("Not needed in this test")
-        override suspend fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
-        override fun getWrittenDates(): LiveData<List<LocalDate>> = fail("Not needed in this test")
+        override fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
+        override suspend fun getWrittenDates(): List<LocalDate> = fail("Not needed in this test")
         override suspend fun addEntry(entry: Entry) = fail("Not needed in this test")
         override suspend fun addEntries(entries: List<Entry>) = fail("Not needed in this test")
         override fun searchEntries(query: String): Flow<PagingData<Entry>> =
@@ -124,8 +123,8 @@ class UploaderTest {
                 return emptyList()
             }
             override suspend fun getEntry(date: LocalDate): Entry = fail("Not needed in this test")
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = fail("Not needed in this test")
+            override fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
+            override suspend fun getWrittenDates(): List<LocalDate> = fail("Not needed in this test")
             override suspend fun addEntry(entry: Entry) = fail("Not needed in this test")
             override suspend fun addEntries(entries: List<Entry>) = fail("Not needed in this test")
             override fun searchEntries(query: String): Flow<PagingData<Entry>> =

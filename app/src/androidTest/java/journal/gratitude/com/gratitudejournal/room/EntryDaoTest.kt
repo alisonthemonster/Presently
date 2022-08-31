@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import journal.gratitude.com.gratitudejournal.util.LiveDataTestUtil
 import journal.gratitude.com.gratitudejournal.model.Entry
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -64,8 +63,7 @@ class EntryDaoTest {
         entryDao.insertEntry(entryThree)
         entryDao.insertEntry(entryOne)
 
-        val actualEntry =
-            entryDao.getEntries()
+        val actualEntry = entryDao.getEntries()
         assertEquals(mockEntriesSorted, actualEntry)
     }
 

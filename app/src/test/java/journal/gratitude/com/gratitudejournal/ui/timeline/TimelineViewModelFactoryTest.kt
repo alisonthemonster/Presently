@@ -6,12 +6,12 @@ import org.junit.Test
 
 class TimelineViewModelFactoryTest {
 
-    private val factory = TimelineViewModelFactory(mock())
+    private val factory = TimelineViewModelFactory(mock(), mock())
 
     @Test
     fun create_createsAViewModel() {
         val actual = factory.create(TimelineViewModel::class.java)
-        val expected = TimelineViewModel(mock())
+        val expected = TimelineViewModel(mock(), mock())
 
         TestCase.assertEquals(expected.getTimelineItems(), actual.getTimelineItems())
     }
