@@ -29,6 +29,7 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
+import journal.gratitude.com.gratitudejournal.ui.NavigationDrawer
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -70,6 +71,7 @@ fun TimelineContent(
 ) {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
     Scaffold(
         scaffoldState = scaffoldState,
         drawerContent = {
@@ -78,7 +80,8 @@ fun TimelineContent(
                 scope,
                 onSearchClicked,
                 onThemesClicked,
-                onSettingsClicked
+                { onContactClicked(context) },
+                onSettingsClicked,
             )
         },
         topBar = {
@@ -111,44 +114,6 @@ fun TimelineContent(
     }
 }
 
-@Composable
-fun NavigationDrawer(
-    scaffoldState: ScaffoldState,
-    scope: CoroutineScope,
-    onSearchClicked: () -> Unit,
-    onThemesClicked: () -> Unit,
-    onSettingsClicked: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val context = LocalContext.current
-    Text(stringResource(R.string.presently), modifier = Modifier.padding(16.dp))
-    Divider()
-    NavigationDrawerItem(
-        title = stringResource(id = R.string.search),
-        onClicked = onSearchClicked,
-        scope = scope,
-        scaffoldState = scaffoldState
-    )
-    NavigationDrawerItem(
-        title = stringResource(id = R.string.theme),
-        onClicked = onThemesClicked,
-        scope = scope,
-        scaffoldState = scaffoldState
-    )
-    NavigationDrawerItem(
-        title = stringResource(id = R.string.contact_us),
-        onClicked = { onContactClicked(context) },
-        scope = scope,
-        scaffoldState = scaffoldState
-    )
-    NavigationDrawerItem(
-        title = stringResource(id = R.string.settings),
-        onClicked = onSettingsClicked,
-        scope = scope,
-        scaffoldState = scaffoldState
-    )
-}
-
 private fun onContactClicked(context: Context) {
     //analyticsLogger.recordEvent(OPENED_CONTACT_FORM)
 
@@ -178,26 +143,6 @@ private fun onContactClicked(context: Context) {
         //crashReporter.logHandledException(activityNotFoundException)
         Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
     }
-}
-
-@Composable
-fun NavigationDrawerItem(
-    title: String,
-    onClicked: () -> Unit,
-    scaffoldState: ScaffoldState,
-    scope: CoroutineScope,
-    modifier: Modifier = Modifier
-) {
-    Text(
-        text = title,
-        modifier = modifier.clickable {
-            scope.launch {
-                scaffoldState.drawerState.apply {
-                    close()
-                }
-            }
-            onClicked()
-        })
 }
 
 @Composable
