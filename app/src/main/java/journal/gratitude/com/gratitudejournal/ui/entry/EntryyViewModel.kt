@@ -1,16 +1,16 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.presently.logging.AnalyticsLogger
+import com.presently.settings.PresentlySettings
+import com.presently.ui.PresentlyColors
+import com.presently.ui.toPresentlyColors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
 import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
 import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilestone
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineEvent
-import journal.gratitude.com.gratitudejournal.util.toFullString
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -21,16 +21,12 @@ import javax.inject.Inject
 class EntryyViewModel @Inject constructor(
     private val repository: EntryRepository,
     private val analytics: AnalyticsLogger,
+    private val settings: PresentlySettings
 ) : ViewModel() {
     private val _state = MutableStateFlow(EntryViewState())
     val state: StateFlow<EntryViewState> = _state
 
-    init {
-        Log.d("blerg", "viewmodelinit")
-    }
-
     fun fetchContent(date: LocalDate) {
-        Log.d("blerg", "fetching content for ${date.toFullString()}")
         viewModelScope.launch {
             val content = repository.getEntry(date)
             _state.value = _state.value.copy(
@@ -48,6 +44,10 @@ class EntryyViewModel @Inject constructor(
                 _state.value = _state.value.copy(content = entryEvent.newText)
             }
         }
+    }
+
+    fun getSelectedTheme(): PresentlyColors {
+        return settings.getCurrentTheme().toPresentlyColors()
     }
 
     private fun saveEntry() {

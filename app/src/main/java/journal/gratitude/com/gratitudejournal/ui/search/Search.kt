@@ -1,18 +1,19 @@
 package journal.gratitude.com.gratitudejournal.ui.search
 
-import android.graphics.drawable.Icon
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.*
@@ -20,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.presently.ui.CalmColors
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
@@ -34,7 +34,7 @@ fun Search(
     val state = viewModel.state.collectAsState()
 
     PresentlyTheme(
-        selectedTheme = CalmColors
+        selectedTheme = viewModel.getSelectedTheme()
     ) {
         SearchContent(
             modifier = Modifier.fillMaxWidth(),
@@ -72,7 +72,7 @@ fun SearchContent(
                     Text(
                         text = searchResult.entryDate.toStringWithDayOfWeek(),
                         style = PresentlyTheme.typography.bodyLarge,
-                        color = PresentlyTheme.colors.debugColor3
+                        color = PresentlyTheme.colors.debugColor1
                     )
                     Text(
                         text = searchResult.entryContent,

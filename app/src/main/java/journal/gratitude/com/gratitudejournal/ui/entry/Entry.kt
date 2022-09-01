@@ -2,18 +2,22 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.presently.ui.CalmColors
 import com.presently.ui.OriginalColors
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
@@ -32,14 +36,13 @@ fun Entry(
     val state = viewModel.state.collectAsState()
 
     //TODO this gets called waaaaaay too many times
-        //think we need to add some remembers to this shit
+    //think we need to add some remembers to this shit
     viewModel.fetchContent(date)
 
     PresentlyTheme(
-        selectedTheme = OriginalColors
+        selectedTheme = viewModel.getSelectedTheme()
     ) {
         EntryContent(
-            modifier = Modifier.fillMaxWidth(),
             state = state.value,
             handleEvent = viewModel::handleEvent,
             onEntrySaved = onEntrySaved,
@@ -56,74 +59,109 @@ fun EntryContent(
     onEntrySaved: (milestoneNumber: Int?) -> Unit,
     onShareClicked: (date: String, content: String) -> Unit
 ) {
-    Column {
-        Text(
-            text = when (state.date) {
-                LocalDate.now() -> {
-                    "Today"
-                }
-                LocalDate.now().minusDays(1) -> {
-                    "Yesterday"
-                }
-                else -> {
-                    state.date.toStringWithDayOfWeek()
-                }
-            },
-            style = PresentlyTheme.typography.titleLarge
-        )
-        Text(
-            text = if (state.date == LocalDate.now()) "I am grateful for" else "I was grateful for",
-            style = PresentlyTheme.typography.titleLarge
-        )
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = state.content,
-            onValueChange = {
-                handleEvent(EntryEvent.OnTextChanged(it))
-            },
-            placeholder = {
-                val hintNumber = state.promptNumber
-                if (hintNumber == -1) {
-                    Text(text = if (state.date == LocalDate.now()) {
-                        stringResource(id = R.string.what_are_you_thankful_for)
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = PresentlyTheme.colors.entryBackground
+    ) {
+        Column {
+            Text(
+                text = when (state.date) {
+                    LocalDate.now() -> {
+                        "Today"
+                    }
+                    LocalDate.now().minusDays(1) -> {
+                        "Yesterday"
+                    }
+                    else -> {
+                        state.date.toStringWithDayOfWeek()
+                    }
+                },
+                style = PresentlyTheme.typography.titleLarge,
+                color = PresentlyTheme.colors.entryDate
+            )
+            Text(
+                text = if (state.date == LocalDate.now()) "I am grateful for" else "I was grateful for",
+                style = PresentlyTheme.typography.titleLarge,
+                color = PresentlyTheme.colors.entryDate
+            )
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = state.content,
+                onValueChange = {
+                    handleEvent(EntryEvent.OnTextChanged(it))
+                },
+                placeholder = {
+                    val hintNumber = state.promptNumber
+                    if (hintNumber == -1) {
+                        Text(
+                            text = if (state.date == LocalDate.now()) {
+                                stringResource(id = R.string.what_are_you_thankful_for)
+                            } else {
+                                stringResource(id = R.string.what_were_you_thankful_for)
+                            },
+                            color = PresentlyTheme.colors.entryHint
+                        )
                     } else {
-                        stringResource(id = R.string.what_were_you_thankful_for)
-                    })
+                        //todo this is lost on rotation
+                        val hints = stringArrayResource(id = R.array.prompts)
+                        hints.shuffle()
+                        Text(
+                            text = hints[hintNumber % hints.size],
+                            color = PresentlyTheme.colors.entryHint
+                        )
+                    }
+                },
+                textStyle = PresentlyTheme.typography.bodyMedium,
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = PresentlyTheme.colors.entryBackground,
+                    focusedIndicatorColor = Color.Transparent, //hide the indicator
+                    textColor = PresentlyTheme.colors.entryBody,
+                    cursorColor = PresentlyTheme.colors.debugColor1
+                ),
+            )
+            Row() {
+                if (state.shouldShowHintButton) {
+                    IconButton(onClick = { handleEvent(EntryEvent.OnHintClicked) }) {
+                        Icon(
+                            imageVector = Icons.Default.Call,
+                            contentDescription = "Hint",
+                            tint = PresentlyTheme.colors.entryButtonBackground
+                        )
+                    }
                 } else {
-                    //todo this is lost on rotation
-                    val hints = stringArrayResource(id = R.array.prompts)
-                    hints.shuffle()
-                    Text(text = hints[hintNumber % hints.size])
+                    IconButton(onClick = {
+                        onShareClicked(
+                            state.date.toFullString(),
+                            state.content
+                        )
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Share,
+                            contentDescription = "Share",
+                            tint = PresentlyTheme.colors.entryButtonBackground
+                        )
+                    }
                 }
-            },
-            textStyle = PresentlyTheme.typography.bodyMedium
-        )
-        Row() {
-            if (state.shouldShowHintButton) {
-                IconButton(onClick = { handleEvent(EntryEvent.OnHintClicked) }) {
-                    Icon(
-                        imageVector = Icons.Default.Call,
-                        contentDescription = "Hint")
-                }
-            } else {
-                IconButton(onClick = { onShareClicked(state.date.toFullString(), state.content) }) {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = "Hint")
+                Button(
+                    onClick = {
+                        handleEvent(EntryEvent.OnSaveClicked)
+                        onEntrySaved(state.milestoneNumber)
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = PresentlyTheme.colors.entryButtonBackground,
+                        contentColor = PresentlyTheme.colors.entryButtonText
+                    )
+                ) {
+                    Text(text = "Save")
                 }
             }
-            Button(onClick = {
-                handleEvent(EntryEvent.OnSaveClicked)
-                onEntrySaved(state.milestoneNumber)
-            }) {
-                Text(text = "Save")
-            }
+            val quotes = stringArrayResource(id = R.array.inspirations)
+            val randomValue: Int = remember { Random.nextInt(quotes.size) }
+            Text(
+                text = quotes[randomValue],
+                style = PresentlyTheme.typography.bodyExtraSmall,
+                color = PresentlyTheme.colors.entryQuoteText
+            )
         }
-        val quotes = stringArrayResource(id = R.array.inspirations)
-        val randomValue: Int = remember { Random.nextInt(quotes.size) }
-        Text(
-            text = quotes[randomValue],
-            style = PresentlyTheme.typography.bodyExtraSmall
-        )
     }
 }

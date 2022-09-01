@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarColors
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.presently.ui.CalmColors
 import com.presently.ui.OriginalColors
@@ -90,11 +91,12 @@ fun TimelineContent(
             )
         },
         topBar = {
-            CenterAlignedTopAppBar(
+            TopAppBar(
                 title = {
                     Text(
                         text = stringResource(id = R.string.presently),
-                        style = PresentlyTheme.typography.titleLarge
+                        style = PresentlyTheme.typography.titleLarge,
+                        color = PresentlyTheme.colors.timelineTitle
                     )
                 },
                 navigationIcon = {
@@ -107,14 +109,19 @@ fun TimelineContent(
                     }) {
                         Icon(
                             imageVector = Icons.Default.Menu,
-                            contentDescription = "Menu" //todo extract into string resource
+                            contentDescription = "Menu", //todo extract into string resource
+                            tint = PresentlyTheme.colors.timelineOnToolbar
                         )
                     }
-                }
+                },
+                backgroundColor = PresentlyTheme.colors.timelineToolbar
             )
         }
     ) {
-        Column {
+        Surface(
+            color = PresentlyTheme.colors.timelineBackground,
+            modifier = Modifier.fillMaxHeight()
+        ) {
             TimelineList(
                 modifier = modifier,
                 timelineItems = state.entries,
@@ -203,26 +210,28 @@ fun EntryRow(
             .padding(8.dp),
     ) {
         val content = entryContent.ifEmpty {
-                if (entryDate == LocalDate.now()) {
-                    "What are you grateful for?"
-                } else {
-                    "What were you grateful for?"
-                }
+            if (entryDate == LocalDate.now()) {
+                "What are you grateful for?"
+            } else {
+                "What were you grateful for?"
             }
+        }
         Text(
             text = entryDate.toStringWithDayOfWeek(),
             style = PresentlyTheme.typography.bodyLarge,
             modifier = Modifier.padding(bottom = 4.dp),
-            color = PresentlyTheme.colors.debugColor3
+            color = PresentlyTheme.colors.timelineDate
         )
         Text(
             text = content,
             style = PresentlyTheme.typography.bodyMedium,
+            color = if (entryContent.isEmpty()) PresentlyTheme.colors.timelineHint else PresentlyTheme.colors.timelineContent,
         )
         if (isLastEntry) {
             Icon(
                 imageVector = Icons.Default.Favorite,
-                contentDescription = null
+                contentDescription = null,
+                tint = PresentlyTheme.colors.timelineLine
             )
         }
     }

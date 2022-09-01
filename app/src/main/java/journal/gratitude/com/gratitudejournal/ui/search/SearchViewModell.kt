@@ -3,6 +3,9 @@ package journal.gratitude.com.gratitudejournal.ui.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import com.presently.settings.PresentlySettings
+import com.presently.ui.PresentlyColors
+import com.presently.ui.toPresentlyColors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.flow.*
@@ -11,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModell @Inject constructor(
-    private val repository: EntryRepository
+    private val repository: EntryRepository,
+    private val settings: PresentlySettings
 ) : ViewModel() {
 
     private val searchQuery = MutableStateFlow("")
@@ -34,5 +38,9 @@ class SearchViewModell @Inject constructor(
 
     fun search(searchTerm: String) {
         searchQuery.value = searchTerm
+    }
+
+    fun getSelectedTheme(): PresentlyColors {
+        return settings.getCurrentTheme().toPresentlyColors()
     }
 }
