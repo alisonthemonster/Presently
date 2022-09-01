@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.presently.ui.CalmColors
+import com.presently.ui.OriginalColors
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
@@ -46,7 +48,9 @@ fun Timeline(
     val viewModel = hiltViewModel<TimelineeViewModel>()
     val state = viewModel.state.collectAsState()
 
-    PresentlyTheme {
+    PresentlyTheme(
+        selectedTheme = viewModel.getSelectedTheme()
+    ) {
         TimelineContent(
             modifier = Modifier.fillMaxWidth(),
             state = state.value,
@@ -208,7 +212,8 @@ fun EntryRow(
         Text(
             text = entryDate.toStringWithDayOfWeek(),
             style = PresentlyTheme.typography.bodyLarge,
-            modifier = Modifier.padding(bottom = 4.dp)
+            modifier = Modifier.padding(bottom = 4.dp),
+            color = PresentlyTheme.colors.debugColor3
         )
         Text(
             text = content,

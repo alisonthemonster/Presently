@@ -2,6 +2,10 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.presently.settings.PresentlySettings
+import com.presently.ui.PresentlyColors
+import com.presently.ui.PresentlyTheme
+import com.presently.ui.toPresentlyColors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
@@ -17,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TimelineeViewModel @Inject constructor(
-    private val repository: EntryRepository
+    private val repository: EntryRepository,
+    private val settings: PresentlySettings
 ) : ViewModel() {
     private val _state = MutableStateFlow(TimelineViewState())
     val state: StateFlow<TimelineViewState> = _state
@@ -92,5 +97,9 @@ class TimelineeViewModel @Inject constructor(
         when (timelineEvent) {
 
         }
+    }
+
+    fun getSelectedTheme(): PresentlyColors {
+        return settings.getCurrentTheme().toPresentlyColors()
     }
 }

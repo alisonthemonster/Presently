@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.presently.ui.CalmColors
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
@@ -32,7 +33,9 @@ fun Search(
     val viewModel = hiltViewModel<SearchViewModell>()
     val state = viewModel.state.collectAsState()
 
-    PresentlyTheme {
+    PresentlyTheme(
+        selectedTheme = CalmColors
+    ) {
         SearchContent(
             modifier = Modifier.fillMaxWidth(),
             state = state.value,
@@ -68,7 +71,8 @@ fun SearchContent(
                 ) {
                     Text(
                         text = searchResult.entryDate.toStringWithDayOfWeek(),
-                        style = PresentlyTheme.typography.bodyLarge
+                        style = PresentlyTheme.typography.bodyLarge,
+                        color = PresentlyTheme.colors.debugColor3
                     )
                     Text(
                         text = searchResult.entryContent,

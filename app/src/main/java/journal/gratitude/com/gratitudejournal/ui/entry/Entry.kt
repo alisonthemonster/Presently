@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.presently.ui.OriginalColors
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.toFullString
@@ -34,7 +35,9 @@ fun Entry(
         //think we need to add some remembers to this shit
     viewModel.fetchContent(date)
 
-    PresentlyTheme {
+    PresentlyTheme(
+        selectedTheme = OriginalColors
+    ) {
         EntryContent(
             modifier = Modifier.fillMaxWidth(),
             state = state.value,
