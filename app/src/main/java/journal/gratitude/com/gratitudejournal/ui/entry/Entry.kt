@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
@@ -33,7 +34,7 @@ fun Entry(
         //think we need to add some remembers to this shit
     viewModel.fetchContent(date)
 
-    MaterialTheme {
+    PresentlyTheme {
         EntryContent(
             modifier = Modifier.fillMaxWidth(),
             state = state.value,
@@ -64,9 +65,13 @@ fun EntryContent(
                 else -> {
                     state.date.toStringWithDayOfWeek()
                 }
-            }
+            },
+            style = PresentlyTheme.typography.titleLarge
         )
-        Text(text = if (state.date == LocalDate.now()) "I am grateful for" else "I was grateful for")
+        Text(
+            text = if (state.date == LocalDate.now()) "I am grateful for" else "I was grateful for",
+            style = PresentlyTheme.typography.titleLarge
+        )
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = state.content,
@@ -87,7 +92,8 @@ fun EntryContent(
                     hints.shuffle()
                     Text(text = hints[hintNumber % hints.size])
                 }
-            }
+            },
+            textStyle = PresentlyTheme.typography.bodyMedium
         )
         Row() {
             if (state.shouldShowHintButton) {
@@ -112,7 +118,9 @@ fun EntryContent(
         }
         val quotes = stringArrayResource(id = R.array.inspirations)
         val randomValue: Int = remember { Random.nextInt(quotes.size) }
-        Text(text = quotes[randomValue])
+        Text(
+            text = quotes[randomValue],
+            style = PresentlyTheme.typography.bodyExtraSmall
+        )
     }
-
 }

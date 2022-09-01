@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -24,7 +25,11 @@ fun NavigationDrawer(
     modifier: Modifier = Modifier
 ) {
 
-    Text(stringResource(R.string.presently), modifier = Modifier.padding(16.dp))
+    Text(
+        stringResource(R.string.presently),
+        modifier = Modifier.padding(16.dp),
+        style = PresentlyTheme.typography.titleLarge,
+    )
     Divider()
     NavigationDrawerItem(
         title = stringResource(id = R.string.search),
@@ -69,5 +74,7 @@ fun NavigationDrawerItem(
                 }
             }
             onClicked()
-        })
+        }.padding(10.dp),
+        style = PresentlyTheme.typography.titleLarge,
+    )
 }

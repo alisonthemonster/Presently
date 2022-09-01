@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
@@ -45,7 +46,7 @@ fun Timeline(
     val viewModel = hiltViewModel<TimelineeViewModel>()
     val state = viewModel.state.collectAsState()
 
-    MaterialTheme {
+    PresentlyTheme {
         TimelineContent(
             modifier = Modifier.fillMaxWidth(),
             state = state.value,
@@ -86,7 +87,12 @@ fun TimelineContent(
         },
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(stringResource(id = R.string.presently)) },
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.presently),
+                        style = PresentlyTheme.typography.titleLarge
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = {
                         scope.launch {
@@ -201,12 +207,12 @@ fun EntryRow(
             }
         Text(
             text = entryDate.toStringWithDayOfWeek(),
-            fontSize = 18.sp,
+            style = PresentlyTheme.typography.bodyLarge,
             modifier = Modifier.padding(bottom = 4.dp)
         )
         Text(
             text = content,
-            fontSize = 14.sp
+            style = PresentlyTheme.typography.bodyMedium,
         )
         if (isLastEntry) {
             Icon(
