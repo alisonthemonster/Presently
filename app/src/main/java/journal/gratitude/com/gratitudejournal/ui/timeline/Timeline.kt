@@ -25,9 +25,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarColors
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.Image
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.presently.ui.CalmColors
 import com.presently.ui.OriginalColors
+import com.presently.ui.PresentlyColors
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
@@ -48,12 +52,14 @@ fun Timeline(
 ) {
     val viewModel = hiltViewModel<TimelineeViewModel>()
     val state = viewModel.state.collectAsState()
+    val theme = viewModel.getSelectedTheme()
 
     PresentlyTheme(
-        selectedTheme = viewModel.getSelectedTheme()
+        selectedTheme = theme
     ) {
         TimelineContent(
             modifier = Modifier.fillMaxWidth(),
+            theme = theme,
             state = state.value,
             handleEvent = viewModel::handleEvent,
             onEntryClicked = onEntryClicked,
@@ -68,6 +74,7 @@ fun Timeline(
 @Composable
 fun TimelineContent(
     modifier: Modifier = Modifier,
+    theme: PresentlyColors,
     state: TimelineViewState,
     handleEvent: (TimelineEvent) -> Unit,
     onEntryClicked: (date: LocalDate) -> Unit,
@@ -124,6 +131,7 @@ fun TimelineContent(
         ) {
             TimelineList(
                 modifier = modifier,
+                theme = theme,
                 timelineItems = state.entries,
                 onEntryClicked = onEntryClicked
             )
@@ -165,6 +173,7 @@ private fun onContactClicked(context: Context) {
 @Composable
 fun TimelineList(
     modifier: Modifier = Modifier,
+    theme: PresentlyColors,
     timelineItems: List<TimelineItem>,
     onEntryClicked: (date: LocalDate) -> Unit
 ) {
@@ -174,6 +183,7 @@ fun TimelineList(
                 is Entry -> {
                     EntryRow(
                         modifier = modifier,
+                        theme = theme,
                         entryDate = timelineItem.entryDate,
                         entryContent = timelineItem.entryContent,
                         onEntryClicked = onEntryClicked,
@@ -199,6 +209,7 @@ fun MilestoneRow(
 @Composable
 fun EntryRow(
     modifier: Modifier = Modifier,
+    theme: PresentlyColors,
     entryDate: LocalDate,
     entryContent: String,
     isLastEntry: Boolean = false,
@@ -228,10 +239,10 @@ fun EntryRow(
             color = if (entryContent.isEmpty()) PresentlyTheme.colors.timelineHint else PresentlyTheme.colors.timelineContent,
         )
         if (isLastEntry) {
-            Icon(
-                imageVector = Icons.Default.Favorite,
+            Image(
+                painter = painterResource(id = theme.iconResource),
                 contentDescription = null,
-                tint = PresentlyTheme.colors.timelineLine
+                modifier = Modifier.requiredHeight(80.dp)
             )
         }
     }

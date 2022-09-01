@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 
 class PresentlyColors(
+    iconResource: Int,
     timelineBackground: Color,
     timelineLine: Color,
     timelineDate: Color,
@@ -25,6 +26,9 @@ class PresentlyColors(
     entryQuoteText: Color,
     debugColor1: Color
 ) {
+    var iconResource by mutableStateOf(iconResource)
+        private set
+
     var timelineBackground by mutableStateOf(timelineBackground)
         private set
 
@@ -80,6 +84,7 @@ class PresentlyColors(
         private set
 
     fun update(other: PresentlyColors) {
+        iconResource = other.iconResource
         timelineBackground = other.timelineBackground
         timelineLine = other.timelineLine
         timelineDate = other.timelineDate
@@ -106,6 +111,7 @@ fun String.toPresentlyColors(): PresentlyColors {
 }
 
 val OriginalColors = PresentlyColors(
+    iconResource = R.drawable.ic_flower,
     timelineBackground = Color(0xffdbd1c7),
     timelineLine = Color(0xff000000),
     timelineDate = Color(0xff000000),
@@ -128,6 +134,7 @@ val OriginalColors = PresentlyColors(
 
 
 val CalmColors = PresentlyColors(
+    iconResource = R.drawable.ic_calm,
     timelineBackground = Color(0xffBBC4FB),
     timelineLine = Color(0xffFFFFFF),
     timelineDate = Color(0xffFFFFFF),
@@ -148,7 +155,76 @@ val CalmColors = PresentlyColors(
     debugColor1 = Color(0xffDFA700)
 )
 
+val PassionColors = PresentlyColors(
+    iconResource = R.drawable.ic_passion,
+    timelineBackground = Color(0xffF8CDFA),
+    timelineLine = Color(0xffFFFFFF),
+    timelineDate = Color(0xffFFFFFF),
+    timelineContent = Color(0xffE180D3),
+    timelineHint = Color(0xffFFE6FF),
+    timelineToolbar = Color(0xffFFFFFF),
+    timelineTitle = Color(0xffF2A7A1),
+    timelineOnToolbar = Color(0xffF2A7A1),
+    timelineFab = Color(0xffF2A7A1),
+    timelineOnFab = Color(0xffFFFFFF),
+    entryBackground = Color(0xffFFFFFF),
+    entryDate = Color(0xffF2A7A1),
+    entryBody = Color(0xffE180D3),
+    entryHint = Color(0xffFAD8D9),
+    entryButtonBackground = Color(0xffE180D3),
+    entryButtonText = Color(0xffFFFFFF),
+    entryQuoteText = Color(0xffFAD8D9),
+    debugColor1 = Color(0xffDFA700)
+)
+
+val JoyColors = PresentlyColors(
+    iconResource = R.drawable.ic_joy,
+    timelineBackground = Color(0xffB8EEEE),
+    timelineLine = Color(0xff77C4CC),
+    timelineDate = Color(0xffFFFFFF),
+    timelineContent = Color(0xff298582),
+    timelineHint = Color(0xff91CFCC),
+    timelineToolbar = Color(0xffFFFFFF),
+    timelineTitle = Color(0xffDFA700),
+    timelineOnToolbar = Color(0xffB8EEEE),
+    timelineFab = Color(0xffDFA700),
+    timelineOnFab = Color(0xffFFFFFF),
+    entryBackground = Color(0xffFFFFFF),
+    entryDate = Color(0xffDFA700),
+    entryBody = Color(0xff298582),
+    entryHint = Color(0xff91CFCC),
+    entryButtonBackground = Color(0xff298582),
+    entryButtonText = Color(0xffFFFFFF),
+    entryQuoteText = Color(0xff91CFCC),
+    debugColor1 = Color(0xff510998)
+)
+
+val BooColors = PresentlyColors(
+    iconResource = R.drawable.ic_boo,
+    timelineBackground = Color(0xffF9B163),
+    timelineLine = Color(0xff000000),
+    timelineDate = Color(0xff000000),
+    timelineContent = Color(0xff000000),
+    timelineHint = Color(0xff505050),
+    timelineToolbar = Color(0xff000000),
+    timelineTitle = Color(0xffFFFFFF),
+    timelineOnToolbar = Color(0xffFFFFFF),
+    timelineFab = Color(0xff000000),
+    timelineOnFab = Color(0xffFFFFFF),
+    entryBackground = Color(0xffF9B163),
+    entryDate = Color(0xff000000),
+    entryBody = Color(0xff000000),
+    entryHint = Color(0xff505050),
+    entryButtonBackground = Color(0xff000000),
+    entryButtonText = Color(0xffFFFFFF),
+    entryQuoteText = Color(0xff505050),
+    debugColor1 = Color(0xff510998)
+)
+
 val colorSchemes = mapOf(
     "Original" to OriginalColors,
-    "Calm" to CalmColors
+    "Calm" to CalmColors,
+    "Passion" to PassionColors,
+    "Joy" to JoyColors,
+    "Boo" to BooColors
 )
