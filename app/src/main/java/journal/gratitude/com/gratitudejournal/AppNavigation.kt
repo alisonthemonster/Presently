@@ -1,17 +1,21 @@
 package journal.gratitude.com.gratitudejournal
 
+import android.app.Activity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.activity
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import journal.gratitude.com.gratitudejournal.ui.entry.Entry
 import journal.gratitude.com.gratitudejournal.ui.search.Search
+import journal.gratitude.com.gratitudejournal.ui.settings.Settings
 import journal.gratitude.com.gratitudejournal.ui.timeline.Timeline
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
@@ -38,6 +42,8 @@ internal fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
 ) {
+    val activity = LocalContext.current as Activity
+
     AnimatedNavHost(
         modifier = modifier,
         navController = navController,
@@ -107,9 +113,12 @@ internal fun AppNavigation(
         composable(
             route = Screen.Settings.route,
         ) {
-            Column() {
-                Text("SETTINGS")
-            }
+            Settings(
+                onThemeChanged = {
+                    navController.popBackStack()
+                    activity.recreate()
+                }
+            )
         }
     }
 }

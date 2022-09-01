@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
+import android.util.Log
 import com.dropbox.core.oauth.DbxCredential
 import com.presently.logging.AnalyticsLogger
 import com.presently.logging.DROPBOX_AUTH_QUIT
@@ -19,13 +20,17 @@ class RealPresentlySettings @Inject constructor(
 ) : PresentlySettings {
 
     override fun getCurrentTheme(): String {
-        return sharedPrefs.getString(THEME_PREF, "original") ?: "original"
+        val theme = sharedPrefs.getString(THEME_PREF, "original") ?: "original"
+        Log.d("blerg", "curr theme is $theme")
+        return theme
     }
 
     override fun setTheme(themeName: String) {
         sharedPrefs.edit()
             .putString(THEME_PREF, themeName)
             .apply()
+
+        Log.d("blerg", "selected theme is $themeName")
 
         analytics.recordSelectEvent(themeName, "theme")
     }

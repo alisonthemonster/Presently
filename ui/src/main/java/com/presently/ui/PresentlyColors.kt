@@ -148,7 +148,7 @@ val CalmColors = PresentlyColors(
     debugColor1 = Color(0xffDFA700)
 )
 
-private val colorSchemes = mapOf(
+val colorSchemes = mapOf(
     "Original" to OriginalColors,
     "Calm" to CalmColors
 )

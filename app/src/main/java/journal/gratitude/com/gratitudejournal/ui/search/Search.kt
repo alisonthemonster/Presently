@@ -46,7 +46,7 @@ fun Search(
 }
 
 @Composable
-fun SearchContent(
+private fun SearchContent(
     modifier: Modifier = Modifier,
     state: SearchViewState,
     onSearchQueryChanged: (query: String) -> Unit,
