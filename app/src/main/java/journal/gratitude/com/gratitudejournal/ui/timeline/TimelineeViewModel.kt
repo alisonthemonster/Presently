@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.presently.settings.PresentlySettings
+import com.presently.ui.CalmColors
 import com.presently.ui.PresentlyColors
 import com.presently.ui.PresentlyTheme
 import com.presently.ui.toPresentlyColors
