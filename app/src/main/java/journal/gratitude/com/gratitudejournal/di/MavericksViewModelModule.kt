@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.multibindings.IntoMap
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryViewModel
-import journal.gratitude.com.gratitudejournal.ui.entry_viewpager.EntryViewPagerViewModel
+import journal.gratitude.com.gratitudejournal.ui.entryviewpager.EntryViewPagerViewModel
 
 @Module
 @InstallIn(MavericksViewModelComponent::class)

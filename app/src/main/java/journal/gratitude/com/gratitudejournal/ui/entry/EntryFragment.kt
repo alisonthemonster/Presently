@@ -146,7 +146,7 @@ class EntryFragment : Fragment(), MavericksView {
 
     private fun openSharingScreen(entryContent: String, entryDate: String) {
         val fragment = SharingFragment.newInstance(entryDate, entryContent)
-        parentFragmentManager
+        requireActivity().supportFragmentManager
             .beginTransaction()
             .replace(R.id.container_fragment, fragment)
             .addToBackStack(ENTRY_TO_SHARE)
@@ -179,7 +179,7 @@ class EntryFragment : Fragment(), MavericksView {
         if (state.milestoneNumber != 0) {
             onEntrySaved()
             CelebrateDialogFragment.newInstance(state.milestoneNumber)
-                .show(parentFragmentManager, "CelebrateDialogFragment")
+                .show(requireActivity().supportFragmentManager, "CelebrateDialogFragment")
         }
     }
 
@@ -244,7 +244,7 @@ class EntryFragment : Fragment(), MavericksView {
                 setTitle(R.string.are_you_sure)
                 setMessage(R.string.unsaved_text)
                 setPositiveButton(R.string.continue_to_exit) { _, _ ->
-                    parentFragmentManager.popBackStack()
+                    requireActivity().supportFragmentManager.popBackStack()
                 }
                 setNegativeButton(R.string.cancel) { _, _ -> }
             }

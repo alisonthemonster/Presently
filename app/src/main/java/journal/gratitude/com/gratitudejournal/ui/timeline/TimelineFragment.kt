@@ -29,7 +29,7 @@ import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
 import com.presently.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
-import journal.gratitude.com.gratitudejournal.ui.entry_viewpager.EntryViewPagerFragment
+import journal.gratitude.com.gratitudejournal.ui.entryviewpager.EntryViewPagerFragment
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.util.toLocalDate

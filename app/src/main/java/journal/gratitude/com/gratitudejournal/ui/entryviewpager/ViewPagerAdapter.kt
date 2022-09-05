@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.ui.entry_viewpager
+package journal.gratitude.com.gratitudejournal.ui.entryviewpager
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter

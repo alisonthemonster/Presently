@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.ui.entry_viewpager
+package journal.gratitude.com.gratitudejournal.ui.entryviewpager
 
 import android.annotation.SuppressLint
 import android.os.Parcelable

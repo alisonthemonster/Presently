@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.ui.entry_viewpager
+package journal.gratitude.com.gratitudejournal.ui.entryviewpager
 
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
@@ -18,7 +18,7 @@ import org.threeten.bp.LocalDate
 import kotlin.coroutines.CoroutineContext
 
 class EntryViewPagerViewModel @AssistedInject constructor(
-    @Assisted initialState: EntryViewPagerState, private val repository: EntryRepository
+    @Assisted val initialState: EntryViewPagerState, private val repository: EntryRepository
 ) : MavericksViewModel<EntryViewPagerState>(initialState) {
 
     private var parentJob = Job()
@@ -31,57 +31,64 @@ class EntryViewPagerViewModel @AssistedInject constructor(
             repository.getEntriesFlow().collect { list ->
                 val today = LocalDate.now()
                 val yesterday = LocalDate.now().minusDays(1)
+                val itemsList = mutableListOf<Entry>()
                 when {
                     list.isEmpty() -> {
-                        setState {
-                            copy(
-                                entriesList = listOf(
-                                    Entry(today, ""), Entry(yesterday, "")
-                                )
-                            )
-                        }
+                        itemsList.add(Entry(today, ""))
+                        itemsList.add(Entry(yesterday, ""))
                     }
+
                     list.size < 2 -> {
-                        //user has only ever written one day
-                        val newList = mutableListOf<Entry>()
-                        newList.addAll(list)
+                        itemsList.addAll(list)
                         if (list[0].entryDate != today) {
-                            newList.add(0, Entry(today, ""))
+                            itemsList.add(0, Entry(today, ""))
                         }
                         if (list[0].entryDate != yesterday) {
-                            newList.add(1, Entry(yesterday, ""))
+                            itemsList.add(1, Entry(yesterday, ""))
                         }
-                        setState { copy(entriesList = newList) }
                     }
 
                     else -> {
                         val latest = list[0]
-                        val listWithHints = mutableListOf<Entry>()
-                        listWithHints.addAll(list)
+                        itemsList.addAll(list)
                         if (latest.entryDate != today) {
                             //they don't have the latest
-                            listWithHints.add(0, Entry(today, ""))
+                            itemsList.add(0, Entry(today, ""))
                         }
-                        if (listWithHints[1].entryDate != yesterday) {
-                            listWithHints.add(1, Entry(yesterday, ""))
-                        }
-
-                        val listWithHintsAndMilestones = mutableListOf<Entry>()
-
-                        var numEntries = 0
-                        for (index in listWithHints.size - 1 downTo 0) {
-                            listWithHintsAndMilestones.add(0, listWithHints[index])
-                            if (listWithHints[index].entryContent.isNotEmpty()) {
-                                numEntries++
-                            }
-                        }
-                        setState {
-                            copy(entriesList = listWithHintsAndMilestones)
+                        if (itemsList[1].entryDate != yesterday) {
+                            itemsList.add(1, Entry(yesterday, ""))
                         }
                     }
                 }
+                val entriesList = addSelectedDate(itemsList)
+                val entriesCount = getEntriesCount(entriesList)
+                setState {
+                    copy(entriesList = entriesList, numEntries = entriesCount)
+                }
             }
         }
+    }
+
+    //In case user select a date from calender
+    private fun addSelectedDate(list: List<Entry>): List<Entry> {
+        val doesSelectedValueExist =
+            list.firstOrNull() { it.entryDate == initialState.selectedDate }
+        return if (doesSelectedValueExist != null)
+            list
+        else {
+            val updatedList = list.toMutableList()
+            updatedList.add(Entry(initialState.selectedDate, ""))
+            updatedList.sortByDescending { it.entryDate }
+            updatedList
+        }
+    }
+
+    private fun getEntriesCount(currentList: List<Entry>): Int {
+        var numEntries = 0
+        for (entry in currentList) {
+            if (entry is Entry && entry.entryContent.isNotEmpty()) numEntries++
+        }
+        return numEntries
     }
 
 
