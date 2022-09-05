@@ -72,7 +72,7 @@ class EntryFragment : Fragment(), MavericksView {
                     if (isEdited && !isEmpty) {
                         showUnsavedEntryDialog()
                     } else {
-                        parentFragmentManager.popBackStack()
+                        requireActivity().supportFragmentManager.popBackStack()
                     }
                 })
             }
@@ -234,7 +234,7 @@ class EntryFragment : Fragment(), MavericksView {
     private fun onEntrySaved() {
         hideKeyboard()
         backupEntryIfNeeded()
-        parentFragmentManager.popBackStack()
+        requireActivity().supportFragmentManager.popBackStack()
     }
 
     private fun showUnsavedEntryDialog() {

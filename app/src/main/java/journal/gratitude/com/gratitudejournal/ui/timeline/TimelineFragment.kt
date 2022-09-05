@@ -29,7 +29,7 @@ import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
 import com.presently.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.ui.entry_viewpager.EntryViewPagerFragment
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
@@ -197,16 +197,15 @@ class TimelineFragment : Fragment() {
     }
 
     private fun navigateToDate(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int) {
-        val fragment = EntryFragment.newInstance(
+        val fragment = EntryViewPagerFragment.newInstance(
             clickedDate,
             numEntries,
-            isNewEntry,
-            resources
+            isNewEntry
         )
         parentFragmentManager
             .beginTransaction()
             .replace(R.id.container_fragment, fragment)
-            .addToBackStack(TIMELINE_TO_ENTRY)
+            .addToBackStack(TIMELINE_TO_ENTRY_VIEW_PAGER)
             .commit()
     }
 
@@ -257,6 +256,7 @@ class TimelineFragment : Fragment() {
         fun newInstance() = TimelineFragment()
 
         const val TIMELINE_TO_ENTRY = "TIMELINE_TO_ENTRY"
+        const val TIMELINE_TO_ENTRY_VIEW_PAGER = "TIMELINE_TO_ENTRY_VIEW_PAGER"
         const val TIMELINE_TO_SEARCH = "TIMELINE_TO_SEARCH"
         const val TIMELINE_TO_SETTINGS = "TIMELINE_TO_ENTRY"
     }
