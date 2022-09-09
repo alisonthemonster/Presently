@@ -64,7 +64,7 @@
     <string name="are_you_sure">Naozaj sa chcete vrátiť?</string>
     <string name="unsaved_text">Váš záznam sa neuloží a vaše zmeny sa stratia!</string>
     <string name="continue_to_exit">Pokračovať</string>
-    <string name="security">Zabezpečenia</string>
+    <string name="security">Zabezpečenie</string>
     <string name="lock_title">Odomknúť Presently</string>
     <string name="lock_summary">Presently je uzamknutá, pokračujte odomknutím</string>
     <string name="lock_setting_summary_on">Presently sa uzamkne pomocou biometrického skenera vášho zariadenia.</string>
@@ -81,7 +81,7 @@
     <string name="one_time_export_summary">Ručne exportujte svoje záznamy do formátu CSV do svojho zariadenia</string>
     <string name="one_time_export">Exportujte položky do súboru CSV</string>
     <string name="import_summary">Vyberte zálohovaný súbor CSV, ktorý chcete importovať</string>
-    <string name="backup_and_restore">Zálohovanie a obnovenie</string>
+    <string name="backup_and_restore">Záloha a Obnovenie</string>
     <string name="day_of_week_off">Dátum nezahŕňa deň v týždni</string>
     <string name="day_of_week_on">Dátum zahŕňa deň v týždni</string>
     <string name="day_of_week_title">Štýl dátumu</string>
