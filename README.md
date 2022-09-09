@@ -27,7 +27,7 @@ We support several languages currently and are always looking for translators to
 - Dropbox Java SDK
 
 ## Design
-<img src="https://i.imgur.com/EN4oOF4.png" width="220"> <img src="https://i.imgur.com/8RJvH6E.png" width="220"> <img src="https://i.imgur.com/UQQ7wbq.png" width="220"> <img src="https://i.imgur.com/JtYuyq2.png" width="220">
+<img src="https://i.imgur.com/EN4oOF4.png" width="200"> <img src="https://i.imgur.com/8RJvH6E.png" width="200"> <img src="https://i.imgur.com/UQQ7wbq.png" width="200"> <img src="https://i.imgur.com/JtYuyq2.png" width="200">
 
 
 The app currently has over 40 themes to choose from! Here's a few:
