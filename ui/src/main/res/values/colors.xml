@@ -500,4 +500,117 @@
     <color name="calmEntryBodyColor">#7985DB</color>
     <color name="calmEntryHintColor">#BBC4FB</color>
 
+    <!-- ~~~~ANNALISA THEME~~~~ -->
+    <color name="annalisaAndroidWidgetColor">#526373</color>
+    <color name="annalisaTimelineBackgroundColor">#91A2B4</color>
+    <color name="annalisaEntryBackgroundColor">#FFFFFF</color>
+    <color name="annalisaSettingsBackgroundColor">#FFFFFF</color>
+    <color name="annalisaTimelineColor">#EAE3D9</color>
+    <color name="annalisaToolbarColor">#EAE3D9</color>
+    <color name="annalisaStatusBarColor">#EAE3D9</color>
+    <color name="annalisaToolbarItemColor">#526373</color>
+    <color name="annalisaToolbarLogoColor">#526373</color>
+    <color name="annalisaTimelineHeaderColor">#526373</color>
+    <color name="annalisaTimelineBodyColor">#526373</color>
+    <color name="annalisaTimelineHintColor">#7A8288</color>
+    <color name="annalisaFabColor">#EAE3D9</color>
+    <color name="annalisaFabTextColor">#526373</color>
+    <color name="annalisaEntryHeaderColor">#526373</color>
+    <color name="annalisaEntryBodyColor">#526373</color>
+    <color name="annalisaEntryHintColor">#7A8288</color>
+
+    <!-- ~~~~CELIA THEME~~~~ -->
+    <color name="celiaAndroidWidgetColor">#833F3F</color>
+    <color name="celiaTimelineBackgroundColor">#B49191</color>
+    <color name="celiaEntryBackgroundColor">#B49191</color>
+    <color name="celiaSettingsBackgroundColor">#B49191</color>
+    <color name="celiaTimelineColor">#F3E0E0</color>
+    <color name="celiaToolbarColor">#E1BDBD</color>
+    <color name="celiaStatusBarColor">#E1BDBD</color>
+    <color name="celiaToolbarItemColor">#5C4747</color>
+    <color name="celiaToolbarLogoColor">#5C4747</color>
+    <color name="celiaTimelineHeaderColor">#F3E0E0</color>
+    <color name="celiaTimelineBodyColor">#DAF3E0E0</color>
+    <color name="celiaTimelineHintColor">#48000000</color>
+    <color name="celiaFabColor">#F3E0E0</color>
+    <color name="celiaFabTextColor">#B49191</color>
+    <color name="celiaEntryHeaderColor">#F3E0E0</color>
+    <color name="celiaEntryBodyColor">#DAF3E0E0</color>
+    <color name="celiaEntryHintColor">#48000000</color>
+
+    <!-- ~~~~SOPHIA THEME~~~~ -->
+    <color name="sophiaAndroidWidgetColor">#FFBA4F</color>
+    <color name="sophiaTimelineBackgroundColor">#BDADCC</color>
+    <color name="sophiaEntryBackgroundColor">#BDADCC</color>
+    <color name="sophiaSettingsBackgroundColor">#BDADCC</color>
+    <color name="sophiaTimelineColor">#9985AA</color>
+    <color name="sophiaToolbarColor">#9985AA</color>
+    <color name="sophiaStatusBarColor">#9985AA</color>
+    <color name="sophiaToolbarItemColor">#FFFFFF</color>
+    <color name="sophiaToolbarLogoColor">#000000</color>
+    <color name="sophiaTimelineHeaderColor">#FFFFFF</color>
+    <color name="sophiaTimelineBodyColor">#CEFFFFFF</color>
+    <color name="sophiaTimelineHintColor">#8FFFFFFF</color>
+    <color name="sophiaFabColor">#FFBA4F</color>
+    <color name="sophiaFabTextColor">#000000</color>
+    <color name="sophiaEntryHeaderColor">#FFFFFF</color>
+    <color name="sophiaEntryBodyColor">#CEFFFFFF</color>
+    <color name="sophiaEntryHintColor">#8FFFFFFF</color>
+
+    <!-- ~~~~EMILIA THEME~~~~ -->
+    <color name="emiliaAndroidWidgetColor">#00BCD4</color>
+    <color name="emiliaTimelineBackgroundColor">#000000</color>
+    <color name="emiliaEntryBackgroundColor">#FFFFFF</color>
+    <color name="emiliaSettingsBackgroundColor">#000000</color>
+    <color name="emiliaTimelineColor">#FFFFFF</color>
+    <color name="emiliaToolbarColor">#FFFFFF</color>
+    <color name="emiliaStatusBarColor">#FFFFFF</color>
+    <color name="emiliaToolbarItemColor">#000000</color>
+    <color name="emiliaToolbarLogoColor">#000000</color>
+    <color name="emiliaTimelineHeaderColor">#FFFFFF</color>
+    <color name="emiliaTimelineBodyColor">#E1FFFFFF</color>
+    <color name="emiliaTimelineHintColor">#ABFFFFFF</color>
+    <color name="emiliaFabColor">#FFFFFF</color>
+    <color name="emiliaFabTextColor">#000000</color>
+    <color name="emiliaEntryHeaderColor">#000000</color>
+    <color name="emiliaEntryBodyColor">#000000</color>
+    <color name="emiliaEntryHintColor">#A4000000</color>
+
+    <!-- ~~~~BETSY THEME~~~~ -->
+    <color name="betsyAndroidWidgetColor">#2D830F</color>
+    <color name="betsyTimelineBackgroundColor">#ADCFB6</color>
+    <color name="betsyEntryBackgroundColor">#FFFFFF</color>
+    <color name="betsySettingsBackgroundColor">#ADCFB6</color>
+    <color name="betsyTimelineColor">#000000</color>
+    <color name="betsyToolbarColor">#000000</color>
+    <color name="betsyStatusBarColor">#000000</color>
+    <color name="betsyToolbarItemColor">#ADCFB6</color>
+    <color name="betsyToolbarLogoColor">#ADCFB6</color>
+    <color name="betsyTimelineHeaderColor">#000000</color>
+    <color name="betsyTimelineBodyColor">#D0000000</color>
+    <color name="betsyTimelineHintColor">#A3000000</color>
+    <color name="betsyFabColor">#2D830F</color>
+    <color name="betsyFabTextColor">#FFFFFF</color>
+    <color name="betsyEntryHeaderColor">#000000</color>
+    <color name="betsyEntryBodyColor">#000000</color>
+    <color name="betsyEntryHintColor">#A3000000</color>
+
+    <!-- ~~~~PACIFIC THEME~~~~ -->
+    <color name="pacificAndroidWidgetColor">#B8CDFF</color>
+    <color name="pacificTimelineBackgroundColor">#7DD0FF</color>
+    <color name="pacificEntryBackgroundColor">#7DD0FF</color>
+    <color name="pacificSettingsBackgroundColor">#7DD0FF</color>
+    <color name="pacificTimelineColor">#000000</color>
+    <color name="pacificToolbarColor">#000000</color>
+    <color name="pacificStatusBarColor">#000000</color>
+    <color name="pacificToolbarItemColor">#FFFFFF</color>
+    <color name="pacificToolbarLogoColor">#FFFFFF</color>
+    <color name="pacificTimelineHeaderColor">#000000</color>
+    <color name="pacificTimelineBodyColor">#DC000000</color>
+    <color name="pacificTimelineHintColor">#AD000000</color>
+    <color name="pacificFabColor">#000000</color>
+    <color name="pacificFabTextColor">#FFFFFF</color>
+    <color name="pacificEntryHeaderColor">#000000</color>
+    <color name="pacificEntryBodyColor">#DC000000</color>
+    <color name="pacificEntryHintColor">#AD000000</color>
 </resources>

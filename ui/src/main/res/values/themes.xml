@@ -632,4 +632,143 @@
 
         <item name="highlightColor">@color/calmAndroidWidgetColor</item>
     </style>
+
+    <style name="AppTheme.ANNALISA" parent="AppTheme">
+        <!--   Colors for the Timeline screen    -->
+        <item name="timelineIcon">@drawable/ic_annalisa</item>
+        <item name="timelineBackgroundColor">@color/annalisaTimelineBackgroundColor</item>
+        <item name="timelineLineColor">@color/annalisaTimelineColor</item>
+        <item name="timelineHeaderColor">@color/annalisaTimelineHeaderColor</item>
+        <item name="timelineBodyColor">@color/annalisaTimelineBodyColor</item>
+        <item name="timelineHintColor">@color/annalisaTimelineHintColor</item>
+        <item name="toolbarColor">@color/annalisaToolbarColor</item>
+        <item name="toolbarItemColor">@color/annalisaToolbarItemColor</item>
+        <item name="presentlyLogoColor">@color/annalisaToolbarLogoColor</item>
+        <item name="statusBarColor">@color/annalisaStatusBarColor</item>
+        <item name="fabColor">@color/annalisaFabColor</item>
+        <item name="fabTextColor">@color/annalisaFabTextColor</item>
+        <!--   Colors for the Entry screen    -->
+        <item name="entryBackgroundColor">@color/annalisaEntryBackgroundColor</item>
+        <item name="entryHeaderColor">@color/annalisaEntryHeaderColor</item>
+        <item name="entryBodyColor">@color/annalisaEntryBodyColor</item>
+        <item name="entryHintColor">@color/annalisaEntryHintColor</item>
+
+        <item name="highlightColor">@color/annalisaAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.CELIA" parent="AppTheme">
+        <!--   Colors for the Timeline screen    -->
+        <item name="timelineIcon">@drawable/ic_celia</item>
+        <item name="timelineBackgroundColor">@color/celiaTimelineBackgroundColor</item>
+        <item name="timelineLineColor">@color/celiaTimelineColor</item>
+        <item name="timelineHeaderColor">@color/celiaTimelineHeaderColor</item>
+        <item name="timelineBodyColor">@color/celiaTimelineBodyColor</item>
+        <item name="timelineHintColor">@color/celiaTimelineHintColor</item>
+        <item name="toolbarColor">@color/celiaToolbarColor</item>
+        <item name="toolbarItemColor">@color/celiaToolbarItemColor</item>
+        <item name="presentlyLogoColor">@color/celiaToolbarLogoColor</item>
+        <item name="statusBarColor">@color/celiaStatusBarColor</item>
+        <item name="fabColor">@color/celiaFabColor</item>
+        <item name="fabTextColor">@color/celiaFabTextColor</item>
+        <!--   Colors for the Entry screen    -->
+        <item name="entryBackgroundColor">@color/celiaEntryBackgroundColor</item>
+        <item name="entryHeaderColor">@color/celiaEntryHeaderColor</item>
+        <item name="entryBodyColor">@color/celiaEntryBodyColor</item>
+        <item name="entryHintColor">@color/celiaEntryHintColor</item>
+
+        <item name="highlightColor">@color/celiaAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.SOPHIA" parent="AppTheme">
+        <!--   Colors for the Timeline screen    -->
+        <item name="timelineIcon">@drawable/ic_sophia</item>
+        <item name="timelineBackgroundColor">@color/sophiaTimelineBackgroundColor</item>
+        <item name="timelineLineColor">@color/sophiaTimelineColor</item>
+        <item name="timelineHeaderColor">@color/sophiaTimelineHeaderColor</item>
+        <item name="timelineBodyColor">@color/sophiaTimelineBodyColor</item>
+        <item name="timelineHintColor">@color/sophiaTimelineHintColor</item>
+        <item name="toolbarColor">@color/sophiaToolbarColor</item>
+        <item name="toolbarItemColor">@color/sophiaToolbarItemColor</item>
+        <item name="presentlyLogoColor">@color/sophiaToolbarLogoColor</item>
+        <item name="statusBarColor">@color/sophiaStatusBarColor</item>
+        <item name="fabColor">@color/sophiaFabColor</item>
+        <item name="fabTextColor">@color/sophiaFabTextColor</item>
+        <!--   Colors for the Entry screen    -->
+        <item name="entryBackgroundColor">@color/sophiaEntryBackgroundColor</item>
+        <item name="entryHeaderColor">@color/sophiaEntryHeaderColor</item>
+        <item name="entryBodyColor">@color/sophiaEntryBodyColor</item>
+        <item name="entryHintColor">@color/sophiaEntryHintColor</item>
+
+        <item name="highlightColor">@color/sophiaAndroidWidgetColor</item>
+    </style>
+
+
+    <style name="AppTheme.EMILIA" parent="AppTheme">
+        <!--   Colors for the Timeline screen    -->
+        <item name="timelineIcon">@drawable/ic_emilia</item>
+        <item name="timelineBackgroundColor">@color/emiliaTimelineBackgroundColor</item>
+        <item name="timelineLineColor">@color/emiliaTimelineColor</item>
+        <item name="timelineHeaderColor">@color/emiliaTimelineHeaderColor</item>
+        <item name="timelineBodyColor">@color/emiliaTimelineBodyColor</item>
+        <item name="timelineHintColor">@color/emiliaTimelineHintColor</item>
+        <item name="toolbarColor">@color/emiliaToolbarColor</item>
+        <item name="toolbarItemColor">@color/emiliaToolbarItemColor</item>
+        <item name="presentlyLogoColor">@color/emiliaToolbarLogoColor</item>
+        <item name="statusBarColor">@color/emiliaStatusBarColor</item>
+        <item name="fabColor">@color/emiliaFabColor</item>
+        <item name="fabTextColor">@color/emiliaFabTextColor</item>
+        <!--   Colors for the Entry screen    -->
+        <item name="entryBackgroundColor">@color/emiliaEntryBackgroundColor</item>
+        <item name="entryHeaderColor">@color/emiliaEntryHeaderColor</item>
+        <item name="entryBodyColor">@color/emiliaEntryBodyColor</item>
+        <item name="entryHintColor">@color/emiliaEntryHintColor</item>
+
+        <item name="highlightColor">@color/emiliaAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.BETSY" parent="AppTheme">
+        <!--   Colors for the Timeline screen    -->
+        <item name="timelineIcon">@drawable/ic_betsy</item>
+        <item name="timelineBackgroundColor">@color/betsyTimelineBackgroundColor</item>
+        <item name="timelineLineColor">@color/betsyTimelineColor</item>
+        <item name="timelineHeaderColor">@color/betsyTimelineHeaderColor</item>
+        <item name="timelineBodyColor">@color/betsyTimelineBodyColor</item>
+        <item name="timelineHintColor">@color/betsyTimelineHintColor</item>
+        <item name="toolbarColor">@color/betsyToolbarColor</item>
+        <item name="toolbarItemColor">@color/betsyToolbarItemColor</item>
+        <item name="presentlyLogoColor">@color/betsyToolbarLogoColor</item>
+        <item name="statusBarColor">@color/betsyStatusBarColor</item>
+        <item name="fabColor">@color/betsyFabColor</item>
+        <item name="fabTextColor">@color/betsyFabTextColor</item>
+        <!--   Colors for the Entry screen    -->
+        <item name="entryBackgroundColor">@color/betsyEntryBackgroundColor</item>
+        <item name="entryHeaderColor">@color/betsyEntryHeaderColor</item>
+        <item name="entryBodyColor">@color/betsyEntryBodyColor</item>
+        <item name="entryHintColor">@color/betsyEntryHintColor</item>
+
+        <item name="highlightColor">@color/betsyAndroidWidgetColor</item>
+    </style>
+
+    <style name="AppTheme.PACIFIC" parent="AppTheme">
+        <!--   Colors for the Timeline screen    -->
+        <item name="timelineIcon">@drawable/ic_pacific</item>
+        <item name="timelineBackgroundColor">@color/pacificTimelineBackgroundColor</item>
+        <item name="timelineLineColor">@color/pacificTimelineColor</item>
+        <item name="timelineHeaderColor">@color/pacificTimelineHeaderColor</item>
+        <item name="timelineBodyColor">@color/pacificTimelineBodyColor</item>
+        <item name="timelineHintColor">@color/pacificTimelineHintColor</item>
+        <item name="toolbarColor">@color/pacificToolbarColor</item>
+        <item name="toolbarItemColor">@color/pacificToolbarItemColor</item>
+        <item name="presentlyLogoColor">@color/pacificToolbarLogoColor</item>
+        <item name="statusBarColor">@color/pacificStatusBarColor</item>
+        <item name="fabColor">@color/pacificFabColor</item>
+        <item name="fabTextColor">@color/pacificFabTextColor</item>
+        <!--   Colors for the Entry screen    -->
+        <item name="entryBackgroundColor">@color/pacificEntryBackgroundColor</item>
+        <item name="entryHeaderColor">@color/pacificEntryHeaderColor</item>
+        <item name="entryBodyColor">@color/pacificEntryBodyColor</item>
+        <item name="entryHintColor">@color/pacificEntryHintColor</item>
+
+        <item name="highlightColor">@color/pacificAndroidWidgetColor</item>
+    </style>
 </resources>
