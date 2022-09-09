@@ -17,7 +17,7 @@
     <string name="yesterday">Eilen</string>
     <string name="iwas">Olin kiitollinen koska</string>
     <string name="iam">Olen kiitollinen koska</string>
-    <string name="save">Tallena</string>
+    <string name="save">Tallenna</string>
     <string name="back_up_entries_to_csv">Vie varmuuskopioon</string>
     <string name="export_success">Laitteeseesi viedyt tiedot</string>
     <string name="error_creating_csv_file">Virhe CSV-tiedoston luomisessa laitteelle</string>
