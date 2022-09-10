@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EntryFragment : Fragment(), MavericksView {
+class EntryFragment : Fragment(), MavericksView, CanSwipe {
 
     private val viewModel: EntryViewModel by fragmentViewModel()
     @Inject
@@ -70,7 +70,7 @@ class EntryFragment : Fragment(), MavericksView {
                     val isEdited = it.hasUserEdits
                     val isEmpty = it.isEmpty
                     if (isEdited && !isEmpty) {
-                        showUnsavedEntryDialog()
+                        showUnsavedEntryDialog(false)
                     } else {
                         requireActivity().supportFragmentManager.popBackStack()
                     }
@@ -213,7 +213,7 @@ class EntryFragment : Fragment(), MavericksView {
         setStatusBarColorsForBackground(window, typedValue.data)
     }
 
-    private fun hideKeyboard() {
+    override fun hideKeyboard() {
         val imm =
             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.hideSoftInputFromWindow(binding.entryText.windowToken, 0)
@@ -237,16 +237,24 @@ class EntryFragment : Fragment(), MavericksView {
         requireActivity().supportFragmentManager.popBackStack()
     }
 
-    private fun showUnsavedEntryDialog() {
+    private fun showUnsavedEntryDialog(isFromSwipe: Boolean) {
         val alertDialog: AlertDialog? = activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
-                setTitle(R.string.are_you_sure)
+                setTitle(if (isFromSwipe) R.string.are_you_sure_to_swipe else R.string.are_you_sure)
                 setMessage(R.string.unsaved_text)
                 setPositiveButton(R.string.continue_to_exit) { _, _ ->
+                    if (isFromSwipe) {
+                        //reset the entry and enable viewpager swiping
+                        viewModel.getEntry()
+                        return@setPositiveButton
+                    }
                     requireActivity().supportFragmentManager.popBackStack()
                 }
                 setNegativeButton(R.string.cancel) { _, _ -> }
+                setOnDismissListener {
+                    parentCallback?.invoke()
+                }
             }
             // Create the AlertDialog
             builder.create()
@@ -292,4 +300,32 @@ class EntryFragment : Fragment(), MavericksView {
 
         const val ENTRY_TO_SHARE = "ENTRY_TO_SHARE"
     }
+
+    override fun showSaveDialog() {
+        showUnsavedEntryDialog(true)
+    }
+
+    override fun anyEditsMade(): Boolean {
+        return withState(viewModel) {
+            val isEdited = it.hasUserEdits
+            val isEmpty = it.isEmpty
+            if (isEdited && !isEmpty) {
+                return@withState true
+            }
+            return@withState false
+        }
+    }
+
+    private var parentCallback: (() -> Unit)? = null
+    override fun setParentCallback(action: () -> Unit) {
+        parentCallback = action
+    }
+
+}
+
+interface CanSwipe {
+    fun showSaveDialog()
+    fun anyEditsMade(): Boolean
+    fun hideKeyboard()
+    fun setParentCallback(action: () -> Unit)
 }

@@ -1,7 +1,9 @@
 package journal.gratitude.com.gratitudejournal.ui.entryviewpager
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 
@@ -9,9 +11,11 @@ import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 class ViewPagerAdapter(val fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     private var itemsList: List<Entry> = emptyList()
+    var numEntries = 0
 
-    fun setItemsList(list: List<Entry>) {
+    fun setItemsListAndEntryCount(list: List<Entry>, entryCount: Int) {
         itemsList = list
+        numEntries = entryCount
         notifyDataSetChanged()
     }
 
@@ -21,16 +25,15 @@ class ViewPagerAdapter(val fragment: Fragment) : FragmentStateAdapter(fragment) 
 
     override fun createFragment(position: Int): Fragment {
         val item = itemsList[position]
-        var numEntries = 0
-        for (entry in itemsList) {
-            if (entry is Entry && entry.entryContent.isNotEmpty()) numEntries++
-        }
-
         return EntryFragment.newInstance(
             date = itemsList[position].entryDate,
-            numEntries = 0,
+            numEntries = numEntries,
             isNewEntry = item.entryContent == "",
             resources = fragment.resources
         )
     }
+}
+
+fun ViewPager2.findCurrentFragment(fragmentManager: FragmentManager): Fragment? {
+    return fragmentManager.findFragmentByTag("f$currentItem")
 }

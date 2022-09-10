@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2.*
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.databinding.EntryViewPagerFragmentBinding
+import journal.gratitude.com.gratitudejournal.ui.entry.CanSwipe
 import org.threeten.bp.LocalDate
 
 @AndroidEntryPoint
@@ -24,13 +26,13 @@ class EntryViewPagerFragment : Fragment(), MavericksView {
 
     lateinit var adapter: ViewPagerAdapter
 
+    var previousPosition: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                withState(viewModel) {
-                    parentFragmentManager.popBackStack()
-                }
+                parentFragmentManager.popBackStack()
             }
         }
 
@@ -43,17 +45,55 @@ class EntryViewPagerFragment : Fragment(), MavericksView {
         _binding = EntryViewPagerFragmentBinding.inflate(inflater, container, false)
         adapter = ViewPagerAdapter(this)
         binding.viewPager.adapter = adapter
+        checkForEditsBeforeSwipe()
         return binding.root
     }
 
     override fun invalidate() {
         withState(viewModel) { state ->
             if (state.entriesList.isNotEmpty()) {
-                adapter.setItemsList(state.entriesList)
+                adapter.setItemsListAndEntryCount(state.entriesList, state.numEntries)
                 val selectedItem = state.entriesList.find { it.entryDate == state.selectedDate }
                 binding.viewPager.setCurrentItem((state.entriesList.indexOf(selectedItem)), false)
             }
         }
+    }
+
+    private fun checkForEditsBeforeSwipe() {
+        binding.viewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                when (state) {
+                    SCROLL_STATE_DRAGGING -> {
+                        val canSwipe =
+                            binding.viewPager.findCurrentFragment(childFragmentManager) as CanSwipe
+
+                        //check if there were any edits ?
+                        if (canSwipe.anyEditsMade()) {
+                            binding.viewPager.isUserInputEnabled = false
+
+                            canSwipe.hideKeyboard()
+                            canSwipe.showSaveDialog()
+                            canSwipe.setParentCallback {
+                                binding.viewPager.isUserInputEnabled = true
+                            }
+
+                            //as Page might be half Scrolled, we want to reset the position to current page so that page is fully visible
+                            binding.viewPager.setCurrentItem(previousPosition, false)
+                        } else {
+                            binding.viewPager.isUserInputEnabled = true
+                        }
+
+                    }
+                }
+            }
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                previousPosition = position
+            }
+        })
+
     }
 
     companion object {
@@ -73,5 +113,5 @@ class EntryViewPagerFragment : Fragment(), MavericksView {
         }
 
     }
-
 }
+

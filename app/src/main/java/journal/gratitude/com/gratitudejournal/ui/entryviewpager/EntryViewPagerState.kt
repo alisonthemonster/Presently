@@ -17,7 +17,7 @@ data class EntryViewPagerArgs(
 
 data class EntryViewPagerState(
     val selectedDate: LocalDate,
-    val numEntries: Int?,
+    val numEntries: Int,
     val entriesList: List<Entry>
 ) : MavericksState {
 
@@ -25,7 +25,7 @@ data class EntryViewPagerState(
         args: EntryViewPagerArgs
     ) : this(
         selectedDate = args.date,
-        numEntries = args.numEntries,
+        numEntries = args.numEntries ?: 0,
         entriesList = emptyList()
     )
 }

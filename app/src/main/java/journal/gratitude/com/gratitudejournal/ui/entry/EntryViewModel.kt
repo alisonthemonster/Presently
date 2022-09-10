@@ -22,6 +22,10 @@ class EntryViewModel @AssistedInject constructor(
 ) : MavericksViewModel<EntryState>(initialState) {
 
     init {
+        getEntry()
+    }
+
+    fun getEntry() {
         withState {
             viewModelScope.launch {
                 val entry = repository.getEntry(it.date)
@@ -30,7 +34,6 @@ class EntryViewModel @AssistedInject constructor(
                         copy(entryContent = entry.entryContent)
                     }
                 }
-
             }
         }
     }
@@ -53,6 +56,10 @@ class EntryViewModel @AssistedInject constructor(
             if (oldState.entryContent != newText) {
                 setState {
                     copy(entryContent = newText, hasUserEdits = true)
+                }
+            }else{
+                setState {
+                    copy(entryContent = newText, hasUserEdits = false)
                 }
             }
         }
