@@ -28,15 +28,15 @@ fun appendTodayAndYesterday(list: List<Entry>): List<Entry> {
         }
         else -> {
             val latest = list[0]
-            val listWithHints = mutableListOf<Entry>()
-            listWithHints.addAll(list)
+            val newList = mutableListOf<Entry>()
+            newList.addAll(list)
             if (latest.entryDate != today) {
-                listWithHints.add(0, Entry(today, ""))
+                newList.add(0, Entry(today, ""))
             }
-            if (listWithHints[1].entryDate != yesterday) {
-                listWithHints.add(1, Entry(yesterday, ""))
+            if (newList[1].entryDate != yesterday) {
+                newList.add(1, Entry(yesterday, ""))
             }
-            entries = listWithHints
+            entries = newList
         }
     }
 
