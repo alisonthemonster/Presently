@@ -9,6 +9,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.util.appendTodayAndYesterday
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -29,38 +30,8 @@ class EntryViewPagerViewModel @AssistedInject constructor(
     init {
         scope.launch {
             repository.getEntriesFlow().collect { list ->
-                val today = LocalDate.now()
-                val yesterday = LocalDate.now().minusDays(1)
-                val itemsList = mutableListOf<Entry>()
-                when {
-                    list.isEmpty() -> {
-                        itemsList.add(Entry(today, ""))
-                        itemsList.add(Entry(yesterday, ""))
-                    }
-
-                    list.size < 2 -> {
-                        itemsList.addAll(list)
-                        if (list[0].entryDate != today) {
-                            itemsList.add(0, Entry(today, ""))
-                        }
-                        if (list[0].entryDate != yesterday) {
-                            itemsList.add(1, Entry(yesterday, ""))
-                        }
-                    }
-
-                    else -> {
-                        val latest = list[0]
-                        itemsList.addAll(list)
-                        if (latest.entryDate != today) {
-                            //they don't have the latest
-                            itemsList.add(0, Entry(today, ""))
-                        }
-                        if (itemsList[1].entryDate != yesterday) {
-                            itemsList.add(1, Entry(yesterday, ""))
-                        }
-                    }
-                }
-                val entriesList = addSelectedDate(itemsList)
+                val listWithAppendedTodayAndYesterday = appendTodayAndYesterday(list)
+                val entriesList = addSelectedDate(listWithAppendedTodayAndYesterday)
                 val entriesCount = getEntriesCount(entriesList)
                 setState {
                     copy(entriesList = entriesList, numEntries = entriesCount)
@@ -86,7 +57,7 @@ class EntryViewPagerViewModel @AssistedInject constructor(
     private fun getEntriesCount(currentList: List<Entry>): Int {
         var numEntries = 0
         for (entry in currentList) {
-            if (entry is Entry && entry.entryContent.isNotEmpty()) numEntries++
+            if (entry.entryContent.isNotEmpty()) numEntries++
         }
         return numEntries
     }
