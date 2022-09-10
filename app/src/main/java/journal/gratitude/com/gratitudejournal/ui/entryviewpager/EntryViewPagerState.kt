@@ -11,8 +11,6 @@ import org.threeten.bp.LocalDate
 @Parcelize
 data class EntryViewPagerArgs(
     val date: LocalDate,
-    val numEntries: Int?,
-    val isNewEntry: Boolean,
 ) : Parcelable
 
 data class EntryViewPagerState(
@@ -25,7 +23,7 @@ data class EntryViewPagerState(
         args: EntryViewPagerArgs
     ) : this(
         selectedDate = args.date,
-        numEntries = args.numEntries ?: 0,
+        numEntries = 0,
         entriesList = emptyList()
     )
 }

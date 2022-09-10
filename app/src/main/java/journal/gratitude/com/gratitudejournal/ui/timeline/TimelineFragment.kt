@@ -103,7 +103,7 @@ class TimelineFragment : Fragment() {
                     } else {
                         analyticsLogger.recordEvent(CLICKED_EXISTING_ENTRY)
                     }
-                    navigateToDate(clickedDate, isNewEntry, numEntries)
+                    navigateToDate(clickedDate)
                 }
             })
         binding.timelineRecyclerView.adapter = adapter
@@ -155,7 +155,7 @@ class TimelineFragment : Fragment() {
                     analyticsLogger.recordEvent(CLICKED_EXISTING_ENTRY_CALENDAR)
                 }
 
-                navigateToDate(date.toLocalDate(), isNewDate, numberOfEntries)
+                navigateToDate(date.toLocalDate())
             }
         })
 
@@ -196,12 +196,8 @@ class TimelineFragment : Fragment() {
             .commit()
     }
 
-    private fun navigateToDate(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int) {
-        val fragment = EntryViewPagerFragment.newInstance(
-            clickedDate,
-            numEntries,
-            isNewEntry
-        )
+    private fun navigateToDate(clickedDate: LocalDate) {
+        val fragment = EntryViewPagerFragment.newInstance(clickedDate)
         parentFragmentManager
             .beginTransaction()
             .replace(R.id.container_fragment, fragment)

@@ -99,15 +99,11 @@ class EntryViewPagerFragment : Fragment(), MavericksView {
     companion object {
         fun newInstance(
             date: LocalDate,
-            numEntries: Int?,
-            isNewEntry: Boolean,
         ): EntryViewPagerFragment {
 
             val fragment = EntryViewPagerFragment()
             fragment.arguments = EntryViewPagerArgs(
-                date,
-                numEntries,
-                isNewEntry,
+                date
             ).asMavericksArgs()
             return fragment
         }
