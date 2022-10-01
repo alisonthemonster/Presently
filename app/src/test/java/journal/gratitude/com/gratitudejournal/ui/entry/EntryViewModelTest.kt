@@ -115,6 +115,31 @@ class EntryViewModelTest {
         withState(viewModel) {
             assertEquals(it.entryContent, "new text")
             assertEquals(it.hasUserEdits, true)
+            assertEquals(it.editsWereMade, true)
+        }
+    }
+
+    @Test
+    fun `GIVEN entry view model WHEN text is cleared THEN the state is updated`() {
+        val initialState = EntryState(
+            LocalDate.now(),
+            "",
+            true,
+            null,
+            "hint",
+            "quote",
+            false,
+            0,
+            listOf("one", "two"),
+            false
+        )
+        viewModel = EntryViewModel(initialState, analytics, repository)
+        viewModel.onTextChanged("")
+
+        withState(viewModel) {
+            assertEquals(it.entryContent, "")
+            assertEquals(it.hasUserEdits, true)
+            assertEquals(it.editsWereMade, false)
         }
     }
 
@@ -337,6 +362,7 @@ class EntryViewModelTest {
             assertThat(it.promptsList).isEqualTo(listOf("one", "two", "three"))
             assertThat(it.isSaved).isFalse()
             assertThat(it.milestoneNumber).isEqualTo(0)
+            assertThat(it.editsWereMade).isFalse()
         }
     }
 
@@ -373,6 +399,7 @@ class EntryViewModelTest {
             assertThat(it.promptsList).isEqualTo(listOf("one", "two", "three"))
             assertThat(it.isSaved).isFalse()
             assertThat(it.milestoneNumber).isEqualTo(0)
+            assertThat(it.editsWereMade).isFalse()
         }
     }
 }
