@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EntryFragment : Fragment(), MavericksView, CanSwipe {
+class EntryFragment : Fragment(), MavericksView, EntryScreenCallbacks {
 
     private val viewModel: EntryViewModel by fragmentViewModel()
     @Inject
@@ -323,7 +323,7 @@ class EntryFragment : Fragment(), MavericksView, CanSwipe {
 
 }
 
-interface CanSwipe {
+interface EntryScreenCallbacks {
     fun showSaveDialog()
     fun anyEditsMade(): Boolean
     fun hideKeyboard()

@@ -13,7 +13,7 @@ import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.databinding.EntryViewPagerFragmentBinding
-import journal.gratitude.com.gratitudejournal.ui.entry.CanSwipe
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryScreenCallbacks
 import org.threeten.bp.LocalDate
 
 @AndroidEntryPoint
@@ -66,7 +66,7 @@ class EntryViewPagerFragment : Fragment(), MavericksView {
                 when (state) {
                     SCROLL_STATE_DRAGGING -> {
                         val canSwipe =
-                            binding.viewPager.findCurrentFragment(childFragmentManager) as CanSwipe
+                            binding.viewPager.findCurrentFragment(childFragmentManager) as EntryScreenCallbacks
 
                         //check if there were any edits ?
                         if (canSwipe.anyEditsMade()) {
