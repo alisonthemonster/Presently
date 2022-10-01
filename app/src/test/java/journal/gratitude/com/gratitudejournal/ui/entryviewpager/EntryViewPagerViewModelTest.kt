@@ -26,7 +26,7 @@ class EntryViewPagerViewModelTest {
         val todayEntry = Entry(LocalDate.now(), "")
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
 
-        val initialState = EntryViewPagerState(EntryViewPagerArgs(LocalDate.now(), 0, true))
+        val initialState = EntryViewPagerState(EntryViewPagerArgs(LocalDate.now()))
 
         val mockFlow = flow {
             emit(emptyList<Entry>())
@@ -50,7 +50,7 @@ class EntryViewPagerViewModelTest {
         val todayEntry = Entry(LocalDate.now(), "")
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
 
-        val initialState = EntryViewPagerState(EntryViewPagerArgs(LocalDate.now(), 0, true))
+        val initialState = EntryViewPagerState(EntryViewPagerArgs(LocalDate.now()))
 
         val mockFlow = flow {
             emit(listOf(todayEntry))
@@ -74,7 +74,7 @@ class EntryViewPagerViewModelTest {
         val todayEntry = Entry(LocalDate.now(), "")
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
 
-        val initialState = EntryViewPagerState(EntryViewPagerArgs(LocalDate.now(), 0, true))
+        val initialState = EntryViewPagerState(EntryViewPagerArgs(LocalDate.now()))
 
         val mockFlow = flow {
             emit(listOf(todayEntry))
@@ -98,7 +98,7 @@ class EntryViewPagerViewModelTest {
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
         val ereyesterdayEntry = Entry(LocalDate.now().minusDays(2), "")
 
-        val initialState = EntryViewPagerState(EntryViewPagerArgs(LocalDate.now(), 0, true))
+        val initialState = EntryViewPagerState(EntryViewPagerArgs(LocalDate.now()))
 
         val mockFlow = flow {
             emit(listOf(todayEntry, yesterdayEntry, ereyesterdayEntry))
@@ -126,7 +126,7 @@ class EntryViewPagerViewModelTest {
         val tenDayEarlierEntry = Entry(LocalDate.now().minusDays(10), "")
 
         val initialState =
-            EntryViewPagerState(EntryViewPagerArgs(tenDayEarlierEntry.entryDate, 4, true))
+            EntryViewPagerState(EntryViewPagerArgs(tenDayEarlierEntry.entryDate))
 
         val mockFlow = flow {
             emit(listOf(todayEntry, yesterdayEntry, ereyesterdayEntry, fifteenDaysEarlierEntry))
@@ -158,7 +158,7 @@ class EntryViewPagerViewModelTest {
         val todayEntry = Entry(LocalDate.now(), "Some content")
 
         val initialState =
-            EntryViewPagerState(EntryViewPagerArgs(LocalDate.now(), 0, true))
+            EntryViewPagerState(EntryViewPagerArgs(LocalDate.now()))
 
         val mockFlow = flow {
             emit(listOf(todayEntry))
@@ -178,7 +178,7 @@ class EntryViewPagerViewModelTest {
     fun `GIVEN no entry WHEN repository getEntriesFlow called THEN state count should be 2`() {
 
         val initialState =
-            EntryViewPagerState(EntryViewPagerArgs(LocalDate.now(), 0, true))
+            EntryViewPagerState(EntryViewPagerArgs(LocalDate.now()))
 
         val mockFlow = flow {
             emit(emptyList<Entry>())
