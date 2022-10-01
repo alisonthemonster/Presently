@@ -66,15 +66,13 @@ class EntryFragment : Fragment(), MavericksView, EntryScreenCallbacks {
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                withState(viewModel, {
-                    val isEdited = it.hasUserEdits
-                    val isEmpty = it.isEmpty
-                    if (isEdited && !isEmpty) {
+                withState(viewModel) {
+                    if (it.editsWereMade) {
                         showUnsavedEntryDialog(false)
                     } else {
                         requireActivity().supportFragmentManager.popBackStack()
                     }
-                })
+                }
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
@@ -305,16 +303,7 @@ class EntryFragment : Fragment(), MavericksView, EntryScreenCallbacks {
         showUnsavedEntryDialog(true)
     }
 
-    override fun anyEditsMade(): Boolean {
-        return withState(viewModel) {
-            val isEdited = it.hasUserEdits
-            val isEmpty = it.isEmpty
-            if (isEdited && !isEmpty) {
-                return@withState true
-            }
-            return@withState false
-        }
-    }
+    override fun anyEditsMade() = withState(viewModel) { it.editsWereMade }
 
     private var parentCallback: (() -> Unit)? = null
     override fun setParentCallback(action: () -> Unit) {
