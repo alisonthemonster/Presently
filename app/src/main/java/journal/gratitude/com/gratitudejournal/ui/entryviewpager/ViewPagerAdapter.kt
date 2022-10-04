@@ -8,10 +8,10 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 
 
-class ViewPagerAdapter(val fragment: Fragment) : FragmentStateAdapter(fragment) {
+class ViewPagerAdapter(private val fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     private var itemsList: List<Entry> = emptyList()
-    var numEntries = 0
+    private var numEntries = 0
 
     fun setItemsListAndEntryCount(list: List<Entry>, entryCount: Int) {
         itemsList = list

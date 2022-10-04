@@ -24,9 +24,9 @@ class EntryViewPagerFragment : Fragment(), MavericksView {
 
     private val viewModel: EntryViewPagerViewModel by fragmentViewModel()
 
-    lateinit var adapter: ViewPagerAdapter
+    private lateinit var adapter: ViewPagerAdapter
 
-    var previousPosition: Int = 0
+    private var previousPosition: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
