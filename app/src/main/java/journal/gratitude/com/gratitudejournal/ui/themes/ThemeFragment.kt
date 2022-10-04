@@ -103,42 +103,39 @@ class ThemeFragment : Fragment() {
                 true
             ),
             Theme(
-                "Calm",
-                ContextCompat.getColor(requireContext(), R.color.calmToolbarColor),
-                ContextCompat.getColor(requireContext(), R.color.calmTimelineBackgroundColor),
-                ContextCompat.getColor(requireContext(), R.color.calmToolbarLogoColor),
-                ContextCompat.getColor(requireContext(), R.color.calmTimelineHeaderColor),
-                R.drawable.ic_calm,
-                true,
-                Designer("Tishya Oedit", "https://www.instagram.com/linesbytish/")
+                "Sophia",
+                ContextCompat.getColor(requireContext(), R.color.sophiaToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.sophiaTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.sophiaToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.sophiaTimelineHeaderColor),
+                R.drawable.ic_sophia,
+                true
             ),
             Theme(
-                "Passion",
-                ContextCompat.getColor(requireContext(), R.color.passionToolbarColor),
-                ContextCompat.getColor(requireContext(), R.color.passionTimelineBackgroundColor),
-                ContextCompat.getColor(requireContext(), R.color.passionToolbarLogoColor),
-                ContextCompat.getColor(requireContext(), R.color.passionTimelineHeaderColor),
-                R.drawable.ic_passion,
-                true,
-                Designer("Tishya Oedit", "https://www.instagram.com/linesbytish/")
+                "Annalisa",
+                ContextCompat.getColor(requireContext(), R.color.annalisaToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.annalisaTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.annalisaToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.annalisaTimelineHeaderColor),
+                R.drawable.ic_annalisa,
+                true
             ),
             Theme(
-                "Joy",
-                ContextCompat.getColor(requireContext(), R.color.joyToolbarColor),
-                ContextCompat.getColor(requireContext(), R.color.joyTimelineBackgroundColor),
-                ContextCompat.getColor(requireContext(), R.color.joyToolbarLogoColor),
-                ContextCompat.getColor(requireContext(), R.color.joyTimelineHeaderColor),
-                R.drawable.ic_joy,
-                true,
-                Designer("Tishya Oedit", "https://www.instagram.com/linesbytish/")
+                "Celia",
+                ContextCompat.getColor(requireContext(), R.color.celiaToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.celiaTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.celiaToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.celiaTimelineHeaderColor),
+                R.drawable.ic_celia,
+                true
             ),
             Theme(
-                "Boo",
-                ContextCompat.getColor(requireContext(), R.color.booToolbarColor),
-                ContextCompat.getColor(requireContext(), R.color.booBackgroundColor),
-                ContextCompat.getColor(requireContext(), R.color.booToolbarItemColor),
-                ContextCompat.getColor(requireContext(), R.color.booMainTextAndButtonColor),
-                R.drawable.ic_boo,
+                "Betty",
+                ContextCompat.getColor(requireContext(), R.color.bettyToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.bettyBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.bettyToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.bettyMainTextAndButtonColor),
+                R.drawable.ic_betty,
                 true
             ),
             Theme(
@@ -151,13 +148,70 @@ class ThemeFragment : Fragment() {
                 true
             ),
             Theme(
-                "Betty",
-                ContextCompat.getColor(requireContext(), R.color.bettyToolbarColor),
-                ContextCompat.getColor(requireContext(), R.color.bettyBackgroundColor),
-                ContextCompat.getColor(requireContext(), R.color.bettyToolbarItemColor),
-                ContextCompat.getColor(requireContext(), R.color.bettyMainTextAndButtonColor),
-                R.drawable.ic_betty,
+                "Boo",
+                ContextCompat.getColor(requireContext(), R.color.booToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.booBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.booToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.booMainTextAndButtonColor),
+                R.drawable.ic_boo,
                 true
+            ),
+            Theme(
+                "Pacific",
+                ContextCompat.getColor(requireContext(), R.color.pacificToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.pacificTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.pacificToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.pacificTimelineHeaderColor),
+                R.drawable.ic_pacific,
+                true
+            ),
+            Theme(
+                "Emilia",
+                ContextCompat.getColor(requireContext(), R.color.emiliaToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.emiliaTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.emiliaToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.emiliaTimelineHeaderColor),
+                R.drawable.ic_emilia,
+                true
+            ),
+            Theme(
+                "Betsy",
+                ContextCompat.getColor(requireContext(), R.color.betsyToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.betsyTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.betsyToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.betsyTimelineHeaderColor),
+                R.drawable.ic_betsy,
+                true
+            ),
+            Theme(
+                "Calm",
+                ContextCompat.getColor(requireContext(), R.color.calmToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.calmTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.calmToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.calmTimelineHeaderColor),
+                R.drawable.ic_calm,
+                true,
+                Designer("Tishya Oedit", "https://www.instagram.com/tishyaoedit/")
+            ),
+            Theme(
+                "Passion",
+                ContextCompat.getColor(requireContext(), R.color.passionToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.passionTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.passionToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.passionTimelineHeaderColor),
+                R.drawable.ic_passion,
+                true,
+                Designer("Tishya Oedit", "https://www.instagram.com/tishyaoedit/")
+            ),
+            Theme(
+                "Joy",
+                ContextCompat.getColor(requireContext(), R.color.joyToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.joyTimelineBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.joyToolbarLogoColor),
+                ContextCompat.getColor(requireContext(), R.color.joyTimelineHeaderColor),
+                R.drawable.ic_joy,
+                true,
+                Designer("Tishya Oedit", "https://www.instagram.com/tishyaoedit/")
             ),
             Theme(
                 "Rem'mie",
@@ -265,13 +319,12 @@ class ThemeFragment : Fragment() {
                 R.drawable.ic_monstera
             ),
             Theme(
-                "Julie",
-                ContextCompat.getColor(requireContext(), R.color.julieToolbarColor),
-                ContextCompat.getColor(requireContext(), R.color.julieBackgroundColor),
-                ContextCompat.getColor(requireContext(), R.color.julieToolbarItemColor),
-                ContextCompat.getColor(requireContext(), R.color.julieMainTextAndButtonColor),
-                R.drawable.ic_julie,
-                true
+                "Field",
+                ContextCompat.getColor(requireContext(), R.color.fieldToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.fieldBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.fieldToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.fieldMainTextAndButtonColor),
+                R.drawable.ic_field
             ),
             Theme(
                 "Clouds",
@@ -340,12 +393,12 @@ class ThemeFragment : Fragment() {
                 true
             ),
             Theme(
-                "Field",
-                ContextCompat.getColor(requireContext(), R.color.fieldToolbarColor),
-                ContextCompat.getColor(requireContext(), R.color.fieldBackgroundColor),
-                ContextCompat.getColor(requireContext(), R.color.fieldToolbarItemColor),
-                ContextCompat.getColor(requireContext(), R.color.fieldMainTextAndButtonColor),
-                R.drawable.ic_field
+                "Glacier",
+                ContextCompat.getColor(requireContext(), R.color.glacierToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.glacierBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.glacierToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.glacierMainTextAndButtonColor),
+                R.drawable.ic_cube
             ),
             Theme(
                 "Rosie",
@@ -357,14 +410,14 @@ class ThemeFragment : Fragment() {
                 true
             ),
             Theme(
-                "Glacier",
-                ContextCompat.getColor(requireContext(), R.color.glacierToolbarColor),
-                ContextCompat.getColor(requireContext(), R.color.glacierBackgroundColor),
-                ContextCompat.getColor(requireContext(), R.color.glacierToolbarItemColor),
-                ContextCompat.getColor(requireContext(), R.color.glacierMainTextAndButtonColor),
-                R.drawable.ic_cube
+                "Julie",
+                ContextCompat.getColor(requireContext(), R.color.julieToolbarColor),
+                ContextCompat.getColor(requireContext(), R.color.julieBackgroundColor),
+                ContextCompat.getColor(requireContext(), R.color.julieToolbarItemColor),
+                ContextCompat.getColor(requireContext(), R.color.julieMainTextAndButtonColor),
+                R.drawable.ic_julie,
+                true
             ),
-
             Theme(
                 "Ahalya",
                 ContextCompat.getColor(requireContext(), R.color.ahalyaToolbarColor),
