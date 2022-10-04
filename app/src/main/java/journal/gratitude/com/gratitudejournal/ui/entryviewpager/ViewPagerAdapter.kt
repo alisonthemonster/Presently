@@ -28,7 +28,7 @@ class ViewPagerAdapter(val fragment: Fragment) : FragmentStateAdapter(fragment) 
         return EntryFragment.newInstance(
             date = itemsList[position].entryDate,
             numEntries = numEntries,
-            isNewEntry = item.entryContent == "",
+            isNewEntry = item.entryContent.isEmpty(),
             resources = fragment.resources
         )
     }
