@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EntryFragment : Fragment(), MavericksView {
+class EntryFragment : Fragment(), MavericksView, EntryScreenCallbacks {
 
     private val viewModel: EntryViewModel by fragmentViewModel()
     @Inject
@@ -66,15 +66,13 @@ class EntryFragment : Fragment(), MavericksView {
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                withState(viewModel, {
-                    val isEdited = it.hasUserEdits
-                    val isEmpty = it.isEmpty
-                    if (isEdited && !isEmpty) {
-                        showUnsavedEntryDialog()
+                withState(viewModel) {
+                    if (it.editsWereMade) {
+                        showUnsavedEntryDialog(false)
                     } else {
-                        parentFragmentManager.popBackStack()
+                        requireActivity().supportFragmentManager.popBackStack()
                     }
-                })
+                }
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
@@ -146,7 +144,7 @@ class EntryFragment : Fragment(), MavericksView {
 
     private fun openSharingScreen(entryContent: String, entryDate: String) {
         val fragment = SharingFragment.newInstance(entryDate, entryContent)
-        parentFragmentManager
+        requireActivity().supportFragmentManager
             .beginTransaction()
             .replace(R.id.container_fragment, fragment)
             .addToBackStack(ENTRY_TO_SHARE)
@@ -179,7 +177,7 @@ class EntryFragment : Fragment(), MavericksView {
         if (state.milestoneNumber != 0) {
             onEntrySaved()
             CelebrateDialogFragment.newInstance(state.milestoneNumber)
-                .show(parentFragmentManager, "CelebrateDialogFragment")
+                .show(requireActivity().supportFragmentManager, "CelebrateDialogFragment")
         }
     }
 
@@ -213,7 +211,7 @@ class EntryFragment : Fragment(), MavericksView {
         setStatusBarColorsForBackground(window, typedValue.data)
     }
 
-    private fun hideKeyboard() {
+    override fun hideKeyboard() {
         val imm =
             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.hideSoftInputFromWindow(binding.entryText.windowToken, 0)
@@ -234,19 +232,27 @@ class EntryFragment : Fragment(), MavericksView {
     private fun onEntrySaved() {
         hideKeyboard()
         backupEntryIfNeeded()
-        parentFragmentManager.popBackStack()
+        requireActivity().supportFragmentManager.popBackStack()
     }
 
-    private fun showUnsavedEntryDialog() {
+    private fun showUnsavedEntryDialog(isFromSwipe: Boolean) {
         val alertDialog: AlertDialog? = activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
-                setTitle(R.string.are_you_sure)
+                setTitle(if (isFromSwipe) R.string.are_you_sure_to_swipe else R.string.are_you_sure)
                 setMessage(R.string.unsaved_text)
                 setPositiveButton(R.string.continue_to_exit) { _, _ ->
-                    parentFragmentManager.popBackStack()
+                    if (isFromSwipe) {
+                        //reset the entry and enable viewpager swiping
+                        viewModel.getEntry()
+                        return@setPositiveButton
+                    }
+                    requireActivity().supportFragmentManager.popBackStack()
                 }
                 setNegativeButton(R.string.cancel) { _, _ -> }
+                setOnDismissListener {
+                    parentCallback?.invoke()
+                }
             }
             // Create the AlertDialog
             builder.create()
@@ -292,4 +298,23 @@ class EntryFragment : Fragment(), MavericksView {
 
         const val ENTRY_TO_SHARE = "ENTRY_TO_SHARE"
     }
+
+    override fun showSaveDialog() {
+        showUnsavedEntryDialog(true)
+    }
+
+    override fun anyEditsMade() = withState(viewModel) { it.editsWereMade }
+
+    private var parentCallback: (() -> Unit)? = null
+    override fun setParentCallback(action: () -> Unit) {
+        parentCallback = action
+    }
+
+}
+
+interface EntryScreenCallbacks {
+    fun showSaveDialog()
+    fun anyEditsMade(): Boolean
+    fun hideKeyboard()
+    fun setParentCallback(action: () -> Unit)
 }

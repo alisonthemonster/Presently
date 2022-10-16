@@ -48,4 +48,6 @@ data class EntryState(
 
     val isEmpty = entryContent.isEmpty()
 
+    val editsWereMade=(hasUserEdits && !isEmpty)
+
 }

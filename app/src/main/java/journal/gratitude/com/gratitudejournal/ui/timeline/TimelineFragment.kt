@@ -29,7 +29,7 @@ import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
 import com.presently.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.ui.entryviewpager.EntryViewPagerFragment
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
@@ -103,7 +103,7 @@ class TimelineFragment : Fragment() {
                     } else {
                         analyticsLogger.recordEvent(CLICKED_EXISTING_ENTRY)
                     }
-                    navigateToDate(clickedDate, isNewEntry, numEntries)
+                    navigateToDate(clickedDate)
                 }
             })
         binding.timelineRecyclerView.adapter = adapter
@@ -155,7 +155,7 @@ class TimelineFragment : Fragment() {
                     analyticsLogger.recordEvent(CLICKED_EXISTING_ENTRY_CALENDAR)
                 }
 
-                navigateToDate(date.toLocalDate(), isNewDate, numberOfEntries)
+                navigateToDate(date.toLocalDate())
             }
         })
 
@@ -196,17 +196,12 @@ class TimelineFragment : Fragment() {
             .commit()
     }
 
-    private fun navigateToDate(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int) {
-        val fragment = EntryFragment.newInstance(
-            clickedDate,
-            numEntries,
-            isNewEntry,
-            resources
-        )
+    private fun navigateToDate(clickedDate: LocalDate) {
+        val fragment = EntryViewPagerFragment.newInstance(clickedDate)
         parentFragmentManager
             .beginTransaction()
             .replace(R.id.container_fragment, fragment)
-            .addToBackStack(TIMELINE_TO_ENTRY)
+            .addToBackStack(TIMELINE_TO_ENTRY_VIEW_PAGER)
             .commit()
     }
 
@@ -257,6 +252,7 @@ class TimelineFragment : Fragment() {
         fun newInstance() = TimelineFragment()
 
         const val TIMELINE_TO_ENTRY = "TIMELINE_TO_ENTRY"
+        const val TIMELINE_TO_ENTRY_VIEW_PAGER = "TIMELINE_TO_ENTRY_VIEW_PAGER"
         const val TIMELINE_TO_SEARCH = "TIMELINE_TO_SEARCH"
         const val TIMELINE_TO_SETTINGS = "TIMELINE_TO_ENTRY"
     }

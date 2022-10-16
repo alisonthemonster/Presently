@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.multibindings.IntoMap
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryViewModel
+import journal.gratitude.com.gratitudejournal.ui.entryviewpager.EntryViewPagerViewModel
 
 @Module
 @InstallIn(MavericksViewModelComponent::class)
@@ -16,4 +17,9 @@ interface MavericksViewModelModule {
     @IntoMap
     @MavericksViewModelKey(EntryViewModel::class)
     fun entryViewModelFactory(factory: EntryViewModel.Factory): AssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(EntryViewPagerViewModel::class)
+    fun entryViewPagerViewModelFactory(factory: EntryViewPagerViewModel.Factory): AssistedViewModelFactory<*, *>
 }
