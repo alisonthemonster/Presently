@@ -115,7 +115,7 @@ class EntryViewModelTest {
         withState(viewModel) {
             assertEquals(it.entryContent, "new text")
             assertEquals(it.hasUserEdits, true)
-            assertEquals(it.hasUserEdits, true)
+            assertEquals(it.editsWereMade, true)
         }
     }
 
@@ -139,6 +139,7 @@ class EntryViewModelTest {
         withState(viewModel) {
             assertEquals(it.entryContent, "")
             assertEquals(it.hasUserEdits, true)
+            assertEquals(it.editsWereMade, false)
         }
     }
 
@@ -361,7 +362,7 @@ class EntryViewModelTest {
             assertThat(it.promptsList).isEqualTo(listOf("one", "two", "three"))
             assertThat(it.isSaved).isFalse()
             assertThat(it.milestoneNumber).isEqualTo(0)
-            assertThat(it.hasUserEdits).isFalse()
+            assertThat(it.editsWereMade).isFalse()
         }
     }
 
@@ -398,6 +399,7 @@ class EntryViewModelTest {
             assertThat(it.promptsList).isEqualTo(listOf("one", "two", "three"))
             assertThat(it.isSaved).isFalse()
             assertThat(it.milestoneNumber).isEqualTo(0)
+            assertThat(it.editsWereMade).isFalse()
         }
     }
 
@@ -438,7 +440,7 @@ class EntryViewModelTest {
 
         withState(viewModel) {
             assertThat(it.entryContent).isEqualTo("")
-            assertThat(it.hasUserEdits).isFalse()
+            assertThat(it.editsWereMade).isFalse()
         }
 
     }
