@@ -67,7 +67,7 @@ class EntryFragment : Fragment(), MavericksView, EntryScreenCallbacks {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 withState(viewModel) {
-                    if (it.editsWereMade) {
+                    if (it.hasUserEdits) {
                         showUnsavedEntryDialog(false)
                     } else {
                         requireActivity().supportFragmentManager.popBackStack()
@@ -190,7 +190,7 @@ class EntryFragment : Fragment(), MavericksView, EntryScreenCallbacks {
 
     private fun setEditText(newText: String) {
         val oldText = binding.entryText.text.toString()
-        if (newText != oldText && newText.isNotEmpty()) {
+        if (newText != oldText) {
             binding.entryText.setText(newText)
             binding.entryText.setSelection(newText.length)
         }
@@ -212,8 +212,7 @@ class EntryFragment : Fragment(), MavericksView, EntryScreenCallbacks {
     }
 
     override fun hideKeyboard() {
-        val imm =
-            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.hideSoftInputFromWindow(binding.entryText.windowToken, 0)
     }
 
@@ -303,7 +302,7 @@ class EntryFragment : Fragment(), MavericksView, EntryScreenCallbacks {
         showUnsavedEntryDialog(true)
     }
 
-    override fun anyEditsMade() = withState(viewModel) { it.editsWereMade }
+    override fun anyEditsMade() = withState(viewModel) { it.hasUserEdits }
 
     private var parentCallback: (() -> Unit)? = null
     override fun setParentCallback(action: () -> Unit) {
