@@ -47,7 +47,7 @@ data class EntryState(
     )
 
     val isEmpty = entryContent.isEmpty()
-    val editsWereMade = (hasUserEdits && (isNewEntry && isEmpty).not())
+    val editsWereMade = (hasUserEdits && (isNewEntry && isEmpty).not() /*no edits if it is a new entry and is empty*/ )
 
 
 }
