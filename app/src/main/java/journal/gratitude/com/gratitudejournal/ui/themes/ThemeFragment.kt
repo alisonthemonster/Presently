@@ -27,6 +27,8 @@ import journal.gratitude.com.gratitudejournal.model.OPENED_PRIVACY_POLICY
 import journal.gratitude.com.gratitudejournal.model.Theme
 import javax.inject.Inject
 
+//todo alison delete after themes are moved
+
 @AndroidEntryPoint
 class ThemeFragment : Fragment() {
 

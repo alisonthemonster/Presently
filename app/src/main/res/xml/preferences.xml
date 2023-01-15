@@ -37,12 +37,6 @@
         android:layout="@layout/preference_category_view"
         android:title="@string/appearance">
 
-        <Preference
-            android:icon="@drawable/ic_theme"
-            android:key="current_theme"
-            android:summary="@string/theme_change"
-            android:title="@string/theme" />
-
         <SeekBarPreference
             android:defaultValue="10"
             android:icon="@drawable/ic_length"

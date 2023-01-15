@@ -49,7 +49,6 @@ import journal.gratitude.com.gratitudejournal.util.reminders.NotificationSchedul
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
 import com.presently.ui.setStatusBarColorsForBackground
-import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.backups.RealUploader.Companion.BACKUP_NOTIFICATION_ID
@@ -150,12 +149,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val versionNum = BuildConfig.VERSION_NAME
         version?.summary = versionNum
         //endregion
-
-        val theme = findPreference<Preference>(THEME_PREF)
-        theme?.setOnPreferenceClickListener {
-            openThemes()
-            true
-        }
 
         val dropbox = findPreference<Preference>(BACKUP_TOKEN)
         val cadencePref = (findPreference<Preference>(BACKUP_CADENCE) as ListPreference)
@@ -362,17 +355,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
     override fun onDestroy() {
         splitInstallManager.unregisterListener(listener)
         super.onDestroy()
-    }
-
-    private fun openThemes() {
-        analytics.recordEvent(OPENED_THEMES)
-
-        val fragment = ThemeFragment()
-        parentFragmentManager
-            .beginTransaction()
-            .replace(R.id.container_fragment, fragment)
-            .addToBackStack(SETTINGS_TO_THEME)
-            .commit()
     }
 
     private fun openTermsAndConditions() {
@@ -595,7 +577,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     companion object {
         const val BACKUP_TOKEN = "dropbox_pref"
-        const val SETTINGS_TO_THEME = "SETTINGS_TO_THEME"
     }
 }
 

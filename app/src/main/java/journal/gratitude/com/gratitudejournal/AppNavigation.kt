@@ -7,11 +7,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
+import journal.gratitude.com.gratitudejournal.databinding.FragmentSettingsBinding
 import journal.gratitude.com.gratitudejournal.ui.entry.Entry
 import journal.gratitude.com.gratitudejournal.ui.search.Search
 import journal.gratitude.com.gratitudejournal.ui.settings.ThemeSelection
@@ -105,6 +107,8 @@ internal fun AppNavigation(
         composable(
             route = Screen.Themes.route,
         ) {
+            //todo add analytics
+            //analytics.recordEvent(OPENED_THEMES)
             ThemeSelection(
                 onThemeChanged = {
                     navController.popBackStack()
@@ -115,9 +119,15 @@ internal fun AppNavigation(
         composable(
             route = Screen.Settings.route,
         ) {
-            Column() {
-                Text("SETTINGS")
-            }
+            SettingsFragmentContainer()
         }
+    }
+}
+
+@Composable
+fun SettingsFragmentContainer() {
+    AndroidViewBinding(FragmentSettingsBinding::inflate) {
+//        val myFragment = fragmentContainerView.getFragment<SettingsFragment>()
+
     }
 }

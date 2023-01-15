@@ -109,6 +109,7 @@ object Libraries {
    const val compose_material3 = "androidx.compose.material3:material3:${Versions.MATERIAL_3}"
    const val compose_animation = "androidx.compose.animation:animation:${Versions.COMPOSE}"
    const val compose_tooling = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
+   const val compose_interop_view_binding = "androidx.compose.ui:ui-viewbinding:${Versions.COMPOSE}"
    const val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.ANDROIDX_LIFECYCLE}"
    const val compose_hilt_navigation = "androidx.hilt:hilt-navigation-compose:${Versions.HILT_ANDROID}"
    const val compose_accompanist_navigation_animation = "com.google.accompanist:accompanist-navigation-animation:${Versions.ACCOMPANIST}"
