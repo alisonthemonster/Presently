@@ -310,15 +310,14 @@ class EntryFragmentInstrumentedTest {
         onView(withText(R.string.are_you_sure)).check(matches(isDisplayed()))
 
         //cancel is pressed
-        onView(withId(android.R.id.button2)).perform(click())
+        onView(withId(android.R.id.button1)).perform(click())
         onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
 
         //back pressed again
         mDevice.pressBack()
 
         //continue clicked
-        onView(withId(android.R.id.button1)).perform(click())
-
+        onView(withId(android.R.id.button2)).perform(click())
         onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
     }
 

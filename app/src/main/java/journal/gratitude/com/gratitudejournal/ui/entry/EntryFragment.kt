@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
-import android.content.*
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.Animatable
@@ -30,16 +32,17 @@ import com.presently.logging.AnalyticsLogger
 import com.presently.settings.BackupCadence
 import com.presently.settings.PresentlySettings
 import com.presently.sharing.view.SharingFragment
-import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.model.*
-import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
-import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
-import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import com.presently.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.EntryFragmentBinding
+import journal.gratitude.com.gratitudejournal.model.COPIED_QUOTE
+import journal.gratitude.com.gratitudejournal.model.SHARED_ENTRY
+import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
+import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import org.threeten.bp.LocalDate
 import java.util.concurrent.TimeUnit
@@ -67,7 +70,7 @@ class EntryFragment : Fragment(), MavericksView, EntryScreenCallbacks {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 withState(viewModel) {
-                    if (it.editsWereMade) {
+                    if (it.hasUserEdits && it.editsWereMade) {
                         showUnsavedEntryDialog(false)
                     } else {
                         requireActivity().supportFragmentManager.popBackStack()
@@ -190,7 +193,7 @@ class EntryFragment : Fragment(), MavericksView, EntryScreenCallbacks {
 
     private fun setEditText(newText: String) {
         val oldText = binding.entryText.text.toString()
-        if (newText != oldText && newText.isNotEmpty()) {
+        if (newText != oldText) {
             binding.entryText.setText(newText)
             binding.entryText.setSelection(newText.length)
         }
@@ -212,8 +215,7 @@ class EntryFragment : Fragment(), MavericksView, EntryScreenCallbacks {
     }
 
     override fun hideKeyboard() {
-        val imm =
-            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.hideSoftInputFromWindow(binding.entryText.windowToken, 0)
     }
 
