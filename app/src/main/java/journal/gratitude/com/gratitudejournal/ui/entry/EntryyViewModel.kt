@@ -60,11 +60,8 @@ class EntryyViewModel @Inject constructor(
             repository.addEntry(entry)
         }
         if (_state.value.isNewEntry) {
-            val totalEntries = (_state.value.numberExistingEntries ?: 0) + 1
-            analytics.recordEntryAdded(totalEntries)
-            if (isMilestone(totalEntries)) {
-                _state.value = _state.value.copy(milestoneNumber = totalEntries)
-            }
+            //todo find a way to log this again
+            //analytics.recordEntryAdded(totalEntries)
         } else {
             analytics.recordEvent(EDITED_EXISTING_ENTRY)
         }

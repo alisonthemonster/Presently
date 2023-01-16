@@ -12,11 +12,9 @@ data class EntryViewState(
     val date: LocalDate = LocalDate.now(),
     val content: String = "",
     val isNewEntry: Boolean = true,
-    val numberExistingEntries: Int? = null,
     val hasUserEdits: Boolean = false,
     val promptNumber: Int = -1,
     val isSaved: Boolean = false,
-    val milestoneNumber: Int = 0
 ) {
     val shouldShowHintButton = content.isEmpty()
 }

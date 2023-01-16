@@ -91,6 +91,7 @@ dependencies {
     implementation(Libraries.androidx_constraint_layout)
     implementation(Libraries.androidx_preference_ktx)
     implementation(Libraries.androidx_recycler_view)
+    implementation(Libraries.viewmodel_savedstate)
     implementation(Libraries.androidx_fragment)
     implementation(Libraries.androidx_biometric)
     implementation(Libraries.androidx_work_runtime_ktx)

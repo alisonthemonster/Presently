@@ -25,7 +25,7 @@ import org.threeten.bp.LocalDate
 internal sealed class Screen(val route: String) {
     fun createRoute() = route
 
-    object Timeline : Screen("timeline")
+    object Timeline : Screen("timeline?milestone={milestone}")
     object Settings : Screen("settings")
     object Share : Screen("share")
     object Search : Screen("search")
@@ -58,6 +58,7 @@ internal fun AppNavigation(
         ) {
             Timeline(
                 locale = locale,
+                navController = navController,
                 onEntryClicked = { date ->
                     navController.navigate(Screen.Entry.createRoute(date))
                 },
@@ -81,11 +82,13 @@ internal fun AppNavigation(
             val date = it.arguments?.getString("entry-date")
             Entry(
                 date?.toLocalDate() ?: LocalDate.now(),
-                onEntrySaved = { milestoneNumber ->
-                    if (milestoneNumber != null) {
-                        //todo how will we pass this back?
+                onEntrySaved = { isNewEntry ->
+                    if (isNewEntry != null) {
+                        navController.previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("isNewEntry", isNewEntry)
                     }
-                    navController.navigateUp()
+                    navController.popBackStack()
                 },
                 onShareClicked = { date, content ->
                     navController.navigate(Screen.Share.createRoute())

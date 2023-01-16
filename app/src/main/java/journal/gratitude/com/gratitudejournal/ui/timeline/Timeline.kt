@@ -14,20 +14,22 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.NavController
 import com.presently.ui.PresentlyColors
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
+import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilestone
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.ui.NavigationDrawer
+import journal.gratitude.com.gratitudejournal.ui.dialog.MilestoneDialog
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import java.util.*
@@ -35,6 +37,7 @@ import java.util.*
 @Composable
 fun Timeline(
     locale: Locale,
+    navController: NavController,
     onEntryClicked: (date: LocalDate) -> Unit,
     onSearchClicked: () -> Unit,
     onThemesClicked: () -> Unit,
@@ -43,6 +46,10 @@ fun Timeline(
     val viewModel = hiltViewModel<TimelineeViewModel>()
     val state = viewModel.state.collectAsState()
     val theme = viewModel.getSelectedTheme()
+
+    val saved: SavedStateHandle? = navController.currentBackStackEntry?.savedStateHandle
+    val wasNewEntrySaved = saved?.getStateFlow("isNewEntry", false)?.collectAsState()
+    var openDialog by remember { mutableStateOf(wasNewEntrySaved?.value == true && isMilestone(state.value.datesWritten.size + 1))  }
 
     PresentlyTheme(
         selectedTheme = theme
@@ -57,6 +64,13 @@ fun Timeline(
             onThemesClicked = onThemesClicked,
             onSettingsClicked = onSettingsClicked,
         )
+        if (openDialog) {
+            val milestoneCount = state.value.datesWritten.size
+            MilestoneDialog(
+                milestoneNumber = milestoneCount,
+                onDismiss = { openDialog = false }
+            )
+        }
     }
 }
 
@@ -128,7 +142,7 @@ fun TimelineContent(
                 TimelineList(
                     modifier = modifier,
                     theme = theme,
-                    timelineItems = state.entries,
+                    timelineItems = state.timelineItems,
                     onEntryClicked = onEntryClicked
                 )
             }

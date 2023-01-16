@@ -3,9 +3,7 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.presently.settings.PresentlySettings
-import com.presently.ui.CalmColors
 import com.presently.ui.PresentlyColors
-import com.presently.ui.PresentlyTheme
 import com.presently.ui.toPresentlyColors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import journal.gratitude.com.gratitudejournal.model.Entry
@@ -15,7 +13,6 @@ import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
@@ -36,7 +33,7 @@ class TimelineeViewModel @Inject constructor(
                 when {
                     list.isEmpty() -> {
                         _state.value = _state.value.copy(
-                            entries = listOf<TimelineItem>(
+                            timelineItems = listOf<TimelineItem>(
                                 Entry(today, ""),
                                 Entry(yesterday, "")
                             )
@@ -53,7 +50,7 @@ class TimelineeViewModel @Inject constructor(
                             newList.add(1, Entry(yesterday, ""))
                         }
                         _state.value = _state.value.copy(
-                            entries = newList,
+                            timelineItems = newList,
                             datesWritten = list.map {
                                 it.entryDate
                             }.toSet())
@@ -83,7 +80,7 @@ class TimelineeViewModel @Inject constructor(
 
                         }
                         _state.value = _state.value.copy(
-                            entries = listWithHintsAndMilestones,
+                            timelineItems = listWithHintsAndMilestones,
                             datesWritten = list.map {
                                 it.entryDate
                             }.toSet()
