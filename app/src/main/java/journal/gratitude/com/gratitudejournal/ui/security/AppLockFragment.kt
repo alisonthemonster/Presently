@@ -21,7 +21,6 @@ import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_CANCELLED
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_LOCKOUT
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_USER_CANCELLED
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -133,7 +132,7 @@ class AppLockFragment : Fragment() {
 
     private fun enterApp(screenToOpen: String) {
         val fragment = when (screenToOpen) {
-            TIMELINE_SCREEN -> TimelineFragment.newInstance()
+            TIMELINE_SCREEN -> SettingsFragment() //todo figure this out lols
             SETTINGS_SCREEN -> SettingsFragment()
             else -> throw IllegalArgumentException("Unknown screen to open")
         }

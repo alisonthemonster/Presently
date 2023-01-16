@@ -69,13 +69,13 @@ fun TimelineRow(
                 .background(theme.timelineLine)
         )
         Text(
-            modifier = Modifier.constrainAs(dateString) {
+            modifier = Modifier.constrainAs(dateString) { //todo show day of week if settings says so
                 top.linkTo(parent.top, margin = 16.dp)
                 start.linkTo(timelineLine.end, margin = 14.dp)
                 end.linkTo(parent.end, margin = 8.dp)
                 width = Dimension.fillToConstraints
             },
-            text = entryDate.toStringWithDayOfWeek(),
+            text = entryDate.toStringWithDayOfWeek(), //todo limit this to the max defined in settings
             style = PresentlyTheme.typography.bodyLarge,
             color = PresentlyTheme.colors.timelineDate
         )

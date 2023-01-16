@@ -22,6 +22,10 @@ import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import org.threeten.bp.LocalDate
 
+//todo fix window insets
+//todo analytics
+//analyticsLogger.recordEvent(LOOKED_AT_SETTINGS)
+
 internal sealed class Screen(val route: String) {
     fun createRoute() = route
 
@@ -100,6 +104,7 @@ internal fun AppNavigation(
         ) {
             Column() {
                 Text("SHARE")
+                //todo launch the share fragment
             }
         }
         composable(

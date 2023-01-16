@@ -62,6 +62,8 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+//todo remove calendar start date preference
+
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener, DialogPreference.TargetFragment {
@@ -257,7 +259,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 }
             }
             BACKUP_CADENCE -> {
-                //todo test cadence works properly with dropbox
                 val cadence = settings.getAutomaticBackupCadence()
                 analytics.recordSelectEvent(cadence.string, "cadence")
                 createDropboxUploaderWorker(cadence)

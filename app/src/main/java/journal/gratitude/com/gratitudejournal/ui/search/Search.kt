@@ -26,6 +26,13 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
 
+//todo style this
+
+//todo log analytics
+//analytics.recordView("SearchFragment")
+
+//todo open keyboard when screen is launched
+
 @Composable
 fun Search(
     onEntryClicked: (date: LocalDate) -> Unit,
@@ -66,6 +73,8 @@ private fun SearchContent(
             items(state.results) { searchResult ->
                 Column(
                     modifier = modifier.clickable {
+                        //todo log analytics
+                        //analytics.recordEvent(CLICKED_SEARCH_ITEM)
                         onEntryClicked(searchResult.entryDate)
                     },
                 ) {
@@ -81,6 +90,7 @@ private fun SearchContent(
                 }
             }
         }
+        //todo show no results state
     }
 }
 

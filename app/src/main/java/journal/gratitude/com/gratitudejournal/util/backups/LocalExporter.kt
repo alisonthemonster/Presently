@@ -20,7 +20,6 @@ import java.io.OutputStream
 
 
 object LocalExporter {
-    //TODO test on low api level device
 
     suspend fun exportEntriesToCsvFile(
         context: Context,

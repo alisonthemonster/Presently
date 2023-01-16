@@ -74,6 +74,10 @@ fun Timeline(
     }
 }
 
+//todo analytics
+//analyticsLogger.recordEvent(CLICKED_NEW_ENTRY)
+//analyticsLogger.recordEvent(CLICKED_EXISTING_ENTRY)
+//analyticsLogger.recordEvent(CLICKED_SEARCH)
 @Composable
 fun TimelineContent(
     modifier: Modifier = Modifier,
@@ -119,7 +123,7 @@ fun TimelineContent(
                     }) {
                         Icon(
                             imageVector = Icons.Default.Menu,
-                            contentDescription = "Menu", //todo extract into string resource
+                            contentDescription = stringResource(R.string.menu),
                             tint = PresentlyTheme.colors.timelineOnToolbar
                         )
                     }

@@ -6,6 +6,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
+//todo style this dialog
+
 @Composable
 fun MilestoneDialog(
     modifier: Modifier = Modifier,

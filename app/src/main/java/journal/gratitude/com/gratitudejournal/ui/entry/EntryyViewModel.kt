@@ -26,6 +26,9 @@ class EntryyViewModel @Inject constructor(
     private val _state = MutableStateFlow(EntryViewState())
     val state: StateFlow<EntryViewState> = _state
 
+    //todo log this
+    //analytics.recordView("EntryFragment")
+
     fun fetchContent(date: LocalDate) {
         viewModelScope.launch {
             val content = repository.getEntry(date)

@@ -16,6 +16,10 @@ class MainActivity : AppCompatActivity() {
 
     //TODO biometric locking
 
+    //todo language changing isn't working
+
+    //todo test dropbox backup still works (esp the every change option)
+
     @Inject lateinit var settings: PresentlySettings
 
     override fun onCreate(savedInstanceState: Bundle?) {

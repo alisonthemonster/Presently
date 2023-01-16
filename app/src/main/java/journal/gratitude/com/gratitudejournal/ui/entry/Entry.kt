@@ -53,6 +53,8 @@ fun Entry(
     }
 }
 
+//todo show warning dialog if the entry is not saved
+
 @Composable
 fun EntryContent(
     modifier: Modifier = Modifier,
@@ -159,6 +161,8 @@ fun EntryContent(
                 style = PresentlyTheme.typography.bodyExtraSmall,
                 color = PresentlyTheme.colors.entryQuoteText
             )
+            //todo make this have long press to copy to clipboard
+            //todo hide this if the user says so
         }
     }
 }
