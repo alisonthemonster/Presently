@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.widget.Toast
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,9 +30,11 @@ import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.ui.NavigationDrawer
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
+import java.util.*
 
 @Composable
 fun Timeline(
+    locale: Locale,
     onEntryClicked: (date: LocalDate) -> Unit,
     onSearchClicked: () -> Unit,
     onThemesClicked: () -> Unit,
@@ -46,6 +49,7 @@ fun Timeline(
     ) {
         TimelineContent(
             modifier = Modifier.fillMaxWidth(),
+            locale = locale,
             theme = theme,
             state = state.value,
             onEntryClicked = onEntryClicked,
@@ -59,6 +63,7 @@ fun Timeline(
 @Composable
 fun TimelineContent(
     modifier: Modifier = Modifier,
+    locale: Locale,
     theme: PresentlyColors,
     state: TimelineViewState,
     onEntryClicked: (date: LocalDate) -> Unit,
@@ -113,12 +118,21 @@ fun TimelineContent(
             color = PresentlyTheme.colors.timelineBackground,
             modifier = modifier.fillMaxHeight()
         ) {
-            TimelineList(
-                modifier = modifier,
-                theme = theme,
-                timelineItems = state.entries,
-                onEntryClicked = onEntryClicked
-            )
+            Column() {
+                TimelineCalendar(
+                    modifier = modifier,
+                    locale = locale,
+                    writtenDates = state.datesWritten,
+                    onDateClicked = onEntryClicked
+                )
+                TimelineList(
+                    modifier = modifier,
+                    theme = theme,
+                    timelineItems = state.entries,
+                    onEntryClicked = onEntryClicked
+                )
+            }
+
         }
     }
 }
@@ -163,6 +177,7 @@ fun TimelineList(
     onEntryClicked: (date: LocalDate) -> Unit
 ) {
     LazyColumn {
+        //todo add keys to help with recomposition
         itemsIndexed(timelineItems) { index, timelineItem ->
             when (timelineItem) {
                 is Entry -> {

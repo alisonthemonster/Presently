@@ -56,7 +56,7 @@ class TimelineeViewModel @Inject constructor(
                             entries = newList,
                             datesWritten = list.map {
                                 it.entryDate
-                            })
+                            }.toSet())
                     }
                     else -> {
                         val latest = list[0]
@@ -86,7 +86,7 @@ class TimelineeViewModel @Inject constructor(
                             entries = listWithHintsAndMilestones,
                             datesWritten = list.map {
                                 it.entryDate
-                            }
+                            }.toSet()
                         )
                     }
                 }

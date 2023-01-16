@@ -5,7 +5,7 @@ import org.threeten.bp.LocalDate
 
 data class TimelineViewState(
     val entries: List<TimelineItem> = emptyList(),
-    val datesWritten: List<LocalDate> = emptyList()
+    val datesWritten: Set<LocalDate> = emptySet()
 ) {
     val numEntries = datesWritten.size
 }

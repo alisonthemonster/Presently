@@ -44,6 +44,9 @@ internal fun AppNavigation(
     navController: NavHostController,
 ) {
     val activity = LocalContext.current as Activity
+    val resources = activity.getResources()
+    val configuration = resources.getConfiguration()
+    val locale = configuration.locales[0]
 
     AnimatedNavHost(
         modifier = modifier,
@@ -54,6 +57,7 @@ internal fun AppNavigation(
             route = Screen.Timeline.route,
         ) {
             Timeline(
+                locale = locale,
                 onEntryClicked = { date ->
                     navController.navigate(Screen.Entry.createRoute(date))
                 },
@@ -126,8 +130,5 @@ internal fun AppNavigation(
 
 @Composable
 fun SettingsFragmentContainer() {
-    AndroidViewBinding(FragmentSettingsBinding::inflate) {
-//        val myFragment = fragmentContainerView.getFragment<SettingsFragment>()
-
-    }
+    AndroidViewBinding(FragmentSettingsBinding::inflate)
 }

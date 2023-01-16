@@ -116,4 +116,6 @@
     <string name="dropbox_too_full_notif_body">Presently failed to backup your data because your Dropbox is full. Tap to view your Dropbox account.</string>
     <string name="dropbox_sync_error_notif_body">There was a problem with your Dropbox account, click here to reconnect to Dropbox to resume automatic backups.</string>
     <string name="learn_more">Learn more</string>
+    <string name="prev_month">Previous month</string>
+    <string name="next_month">Next month</string>
 </resources>
