@@ -28,6 +28,11 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.presently.ui.CalmColors
 import com.presently.ui.OriginalColors
@@ -61,7 +66,6 @@ fun Timeline(
             modifier = Modifier.fillMaxWidth(),
             theme = theme,
             state = state.value,
-            handleEvent = viewModel::handleEvent,
             onEntryClicked = onEntryClicked,
             onSearchClicked = onSearchClicked,
             onThemesClicked = onThemesClicked,
@@ -70,13 +74,11 @@ fun Timeline(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimelineContent(
     modifier: Modifier = Modifier,
     theme: PresentlyColors,
     state: TimelineViewState,
-    handleEvent: (TimelineEvent) -> Unit,
     onEntryClicked: (date: LocalDate) -> Unit,
     onSearchClicked: () -> Unit,
     onSettingsClicked: () -> Unit,
@@ -89,12 +91,12 @@ fun TimelineContent(
         scaffoldState = scaffoldState,
         drawerContent = {
             NavigationDrawer(
-                scaffoldState,
-                scope,
-                onSearchClicked,
-                onThemesClicked,
-                { onContactClicked(context) },
-                onSettingsClicked,
+                scaffoldState = scaffoldState,
+                scope = scope,
+                onSearchClicked = onSearchClicked,
+                onThemesClicked = onThemesClicked,
+                onContactClicked = { onContactClicked(context) },
+                onSettingsClicked = onSettingsClicked,
             )
         },
         topBar = {
@@ -127,7 +129,7 @@ fun TimelineContent(
     ) {
         Surface(
             color = PresentlyTheme.colors.timelineBackground,
-            modifier = Modifier.fillMaxHeight()
+            modifier = modifier.fillMaxHeight()
         ) {
             TimelineList(
                 modifier = modifier,
@@ -140,6 +142,7 @@ fun TimelineContent(
 }
 
 private fun onContactClicked(context: Context) {
+    //todo
     //analyticsLogger.recordEvent(OPENED_CONTACT_FORM)
 
     val intent = Intent(Intent.ACTION_SENDTO).apply {
@@ -181,7 +184,7 @@ fun TimelineList(
         itemsIndexed(timelineItems) { index, timelineItem ->
             when (timelineItem) {
                 is Entry -> {
-                    EntryRow(
+                    TimelineRow1(
                         modifier = modifier,
                         theme = theme,
                         entryDate = timelineItem.entryDate,
@@ -204,47 +207,4 @@ fun MilestoneRow(
     milestoneNumber: Int
 ) {
     Text("Ya wrote $milestoneNumber entries")
-}
-
-@Composable
-fun EntryRow(
-    modifier: Modifier = Modifier,
-    theme: PresentlyColors,
-    entryDate: LocalDate,
-    entryContent: String,
-    isLastEntry: Boolean = false,
-    onEntryClicked: (date: LocalDate) -> Unit,
-) {
-    Column(
-        modifier = modifier
-            .clickable { onEntryClicked(entryDate) }
-            .padding(8.dp),
-    ) {
-        val content = entryContent.ifEmpty {
-            if (entryDate == LocalDate.now()) {
-                "What are you grateful for?"
-            } else {
-                "What were you grateful for?"
-            }
-        }
-        Text(
-            text = entryDate.toStringWithDayOfWeek(),
-            style = PresentlyTheme.typography.bodyLarge,
-            modifier = Modifier.padding(bottom = 4.dp),
-            color = PresentlyTheme.colors.timelineDate
-        )
-        Text(
-            text = content,
-            style = PresentlyTheme.typography.bodyMedium,
-            color = if (entryContent.isEmpty()) PresentlyTheme.colors.timelineHint else PresentlyTheme.colors.timelineContent,
-        )
-        if (isLastEntry) {
-            Image(
-                painter = painterResource(id = theme.iconResource),
-                contentDescription = null,
-                modifier = Modifier.requiredHeight(80.dp)
-            )
-        }
-    }
-
 }

@@ -94,12 +94,6 @@ class TimelineeViewModel @Inject constructor(
         }
     }
 
-    fun handleEvent(timelineEvent: TimelineEvent) {
-        when (timelineEvent) {
-
-        }
-    }
-
     fun getSelectedTheme(): PresentlyColors {
         return settings.getCurrentTheme().toPresentlyColors()
     }

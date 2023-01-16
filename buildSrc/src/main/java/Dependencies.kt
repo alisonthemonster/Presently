@@ -15,6 +15,7 @@ object Versions {
     const val ANDROIDX_CORE_KTX = "1.6.0" //https://developer.android.com/jetpack/androidx/releases/core
     const val ANDROIDX_COMPAT = "1.3.0" //https://developer.android.com/jetpack/androidx/releases/appcompat
     const val ANDROIDX_CONSTRAINT = "2.0.4" //https://developer.android.com/jetpack/androidx/releases/constraintlayout
+    const val ANDROIDX_CONSTRAINT_COMPOSE = "1.0.1" //https://developer.android.com/jetpack/androidx/releases/constraintlayout
     const val ANDROIDX_LIFECYCLE = "2.3.1" //https://developer.android.com/jetpack/androidx/releases/lifecycle
     const val ANDROIDX_RECYCLER_VIEW = "1.2.0"
     const val FRAGMENT_TESTING = "1.3.4"
@@ -113,6 +114,7 @@ object Libraries {
    const val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.ANDROIDX_LIFECYCLE}"
    const val compose_hilt_navigation = "androidx.hilt:hilt-navigation-compose:${Versions.HILT_ANDROID}"
    const val compose_accompanist_navigation_animation = "com.google.accompanist:accompanist-navigation-animation:${Versions.ACCOMPANIST}"
+   const val compose_constraint = "androidx.constraintlayout:constraintlayout-compose:${Versions.ANDROIDX_CONSTRAINT_COMPOSE}"
 }
 
 object TestLibraries {
