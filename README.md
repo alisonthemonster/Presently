@@ -40,4 +40,5 @@ Contributions are welcome! Please fork the repo and make a PR. Forked PRs will b
 
 
 ### Dependency Graph
+Presently is a small and simple app, did it need modularizing? Probably not. But Presently also servees as a playground for me for trying out new technologies and keeping up with best practices. Here's how we've broken down the app so far.
 ![](dependency-graph/project.dot.png)

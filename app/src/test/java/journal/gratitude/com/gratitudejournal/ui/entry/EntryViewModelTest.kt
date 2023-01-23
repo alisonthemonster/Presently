@@ -123,7 +123,7 @@ class EntryViewModelTest {
     fun `GIVEN entry view model WHEN text is cleared THEN the state is updated`() {
         val initialState = EntryState(
             LocalDate.now(),
-            "",
+            "This is an entry",
             true,
             null,
             "hint",
@@ -389,7 +389,7 @@ class EntryViewModelTest {
 
         withState(viewModel) {
             assertThat(it.date).isEqualTo(LocalDate.now())
-            assertThat(it.entryContent).isEqualTo(" ")
+            assertThat(it.entryContent).isEqualTo("")
             assertThat(it.isNewEntry).isFalse()
             assertThat(it.numberExistingEntries).isEqualTo(0)
             assertThat(it.hint).isEqualTo("What are you grateful for?")
@@ -401,5 +401,47 @@ class EntryViewModelTest {
             assertThat(it.milestoneNumber).isEqualTo(0)
             assertThat(it.editsWereMade).isFalse()
         }
+    }
+
+    @Test
+    fun `GIVEN new entry When text is set and reset then state should be updated`() {
+        val entryArgs = EntryArgs(LocalDate.now().toString(), true, 0, "Quote", "What are you grateful for?", listOf("one", "two", "three"))
+        val initialState = EntryState(entryArgs)
+        val repository = object : EntryRepository {
+            override suspend fun getEntry(date: LocalDate): Entry? = null
+
+            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
+
+            override suspend fun getEntries(): List<Entry> = emptyList()
+
+            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
+
+            override suspend fun addEntry(entry: Entry) {}
+
+            override suspend fun addEntries(entries: List<Entry>) = Unit
+
+            override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
+        }
+        viewModel = EntryViewModel(initialState, analytics, repository)
+
+        withState(viewModel) {
+            assertThat(it.entryContent).isEqualTo("")
+            assertThat(it.hasUserEdits).isFalse()
+        }
+
+        viewModel.onTextChanged("I am grateful for each and everything")
+
+        withState(viewModel) {
+            assertThat(it.entryContent).isEqualTo("I am grateful for each and everything")
+            assertThat(it.hasUserEdits).isTrue()
+        }
+
+        viewModel.getEntry()
+
+        withState(viewModel) {
+            assertThat(it.entryContent).isEqualTo("")
+            assertThat(it.editsWereMade).isFalse()
+        }
+
     }
 }

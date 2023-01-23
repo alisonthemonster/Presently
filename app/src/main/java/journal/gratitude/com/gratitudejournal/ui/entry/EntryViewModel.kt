@@ -33,6 +33,8 @@ class EntryViewModel @AssistedInject constructor(
                     setState {
                         copy(entryContent = entry.entryContent)
                     }
+                } else {
+                    setState { copy(entryContent = "", hasUserEdits = false) }
                 }
             }
         }
@@ -57,7 +59,7 @@ class EntryViewModel @AssistedInject constructor(
                 setState {
                     copy(entryContent = newText, hasUserEdits = true)
                 }
-            }else{
+            } else {
                 setState {
                     copy(entryContent = newText, hasUserEdits = false)
                 }
