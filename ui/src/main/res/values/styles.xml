@@ -10,9 +10,9 @@
         <!-- CHANGES THE DIALOG BACKGROUND COLOR!       -->
         <item name="android:colorBackground">?attr/timelineBackgroundColor</item>
         <!-- CHANGES BODY TEXT COLOR IN DIALOGS BUT NOT IN TIME PICKER     -->
-        <item name="android:textColorPrimary">?attr/entryBodyColor</item>
+        <item name="android:textColorPrimary">?attr/timelineBodyColor</item>
         <!-- CHANGES HEADER TEXT COLOR IN DIALOGS BUT NOT IN TIME PICKER     -->
-        <item name="android:textColor">?attr/entryBodyColor</item>
+        <item name="android:textColor">?attr/timelineBodyColor</item>
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
@@ -20,7 +20,7 @@
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">?attr/entryBodyColor</item>
+        <item name="android:textColor">?attr/timelineBodyColor</item>
     </style>
 
     <style name="TextAppearance.Title" parent="Theme.MaterialComponents.Light.NoActionBar">
