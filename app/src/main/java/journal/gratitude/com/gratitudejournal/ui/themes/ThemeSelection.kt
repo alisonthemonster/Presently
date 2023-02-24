@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -41,8 +42,10 @@ fun ThemeSelection(
 private fun ThemeSelectionContent(
     onThemeSelected: (theme: String) -> Unit
 ) {
+    val colorSchemes = remember { colorSchemes.toList() }
+
     LazyColumn {
-        items(colorSchemes.toList()) { colorScheme ->
+        items(colorSchemes) { colorScheme ->
             val themeName = colorScheme.first
             val colors = colorScheme.second
             Surface(

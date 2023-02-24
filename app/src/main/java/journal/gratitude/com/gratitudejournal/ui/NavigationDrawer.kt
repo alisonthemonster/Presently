@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Divider
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -37,7 +36,7 @@ fun NavigationDrawer(
                 stringResource(R.string.presently),
                 modifier = Modifier.padding(10.dp),
                 style = PresentlyTheme.typography.titleLarge,
-                color = PresentlyTheme.colors.timelineTitle
+                color = PresentlyTheme.colors.timelineLogo
             )
             NavigationDrawerItem(
                 title = stringResource(id = R.string.search),

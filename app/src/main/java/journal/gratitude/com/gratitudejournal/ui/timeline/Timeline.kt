@@ -21,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
-import com.presently.settings.AuthenticationState
 import com.presently.ui.PresentlyColors
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
@@ -112,7 +111,7 @@ fun TimelineContent(
                     Text(
                         text = stringResource(id = R.string.presently),
                         style = PresentlyTheme.typography.titleLarge,
-                        color = PresentlyTheme.colors.timelineTitle
+                        color = PresentlyTheme.colors.timelineLogo
                     )
                 },
                 navigationIcon = {

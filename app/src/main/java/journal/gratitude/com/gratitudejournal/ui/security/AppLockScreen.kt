@@ -3,7 +3,6 @@ package journal.gratitude.com.gratitudejournal.ui.security
 import androidx.biometric.BiometricPrompt
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
@@ -46,7 +45,7 @@ fun AppLockScreen(
                 Text(
                     stringResource(R.string.lock_summary),
                     style = PresentlyTheme.typography.titleLarge,
-                    color = PresentlyTheme.colors.timelineTitle,
+                    color = PresentlyTheme.colors.timelineLogo,
                     textAlign = TextAlign.Center,
                 )
                 Image(

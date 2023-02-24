@@ -13,7 +13,7 @@ class PresentlyColors(
     timelineContent: Color,
     timelineHint: Color,
     timelineToolbar: Color,
-    timelineTitle: Color,
+    timelineLogo: Color,
     timelineOnToolbar: Color,
     timelineFab: Color,
     timelineOnFab: Color,
@@ -50,7 +50,7 @@ class PresentlyColors(
     var timelineOnToolbar by mutableStateOf(timelineOnToolbar)
         private set
 
-    var timelineTitle by mutableStateOf(timelineTitle)
+    var timelineLogo by mutableStateOf(timelineLogo)
         private set
 
     var timelineFab by mutableStateOf(timelineFab)
@@ -93,7 +93,7 @@ class PresentlyColors(
         timelineToolbar = other.timelineToolbar
         timelineOnToolbar = other.timelineOnToolbar
         timelineFab = other.timelineFab
-        timelineTitle = other.timelineTitle
+        timelineLogo = other.timelineLogo
         timelineOnFab = other.timelineOnFab
         entryBackground = other.entryBackground
         entryDate = other.entryDate
@@ -118,7 +118,7 @@ val OriginalColors = PresentlyColors(
     timelineContent = Color(0xff000000),
     timelineHint = Color(0xff79736a),
     timelineToolbar = Color(0xff000000),
-    timelineTitle = Color(0xffdbd1c7),
+    timelineLogo = Color(0xffdbd1c7),
     timelineOnToolbar = Color(0xffdbd1c7),
     timelineFab = Color(0xff000000),
     timelineOnFab = Color(0xffdbd1c7),
@@ -141,7 +141,7 @@ val CalmColors = PresentlyColors(
     timelineContent = Color(0xff697AD6),
     timelineHint = Color(0xffE7EBFF),
     timelineToolbar = Color(0xffFFFFFF),
-    timelineTitle = Color(0xff697AD6),
+    timelineLogo = Color(0xff697AD6),
     timelineOnToolbar = Color(0xffdbd1c7),
     timelineFab = Color(0xffFFFFFF),
     timelineOnFab = Color(0xffBBC4FB),
@@ -163,7 +163,7 @@ val PassionColors = PresentlyColors(
     timelineContent = Color(0xffE180D3),
     timelineHint = Color(0xffFFE6FF),
     timelineToolbar = Color(0xffFFFFFF),
-    timelineTitle = Color(0xffF2A7A1),
+    timelineLogo = Color(0xffF2A7A1),
     timelineOnToolbar = Color(0xffF2A7A1),
     timelineFab = Color(0xffF2A7A1),
     timelineOnFab = Color(0xffFFFFFF),
@@ -185,7 +185,7 @@ val JoyColors = PresentlyColors(
     timelineContent = Color(0xff298582),
     timelineHint = Color(0xff91CFCC),
     timelineToolbar = Color(0xffFFFFFF),
-    timelineTitle = Color(0xffDFA700),
+    timelineLogo = Color(0xffDFA700),
     timelineOnToolbar = Color(0xffB8EEEE),
     timelineFab = Color(0xffDFA700),
     timelineOnFab = Color(0xffFFFFFF),
@@ -207,7 +207,7 @@ val BooColors = PresentlyColors(
     timelineContent = Color(0xff000000),
     timelineHint = Color(0xff505050),
     timelineToolbar = Color(0xff000000),
-    timelineTitle = Color(0xffFFFFFF),
+    timelineLogo = Color(0xffFFFFFF),
     timelineOnToolbar = Color(0xffFFFFFF),
     timelineFab = Color(0xff000000),
     timelineOnFab = Color(0xffFFFFFF),
@@ -221,10 +221,262 @@ val BooColors = PresentlyColors(
     debugColor1 = Color(0xff510998)
 )
 
+val BettyColors = PresentlyColors(
+    iconResource = R.drawable.ic_betty,
+    timelineBackground = Color(0xffFCDAD1),
+    timelineLine = Color(0xffF3A799),
+    timelineDate = Color(0xff4B3534),
+    timelineContent = Color(0xffA04A32),
+    timelineHint = Color(0xffCF988E),
+    timelineToolbar = Color(0xffD67770),
+    timelineLogo = Color(0xffFCDAD1),
+    timelineOnToolbar = Color(0xffFCDAD1),
+    timelineFab = Color(0xffD67770),
+    timelineOnFab = Color(0xffFCDAD1),
+    entryBackground = Color(0xffFCDAD1),
+    entryDate = Color(0xffA04A32),
+    entryBody = Color(0xffA04A32),
+    entryHint = Color(0xffCF988E),
+    entryButtonBackground = Color(0xffD67770),
+    entryButtonText = Color(0xffFCDAD1),
+    entryQuoteText = Color(0xffCF988E),
+    debugColor1 = Color(0xff510998)
+)
+
+val AutumnColors = PresentlyColors(
+    iconResource = R.drawable.ic_autumn_leaves,
+    timelineBackground = Color(0xffF4E8DB),
+    timelineLine = Color(0xff4B3534),
+    timelineDate = Color(0xff4B3534),
+    timelineContent = Color(0xff4B3534),
+    timelineHint = Color(0xff938C8C),
+    timelineToolbar = Color(0xffA98043),
+    timelineLogo = Color(0xff000000),
+    timelineOnToolbar = Color(0xff000000),
+    timelineFab = Color(0xffA98043),
+    timelineOnFab = Color(0xff000000),
+    entryBackground = Color(0xffF4E8DB),
+    entryDate = Color(0xff4B3534),
+    entryBody = Color(0xff4B3534),
+    entryHint = Color(0xff938C8C),
+    entryButtonBackground = Color(0xffA98043),
+    entryButtonText = Color(0xff000000),
+    entryQuoteText = Color(0xff938C8C),
+    debugColor1 = Color(0xff510998)
+)
+
+val BraylaColors = PresentlyColors(
+    iconResource = R.drawable.ic_brayla,
+    timelineBackground = Color(0xff000000),
+    timelineLine = Color(0xffFFFFFF),
+    timelineDate = Color(0xffFFFFFF),
+    timelineContent = Color(0xffFFFFFF),
+    timelineHint = Color(0xffA6A6A6),
+    timelineToolbar = Color(0xffFFFFFF),
+    timelineLogo = Color(0xff000000),
+    timelineOnToolbar = Color(0xff000000),
+    timelineFab = Color(0xffFFFFFF),
+    timelineOnFab = Color(0xff000000),
+    entryBackground = Color(0xff000000),
+    entryDate = Color(0xffFFFFFF),
+    entryBody = Color(0xffFFFFFF),
+    entryHint = Color(0xffA6A6A6),
+    entryButtonBackground = Color(0xffFFFFFF),
+    entryButtonText = Color(0xff000000),
+    entryQuoteText = Color(0xffA6A6A6),
+    debugColor1 = Color(0xff510998)
+)
+
+val MarshaColors = PresentlyColors(
+    iconResource = R.drawable.ic_trans_hearts,
+    timelineBackground = Color(0xffFFFAFA),
+    timelineLine = Color(0xff000000),
+    timelineDate = Color(0xff000000),
+    timelineContent = Color(0xff000000),
+    timelineHint = Color(0xff4E4E4E),
+    timelineToolbar = Color(0xff000000),
+    timelineLogo = Color(0xffFFFAFA),
+    timelineOnToolbar = Color(0xffFFFAFA),
+    timelineFab = Color(0xff000000),
+    timelineOnFab = Color(0xffFFFAFA),
+    entryBackground = Color(0xffFFFAFA),
+    entryDate = Color(0xff000000),
+    entryBody = Color(0xff000000),
+    entryHint = Color(0xff4E4E4E),
+    entryButtonBackground = Color(0xff000000),
+    entryButtonText = Color(0xffFFFAFA),
+    entryQuoteText = Color(0xff4E4E4E),
+    debugColor1 = Color(0xff510998)
+)
+
+val RemmieColors = PresentlyColors(
+    iconResource = R.drawable.ic_rainbow,
+    timelineBackground = Color(0xffC6E3F1),
+    timelineLine = Color(0xff000000),
+    timelineDate = Color(0xff000000),
+    timelineContent = Color(0xff000000),
+    timelineHint = Color(0xff4E4E4E),
+    timelineToolbar = Color(0xff000000),
+    timelineLogo = Color(0xffFFFAFA),
+    timelineOnToolbar = Color(0xffFFFAFA),
+    timelineFab = Color(0xff000000),
+    timelineOnFab = Color(0xffFFFAFA),
+    entryBackground = Color(0xffC6E3F1),
+    entryDate = Color(0xff000000),
+    entryBody = Color(0xff000000),
+    entryHint = Color(0xff4E4E4E),
+    entryButtonBackground = Color(0xff000000),
+    entryButtonText = Color(0xff4E4E4E),
+    entryQuoteText = Color(0xff4E4E4E),
+    debugColor1 = Color(0xff510998)
+)
+
+val AhalyaColors = PresentlyColors(
+    iconResource = R.drawable.ic_butterfly,
+    timelineBackground = Color(0xffEFCCF4),
+    timelineLine = Color(0xff000000),
+    timelineDate = Color(0xff000000),
+    timelineContent = Color(0xff000000),
+    timelineHint = Color(0xff706767),
+    timelineToolbar = Color(0xff000000),
+    timelineLogo = Color(0xffFFFFFF),
+    timelineOnToolbar = Color(0xffFFFFFF),
+    timelineFab = Color(0xff000000),
+    timelineOnFab = Color(0xffFFFFFF),
+    entryBackground = Color(0xffEFCCF4),
+    entryDate = Color(0xff000000),
+    entryBody = Color(0xff000000),
+    entryHint = Color(0xff706767),
+    entryButtonBackground = Color(0xff000000),
+    entryButtonText = Color(0xffFFFFFF),
+    entryQuoteText = Color(0xff706767),
+    debugColor1 = Color(0xff510998)
+)
+
+val DanahColors = PresentlyColors(
+    iconResource = R.drawable.ic_danah,
+    timelineBackground = Color(0xffFFEBE7),
+    timelineLine = Color(0xffFFB1AB),
+    timelineDate = Color(0xff342E2E),
+    timelineContent = Color(0xff342E2E),
+    timelineHint = Color(0xff706767),
+    timelineToolbar = Color(0xff000000),
+    timelineLogo = Color(0xffFFEBE7),
+    timelineOnToolbar = Color(0xffFFEBE7),
+    timelineFab = Color(0xff000000),
+    timelineOnFab = Color(0xffFFEBE7),
+    entryBackground = Color(0xffFFEBE7),
+    entryDate = Color(0xff342E2E),
+    entryBody = Color(0xff342E2E),
+    entryHint = Color(0xff706767),
+    entryButtonBackground = Color(0xff000000),
+    entryButtonText = Color(0xffFFEBE7),
+    entryQuoteText = Color(0xff706767),
+    debugColor1 = Color(0xff510998)
+)
+
+val EllenColors = PresentlyColors(
+    iconResource = R.drawable.ic_ellen,
+    timelineBackground = Color(0xffDFE0B4),
+    timelineLine = Color(0xff000000),
+    timelineDate = Color(0xff000000),
+    timelineContent = Color(0xff000000),
+    timelineHint = Color(0xff706767),
+    timelineToolbar = Color(0xff000000),
+    timelineLogo = Color(0xffFFFFFF),
+    timelineOnToolbar = Color(0xffFFFFFF),
+    timelineFab = Color(0xff000000),
+    timelineOnFab = Color(0xffFFFFFF),
+    entryBackground = Color(0xffDFE0B4),
+    entryDate = Color(0xff000000),
+    entryBody = Color(0xff000000),
+    entryHint = Color(0xff706767),
+    entryButtonBackground = Color(0xff000000),
+    entryButtonText = Color(0xffFFFFFF),
+    entryQuoteText = Color(0xff706767),
+    debugColor1 = Color(0xff510998)
+)
+
+val JulieColors = PresentlyColors(
+    iconResource = R.drawable.ic_julie,
+    timelineBackground = Color(0xffEEE7D4),
+    timelineLine = Color(0xff161616),
+    timelineDate = Color(0xff161616),
+    timelineContent = Color(0xff161616),
+    timelineHint = Color(0xff706767),
+    timelineToolbar = Color(0xff161616),
+    timelineLogo = Color(0xffFFFFFF),
+    timelineOnToolbar = Color(0xffFFFFFF),
+    timelineFab = Color(0xff000000),
+    timelineOnFab = Color(0xffFFFFFF),
+    entryBackground = Color(0xffEEE7D4),
+    entryDate = Color(0xff000000),
+    entryBody = Color(0xff000000),
+    entryHint = Color(0xff706767),
+    entryButtonBackground = Color(0xff000000),
+    entryButtonText = Color(0xffFFFFFF),
+    entryQuoteText = Color(0xff706767),
+    debugColor1 = Color(0xff510998)
+)
+
+val JungleColors = PresentlyColors(
+    iconResource = R.drawable.ic_tiger,
+    timelineBackground = Color(0xff316346),
+    timelineLine = Color(0xff000000),
+    timelineDate = Color(0xffEAC9AA),
+    timelineContent = Color(0xffEAC9AA),
+    timelineHint = Color(0xffAC977A),
+    timelineToolbar = Color(0xff161616),
+    timelineLogo = Color(0xffEAC9AA),
+    timelineOnToolbar = Color(0xffEAC9AA),
+    timelineFab = Color(0xff161616),
+    timelineOnFab = Color(0xffEAC9AA),
+    entryBackground = Color(0xff316346),
+    entryDate = Color(0xffEAC9AA),
+    entryBody = Color(0xffEAC9AA),
+    entryHint = Color(0xffAC977A),
+    entryButtonBackground = Color(0xff161616),
+    entryButtonText = Color(0xffEAC9AA),
+    entryQuoteText = Color(0xffAC977A),
+    debugColor1 = Color(0xff510998)
+)
+
+val Colors = PresentlyColors(
+    iconResource = R.drawable.ic_betty,
+    timelineBackground = Color(0xff000000),
+    timelineLine = Color(0xff000000),
+    timelineDate = Color(0xff000000),
+    timelineContent = Color(0xff000000),
+    timelineHint = Color(0xff000000),
+    timelineToolbar = Color(0xff000000),
+    timelineLogo = Color(0xff000000),
+    timelineOnToolbar = Color(0xff000000),
+    timelineFab = Color(0xff000000),
+    timelineOnFab = Color(0xff000000),
+    entryBackground = Color(0xff000000),
+    entryDate = Color(0xff000000),
+    entryBody = Color(0xff000000),
+    entryHint = Color(0xff000000),
+    entryButtonBackground = Color(0xff000000),
+    entryButtonText = Color(0xff000000),
+    entryQuoteText = Color(0xff000000),
+    debugColor1 = Color(0xff510998)
+)
+
 val colorSchemes = mapOf(
     "Original" to OriginalColors,
     "Calm" to CalmColors,
     "Passion" to PassionColors,
     "Joy" to JoyColors,
-    "Boo" to BooColors
+    "Boo" to BooColors,
+    "Betty" to BettyColors,
+    "Autumn" to AutumnColors,
+    "Brayla" to BraylaColors,
+    "Marsha" to MarshaColors,
+    "Remmie" to RemmieColors,
+    "Ahalya" to AhalyaColors,
+    "Danah" to DanahColors,
+    "Ellen" to EllenColors,
+    "Julie" to JulieColors,
+    "Jungle" to JungleColors,
 )
