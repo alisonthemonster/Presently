@@ -42,6 +42,7 @@ dependencies {
     implementation(Libraries.androidx_core_ktx)
     implementation(Libraries.androidx_compat)
     implementation(Libraries.androidx_preference_ktx)
+    implementation(Libraries.kotlin_coroutines_android)
 
     implementation(Libraries.three_ten_abp)
     implementation(Libraries.dropbox_sdk)

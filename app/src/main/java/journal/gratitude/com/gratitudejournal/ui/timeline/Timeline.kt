@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
+import com.presently.settings.AuthenticationState
 import com.presently.ui.PresentlyColors
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
@@ -41,31 +42,60 @@ fun Timeline(
     onEntryClicked: (date: LocalDate) -> Unit,
     onSearchClicked: () -> Unit,
     onThemesClicked: () -> Unit,
-    onSettingsClicked: () -> Unit
+    onSettingsClicked: () -> Unit,
+    //onBiometricsTimeout: () -> Unit,
 ) {
     val viewModel = hiltViewModel<TimelineeViewModel>()
-    val state = viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
     val theme = viewModel.getSelectedTheme()
 
     val saved: SavedStateHandle? = navController.currentBackStackEntry?.savedStateHandle
     val wasNewEntrySaved = saved?.getStateFlow("isNewEntry", false)?.collectAsState()
-    var openDialog by remember { mutableStateOf(wasNewEntrySaved?.value == true && isMilestone(state.value.datesWritten.size + 1))  }
+    var openDialog by remember { mutableStateOf(wasNewEntrySaved?.value == true && isMilestone(state.datesWritten.size + 1))  }
 
     PresentlyTheme(
         selectedTheme = theme
     ) {
+//        when (state.authenticationState) {
+//            AuthenticationState.TIMED_OUT -> {
+//                onBiometricsTimeout()
+//            }
+//            AuthenticationState.AUTHENTICATED,
+//            AuthenticationState.DISABLED -> {
+//                TimelineContent(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    locale = locale,
+//                    theme = theme,
+//                    state = state,
+//                    onEntryClicked = onEntryClicked,
+//                    onSearchClicked = onSearchClicked,
+//                    onThemesClicked = onThemesClicked,
+//                    onSettingsClicked = onSettingsClicked,
+//                )
+//                if (openDialog) {
+//                    val milestoneCount = state.datesWritten.size
+//                    MilestoneDialog(
+//                        milestoneNumber = milestoneCount,
+//                        onDismiss = { openDialog = false }
+//                    )
+//                }
+//            }
+//            AuthenticationState.UNKNOWN -> {
+//                Text("Loading auth state")
+//            }
+//        }
         TimelineContent(
             modifier = Modifier.fillMaxWidth(),
             locale = locale,
             theme = theme,
-            state = state.value,
+            state = state,
             onEntryClicked = onEntryClicked,
             onSearchClicked = onSearchClicked,
             onThemesClicked = onThemesClicked,
             onSettingsClicked = onSettingsClicked,
         )
         if (openDialog) {
-            val milestoneCount = state.value.datesWritten.size
+            val milestoneCount = state.datesWritten.size
             MilestoneDialog(
                 milestoneNumber = milestoneCount,
                 onDismiss = { openDialog = false }

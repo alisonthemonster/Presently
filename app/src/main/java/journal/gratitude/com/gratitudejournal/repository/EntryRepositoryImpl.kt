@@ -20,7 +20,7 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         return entryDao.getEntry(date)
     }
 
-    override suspend fun getEntriesFlow(): Flow<List<Entry>> {
+    override fun getEntriesFlow(): Flow<List<Entry>> {
         return entryDao.getEntriesFlow()
     }
 

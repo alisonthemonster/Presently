@@ -32,6 +32,7 @@ object Versions {
     const val ANDROIDX_TEST_UIAUTOMATOR = "2.2.0"
     const val ANDROIDX_PREF_KTX = "1.1.1"
     const val ANDROIDX_ARCH_CORE = "2.1.0" //https://developer.android.com/jetpack/androidx/releases/arch-core
+    const val ANDROIDX_DATA_STORE = "1.0.0" //https://developer.android.com/jetpack/androidx/releases/datastore
     const val FIREBASE = "28.2.1" //https://firebase.google.com/support/release-notes/android
     const val DAGGER = "2.42" //https://github.com/google/dagger/releases
     const val HILT_ANDROID = "1.0.0" //https://developer.android.com/jetpack/androidx/releases/hilt
@@ -92,6 +93,7 @@ object Libraries {
    const val androidx_room_ktx = "androidx.room:room-ktx:${Versions.ANDROIDX_ROOM}"
    const val androidx_room_runtime = "androidx.room:room-runtime:${Versions.ANDROIDX_ROOM}"
    const val androidx_room_compiler = "androidx.room:room-compiler:${Versions.ANDROIDX_ROOM}"
+   const val androidx_data_store = "androidx.datastore:datastore-preferences:${Versions.ANDROIDX_DATA_STORE}"
    const val three_ten_abp = "com.jakewharton.threetenabp:threetenabp:${Versions.THREE_TEN_ABP}"
    const val dropbox_sdk = "com.dropbox.core:dropbox-core-sdk:${Versions.DROPBOX_SDK}"
    const val play_core = "com.google.android.play:core:${Versions.PLAY_CORE}"

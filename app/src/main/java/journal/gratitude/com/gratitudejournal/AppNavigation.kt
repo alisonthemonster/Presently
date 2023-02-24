@@ -1,6 +1,7 @@
 package journal.gratitude.com.gratitudejournal
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
@@ -16,6 +17,7 @@ import com.google.accompanist.navigation.animation.composable
 import journal.gratitude.com.gratitudejournal.databinding.FragmentSettingsBinding
 import journal.gratitude.com.gratitudejournal.ui.entry.Entry
 import journal.gratitude.com.gratitudejournal.ui.search.Search
+import journal.gratitude.com.gratitudejournal.ui.security.AppLockScreen
 import journal.gratitude.com.gratitudejournal.ui.settings.ThemeSelection
 import journal.gratitude.com.gratitudejournal.ui.timeline.Timeline
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
@@ -34,6 +36,7 @@ internal sealed class Screen(val route: String) {
     object Share : Screen("share")
     object Search : Screen("search")
     object Themes : Screen("themes")
+    object Lock : Screen("lock")
     object Entry : Screen("entry/{entry-date}") {
         fun createRoute(entryDate: LocalDate): String {
             return "entry/${entryDate.toDatabaseString()}"
@@ -132,6 +135,22 @@ internal fun AppNavigation(
             route = Screen.Settings.route,
         ) {
             SettingsFragmentContainer()
+        }
+        composable(
+            route = Screen.Lock.route
+        ) {
+            AppLockScreen(
+                onUserAuthenticated = {
+                    Log.d("blerg", "onUserAuthenticated in AppNavigation")
+                    navController.navigate(Screen.Timeline.createRoute()) {
+                        popUpTo(0) //reset stack
+                    }
+                },
+                onUserAuthenticationFailed = {
+                    //todo show toast with error message
+                    activity.finish()
+                }
+            )
         }
     }
 }

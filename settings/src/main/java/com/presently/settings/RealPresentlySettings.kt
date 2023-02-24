@@ -10,6 +10,12 @@ import com.presently.logging.AnalyticsLogger
 import com.presently.logging.DROPBOX_AUTH_QUIT
 import com.presently.logging.DROPBOX_AUTH_SUCCESS
 import com.presently.settings.model.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.withContext
 import java.util.*
 import org.threeten.bp.LocalTime
 import javax.inject.Inject
@@ -40,16 +46,20 @@ class RealPresentlySettings @Inject constructor(
     }
 
     override fun shouldLockApp(): Boolean {
-        val lastDestroyTime = sharedPrefs.getLong(ON_PAUSE_TIME, -1L)
-        val currentTime = Date(System.currentTimeMillis()).time
-        val diff = currentTime - lastDestroyTime
-        //if more than 5 minutes (300000ms) have passed since last destroy, lock out user
-        return diff > 300000L
+        return isBiometricsEnabled() && sharedPrefs.getBoolean(APP_NEEDS_AUTH, false)
     }
 
     override fun setOnPauseTime() {
         val date = Date(System.currentTimeMillis())
         sharedPrefs.edit().putLong(ON_PAUSE_TIME, date.time).apply()
+    }
+
+    override fun onAppBackgrounded() {
+        sharedPrefs.edit().putBoolean(APP_NEEDS_AUTH, true).apply()
+    }
+
+    override fun onAuthenticationSucceeded() {
+        sharedPrefs.edit().putBoolean(APP_NEEDS_AUTH, false).apply()
     }
 
     override fun getFirstDayOfWeek(): Int {
