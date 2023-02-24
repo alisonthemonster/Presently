@@ -13,7 +13,9 @@ import journal.gratitude.com.gratitudejournal.ui.settings.SettingsViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun PresentlyContainer() {
+fun PresentlyContainer(
+    cameFromNotification: Boolean,
+) {
     val navController = rememberAnimatedNavController()
 
     val viewModel = hiltViewModel<SettingsViewModel>()
@@ -39,5 +41,5 @@ fun PresentlyContainer() {
         }
     }
 
-    AppNavigation(navController = navController)
+    AppNavigation(navController = navController, cameFromNotification = cameFromNotification)
 }

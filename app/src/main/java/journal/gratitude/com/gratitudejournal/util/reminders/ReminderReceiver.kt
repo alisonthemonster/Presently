@@ -9,8 +9,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.presently.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
-import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.ContainerActivity.Companion.CHANNEL_ID
+import journal.gratitude.com.gratitudejournal.MainActivity
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler.Companion.ALARM_TYPE_RTC
 import javax.inject.Inject
@@ -25,7 +25,7 @@ class ReminderReceiver : BroadcastReceiver() {
     lateinit var settings: PresentlySettings
 
     override fun onReceive(context: Context, intent: Intent) {
-        val openActivityIntent = Intent(context, ContainerActivity::class.java)
+        val openActivityIntent = Intent(context, MainActivity::class.java)
         openActivityIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP //set flag to restart/relaunch the app
         openActivityIntent.putExtra(fromNotification, true)
         val pendingIntent = PendingIntent.getActivity(

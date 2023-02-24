@@ -8,7 +8,9 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.presently.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
+import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
+import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -25,8 +27,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val cameFromNotification = intent.extras?.getBoolean(ReminderReceiver.fromNotification, false)
+            ?: false
+
         setContent {
-            PresentlyContainer()
+            PresentlyContainer(cameFromNotification)
         }
 
         createNotificationChannels()

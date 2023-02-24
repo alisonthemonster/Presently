@@ -49,16 +49,19 @@ internal sealed class Screen(val route: String) {
 internal fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
+    cameFromNotification: Boolean,
 ) {
     val activity = LocalContext.current as Activity
-    val resources = activity.getResources()
-    val configuration = resources.getConfiguration()
+    val resources = activity.resources
+    val configuration = resources.configuration
     val locale = configuration.locales[0]
+
+    val startDestination = if (cameFromNotification) Screen.Entry.createRoute() else Screen.Timeline.route
 
     AnimatedNavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Screen.Timeline.route
+        startDestination = startDestination
     ) {
         composable(
             route = Screen.Timeline.route,
@@ -141,9 +144,17 @@ internal fun AppNavigation(
         ) {
             AppLockScreen(
                 onUserAuthenticated = {
-                    Log.d("blerg", "onUserAuthenticated in AppNavigation")
-                    navController.navigate(Screen.Timeline.createRoute()) {
-                        popUpTo(0) //reset stack
+                    Log.d("blerg", "onUserAuthenticated: cameFromNotification - $cameFromNotification")
+                    if (cameFromNotification) {
+                        //take user to the entry screen
+                        navController.navigate(Screen.Entry.createRoute(LocalDate.now())) {
+                            popUpTo(0) //reset stack
+                        }
+                    } else {
+                        //take them to the timeline
+                        navController.navigate(Screen.Timeline.createRoute()) {
+                            popUpTo(0) //reset stack
+                        }
                     }
                 },
                 onUserAuthenticationFailed = {

@@ -63,7 +63,6 @@ fun AppLockScreen(
                     result: BiometricPrompt.AuthenticationResult
                 ) {
                     showDialog = false
-                    //todo detect if we're coming from a notif so we can go straight to entry screen
                     super.onAuthenticationSucceeded(result)
                     viewModel.onAuthenticationSucceeded()
                     onUserAuthenticated()
