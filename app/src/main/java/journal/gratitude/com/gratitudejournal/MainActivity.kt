@@ -21,6 +21,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    //todo test theme is preserved when they get this update
+    //todo status bar color
     //todo test dropbox backup still works (esp the every change option)
 
     @Inject lateinit var settings: PresentlySettings
