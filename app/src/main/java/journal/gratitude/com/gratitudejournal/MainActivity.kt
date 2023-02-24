@@ -2,23 +2,24 @@ package journal.gratitude.com.gratitudejournal
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.play.core.splitcompat.SplitCompat
 import com.presently.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
+import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
+import journal.gratitude.com.gratitudejournal.util.LocaleHelper
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    //TODO biometric locking
-
-    //todo language changing isn't working
 
     //todo test dropbox backup still works (esp the every change option)
 
@@ -37,6 +38,13 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannels()
 
         NotificationScheduler().configureNotifications(this, settings)
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        val settings = EntryPointAccessors.fromApplication(newBase, SettingsEntryPoint::class.java).settings
+        val context: Context = LocaleHelper.onAppAttached(newBase, settings)
+        super.attachBaseContext(context)
+        SplitCompat.installActivity(this)
     }
 
     private fun createNotificationChannels() {
