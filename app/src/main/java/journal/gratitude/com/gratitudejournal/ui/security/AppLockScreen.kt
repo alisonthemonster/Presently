@@ -22,6 +22,7 @@ fun AppLockScreen(
     var showDialog by remember { mutableStateOf(true) }
 
     Column() {
+        //todo update this design
         Text("oh no")
         Text("you're locked out!")
         if (showDialog) {
@@ -50,11 +51,11 @@ fun AppLockScreen(
                         }
                         BiometricPrompt.ERROR_NO_BIOMETRICS,
                         BiometricPrompt.ERROR_NO_DEVICE_CREDENTIAL -> {
-                            onUserAuthenticationFailed(R.string.presently) //todo "Please set up a biometric recognition"
+                            onUserAuthenticationFailed(R.string.fingerprint_error_biometric_not_setup)
                         }
                         else -> {
-                            //todo crashReporter.logHandledException(Exception("Code: $errorCode: $errString"))
-                            onUserAuthenticationFailed(R.string.presently) //todo "Authentication error code $errorCode"
+                            viewModel.onUnknownAuthenticationError(errorCode, errString)
+                            onUserAuthenticationFailed(R.string.fingerprint_error_biometric_code)
                         }
                     }
                 }

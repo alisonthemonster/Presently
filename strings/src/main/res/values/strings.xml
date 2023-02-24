@@ -70,6 +70,8 @@
     <string name="lock_setting_summary_on">Presently will lock with your device\'s biometric scanner.</string>
     <string name="lock_setting_summary_off">Presently can lock with your device\'s biometric scanner (if supported by device).</string>
     <string name="fingerprint_error_lockout_too_many">Too many biometric authentication attempts. Please try again in a few minutes.</string>
+    <string name="fingerprint_error_biometric_not_setup">Please set up a biometric recognition.</string>
+    <string name="fingerprint_error_biometric_code">Authentication error code: %1$d </string>
     <string name="continue_to_exit">Continue</string>
     <string name="are_you_sure">Are you sure you want to go back?</string>
     <string name="unsaved_text">Your entry is unsaved and your changes will be lost!</string>
