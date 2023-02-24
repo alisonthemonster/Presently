@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.ui.settings
+package journal.gratitude.com.gratitudejournal.ui.themes
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,6 +35,7 @@ fun ThemeSelection(
 private fun ThemeSelectionContent(
     onThemeSelected: (theme: String) -> Unit
 ) {
+    //todo style theme selection screen
     LazyColumn {
         items(colorSchemes.toList()) { colorScheme ->
             Text(

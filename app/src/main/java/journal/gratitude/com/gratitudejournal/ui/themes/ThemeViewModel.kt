@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.ui.settings
+package journal.gratitude.com.gratitudejournal.ui.themes
 
 import androidx.lifecycle.ViewModel
 import com.presently.settings.PresentlySettings

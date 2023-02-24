@@ -18,7 +18,7 @@ import journal.gratitude.com.gratitudejournal.databinding.FragmentSettingsBindin
 import journal.gratitude.com.gratitudejournal.ui.entry.Entry
 import journal.gratitude.com.gratitudejournal.ui.search.Search
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockScreen
-import journal.gratitude.com.gratitudejournal.ui.settings.ThemeSelection
+import journal.gratitude.com.gratitudejournal.ui.themes.ThemeSelection
 import journal.gratitude.com.gratitudejournal.ui.timeline.Timeline
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
@@ -168,5 +168,6 @@ internal fun AppNavigation(
 
 @Composable
 fun SettingsFragmentContainer() {
+    //todo settings is not styled anymore
     AndroidViewBinding(FragmentSettingsBinding::inflate)
 }

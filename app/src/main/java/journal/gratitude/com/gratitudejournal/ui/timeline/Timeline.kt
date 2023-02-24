@@ -56,34 +56,6 @@ fun Timeline(
     PresentlyTheme(
         selectedTheme = theme
     ) {
-//        when (state.authenticationState) {
-//            AuthenticationState.TIMED_OUT -> {
-//                onBiometricsTimeout()
-//            }
-//            AuthenticationState.AUTHENTICATED,
-//            AuthenticationState.DISABLED -> {
-//                TimelineContent(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    locale = locale,
-//                    theme = theme,
-//                    state = state,
-//                    onEntryClicked = onEntryClicked,
-//                    onSearchClicked = onSearchClicked,
-//                    onThemesClicked = onThemesClicked,
-//                    onSettingsClicked = onSettingsClicked,
-//                )
-//                if (openDialog) {
-//                    val milestoneCount = state.datesWritten.size
-//                    MilestoneDialog(
-//                        milestoneNumber = milestoneCount,
-//                        onDismiss = { openDialog = false }
-//                    )
-//                }
-//            }
-//            AuthenticationState.UNKNOWN -> {
-//                Text("Loading auth state")
-//            }
-//        }
         TimelineContent(
             modifier = Modifier.fillMaxWidth(),
             locale = locale,

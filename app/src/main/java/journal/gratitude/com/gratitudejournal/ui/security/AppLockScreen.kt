@@ -1,74 +1,105 @@
 package journal.gratitude.com.gratitudejournal.ui.security
 
 import androidx.biometric.BiometricPrompt
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsViewModel
 
 @Composable
 fun AppLockScreen(
+    modifier: Modifier = Modifier,
     onUserAuthenticated: () -> Unit,
     onUserAuthenticationFailed: (Int?) -> Unit,
 ) {
     val viewModel = hiltViewModel<SettingsViewModel>()
     var showDialog by remember { mutableStateOf(true) }
 
-    Column() {
-        //todo update this design
-        Text("oh no")
-        Text("you're locked out!")
-        if (showDialog) {
-            BiometricDialog(callback = object : BiometricPrompt.AuthenticationCallback() {
-                override fun onAuthenticationError(
-                    errorCode: Int,
-                    errString: CharSequence
-                ) {
-                    super.onAuthenticationError(errorCode, errString)
-                    showDialog = false
+    val theme = remember { viewModel.getSelectedTheme() }
 
-                    when (errorCode) {
-                        BiometricPrompt.ERROR_NEGATIVE_BUTTON,
-                        BiometricPrompt.ERROR_USER_CANCELED -> {
-                            onUserAuthenticationFailed(null)
-                        }
-                        // Occurs after a few failures,
-                        // and blocks us from showing the biometric prompt
-                        BiometricPrompt.ERROR_LOCKOUT,
-                        BiometricPrompt.ERROR_LOCKOUT_PERMANENT -> {
-                            onUserAuthenticationFailed(R.string.fingerprint_error_lockout_too_many)
-                        }
-                        BiometricPrompt.ERROR_CANCELED -> {
-                            //happens when the sensor is not available
-                            //(happens onPause as well)
-                        }
-                        BiometricPrompt.ERROR_NO_BIOMETRICS,
-                        BiometricPrompt.ERROR_NO_DEVICE_CREDENTIAL -> {
-                            onUserAuthenticationFailed(R.string.fingerprint_error_biometric_not_setup)
-                        }
-                        else -> {
-                            viewModel.onUnknownAuthenticationError(errorCode, errString)
-                            onUserAuthenticationFailed(R.string.fingerprint_error_biometric_code)
-                        }
-                    }
-                }
+    PresentlyTheme(
+        selectedTheme = theme
+    ) {
+        Surface(
+            color = PresentlyTheme.colors.timelineBackground,
+            modifier = modifier.fillMaxHeight(),
+        ) {
+            Column(
+                modifier = modifier.fillMaxSize().padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    stringResource(R.string.lock_summary),
+                    style = PresentlyTheme.typography.titleLarge,
+                    color = PresentlyTheme.colors.timelineTitle,
+                    textAlign = TextAlign.Center,
+                )
+                Image(
+                    modifier = modifier.size(80.dp).padding(8.dp),
+                    painter = painterResource(id = theme.iconResource),
+                    contentDescription = null,
+                )
+                if (showDialog) {
+                    BiometricDialog(callback = object : BiometricPrompt.AuthenticationCallback() {
+                        override fun onAuthenticationError(
+                            errorCode: Int,
+                            errString: CharSequence
+                        ) {
+                            super.onAuthenticationError(errorCode, errString)
+                            showDialog = false
 
-                override fun onAuthenticationSucceeded(
-                    result: BiometricPrompt.AuthenticationResult
-                ) {
-                    showDialog = false
-                    super.onAuthenticationSucceeded(result)
-                    viewModel.onAuthenticationSucceeded()
-                    onUserAuthenticated()
+                            when (errorCode) {
+                                BiometricPrompt.ERROR_NEGATIVE_BUTTON,
+                                BiometricPrompt.ERROR_USER_CANCELED -> {
+                                    onUserAuthenticationFailed(null)
+                                }
+                                // Occurs after a few failures,
+                                // and blocks us from showing the biometric prompt
+                                BiometricPrompt.ERROR_LOCKOUT,
+                                BiometricPrompt.ERROR_LOCKOUT_PERMANENT -> {
+                                    onUserAuthenticationFailed(R.string.fingerprint_error_lockout_too_many)
+                                }
+                                BiometricPrompt.ERROR_CANCELED -> {
+                                    //happens when the sensor is not available
+                                    //(happens onPause as well)
+                                }
+                                BiometricPrompt.ERROR_NO_BIOMETRICS,
+                                BiometricPrompt.ERROR_NO_DEVICE_CREDENTIAL -> {
+                                    onUserAuthenticationFailed(R.string.fingerprint_error_biometric_not_setup)
+                                }
+                                else -> {
+                                    viewModel.onUnknownAuthenticationError(errorCode, errString)
+                                    onUserAuthenticationFailed(R.string.fingerprint_error_biometric_code)
+                                }
+                            }
+                        }
+
+                        override fun onAuthenticationSucceeded(
+                            result: BiometricPrompt.AuthenticationResult
+                        ) {
+                            showDialog = false
+                            super.onAuthenticationSucceeded(result)
+                            viewModel.onAuthenticationSucceeded()
+                            onUserAuthenticated()
+                        }
+                    })
                 }
-            })
+            }
         }
     }
 }
