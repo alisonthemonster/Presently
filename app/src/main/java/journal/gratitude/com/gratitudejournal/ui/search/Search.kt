@@ -26,7 +26,7 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
 
-//todo style this
+//todo style this and make sure theme applies
 
 //todo log analytics
 //analytics.recordView("SearchFragment")
