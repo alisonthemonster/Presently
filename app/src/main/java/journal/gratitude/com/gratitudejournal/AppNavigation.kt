@@ -49,15 +49,13 @@ internal sealed class Screen(val route: String) {
 internal fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
+    startDestination: String,
     cameFromNotification: Boolean,
 ) {
     val activity = LocalContext.current as Activity
     val resources = activity.resources
     val configuration = resources.configuration
     val locale = configuration.locales[0]
-
-    //todo maybe lock here if they have biometrics enabled?
-    val startDestination = if (cameFromNotification) Screen.Entry.createRoute() else Screen.Timeline.route
 
     AnimatedNavHost(
         modifier = modifier,

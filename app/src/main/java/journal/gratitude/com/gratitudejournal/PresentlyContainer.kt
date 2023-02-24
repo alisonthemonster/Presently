@@ -20,6 +20,11 @@ fun PresentlyContainer(
 
     val viewModel = hiltViewModel<SettingsViewModel>()
 
+    /**
+     * Listens to lifecycle events to determine if the app has been in the background
+     * long enough to time out the authentication session to take them to the lock
+     * screen.
+     * */
     val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
     DisposableEffect(lifecycleOwner.value) {
         val lifecycle = lifecycleOwner.value.lifecycle
@@ -32,12 +37,6 @@ fun PresentlyContainer(
                         popUpTo(0) // reset stack
                     }
                 }
-            } else if (event == Lifecycle.Event.ON_CREATE) {
-                if (viewModel.shouldAppLockOnCreate()) {
-                    navController.navigate(Screen.Lock.createRoute()) {
-                        popUpTo(0)
-                    }
-                }
             }
         }
 
@@ -47,5 +46,6 @@ fun PresentlyContainer(
         }
     }
 
-    AppNavigation(navController = navController, cameFromNotification = cameFromNotification)
+    val startDestination = viewModel.getStartNavigation(cameFromNotification)
+    AppNavigation(navController = navController, startDestination = startDestination, cameFromNotification = cameFromNotification)
 }
