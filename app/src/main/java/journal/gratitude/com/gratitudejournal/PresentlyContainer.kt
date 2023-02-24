@@ -27,9 +27,15 @@ fun PresentlyContainer(
             if (event == Lifecycle.Event.ON_PAUSE) {
                 viewModel.onAppBackgrounded()
             } else if (event == Lifecycle.Event.ON_RESUME) {
-                if (viewModel.shouldAppLock()) {
+                if (viewModel.isAuthenticationTimedOut()) {
                     navController.navigate(Screen.Lock.createRoute()) {
                         popUpTo(0) // reset stack
+                    }
+                }
+            } else if (event == Lifecycle.Event.ON_CREATE) {
+                if (viewModel.shouldAppLockOnCreate()) {
+                    navController.navigate(Screen.Lock.createRoute()) {
+                        popUpTo(0)
                     }
                 }
             }

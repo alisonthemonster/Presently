@@ -4,40 +4,28 @@ import android.app.AlarmManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
-import android.util.Log
 import com.dropbox.core.oauth.DbxCredential
 import com.presently.logging.AnalyticsLogger
 import com.presently.logging.DROPBOX_AUTH_QUIT
 import com.presently.logging.DROPBOX_AUTH_SUCCESS
 import com.presently.settings.model.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.withContext
 import java.util.*
 import org.threeten.bp.LocalTime
 import javax.inject.Inject
 
 class RealPresentlySettings @Inject constructor(
     private val sharedPrefs: SharedPreferences,
-    private val analytics: AnalyticsLogger
+    private val analytics: AnalyticsLogger,
 ) : PresentlySettings {
 
     override fun getCurrentTheme(): String {
-        val theme = sharedPrefs.getString(THEME_PREF, "original") ?: "original"
-        Log.d("blerg", "curr theme is $theme")
-        return theme
+        return sharedPrefs.getString(THEME_PREF, "original") ?: "original"
     }
 
     override fun setTheme(themeName: String) {
         sharedPrefs.edit()
             .putString(THEME_PREF, themeName)
             .apply()
-
-        Log.d("blerg", "selected theme is $themeName")
-
         analytics.recordSelectEvent(themeName, "theme")
     }
 
@@ -46,20 +34,27 @@ class RealPresentlySettings @Inject constructor(
     }
 
     override fun shouldLockApp(): Boolean {
-        return isBiometricsEnabled() && sharedPrefs.getBoolean(APP_NEEDS_AUTH, false)
+        val lastPauseTime = sharedPrefs.getLong(ON_PAUSE_TIME, -1L)
+        val currentTime = Date(System.currentTimeMillis()).time
+        val diff = currentTime - lastPauseTime
+        //if more than 5 minutes (300000ms) have passed since last destroy, lock out user
+        return isBiometricsEnabled() && diff > 300000L
     }
 
     override fun setOnPauseTime() {
+        //todo delete this is the old auth
         val date = Date(System.currentTimeMillis())
         sharedPrefs.edit().putLong(ON_PAUSE_TIME, date.time).apply()
     }
 
     override fun onAppBackgrounded() {
-        sharedPrefs.edit().putBoolean(APP_NEEDS_AUTH, true).apply()
+        val date = Date(System.currentTimeMillis())
+        sharedPrefs.edit().putLong(ON_PAUSE_TIME, date.time).apply()
     }
 
     override fun onAuthenticationSucceeded() {
-        sharedPrefs.edit().putBoolean(APP_NEEDS_AUTH, false).apply()
+        val date = Date(System.currentTimeMillis())
+        sharedPrefs.edit().putLong(ON_PAUSE_TIME, date.time).apply()
     }
 
     override fun getFirstDayOfWeek(): Int {

@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.ui.settings
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.presently.logging.CrashReporter
@@ -27,8 +26,12 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun shouldAppLock(): Boolean {
+    fun isAuthenticationTimedOut(): Boolean {
         return settings.shouldLockApp()
+    }
+
+    fun shouldAppLockOnCreate(): Boolean {
+        return settings.isBiometricsEnabled()
     }
 
     fun onUnknownAuthenticationError(errorCode: Int, errString: CharSequence) {

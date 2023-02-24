@@ -56,6 +56,7 @@ internal fun AppNavigation(
     val configuration = resources.configuration
     val locale = configuration.locales[0]
 
+    //todo maybe lock here if they have biometrics enabled?
     val startDestination = if (cameFromNotification) Screen.Entry.createRoute() else Screen.Timeline.route
 
     AnimatedNavHost(
