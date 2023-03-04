@@ -30,7 +30,7 @@ fun TimelineCalendar(
     modifier: Modifier,
     locale: Locale,
     writtenDates: Set<LocalDate>,
-    onDateClicked: (LocalDate) -> Unit,
+    onDateClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit,
 ) {
     val currentDate by rememberSaveable { mutableStateOf(LocalDate.now()) }
     var startOfMonth by rememberSaveable { mutableStateOf(currentDate.withDayOfMonth(1)) }
@@ -83,14 +83,15 @@ fun TimelineCalendar(
                     )
                 }
                 items(generateListOfDaysForView(startOfMonth)) { date ->
+                    val isExistingEntry = writtenDates.contains(date)
                     Text(
                         text = date.dayOfMonth.toString(),
                         color = if (date.month != startOfMonth.month) Color.Gray else Color.Black,
                         modifier = Modifier.clickable(date.isBefore(currentDate.plusDays(1))) {
-                            onDateClicked(date)
+                            onDateClicked(date, !isExistingEntry)
                         },
                         textAlign = TextAlign.Center,
-                        fontWeight = if (writtenDates.contains(date)) FontWeight.Black else FontWeight.Normal
+                        fontWeight = if (isExistingEntry) FontWeight.Black else FontWeight.Normal
                     )
                 }
             }

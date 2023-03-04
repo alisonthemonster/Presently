@@ -28,12 +28,14 @@ fun TimelineRow(
     entryDate: LocalDate,
     entryContent: String,
     isLastEntry: Boolean = false,
-    onEntryClicked: (date: LocalDate) -> Unit,
+    onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit,
 ) {
+    val isNewEntry = entryContent.isEmpty()
+
     ConstraintLayout(
         modifier = modifier
             .requiredHeightIn(min = 100.dp)
-            .clickable { onEntryClicked(entryDate) }
+            .clickable { onEntryClicked(entryDate, isNewEntry) }
     ) {
         val (dateString, entryString, image, timelineLine, timelineDot, timelineEndDot) = createRefs()
 
@@ -88,7 +90,7 @@ fun TimelineRow(
             },
             text = content,
             style = PresentlyTheme.typography.bodyMedium,
-            color = if (entryContent.isEmpty()) PresentlyTheme.colors.timelineHint else PresentlyTheme.colors.timelineContent,
+            color = if (isNewEntry) PresentlyTheme.colors.timelineHint else PresentlyTheme.colors.timelineContent,
         )
         if (isLastEntry) {
             Image(

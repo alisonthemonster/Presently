@@ -9,21 +9,22 @@ const val LOOKED_FOR_DATA = "lookedForData"
 const val IMPORTED_DATA_SUCCESS = "importedData"
 const val IMPORTING_BACKUP_ERROR = "importedDataError"
 
+//TIMELINE EVENTS
 const val CLICKED_SEARCH = "clickedSearch"
 const val CLICKED_NEW_ENTRY = "clickedNewEntry"
 const val CLICKED_EXISTING_ENTRY = "clickedExistingEntry"
-
 const val OPENED_CALENDAR = "clickedCalendar"
 const val CLICKED_NEW_ENTRY_CALENDAR = "clickedNewEntryFromCal"
 const val CLICKED_EXISTING_ENTRY_CALENDAR = "clickedExistingEntryFromCal"
+const val CLICKED_THEMES = "clickedThemes"
+const val CLICKED_SETTINGS = "clickedSettings"
+const val OPENED_CONTACT_FORM = "openedContactForm"
+
 
 //SETTINGS EVENTS
-const val LOOKED_AT_SETTINGS = "lookedAtSettings"
-const val OPENED_CONTACT_FORM = "openedContactForm"
 const val OPENED_PRIVACY_POLICY = "openedPrivacyPolicy"
 const val OPENED_SHARE_APP = "openedShareApp"
 const val OPENED_TERMS_CONDITIONS = "openedTermsAndConditions"
-const val OPENED_THEMES = "openedThemes"
 const val OPENED_FAQ = "openedFaq"
 const val DROPBOX_DEAUTH = "dropboxDeauthorization"
 const val DROPBOX_AUTH_ATTEMPT = "dropboxAuthorizaitonAttempt"

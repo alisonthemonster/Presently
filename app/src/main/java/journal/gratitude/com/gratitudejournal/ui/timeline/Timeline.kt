@@ -42,7 +42,7 @@ fun Timeline(
     onSearchClicked: () -> Unit,
     onThemesClicked: () -> Unit,
     onSettingsClicked: () -> Unit,
-    //onBiometricsTimeout: () -> Unit,
+    onContactClicked: () -> Unit,
 ) {
     val viewModel = hiltViewModel<TimelineeViewModel>()
     val state by viewModel.state.collectAsState()
@@ -60,10 +60,26 @@ fun Timeline(
             locale = locale,
             theme = theme,
             state = state,
-            onEntryClicked = onEntryClicked,
-            onSearchClicked = onSearchClicked,
-            onThemesClicked = onThemesClicked,
-            onSettingsClicked = onSettingsClicked,
+            onEntryClicked = { date, isNewEntry ->
+                viewModel.onEntryClicked(isNewEntry)
+                onEntryClicked(date)
+            },
+            onSearchClicked = {
+                viewModel.onSearchClicked()
+                onSearchClicked()
+            },
+            onThemesClicked = {
+                viewModel.onThemesClicked()
+                onThemesClicked()
+            },
+            onSettingsClicked = {
+                viewModel.onSettingsClicked()
+                onSettingsClicked()
+            },
+            onContactClicked = {
+                viewModel.onContactClicked()
+                onContactClicked()
+            }
         )
         if (openDialog) {
             val milestoneCount = state.datesWritten.size
@@ -85,14 +101,14 @@ fun TimelineContent(
     locale: Locale,
     theme: PresentlyColors,
     state: TimelineViewState,
-    onEntryClicked: (date: LocalDate) -> Unit,
+    onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit,
     onSearchClicked: () -> Unit,
     onSettingsClicked: () -> Unit,
-    onThemesClicked: () -> Unit
+    onThemesClicked: () -> Unit,
+    onContactClicked: () -> Unit,
 ) {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
     Scaffold(
         scaffoldState = scaffoldState,
         drawerContent = {
@@ -101,7 +117,7 @@ fun TimelineContent(
                 scope = scope,
                 onSearchClicked = onSearchClicked,
                 onThemesClicked = onThemesClicked,
-                onContactClicked = { onContactClicked(context) },
+                onContactClicked = onContactClicked,
                 onSettingsClicked = onSettingsClicked,
             )
         },
@@ -156,44 +172,12 @@ fun TimelineContent(
     }
 }
 
-private fun onContactClicked(context: Context) {
-    //todo
-    //analyticsLogger.recordEvent(OPENED_CONTACT_FORM)
-
-    val intent = Intent(Intent.ACTION_SENDTO).apply {
-        data = Uri.parse("mailto:")
-
-        val emails = arrayOf("gratitude.journal.app@gmail.com")
-        val subject = "In App Feedback"
-        putExtra(Intent.EXTRA_EMAIL, emails)
-        putExtra(Intent.EXTRA_SUBJECT, subject)
-
-        val packageName = context.packageName
-        val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
-        val text = """
-                Device: ${Build.MODEL}
-                OS Version: ${Build.VERSION.RELEASE}
-                App Version: ${packageInfo.versionName}
-                
-                
-                """.trimIndent()
-        putExtra(Intent.EXTRA_TEXT, text)
-    }
-
-    try {
-        context.startActivity(intent)
-    } catch (activityNotFoundException: ActivityNotFoundException) {
-        //crashReporter.logHandledException(activityNotFoundException)
-        Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
-    }
-}
-
 @Composable
 fun TimelineList(
     modifier: Modifier = Modifier,
     theme: PresentlyColors,
     timelineItems: List<TimelineItem>,
-    onEntryClicked: (date: LocalDate) -> Unit
+    onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit
 ) {
     LazyColumn {
         //todo add keys to help with recomposition

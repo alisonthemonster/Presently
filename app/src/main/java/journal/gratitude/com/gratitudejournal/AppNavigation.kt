@@ -1,7 +1,13 @@
 package journal.gratitude.com.gratitudejournal
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
@@ -25,8 +31,7 @@ import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import org.threeten.bp.LocalDate
 
 //todo fix window insets
-//todo analytics
-//analyticsLogger.recordEvent(LOOKED_AT_SETTINGS)
+//todo where do the dropbox warning notifs go to?
 
 internal sealed class Screen(val route: String) {
     fun createRoute() = route
@@ -79,6 +84,9 @@ internal fun AppNavigation(
                 },
                 onSettingsClicked = {
                     navController.navigate(Screen.Settings.createRoute())
+                },
+                onContactClicked = {
+                    onContactClicked(activity)
                 }
             )
         }
@@ -124,8 +132,6 @@ internal fun AppNavigation(
         composable(
             route = Screen.Themes.route,
         ) {
-            //todo add analytics
-            //analytics.recordEvent(OPENED_THEMES)
             ThemeSelection(
                 onThemeChanged = {
                     navController.popBackStack()
@@ -143,7 +149,6 @@ internal fun AppNavigation(
         ) {
             AppLockScreen(
                 onUserAuthenticated = {
-                    Log.d("blerg", "onUserAuthenticated: cameFromNotification - $cameFromNotification")
                     if (cameFromNotification) {
                         //take user to the entry screen
                         navController.navigate(Screen.Entry.createRoute(LocalDate.now())) {
@@ -162,6 +167,35 @@ internal fun AppNavigation(
                 }
             )
         }
+    }
+}
+
+private fun onContactClicked(context: Context) {
+    val intent = Intent(Intent.ACTION_SENDTO).apply {
+        data = Uri.parse("mailto:")
+
+        val emails = arrayOf("gratitude.journal.app@gmail.com")
+        val subject = "In App Feedback"
+        putExtra(Intent.EXTRA_EMAIL, emails)
+        putExtra(Intent.EXTRA_SUBJECT, subject)
+
+        val packageName = context.packageName
+        val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+        val text = """
+                Device: ${Build.MODEL}
+                OS Version: ${Build.VERSION.RELEASE}
+                App Version: ${packageInfo.versionName}
+                
+                
+                """.trimIndent()
+        putExtra(Intent.EXTRA_TEXT, text)
+    }
+
+    try {
+        context.startActivity(intent)
+    } catch (activityNotFoundException: ActivityNotFoundException) {
+        //crashReporter.logHandledException(activityNotFoundException)
+        Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
     }
 }
 

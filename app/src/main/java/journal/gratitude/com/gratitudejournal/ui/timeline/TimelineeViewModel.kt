@@ -2,14 +2,13 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.presently.logging.AnalyticsLogger
 import com.presently.settings.PresentlySettings
 import com.presently.ui.PresentlyColors
 import com.presently.ui.toPresentlyColors
 import dagger.hilt.android.lifecycle.HiltViewModel
-import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.model.Milestone
+import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilestone
-import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TimelineeViewModel @Inject constructor(
     private val repository: EntryRepository,
-    private val settings: PresentlySettings
+    private val settings: PresentlySettings,
+    private val analyticsLogger: AnalyticsLogger,
 ) : ViewModel() {
     private val _state = MutableStateFlow(TimelineViewState())
     val state: StateFlow<TimelineViewState> = _state
@@ -90,15 +90,33 @@ class TimelineeViewModel @Inject constructor(
                 }
             }
         }
-
-//        viewModelScope.launch {
-//            settings.getAuthenticationState().collect { authState ->
-//                _state.value = _state.value.copy(authenticationState = authState)
-//            }
-//        }
     }
 
     fun getSelectedTheme(): PresentlyColors {
         return settings.getCurrentTheme().toPresentlyColors()
+    }
+
+    fun onEntryClicked(isNewEntry: Boolean) {
+        if (isNewEntry) {
+            analyticsLogger.recordEvent(CLICKED_NEW_ENTRY)
+        } else {
+            analyticsLogger.recordEvent(CLICKED_EXISTING_ENTRY)
+        }
+    }
+
+    fun onSearchClicked() {
+        analyticsLogger.recordEvent(CLICKED_SEARCH)
+    }
+
+    fun onThemesClicked() {
+        analyticsLogger.recordEvent(CLICKED_THEMES)
+    }
+
+    fun onSettingsClicked() {
+        analyticsLogger.recordEvent(CLICKED_SETTINGS)
+    }
+
+    fun onContactClicked() {
+        analyticsLogger.recordEvent(OPENED_CONTACT_FORM)
     }
 }
