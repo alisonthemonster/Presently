@@ -117,6 +117,8 @@ object Libraries {
    const val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.ANDROIDX_LIFECYCLE}"
    const val compose_hilt_navigation = "androidx.hilt:hilt-navigation-compose:${Versions.HILT_ANDROID}"
    const val compose_accompanist_navigation_animation = "com.google.accompanist:accompanist-navigation-animation:${Versions.ACCOMPANIST}"
+   const val compose_accompanist_systemuicontroller = "com.google.accompanist:accompanist-systemuicontroller:${Versions.ACCOMPANIST}"
+   const val compose_accompanist_insetsui = "com.google.accompanist:accompanist-insets-ui:${Versions.ACCOMPANIST}"
    const val compose_constraint = "androidx.constraintlayout:constraintlayout-compose:${Versions.ANDROIDX_CONSTRAINT_COMPOSE}"
 }
 

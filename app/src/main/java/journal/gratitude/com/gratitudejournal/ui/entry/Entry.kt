@@ -1,27 +1,24 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.presently.ui.CalmColors
 import com.presently.ui.OriginalColors
 import com.presently.ui.PresentlyTheme
+import com.presently.ui.isDark
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
@@ -62,11 +59,26 @@ fun EntryContent(
     onEntrySaved: (isNewEntry: Boolean) -> Unit,
     onShareClicked: (date: String, content: String) -> Unit
 ) {
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = !PresentlyTheme.colors.entryBackground.isDark()
+
+    DisposableEffect(systemUiController, useDarkIcons) {
+        // Update all of the system bar colors to be transparent, and use
+        // dark icons if we're in light theme
+        systemUiController.setStatusBarColor(
+            color = Color.Transparent,
+            darkIcons = useDarkIcons
+        )
+        onDispose {}
+    }
+
     Surface(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         color = PresentlyTheme.colors.entryBackground
     ) {
-        Column {
+        Column(
+            modifier = modifier.windowInsetsPadding(WindowInsets.statusBars),
+        ) {
             Text(
                 text = when (state.date) {
                     LocalDate.now() -> stringResource(R.string.today)

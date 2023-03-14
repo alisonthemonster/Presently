@@ -1,21 +1,28 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
+import com.google.accompanist.insets.ui.Scaffold
+import com.google.accompanist.insets.ui.TopAppBar
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.presently.ui.PresentlyColors
 import com.presently.ui.PresentlyTheme
+import com.presently.ui.isDark
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
@@ -53,7 +60,7 @@ fun Timeline(
         selectedTheme = theme
     ) {
         TimelineContent(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(), //todo is this needed?
             locale = locale,
             theme = theme,
             state = state,
@@ -102,6 +109,20 @@ fun TimelineContent(
 ) {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+    val systemUiController = rememberSystemUiController()
+
+    val useDarkIcons = !PresentlyTheme.colors.timelineToolbar.isDark()
+
+    DisposableEffect(systemUiController, useDarkIcons) {
+        // Update all of the system bar colors to be transparent, and use
+        // dark icons if we're in light theme
+        systemUiController.setStatusBarColor(
+            color = Color.Transparent,
+            darkIcons = useDarkIcons
+        )
+        onDispose {}
+    }
+
     Scaffold(
         scaffoldState = scaffoldState,
         drawerContent = {
@@ -138,13 +159,16 @@ fun TimelineContent(
                         )
                     }
                 },
-                backgroundColor = PresentlyTheme.colors.timelineToolbar
+                backgroundColor = PresentlyTheme.colors.timelineToolbar,
+                contentPadding = WindowInsets.statusBars.asPaddingValues(),
             )
         }
-    ) {
+    ) { contentPadding ->
         Surface(
             color = PresentlyTheme.colors.timelineBackground,
-            modifier = modifier.fillMaxHeight()
+            modifier = modifier
+                .padding(contentPadding)
+                .fillMaxHeight()
         ) {
             Column() {
                 TimelineCalendar(

@@ -6,10 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,8 +32,8 @@ import journal.gratitude.com.gratitudejournal.ui.timeline.Timeline
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import org.threeten.bp.LocalDate
 
-//todo fix window insets
 //todo where do the dropbox warning notifs go to?
+//todo test with other bottom gesture navs
 
 internal sealed class Screen(val route: String) {
     fun createRoute() = route
@@ -204,6 +206,9 @@ internal class EntryArgs(val entryDate: String) {
 
 @Composable
 fun SettingsFragmentContainer() {
-    //todo settings is not styled anymore
-    AndroidViewBinding(FragmentSettingsBinding::inflate)
+    //todo settings is not themed anymore
+    AndroidViewBinding(
+        modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars),
+        factory = FragmentSettingsBinding::inflate,
+    )
 }

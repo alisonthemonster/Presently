@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 
 class PresentlyColors(
     iconResource: Int,
@@ -104,6 +105,10 @@ class PresentlyColors(
         entryQuoteText = other.entryQuoteText
         debugColor1 = other.debugColor1
     }
+}
+
+fun Color.isDark(): Boolean {
+    return this.luminance() < 0.5
 }
 
 fun String.toPresentlyColors(): PresentlyColors {

@@ -1,10 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -28,7 +25,9 @@ fun NavigationDrawer(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .windowInsetsPadding(WindowInsets.statusBars)
+            .fillMaxSize(),
         color = PresentlyTheme.colors.timelineToolbar
     ) {
         Column() {

@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.presently.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannels()
 
         NotificationScheduler().configureNotifications(this, settings)
+
+        //tells the app we'll be hadnling insets ourselves!
+        WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 
     override fun attachBaseContext(newBase: Context) {

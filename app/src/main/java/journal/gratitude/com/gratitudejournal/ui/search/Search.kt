@@ -4,8 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
@@ -26,7 +25,8 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
 
-//todo style this and make sure theme applies
+//todo style this
+//todo theme isn't properly being applied
 
 //todo log analytics
 
@@ -62,7 +62,9 @@ private fun SearchContent(
     onSearchQueryChanged: (query: String) -> Unit,
     onEntryClicked: (date: LocalDate) -> Unit,
 ) {
-    Column() {
+    Column(
+        modifier = modifier.windowInsetsPadding(WindowInsets.statusBars),
+    ) {
         var searchQuery by remember { mutableStateOf(TextFieldValue(state.query)) }
         SearchTextField(
             value = searchQuery,

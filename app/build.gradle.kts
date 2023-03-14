@@ -108,6 +108,8 @@ dependencies {
     implementation(Libraries.compose_viewmodel)
     implementation(Libraries.compose_hilt_navigation)
     implementation(Libraries.compose_accompanist_navigation_animation)
+    implementation(Libraries.compose_accompanist_systemuicontroller)
+    implementation(Libraries.compose_accompanist_insetsui)
     implementation(Libraries.compose_interop_view_binding)
     implementation(Libraries.compose_constraint)
 

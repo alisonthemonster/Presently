@@ -6,7 +6,8 @@
     <!-- Base application theme. -->
     <style name="Base.AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:textColor">@color/text_color</item>
-        <item name="android:statusBarColor">?attr/statusBarColor</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="colorPrimary">?attr/timelineLineColor</item>
         <item name="colorSecondary">?attr/highlightColor</item>
         <item name="android:textColorSecondary">?attr/timelineHintColor</item>

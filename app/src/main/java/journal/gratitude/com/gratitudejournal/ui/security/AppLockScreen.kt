@@ -36,7 +36,9 @@ fun AppLockScreen(
     ) {
         Surface(
             color = PresentlyTheme.colors.timelineBackground,
-            modifier = modifier.fillMaxHeight(),
+            modifier = modifier
+                .windowInsetsPadding(WindowInsets.statusBars)
+                .fillMaxHeight(),
         ) {
             Column(
                 modifier = modifier.fillMaxSize().padding(16.dp),

@@ -2,10 +2,7 @@ package journal.gratitude.com.gratitudejournal.ui.themes
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
@@ -19,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.presently.ui.PresentlyTheme
 import com.presently.ui.colorSchemes
-
 @Composable
 fun ThemeSelection(
     onThemeChanged: () -> Unit
@@ -44,7 +40,9 @@ private fun ThemeSelectionContent(
 ) {
     val colorSchemes = remember { colorSchemes.toList() }
 
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars),
+    ) {
         items(colorSchemes) { colorScheme ->
             val themeName = colorScheme.first
             val colors = colorScheme.second
