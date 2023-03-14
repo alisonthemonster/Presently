@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.presently.logging.AnalyticsLogger
@@ -118,5 +119,10 @@ class TimelineeViewModel @Inject constructor(
 
     fun onContactClicked() {
         analyticsLogger.recordEvent(OPENED_CONTACT_FORM)
+    }
+
+    fun logScreenView() {
+        Log.d("blerg", "timeline screen viewwwwwww")
+        analyticsLogger.recordView("Timeline")
     }
 }

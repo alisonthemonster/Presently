@@ -1,5 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.presently.logging.AnalyticsLogger
@@ -7,10 +9,11 @@ import com.presently.settings.PresentlySettings
 import com.presently.ui.PresentlyColors
 import com.presently.ui.toPresentlyColors
 import dagger.hilt.android.lifecycle.HiltViewModel
+import journal.gratitude.com.gratitudejournal.EntryArgs
 import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
 import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
-import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilestone
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -19,24 +22,36 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EntryyViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val repository: EntryRepository,
     private val analytics: AnalyticsLogger,
-    private val settings: PresentlySettings
+    private val settings: PresentlySettings,
 ) : ViewModel() {
     private val _state = MutableStateFlow(EntryViewState())
     val state: StateFlow<EntryViewState> = _state
 
-    //todo log this
-    //analytics.recordView("EntryFragment")
+    private val navArgs = EntryArgs(savedStateHandle)
+
+    init {
+        val date = navArgs.entryDate.toLocalDate()
+        fetchContent(date)
+    }
 
     fun fetchContent(date: LocalDate) {
+        Log.d("blerg", "gonna fetch content")
         viewModelScope.launch {
             val content = repository.getEntry(date)
+            Log.d("blerg", "got some data: ${content?.entryContent}")
             _state.value = _state.value.copy(
                 date = date,
                 content = content?.entryContent ?: ""
             )
         }
+    }
+
+    fun logScreenView() {
+        Log.d("blerg", "entry screen view")
+        analytics.recordView("Entry")
     }
 
     fun handleEvent(entryEvent: EntryEvent) {

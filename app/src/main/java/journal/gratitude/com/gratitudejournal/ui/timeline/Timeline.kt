@@ -52,6 +52,10 @@ fun Timeline(
     val wasNewEntrySaved = saved?.getStateFlow("isNewEntry", false)?.collectAsState()
     var openDialog by remember { mutableStateOf(wasNewEntrySaved?.value == true && isMilestone(state.datesWritten.size + 1))  }
 
+    LaunchedEffect(Unit) {
+        viewModel.logScreenView()
+    }
+
     PresentlyTheme(
         selectedTheme = theme
     ) {
@@ -91,10 +95,6 @@ fun Timeline(
     }
 }
 
-//todo analytics
-//analyticsLogger.recordEvent(CLICKED_NEW_ENTRY)
-//analyticsLogger.recordEvent(CLICKED_EXISTING_ENTRY)
-//analyticsLogger.recordEvent(CLICKED_SEARCH)
 @Composable
 fun TimelineContent(
     modifier: Modifier = Modifier,
@@ -112,6 +112,7 @@ fun TimelineContent(
     Scaffold(
         scaffoldState = scaffoldState,
         drawerContent = {
+            //todo can i put a launched effect here to log analytics event?
             NavigationDrawer(
                 scaffoldState = scaffoldState,
                 scope = scope,

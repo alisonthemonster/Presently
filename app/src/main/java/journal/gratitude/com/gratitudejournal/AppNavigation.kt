@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidViewBinding
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -60,7 +61,7 @@ internal fun AppNavigation(
     val activity = LocalContext.current as Activity
     val resources = activity.resources
     val configuration = resources.configuration
-    val locale = configuration.locales[0]
+    val locale = configuration.locales[0] //todo figure out way to not use this
 
     AnimatedNavHost(
         modifier = modifier,
@@ -96,15 +97,11 @@ internal fun AppNavigation(
                 navArgument("entry-date") { type = NavType.StringType }
             )
         ) {
-            val date = it.arguments?.getString("entry-date")
             Entry(
-                date?.toLocalDate() ?: LocalDate.now(),
                 onEntrySaved = { isNewEntry ->
-                    if (isNewEntry != null) {
-                        navController.previousBackStackEntry
+                    navController.previousBackStackEntry
                             ?.savedStateHandle
                             ?.set("isNewEntry", isNewEntry)
-                    }
                     navController.popBackStack()
                 },
                 onShareClicked = { date, content ->
@@ -197,6 +194,11 @@ private fun onContactClicked(context: Context) {
         //crashReporter.logHandledException(activityNotFoundException)
         Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
     }
+}
+
+internal class EntryArgs(val entryDate: String) {
+    constructor(savedStateHandle: SavedStateHandle) :
+            this(checkNotNull(savedStateHandle["entry-date"]) as String)
 }
 
 @Composable

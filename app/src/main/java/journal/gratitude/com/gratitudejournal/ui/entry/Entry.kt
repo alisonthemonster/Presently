@@ -8,9 +8,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -30,16 +30,15 @@ import kotlin.random.Random
 
 @Composable
 fun Entry(
-    date: LocalDate,
     onEntrySaved: (isNewEntry: Boolean) -> Unit,
     onShareClicked: (date: String, content: String) -> Unit
 ) {
     val viewModel = hiltViewModel<EntryyViewModel>()
     val state = viewModel.state.collectAsState()
 
-    //TODO this gets called waaaaaay too many times
-    //think we need to add some remembers to this shit
-    viewModel.fetchContent(date)
+    LaunchedEffect(Unit) {
+        viewModel.logScreenView()
+    }
 
     PresentlyTheme(
         selectedTheme = viewModel.getSelectedTheme()

@@ -29,7 +29,6 @@ import org.threeten.bp.LocalDate
 //todo style this and make sure theme applies
 
 //todo log analytics
-//analytics.recordView("SearchFragment")
 
 //todo open keyboard when screen is launched
 
@@ -39,6 +38,10 @@ fun Search(
 ) {
     val viewModel = hiltViewModel<SearchViewModell>()
     val state = viewModel.state.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.logScreenView()
+    }
 
     PresentlyTheme(
         selectedTheme = viewModel.getSelectedTheme()
