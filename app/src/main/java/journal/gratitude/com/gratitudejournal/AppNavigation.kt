@@ -28,7 +28,6 @@ import journal.gratitude.com.gratitudejournal.ui.security.AppLockScreen
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeSelection
 import journal.gratitude.com.gratitudejournal.ui.timeline.Timeline
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
-import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import org.threeten.bp.LocalDate
 
 //todo fix window insets
@@ -159,7 +158,9 @@ internal fun AppNavigation(
                     }
                 },
                 onUserAuthenticationFailed = {
-                    //todo show toast with error message
+                    it?.let {
+                        Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
+                    }
                     activity.finish()
                 }
             )

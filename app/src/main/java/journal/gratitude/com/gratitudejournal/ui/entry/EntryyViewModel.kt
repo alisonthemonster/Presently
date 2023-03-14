@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EntryyViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val repository: EntryRepository,
     private val analytics: AnalyticsLogger,
     private val settings: PresentlySettings,

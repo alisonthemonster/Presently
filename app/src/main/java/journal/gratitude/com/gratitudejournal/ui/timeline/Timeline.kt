@@ -1,11 +1,5 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
@@ -112,7 +105,6 @@ fun TimelineContent(
     Scaffold(
         scaffoldState = scaffoldState,
         drawerContent = {
-            //todo can i put a launched effect here to log analytics event?
             NavigationDrawer(
                 scaffoldState = scaffoldState,
                 scope = scope,
