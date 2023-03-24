@@ -3,19 +3,21 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 import android.annotation.SuppressLint
 import android.os.Parcelable
 import com.airbnb.mvrx.MavericksState
+import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilestone
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.parcelize.Parcelize
 import org.threeten.bp.LocalDate
 
-//todo maybe add a loading state so these temp initial values dont get shown?
 data class EntryViewState(
     val date: LocalDate = LocalDate.now(),
     val content: String = "",
     val isNewEntry: Boolean = true,
     val hasUserEdits: Boolean = false,
     val promptNumber: Int = -1,
-    val isSaved: Boolean = false,
+    val entryCount: Int = -1,
 ) {
+    val isSaved = entryCount != -1
+    val milestoneWasReached = isMilestone(entryCount)
     val shouldShowHintButton = content.isEmpty()
 }
 

@@ -16,7 +16,7 @@ interface EntryRepository {
 
     fun getWrittenDates(): LiveData<List<LocalDate>>
 
-    suspend fun addEntry(entry: Entry)
+    suspend fun addEntry(entry: Entry): Int
 
     suspend fun addEntries(entries: List<Entry>)
 

@@ -27,7 +27,7 @@ import kotlin.random.Random
 
 @Composable
 fun Entry(
-    onEntrySaved: (isNewEntry: Boolean) -> Unit,
+    onEntrySaved: (milestoneNumber: Int?) -> Unit,
     onShareClicked: (date: String, content: String) -> Unit
 ) {
     val viewModel = hiltViewModel<EntryyViewModel>()
@@ -37,13 +37,20 @@ fun Entry(
         viewModel.logScreenView()
     }
 
+    if (state.value.isSaved) {
+        val milestoneNumber = if (state.value.milestoneWasReached) state.value.entryCount else null
+        onEntrySaved(milestoneNumber)
+        viewModel.onSaveHandled()
+    }
+
     PresentlyTheme(
         selectedTheme = viewModel.getSelectedTheme()
     ) {
         EntryContent(
             state = state.value,
-            handleEvent = viewModel::handleEvent,
-            onEntrySaved = onEntrySaved,
+            onTextChanged = viewModel::onTextChanged,
+            onSaveClicked = viewModel::saveEntry,
+            onHintClicked = viewModel::changeHint,
             onShareClicked = onShareClicked
         )
     }
@@ -55,8 +62,9 @@ fun Entry(
 fun EntryContent(
     modifier: Modifier = Modifier,
     state: EntryViewState,
-    handleEvent: (EntryEvent) -> Unit,
-    onEntrySaved: (isNewEntry: Boolean) -> Unit,
+    onTextChanged: (newText: String) -> Unit,
+    onHintClicked: () -> Unit,
+    onSaveClicked: () -> Unit,
     onShareClicked: (date: String, content: String) -> Unit
 ) {
     val systemUiController = rememberSystemUiController()
@@ -97,7 +105,7 @@ fun EntryContent(
                 modifier = Modifier.fillMaxWidth(),
                 value = state.content,
                 onValueChange = {
-                    handleEvent(EntryEvent.OnTextChanged(it))
+                    onTextChanged(it)
                 },
                 placeholder = {
                     val hintNumber = state.promptNumber
@@ -131,7 +139,7 @@ fun EntryContent(
             )
             Row() {
                 if (state.shouldShowHintButton) {
-                    IconButton(onClick = { handleEvent(EntryEvent.OnHintClicked) }) {
+                    IconButton(onClick = { onHintClicked() }) {
                         Icon(
                             imageVector = Icons.Default.Call,
                             contentDescription = stringResource(R.string.get_a_new_prompt),
@@ -153,10 +161,7 @@ fun EntryContent(
                     }
                 }
                 Button(
-                    onClick = {
-                        handleEvent(EntryEvent.OnSaveClicked)
-                        onEntrySaved(state.isNewEntry)
-                    },
+                    onClick = { onSaveClicked() },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = PresentlyTheme.colors.entryButtonBackground,
                         contentColor = PresentlyTheme.colors.entryButtonText

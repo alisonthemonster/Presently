@@ -8,10 +8,4 @@ data class TimelineViewState(
     val timelineItems: List<TimelineItem> = emptyList(),
     val datesWritten: Set<LocalDate> = emptySet(),
     val authenticationState: AuthenticationState = AuthenticationState.UNKNOWN,
-) {
-    val numEntries = datesWritten.size
-
-    fun userHasInvalidAuth(): Boolean {
-        return authenticationState == AuthenticationState.TIMED_OUT
-    }
-}
+)

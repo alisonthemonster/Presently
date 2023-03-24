@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import journal.gratitude.com.gratitudejournal.databinding.FragmentSettingsBinding
 import journal.gratitude.com.gratitudejournal.ui.entry.Entry
+import journal.gratitude.com.gratitudejournal.ui.milestone.MilestoneCelebration
 import journal.gratitude.com.gratitudejournal.ui.search.Search
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockScreen
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeSelection
@@ -38,17 +40,25 @@ import org.threeten.bp.LocalDate
 internal sealed class Screen(val route: String) {
     fun createRoute() = route
 
-    object Timeline : Screen("timeline?milestone={milestone}")
-    object Settings : Screen("settings")
-    object Share : Screen("share")
-    object Search : Screen("search")
-    object Themes : Screen("themes")
-    object Lock : Screen("lock")
+    object Timeline : Screen("timeline")
+
     object Entry : Screen("entry/{entry-date}") {
         fun createRoute(entryDate: LocalDate): String {
             return "entry/${entryDate.toDatabaseString()}"
         }
     }
+
+    object MilestoneCelebration : Screen("milestone/{number}") {
+        fun createRoute(milestoneNumber: Int): String {
+            return "milestone/${milestoneNumber}"
+        }
+    }
+
+    object Settings : Screen("settings")
+    object Share : Screen("share")
+    object Search : Screen("search")
+    object Themes : Screen("themes")
+    object Lock : Screen("lock")
 }
 
 @ExperimentalAnimationApi
@@ -74,7 +84,6 @@ internal fun AppNavigation(
         ) {
             Timeline(
                 locale = locale,
-                navController = navController,
                 onEntryClicked = { date ->
                     navController.navigate(Screen.Entry.createRoute(date))
                 },
@@ -99,14 +108,33 @@ internal fun AppNavigation(
             )
         ) {
             Entry(
-                onEntrySaved = { isNewEntry ->
-                    navController.previousBackStackEntry
-                            ?.savedStateHandle
-                            ?.set("isNewEntry", isNewEntry)
-                    navController.popBackStack()
+                onEntrySaved = { milestoneNumber ->
+                    if (milestoneNumber != null) {
+                        Log.d("blerg", "onmilestonereached with $milestoneNumber")
+                        navController.navigate(
+                            Screen.MilestoneCelebration.createRoute(milestoneNumber)
+                        ) {
+                            popUpTo(Screen.Timeline.route)
+                        }
+                    } else {
+                        Log.d("blerg", "onEntrySaved, going to pop back stack")
+                        navController.popBackStack()
+                    }
                 },
                 onShareClicked = { date, content ->
                     navController.navigate(Screen.Share.createRoute())
+                },
+            )
+        }
+        composable(
+            route = Screen.MilestoneCelebration.createRoute(),
+            arguments = listOf(
+                navArgument("number") { type = NavType.IntType }
+            )
+        ) {
+            MilestoneCelebration(
+                onDismiss = {
+                    navController.popBackStack()
                 },
             )
         }
@@ -202,6 +230,11 @@ private fun onContactClicked(context: Context) {
 internal class EntryArgs(val entryDate: String) {
     constructor(savedStateHandle: SavedStateHandle) :
             this(checkNotNull(savedStateHandle["entry-date"]) as String)
+}
+
+internal class MilestoneArgs(val milestoneNumber: Int) {
+    constructor(savedStateHandle: SavedStateHandle) :
+            this(checkNotNull(savedStateHandle["number"]) as Int)
 }
 
 @Composable

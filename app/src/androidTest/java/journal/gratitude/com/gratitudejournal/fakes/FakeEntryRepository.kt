@@ -26,7 +26,7 @@ class FakeEntryRepository @Inject constructor() : EntryRepository {
         return list
     }
 
-    override suspend fun getEntriesFlow(): Flow<List<Entry>> {
+    override fun getEntriesFlow(): Flow<List<Entry>> {
         val list = mutableListOf<Entry>()
         entriesDatabase.forEach { (_, entry) -> list.add(entry) }
         return flow {
@@ -65,6 +65,10 @@ class FakeEntryRepository @Inject constructor() : EntryRepository {
                 emit(PagingData.from(results))
             }
         }
+    }
+
+    override suspend fun search(query: String): List<Entry> {
+        TODO("Not yet implemented")
     }
 
 }

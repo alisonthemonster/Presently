@@ -26,10 +26,8 @@ import com.presently.ui.isDark
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
-import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilestone
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.ui.NavigationDrawer
-import journal.gratitude.com.gratitudejournal.ui.dialog.MilestoneDialog
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import java.util.*
@@ -37,7 +35,6 @@ import java.util.*
 @Composable
 fun Timeline(
     locale: Locale,
-    navController: NavController,
     onEntryClicked: (date: LocalDate) -> Unit,
     onSearchClicked: () -> Unit,
     onThemesClicked: () -> Unit,
@@ -47,10 +44,6 @@ fun Timeline(
     val viewModel = hiltViewModel<TimelineeViewModel>()
     val state by viewModel.state.collectAsState()
     val theme = viewModel.getSelectedTheme()
-
-    val saved: SavedStateHandle? = navController.currentBackStackEntry?.savedStateHandle
-    val wasNewEntrySaved = saved?.getStateFlow("isNewEntry", false)?.collectAsState()
-    var openDialog by remember { mutableStateOf(wasNewEntrySaved?.value == true && isMilestone(state.datesWritten.size + 1))  }
 
     LaunchedEffect(Unit) {
         viewModel.logScreenView()
@@ -85,13 +78,6 @@ fun Timeline(
                 onContactClicked()
             }
         )
-        if (openDialog) {
-            val milestoneCount = state.datesWritten.size
-            MilestoneDialog(
-                milestoneNumber = milestoneCount,
-                onDismiss = { openDialog = false }
-            )
-        }
     }
 }
 

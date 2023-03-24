@@ -15,6 +15,9 @@ interface EntryDao {
     @Query("SELECT * FROM entries ORDER BY datetime(entryDate) DESC")
     fun getEntries(): List<Entry>
 
+    @Query("SELECT COUNT(entryDate) FROM entries")
+    suspend fun getNumberOfEntries(): Int
+
     @Query("SELECT entryDate FROM entries ORDER BY datetime(entryDate) DESC")
     fun getWrittenDates(): LiveData<List<LocalDate>>
 
@@ -22,7 +25,7 @@ interface EntryDao {
     suspend fun getEntry(date: LocalDate): Entry
 
     @Delete
-    fun delete(entry: Entry)
+    suspend fun delete(entry: Entry)
 
     @Query("SELECT entries.* FROM entries JOIN entriesFts ON (entries.`rowid` = entriesFts.`rowid`) WHERE entriesFts MATCH :query ORDER BY datetime(entriesFts.entryDate) DESC")
     fun searchAllEntries(query: String): PagingSource<Int, Entry>
@@ -33,7 +36,7 @@ interface EntryDao {
     @Insert(
         onConflict = OnConflictStrategy.REPLACE
     )
-    fun insertEntry(entry: Entry)
+    suspend fun insertEntry(entry: Entry)
 
     @Insert(
         onConflict = OnConflictStrategy.REPLACE

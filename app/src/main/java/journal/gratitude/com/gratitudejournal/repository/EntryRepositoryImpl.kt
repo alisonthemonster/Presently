@@ -32,12 +32,13 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         return entryDao.getWrittenDates()
     }
 
-    override suspend fun addEntry(entry: Entry) = withContext(Dispatchers.IO) {
+    override suspend fun addEntry(entry: Entry): Int = withContext(Dispatchers.IO) {
         if (entry.entryContent.isEmpty()) {
             entryDao.delete(entry)
         } else {
             entryDao.insertEntry(entry)
         }
+        entryDao.getNumberOfEntries()
     }
 
     override suspend fun addEntries(entries: List<Entry>)  = withContext(Dispatchers.IO) {

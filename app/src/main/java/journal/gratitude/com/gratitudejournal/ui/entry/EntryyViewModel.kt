@@ -38,10 +38,8 @@ class EntryyViewModel @Inject constructor(
     }
 
     fun fetchContent(date: LocalDate) {
-        Log.d("blerg", "gonna fetch content")
         viewModelScope.launch {
             val content = repository.getEntry(date)
-            Log.d("blerg", "got some data: ${content?.entryContent}")
             _state.value = _state.value.copy(
                 date = date,
                 content = content?.entryContent ?: ""
@@ -54,43 +52,40 @@ class EntryyViewModel @Inject constructor(
         analytics.recordView("Entry")
     }
 
-    fun handleEvent(entryEvent: EntryEvent) {
-        when (entryEvent) {
-            EntryEvent.OnHintClicked -> changeHint()
-            EntryEvent.OnSaveClicked -> saveEntry()
-            is EntryEvent.OnTextChanged -> {
-                _state.value = _state.value.copy(content = entryEvent.newText)
-            }
-        }
+    fun onTextChanged(newText: String) {
+        _state.value = _state.value.copy(content = newText)
     }
 
     fun getSelectedTheme(): PresentlyColors {
         return settings.getCurrentTheme().toPresentlyColors()
     }
 
-    private fun saveEntry() {
+    fun saveEntry() {
         val entry =
             journal.gratitude.com.gratitudejournal.model.Entry(
                 _state.value.date,
                 _state.value.content
             )
         viewModelScope.launch {
-            repository.addEntry(entry)
+            val numberOfWrittenEntries = repository.addEntry(entry)
+            if (_state.value.isNewEntry) {
+                analytics.recordEntryAdded(numberOfWrittenEntries)
+            } else {
+                analytics.recordEvent(EDITED_EXISTING_ENTRY)
+            }
+            _state.value = _state.value.copy(entryCount = numberOfWrittenEntries)
         }
-        if (_state.value.isNewEntry) {
-            //todo find a way to log this again
-            //analytics.recordEntryAdded(totalEntries)
-        } else {
-            analytics.recordEvent(EDITED_EXISTING_ENTRY)
-        }
-        _state.value = _state.value.copy(isSaved = true)
     }
 
-    private fun changeHint() {
+    fun changeHint() {
         analytics.recordEvent(CLICKED_PROMPT)
         val currentPromptNumber = _state.value.promptNumber
         val newPromptNumber = currentPromptNumber + 1
         _state.value = _state.value.copy(promptNumber = newPromptNumber)
+    }
+
+    fun onSaveHandled() {
+        _state.value = _state.value.copy(entryCount = -1)
     }
 
 }
