@@ -107,7 +107,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/congratulations_we_re_so_proud_of_you_and_so_grateful_you_chose_presently_to_record_your_gratitude"
+        android:text="@string/congrats_milestone"
         android:textAlignment="center"
         android:textColor="@color/text_color"
         app:layout_constraintBottom_toTopOf="@+id/share_presently"

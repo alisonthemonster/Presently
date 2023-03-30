@@ -73,7 +73,7 @@ class EntryyViewModel @Inject constructor(
             } else {
                 analytics.recordEvent(EDITED_EXISTING_ENTRY)
             }
-            _state.value = _state.value.copy(entryCount = numberOfWrittenEntries)
+            _state.value = _state.value.copy(saveState = SaveState(numberOfWrittenEntries))
         }
     }
 
@@ -85,7 +85,7 @@ class EntryyViewModel @Inject constructor(
     }
 
     fun onSaveHandled() {
-        _state.value = _state.value.copy(entryCount = -1)
+        _state.value = _state.value.copy(saveState = SaveState())
     }
 
 }

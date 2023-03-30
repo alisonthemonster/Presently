@@ -14,11 +14,16 @@ data class EntryViewState(
     val isNewEntry: Boolean = true,
     val hasUserEdits: Boolean = false,
     val promptNumber: Int = -1,
+    val saveState: SaveState = SaveState(),
+) {
+    val shouldShowHintButton = content.isEmpty()
+}
+
+data class SaveState(
     val entryCount: Int = -1,
 ) {
     val isSaved = entryCount != -1
     val milestoneWasReached = isMilestone(entryCount)
-    val shouldShowHintButton = content.isEmpty()
 }
 
 @SuppressLint("ParcelCreator")

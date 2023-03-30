@@ -31,14 +31,14 @@ fun Entry(
     onShareClicked: (date: String, content: String) -> Unit
 ) {
     val viewModel = hiltViewModel<EntryyViewModel>()
-    val state = viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.logScreenView()
     }
 
-    if (state.value.isSaved) {
-        val milestoneNumber = if (state.value.milestoneWasReached) state.value.entryCount else null
+    if (state.saveState.isSaved) {
+        val milestoneNumber = if (state.saveState.milestoneWasReached) state.saveState.entryCount else null
         onEntrySaved(milestoneNumber)
         viewModel.onSaveHandled()
     }
@@ -47,7 +47,7 @@ fun Entry(
         selectedTheme = viewModel.getSelectedTheme()
     ) {
         EntryContent(
-            state = state.value,
+            state = state,
             onTextChanged = viewModel::onTextChanged,
             onSaveClicked = viewModel::saveEntry,
             onHintClicked = viewModel::changeHint,

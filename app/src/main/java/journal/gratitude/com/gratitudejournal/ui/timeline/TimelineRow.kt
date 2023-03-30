@@ -77,7 +77,7 @@ fun TimelineRow(
                 end.linkTo(parent.end, margin = 8.dp)
                 width = Dimension.fillToConstraints
             },
-            text = entryDate.toStringWithDayOfWeek(), //todo limit this to the max defined in settings
+            text = entryDate.toStringWithDayOfWeek(),
             style = PresentlyTheme.typography.bodyLarge,
             color = PresentlyTheme.colors.timelineDate
         )
@@ -88,7 +88,7 @@ fun TimelineRow(
                 end.linkTo(parent.end, margin = 8.dp)
                 width = Dimension.fillToConstraints
             },
-            text = content,
+            text = content, //todo limit this to the max defined in settings
             style = PresentlyTheme.typography.bodyMedium,
             color = if (isNewEntry) PresentlyTheme.colors.timelineHint else PresentlyTheme.colors.timelineContent,
         )
@@ -100,7 +100,8 @@ fun TimelineRow(
                         top.linkTo(entryString.bottom, margin = 24.dp)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
-                    },
+                    }
+                    .padding(bottom = 16.dp),
                 painter = painterResource(id = theme.iconResource),
                 contentDescription = null,
             )

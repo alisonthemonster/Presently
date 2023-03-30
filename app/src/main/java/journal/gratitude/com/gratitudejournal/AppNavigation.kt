@@ -136,6 +136,9 @@ internal fun AppNavigation(
                 onDismiss = {
                     navController.popBackStack()
                 },
+                onShareClicked = {
+                    //todo share text R.string.share_milestone
+                }
             )
         }
         composable(
