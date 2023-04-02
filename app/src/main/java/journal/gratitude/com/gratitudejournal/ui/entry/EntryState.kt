@@ -12,15 +12,11 @@ data class EntryViewState(
     val date: LocalDate = LocalDate.now(),
     val content: String = "",
     val isInEditMode: Boolean = false,
-    val isNewEntry: Boolean = true,
-    val hasUserEdits: Boolean = false,
     val promptNumber: Int = -1,
     val undoStack: ArrayDeque<String> = ArrayDeque(),
     val redoStack: ArrayDeque<String> = ArrayDeque(),
     val saveState: SaveState = SaveState(),
 ) {
-    val shouldShowHintButton = content.isEmpty()
-
     val userCanUndo = undoStack.isNotEmpty()
     val userCanRedo = redoStack.isNotEmpty()
 }

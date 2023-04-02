@@ -13,10 +13,7 @@ import journal.gratitude.com.gratitudejournal.EntryArgs
 import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
@@ -30,12 +27,20 @@ class EntryyViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state = MutableStateFlow(EntryViewState())
     val state: StateFlow<EntryViewState> = _state
+    val content = state.map { it.content }.distinctUntilChanged().drop(1)
 
     private val navArgs = EntryArgs(savedStateHandle)
 
     init {
         val date = navArgs.entryDate.toLocalDate()
         fetchContent(date)
+
+        viewModelScope.launch {
+            content.debounce(DEBOUNCE_TIME_MS).collect {
+                Log.d("blerg", "debounced, $it")
+                writeEntry()
+            }
+        }
     }
 
     fun fetchContent(date: LocalDate) {
@@ -65,6 +70,7 @@ class EntryyViewModel @Inject constructor(
     }
 
     fun onTextChanged(newText: String) {
+        Log.d("blerg", "user typed, $newText")
         onTextChanged(TextChangeType.TYPING, newText)
     }
 
@@ -105,7 +111,7 @@ class EntryyViewModel @Inject constructor(
             redoStack = redoStack
         )
 
-        writeEntry()
+        //writeEntry()
     }
 
 
@@ -141,6 +147,7 @@ class EntryyViewModel @Inject constructor(
     }
 
     companion object {
+        private const val DEBOUNCE_TIME_MS = 300L
         private const val HISTORY_LIMIT = 50
     }
 }
