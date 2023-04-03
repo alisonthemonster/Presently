@@ -87,7 +87,7 @@ fun EntryContent(
     modifier: Modifier = Modifier,
     state: EntryViewState,
     onTextChanged: (newText: String) -> Unit,
-    onHintClicked: () -> Unit,
+    onHintClicked: (Int) -> Unit,
     onUndoClicked: () -> Unit,
     onRedoClicked: () -> Unit,
     onShareClicked: (date: String, content: String) -> Unit
@@ -104,7 +104,7 @@ fun EntryContent(
                 userCanUndo = state.userCanUndo,
                 userCanRedo = state.userCanRedo,
                 onTextChanged = { newText -> onTextChanged(newText) },
-                onHintClicked = { onHintClicked() },
+                onHintClicked = { totalHints -> onHintClicked(totalHints) },
                 onUndoClicked = { onUndoClicked() },
                 onRedoClicked = { onRedoClicked() },
             )

@@ -123,6 +123,7 @@ class EntryyViewModel @Inject constructor(
                 _state.value.content
             )
         viewModelScope.launch {
+            //todo bring back a way to track how many entries a user has
             val numberOfWrittenEntries = repository.addEntry(entry)
 //            if (_state.value.isNewEntry) {
 //                analytics.recordEntryAdded(numberOfWrittenEntries)
@@ -135,11 +136,14 @@ class EntryyViewModel @Inject constructor(
         }
     }
 
-    fun changeHint() {
+    fun changeHint(totalHints: Int) {
         analytics.recordEvent(CLICKED_PROMPT)
-        val currentPromptNumber = _state.value.promptNumber
-        val newPromptNumber = currentPromptNumber + 1
-        _state.value = _state.value.copy(promptNumber = newPromptNumber)
+        val prevIndex = _state.value.promptNumber
+        var rnds = (0 until totalHints).random()
+        while (rnds == prevIndex) {
+            rnds = (0 until totalHints).random()
+        }
+        _state.value = _state.value.copy(promptNumber = rnds)
     }
 
     fun onSaveHandled() {

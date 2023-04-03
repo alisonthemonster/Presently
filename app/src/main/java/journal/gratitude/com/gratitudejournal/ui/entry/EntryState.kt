@@ -12,7 +12,7 @@ data class EntryViewState(
     val date: LocalDate = LocalDate.now(),
     val content: String = "",
     val isInEditMode: Boolean = false,
-    val promptNumber: Int = -1,
+    val promptNumber: Int? = null,
     val undoStack: ArrayDeque<String> = ArrayDeque(),
     val redoStack: ArrayDeque<String> = ArrayDeque(),
     val saveState: SaveState = SaveState(),

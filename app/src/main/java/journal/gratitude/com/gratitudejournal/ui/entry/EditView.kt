@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
 
 //todo show warning dialog if the entry is not saved
@@ -36,15 +38,17 @@ fun EditView(
     modifier: Modifier = Modifier,
     date: LocalDate,
     content: String,
-    promptNumber: Int,
+    promptNumber: Int?,
     userCanUndo: Boolean,
     userCanRedo: Boolean,
     onTextChanged: (newText: String) -> Unit,
-    onHintClicked: () -> Unit,
+    onHintClicked: (Int) -> Unit,
     onUndoClicked: () -> Unit,
     onRedoClicked: () -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
+
+    val prompts = stringArrayResource(R.array.prompts)
 
     LaunchedEffect(Unit) {
         //open the keyboard
@@ -56,7 +60,28 @@ fun EditView(
                 .verticalScroll(rememberScrollState())
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp)
         ) {
-            EntryHeader(date)
+            Text(
+                text = when (date) {
+                    LocalDate.now() -> stringResource(R.string.today)
+                    LocalDate.now().minusDays(1) -> stringResource(R.string.yesterday)
+                    else -> date.toStringWithDayOfWeek()
+                },
+                style = PresentlyTheme.typography.titleLarge,
+                color = PresentlyTheme.colors.entryDate
+            )
+            Text(text =
+                if (promptNumber == null) {
+                    if (date == LocalDate.now()) {
+                        stringResource(id = R.string.what_are_you_thankful_for)
+                    } else {
+                        stringResource(id = R.string.what_were_you_thankful_for)
+                    }
+                } else {
+                    prompts[promptNumber]
+                },
+                style = PresentlyTheme.typography.titleLarge,
+                color = PresentlyTheme.colors.entryDate
+            )
             TextField(
                 modifier = modifier.focusRequester(focusRequester),
                 value = content,
@@ -90,7 +115,7 @@ fun EditView(
                 .padding(bottom = 8.dp),
             userCanUndo = userCanUndo,
             userCanRedo = userCanRedo,
-            onPromptSuggestionClicked = { onHintClicked() },
+            onPromptSuggestionClicked = { onHintClicked(prompts.size) },
             onUndoClicked = { onUndoClicked() },
             onRedoClicked = { onRedoClicked() }
         )
