@@ -11,6 +11,8 @@ import com.presently.ui.toPresentlyColors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import journal.gratitude.com.gratitudejournal.EntryArgs
 import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
+import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
+import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilestone
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.coroutines.flow.*
@@ -32,23 +34,33 @@ class EntryyViewModel @Inject constructor(
     private val navArgs = EntryArgs(savedStateHandle)
 
     init {
-        val date = navArgs.entryDate.toLocalDate()
-        fetchContent(date)
+        fetchContent(navArgs.entryDate.toLocalDate())
 
+        autosave()
+
+        applyUserSettings()
+    }
+
+    private fun applyUserSettings() {
+        val shouldShowQuote = settings.shouldShowQuote()
+        _state.value = _state.value.copy(shouldShowQuote = shouldShowQuote)
+    }
+
+    private fun autosave() {
         viewModelScope.launch {
             content.debounce(DEBOUNCE_TIME_MS).collect {
-                Log.d("blerg", "debounced, $it")
                 writeEntry()
             }
         }
     }
 
-    fun fetchContent(date: LocalDate) {
+    private fun fetchContent(date: LocalDate) {
         viewModelScope.launch {
             val content = repository.getEntry(date)
             _state.value = _state.value.copy(
                 date = date,
-                content = content?.entryContent ?: ""
+                content = content?.entryContent ?: "",
+                isEditingExistingEntry = content != null
             )
         }
     }
@@ -62,7 +74,24 @@ class EntryyViewModel @Inject constructor(
     }
 
     fun onExitEditMode() {
-        _state.value = _state.value.copy(isInEditMode = false)
+        val entryNumber = _state.value.entryNumber
+        if (entryNumber != null) {
+            //the user saved an entry
+            if (_state.value.isEditingExistingEntry) {
+                Log.d("blerg", "analytics: edited an existing entry")
+                analytics.recordEvent(EDITED_EXISTING_ENTRY)
+            } else {
+                Log.d("blerg", "analytics: wrote entry number $entryNumber")
+                analytics.recordEntryAdded(entryNumber)
+            }
+        }
+
+        val shouldShowMilestoneDialog =
+            !_state.value.isEditingExistingEntry && isMilestone(_state.value.entryNumber ?: -1)
+        _state.value = _state.value.copy(
+            isInEditMode = false,
+            shouldShowMilestoneDialog = shouldShowMilestoneDialog,
+        )
     }
 
     fun getSelectedTheme(): PresentlyColors {
@@ -114,8 +143,6 @@ class EntryyViewModel @Inject constructor(
         //writeEntry()
     }
 
-
-
     private fun writeEntry() {
         val entry =
             journal.gratitude.com.gratitudejournal.model.Entry(
@@ -123,16 +150,10 @@ class EntryyViewModel @Inject constructor(
                 _state.value.content
             )
         viewModelScope.launch {
-            //todo bring back a way to track how many entries a user has
             val numberOfWrittenEntries = repository.addEntry(entry)
-//            if (_state.value.isNewEntry) {
-//                analytics.recordEntryAdded(numberOfWrittenEntries)
-//            } else {
-//                analytics.recordEvent(EDITED_EXISTING_ENTRY)
-//            }
+            _state.value = _state.value.copy(entryNumber = numberOfWrittenEntries)
             Log.d("blerg", "wrote entry: $entry")
             //todo show some indication that data was saved?
-            //_state.value = _state.value.copy(saveState = SaveState(numberOfWrittenEntries))
         }
     }
 
@@ -146,8 +167,8 @@ class EntryyViewModel @Inject constructor(
         _state.value = _state.value.copy(promptNumber = rnds)
     }
 
-    fun onSaveHandled() {
-        _state.value = _state.value.copy(saveState = SaveState())
+    fun onDismissMilestoneDialog() {
+        _state.value = _state.value.copy(shouldShowMilestoneDialog = false)
     }
 
     companion object {

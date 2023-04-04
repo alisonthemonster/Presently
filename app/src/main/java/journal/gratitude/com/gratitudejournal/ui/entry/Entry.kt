@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -7,6 +8,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.presently.ui.PresentlyTheme
@@ -15,7 +17,7 @@ import com.presently.ui.isDark
 @Composable
 fun Entry(
     modifier: Modifier = Modifier,
-    onEntrySaved: (milestoneNumber: Int?) -> Unit,
+    onEntryExit: () -> Unit,
     onShareClicked: (date: String, content: String) -> Unit
 ) {
     val viewModel = hiltViewModel<EntryyViewModel>()
@@ -25,11 +27,14 @@ fun Entry(
         viewModel.logScreenView()
     }
 
-    if (state.saveState.isSaved) {
-        val milestoneNumber =
-            if (state.saveState.milestoneWasReached) state.saveState.entryCount else null
-        onEntrySaved(milestoneNumber)
-        viewModel.onSaveHandled()
+    //todo add more analytics events for clicking into edit mode
+
+    BackHandler {
+        if (state.isInEditMode) {
+            viewModel.onExitEditMode()
+        } else {
+            onEntryExit()
+        }
     }
 
     PresentlyTheme(
@@ -46,6 +51,13 @@ fun Entry(
                 darkIcons = useDarkIcons
             )
             onDispose {}
+        }
+        
+        if (state.shouldShowMilestoneDialog) {
+            //todo use the milestone composable here
+            Dialog(onDismissRequest = { viewModel.onDismissMilestoneDialog() }) {
+                Text(text = "milestone ${state.entryNumber}")
+            }
         }
 
         Scaffold(
@@ -112,6 +124,7 @@ fun EntryContent(
             ReadView(
                 date = state.date,
                 content = state.content,
+                shouldShowQuote = state.shouldShowQuote,
                 onShareClicked = { date, content -> onShareClicked(date, content) }
             )
         }

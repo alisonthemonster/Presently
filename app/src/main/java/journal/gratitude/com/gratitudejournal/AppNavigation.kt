@@ -25,6 +25,7 @@ import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import journal.gratitude.com.gratitudejournal.databinding.FragmentSettingsBinding
+import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilestone
 import journal.gratitude.com.gratitudejournal.ui.entry.Entry
 import journal.gratitude.com.gratitudejournal.ui.milestone.MilestoneCelebration
 import journal.gratitude.com.gratitudejournal.ui.search.Search
@@ -108,18 +109,8 @@ internal fun AppNavigation(
             )
         ) {
             Entry(
-                onEntrySaved = { milestoneNumber ->
-                    if (milestoneNumber != null) {
-                        Log.d("blerg", "onmilestonereached with $milestoneNumber")
-                        navController.navigate(
-                            Screen.MilestoneCelebration.createRoute(milestoneNumber)
-                        ) {
-                            popUpTo(Screen.Timeline.route)
-                        }
-                    } else {
-                        Log.d("blerg", "onEntrySaved, going to pop back stack")
-                        navController.popBackStack()
-                    }
+                onEntryExit = {
+                     navController.popBackStack()
                 },
                 onShareClicked = { date, content ->
                     navController.navigate(Screen.Share.createRoute())
@@ -171,6 +162,7 @@ internal fun AppNavigation(
         composable(
             route = Screen.Settings.route,
         ) {
+            //todo make this in the safe window inset area
             SettingsFragmentContainer()
         }
         composable(
