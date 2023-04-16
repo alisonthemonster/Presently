@@ -18,7 +18,7 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class TimelineeViewModel @Inject constructor(
+class TimelineViewModel @Inject constructor(
     private val repository: EntryRepository,
     private val settings: PresentlySettings,
     private val analyticsLogger: AnalyticsLogger,

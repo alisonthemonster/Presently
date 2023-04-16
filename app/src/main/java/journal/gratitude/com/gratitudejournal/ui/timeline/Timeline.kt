@@ -14,10 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.SavedStateHandle
-import androidx.navigation.NavController
 import com.google.accompanist.insets.ui.Scaffold
 import com.google.accompanist.insets.ui.TopAppBar
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -42,7 +39,7 @@ fun Timeline(
     onSettingsClicked: () -> Unit,
     onContactClicked: () -> Unit,
 ) {
-    val viewModel = hiltViewModel<TimelineeViewModel>()
+    val viewModel = hiltViewModel<TimelineViewModel>()
     val state by viewModel.state.collectAsState()
     val theme = viewModel.getSelectedTheme()
 
