@@ -87,6 +87,8 @@ class UploaderTest {
         override fun setTheme(themeName: String) = fail("Not needed in this test")
         override fun isBiometricsEnabled(): Boolean = fail("Not needed in this test")
         override fun shouldLockApp(): Boolean = fail("Not needed in this test")
+        override fun onAppBackgrounded() = fail("Not needed in this test")
+        override fun onAuthenticationSucceeded() = fail("Not needed in this test")
         override fun setOnPauseTime() = fail("Not needed in this test")
         override fun getFirstDayOfWeek(): Int = fail("Not needed in this test")
         override fun shouldShowQuote(): Boolean = fail("Not needed in this test")
@@ -123,12 +125,11 @@ class UploaderTest {
                 return emptyList()
             }
             override suspend fun getEntry(date: LocalDate): Entry = fail("Not needed in this test")
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
+            override  fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
             override fun getWrittenDates(): LiveData<List<LocalDate>> = fail("Not needed in this test")
             override suspend fun addEntry(entry: Entry) = fail("Not needed in this test")
             override suspend fun addEntries(entries: List<Entry>) = fail("Not needed in this test")
-            override fun searchEntries(query: String): Flow<PagingData<Entry>> =
-                fail("Not needed in this test")
+            override suspend fun search(query: String): List<Entry> = fail("Not needed in this test")
         }
 
         val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings)
