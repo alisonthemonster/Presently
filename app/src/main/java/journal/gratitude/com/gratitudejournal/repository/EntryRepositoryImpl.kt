@@ -1,7 +1,6 @@
 package journal.gratitude.com.gratitudejournal.repository
 
 import androidx.lifecycle.LiveData
-import androidx.paging.*
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.room.EntryDao
 import kotlinx.coroutines.Dispatchers
@@ -11,10 +10,6 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): EntryRepository {
-
-    companion object {
-        private const val PAGE_SIZE = 20
-    }
 
     override suspend fun getEntry(date: LocalDate): Entry {
         return entryDao.getEntry(date)
@@ -43,19 +38,6 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
 
     override suspend fun addEntries(entries: List<Entry>)  = withContext(Dispatchers.IO) {
         entryDao.insertEntries(entries)
-    }
-
-    override fun searchEntries(query: String): Flow<PagingData<Entry>> {
-        val escapedQuery = query.replace("\"", "")
-        val wildcardQuery = String.format("*%s*", escapedQuery)
-
-        val searchAllEntries = entryDao.searchAllEntries(wildcardQuery)
-        return Pager(
-            PagingConfig(pageSize = PAGE_SIZE)
-        ) {
-            searchAllEntries
-        }.flow
-
     }
 
     override suspend fun search(query: String): List<Entry> {

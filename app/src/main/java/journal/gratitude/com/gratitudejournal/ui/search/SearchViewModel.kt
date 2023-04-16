@@ -2,7 +2,6 @@ package journal.gratitude.com.gratitudejournal.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import com.presently.logging.AnalyticsLogger
 import com.presently.settings.PresentlySettings
 import com.presently.ui.PresentlyColors
@@ -14,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModell @Inject constructor(
+class SearchViewModel @Inject constructor(
     private val repository: EntryRepository,
     private val settings: PresentlySettings,
     private val analytics: AnalyticsLogger

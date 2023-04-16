@@ -29,7 +29,10 @@ class EntryViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state = MutableStateFlow(EntryViewState())
     val state: StateFlow<EntryViewState> = _state
-    val content = state.map { it.content }.distinctUntilChanged().drop(1)
+
+    private val debouncedText = state.map { it.content }
+        .distinctUntilChanged()
+        .debounce(DEBOUNCE_TIME_MS)
 
     private val navArgs = EntryArgs(savedStateHandle)
 
@@ -48,7 +51,7 @@ class EntryViewModel @Inject constructor(
 
     private fun autosave() {
         viewModelScope.launch {
-            content.debounce(DEBOUNCE_TIME_MS).collect {
+            debouncedText.drop(1).collect {
                 writeEntry()
             }
         }
@@ -140,8 +143,6 @@ class EntryViewModel @Inject constructor(
             undoStack = undoStack,
             redoStack = redoStack
         )
-
-        //writeEntry()
     }
 
     private fun writeEntry() {

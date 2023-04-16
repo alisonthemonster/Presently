@@ -23,7 +23,6 @@ object Versions {
     const val ANDROIDX_TEST_JUNIT = "1.1.2"
     const val ANDROIDX_WORK = "2.7.1" //https://developer.android.com/jetpack/androidx/releases/work
     const val ANDROIDX_ROOM = "2.4.0-alpha03" //https://developer.android.com/jetpack/androidx/releases/room
-    const val ANDROIDX_PAGING = "3.1.0-alpha01" //https://developer.android.com/jetpack/androidx/releases/paging
     const val ANDROIDX_FRAGMENT_KTX = "1.3.6" //https://developer.android.com/jetpack/androidx/releases/fragment
     const val ANDROIDX_TEST_CORE_KTX = "1.3.0"
     const val ANDROIDX_TEST_ESPRESSO = "3.3.0"
@@ -82,7 +81,6 @@ object Libraries {
    const val androidx_work_runtime_ktx = "androidx.work:work-runtime-ktx:${Versions.ANDROIDX_WORK}"
    const val androidx_hilt_work = "androidx.hilt:hilt-work:${Versions.HILT_ANDROID}"
    const val androidx_biometric = "androidx.biometric:biometric:${Versions.ANDROIDX_BIOMETRIC}"
-   const val androidx_paging_runtime = "androidx.paging:paging-runtime:${Versions.ANDROIDX_PAGING}"
    const val androidx_room_ktx = "androidx.room:room-ktx:${Versions.ANDROIDX_ROOM}"
    const val androidx_room_runtime = "androidx.room:room-runtime:${Versions.ANDROIDX_ROOM}"
    const val androidx_room_compiler = "androidx.room:room-compiler:${Versions.ANDROIDX_ROOM}"

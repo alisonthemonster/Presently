@@ -2,7 +2,6 @@ package journal.gratitude.com.gratitudejournal.fakes
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.paging.PagingData
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.flow.Flow
@@ -41,8 +40,9 @@ class FakeEntryRepository @Inject constructor() : EntryRepository {
         return liveData
     }
 
-    override suspend fun addEntry(entry: Entry) {
+    override suspend fun addEntry(entry: Entry): Int {
         entriesDatabase[entry.entryDate] = entry
+        return entriesDatabase.size
     }
 
     override suspend fun addEntries(entries: List<Entry>) {
@@ -51,24 +51,11 @@ class FakeEntryRepository @Inject constructor() : EntryRepository {
         }
     }
 
-    override fun searchEntries(query: String): Flow<PagingData<Entry>> {
+    override suspend fun search(query: String): List<Entry> {
         val list = mutableListOf<Entry>()
         entriesDatabase.forEach { (_, entry) -> list.add(entry) }
 
-        return if (query == "query with no result") {
-            flow {
-                emit(PagingData.from(emptyList<Entry>()))
-            }
-        } else {
-            val results = listOf(Entry(LocalDate.now(), "Today's content"), Entry(LocalDate.of(2019, 11, 29), "Happy birthday, Alison!"))
-            flow {
-                emit(PagingData.from(results))
-            }
-        }
-    }
-
-    override suspend fun search(query: String): List<Entry> {
-        TODO("Not yet implemented")
+        return list
     }
 
 }

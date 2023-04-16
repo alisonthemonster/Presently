@@ -36,7 +36,7 @@ import org.threeten.bp.LocalDate
 fun Search(
     onEntryClicked: (date: LocalDate) -> Unit,
 ) {
-    val viewModel = hiltViewModel<SearchViewModell>()
+    val viewModel = hiltViewModel<SearchViewModel>()
     val state = viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
