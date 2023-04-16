@@ -45,6 +45,10 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
         return false
     }
 
+    override fun onAppBackgrounded() {}
+
+    override fun onAuthenticationSucceeded() {}
+
     override fun setOnPauseTime() {}
 
     override fun getFirstDayOfWeek(): Int {
