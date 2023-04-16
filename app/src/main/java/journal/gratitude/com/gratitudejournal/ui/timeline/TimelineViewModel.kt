@@ -121,7 +121,6 @@ class TimelineViewModel @Inject constructor(
     }
 
     fun logScreenView() {
-        Log.d("blerg", "timeline screen viewwwwwww")
         analyticsLogger.recordView("Timeline")
     }
 }

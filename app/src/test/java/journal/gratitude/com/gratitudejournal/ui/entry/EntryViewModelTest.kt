@@ -9,17 +9,24 @@ import com.google.common.truth.Truth.assertThat
 import com.presently.logging.AnalyticsLogger
 import com.presently.settings.BackupCadence
 import com.presently.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.MainDispatcherRule
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
+import org.junit.Rule
 import org.junit.Test
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import kotlin.test.fail
 
 class EntryViewModelTest {
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var viewModel: EntryViewModel
 
@@ -114,7 +121,10 @@ class EntryViewModelTest {
 
     @Test
     fun `GIVEN entry view model WHEN changeHint is called THEN the state is updated`() {
-        viewModel = EntryViewModel(SavedStateHandle(), repository, analytics, settings)
+        val savedStateHandle = SavedStateHandle()
+        savedStateHandle["entry-date"] = "2023-10-12"
+
+        viewModel = EntryViewModel(savedStateHandle, repository, analytics, settings)
         viewModel.changeHint(4)
 
         val newHintNumber = viewModel.state.value.promptNumber
@@ -145,22 +155,14 @@ class EntryViewModelTest {
             override fun optIntoAnalytics() {}
         }
 
-        viewModel = EntryViewModel(SavedStateHandle(), repository, analytics, settings)
+        val savedStateHandle = SavedStateHandle()
+        savedStateHandle["entry-date"] = "2023-10-12"
+
+        viewModel = EntryViewModel(savedStateHandle, repository, analytics, settings)
         viewModel.changeHint(4)
 
         assertThat(eventName).isEqualTo("clickedNewPrompt")
         assertThat(recordEventWasCalled).isTrue()
-    }
-
-    @Test
-    fun `GIVEN entry view model WHEN onTextChanged is called THEN the state is updated`() {
-        viewModel = EntryViewModel(SavedStateHandle(), repository, analytics, settings)
-        viewModel.onTextChanged("new text")
-
-        val state = viewModel.state.value
-        assertThat(state.content).isEqualTo("new text")
-        assertThat(state.undoStack).contains("")
-        assertThat(state.redoStack).isEmpty()
     }
 
     @Test
@@ -254,14 +256,17 @@ class EntryViewModelTest {
 
             override fun isOptedIntoAnalytics(): Boolean = fail("Not needed in this test")
         }
-        viewModel = EntryViewModel(SavedStateHandle(), repository, analytics, settings)
+        val savedStateHandle = SavedStateHandle()
+        savedStateHandle["entry-date"] = "2023-10-12"
+
+        viewModel = EntryViewModel(savedStateHandle, repository, analytics, settings)
 
         assertThat(shouldShowQuoteWasCalled).isTrue()
         assertThat(viewModel.state.value.shouldShowQuote).isTrue()
     }
 
     @Test
-    fun `GIVEN an entry view model WHEN a user types THEN the text is saved after being debounced`() {
+    fun `GIVEN an entry view model WHEN a user types THEN the text is saved after being debounced`() = runTest {
         var timesAddEntryWasCalled = 0
         var writtenEntry: Entry? = null
         val repository = object : EntryRepository {
@@ -292,6 +297,7 @@ class EntryViewModelTest {
         viewModel = EntryViewModel(savedStateHandle, repository, analytics, settings)
 
         viewModel.onTextChanged("Hello this is new text!")
+        delay(301L)
 
         assertThat(timesAddEntryWasCalled).isEqualTo(1)
         assertThat(writtenEntry).isEqualTo(
@@ -322,7 +328,10 @@ class EntryViewModelTest {
 
             override fun optIntoAnalytics() {}
         }
-        viewModel = EntryViewModel(SavedStateHandle(), repository, analytics, settings)
+        val savedStateHandle = SavedStateHandle()
+        savedStateHandle["entry-date"] = "2023-10-12"
+
+        viewModel = EntryViewModel(savedStateHandle, repository, analytics, settings)
 
         viewModel.logScreenView()
 
@@ -349,7 +358,10 @@ class EntryViewModelTest {
 
             override fun optIntoAnalytics() {}
         }
-        viewModel = EntryViewModel(SavedStateHandle(), repository, analytics, settings)
+        val savedStateHandle = SavedStateHandle()
+        savedStateHandle["entry-date"] = "2023-10-12"
+
+        viewModel = EntryViewModel(savedStateHandle, repository, analytics, settings)
 
         viewModel.onFabClicked()
 
@@ -358,7 +370,10 @@ class EntryViewModelTest {
 
     @Test
     fun `GIVEN an EntryViewModel WHEN onFabClicked is called THEN update the state`() {
-        viewModel = EntryViewModel(SavedStateHandle(), repository, analytics, settings)
+        val savedStateHandle = SavedStateHandle()
+        savedStateHandle["entry-date"] = "2023-10-12"
+
+        viewModel = EntryViewModel(savedStateHandle, repository, analytics, settings)
 
         viewModel.onFabClicked()
 
@@ -366,7 +381,22 @@ class EntryViewModelTest {
     }
 
     @Test
-    fun `GIVEN an EntryViewModel WHEN onExitEditMode is called AND the user has edited the existing entry THEN log an analytics event`() {
+    fun `GIVEN entry view model WHEN onTextChanged is called THEN the state is updated`() = runTest {
+        val savedStateHandle = SavedStateHandle()
+        savedStateHandle["entry-date"] = "2023-10-12"
+
+        viewModel = EntryViewModel(savedStateHandle, repository, analytics, settings)
+        viewModel.onTextChanged("new text")
+        delay(301L)
+
+        val state = viewModel.state.value
+        assertThat(state.content).isEqualTo("new text")
+        assertThat(state.undoStack).contains("hii there")
+        assertThat(state.redoStack).isEmpty()
+    }
+
+    @Test
+    fun `GIVEN an EntryViewModel WHEN onExitEditMode is called AND the user has edited the existing entry THEN log an analytics event`() = runTest {
         var recordedEvent = ""
         val analytics = object : AnalyticsLogger {
             override fun recordEvent(event: String) {
@@ -413,13 +443,14 @@ class EntryViewModelTest {
         viewModel = EntryViewModel(savedStateHandle, repository, analytics, settings)
 
         viewModel.onTextChanged("user made an edit")
+        delay(301L)
         viewModel.onExitEditMode()
 
         assertThat(recordedEvent).isEqualTo("editedExistingEntry")
     }
 
     @Test
-    fun `GIVEN an EntryViewModel WHEN onExitEditMode is called AND the user has written a new entry THEN log an analytics event`() {
+    fun `GIVEN an EntryViewModel WHEN onExitEditMode is called AND the user has written a new entry THEN log an analytics event`() = runTest {
         var actualNumberOfEntriesRecorded = -1
         val analytics = object : AnalyticsLogger {
             override fun recordEvent(event: String) {}
@@ -439,8 +470,8 @@ class EntryViewModelTest {
             override fun optIntoAnalytics() {}
         }
         val repository = object : EntryRepository {
-            override suspend fun getEntry(date: LocalDate): Entry {
-                return Entry(date, "")
+            override suspend fun getEntry(date: LocalDate): Entry? {
+                return null
             }
 
             override fun getEntriesFlow(): Flow<List<Entry>> {
@@ -455,7 +486,7 @@ class EntryViewModelTest {
                 return MutableLiveData(listOf(LocalDate.of(2021, 2, 28)))
             }
 
-            override suspend fun addEntry(entry: Entry): Int = 16
+            override suspend fun addEntry(entry: Entry): Int = 199
 
             override suspend fun addEntries(entries: List<Entry>) = Unit
 
@@ -466,14 +497,18 @@ class EntryViewModelTest {
         viewModel = EntryViewModel(savedStateHandle, repository, analytics, settings)
 
         viewModel.onTextChanged("user made an edit")
+        delay(301L)
         viewModel.onExitEditMode()
 
-        assertThat(actualNumberOfEntriesRecorded).isEqualTo(15)
+        assertThat(actualNumberOfEntriesRecorded).isEqualTo(199)
     }
 
     @Test
     fun `GIVEN an EntryViewModel WHEN onExitEditMode is called THEN update the state`() {
-        viewModel = EntryViewModel(SavedStateHandle(), repository, analytics, settings)
+        val savedStateHandle = SavedStateHandle()
+        savedStateHandle["entry-date"] = "2023-10-12"
+
+        viewModel = EntryViewModel(savedStateHandle, repository, analytics, settings)
 
         viewModel.onFabClicked()
         viewModel.onExitEditMode()
@@ -482,10 +517,10 @@ class EntryViewModelTest {
     }
 
     @Test
-    fun `GIVEN an EntryViewModel WHEN onExitEditMode is called AND the user just wrote a milestone entry THEN update the state`() {
+    fun `GIVEN an EntryViewModel WHEN onExitEditMode is called AND the user just wrote a milestone entry THEN update the state`() = runTest {
         val repository = object : EntryRepository {
-            override suspend fun getEntry(date: LocalDate): Entry {
-                return Entry(date, "")
+            override suspend fun getEntry(date: LocalDate): Entry? {
+                return null //new entry
             }
 
             override fun getEntriesFlow(): Flow<List<Entry>> {
@@ -511,10 +546,11 @@ class EntryViewModelTest {
         viewModel = EntryViewModel(savedStateHandle, repository, analytics, settings)
 
         viewModel.onTextChanged("user made an edit")
+        delay(301L)
         viewModel.onExitEditMode()
 
-        assertThat(viewModel.state.value.shouldShowMilestoneDialog).isTrue()
         assertThat(viewModel.state.value.isInEditMode).isFalse()
+        assertThat(viewModel.state.value.shouldShowMilestoneDialog).isTrue()
     }
 
     @Test
@@ -529,7 +565,7 @@ class EntryViewModelTest {
 
         assertThat(viewModel.state.value.redoStack).contains("user made an edit and then typed more")
         assertThat(viewModel.state.value.undoStack).doesNotContain("user made an edit and then typed more")
-        assertThat(viewModel.state.value.content).doesNotContain("user made an edit")
+        assertThat(viewModel.state.value.content).isEqualTo("user made an edit")
     }
 
     @Test
@@ -545,7 +581,7 @@ class EntryViewModelTest {
 
         assertThat(viewModel.state.value.redoStack).doesNotContain("user made an edit and then typed more")
         assertThat(viewModel.state.value.undoStack).contains("user made an edit")
-        assertThat(viewModel.state.value.content).doesNotContain("user made an edit and then typed more")
+        assertThat(viewModel.state.value.content).isEqualTo("user made an edit and then typed more")
     }
 
     @Test

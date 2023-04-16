@@ -1,22 +1,27 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
-import androidx.lifecycle.MutableLiveData
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.presently.logging.AnalyticsLogger
 import com.presently.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.MainDispatcherRule
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
+import org.junit.Rule
 import org.junit.Test
 import org.threeten.bp.LocalDate
 
 class TimelineViewModelTest {
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
 
     private val repository = mock<EntryRepository>()
     private val settings = mock<PresentlySettings>()
@@ -26,9 +31,6 @@ class TimelineViewModelTest {
     fun init_emptylistWithoutTodayOrYesterdayWritten_addsEmptyTodayAndYesterdayEntries() = runTest {
         val todayEntry = Entry(LocalDate.now(), "")
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-
-        val expectedLiveData = MutableLiveData<List<Entry>>()
-        expectedLiveData.postValue(emptyList())
 
         whenever(repository.getEntriesFlow()).thenReturn(flowOf(emptyList<Entry>()))
 
@@ -298,9 +300,9 @@ class TimelineViewModelTest {
         val expected = "MyTheme"
         whenever(settings.getCurrentTheme()).thenReturn(expected)
 
-        val actual = viewModel.getSelectedTheme()
+        viewModel.getSelectedTheme()
 
-        assertThat(actual).isEqualTo(expected)
+        verify(settings).getCurrentTheme()
     }
 
     @Test
@@ -353,6 +355,15 @@ class TimelineViewModelTest {
         val viewModel = TimelineViewModel(repository, settings, analytics)
 
         viewModel.onContactClicked()
+
+        verify(analytics).recordEvent("openedContactForm")
+    }
+
+    @Test
+    fun `GIVEN a TimelineViewModel WHEN logScreenView THEN log an analytics event`()  {
+        val viewModel = TimelineViewModel(repository, settings, analytics)
+
+        viewModel.logScreenView()
 
         verify(analytics).recordView("Timeline")
     }

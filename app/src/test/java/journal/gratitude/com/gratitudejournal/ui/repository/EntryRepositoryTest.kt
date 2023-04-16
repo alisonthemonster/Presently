@@ -77,7 +77,7 @@ class EntryRepositoryTest {
     fun search_callsDaoSearch() = runTest {
         repository.search("Howdy!")
 
-        verify(entryDao, times(1)).search("Howdy!")
+        verify(entryDao, times(1)).search("*Howdy!*")
     }
 
     //Fixes crash with FTS and quotation marks

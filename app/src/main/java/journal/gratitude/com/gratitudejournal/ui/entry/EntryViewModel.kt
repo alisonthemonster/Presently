@@ -51,7 +51,7 @@ class EntryViewModel @Inject constructor(
 
     private fun autosave() {
         viewModelScope.launch {
-            debouncedText.drop(1).collect {
+            debouncedText.collect {
                 writeEntry()
             }
         }
@@ -82,10 +82,8 @@ class EntryViewModel @Inject constructor(
         if (entryNumber != null) {
             //the user saved an entry
             if (_state.value.isEditingExistingEntry) {
-                Log.d("blerg", "analytics: edited an existing entry")
                 analytics.recordEvent(EDITED_EXISTING_ENTRY)
             } else {
-                Log.d("blerg", "analytics: wrote entry number $entryNumber")
                 analytics.recordEntryAdded(entryNumber)
             }
         }
@@ -103,7 +101,6 @@ class EntryViewModel @Inject constructor(
     }
 
     fun onTextChanged(newText: String) {
-        Log.d("blerg", "user typed, $newText")
         onTextChanged(TextChangeType.TYPING, newText)
     }
 
@@ -116,7 +113,6 @@ class EntryViewModel @Inject constructor(
     }
 
     private fun onTextChanged(textChangeType: TextChangeType, newText: String = "") {
-        Log.d("blerg", "onTextChanged: $textChangeType")
         val currentText = _state.value.content
         val undoStack = _state.value.undoStack
         val redoStack = _state.value.redoStack
@@ -136,7 +132,6 @@ class EntryViewModel @Inject constructor(
                 redoStack.removeLast()
             }
         }
-        Log.d("blerg", "onTextChanged: $textChangeType, new text is $textToSave")
 
         _state.value = _state.value.copy(
             content = textToSave,
@@ -154,7 +149,6 @@ class EntryViewModel @Inject constructor(
         viewModelScope.launch {
             val numberOfWrittenEntries = repository.addEntry(entry)
             _state.value = _state.value.copy(entryNumber = numberOfWrittenEntries)
-            Log.d("blerg", "wrote entry: $entry")
             //todo show some indication that data was saved?
         }
     }
