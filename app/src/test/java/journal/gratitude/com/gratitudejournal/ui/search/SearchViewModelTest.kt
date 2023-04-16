@@ -1,33 +1,49 @@
 package journal.gratitude.com.gratitudejournal.ui.search
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.*
+import com.presently.logging.AnalyticsLogger
+import com.presently.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import org.junit.Before
-import org.junit.Rule
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class SearchViewModelTest {
 
     private val repository = mock<EntryRepository>()
-    private lateinit var viewModel: SearchViewModel
+    private val settings = mock<PresentlySettings>()
+    private val analytics = mock<AnalyticsLogger>()
 
-    @Rule
-    @JvmField
-    val rule = InstantTaskExecutorRule()
 
-    @Before
-    fun before() {
-        whenever(repository.searchEntries(any())).thenReturn(mock())
+    @Test
+    fun `GIVEN a SearchViewModel WHEN search is called THEN update the state after debouncing`() = runTest {
+        val viewModel = SearchViewModel(repository, settings, analytics)
+        whenever(repository.search(any())).thenReturn(emptyList())
 
-        viewModel = SearchViewModel(repository)
+        viewModel.search("my searchQuery")
+
+        assertThat(viewModel.state.value.query).isEqualTo("my searchQuery")
+        verify(repository).search("my searchQuery")
     }
 
     @Test
-    fun search_calls_repository() {
-        viewModel.search("Yo yo yo")
+    fun `GIVEN a SearchViewModel WHEN getSelectedTheme is called THEN fetch the theme`()  {
+        val viewModel = SearchViewModel(repository, settings, analytics)
+        val expected = "MyTheme"
+        whenever(settings.getCurrentTheme()).thenReturn(expected)
 
-        verify(repository, times(1)).searchEntries("Yo yo yo")
+        val actual = viewModel.getSelectedTheme()
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `GIVEN a SearchViewModel WHEN logScreenView is called THEN log an analytics event`()  {
+        val viewModel = SearchViewModel(repository, settings, analytics)
+
+        viewModel.logScreenView()
+
+        verify(analytics).recordView("Search")
     }
 
 }
