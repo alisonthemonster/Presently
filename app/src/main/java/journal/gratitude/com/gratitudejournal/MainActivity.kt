@@ -13,10 +13,9 @@ import com.presently.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
-import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
+import journal.gratitude.com.gratitudejournal.navigation.UserStartDestination
 import journal.gratitude.com.gratitudejournal.util.LocaleHelper
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
-import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -28,21 +27,26 @@ class MainActivity : AppCompatActivity() {
 
     @Inject lateinit var settings: PresentlySettings
 
+    companion object {
+        const val CHANNEL_ID = "Presently Gratitude Reminder"
+        const val BACKUP_STATUS_CHANNEL = "Presently Automatic Backup Status"
+        const val INITIAL_SCREEN = "INITIAL_SCREEN"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val cameFromNotification = intent.extras?.getBoolean(ReminderReceiver.fromNotification, false)
-            ?: false
+        val startDestination = (intent.getSerializableExtra(INITIAL_SCREEN) as UserStartDestination?) ?: UserStartDestination.DEFAULT_SCREEN
 
         setContent {
-            PresentlyContainer(cameFromNotification)
+            PresentlyContainer(startDestination)
         }
 
         createNotificationChannels()
 
         NotificationScheduler().configureNotifications(this, settings)
 
-        //tells the app we'll be hadnling insets ourselves!
+        //tells the app we'll be handling insets ourselves!
         WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 
@@ -55,11 +59,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(ContainerActivity.CHANNEL_ID, getString(R.string.channel_name),  NotificationManager.IMPORTANCE_DEFAULT)
+            val notificationChannel = NotificationChannel(CHANNEL_ID, getString(R.string.channel_name),  NotificationManager.IMPORTANCE_DEFAULT)
             notificationChannel.description = getString(R.string.channel_description)
             notificationChannel.enableVibration(true)
 
-            val backupChannel = NotificationChannel(ContainerActivity.BACKUP_STATUS_CHANNEL, getString(R.string.backup_channel_name), NotificationManager.IMPORTANCE_HIGH)
+            val backupChannel = NotificationChannel(BACKUP_STATUS_CHANNEL, getString(R.string.backup_channel_name), NotificationManager.IMPORTANCE_HIGH)
             backupChannel.description = getString(R.string.backup_channel_description)
             backupChannel.enableVibration(true)
 

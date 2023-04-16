@@ -20,14 +20,12 @@ fun Entry(
     onEntryExit: () -> Unit,
     onShareClicked: (date: String, content: String) -> Unit
 ) {
-    val viewModel = hiltViewModel<EntryyViewModel>()
+    val viewModel = hiltViewModel<EntryViewModel>()
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.logScreenView()
     }
-
-    //todo add more analytics events for clicking into edit mode
 
     BackHandler {
         if (state.isInEditMode) {

@@ -78,9 +78,7 @@ android {
 
 dependencies {
     implementation(project(":logging"))
-    implementation(project(":mavericks_utils"))
     implementation(project(":settings"))
-    implementation(project(":sharing"))
     implementation(project(":strings"))
     implementation(project(":ui"))
     implementation(project(":coroutine_utils"))
@@ -126,13 +124,6 @@ dependencies {
     implementation(Libraries.apache_text)
     implementation(Libraries.apache_csv)
 
-    implementation(Libraries.rxjava)
-    implementation(Libraries.rxandroid)
-    implementation(Libraries.rxbinding)
-
-    implementation(Libraries.mavericks)
-    implementation(Libraries.mavericks_mocking)
-
     //dependency injection
     implementation(Libraries.dagger)
     kapt(Libraries.dagger_compiler)
@@ -152,7 +143,6 @@ dependencies {
     testImplementation(TestLibraries.androidx_arch_testing)
     testImplementation(TestLibraries.kotlin_test_junit)
     testImplementation(TestLibraries.kotlin_coroutines_test)
-    testImplementation(TestLibraries.mavericks_testing)
     testImplementation(TestLibraries.truth)
 
     androidTestImplementation(project(":testing"))

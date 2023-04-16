@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import com.airbnb.mvrx.mocking.MockableMavericks
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.hilt.InstallIn
@@ -34,8 +33,6 @@ open class BaseGratitudeApplication: Application() {
         configureWorkManager()
 
         AndroidThreeTen.init(this)
-
-        MockableMavericks.initialize(this)
     }
 
     private fun configureWorkManager() {

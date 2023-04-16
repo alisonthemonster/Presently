@@ -1,7 +1,0 @@
-<resources>
-
-    <style name="MilestoneDialog" parent="android:Theme.Dialog">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-    </style>
-</resources>

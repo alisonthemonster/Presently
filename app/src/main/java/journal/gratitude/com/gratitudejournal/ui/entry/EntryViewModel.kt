@@ -9,10 +9,10 @@ import com.presently.settings.PresentlySettings
 import com.presently.ui.PresentlyColors
 import com.presently.ui.toPresentlyColors
 import dagger.hilt.android.lifecycle.HiltViewModel
-import journal.gratitude.com.gratitudejournal.EntryArgs
 import journal.gratitude.com.gratitudejournal.model.CLICKED_PROMPT
 import journal.gratitude.com.gratitudejournal.model.EDITED_EXISTING_ENTRY
 import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilestone
+import journal.gratitude.com.gratitudejournal.navigation.EntryArgs
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.coroutines.flow.*
@@ -21,7 +21,7 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class EntryyViewModel @Inject constructor(
+class EntryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val repository: EntryRepository,
     private val analytics: AnalyticsLogger,
@@ -70,6 +70,7 @@ class EntryyViewModel @Inject constructor(
     }
 
     fun onFabClicked() {
+        analytics.recordEvent("EditButtonClicked")
         _state.value = _state.value.copy(isInEditMode = true)
     }
 

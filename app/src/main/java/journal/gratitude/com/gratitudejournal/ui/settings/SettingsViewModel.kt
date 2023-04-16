@@ -7,7 +7,8 @@ import com.presently.settings.PresentlySettings
 import com.presently.ui.PresentlyColors
 import com.presently.ui.toPresentlyColors
 import dagger.hilt.android.lifecycle.HiltViewModel
-import journal.gratitude.com.gratitudejournal.Screen
+import journal.gratitude.com.gratitudejournal.navigation.Screen
+import journal.gratitude.com.gratitudejournal.navigation.UserStartDestination
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,10 +32,6 @@ class SettingsViewModel @Inject constructor(
         return settings.shouldLockApp()
     }
 
-    fun shouldAppLockOnCreate(): Boolean {
-        return settings.isBiometricsEnabled()
-    }
-
     fun onUnknownAuthenticationError(errorCode: Int, errString: CharSequence) {
         crashReporter.logHandledException(Exception("Code: $errorCode: $errString"))
     }
@@ -43,11 +40,15 @@ class SettingsViewModel @Inject constructor(
         return settings.getCurrentTheme().toPresentlyColors()
     }
 
-    fun getStartNavigation(cameFromNotification: Boolean): String {
+    fun getStartNavigation(userStartDestination: UserStartDestination): String {
         return if (settings.isBiometricsEnabled()) {
             Screen.Lock.createRoute()
         } else {
-            if (cameFromNotification) Screen.Entry.createRoute() else Screen.Timeline.route
+            when (userStartDestination) {
+                UserStartDestination.ENTRY_SCREEN -> Screen.Entry.createRoute()
+                UserStartDestination.SETTINGS_SCREEN -> Screen.Settings.createRoute()
+                UserStartDestination.DEFAULT_SCREEN -> Screen.Timeline.createRoute()
+            }
         }
     }
 }

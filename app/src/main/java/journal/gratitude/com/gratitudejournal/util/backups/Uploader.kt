@@ -12,11 +12,13 @@ import com.dropbox.core.v2.files.UploadErrorException
 import com.presently.coroutine_utils.AppCoroutineDispatchers
 import com.presently.logging.CrashReporter
 import com.presently.settings.PresentlySettings
-import journal.gratitude.com.gratitudejournal.ContainerActivity
+import journal.gratitude.com.gratitudejournal.MainActivity
+import journal.gratitude.com.gratitudejournal.MainActivity.Companion.BACKUP_STATUS_CHANNEL
+import journal.gratitude.com.gratitudejournal.MainActivity.Companion.INITIAL_SCREEN
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
+import journal.gratitude.com.gratitudejournal.navigation.UserStartDestination
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment.Companion.SETTINGS_SCREEN
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.CloudProvider
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import kotlinx.coroutines.withContext
@@ -110,7 +112,7 @@ class RealUploader @Inject constructor(
 
         val builder = NotificationCompat.Builder(
             appContext,
-            ContainerActivity.BACKUP_STATUS_CHANNEL
+            BACKUP_STATUS_CHANNEL
         )
             .setSmallIcon(R.drawable.ic_app_icon)
             .setContentTitle(appContext.getString(R.string.backup_failure_notif_header))
@@ -131,10 +133,11 @@ class RealUploader @Inject constructor(
 
     private fun sendDropboxAuthFailureNotification(appContext: Context) {
         //Launch the settings screen
-        val intent = Intent(appContext, ContainerActivity::class.java).apply {
+        val intent = Intent(appContext, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        intent.putExtra(ContainerActivity.NOTIFICATION_SCREEN_EXTRA, SETTINGS_SCREEN)
+        //todo need a way to open settings from notification
+        intent.putExtra(INITIAL_SCREEN, UserStartDestination.SETTINGS_SCREEN)
         val pendingIntent: PendingIntent = PendingIntent.getActivity(
             appContext,
             0,
@@ -144,7 +147,7 @@ class RealUploader @Inject constructor(
         val notifBody = appContext.getString(R.string.dropbox_sync_error_notif_body)
         val builder = NotificationCompat.Builder(
             appContext,
-            ContainerActivity.BACKUP_STATUS_CHANNEL
+            BACKUP_STATUS_CHANNEL
         )
             .setSmallIcon(R.drawable.ic_app_icon)
             .setContentTitle(appContext.getString(R.string.backup_failure_notif_header))

@@ -34,7 +34,10 @@ fun MilestoneCelebration(
         theme = viewModel.getSelectedTheme(),
         milestoneNumber = state.value.milestoneNumber,
         onDismiss = onDismiss,
-        onShareClicked = onShareClicked,
+        onShareClicked = {
+            viewModel.onShareClicked()
+            onShareClicked()
+        }
     )
 }
 

@@ -9,12 +9,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import journal.gratitude.com.gratitudejournal.navigation.AppNavigation
+import journal.gratitude.com.gratitudejournal.navigation.Screen
+import journal.gratitude.com.gratitudejournal.navigation.UserStartDestination
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PresentlyContainer(
-    cameFromNotification: Boolean,
+    userStartDestination: UserStartDestination
 ) {
     val navController = rememberAnimatedNavController()
 
@@ -46,6 +49,10 @@ fun PresentlyContainer(
         }
     }
 
-    val startDestination = viewModel.getStartNavigation(cameFromNotification)
-    AppNavigation(navController = navController, startDestination = startDestination, cameFromNotification = cameFromNotification)
+    val startDestination = viewModel.getStartNavigation(userStartDestination)
+    AppNavigation(
+        navController = navController,
+        startDestination = startDestination,
+        postAuthDestination = userStartDestination,
+    )
 }

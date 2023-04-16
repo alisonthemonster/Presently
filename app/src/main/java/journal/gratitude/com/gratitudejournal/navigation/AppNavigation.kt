@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal
+package journal.gratitude.com.gratitudejournal.navigation
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
@@ -24,43 +24,18 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
+import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.FragmentSettingsBinding
-import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilestone
 import journal.gratitude.com.gratitudejournal.ui.entry.Entry
 import journal.gratitude.com.gratitudejournal.ui.milestone.MilestoneCelebration
 import journal.gratitude.com.gratitudejournal.ui.search.Search
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockScreen
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeSelection
 import journal.gratitude.com.gratitudejournal.ui.timeline.Timeline
-import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import org.threeten.bp.LocalDate
 
 //todo where do the dropbox warning notifs go to?
 //todo test with other bottom gesture navs
-
-internal sealed class Screen(val route: String) {
-    fun createRoute() = route
-
-    object Timeline : Screen("timeline")
-
-    object Entry : Screen("entry/{entry-date}") {
-        fun createRoute(entryDate: LocalDate): String {
-            return "entry/${entryDate.toDatabaseString()}"
-        }
-    }
-
-    object MilestoneCelebration : Screen("milestone/{number}") {
-        fun createRoute(milestoneNumber: Int): String {
-            return "milestone/${milestoneNumber}"
-        }
-    }
-
-    object Settings : Screen("settings")
-    object Share : Screen("share")
-    object Search : Screen("search")
-    object Themes : Screen("themes")
-    object Lock : Screen("lock")
-}
 
 @ExperimentalAnimationApi
 @Composable
@@ -68,7 +43,7 @@ internal fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     startDestination: String,
-    cameFromNotification: Boolean,
+    postAuthDestination: UserStartDestination,
 ) {
     val activity = LocalContext.current as Activity
     val resources = activity.resources
@@ -170,15 +145,21 @@ internal fun AppNavigation(
         ) {
             AppLockScreen(
                 onUserAuthenticated = {
-                    if (cameFromNotification) {
-                        //take user to the entry screen
-                        navController.navigate(Screen.Entry.createRoute(LocalDate.now())) {
-                            popUpTo(0) //reset stack
+                    when (postAuthDestination) {
+                        UserStartDestination.ENTRY_SCREEN -> {
+                            navController.navigate(Screen.Entry.createRoute(LocalDate.now())) {
+                                popUpTo(0) //reset stack
+                            }
                         }
-                    } else {
-                        //take them to the timeline
-                        navController.navigate(Screen.Timeline.createRoute()) {
-                            popUpTo(0) //reset stack
+                        UserStartDestination.SETTINGS_SCREEN -> {
+                            navController.navigate(Screen.Settings.createRoute()) {
+                                popUpTo(0) //reset stack
+                            }
+                        }
+                        UserStartDestination.DEFAULT_SCREEN -> {
+                            navController.navigate(Screen.Timeline.createRoute()) {
+                                popUpTo(0) //reset stack
+                            }
                         }
                     }
                 },
@@ -217,7 +198,6 @@ private fun onContactClicked(context: Context) {
     try {
         context.startActivity(intent)
     } catch (activityNotFoundException: ActivityNotFoundException) {
-        //crashReporter.logHandledException(activityNotFoundException)
         Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
     }
 }

@@ -43,17 +43,12 @@ object Versions {
     const val MOCKITO_ANDROID = "2.23.0"
     const val ROBOLECTRIC = "4.6.1" //https://github.com/robolectric/robolectric/releases/
     const val TRUTH = "1.1.3"
-    const val MAVERICKS = "2.2.0" //https://github.com/airbnb/mavericks/releases
     const val THREE_TEN_ABP = "1.3.1" //https://github.com/JakeWharton/ThreeTenABP/tags
     const val MATERIAL = "1.4.0-rc01"
     const val MATERIAL_3 = "1.0.0-beta01" //https://developer.android.com/jetpack/androidx/releases/compose-material3
     const val OSS_LICENSES = "17.0.0"
     const val COMPACT_CAL_VIEW = "3.0.0"
     const val APACHE = "1.6"
-    const val RX_JAVA = "2.2.9"
-    const val RX_ANDROID = "2.1.1"
-    const val RX_KOTLIN = "2.3.0"
-    const val RX_BINDING = "2.1.1"
     const val ESPRESSO = "3.3.0"
     const val TEST_ORCHESTRATOR = "1.0.2"
     const val COMPOSE = "1.1.1"
@@ -75,8 +70,6 @@ object Libraries {
    const val hilt = "com.google.dagger:hilt-android:${Versions.DAGGER}"
    const val hilt_compiler = "com.google.dagger:hilt-android-compiler:${Versions.DAGGER}"
    const val hilt_android_compiler = "androidx.hilt:hilt-compiler:${Versions.HILT_ANDROID}"
-   const val mavericks = "com.airbnb.android:mavericks:${Versions.MAVERICKS}"
-   const val mavericks_mocking = "com.airbnb.android:mavericks-mocking:${Versions.MAVERICKS}"
    const val androidx_compat = "androidx.appcompat:appcompat:${Versions.ANDROIDX_COMPAT}"
    const val androidx_constraint_layout = "androidx.constraintlayout:constraintlayout:${Versions.ANDROIDX_CONSTRAINT}"
    const val androidx_fragment = "androidx.fragment:fragment-ktx:${Versions.ANDROIDX_FRAGMENT_KTX}"
@@ -96,16 +89,13 @@ object Libraries {
    const val androidx_data_store = "androidx.datastore:datastore-preferences:${Versions.ANDROIDX_DATA_STORE}"
    const val three_ten_abp = "com.jakewharton.threetenabp:threetenabp:${Versions.THREE_TEN_ABP}"
    const val dropbox_sdk = "com.dropbox.core:dropbox-core-sdk:${Versions.DROPBOX_SDK}"
+   //todo can we remove this?
    const val play_core = "com.google.android.play:core:${Versions.PLAY_CORE}"
    const val material = "com.google.android.material:material:${Versions.MATERIAL}"
    const val play_services_oss_licenses = "com.google.android.gms:play-services-oss-licenses:${Versions.OSS_LICENSES}"
    const val compact_calendar_view = "com.github.sundeepk:compact-calendar-view:${Versions.COMPACT_CAL_VIEW}"
    const val apache_text = "org.apache.commons:commons-text:${Versions.APACHE}"
    const val apache_csv = "org.apache.commons:commons-csv:${Versions.APACHE}"
-   const val rxjava = "io.reactivex.rxjava2:rxjava:${Versions.RX_JAVA}"
-   const val rxandroid = "io.reactivex.rxjava2:rxandroid:${Versions.RX_ANDROID}"
-   const val rxkotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.RX_KOTLIN}" //TODO do we need?
-   const val rxbinding = "com.jakewharton.rxbinding2:rxbinding:${Versions.RX_BINDING}"
    const val compose_activities = "androidx.activity:activity-compose:${Versions.COMPOSE_ACTIVITY}"
    const val compose_ui = "androidx.compose.ui:ui:${Versions.COMPOSE}"
    const val compose_material = "androidx.compose.material:material:${Versions.COMPOSE}"
@@ -131,7 +121,6 @@ object TestLibraries {
     const val robolectric = "org.robolectric:robolectric:${Versions.ROBOLECTRIC}"
     const val truth = "com.google.truth:truth:${Versions.TRUTH}"
     const val fragment_testing = "androidx.fragment:fragment-testing:${Versions.FRAGMENT_TESTING}"
-    const val mavericks_testing = "com.airbnb.android:mavericks-testing:${Versions.MAVERICKS}"
     const val androidx_arch_testing = "androidx.arch.core:core-testing:${Versions.ANDROIDX_ARCH_CORE}"
     const val androidx_test_junit = "androidx.test.ext:junit:${Versions.ANDROIDX_TEST_JUNIT}"
     const val androidx_test_core_ktx = "androidx.test:core-ktx:${Versions.ANDROIDX_TEST_CORE_KTX}"

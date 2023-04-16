@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal.model
 
 //TIMELINE EVENTS
-const val CAME_FROM_NOTIFICATION = "cameFromNotification"
+const val CAME_FROM_NOTIFICATION = "cameFromNotification" //todo this is missing now
 const val CANCELLED_NOTIFS = "cancelledNotifications"
 
 const val EXPORTED_DATA = "exportedData"
