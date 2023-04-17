@@ -24,7 +24,9 @@ import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.CloudProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
@@ -37,9 +39,9 @@ class UploaderTest {
     private val context = ApplicationProvider.getApplicationContext<Context>()
 
     private val dispatchers = AppCoroutineDispatchers(
-        io = TestCoroutineDispatcher(),
-        computation = TestCoroutineDispatcher(),
-        main = TestCoroutineDispatcher()
+        io = UnconfinedTestDispatcher(),
+        computation = UnconfinedTestDispatcher(),
+        main = UnconfinedTestDispatcher()
     )
 
     private val repo = object : EntryRepository {
@@ -118,7 +120,7 @@ class UploaderTest {
     }
 
     @Test
-    fun emptyRepositoryDoesNothing() = runBlockingTest {
+    fun emptyRepositoryDoesNothing() = runTest {
         wasCloudProviderCalled = false
         val repo = object : EntryRepository {
             override suspend fun getEntries(): List<Entry> {
@@ -141,7 +143,7 @@ class UploaderTest {
     }
 
     @Test
-    fun successfulUpload() = runBlockingTest {
+    fun successfulUpload() = runTest {
         wasCloudProviderCalled = false
         val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings)
         val actual = uploader.uploadEntries(context)
@@ -151,7 +153,7 @@ class UploaderTest {
     }
 
     @Test
-    fun invalidAccessTokenUpload() = runBlockingTest {
+    fun invalidAccessTokenUpload() = runTest {
         wasAccessTokenCleared = false
         crashReporter.loggedException = null
         val exception = InvalidAccessTokenException("requestId", "message", INVALID_ACCESS_TOKEN)
@@ -170,7 +172,7 @@ class UploaderTest {
     }
 
     @Test
-    fun insufficientSpaceUpload() = runBlockingTest {
+    fun insufficientSpaceUpload() = runTest {
         wasAccessTokenCleared = false
         crashReporter.loggedException = null
         val exception = UploadErrorException("/route", "requestId", LocalizedText("insufficient_space", "en_US"), OTHER)
