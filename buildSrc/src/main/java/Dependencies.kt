@@ -136,4 +136,5 @@ object TestLibraries {
     const val test_orchestrator = "com.android.support.test:orchestrator:${Versions.TEST_ORCHESTRATOR}"
     const val three_ten_abp = "org.threeten:threetenbp:${Versions.THREE_TEN_ABP}"
     const val compose_ui_testing = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}"
+    const val compose_ui_testing_manifest = "androidx.compose.ui:ui-test-manifest:${Versions.COMPOSE}"
 }

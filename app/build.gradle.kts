@@ -160,6 +160,8 @@ dependencies {
     androidTestImplementation(TestLibraries.kotlin_coroutines_test)
     androidTestImplementation(TestLibraries.androidx_work_testing)
     androidTestImplementation(TestLibraries.hilt_android_testing)
+    androidTestImplementation(TestLibraries.compose_ui_testing)
+    androidTestImplementation(TestLibraries.compose_ui_testing_manifest)
     kaptAndroidTest(Libraries.hilt_compiler)
     debugImplementation(project(":testing")) //needed for the hilt test activity
     debugImplementation(TestLibraries.fragment_testing)

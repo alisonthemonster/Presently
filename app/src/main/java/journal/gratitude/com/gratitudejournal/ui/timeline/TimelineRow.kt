@@ -77,7 +77,7 @@ fun TimelineRow(
                 end.linkTo(parent.end, margin = 8.dp)
                 width = Dimension.fillToConstraints
             },
-            text = entryDate.toStringWithDayOfWeek(),
+            text = entryDate.toStringWithDayOfWeek(), //todo only show day of week if its in the settings
             style = PresentlyTheme.typography.bodyLarge,
             color = PresentlyTheme.colors.timelineDate
         )

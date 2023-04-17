@@ -11,9 +11,12 @@ import java.util.*
 import javax.inject.Inject
 
 class FakeEntryRepository @Inject constructor() : EntryRepository {
-
-    //mock of database
-    var entriesDatabase: LinkedHashMap<LocalDate, Entry> = LinkedHashMap()
+    private val entriesDatabase: LinkedHashMap<LocalDate, Entry> = LinkedHashMap()
+    init {
+        //fake of database
+        val date = LocalDate.of(2022, 12, 19)
+        entriesDatabase[date] = Entry(date, "A test entry on the 19th of December.")
+    }
 
     override suspend fun getEntry(date: LocalDate): Entry? {
         return entriesDatabase[date] ?: Entry(date, "")

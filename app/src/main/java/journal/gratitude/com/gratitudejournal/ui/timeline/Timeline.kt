@@ -30,9 +30,9 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import java.util.*
 
+//todo show the calendar somewhere
 @Composable
 fun Timeline(
-    locale: Locale,
     onEntryClicked: (date: LocalDate) -> Unit,
     onSearchClicked: () -> Unit,
     onThemesClicked: () -> Unit,
@@ -52,7 +52,6 @@ fun Timeline(
     ) {
         TimelineContent(
             modifier = Modifier.fillMaxWidth(), //todo is this needed?
-            locale = locale,
             theme = theme,
             state = state,
             onEntryClicked = { date, isNewEntry ->
@@ -82,7 +81,6 @@ fun Timeline(
 @Composable
 fun TimelineContent(
     modifier: Modifier = Modifier,
-    locale: Locale,
     theme: PresentlyColors,
     state: TimelineViewState,
     onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit,
@@ -154,21 +152,12 @@ fun TimelineContent(
                 .padding(contentPadding)
                 .fillMaxHeight()
         ) {
-            Column() {
-                TimelineCalendar(
-                    modifier = modifier,
-                    locale = locale,
-                    writtenDates = state.datesWritten,
-                    onDateClicked = onEntryClicked
-                )
-                TimelineList(
-                    modifier = modifier,
-                    theme = theme,
-                    timelineItems = state.timelineItems,
-                    onEntryClicked = onEntryClicked
-                )
-            }
-
+            TimelineList(
+                modifier = modifier,
+                theme = theme,
+                timelineItems = state.timelineItems,
+                onEntryClicked = onEntryClicked
+            )
         }
     }
 }

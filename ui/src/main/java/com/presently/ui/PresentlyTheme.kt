@@ -6,7 +6,7 @@ import androidx.compose.runtime.*
 
 @Composable
 fun PresentlyTheme(
-    selectedTheme: PresentlyColors,
+    selectedTheme: PresentlyColors = OriginalColors,
     content: @Composable () -> Unit
 ) {
     val typography = PresentlyTheme.typography

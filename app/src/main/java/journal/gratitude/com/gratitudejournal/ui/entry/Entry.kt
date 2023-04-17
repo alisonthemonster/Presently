@@ -17,10 +17,10 @@ import com.presently.ui.isDark
 @Composable
 fun Entry(
     modifier: Modifier = Modifier,
+    viewModel: EntryViewModel = hiltViewModel(),
     onEntryExit: () -> Unit,
     onShareClicked: (date: String, content: String) -> Unit
 ) {
-    val viewModel = hiltViewModel<EntryViewModel>()
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {

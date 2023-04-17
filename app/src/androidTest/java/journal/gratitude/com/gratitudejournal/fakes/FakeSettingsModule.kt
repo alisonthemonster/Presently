@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.ui
+package journal.gratitude.com.gratitudejournal.fakes
 
 import android.content.Context
 import com.dropbox.core.oauth.DbxCredential

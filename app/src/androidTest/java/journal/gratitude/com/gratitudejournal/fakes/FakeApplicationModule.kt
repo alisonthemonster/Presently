@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.ui
+package journal.gratitude.com.gratitudejournal.fakes
 
 import dagger.Binds
 import dagger.Module

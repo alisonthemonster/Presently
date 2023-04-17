@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
@@ -46,9 +45,6 @@ internal fun AppNavigation(
     postAuthDestination: UserStartDestination,
 ) {
     val activity = LocalContext.current as Activity
-    val resources = activity.resources
-    val configuration = resources.configuration
-    val locale = configuration.locales[0] //todo figure out way to not use this
 
     AnimatedNavHost(
         modifier = modifier,
@@ -59,7 +55,6 @@ internal fun AppNavigation(
             route = Screen.Timeline.route,
         ) {
             Timeline(
-                locale = locale,
                 onEntryClicked = { date ->
                     navController.navigate(Screen.Entry.createRoute(date))
                 },
