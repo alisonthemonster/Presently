@@ -31,6 +31,7 @@ import journal.gratitude.com.gratitudejournal.ui.search.Search
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockScreen
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeSelection
 import journal.gratitude.com.gratitudejournal.ui.timeline.Timeline
+import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import org.threeten.bp.LocalDate
 
 //todo where do the dropbox warning notifs go to?
@@ -198,8 +199,15 @@ private fun onContactClicked(context: Context) {
 }
 
 internal class EntryArgs(val entryDate: String) {
-    constructor(savedStateHandle: SavedStateHandle) :
-            this(checkNotNull(savedStateHandle["entry-date"]) as String)
+    constructor(savedStateHandle: SavedStateHandle) : this(savedStateHandle.getDateString())
+}
+
+private fun SavedStateHandle.getDateString(): String {
+    return if (this.contains("entry-date")) {
+        checkNotNull(this["entry-date"]) as String
+    } else {
+        LocalDate.now().toDatabaseString()
+    }
 }
 
 internal class MilestoneArgs(val milestoneNumber: Int) {

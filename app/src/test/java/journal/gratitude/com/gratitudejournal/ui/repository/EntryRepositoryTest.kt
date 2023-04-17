@@ -89,11 +89,4 @@ class EntryRepositoryTest {
 
         verify(entryDao).search(expectedQuery)
     }
-
-    @Test
-    fun getWrittenDates_callsDaoGetWrittenDates() {
-        repository.getWrittenDates()
-
-        verify(entryDao, times(1)).getWrittenDates()
-    }
 }

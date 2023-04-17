@@ -110,7 +110,6 @@ dependencies {
     implementation(Libraries.compose_interop_view_binding)
     implementation(Libraries.compose_constraint)
 
-    implementation(Libraries.androidx_livedata_ktx)
     implementation(Libraries.androidx_viewmodel_ktx)
     kapt(Libraries.androidx_lifecycle_compiler)
 

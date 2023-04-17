@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.repository
 
-import androidx.lifecycle.LiveData
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.room.EntryDao
 import kotlinx.coroutines.Dispatchers
@@ -21,10 +20,6 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
 
     override suspend fun getEntries(): List<Entry> = withContext(Dispatchers.IO) {
         entryDao.getEntries()
-    }
-
-    override fun getWrittenDates(): LiveData<List<LocalDate>> {
-        return entryDao.getWrittenDates()
     }
 
     override suspend fun addEntry(entry: Entry): Int = withContext(Dispatchers.IO) {

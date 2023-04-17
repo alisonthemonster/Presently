@@ -1,7 +1,6 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.test.core.app.ApplicationProvider
 import androidx.work.ListenableWorker
 import com.dropbox.core.InvalidAccessTokenException
@@ -51,7 +50,6 @@ class UploaderTest {
 
         override suspend fun getEntry(date: LocalDate): Entry = fail("Not needed in this test")
         override fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
-        override fun getWrittenDates(): LiveData<List<LocalDate>> = fail("Not needed in this test")
         override suspend fun addEntry(entry: Entry): Int = fail("Not needed in this test")
         override suspend fun addEntries(entries: List<Entry>) = fail("Not needed in this test")
         override suspend fun search(query: String): List<Entry> = emptyList()
@@ -128,7 +126,6 @@ class UploaderTest {
             }
             override suspend fun getEntry(date: LocalDate): Entry = fail("Not needed in this test")
             override  fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = fail("Not needed in this test")
             override suspend fun addEntry(entry: Entry) = fail("Not needed in this test")
             override suspend fun addEntries(entries: List<Entry>) = fail("Not needed in this test")
             override suspend fun search(query: String): List<Entry> = fail("Not needed in this test")

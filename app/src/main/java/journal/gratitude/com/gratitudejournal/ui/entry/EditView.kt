@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -83,7 +84,9 @@ fun EditView(
                 color = PresentlyTheme.colors.entryDate
             )
             TextField(
-                modifier = modifier.focusRequester(focusRequester),
+                modifier = modifier
+                    .focusRequester(focusRequester)
+                    .testTag("editViewTextField"),
                 value = content,
                 onValueChange = {
                     onTextChanged(it)

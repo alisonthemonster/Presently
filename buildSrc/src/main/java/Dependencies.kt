@@ -74,7 +74,6 @@ object Libraries {
    const val androidx_fragment = "androidx.fragment:fragment-ktx:${Versions.ANDROIDX_FRAGMENT_KTX}"
    const val androidx_lifecycle_compiler = "androidx.lifecycle:lifecycle-compiler:${Versions.ANDROIDX_LIFECYCLE}"
    const val androidx_viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.ANDROIDX_LIFECYCLE}"
-   const val androidx_livedata_ktx = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.ANDROIDX_LIFECYCLE}"
    const val androidx_lifecycle_runtime_ktx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.ANDROIDX_LIFECYCLE}"
    const val androidx_recycler_view = "androidx.recyclerview:recyclerview:${Versions.ANDROIDX_RECYCLER_VIEW}"
    const val androidx_preference_ktx = "androidx.preference:preference-ktx:${Versions.ANDROIDX_PREF_KTX}"

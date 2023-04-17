@@ -1,7 +1,5 @@
 package journal.gratitude.com.gratitudejournal.fakes
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.flow.Flow
@@ -34,13 +32,6 @@ class FakeEntryRepository @Inject constructor() : EntryRepository {
         return flow {
             emit(list)
         }
-    }
-
-    override fun getWrittenDates(): LiveData<List<LocalDate>> {
-        val liveData = MutableLiveData<List<LocalDate>>()
-        liveData.value = entriesDatabase.keys.toList()
-
-        return liveData
     }
 
     override suspend fun addEntry(entry: Entry): Int {

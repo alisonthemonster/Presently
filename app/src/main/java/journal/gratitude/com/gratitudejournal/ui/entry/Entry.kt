@@ -74,7 +74,7 @@ fun Entry(
                         backgroundColor = PresentlyTheme.colors.entryButtonBackground,
                         contentColor = PresentlyTheme.colors.entryBackground,
                     ) {
-                        Icon(Icons.Filled.Edit, "") //todo add content desc
+                        Icon(Icons.Filled.Edit, "Edit") //todo add content desc
                     }
                 }
             },

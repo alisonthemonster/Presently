@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import journal.gratitude.com.gratitudejournal.model.Entry
 import kotlinx.coroutines.flow.Flow
@@ -16,9 +15,6 @@ interface EntryDao {
 
     @Query("SELECT COUNT(entryDate) FROM entries")
     suspend fun getNumberOfEntries(): Int
-
-    @Query("SELECT entryDate FROM entries ORDER BY datetime(entryDate) DESC")
-    fun getWrittenDates(): LiveData<List<LocalDate>>
 
     @Query("SELECT * FROM entries WHERE entryDate = :date")
     suspend fun getEntry(date: LocalDate): Entry

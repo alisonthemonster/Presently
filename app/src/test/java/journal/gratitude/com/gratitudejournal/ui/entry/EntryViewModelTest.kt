@@ -1,8 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.dropbox.core.oauth.DbxCredential
 import com.google.common.truth.Truth.assertThat
@@ -41,10 +39,6 @@ class EntryViewModelTest {
 
         override suspend fun getEntries(): List<Entry> {
             return listOf(Entry(LocalDate.of(2021, 2, 28), "hii there"))
-        }
-
-        override fun getWrittenDates(): LiveData<List<LocalDate>> {
-            return MutableLiveData(listOf(LocalDate.of(2021, 2, 28)))
         }
 
         override suspend fun addEntry(entry: Entry): Int = -1
@@ -180,8 +174,6 @@ class EntryViewModelTest {
 
             override suspend fun getEntries(): List<Entry> = emptyList()
 
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
-
             override suspend fun addEntry(entry: Entry): Int = -1
 
             override suspend fun addEntries(entries: List<Entry>) = Unit
@@ -277,8 +269,6 @@ class EntryViewModelTest {
             override fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
 
             override suspend fun getEntries(): List<Entry> = emptyList()
-
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
 
             override suspend fun addEntry(entry: Entry): Int {
                 timesAddEntryWasCalled++
@@ -428,10 +418,6 @@ class EntryViewModelTest {
                 return listOf(Entry(LocalDate.of(2021, 2, 28), "hii there"))
             }
 
-            override fun getWrittenDates(): LiveData<List<LocalDate>> {
-                return MutableLiveData(listOf(LocalDate.of(2021, 2, 28)))
-            }
-
             override suspend fun addEntry(entry: Entry): Int = -1
 
             override suspend fun addEntries(entries: List<Entry>) = Unit
@@ -482,10 +468,6 @@ class EntryViewModelTest {
                 return listOf(Entry(LocalDate.of(2021, 2, 28), "hii there"))
             }
 
-            override fun getWrittenDates(): LiveData<List<LocalDate>> {
-                return MutableLiveData(listOf(LocalDate.of(2021, 2, 28)))
-            }
-
             override suspend fun addEntry(entry: Entry): Int = 199
 
             override suspend fun addEntries(entries: List<Entry>) = Unit
@@ -529,10 +511,6 @@ class EntryViewModelTest {
 
             override suspend fun getEntries(): List<Entry> {
                 return listOf(Entry(LocalDate.of(2021, 2, 28), "hii there"))
-            }
-
-            override fun getWrittenDates(): LiveData<List<LocalDate>> {
-                return MutableLiveData(listOf(LocalDate.of(2021, 2, 28)))
             }
 
             override suspend fun addEntry(entry: Entry): Int = 100

@@ -19,7 +19,7 @@ fun EntryEditTopBar(
             IconButton(onClick = { onBackPressed() }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "", //todo add content desc
+                    contentDescription = "Back", //todo add content desc
                     tint = PresentlyTheme.colors.entryDate
                 )
             }
