@@ -46,6 +46,7 @@ class FakeEntryRepository @Inject constructor() : EntryRepository {
     }
 
     override suspend fun search(query: String): List<Entry> {
+        if (query == "") return emptyList()
         val list = mutableListOf<Entry>()
         entriesDatabase.forEach { (_, entry) -> list.add(entry) }
 

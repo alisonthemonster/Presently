@@ -4,7 +4,6 @@
 final ignoredByJacoco = [
         'ui',
         'strings',
-        'mavericks_utils',
         'testing',
         'coroutine_utils'
     ]
@@ -69,10 +68,7 @@ subprojects { prj ->
                               '**/hilt/*.*',
                               '**/*hilt_aggregated_deps*.*',
                               '**/DataBinderMapperImpl*.*',
-                              '**/ContainerActivity*',
-                              '**/AppLockFragment*',
                               '**/LocaleHelper*',
-                              '**/TimelineFragment*',
                               '**/FirebaseAnalytics.kt', //not going to test 3rd party code
                               '**/calendar/*.*',]
 

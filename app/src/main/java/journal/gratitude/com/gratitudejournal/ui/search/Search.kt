@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -108,6 +109,7 @@ fun SearchTextField(
     keyboardActions: KeyboardActions = KeyboardActions(),
 ) {
     TextField(
+        modifier = modifier.testTag("searchFieldTestTag"),
         value = value,
         onValueChange = onValueChange,
         trailingIcon = {
@@ -136,7 +138,6 @@ fun SearchTextField(
         keyboardActions = keyboardActions,
         maxLines = 1,
         singleLine = true,
-        modifier = modifier,
         textStyle = PresentlyTheme.typography.bodyLarge
     )
 }
