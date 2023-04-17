@@ -53,14 +53,14 @@ class PresentlySettingsTest {
         assertThat(actual).isEqualTo(expected)
     }
 
+    //todo
     @Test
     fun `GIVEN RealPresentlySettings with more than 5 minutes WHEN shouldLockApp is called THEN shared preferences is called`() {
-        val expected = true
         val fiveMinutesInThePast = Date(System.currentTimeMillis()).time - 300001L
-        val sharedPrefs = getFakeSharedPreferences(long = fiveMinutesInThePast)
+        val sharedPrefs = getFakeSharedPreferences(boolean = true, long = fiveMinutesInThePast)
         val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
         val actual = settings.shouldLockApp()
-        assertThat(actual).isEqualTo(expected)
+        assertThat(actual).isTrue()
     }
 
     @Test
