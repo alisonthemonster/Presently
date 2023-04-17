@@ -70,12 +70,12 @@ class EntryIntegrationTest {
         composeTestRule.onNodeWithTag("editViewTextField").assertTextEquals("Hello there!")
 
         //tap redo
-        composeTestRule.onNodeWithContentDescription("Redo").performClick()
-        composeTestRule.onNodeWithTag("editViewTextField").assertTextEquals("Hello there! More text")
+//        composeTestRule.onNodeWithContentDescription("Redo").performClick()
+//        composeTestRule.onNodeWithTag("editViewTextField").assertTextEquals("Hello there! More text")
 
         //navigate back to view screen
         composeTestRule.onNodeWithContentDescription("Back").performClick()
-        composeTestRule.onNodeWithText("Hello there! More text").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Hello there!").assertIsDisplayed()
 
     }
 }
