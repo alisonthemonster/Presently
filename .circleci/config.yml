@@ -30,6 +30,8 @@ jobs:
     executor:
       name: android/android-machine
       resource-class: large
+      # https://circleci.com/developer/images/image/cimg/android#image-tags
+      tag: 2023.04.1
     steps:
       - checkout
       - run:
