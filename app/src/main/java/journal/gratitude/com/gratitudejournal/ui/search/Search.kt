@@ -57,7 +57,7 @@ fun Search(
 }
 
 @Composable
-private fun SearchContent(
+fun SearchContent(
     modifier: Modifier = Modifier,
     state: SearchViewState,
     onSearchQueryChanged: (query: String) -> Unit,
@@ -75,6 +75,7 @@ private fun SearchContent(
             },
             modifier = Modifier.fillMaxWidth()
         )
+        //todo this doesn't scroll if the keyboard is up
         LazyColumn {
             items(state.results) { searchResult ->
                 Column(
@@ -108,6 +109,8 @@ fun SearchTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
 ) {
+    //todo add an x button to clear search results
+    //todo maybe add a back button?
     TextField(
         modifier = modifier.testTag("searchFieldTestTag"),
         value = value,
