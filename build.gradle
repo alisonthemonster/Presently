@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        kotlin_version = '1.8.0'
+        kotlin_version = '1.8.20'
     }
     repositories {
         mavenCentral()
@@ -18,7 +18,7 @@ buildscript {
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
         classpath 'com.facebook.testing.screenshot:plugin:0.13.0'
         classpath "com.osacky.flank.gradle:fladle:0.15.1"
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.40.1'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.45'
     }
 }
 

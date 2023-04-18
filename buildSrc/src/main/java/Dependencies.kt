@@ -9,7 +9,7 @@ object Versions {
     const val MINOR = 20
     const val PATCH = 0
 
-    const val KOTLIN = "1.8.0" //https://kotlinlang.org/docs/releases.html#release-details
+    const val KOTLIN = "1.8.20" //https://kotlinlang.org/docs/releases.html#release-details
     const val KOTLIN_COROUTINES = "1.5.0" //https://github.com/Kotlin/kotlinx.coroutines/releases/
     const val KOTLIN_COROUTINES_TEST = "1.3.2"
     const val ANDROIDX_CORE_KTX = "1.6.0" //https://developer.android.com/jetpack/androidx/releases/core
@@ -33,7 +33,7 @@ object Versions {
     const val ANDROIDX_ARCH_CORE = "2.1.0" //https://developer.android.com/jetpack/androidx/releases/arch-core
     const val ANDROIDX_DATA_STORE = "1.0.0" //https://developer.android.com/jetpack/androidx/releases/datastore
     const val FIREBASE = "28.2.1" //https://firebase.google.com/support/release-notes/android
-    const val DAGGER = "2.42" //https://github.com/google/dagger/releases
+    const val DAGGER = "2.45" //https://github.com/google/dagger/releases
     const val HILT_ANDROID = "1.0.0" //https://developer.android.com/jetpack/androidx/releases/hilt
     const val JUNIT = "4.13.2"
     const val DROPBOX_SDK = "5.1.1" //https://github.com/dropbox/dropbox-sdk-java/releases
@@ -67,7 +67,7 @@ object Libraries {
    const val dagger_android_support = "com.google.dagger:dagger-android-support:${Versions.DAGGER}"
    const val dagger_android_processor = "com.google.dagger:dagger-android-processor:${Versions.DAGGER}"
    const val hilt = "com.google.dagger:hilt-android:${Versions.DAGGER}"
-   const val hilt_compiler = "com.google.dagger:hilt-android-compiler:${Versions.DAGGER}"
+   const val hilt_compiler = "com.google.dagger:hilt-compiler:${Versions.DAGGER}"
    const val hilt_android_compiler = "androidx.hilt:hilt-compiler:${Versions.HILT_ANDROID}"
    const val androidx_compat = "androidx.appcompat:appcompat:${Versions.ANDROIDX_COMPAT}"
    const val androidx_constraint_layout = "androidx.constraintlayout:constraintlayout:${Versions.ANDROIDX_CONSTRAINT}"
