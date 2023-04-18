@@ -23,7 +23,7 @@ object Versions {
     const val ANDROIDX_TEST_JUNIT = "1.1.2"
     const val ANDROIDX_WORK = "2.7.1" //https://developer.android.com/jetpack/androidx/releases/work
     const val ANDROIDX_ROOM = "2.4.0-alpha03" //https://developer.android.com/jetpack/androidx/releases/room
-    const val ANDROIDX_FRAGMENT_KTX = "1.3.6" //https://developer.android.com/jetpack/androidx/releases/fragment
+    const val ANDROIDX_FRAGMENT_KTX = "1.5.6" //https://developer.android.com/jetpack/androidx/releases/fragment
     const val ANDROIDX_TEST_CORE_KTX = "1.3.0"
     const val ANDROIDX_TEST_ESPRESSO = "3.3.0"
     const val ANDROIDX_TEST_RULES = "1.3.0"
@@ -35,6 +35,7 @@ object Versions {
     const val FIREBASE = "28.2.1" //https://firebase.google.com/support/release-notes/android
     const val DAGGER = "2.45" //https://github.com/google/dagger/releases
     const val HILT_ANDROID = "1.0.0" //https://developer.android.com/jetpack/androidx/releases/hilt
+    const val HILT_NAVIGATION_ANDROID = "1.1.0-alpha01" //https://developer.android.com/jetpack/androidx/releases/hilt
     const val JUNIT = "4.13.2"
     const val DROPBOX_SDK = "5.1.1" //https://github.com/dropbox/dropbox-sdk-java/releases
     const val PLAY_CORE = "1.10.0"
@@ -102,7 +103,8 @@ object Libraries {
    const val compose_interop_view_binding = "androidx.compose.ui:ui-viewbinding:${Versions.COMPOSE}"
    const val viewmodel_savedstate = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Versions.ANDROIDX_LIFECYCLE}"
    const val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.ANDROIDX_LIFECYCLE}"
-   const val compose_hilt_navigation = "androidx.hilt:hilt-navigation-compose:${Versions.HILT_ANDROID}"
+   const val compose_hilt_navigation = "androidx.hilt:hilt-navigation-compose:${Versions.HILT_NAVIGATION_ANDROID}"
+   const val compose_navigation = "androidx.navigation:navigation-compose:${Versions.COMPOSE}"
    const val compose_accompanist_navigation_animation = "com.google.accompanist:accompanist-navigation-animation:${Versions.ACCOMPANIST}"
    const val compose_accompanist_systemuicontroller = "com.google.accompanist:accompanist-systemuicontroller:${Versions.ACCOMPANIST}"
    const val compose_accompanist_insetsui = "com.google.accompanist:accompanist-insets-ui:${Versions.ACCOMPANIST}"

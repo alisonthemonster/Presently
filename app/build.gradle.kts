@@ -90,7 +90,7 @@ dependencies {
     implementation(Libraries.androidx_core_ktx)
     implementation(Libraries.androidx_constraint_layout)
     implementation(Libraries.androidx_preference_ktx)
-    implementation(Libraries.androidx_recycler_view)
+    implementation(Libraries.androidx_recycler_view) //todo probably remove
     implementation(Libraries.viewmodel_savedstate)
     implementation(Libraries.androidx_fragment)
     implementation(Libraries.androidx_biometric)
@@ -105,6 +105,7 @@ dependencies {
     implementation(Libraries.compose_material3)
     implementation(Libraries.compose_tooling)
     implementation(Libraries.compose_viewmodel)
+    implementation(Libraries.compose_navigation)
     implementation(Libraries.compose_hilt_navigation)
     implementation(Libraries.compose_accompanist_navigation_animation)
     implementation(Libraries.compose_accompanist_systemuicontroller)
