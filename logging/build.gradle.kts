@@ -33,6 +33,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    namespace = "com.presently.logging"
 
     dependencies {
         implementation(Libraries.kotlin_stdlib)

@@ -31,6 +31,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.1.1"
     }
+    namespace = "com.presently.ui"
 
     dependencies {
         implementation(Libraries.kotlin_stdlib)
