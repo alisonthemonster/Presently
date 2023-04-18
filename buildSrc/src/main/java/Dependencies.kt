@@ -9,7 +9,7 @@ object Versions {
     const val MINOR = 20
     const val PATCH = 0
 
-    const val KOTLIN = "1.6.10" //https://developer.android.com/jetpack/androidx/releases/core
+    const val KOTLIN = "1.8.0" //https://kotlinlang.org/docs/releases.html#release-details
     const val KOTLIN_COROUTINES = "1.5.0" //https://github.com/Kotlin/kotlinx.coroutines/releases/
     const val KOTLIN_COROUTINES_TEST = "1.3.2"
     const val ANDROIDX_CORE_KTX = "1.6.0" //https://developer.android.com/jetpack/androidx/releases/core
