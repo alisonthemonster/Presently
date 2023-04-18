@@ -14,6 +14,8 @@ import org.junit.Test
 @HiltAndroidTest
 class SearchIntegrationTest {
 
+    //todo now that agp was updated, try to switch to regular compose rule and remove hilt stuff
+
     //so that it uses the fake dependencies
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)
