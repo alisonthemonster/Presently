@@ -54,7 +54,7 @@ class SearchContentTest {
     fun testSearchTypingTrigger() {
         var onSearchQueryChangeQuery = ""
         val state = SearchViewState(
-            query = "dogs",
+            query = "",
             results = listOf(
                 Entry(LocalDate.of(2011, 11, 11), "Search result one"),
                 Entry(LocalDate.of(2001, 1, 1), "Search result two"),
@@ -74,6 +74,11 @@ class SearchContentTest {
         }
 
         composeTestRule.onNodeWithTag("searchFieldTestTag").performTextInput("searchQuery")
+        composeTestRule.waitUntil {
+            composeTestRule
+                .onAllNodesWithText("searchQuery")
+                .fetchSemanticsNodes().size == 1
+        }
         assertThat(onSearchQueryChangeQuery).isEqualTo("searchQuery")
     }
 
