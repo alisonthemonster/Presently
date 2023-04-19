@@ -6,10 +6,12 @@ include(":testing")
 include(":logging")
 include(":coroutine_utils")
 
+//needed for running jvmToolchain on CircleCi
 plugins {
     id("org.gradle.toolchains.foojay-resolver") version "0.4.0"
 }
 
+//needed for running jvmToolchain on CircleCi
 toolchainManagement {
     jvm {
         javaRepositories {

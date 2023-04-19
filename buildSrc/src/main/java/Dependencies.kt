@@ -13,7 +13,7 @@ object Versions {
     const val KOTLIN_COROUTINES = "1.5.0" //https://github.com/Kotlin/kotlinx.coroutines/releases/
     const val KOTLIN_COROUTINES_TEST = "1.3.2"
     const val ANDROIDX_CORE_KTX = "1.6.0" //https://developer.android.com/jetpack/androidx/releases/core
-    const val ANDROIDX_COMPAT = "1.3.0" //https://developer.android.com/jetpack/androidx/releases/appcompat
+    const val ANDROIDX_COMPAT = "1.6.1" //https://developer.android.com/jetpack/androidx/releases/appcompat
     const val ANDROIDX_CONSTRAINT = "2.0.4" //https://developer.android.com/jetpack/androidx/releases/constraintlayout
     const val ANDROIDX_CONSTRAINT_COMPOSE = "1.0.1" //https://developer.android.com/jetpack/androidx/releases/constraintlayout
     const val ANDROIDX_LIFECYCLE = "2.5.1" //https://developer.android.com/jetpack/androidx/releases/lifecycle
