@@ -1,7 +1,0 @@
-include ':ui'
-include ':app'
-include ':strings'
-include ':settings'
-include ':testing'
-include ':logging'
-include ':coroutine_utils'
