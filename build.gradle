@@ -23,7 +23,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.osacky.fulladle' version '0.15.1'
+    id 'com.osacky.fulladle' version '0.17.4'
 }
 
 fladle {
