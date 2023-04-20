@@ -46,7 +46,7 @@ jobs:
       - android/restore-build-cache
       - run:
           name: Build
-          command: ./gradlew -Pcoverage assembleDebug assembleDebugAndroidTest --stacktrace
+          command: ./gradlew assembleDebug assembleDebugAndroidTest --stacktrace
       - run:
           name: Test with Firebase Test Lab
           command: ./gradlew runFlank
