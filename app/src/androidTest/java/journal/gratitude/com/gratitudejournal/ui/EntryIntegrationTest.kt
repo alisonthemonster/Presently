@@ -55,7 +55,7 @@ class EntryIntegrationTest {
         entryRobot.type("Hello there!")
 
         //type some more and then undo
-        entryRobot.type("editViewTextField")
+        entryRobot.type(" More text")
         entryRobot.assertEntryEditTextEquals("Hello there! More text")
         entryRobot.clickUndo()
         entryRobot.assertEntryEditTextEquals("Hello there!")
