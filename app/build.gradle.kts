@@ -45,7 +45,8 @@ android {
 
     buildTypes {
         getByName("debug") {
-            isTestCoverageEnabled = project.hasProperty("coverage")
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
             versionNameSuffix = "-DEBUG"
         }
         getByName("release") {
