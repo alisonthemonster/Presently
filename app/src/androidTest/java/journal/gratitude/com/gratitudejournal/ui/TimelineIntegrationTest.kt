@@ -39,17 +39,7 @@ class TimelineIntegrationTest {
                 )
             }
         }
-
-        //verify fake entry from FakeEntryRepository
-        composeTestRule.onNodeWithText("Monday, December 19, 2022").assertIsDisplayed()
-        composeTestRule.onNodeWithText("A test entry on the 19th of December.").assertIsDisplayed()
-
-        //verify we're showing today and yesterday items
-        val today = LocalDate.now()
-        val yesterday = today.minusDays(1)
-        composeTestRule.onNodeWithText(today.toStringWithDayOfWeek()).assertIsDisplayed()
-        composeTestRule.onNodeWithText(yesterday.toStringWithDayOfWeek()).assertIsDisplayed()
-        composeTestRule.onNodeWithText("What are you grateful for?").assertIsDisplayed()
-        composeTestRule.onNodeWithText("What were you grateful for?").assertIsDisplayed()
+        val robot = TimelineRobot(composeTestRule)
+        robot.verifyCorrectTimelineState()
     }
 }

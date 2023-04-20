@@ -12,6 +12,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -42,39 +43,28 @@ class EntryIntegrationTest {
             }
         }
 
-        //verify the view mode looks correct
-        composeTestRule.onNodeWithText("Today").assertIsDisplayed()
-        composeTestRule.onNodeWithText("I am grateful for").assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription("Edit").assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription("Back").assertDoesNotExist()
+        val entryRobot = EntryRobot(composeTestRule)
 
-        //enter edit mode
-        composeTestRule.onNodeWithContentDescription("Edit").performClick()
+        entryRobot.assertCorrectDateIsShown(LocalDate.now())
+        entryRobot.assertCorrectTenseIsUsed(LocalDate.now())
+        entryRobot.assertUserIsInViewMode()
 
-        //verify edit mode looks correct
-        composeTestRule.onNodeWithText("Today").assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription("Back").assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription("Undo").assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription("Undo").assertIsNotEnabled()
-        composeTestRule.onNodeWithContentDescription("Redo").assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription("Redo").assertIsNotEnabled()
-        composeTestRule.onNodeWithContentDescription("Get a prompt").assertIsDisplayed()
+        entryRobot.enterEditMode()
+        entryRobot.assertUserIsInEditMode()
 
-        //start typing
-        composeTestRule.onNodeWithTag("editViewTextField").performTextInput("Hello there!")
+        entryRobot.type("Hello there!")
 
         //type some more and then undo
-        composeTestRule.onNodeWithTag("editViewTextField").performTextInput(" More text")
-        composeTestRule.onNodeWithTag("editViewTextField").assertTextEquals("Hello there! More text")
-        composeTestRule.onNodeWithContentDescription("Undo").performClick()
-        composeTestRule.onNodeWithTag("editViewTextField").assertTextEquals("Hello there!")
+        entryRobot.type("editViewTextField")
+        entryRobot.assertEntryEditTextEquals("Hello there! More text")
+        entryRobot.clickUndo()
+        entryRobot.assertEntryEditTextEquals("Hello there!")
 
         //tap redo
 //        composeTestRule.onNodeWithContentDescription("Redo").performClick()
 //        composeTestRule.onNodeWithTag("editViewTextField").assertTextEquals("Hello there! More text")
 
-        //navigate back to view screen
-        composeTestRule.onNodeWithContentDescription("Back").performClick()
+        entryRobot.exitEditMode()
         composeTestRule.onNodeWithText("Hello there!").assertIsDisplayed()
 
     }

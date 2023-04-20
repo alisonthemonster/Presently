@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.ui
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import com.presently.ui.PresentlyTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -13,8 +14,6 @@ import org.junit.Test
 
 @HiltAndroidTest
 class SearchIntegrationTest {
-
-    //todo now that agp was updated, try to switch to regular compose rule and remove hilt stuff
 
     //so that it uses the fake dependencies
     @get:Rule(order = 0)
