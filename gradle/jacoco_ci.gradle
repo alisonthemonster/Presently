@@ -79,7 +79,7 @@ subprojects { prj ->
             sourceDirectories.setFrom files([mainSrc])
             classDirectories.setFrom files([kotlinTree, javacTree])
             executionData.setFrom fileTree(dir: prj.buildDir, includes: [
-                    'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+                    'outputs/unit_test_code_coverage/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
             ])
         }
     }
