@@ -118,6 +118,9 @@ internal fun AppNavigation(
                 onEntryClicked = { date ->
                     navController.navigate(Screen.Entry.createRoute(date))
                 },
+                onBackClicked = {
+                    navController.navigateUp()
+                }
             )
         }
         composable(

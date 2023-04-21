@@ -49,6 +49,7 @@ class FullIntegrationTest {
 
         val timelineRobot = TimelineRobot(composeTestRule)
         val entryRobot = EntryRobot(composeTestRule)
+        val searchRobot = SearchRobot(composeTestRule)
 
         val today = LocalDate.now()
         val yesterday = today.minusDays(1)
@@ -87,5 +88,19 @@ class FullIntegrationTest {
         timelineRobot.waitForTimelineScreen()
         composeTestRule.onRoot().printToLog("blerg")
         timelineRobot.assertTimelineHasEntry(LocalDate.now(), "Hello there, this is the Presently integration test! More text!")
+
+        timelineRobot.launchSearch()
+        searchRobot.assertSearchViewIsShown()
+        searchRobot.performSearch("October")
+
+        searchRobot.assertSearchResultIsShown("An entry from October of 2022")
+        searchRobot.clickSearchResult("An entry from October of 2022")
+        entryRobot.assertEntryReadTextEquals("An entry from October of 2022")
+
+        entryRobot.exitEntryScreen()
+        searchRobot.assertSearchViewIsShown()
+
+        searchRobot.exitSearchScreen()
+
     }
 }

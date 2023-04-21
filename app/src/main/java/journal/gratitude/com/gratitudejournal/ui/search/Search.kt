@@ -14,6 +14,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -35,6 +36,7 @@ import org.threeten.bp.LocalDate
 
 @Composable
 fun Search(
+    onBackClicked: () -> Unit,
     onEntryClicked: (date: LocalDate) -> Unit,
 ) {
     val viewModel = hiltViewModel<SearchViewModel>()
@@ -50,6 +52,7 @@ fun Search(
         SearchContent(
             modifier = Modifier.fillMaxWidth(),
             state = state.value,
+            onBackClicked = { onBackClicked() },
             onSearchQueryChanged = viewModel::search,
             onEntryClicked = onEntryClicked
         )
@@ -60,6 +63,7 @@ fun Search(
 fun SearchContent(
     modifier: Modifier = Modifier,
     state: SearchViewState,
+    onBackClicked: () -> Unit,
     onSearchQueryChanged: (query: String) -> Unit,
     onEntryClicked: (date: LocalDate) -> Unit,
 ) {
@@ -72,6 +76,9 @@ fun SearchContent(
             onValueChange = { value ->
                 searchQuery = value
                 onSearchQueryChanged(value.text)
+            },
+            onBackClicked = {
+                onBackClicked()
             },
             modifier = Modifier.fillMaxWidth()
         )
@@ -105,16 +112,25 @@ fun SearchContent(
 fun SearchTextField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
+    onBackClicked: () -> Unit,
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
 ) {
-    //todo add an x button to clear search results
     //todo maybe add a back button?
     TextField(
         modifier = modifier.testTag("searchFieldTestTag"),
         value = value,
         onValueChange = onValueChange,
+        leadingIcon = {
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back", //todo add content desc
+                    tint = PresentlyTheme.colors.entryDate
+                )
+            }
+        },
         trailingIcon = {
             AnimatedVisibility(
                 visible = value.text.isNotEmpty(),

@@ -39,7 +39,8 @@ class SearchContentTest {
                 SearchContent(
                     state = state,
                     onEntryClicked = {},
-                    onSearchQueryChanged = {}
+                    onSearchQueryChanged = {},
+                    onBackClicked = {}
                 )
             }
         }
@@ -68,7 +69,8 @@ class SearchContentTest {
                     onEntryClicked = {},
                     onSearchQueryChanged = {
                         onSearchQueryChangeQuery = it
-                    }
+                    },
+                    onBackClicked = {}
                 )
             }
         }
@@ -100,7 +102,8 @@ class SearchContentTest {
                     onEntryClicked = {
                         onEntryClickedDate = it
                     },
-                    onSearchQueryChanged = {}
+                    onSearchQueryChanged = {},
+                    onBackClicked = {}
                 )
             }
         }
