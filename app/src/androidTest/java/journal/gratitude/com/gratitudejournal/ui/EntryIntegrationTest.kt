@@ -38,7 +38,7 @@ class EntryIntegrationTest {
             PresentlyTheme {
                 Entry(
                     onEntryExit = {},
-                    onShareClicked = {_, _ -> }
+                    onShareClicked = { _, _ -> }
                 )
             }
         }
@@ -60,12 +60,46 @@ class EntryIntegrationTest {
         entryRobot.clickUndo()
         entryRobot.assertEntryEditTextEquals("Hello there!")
 
-        //tap redo
-//        composeTestRule.onNodeWithContentDescription("Redo").performClick()
-//        composeTestRule.onNodeWithTag("editViewTextField").assertTextEquals("Hello there! More text")
-
         entryRobot.exitEditMode()
         composeTestRule.onNodeWithText("Hello there!").assertIsDisplayed()
 
+    }
+
+    @Test
+    fun milestoneTest() = runTest {
+        //set up with four entries in db already
+        repository.addEntries(
+            listOf(
+                journal.gratitude.com.gratitudejournal.model.Entry(LocalDate.of(2022, 10, 9), "An entry from October of 2022"),
+                journal.gratitude.com.gratitudejournal.model.Entry(LocalDate.of(2022, 9, 9), "An entry from September of 2022"),
+                journal.gratitude.com.gratitudejournal.model.Entry(LocalDate.of(2022, 8, 9), "An entry from August of 2022"),
+                journal.gratitude.com.gratitudejournal.model.Entry(LocalDate.of(2022, 7, 9), "An entry from July of 2022"),
+            )
+        )
+
+        composeTestRule.setContent {
+            PresentlyTheme {
+                Entry(
+                    onEntryExit = {},
+                    onShareClicked = { _, _ -> }
+                )
+            }
+        }
+
+        val entryRobot = EntryRobot(composeTestRule)
+        val milestoneRobot = MilestoneRobot(composeTestRule)
+
+        entryRobot.assertCorrectDateIsShown(LocalDate.now())
+        entryRobot.assertCorrectTenseIsUsed(LocalDate.now())
+        entryRobot.assertUserIsInViewMode()
+
+        entryRobot.enterEditMode()
+        entryRobot.assertUserIsInEditMode()
+        entryRobot.type("Hello there!")
+
+        entryRobot.exitEditMode()
+
+        milestoneRobot.assertMilestoneScreenShown(5)
+        milestoneRobot.dismissMilestoneScreen()
     }
 }

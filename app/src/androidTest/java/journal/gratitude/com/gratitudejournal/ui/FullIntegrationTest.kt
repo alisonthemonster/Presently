@@ -34,10 +34,6 @@ class FullIntegrationTest {
         //add some fake data
         repository.addEntries(listOf(
             Entry(LocalDate.of(2022, 10, 9), "An entry from October of 2022"),
-            Entry(LocalDate.of(2022, 9, 9), "An entry from September of 2022"),
-            Entry(LocalDate.of(2022, 8, 9), "An entry from August of 2022"),
-            Entry(LocalDate.of(2022, 7, 9), "An entry from July of 2022"),
-
         ))
     }
 
@@ -84,9 +80,6 @@ class FullIntegrationTest {
         entryRobot.assertEntryEditTextEquals("Hello there, this is the Presently integration test! More text!")
 
         entryRobot.exitEditMode()
-
-        milestoneRobot.assertMilestoneScreenShown(5)
-        milestoneRobot.dismissMilestoneScreen()
 
         entryRobot.assertEntryReadTextEquals("Hello there, this is the Presently integration test! More text!")
 
