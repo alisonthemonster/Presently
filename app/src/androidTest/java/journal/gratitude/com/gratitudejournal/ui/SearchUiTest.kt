@@ -2,7 +2,6 @@ package journal.gratitude.com.gratitudejournal.ui
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.junit4.createComposeRule
 import com.google.common.truth.Truth.assertThat
 import com.presently.ui.PresentlyTheme
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -16,7 +15,7 @@ import org.junit.Test
 import org.threeten.bp.LocalDate
 
 @HiltAndroidTest
-class SearchContentTest {
+class SearchUiTest {
 
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)

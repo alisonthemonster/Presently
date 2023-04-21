@@ -18,7 +18,7 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 @HiltAndroidTest
-class EntryIntegrationTest {
+class EntryUiTest {
     //so that it uses the fake dependencies
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)
