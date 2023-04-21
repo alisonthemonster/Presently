@@ -89,21 +89,6 @@ internal fun AppNavigation(
             )
         }
         composable(
-            route = Screen.MilestoneCelebration.createRoute(),
-            arguments = listOf(
-                navArgument("number") { type = NavType.IntType }
-            )
-        ) {
-            MilestoneCelebration(
-                onDismiss = {
-                    navController.popBackStack()
-                },
-                onShareClicked = {
-                    //todo share text R.string.share_milestone
-                }
-            )
-        }
-        composable(
             route = Screen.Share.route,
         ) {
             Column() {

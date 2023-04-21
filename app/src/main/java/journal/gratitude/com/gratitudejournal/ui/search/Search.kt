@@ -123,7 +123,7 @@ fun SearchTextField(
         value = value,
         onValueChange = onValueChange,
         leadingIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { onBackClicked() }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back", //todo add content desc

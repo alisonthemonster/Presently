@@ -52,4 +52,9 @@ class TimelineRobot(
     fun clickHamburger() {
         composeTestRule.onNodeWithContentDescription("Menu").performClick()
     }
+
+    fun launchThemesScreen() {
+        clickHamburger()
+        composeTestRule.onNodeWithText("Theme").performClick()
+    }
 }

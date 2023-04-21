@@ -31,11 +31,16 @@ abstract class FakeSettingsModule {
 }
 
 class FakePresentlySettings @Inject constructor(): PresentlySettings {
+
+    var fakeTheme = "Original"
+
     override fun getCurrentTheme(): String {
-        return "Original"
+        return fakeTheme
     }
 
-    override fun setTheme(themeName: String) {}
+    override fun setTheme(themeName: String) {
+        fakeTheme = themeName
+    }
 
     override fun isBiometricsEnabled(): Boolean {
         return false

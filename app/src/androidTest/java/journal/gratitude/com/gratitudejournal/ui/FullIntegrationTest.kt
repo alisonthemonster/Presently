@@ -3,6 +3,8 @@ package journal.gratitude.com.gratitudejournal.ui
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToLog
+import com.google.common.truth.Truth.assertThat
+import com.presently.settings.PresentlySettings
 import com.presently.ui.PresentlyTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -30,6 +32,9 @@ class FullIntegrationTest {
     @Inject
     lateinit var repository: EntryRepository
 
+    @Inject
+    lateinit var settings: PresentlySettings
+
     @Before
     fun init() = runTest {
         hiltRule.inject()
@@ -50,6 +55,7 @@ class FullIntegrationTest {
         val timelineRobot = TimelineRobot(composeTestRule)
         val entryRobot = EntryRobot(composeTestRule)
         val searchRobot = SearchRobot(composeTestRule)
+        val themeRobot = ThemesRobot(composeTestRule)
 
         val today = LocalDate.now()
         val yesterday = today.minusDays(1)
@@ -101,6 +107,12 @@ class FullIntegrationTest {
         searchRobot.assertSearchViewIsShown()
 
         searchRobot.exitSearchScreen()
+        composeTestRule.onRoot().printToLog("blerg")
+        timelineRobot.waitForTimelineScreen()
 
+        timelineRobot.launchThemesScreen()
+        themeRobot.selectTheme("Boo")
+
+        assertThat(settings.getCurrentTheme()).isEqualTo("Boo")
     }
 }
