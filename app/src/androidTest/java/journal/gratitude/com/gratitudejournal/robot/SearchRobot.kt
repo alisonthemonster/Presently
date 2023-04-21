@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.ui
+package journal.gratitude.com.gratitudejournal.robot
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule

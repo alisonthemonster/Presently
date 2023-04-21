@@ -1,4 +1,4 @@
-package journal.gratitude.com.gratitudejournal.ui
+package journal.gratitude.com.gratitudejournal.robot
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
@@ -40,7 +40,15 @@ class EntryRobot(
             "I was grateful for"
         }
         composeTestRule.onNodeWithText(expectedGratitudeString).assertIsDisplayed()
+    }
 
+    fun assertCorrectQuestionTense(expectedDate: LocalDate?) {
+        val expectedGratitudeString = if (expectedDate == LocalDate.now()) {
+            "What are you grateful for?"
+        } else {
+            "What were you grateful for?"
+        }
+        composeTestRule.onNodeWithTag("question").assertTextEquals(expectedGratitudeString)
     }
 
     fun assertUserIsInViewMode() {
@@ -109,6 +117,18 @@ class EntryRobot(
     fun assertNotInEditMode() {
         composeTestRule.onNodeWithContentDescription("Undo").assertDoesNotExist()
         composeTestRule.onNodeWithContentDescription("Redo").assertDoesNotExist()
+    }
+
+    fun clickPromptButton() {
+        composeTestRule.onNodeWithContentDescription("Get a prompt").performClick()
+    }
+
+    fun assertHintWasSet() {
+        val presentTense = "I am grateful for"
+        val pastTense = "I was grateful for"
+
+        composeTestRule.onNodeWithTag(presentTense).assertDoesNotExist()
+        composeTestRule.onNodeWithText(pastTense).assertDoesNotExist()
     }
 
 }

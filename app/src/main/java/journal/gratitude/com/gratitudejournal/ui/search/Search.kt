@@ -142,7 +142,7 @@ fun SearchTextField(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Clear,
-                        contentDescription = "clear" //todo extract and translate
+                        contentDescription = "Clear" //todo extract and translate
                     )
                 }
             }

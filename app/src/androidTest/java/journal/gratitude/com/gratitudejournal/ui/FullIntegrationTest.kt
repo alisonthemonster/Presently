@@ -13,6 +13,10 @@ import journal.gratitude.com.gratitudejournal.PresentlyContainer
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.navigation.UserStartDestination
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.robot.EntryRobot
+import journal.gratitude.com.gratitudejournal.robot.SearchRobot
+import journal.gratitude.com.gratitudejournal.robot.ThemesRobot
+import journal.gratitude.com.gratitudejournal.robot.TimelineRobot
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule

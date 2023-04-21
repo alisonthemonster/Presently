@@ -7,6 +7,8 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.MainActivity
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.robot.EntryRobot
+import journal.gratitude.com.gratitudejournal.robot.MilestoneRobot
 import journal.gratitude.com.gratitudejournal.ui.entry.Entry
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -33,7 +35,7 @@ class EntryIntegrationTest {
     }
 
     @Test
-    fun entryIntegrationTest() = runTest {
+    fun entryIntegrationTest() {
         composeTestRule.setContent {
             PresentlyTheme {
                 Entry(
@@ -105,5 +107,26 @@ class EntryIntegrationTest {
         //todo get milestone tests working
 //        milestoneRobot.assertMilestoneScreenShown(5)
 //        milestoneRobot.dismissMilestoneScreen()
+    }
+
+    @Test
+    fun entryPromptTest() {
+        composeTestRule.setContent {
+            PresentlyTheme {
+                Entry(
+                    onEntryExit = {},
+                    onShareClicked = { _, _ -> }
+                )
+            }
+        }
+
+        val entryRobot = EntryRobot(composeTestRule)
+
+        entryRobot.enterEditMode()
+        entryRobot.assertCorrectQuestionTense(LocalDate.now())
+        entryRobot.type("Hello there!")
+        entryRobot.clickPromptButton()
+
+        entryRobot.assertHintWasSet()
     }
 }

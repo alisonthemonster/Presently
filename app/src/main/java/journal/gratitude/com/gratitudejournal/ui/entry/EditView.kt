@@ -70,8 +70,9 @@ fun EditView(
                 style = PresentlyTheme.typography.titleLarge,
                 color = PresentlyTheme.colors.entryDate
             )
-            Text(text =
-                if (promptNumber == null) {
+            Text(
+                modifier = modifier.testTag("question"),
+                text = if (promptNumber == null) {
                     if (date == LocalDate.now()) {
                         stringResource(id = R.string.what_are_you_thankful_for)
                     } else {
@@ -81,7 +82,7 @@ fun EditView(
                     prompts[promptNumber]
                 },
                 style = PresentlyTheme.typography.titleLarge,
-                color = PresentlyTheme.colors.entryDate
+                color = PresentlyTheme.colors.entryDate,
             )
             TextField(
                 modifier = modifier

@@ -85,6 +85,43 @@ class SearchContentTest {
     }
 
     @Test
+    fun testClearingSearchField() {
+        val state = SearchViewState(
+            query = "",
+            results = listOf(
+                Entry(LocalDate.of(2011, 11, 11), "Search result one"),
+                Entry(LocalDate.of(2001, 1, 1), "Search result two"),
+            )
+        )
+
+        composeTestRule.setContent {
+            PresentlyTheme {
+                SearchContent(
+                    state = state,
+                    onEntryClicked = {},
+                    onSearchQueryChanged = {},
+                    onBackClicked = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("searchFieldTestTag").performTextInput("searchQuery")
+        composeTestRule.waitUntil {
+            composeTestRule
+                .onAllNodesWithText("searchQuery")
+                .fetchSemanticsNodes().size == 1
+        }
+        composeTestRule.onNodeWithContentDescription("Clear").performClick()
+
+        composeTestRule.waitUntil(5000) {
+            composeTestRule
+                .onAllNodesWithText("Search")
+                .fetchSemanticsNodes().size == 1
+        }
+        composeTestRule.onNodeWithTag("searchFieldTestTag").assertTextEquals("Search", includeEditableText = false) //hint text
+    }
+
+    @Test
     fun testSearchClickingResult() {
         var onEntryClickedDate = LocalDate.now()
         val state = SearchViewState(
