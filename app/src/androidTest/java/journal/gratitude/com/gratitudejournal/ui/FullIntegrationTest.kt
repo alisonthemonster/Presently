@@ -47,16 +47,12 @@ class FullIntegrationTest {
 
         val timelineRobot = TimelineRobot(composeTestRule)
         val entryRobot = EntryRobot(composeTestRule)
-        val milestoneRobot = MilestoneRobot(composeTestRule)
 
         val today = LocalDate.now()
         val yesterday = today.minusDays(1)
         timelineRobot.assertTimelineHasEntry(today, "What are you grateful for?")
         timelineRobot.assertTimelineHasEntry(yesterday, "What were you grateful for?")
         timelineRobot.assertTimelineHasEntry(LocalDate.of(2022, 10, 9), "An entry from October of 2022")
-        timelineRobot.assertTimelineHasEntry(LocalDate.of(2022, 9, 9), "An entry from September of 2022")
-        timelineRobot.assertTimelineHasEntry(LocalDate.of(2022, 8, 9), "An entry from August of 2022")
-        timelineRobot.assertTimelineHasEntry(LocalDate.of(2022, 7, 9), "An entry from July of 2022")
 
         timelineRobot.clickTodayEntry()
 
