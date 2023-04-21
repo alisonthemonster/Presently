@@ -23,11 +23,13 @@ object ApplicationModule {
         computation = Dispatchers.Default,
         main = Dispatchers.Main
     )
+}
 
+@Module
+@InstallIn(SingletonComponent::class)
+object DatabaseModule {
     @Provides
-    fun provideEntryDao(
-        database: EntryDatabase
-    ): EntryDao {
+    fun provideEntryDao(database: EntryDatabase): EntryDao {
         return database.entryDao()
     }
 
@@ -35,5 +37,4 @@ object ApplicationModule {
     fun provideDatabase(@ApplicationContext context: Context): EntryDatabase {
         return EntryDatabase.getDatabase(context)
     }
-
 }

@@ -13,6 +13,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.presently.ui.PresentlyTheme
 import com.presently.ui.isDark
+import journal.gratitude.com.gratitudejournal.ui.milestone.MilestoneCelebration
+import journal.gratitude.com.gratitudejournal.ui.milestone.MilestoneScreen
 
 @Composable
 fun Entry(
@@ -52,9 +54,10 @@ fun Entry(
         }
         
         if (state.shouldShowMilestoneDialog) {
-            //todo use the milestone composable here
-            Dialog(onDismissRequest = { viewModel.onDismissMilestoneDialog() }) {
-                Text(text = "milestone ${state.entryNumber}")
+            MilestoneScreen(
+                theme = viewModel.getSelectedTheme(),
+                milestoneNumber = state.entryNumber!!,
+                onDismiss = { viewModel.onDismissMilestoneDialog() }) {
             }
         }
 

@@ -3,10 +3,13 @@ package journal.gratitude.com.gratitudejournal.ui.milestone
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
@@ -53,7 +56,7 @@ fun MilestoneScreen(
         selectedTheme = theme
     ) {
         Surface(
-            modifier = modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize().testTag("milestoneScreen"),
             color = PresentlyTheme.colors.timelineBackground
         ) {
             Column(
@@ -62,12 +65,21 @@ fun MilestoneScreen(
                     .padding(16.dp),
                 verticalArrangement = Arrangement.Center
             ) {
+                IconButton(
+                    onClick = { onDismiss() },
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Close", //todo content desc
+                        tint =  PresentlyTheme.colors.timelineBackground
+                    )
+                }
                 Text(
                     text = "$milestoneNumber",
                     fontSize = 128.sp,
                 )
                 Text(
-                    text = "5 " + stringResource(R.string.days_of_gratitude),
+                    text = "$milestoneNumber " + stringResource(R.string.days_of_gratitude),
                     style = PresentlyTheme.typography.titleLarge,
                     fontSize = 64.sp
                 )
