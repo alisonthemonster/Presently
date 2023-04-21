@@ -52,7 +52,7 @@ fun Entry(
             )
             onDispose {}
         }
-        
+
         if (state.shouldShowMilestoneDialog) {
             MilestoneScreen(
                 theme = viewModel.getSelectedTheme(),
@@ -64,11 +64,15 @@ fun Entry(
         Scaffold(
             modifier = modifier.windowInsetsPadding(WindowInsets.safeContent),
             topBar = {
-                if (state.isInEditMode) {
-                    EntryEditTopBar(
-                        onBackPressed = { viewModel.onExitEditMode() }
-                    )
-                }
+                EntryEditTopBar(
+                    onBackPressed = {
+                        if (state.isInEditMode) {
+                            viewModel.onExitEditMode()
+                        } else {
+                            onEntryExit()
+                        }
+                    }
+                )
             },
             floatingActionButton = {
                 if (!state.isInEditMode) {

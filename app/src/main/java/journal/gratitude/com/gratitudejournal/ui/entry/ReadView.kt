@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -42,6 +43,7 @@ fun ReadView(
         modifier = modifier
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
+            .testTag("readMode")
     ) {
         EntryHeader(date)
         Text(

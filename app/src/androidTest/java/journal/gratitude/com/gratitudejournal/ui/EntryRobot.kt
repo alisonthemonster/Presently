@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.ui
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
@@ -44,7 +45,6 @@ class EntryRobot(
 
     fun assertUserIsInViewMode() {
         composeTestRule.onNodeWithContentDescription("Edit").assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription("Back").assertDoesNotExist()
     }
 
     fun enterEditMode() {
@@ -74,6 +74,7 @@ class EntryRobot(
     }
 
     fun assertEntryReadTextEquals(text: String) {
+        composeTestRule.onNodeWithTag("readMode").assertIsDisplayed()
         composeTestRule.onNodeWithText(text).assertIsDisplayed()
     }
 
@@ -99,6 +100,15 @@ class EntryRobot(
         composeTestRule.activityRule.scenario.onActivity { activity ->
             activity.onBackPressedDispatcher.onBackPressed()
         }
+    }
+
+    fun clickBackButton() {
+        composeTestRule.onNodeWithContentDescription("Back").performClick()
+    }
+
+    fun assertNotInEditMode() {
+        composeTestRule.onNodeWithContentDescription("Undo").assertDoesNotExist()
+        composeTestRule.onNodeWithContentDescription("Redo").assertDoesNotExist()
     }
 
 }

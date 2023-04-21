@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.ui
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.printToLog
 import com.presently.ui.PresentlyTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -75,13 +77,15 @@ class FullIntegrationTest {
         entryRobot.clickRedo()
         entryRobot.assertEntryEditTextEquals("Hello there, this is the Presently integration test! More text!")
 
-        entryRobot.exitEditMode()
+        entryRobot.clickBackButton()
 
+        //assert view mode
         entryRobot.assertEntryReadTextEquals("Hello there, this is the Presently integration test! More text!")
 
-        entryRobot.exitEntryScreen()
+        entryRobot.clickBackButton()
 
         timelineRobot.waitForTimelineScreen()
+        composeTestRule.onRoot().printToLog("blerg")
         timelineRobot.assertTimelineHasEntry(LocalDate.now(), "Hello there, this is the Presently integration test! More text!")
     }
 }

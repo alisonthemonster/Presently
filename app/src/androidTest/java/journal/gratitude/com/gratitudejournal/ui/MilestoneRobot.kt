@@ -6,16 +6,14 @@ import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.printToLog
 
 class MilestoneRobot(private val composeTestRule: ComposeTestRule) {
 
     fun assertMilestoneScreenShown(milestone: Int) {
-        composeTestRule.waitUntil(5000L) {
-            composeTestRule
-                .onAllNodesWithTag("milestoneScreen")
-                .fetchSemanticsNodes().size == 1
-        }
+        composeTestRule.onRoot().printToLog("blerg")
         composeTestRule.onNodeWithTag("milestoneScreen").assertIsDisplayed()
         composeTestRule.onNodeWithText(milestone.toString()).assertIsDisplayed()
         composeTestRule.onNodeWithText("$milestone days of gratitude!").assertIsDisplayed()

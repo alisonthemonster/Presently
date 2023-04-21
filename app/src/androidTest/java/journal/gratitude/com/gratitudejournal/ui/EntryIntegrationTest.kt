@@ -97,7 +97,10 @@ class EntryIntegrationTest {
         entryRobot.assertUserIsInEditMode()
         entryRobot.type("Hello there!")
 
-        entryRobot.exitEditMode()
+        entryRobot.clickBackButton()
+        entryRobot.assertNotInEditMode()
+
+        composeTestRule.onRoot().printToLog("blerg")
 
         milestoneRobot.assertMilestoneScreenShown(5)
         milestoneRobot.dismissMilestoneScreen()
