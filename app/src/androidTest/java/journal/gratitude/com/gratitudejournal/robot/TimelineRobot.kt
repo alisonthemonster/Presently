@@ -57,4 +57,14 @@ class TimelineRobot(
         clickHamburger()
         composeTestRule.onNodeWithText("Theme").performClick()
     }
+
+    fun launchContactEmail() {
+        clickHamburger()
+        composeTestRule.onNodeWithText("Contact Us").performClick()
+    }
+
+    fun launchSettings() {
+        clickHamburger()
+        composeTestRule.onNodeWithText("Settings").performClick()
+    }
 }

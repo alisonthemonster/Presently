@@ -1,8 +1,14 @@
 package journal.gratitude.com.gratitudejournal.ui
 
+import android.R
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToLog
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.RootMatchers.withDecorView
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
 import com.presently.settings.PresentlySettings
 import com.presently.ui.PresentlyTheme
@@ -18,11 +24,13 @@ import journal.gratitude.com.gratitudejournal.robot.SearchRobot
 import journal.gratitude.com.gratitudejournal.robot.ThemesRobot
 import journal.gratitude.com.gratitudejournal.robot.TimelineRobot
 import kotlinx.coroutines.test.runTest
+import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
+
 
 @HiltAndroidTest
 class FullIntegrationTest {
@@ -118,5 +126,9 @@ class FullIntegrationTest {
         themeRobot.selectTheme("Boo")
 
         assertThat(settings.getCurrentTheme()).isEqualTo("Boo")
+
+        timelineRobot.launchContactEmail()
+
+        timelineRobot.launchSettings()
     }
 }
