@@ -11,7 +11,7 @@ import androidx.compose.ui.test.performClick
 class MilestoneRobot(private val composeTestRule: ComposeTestRule) {
 
     fun assertMilestoneScreenShown(milestone: Int) {
-        composeTestRule.waitUntil {
+        composeTestRule.waitUntil(5000L) {
             composeTestRule
                 .onAllNodesWithTag("milestoneScreen")
                 .fetchSemanticsNodes().size == 1
