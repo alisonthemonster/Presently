@@ -35,6 +35,7 @@ fun TimelineRow(
     ConstraintLayout(
         modifier = modifier
             .requiredHeightIn(min = 100.dp)
+            .fillMaxWidth()
             .clickable { onEntryClicked(entryDate, isNewEntry) }
     ) {
         val (dateString, entryString, image, timelineLine, timelineDot, timelineEndDot) = createRefs()
@@ -86,6 +87,7 @@ fun TimelineRow(
                 top.linkTo(dateString.bottom)
                 start.linkTo(dateString.start)
                 end.linkTo(parent.end, margin = 8.dp)
+                if (!isLastEntry) bottom.linkTo(parent.bottom, margin = 8.dp)
                 width = Dimension.fillToConstraints
             },
             text = content, //todo limit this to the max defined in settings

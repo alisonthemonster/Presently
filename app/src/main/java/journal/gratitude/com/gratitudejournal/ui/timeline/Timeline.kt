@@ -180,7 +180,6 @@ fun TimelineList(
             when (timelineItem) {
                 is Entry -> {
                     TimelineRow(
-                        modifier = modifier,
                         theme = theme,
                         entryDate = timelineItem.entryDate,
                         entryContent = timelineItem.entryContent,
