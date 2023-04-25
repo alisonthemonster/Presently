@@ -5,11 +5,11 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("kotlin-parcelize")
-    id("com.facebook.testing.screenshot")
     id("com.google.dagger.hilt.android")
     id("com.google.android.gms.oss-licenses-plugin")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("com.dropbox.dropshots") version "0.4.0"
 }
 
 apply(from = "../gradle/dependency_graph.gradle")

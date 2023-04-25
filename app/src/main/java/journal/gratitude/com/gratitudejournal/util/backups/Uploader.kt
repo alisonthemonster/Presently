@@ -136,7 +136,7 @@ class RealUploader @Inject constructor(
         val intent = Intent(appContext, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        //todo need a way to open settings from notification
+        //todo need to test open settings from notification
         intent.putExtra(INITIAL_SCREEN, UserStartDestination.SETTINGS_SCREEN)
         val pendingIntent: PendingIntent = PendingIntent.getActivity(
             appContext,

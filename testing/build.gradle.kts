@@ -2,7 +2,6 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("com.facebook.testing.screenshot")
     id("com.google.dagger.hilt.android")
 }
 

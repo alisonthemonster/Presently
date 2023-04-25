@@ -32,8 +32,6 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
 
-//todo show warning dialog if the entry is not saved
-
 @Composable
 fun EditView(
     modifier: Modifier = Modifier,
@@ -93,7 +91,6 @@ fun EditView(
                     onTextChanged(it)
                 },
                 placeholder = {
-                    //todo add UX for prompts
                     Text(
                         text = if (date == LocalDate.now()) {
                             stringResource(id = R.string.what_are_you_thankful_for)

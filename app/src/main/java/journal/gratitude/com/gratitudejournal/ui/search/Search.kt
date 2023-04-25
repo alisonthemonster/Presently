@@ -7,20 +7,26 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
@@ -67,44 +73,43 @@ fun SearchContent(
     onSearchQueryChanged: (query: String) -> Unit,
     onEntryClicked: (date: LocalDate) -> Unit,
 ) {
-    Column(
+    Surface(
+        color = PresentlyTheme.colors.timelineBackground,
         modifier = modifier.windowInsetsPadding(WindowInsets.statusBars),
     ) {
-        var searchQuery by remember { mutableStateOf(TextFieldValue(state.query)) }
-        SearchTextField(
-            value = searchQuery,
-            onValueChange = { value ->
-                searchQuery = value
-                onSearchQueryChanged(value.text)
-            },
-            onBackClicked = {
-                onBackClicked()
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-        //todo this doesn't scroll if the keyboard is up
-        LazyColumn {
-            items(state.results) { searchResult ->
-                Column(
-                    modifier = modifier.clickable {
-                        //todo log analytics
-                        //analytics.recordEvent(CLICKED_SEARCH_ITEM)
-                        onEntryClicked(searchResult.entryDate)
-                    },
+        Column {
+            var searchQuery by remember { mutableStateOf(TextFieldValue(state.query)) }
+            SearchTextField(
+                value = searchQuery,
+                onValueChange = { value ->
+                    searchQuery = value
+                    onSearchQueryChanged(value.text)
+                },
+                onBackClicked = {
+                    onBackClicked()
+                },
+                modifier = Modifier.fillMaxWidth().padding(8.dp)
+            )
+            if (searchQuery.text.isNotEmpty() && state.results.isEmpty()) {
+                Text(
+                    modifier = modifier.fillMaxSize(),
+                    text = stringResource(R.string.no_results),
+                    textAlign = TextAlign.Center,
+                )
+            } else {
+                //todo this doesn't scroll if the keyboard is up
+                LazyColumn(
+                    modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars),
                 ) {
-                    Text(
-                        text = searchResult.entryDate.toStringWithDayOfWeek(),
-                        style = PresentlyTheme.typography.bodyLarge,
-                        color = PresentlyTheme.colors.debugColor1
-                    )
-                    Text(
-                        text = searchResult.entryContent,
-                        style = PresentlyTheme.typography.bodyMedium
-                    )
+                    items(state.results) { searchResult ->
+                        SearchResult(
+                            result = searchResult,
+                            onEntryClicked = { onEntryClicked(it) }
+                        )
+                    }
                 }
             }
         }
-        //todo show no results state
     }
 }
 
@@ -117,7 +122,6 @@ fun SearchTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
 ) {
-    //todo maybe add a back button?
     TextField(
         modifier = modifier.testTag("searchFieldTestTag"),
         value = value,
@@ -127,7 +131,7 @@ fun SearchTextField(
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back", //todo add content desc
-                    tint = PresentlyTheme.colors.entryDate
+                    tint = PresentlyTheme.colors.timelineOnToolbar
                 )
             }
         },
@@ -142,7 +146,8 @@ fun SearchTextField(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Clear,
-                        contentDescription = "Clear" //todo extract and translate
+                        contentDescription = "Clear", //todo extract and translate
+                        tint = PresentlyTheme.colors.timelineOnToolbar
                     )
                 }
             }
@@ -157,6 +162,13 @@ fun SearchTextField(
         keyboardActions = keyboardActions,
         maxLines = 1,
         singleLine = true,
-        textStyle = PresentlyTheme.typography.bodyLarge
+        textStyle = PresentlyTheme.typography.bodyLarge,
+        shape = RoundedCornerShape(8.dp),
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = PresentlyTheme.colors.timelineToolbar,
+            textColor = PresentlyTheme.colors.timelineOnToolbar,
+            cursorColor = PresentlyTheme.colors.debugColor1, //todo find a color for this
+            placeholderColor = PresentlyTheme.colors.timelineHint, //todo is this the best color?
+        ),
     )
 }
