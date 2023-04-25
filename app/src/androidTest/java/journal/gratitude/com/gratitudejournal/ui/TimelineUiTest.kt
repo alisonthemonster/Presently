@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.ui
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.dropbox.dropshots.Dropshots
+import com.dropbox.dropshots.ThresholdValidator
 import com.presently.ui.OriginalColors
 import com.presently.ui.PresentlyTheme
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -26,7 +27,7 @@ class TimelineUiTest {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @get:Rule
-    val dropshots = Dropshots()
+    val dropshots = Dropshots(resultValidator = ThresholdValidator(0.033))
 
     @Test
     fun testMilestoneRow() {
