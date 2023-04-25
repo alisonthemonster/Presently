@@ -47,7 +47,7 @@ fladle {
     ]
 
     devices = [
-            [ "model": "walleye", "version": "27", "locale": "en_US", "orientation": "portrait" ],
+            [ "model": "walleye", "version": "28", "locale": "en_US", "orientation": "portrait" ],
     ]
 }
 
