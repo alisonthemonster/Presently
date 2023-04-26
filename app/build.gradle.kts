@@ -38,7 +38,6 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true //TODO are we still using this?
         viewBinding = true
         compose = true
     }
