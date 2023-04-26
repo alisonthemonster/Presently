@@ -114,4 +114,11 @@
     <string name="dropbox_too_full_notif_body">Presently nem sikerült biztonsági másolatot készítenie az adatokról, mert a Dropbox megtelt. Érintse meg a Dropbox-fiók megtekintéséhez</string>
     <string name="dropbox_sync_error_notif_body">Probléma lépett fel a Dropbox-fiókjával. Kattintson ide, hogy újra csatlakozzon a Dropboxhoz az automatikus biztonsági mentések folytatásához.</string>
     <string name="learn_more">Tudj meg többet</string>
+    <string name="menu">Sadrzaj</string>
+    <string name="undo">Poništi</string>
+    <string name="redo">Ponovi</string>
+    <string name="edit">Uredi</string>
+    <string name="back">Idi natrag</string>
+    <string name="clear">Jasan</string>
+    <string name="import_success">Uspješno uvezeno!</string>
 </resources>

@@ -500,8 +500,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 parentFragmentManager.popBackStack()
             }
 
-            //TODO move this hardcoded string to strings.xml
-            Toast.makeText(context, "Imported successfully!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.import_success, Toast.LENGTH_SHORT).show()
         } catch (exception: Exception) {
             analytics.recordEvent(IMPORTING_BACKUP_ERROR)
             crashReporter.logHandledException(exception)

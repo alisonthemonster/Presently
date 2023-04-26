@@ -70,7 +70,7 @@ fun MilestoneScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Close", //todo content desc
+                        contentDescription = stringResource(R.string.close),
                         tint =  PresentlyTheme.colors.timelineBackground
                     )
                 }

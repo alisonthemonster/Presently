@@ -116,4 +116,11 @@
     <string name="dropbox_too_full_notif_body">فشل التطبيق في الاحتفاظ بنسخة احتياطية من بياناتك لأن Dropbox الخاص بك ممتلئ. انقر لعرض حساب Dropbox الخاص بك</string>
     <string name="dropbox_sync_error_notif_body">كانت هناك مشكلة في حساب Dropbox الخاص بك ، انقر هنا لإعادة الاتصال بـ Dropbox لاستئناف النسخ الاحتياطية التلقائية.</string>
     <string name="learn_more">يتعلم أكثر</string>
+    <string name="menu">قائمة طعام</string>
+    <string name="undo">الغاء التحميل</string>
+    <string name="redo">إعادة</string>
+    <string name="edit">يحرر</string>
+    <string name="back">خلف</string>
+    <string name="clear">واضح</string>
+    <string name="import_success">تم الاستيراد بنجاح!</string>
 </resources>

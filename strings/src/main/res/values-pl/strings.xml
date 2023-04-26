@@ -113,4 +113,11 @@
     <string name="dropbox_too_full_notif_body">Presently nie utworzyła kopii zapasowej Twoich danych, ponieważ Twój Dropbox jest pełny. Dotknij, aby wyświetlić swoje konto Dropbox</string>
     <string name="dropbox_sync_error_notif_body">Wystąpił problem z Twoim kontem Dropbox. Kliknij tutaj, aby ponownie połączyć się z Dropbox i wznowić automatyczne tworzenie kopii zapasowych.</string>
     <string name="learn_more">Ucz się więcej</string>
+    <string name="menu">Menu</string>
+    <string name="undo">Cofnij</string>
+    <string name="redo">Przerobić</string>
+    <string name="edit">Edytować</string>
+    <string name="back">Wróć</string>
+    <string name="clear">Jasne</string>
+    <string name="import_success">Zaimportowano pomyślnie!</string>
 </resources>

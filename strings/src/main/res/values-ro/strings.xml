@@ -116,4 +116,11 @@
     <string name="dropbox_too_full_notif_body">Presently nu a reușit să vă copieze datele deoarece Dropbox-ul este plin. Atingeți pentru a vedea contul dvs. Dropbox.</string>
     <string name="dropbox_sync_error_notif_body">A apărut o problemă cu contul dvs. Dropbox, faceți clic aici pentru a vă reconecta la Dropbox pentru a relua backup-urile automate.</string>
     <string name="learn_more">Află mai multe</string>
+    <string name="menu">Meniu</string>
+    <string name="undo">Anula</string>
+    <string name="redo">A reface</string>
+    <string name="edit">Editează</string>
+    <string name="back">Întoarce-te</string>
+    <string name="clear">Clar</string>
+    <string name="import_success">Importat cu succes!</string>
 </resources>

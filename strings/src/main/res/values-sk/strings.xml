@@ -116,4 +116,11 @@
     <string name="dropbox_too_full_notif_body">Presently zlyhala pri zálohovaní vašich údajov, pretože váš Dropbox je plný. Klepnutím zobrazíte svoj účet Dropbox</string>
     <string name="dropbox_sync_error_notif_body">Vyskytol sa problém s vaším účtom Dropbox. Kliknutím sem sa znova pripojte k Dropboxu a obnovte automatické zálohovanie.</string>
     <string name="learn_more">Uč sa viac</string>
+    <string name="menu">Menu</string>
+    <string name="undo">Vrátenie späť</string>
+    <string name="redo">Znovu</string>
+    <string name="edit">Upraviť</string>
+    <string name="back">Vráť sa</string>
+    <string name="clear">Jasný</string>
+    <string name="import_success">Úspešne importované!</string>
 </resources>

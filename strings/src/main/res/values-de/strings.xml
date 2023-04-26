@@ -114,4 +114,11 @@
     <string name="dropbox_too_full_notif_body">Presently konnte Ihre Daten nicht sichern, da Ihre Dropbox voll ist. Tippen Sie hier, um Ihr Dropbox-Konto anzuzeigen.</string>
     <string name="dropbox_sync_error_notif_body">Es ist ein Problem mit Ihrem Dropbox-Konto aufgetreten. Klicken Sie hier, um sich erneut mit Dropbox zu verbinden und die automatischen Backups fortzusetzen.</string>
     <string name="learn_more">Mehr erfahren</string>
+    <string name="menu">Menü</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="back">Zurück</string>
+    <string name="clear">Klar</string>
+    <string name="import_success">Erfolgreich importiert!</string>
 </resources>

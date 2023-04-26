@@ -115,4 +115,11 @@
     <string name="dropbox_too_full_notif_body">Presently не удалось создать резервную копию ваших данных, потому что ваш Dropbox заполнен. Нажмите, чтобы просмотреть свою учетную запись Dropbox.</string>
     <string name="dropbox_sync_error_notif_body">Возникла проблема с вашей учетной записью Dropbox. Нажмите здесь, чтобы повторно подключиться к Dropbox и возобновить автоматическое резервное копирование.</string>
     <string name="learn_more">Выучить больше</string>
+    <string name="menu">Меню</string>
+    <string name="undo">Отменить</string>
+    <string name="redo">Повторить</string>
+    <string name="edit">Редактировать</string>
+    <string name="back">Возвращаться</string>
+    <string name="clear">Прозрачный</string>
+    <string name="import_success">Импортирован успешно!</string>
 </resources>

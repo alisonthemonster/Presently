@@ -115,4 +115,11 @@
     <string name="dropbox_too_full_notif_body">Presentlhin ei pystynyt varmuuskopioimaan tietojasi, koska Dropboxisi on täynnä. Napauta nähdäksesi Dropbox-tilisi</string>
     <string name="dropbox_sync_error_notif_body">Dropbox-tililläsi oli ongelma. Napsauta tätä yhdistääksesi uudelleen Dropboxiin jatkaaksesi automaattista varmuuskopiointia.</string>
     <string name="learn_more">Lue lisää</string>
+    <string name="menu">Valikko</string>
+    <string name="undo">Kumoa</string>
+    <string name="redo">Toista</string>
+    <string name="edit">Muokata</string>
+    <string name="back">Takaisin</string>
+    <string name="clear">Asia selvä</string>
+    <string name="import_success">Tuonti onnistui!</string>
 </resources>

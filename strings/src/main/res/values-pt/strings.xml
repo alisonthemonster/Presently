@@ -115,4 +115,11 @@
     <string name="dropbox_too_full_notif_body">Presently não conseguiu fazer backup de seus dados porque seu Dropbox está cheio. Toque para ver sua conta do Dropbox</string>
     <string name="dropbox_sync_error_notif_body">Ocorreu um problema com sua conta do Dropbox, clique aqui para se reconectar ao Dropbox e retomar os backups automáticos.</string>
     <string name="learn_more">Saber mais</string>
+    <string name="menu">Menu</string>
+    <string name="undo">Desfazer</string>
+    <string name="redo">Refazer</string>
+    <string name="edit">Editar</string>
+    <string name="back">Volte</string>
+    <string name="clear">Claro</string>
+    <string name="import_success">Importado com sucesso!</string>
 </resources>

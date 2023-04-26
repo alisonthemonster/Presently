@@ -116,4 +116,11 @@
     <string name="dropbox_too_full_notif_body">Presently kon nie jou data rugsteun nie omdat jou Dropbox vol is. Tik om jou Dropbox-rekening te sien.</string>
     <string name="dropbox_sync_error_notif_body">Daar was \'n probleem met jou Dropbox-rekening, klik hier om weer aan Dropbox te koppel om outomatiese rugsteun te hervat.</string>
     <string name="learn_more">Leer meer</string>
+    <string name="menu">Spyskaart</string>
+    <string name="undo">Ontdoen</string>
+    <string name="redo">Herhaal</string>
+    <string name="edit">Wysig</string>
+    <string name="back">Terug</string>
+    <string name="clear">Duidelik</string>
+    <string name="import_success">Suksesvol ingevoer!</string>
 </resources>

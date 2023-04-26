@@ -143,7 +143,7 @@ fun TextActions(
         ) {
             Icon(
                 imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Undo", //todo content desc
+                contentDescription = stringResource(R.string.undo),
                 tint = if (userCanUndo) PresentlyTheme.colors.entryBackground else PresentlyTheme.colors.entryHint,
             )
         }
@@ -160,7 +160,7 @@ fun TextActions(
         ) {
             Icon(
                 imageVector = Icons.Default.ArrowForward,
-                contentDescription = "Redo", //todo content desc
+                contentDescription = stringResource(R.string.redo),
                 tint = if (userCanRedo) PresentlyTheme.colors.entryBackground else PresentlyTheme.colors.entryHint,
             )
         }

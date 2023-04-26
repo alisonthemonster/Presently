@@ -116,4 +116,11 @@
     <string name="dropbox_too_full_notif_body">Presently, Dropbox\'ınız dolu olduğu için verilerinizi yedekleyemedi. Dropbox hesabınızı görüntülemek için dokunun</string>
     <string name="dropbox_sync_error_notif_body">Dropbox hesabınızla ilgili bir sorun oluştu, otomatik yedeklemeleri sürdürmek üzere Dropbox\'a yeniden bağlanmak için burayı tıklayın.</string>
     <string name="learn_more">Daha fazla bilgi edin</string>
+    <string name="menu">Menü</string>
+    <string name="undo">Geri alma</string>
+    <string name="redo">Yeniden yap</string>
+    <string name="edit">Düzenlemek</string>
+    <string name="back">Geri gitmek</string>
+    <string name="clear">Temizlemek</string>
+    <string name="import_success">Başarıyla içe aktarıldı!</string>
 </resources>

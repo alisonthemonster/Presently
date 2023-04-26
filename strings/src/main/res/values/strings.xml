@@ -70,7 +70,7 @@
     <string name="lock_setting_summary_on">Presently will lock with your device\'s biometric scanner.</string>
     <string name="lock_setting_summary_off">Presently can lock with your device\'s biometric scanner (if supported by device).</string>
     <string name="fingerprint_error_lockout_too_many">Too many biometric authentication attempts. Please try again in a few minutes.</string>
-    <string name="fingerprint_error_biometric_not_setup">Please set up a biometric recognition.</string>
+    <string name="fingerprint_error_biometric_not_setup">Please set up biometric recognition.</string>
     <string name="fingerprint_error_biometric_code">Authentication error code: %1$d </string>
     <string name="continue_to_exit">Continue</string>
     <string name="are_you_sure">Are you sure you want to go back?</string>
@@ -118,7 +118,11 @@
     <string name="dropbox_too_full_notif_body">Presently failed to backup your data because your Dropbox is full. Tap to view your Dropbox account.</string>
     <string name="dropbox_sync_error_notif_body">There was a problem with your Dropbox account, click here to reconnect to Dropbox to resume automatic backups.</string>
     <string name="learn_more">Learn more</string>
-    <string name="prev_month">Previous month</string>
-    <string name="next_month">Next month</string>
     <string name="menu">Menu</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
+    <string name="edit">Edit</string>
+    <string name="back">Back</string>
+    <string name="clear">Clear</string>
+    <string name="import_success">Imported successfully!</string>
 </resources>

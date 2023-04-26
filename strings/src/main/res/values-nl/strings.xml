@@ -113,4 +113,11 @@
     <string name="dropbox_too_full_notif_body">Presently kan geen back-up van je gegevens maken omdat je Dropbox vol is. Tik om je Dropbox-account te bekijken</string>
     <string name="dropbox_sync_error_notif_body">Er was een probleem met je Dropbox-account. Klik hier om opnieuw verbinding te maken met Dropbox om de automatische back-ups te hervatten.</string>
     <string name="learn_more">Leer meer</string>
+    <string name="menu">Menu</string>
+    <string name="undo">Ongedaan maken</string>
+    <string name="redo">Opnieuw doen</string>
+    <string name="edit">Bewerking</string>
+    <string name="back">Ga terug</string>
+    <string name="clear">Wissen</string>
+    <string name="import_success">Succesvol geïmporteerd!</string>
 </resources>

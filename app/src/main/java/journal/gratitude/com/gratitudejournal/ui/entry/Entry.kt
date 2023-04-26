@@ -8,11 +8,13 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.presently.ui.PresentlyTheme
 import com.presently.ui.isDark
+import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.ui.milestone.MilestoneCelebration
 import journal.gratitude.com.gratitudejournal.ui.milestone.MilestoneScreen
 
@@ -81,7 +83,7 @@ fun Entry(
                         backgroundColor = PresentlyTheme.colors.entryButtonBackground,
                         contentColor = PresentlyTheme.colors.entryBackground,
                     ) {
-                        Icon(Icons.Filled.Edit, "Edit") //todo add content desc
+                        Icon(Icons.Filled.Edit, stringResource(R.string.edit))
                     }
                 }
             },

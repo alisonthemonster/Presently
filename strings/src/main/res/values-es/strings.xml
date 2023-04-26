@@ -116,4 +116,11 @@
     <string name="dropbox_too_full_notif_body">Presently no pudo hacer una copia de respaldo de sus datos porque su Dropbox está lleno. Toque para ver su cuenta de Dropbox</string>
     <string name="dropbox_sync_error_notif_body">Hubo un problema con su cuenta de Dropbox, haga clic aquí para volver a conectarse a Dropbox y reanudar las copias de respaldo automáticos.</string>
     <string name="learn_more">Aprende más</string>
+    <string name="menu">Menú</string>
+    <string name="undo">Deshacer</string>
+    <string name="redo">Rehacer</string>
+    <string name="edit">Editar</string>
+    <string name="back">Atrás</string>
+    <string name="clear">Claro</string>
+    <string name="import_success">¡Importado con éxito!</string>
 </resources>

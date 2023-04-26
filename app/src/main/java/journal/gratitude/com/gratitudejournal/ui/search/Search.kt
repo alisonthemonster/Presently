@@ -130,7 +130,7 @@ fun SearchTextField(
             IconButton(onClick = { onBackClicked() }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Back", //todo add content desc
+                    contentDescription = stringResource(R.string.back),
                     tint = PresentlyTheme.colors.timelineOnToolbar
                 )
             }
@@ -146,7 +146,7 @@ fun SearchTextField(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Clear,
-                        contentDescription = "Clear", //todo extract and translate
+                        contentDescription = stringResource(R.string.clear),
                         tint = PresentlyTheme.colors.timelineOnToolbar
                     )
                 }
