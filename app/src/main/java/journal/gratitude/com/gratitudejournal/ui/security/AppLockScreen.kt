@@ -24,7 +24,7 @@ import journal.gratitude.com.gratitudejournal.ui.settings.SettingsViewModel
 fun AppLockScreen(
     modifier: Modifier = Modifier,
     onUserAuthenticated: () -> Unit,
-    onUserAuthenticationFailed: (Int?) -> Unit,
+    onUserAuthenticationFailed: (String?) -> Unit,
 ) {
     val viewModel = hiltViewModel<SettingsViewModel>()
     var showDialog by remember { mutableStateOf(true) }
@@ -73,7 +73,7 @@ fun AppLockScreen(
                                 // and blocks us from showing the biometric prompt
                                 BiometricPrompt.ERROR_LOCKOUT,
                                 BiometricPrompt.ERROR_LOCKOUT_PERMANENT -> {
-                                    onUserAuthenticationFailed(R.string.fingerprint_error_lockout_too_many)
+                                    onUserAuthenticationFailed(errString.toString())
                                 }
                                 BiometricPrompt.ERROR_CANCELED -> {
                                     //happens when the sensor is not available
@@ -81,11 +81,11 @@ fun AppLockScreen(
                                 }
                                 BiometricPrompt.ERROR_NO_BIOMETRICS,
                                 BiometricPrompt.ERROR_NO_DEVICE_CREDENTIAL -> {
-                                    onUserAuthenticationFailed(R.string.fingerprint_error_biometric_not_setup)
+                                    onUserAuthenticationFailed(errString.toString())
                                 }
                                 else -> {
                                     viewModel.onUnknownAuthenticationError(errorCode, errString)
-                                    onUserAuthenticationFailed(R.string.fingerprint_error_biometric_code)
+                                    onUserAuthenticationFailed(errString.toString())
                                 }
                             }
                         }
