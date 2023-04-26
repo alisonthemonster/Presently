@@ -17,7 +17,6 @@ object Versions {
     const val ANDROIDX_CONSTRAINT = "2.0.4" //https://developer.android.com/jetpack/androidx/releases/constraintlayout
     const val ANDROIDX_CONSTRAINT_COMPOSE = "1.0.1" //https://developer.android.com/jetpack/androidx/releases/constraintlayout
     const val ANDROIDX_LIFECYCLE = "2.5.1" //https://developer.android.com/jetpack/androidx/releases/lifecycle
-    const val ANDROIDX_RECYCLER_VIEW = "1.2.0"
     const val FRAGMENT_TESTING = "1.3.4"
     const val ANDROIDX_BIOMETRIC = "1.2.0-alpha04" //https://developer.android.com/jetpack/androidx/releases/biometric
     const val ANDROIDX_TEST_JUNIT = "1.1.2"
@@ -76,7 +75,6 @@ object Libraries {
    const val androidx_lifecycle_compiler = "androidx.lifecycle:lifecycle-compiler:${Versions.ANDROIDX_LIFECYCLE}"
    const val androidx_viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.ANDROIDX_LIFECYCLE}"
    const val androidx_lifecycle_runtime_ktx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.ANDROIDX_LIFECYCLE}"
-   const val androidx_recycler_view = "androidx.recyclerview:recyclerview:${Versions.ANDROIDX_RECYCLER_VIEW}"
    const val androidx_preference_ktx = "androidx.preference:preference-ktx:${Versions.ANDROIDX_PREF_KTX}"
    const val androidx_work_runtime_ktx = "androidx.work:work-runtime-ktx:${Versions.ANDROIDX_WORK}"
    const val androidx_hilt_work = "androidx.hilt:hilt-work:${Versions.HILT_ANDROID}"
@@ -87,11 +85,9 @@ object Libraries {
    const val androidx_data_store = "androidx.datastore:datastore-preferences:${Versions.ANDROIDX_DATA_STORE}"
    const val three_ten_abp = "com.jakewharton.threetenabp:threetenabp:${Versions.THREE_TEN_ABP}"
    const val dropbox_sdk = "com.dropbox.core:dropbox-core-sdk:${Versions.DROPBOX_SDK}"
-   //todo can we remove this?
    const val play_core = "com.google.android.play:core:${Versions.PLAY_CORE}"
    const val material = "com.google.android.material:material:${Versions.MATERIAL}"
    const val play_services_oss_licenses = "com.google.android.gms:play-services-oss-licenses:${Versions.OSS_LICENSES}"
-   const val compact_calendar_view = "com.github.sundeepk:compact-calendar-view:${Versions.COMPACT_CAL_VIEW}"
    const val apache_text = "org.apache.commons:commons-text:${Versions.APACHE}"
    const val apache_csv = "org.apache.commons:commons-csv:${Versions.APACHE}"
    const val compose_activities = "androidx.activity:activity-compose:${Versions.COMPOSE_ACTIVITY}"
@@ -134,7 +130,6 @@ object TestLibraries {
     const val hilt_android_testing = "com.google.dagger:hilt-android-testing:${Versions.DAGGER}"
     const val espresso_core = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO}"
     const val espresso_contrib = "androidx.test.espresso:espresso-contrib:${Versions.ESPRESSO}"
-    const val test_orchestrator = "com.android.support.test:orchestrator:${Versions.TEST_ORCHESTRATOR}"
     const val three_ten_abp = "org.threeten:threetenbp:${Versions.THREE_TEN_ABP}"
     const val compose_ui_testing = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}"
     const val compose_ui_testing_manifest = "androidx.compose.ui:ui-test-manifest:${Versions.COMPOSE}"

@@ -34,7 +34,6 @@ import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
 
 //todo style this
-//todo theme isn't properly being applied
 
 //todo log analytics
 

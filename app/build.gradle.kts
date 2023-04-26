@@ -90,7 +90,6 @@ dependencies {
     implementation(Libraries.androidx_core_ktx)
     implementation(Libraries.androidx_constraint_layout)
     implementation(Libraries.androidx_preference_ktx)
-    implementation(Libraries.androidx_recycler_view) //todo probably remove
     implementation(Libraries.viewmodel_savedstate)
     implementation(Libraries.androidx_fragment)
     implementation(Libraries.androidx_biometric)
@@ -120,7 +119,6 @@ dependencies {
     implementation(Libraries.kotlin_coroutines_android)
     implementation(Libraries.material)
     implementation(Libraries.play_services_oss_licenses)
-    implementation(Libraries.compact_calendar_view)
     implementation(Libraries.dropbox_sdk)
     implementation(Libraries.apache_text)
     implementation(Libraries.apache_csv)
@@ -168,7 +166,7 @@ dependencies {
     debugImplementation(project(":testing")) //needed for the hilt test activity
     debugImplementation(TestLibraries.fragment_testing)
 
-    androidTestUtil(TestLibraries.test_orchestrator)
+//    androidTestUtil(TestLibraries.test_orchestrator)
 }
 
 fun getVersionName(): String {

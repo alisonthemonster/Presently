@@ -70,7 +70,7 @@ subprojects { prj ->
                               '**/DataBinderMapperImpl*.*',
                               '**/LocaleHelper*',
                               '**/FirebaseAnalytics.kt', //not going to test 3rd party code
-                              '**/calendar/*.*',]
+                              ]
 
             final kotlinTree = fileTree(dir: "${prj.buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
             final javacTree = fileTree(dir: "${prj.buildDir}/intermediates/javac/debug", excludes: fileFilter)
