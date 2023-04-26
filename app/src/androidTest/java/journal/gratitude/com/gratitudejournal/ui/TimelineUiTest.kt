@@ -27,7 +27,7 @@ class TimelineUiTest {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @get:Rule
-    val dropshots = Dropshots(resultValidator = ThresholdValidator(0.033))
+    val dropshots = Dropshots(resultValidator = ThresholdValidator(0.033f))
 
     @Test
     fun testMilestoneRow() {
