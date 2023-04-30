@@ -32,8 +32,7 @@ fladle {
     flankVersion = "21.05.0"
 
     directoriesToPull = [
-            "/sdcard",
-            ".*/screenshots/.*"
+            "/sdcard/screenshots"
     ]
 
     filesToDownload = [
