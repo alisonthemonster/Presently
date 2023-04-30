@@ -32,13 +32,14 @@ fladle {
     flankVersion = "21.05.0"
 
     directoriesToPull = [
-            "/sdcard"
+            "/sdcard",
+            ".*/screenshots/.*"
     ]
 
     filesToDownload = [
             "JUnitReport.xml",
             ".*/coverage/.*",
-            ".*/sdcard/[^/]+\\.ec\$"
+            ".*/sdcard/[^/]+\\.ec\$",
     ]
 
     environmentVariables = [
