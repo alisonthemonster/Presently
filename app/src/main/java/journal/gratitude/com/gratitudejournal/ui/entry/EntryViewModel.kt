@@ -63,7 +63,8 @@ class EntryViewModel @Inject constructor(
             _state.value = _state.value.copy(
                 date = date,
                 content = content?.entryContent ?: "",
-                isEditingExistingEntry = content != null
+                isEditingExistingEntry = content != null,
+                isInEditMode = content == null, //go straight to edit mode
             )
         }
     }
