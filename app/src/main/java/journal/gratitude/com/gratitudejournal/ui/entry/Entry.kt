@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -101,6 +103,7 @@ fun Entry(
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class) //for AnimatedContent
 @Composable
 fun EntryContent(
     modifier: Modifier = Modifier,
@@ -115,25 +118,27 @@ fun EntryContent(
         modifier = modifier
             .fillMaxSize(),
     ) {
-        if (state.isInEditMode) {
-            EditView(
-                date = state.date,
-                content = state.content,
-                promptNumber = state.promptNumber,
-                userCanUndo = state.userCanUndo,
-                userCanRedo = state.userCanRedo,
-                onTextChanged = { newText -> onTextChanged(newText) },
-                onHintClicked = { totalHints -> onHintClicked(totalHints) },
-                onUndoClicked = { onUndoClicked() },
-                onRedoClicked = { onRedoClicked() },
-            )
-        } else {
-            ReadView(
-                date = state.date,
-                content = state.content,
-                shouldShowQuote = state.shouldShowQuote,
-                onShareClicked = { date, content -> onShareClicked(date, content) }
-            )
+        AnimatedContent(targetState = state.isInEditMode) {isInEditMode ->
+            if (isInEditMode) {
+                EditView(
+                    date = state.date,
+                    content = state.content,
+                    promptNumber = state.promptNumber,
+                    userCanUndo = state.userCanUndo,
+                    userCanRedo = state.userCanRedo,
+                    onTextChanged = { newText -> onTextChanged(newText) },
+                    onHintClicked = { totalHints -> onHintClicked(totalHints) },
+                    onUndoClicked = { onUndoClicked() },
+                    onRedoClicked = { onRedoClicked() },
+                )
+            } else {
+                ReadView(
+                    date = state.date,
+                    content = state.content,
+                    shouldShowQuote = state.shouldShowQuote,
+                    onShareClicked = { date, content -> onShareClicked(date, content) }
+                )
+            }
         }
     }
 }

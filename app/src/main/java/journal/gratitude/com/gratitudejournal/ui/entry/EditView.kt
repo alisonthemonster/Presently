@@ -1,6 +1,9 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
 import android.util.Log
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -69,7 +72,14 @@ fun EditView(
                 color = PresentlyTheme.colors.entryDate
             )
             Text(
-                modifier = modifier.testTag("question"),
+                modifier = modifier
+                    .testTag("question")
+                    .animateContentSize(
+                        animationSpec = spring(
+                            dampingRatio = Spring.DampingRatioLowBouncy,
+                            stiffness = Spring.StiffnessLow
+                        )
+                    ),
                 text = if (promptNumber == null) {
                     if (date == LocalDate.now()) {
                         stringResource(id = R.string.what_are_you_thankful_for)
