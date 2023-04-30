@@ -1,5 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+//todo add compose linter
+
 buildscript {
     ext {
         kotlin_version = '1.8.20'
@@ -32,7 +34,7 @@ fladle {
     flankVersion = "21.05.0"
 
     directoriesToPull = [
-            "/sdcard/screenshots"
+            "/sdcard/Download"
     ]
 
     filesToDownload = [
