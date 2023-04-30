@@ -76,11 +76,7 @@ class FullIntegrationTest {
         timelineRobot.clickTodayEntry()
 
         entryRobot.assertCorrectDateIsShown(LocalDate.now())
-        entryRobot.assertCorrectTenseIsUsed(LocalDate.now())
-        entryRobot.assertUserIsInViewMode()
-
-        entryRobot.enterEditMode()
-        entryRobot.assertUserIsInEditMode()
+        entryRobot.assertUserIsInEditMode() //user enters edit mode when its empty
 
         entryRobot.type("Hello there, this is the Presently integration test!")
         entryRobot.assertEntryEditTextEquals("Hello there, this is the Presently integration test!")

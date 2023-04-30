@@ -48,10 +48,6 @@ class EntryUiTest {
         val entryRobot = EntryRobot(composeTestRule)
 
         entryRobot.assertCorrectDateIsShown(LocalDate.now())
-        entryRobot.assertCorrectTenseIsUsed(LocalDate.now())
-        entryRobot.assertUserIsInViewMode()
-
-        entryRobot.enterEditMode()
         entryRobot.assertUserIsInEditMode()
 
         entryRobot.type("Hello there!")
@@ -92,10 +88,6 @@ class EntryUiTest {
         val milestoneRobot = MilestoneRobot(composeTestRule)
 
         entryRobot.assertCorrectDateIsShown(LocalDate.now())
-        entryRobot.assertCorrectTenseIsUsed(LocalDate.now())
-        entryRobot.assertUserIsInViewMode()
-
-        entryRobot.enterEditMode()
         entryRobot.assertUserIsInEditMode()
         entryRobot.type("Hello there!")
 
@@ -122,7 +114,6 @@ class EntryUiTest {
 
         val entryRobot = EntryRobot(composeTestRule)
 
-        entryRobot.enterEditMode()
         entryRobot.assertCorrectQuestionTense(LocalDate.now())
         entryRobot.type("Hello there!")
         entryRobot.clickPromptButton()
