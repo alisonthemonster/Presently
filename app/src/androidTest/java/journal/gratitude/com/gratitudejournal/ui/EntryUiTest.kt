@@ -42,7 +42,7 @@ class EntryUiTest {
         composeTestRule.setContent {
             PresentlyTheme {
                 Entry(
-                    onEntryExit = {},
+                    onEntryExit = {}
                 )
             }
         }
@@ -72,14 +72,14 @@ class EntryUiTest {
                 journal.gratitude.com.gratitudejournal.model.Entry(LocalDate.of(2022, 10, 9), "An entry from October of 2022"),
                 journal.gratitude.com.gratitudejournal.model.Entry(LocalDate.of(2022, 9, 9), "An entry from September of 2022"),
                 journal.gratitude.com.gratitudejournal.model.Entry(LocalDate.of(2022, 8, 9), "An entry from August of 2022"),
-                journal.gratitude.com.gratitudejournal.model.Entry(LocalDate.of(2022, 7, 9), "An entry from July of 2022"),
-            ),
+                journal.gratitude.com.gratitudejournal.model.Entry(LocalDate.of(2022, 7, 9), "An entry from July of 2022")
+            )
         )
 
         composeTestRule.setContent {
             PresentlyTheme {
                 Entry(
-                    onEntryExit = {},
+                    onEntryExit = {}
                 )
             }
         }
@@ -106,7 +106,7 @@ class EntryUiTest {
         composeTestRule.setContent {
             PresentlyTheme {
                 Entry(
-                    onEntryExit = {},
+                    onEntryExit = {}
                 )
             }
         }

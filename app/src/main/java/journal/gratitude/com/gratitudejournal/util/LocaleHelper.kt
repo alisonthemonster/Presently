@@ -24,7 +24,7 @@ object LocaleHelper {
     @Suppress("DEPRECATION")
     private fun updateConfigurationLegacy(
         context: Context,
-        language: String,
+        language: String
     ): Context {
         val configuration = getConfiguration(context, language)
         val resources = context.resources
@@ -35,7 +35,7 @@ object LocaleHelper {
 
     private fun updateConfiguration(
         language: String,
-        context: Context,
+        context: Context
     ): Context {
         val locale = getLocale(language)
         Locale.setDefault(locale)
@@ -67,7 +67,7 @@ object LocaleHelper {
 
     private fun getConfiguration(
         context: Context,
-        language: String,
+        language: String
     ): Configuration {
         val locale = getLocale(language)
         Locale.setDefault(locale)

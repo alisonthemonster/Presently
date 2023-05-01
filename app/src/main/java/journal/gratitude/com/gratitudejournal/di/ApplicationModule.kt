@@ -21,7 +21,7 @@ object ApplicationModule {
     fun provideCoroutineDispatchers() = AppCoroutineDispatchers(
         io = Dispatchers.IO,
         computation = Dispatchers.Default,
-        main = Dispatchers.Main,
+        main = Dispatchers.Main
     )
 }
 

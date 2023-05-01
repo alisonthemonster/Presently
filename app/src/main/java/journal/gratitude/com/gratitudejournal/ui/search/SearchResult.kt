@@ -16,25 +16,25 @@ import org.threeten.bp.LocalDate
 fun SearchResult(
     modifier: Modifier = Modifier,
     result: Entry,
-    onEntryClicked: (date: LocalDate) -> Unit,
+    onEntryClicked: (date: LocalDate) -> Unit
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
                 onEntryClicked(result.entryDate)
-            },
+            }
     ) {
         Text(
             text = result.entryDate.toStringWithDayOfWeek(),
             style = PresentlyTheme.typography.bodyLarge,
             color = PresentlyTheme.colors.timelineDate,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Bold
         )
         Text(
             text = result.entryContent,
             style = PresentlyTheme.typography.bodyMedium,
-            color = PresentlyTheme.colors.timelineContent,
+            color = PresentlyTheme.colors.timelineContent
         )
     }
 }

@@ -10,12 +10,12 @@ sealed class TimelineItem
 data class Entry(
     @PrimaryKey
     val entryDate: LocalDate,
-    val entryContent: String,
+    val entryContent: String
 ) : TimelineItem()
 
 data class Milestone(
     val number: Int,
-    val numString: String,
+    val numString: String
 ) : TimelineItem() {
 
     companion object {

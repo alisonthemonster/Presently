@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settings: PresentlySettings,
-    private val crashReporter: CrashReporter,
+    private val crashReporter: CrashReporter
 ) : ViewModel() {
 
     fun onAppBackgrounded() {

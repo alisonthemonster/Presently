@@ -13,7 +13,7 @@ import org.threeten.bp.LocalDate
 @Composable
 fun EntryHeader(
     date: LocalDate,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Column() {
         Text(
@@ -23,18 +23,18 @@ fun EntryHeader(
                 else -> date.toStringWithDayOfWeek()
             },
             style = PresentlyTheme.typography.titleLarge,
-            color = PresentlyTheme.colors.entryDate,
+            color = PresentlyTheme.colors.entryDate
         )
         Text(
             text = if (date == LocalDate.now()) {
                 stringResource(R.string.iam)
             } else {
                 stringResource(
-                    R.string.iwas,
+                    R.string.iwas
                 )
             },
             style = PresentlyTheme.typography.titleLarge,
-            color = PresentlyTheme.colors.entryDate,
+            color = PresentlyTheme.colors.entryDate
         )
     }
 }

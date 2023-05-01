@@ -39,7 +39,7 @@ class RealUploader @Inject constructor(
     private val repository: EntryRepository,
     private val cloudProvider: CloudProvider,
     private val crashReporter: CrashReporter,
-    private val settings: PresentlySettings,
+    private val settings: PresentlySettings
 ) : Uploader {
     override suspend fun uploadEntries(appContext: Context): ListenableWorker.Result {
         // get items
@@ -55,7 +55,7 @@ class RealUploader @Inject constructor(
             File.createTempFile(
                 "tempPresentlyBackup",
                 null,
-                appContext.cacheDir,
+                appContext.cacheDir
             )
         }
 
@@ -94,7 +94,7 @@ class RealUploader @Inject constructor(
         val helpPageIntent =
             Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://help.dropbox.com/accounts-billing/space-storage/over-storage-limit"),
+                Uri.parse("https://help.dropbox.com/accounts-billing/space-storage/over-storage-limit")
             ).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
@@ -104,7 +104,7 @@ class RealUploader @Inject constructor(
         val accountPageIntent =
             Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://www.dropbox.com/account/plan"),
+                Uri.parse("https://www.dropbox.com/account/plan")
             ).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
@@ -115,7 +115,7 @@ class RealUploader @Inject constructor(
 
         val builder = NotificationCompat.Builder(
             appContext,
-            BACKUP_STATUS_CHANNEL,
+            BACKUP_STATUS_CHANNEL
         )
             .setSmallIcon(R.drawable.ic_app_icon)
             .setContentTitle(appContext.getString(R.string.backup_failure_notif_header))
@@ -126,7 +126,7 @@ class RealUploader @Inject constructor(
             .addAction(
                 R.drawable.ic_faq,
                 appContext.getString(R.string.learn_more),
-                helpPagePendingIntent,
+                helpPagePendingIntent
             ) // open dropbox help page
             .setAutoCancel(true)
 
@@ -145,13 +145,13 @@ class RealUploader @Inject constructor(
             appContext,
             0,
             intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         val notifBody = appContext.getString(R.string.dropbox_sync_error_notif_body)
         val builder = NotificationCompat.Builder(
             appContext,
-            BACKUP_STATUS_CHANNEL,
+            BACKUP_STATUS_CHANNEL
         )
             .setSmallIcon(R.drawable.ic_app_icon)
             .setContentTitle(appContext.getString(R.string.backup_failure_notif_header))

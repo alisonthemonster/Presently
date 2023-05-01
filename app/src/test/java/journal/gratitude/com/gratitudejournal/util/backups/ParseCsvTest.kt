@@ -55,7 +55,7 @@ class ParseCsvTest {
             override fun getRecords(): List<CsvRecord> {
                 return listOf(
                     CsvRecord(arrayOf("entryDate", "entryContent")),
-                    CsvRecord(arrayOf("2020-06-14", "Unit tests are great!")),
+                    CsvRecord(arrayOf("2020-06-14", "Unit tests are great!"))
                 )
             }
         }
@@ -63,8 +63,8 @@ class ParseCsvTest {
         val expected = listOf(
             Entry(
                 LocalDate.of(2020, 6, 14),
-                "Unit tests are great!",
-            ),
+                "Unit tests are great!"
+            )
         )
         val actual = convertCsvToEntries(parser)
 
@@ -77,7 +77,7 @@ class ParseCsvTest {
             override fun getRecords(): List<CsvRecord> {
                 return listOf(
                     CsvRecord(arrayOf("entryDate", "entryContent")),
-                    CsvRecord(arrayOf("2020-06-14", "Unit tests are great!", "they catch errors!")),
+                    CsvRecord(arrayOf("2020-06-14", "Unit tests are great!", "they catch errors!"))
                 )
             }
         }
@@ -94,7 +94,7 @@ class ParseCsvTest {
                 return listOf(
                     CsvRecord(arrayOf("entryDate", "entryContent")),
                     CsvRecord(arrayOf("2020-06-02", "Unit tests are great!")),
-                    CsvRecord(arrayOf("2020-06-14", "")),
+                    CsvRecord(arrayOf("2020-06-14", ""))
                 )
             }
         }
@@ -102,8 +102,8 @@ class ParseCsvTest {
         val expected = listOf(
             Entry(
                 LocalDate.of(2020, 6, 2),
-                "Unit tests are great!",
-            ),
+                "Unit tests are great!"
+            )
         )
         val actual = convertCsvToEntries(parser)
 

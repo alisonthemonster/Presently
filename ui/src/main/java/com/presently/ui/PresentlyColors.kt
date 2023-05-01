@@ -25,7 +25,7 @@ class PresentlyColors(
     entryButtonBackground: Color,
     entryButtonText: Color,
     entryQuoteText: Color,
-    debugColor1: Color,
+    debugColor1: Color
 ) {
     var iconResource by mutableStateOf(iconResource)
         private set
@@ -134,7 +134,7 @@ val OriginalColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffdbd1c7),
     entryQuoteText = Color(0xff79736a),
-    debugColor1 = Color(0xffDFA700),
+    debugColor1 = Color(0xffDFA700)
 )
 
 val CalmColors = PresentlyColors(
@@ -156,7 +156,7 @@ val CalmColors = PresentlyColors(
     entryButtonBackground = Color(0xff7985DB),
     entryButtonText = Color(0xffFFFFFF),
     entryQuoteText = Color(0xffBBC4FB),
-    debugColor1 = Color(0xffDFA700),
+    debugColor1 = Color(0xffDFA700)
 )
 
 val PassionColors = PresentlyColors(
@@ -178,7 +178,7 @@ val PassionColors = PresentlyColors(
     entryButtonBackground = Color(0xffE180D3),
     entryButtonText = Color(0xffFFFFFF),
     entryQuoteText = Color(0xffFAD8D9),
-    debugColor1 = Color(0xffDFA700),
+    debugColor1 = Color(0xffDFA700)
 )
 
 val JoyColors = PresentlyColors(
@@ -200,7 +200,7 @@ val JoyColors = PresentlyColors(
     entryButtonBackground = Color(0xff298582),
     entryButtonText = Color(0xffFFFFFF),
     entryQuoteText = Color(0xff91CFCC),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val BooColors = PresentlyColors(
@@ -222,7 +222,7 @@ val BooColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffFFFFFF),
     entryQuoteText = Color(0xff505050),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val BettyColors = PresentlyColors(
@@ -244,7 +244,7 @@ val BettyColors = PresentlyColors(
     entryButtonBackground = Color(0xffD67770),
     entryButtonText = Color(0xffFCDAD1),
     entryQuoteText = Color(0xffCF988E),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val AutumnColors = PresentlyColors(
@@ -266,7 +266,7 @@ val AutumnColors = PresentlyColors(
     entryButtonBackground = Color(0xffA98043),
     entryButtonText = Color(0xff000000),
     entryQuoteText = Color(0xff938C8C),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val BraylaColors = PresentlyColors(
@@ -288,7 +288,7 @@ val BraylaColors = PresentlyColors(
     entryButtonBackground = Color(0xffFFFFFF),
     entryButtonText = Color(0xff000000),
     entryQuoteText = Color(0xffA6A6A6),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val MarshaColors = PresentlyColors(
@@ -310,7 +310,7 @@ val MarshaColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffFFFAFA),
     entryQuoteText = Color(0xff4E4E4E),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val RemmieColors = PresentlyColors(
@@ -332,7 +332,7 @@ val RemmieColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xff4E4E4E),
     entryQuoteText = Color(0xff4E4E4E),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val AhalyaColors = PresentlyColors(
@@ -354,7 +354,7 @@ val AhalyaColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffFFFFFF),
     entryQuoteText = Color(0xff706767),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val DanahColors = PresentlyColors(
@@ -376,7 +376,7 @@ val DanahColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffFFEBE7),
     entryQuoteText = Color(0xff706767),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val EllenColors = PresentlyColors(
@@ -398,7 +398,7 @@ val EllenColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffFFFFFF),
     entryQuoteText = Color(0xff706767),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val JulieColors = PresentlyColors(
@@ -420,7 +420,7 @@ val JulieColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffFFFFFF),
     entryQuoteText = Color(0xff706767),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val JungleColors = PresentlyColors(
@@ -442,7 +442,7 @@ val JungleColors = PresentlyColors(
     entryButtonBackground = Color(0xff161616),
     entryButtonText = Color(0xffEAC9AA),
     entryQuoteText = Color(0xffAC977A),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val BrittanyColors = PresentlyColors(
@@ -464,7 +464,7 @@ val BrittanyColors = PresentlyColors(
     entryButtonBackground = Color(0xff161616),
     entryButtonText = Color(0xffFFFFFF),
     entryQuoteText = Color(0xff706767),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val KatieColors = PresentlyColors(
@@ -486,7 +486,7 @@ val KatieColors = PresentlyColors(
     entryButtonBackground = Color(0xffFEC2B8),
     entryButtonText = Color(0xff3B1011),
     entryQuoteText = Color(0xff706767),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val LotusColors = PresentlyColors(
@@ -508,7 +508,7 @@ val LotusColors = PresentlyColors(
     entryButtonBackground = Color(0xff4D1616),
     entryButtonText = Color(0xffF2C1C1),
     entryQuoteText = Color(0xffA57575),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val MonsteraColors = PresentlyColors(
@@ -530,7 +530,7 @@ val MonsteraColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffFFFFFF),
     entryQuoteText = Color(0xff919191),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val CloudColors = PresentlyColors(
@@ -552,7 +552,7 @@ val CloudColors = PresentlyColors(
     entryButtonBackground = Color(0xffFFFFFF),
     entryButtonText = Color(0xff000000),
     entryQuoteText = Color(0xffD5D5D5),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val MatisseColors = PresentlyColors(
@@ -574,7 +574,7 @@ val MatisseColors = PresentlyColors(
     entryButtonBackground = Color(0xff332626),
     entryButtonText = Color(0xffB8AFB6),
     entryQuoteText = Color(0xffAAA09C),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val DaisyColors = PresentlyColors(
@@ -596,7 +596,7 @@ val DaisyColors = PresentlyColors(
     entryButtonBackground = Color(0xff373E39),
     entryButtonText = Color(0xffFFFFFF),
     entryQuoteText = Color(0xff7E837F),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val RosieColors = PresentlyColors(
@@ -618,7 +618,7 @@ val RosieColors = PresentlyColors(
     entryButtonBackground = Color(0xffD26635),
     entryButtonText = Color(0xffF1DDD4),
     entryQuoteText = Color(0xffAAA09C),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val TulipColors = PresentlyColors(
@@ -640,7 +640,7 @@ val TulipColors = PresentlyColors(
     entryButtonBackground = Color(0xff4E603A),
     entryButtonText = Color(0xffE6D4CC),
     entryQuoteText = Color(0xff837E7C),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val SunlightColors = PresentlyColors(
@@ -662,7 +662,7 @@ val SunlightColors = PresentlyColors(
     entryButtonBackground = Color(0xffF1AF1B),
     entryButtonText = Color(0xffFCF8D4),
     entryQuoteText = Color(0xffAAA09C),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val WesternColors = PresentlyColors(
@@ -684,7 +684,7 @@ val WesternColors = PresentlyColors(
     entryButtonBackground = Color(0xffB1977E),
     entryButtonText = Color(0xff282828),
     entryQuoteText = Color(0xff6C5B4B),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val FieldColors = PresentlyColors(
@@ -706,7 +706,7 @@ val FieldColors = PresentlyColors(
     entryButtonBackground = Color(0xffE1D0B6),
     entryButtonText = Color(0xffF0E9D7),
     entryQuoteText = Color(0xffAAA09C),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val BeachColors = PresentlyColors(
@@ -728,7 +728,7 @@ val BeachColors = PresentlyColors(
     entryButtonBackground = Color(0xffD3C8C2),
     entryButtonText = Color(0xff636363),
     entryQuoteText = Color(0xffB9B9B9),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val WavesColors = PresentlyColors(
@@ -750,7 +750,7 @@ val WavesColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffF9F6EF),
     entryQuoteText = Color(0xff5F5F5F),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val GelatoColors = PresentlyColors(
@@ -772,7 +772,7 @@ val GelatoColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffEAD9D9),
     entryQuoteText = Color(0xff5F5F5F),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val GlacierColors = PresentlyColors(
@@ -794,7 +794,7 @@ val GlacierColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffF9F6EF),
     entryQuoteText = Color(0xff5F5F5F),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val CleanColors = PresentlyColors(
@@ -816,7 +816,7 @@ val CleanColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffF9F6EF),
     entryQuoteText = Color(0xff5F5F5F),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val MossColors = PresentlyColors(
@@ -838,7 +838,7 @@ val MossColors = PresentlyColors(
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffBCCCB7),
     entryQuoteText = Color(0xff3D3D3D),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val WesleyColors = PresentlyColors(
@@ -860,7 +860,7 @@ val WesleyColors = PresentlyColors(
     entryButtonBackground = Color(0xffFFFFFF),
     entryButtonText = Color(0xff000000),
     entryQuoteText = Color(0xff8A878B),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val IvyColors = PresentlyColors(
@@ -882,7 +882,7 @@ val IvyColors = PresentlyColors(
     entryButtonBackground = Color(0xff131515),
     entryButtonText = Color(0xffFFFFFF),
     entryQuoteText = Color(0xff1D332F),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val MidnightColors = PresentlyColors(
@@ -904,7 +904,7 @@ val MidnightColors = PresentlyColors(
     entryButtonBackground = Color(0xff484349),
     entryButtonText = Color(0xff7E7B7F),
     entryQuoteText = Color(0xff484349),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val DawnColors = PresentlyColors(
@@ -926,7 +926,7 @@ val DawnColors = PresentlyColors(
     entryButtonBackground = Color(0xff2D3142),
     entryButtonText = Color(0xffBFC0C0),
     entryQuoteText = Color(0xff8B8C8C),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val MoonlightColors = PresentlyColors(
@@ -948,7 +948,7 @@ val MoonlightColors = PresentlyColors(
     entryButtonBackground = Color(0xff838383),
     entryButtonText = Color(0xff091016),
     entryQuoteText = Color(0xff484349),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 val SunsetColors = PresentlyColors(
@@ -970,7 +970,7 @@ val SunsetColors = PresentlyColors(
     entryButtonBackground = Color(0xffA47272),
     entryButtonText = Color(0xff303030),
     entryQuoteText = Color(0xffA47272),
-    debugColor1 = Color(0xff510998),
+    debugColor1 = Color(0xff510998)
 )
 
 // todo fix icons that are using text_color attribute
@@ -1014,5 +1014,5 @@ val colorSchemes = mapOf(
     "Midnight" to MidnightColors,
     "Dawn" to DawnColors,
     "Moonlight" to MoonlightColors,
-    "Sunset" to SunsetColors,
+    "Sunset" to SunsetColors
 )

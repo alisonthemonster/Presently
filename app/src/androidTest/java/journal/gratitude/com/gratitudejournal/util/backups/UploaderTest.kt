@@ -38,7 +38,7 @@ class UploaderTest {
     private val dispatchers = AppCoroutineDispatchers(
         io = UnconfinedTestDispatcher(),
         computation = UnconfinedTestDispatcher(),
-        main = UnconfinedTestDispatcher(),
+        main = UnconfinedTestDispatcher()
     )
 
     private val repo = object : EntryRepository {

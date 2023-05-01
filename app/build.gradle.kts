@@ -62,7 +62,6 @@ android {
         getByName("androidTest").assets.srcDirs("$projectDir/schemas")
     }
 
-
     testOptions.unitTests.isIncludeAndroidResources = true
     testOptions.animationsDisabled = true
 
@@ -123,7 +122,7 @@ dependencies {
     implementation(Libraries.apache_text)
     implementation(Libraries.apache_csv)
 
-    //dependency injection
+    // dependency injection
     implementation(Libraries.dagger)
     kapt(Libraries.dagger_compiler)
     implementation(Libraries.dagger_android_support)
@@ -132,6 +131,8 @@ dependencies {
     kapt(Libraries.hilt_compiler)
     kapt(Libraries.hilt_android_compiler)
     implementation(Libraries.androidx_hilt_work)
+
+    ktlintRuleset("com.twitter.compose.rules:ktlint:0.0.26")
 
     testImplementation(TestLibraries.junit)
     testImplementation(TestLibraries.three_ten_abp) {
@@ -163,7 +164,7 @@ dependencies {
     androidTestImplementation(TestLibraries.compose_ui_testing)
     androidTestImplementation(TestLibraries.compose_ui_testing_manifest)
     kaptAndroidTest(Libraries.hilt_compiler)
-    debugImplementation(project(":testing")) //needed for the hilt test activity
+    debugImplementation(project(":testing")) // needed for the hilt test activity
     debugImplementation(TestLibraries.fragment_testing)
 
 //    androidTestUtil(TestLibraries.test_orchestrator)

@@ -40,7 +40,6 @@ import org.threeten.bp.LocalDate
 
 @Composable
 fun EditView(
-    modifier: Modifier = Modifier,
     date: LocalDate,
     content: String,
     promptNumber: Int?,
@@ -50,6 +49,7 @@ fun EditView(
     onHintClicked: (Int) -> Unit,
     onUndoClicked: () -> Unit,
     onRedoClicked: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -59,11 +59,11 @@ fun EditView(
         // open the keyboard
         focusRequester.requestFocus()
     }
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp),
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp)
         ) {
             Text(
                 text = when (date) {
@@ -72,16 +72,16 @@ fun EditView(
                     else -> date.toStringWithDayOfWeek()
                 },
                 style = PresentlyTheme.typography.titleLarge,
-                color = PresentlyTheme.colors.entryDate,
+                color = PresentlyTheme.colors.entryDate
             )
             Text(
-                modifier = modifier
+                modifier = Modifier
                     .testTag("question")
                     .animateContentSize(
                         animationSpec = spring(
                             dampingRatio = Spring.DampingRatioLowBouncy,
-                            stiffness = Spring.StiffnessLow,
-                        ),
+                            stiffness = Spring.StiffnessLow
+                        )
                     ),
                 text = if (promptNumber == null) {
                     if (date == LocalDate.now()) {
@@ -93,10 +93,10 @@ fun EditView(
                     prompts[promptNumber]
                 },
                 style = PresentlyTheme.typography.titleLarge,
-                color = PresentlyTheme.colors.entryDate,
+                color = PresentlyTheme.colors.entryDate
             )
             TextField(
-                modifier = modifier
+                modifier = Modifier
                     .focusRequester(focusRequester)
                     .testTag("editViewTextField"),
                 value = content,
@@ -110,7 +110,7 @@ fun EditView(
                         } else {
                             stringResource(id = R.string.what_were_you_thankful_for)
                         },
-                        color = PresentlyTheme.colors.entryHint,
+                        color = PresentlyTheme.colors.entryHint
                     )
                 },
                 keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
@@ -119,62 +119,62 @@ fun EditView(
                     backgroundColor = PresentlyTheme.colors.entryBackground,
                     focusedIndicatorColor = Color.Transparent, // hide the indicator
                     textColor = PresentlyTheme.colors.entryBody,
-                    cursorColor = PresentlyTheme.colors.debugColor1, // todo pick a color for this
-                ),
+                    cursorColor = PresentlyTheme.colors.debugColor1 // todo pick a color for this
+                )
             )
         }
         TextActions(
-            modifier = modifier
+            modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 8.dp),
             userCanUndo = userCanUndo,
             userCanRedo = userCanRedo,
             onPromptSuggestionClicked = { onHintClicked(prompts.size) },
             onUndoClicked = { onUndoClicked() },
-            onRedoClicked = { onRedoClicked() },
+            onRedoClicked = { onRedoClicked() }
         )
     }
 }
 
 @Composable
 fun TextActions(
-    modifier: Modifier = Modifier,
     userCanUndo: Boolean,
     userCanRedo: Boolean,
     onPromptSuggestionClicked: () -> Unit,
     onUndoClicked: () -> Unit,
     onRedoClicked: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
             .clip(shape = RoundedCornerShape(30.dp))
-            .background(color = PresentlyTheme.colors.entryButtonBackground),
+            .background(color = PresentlyTheme.colors.entryButtonBackground)
     ) {
         IconButton(
             onClick = { onUndoClicked() },
-            enabled = userCanUndo,
+            enabled = userCanUndo
         ) {
             Icon(
                 painterResource(id = R.drawable.undo),
                 contentDescription = stringResource(R.string.undo),
-                tint = if (userCanUndo) PresentlyTheme.colors.entryBackground else PresentlyTheme.colors.entryHint,
+                tint = if (userCanUndo) PresentlyTheme.colors.entryBackground else PresentlyTheme.colors.entryHint
             )
         }
         IconButton(onClick = { onPromptSuggestionClicked() }) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_idea_empty), // todo animate
                 contentDescription = stringResource(R.string.get_a_new_prompt),
-                tint = PresentlyTheme.colors.entryButtonText,
+                tint = PresentlyTheme.colors.entryButtonText
             )
         }
         IconButton(
             onClick = { onRedoClicked() },
-            enabled = userCanRedo,
+            enabled = userCanRedo
         ) {
             Icon(
                 painterResource(id = R.drawable.redo),
                 contentDescription = stringResource(R.string.redo),
-                tint = if (userCanRedo) PresentlyTheme.colors.entryBackground else PresentlyTheme.colors.entryHint,
+                tint = if (userCanRedo) PresentlyTheme.colors.entryBackground else PresentlyTheme.colors.entryHint
             )
         }
     }

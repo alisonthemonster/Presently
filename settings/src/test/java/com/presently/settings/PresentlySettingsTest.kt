@@ -355,7 +355,7 @@ class PresentlySettingsTest {
 
             override fun putStringSet(
                 key: String?,
-                values: MutableSet<String>?,
+                values: MutableSet<String>?
             ): SharedPreferences.Editor {
                 fail("putStringSet should not be called")
                 return this
@@ -410,7 +410,7 @@ class PresentlySettingsTest {
 
             override fun getStringSet(
                 key: String?,
-                defValues: MutableSet<String>?,
+                defValues: MutableSet<String>?
             ): MutableSet<String> {
                 fail("getStringSet should be used")
                 return mutableSetOf()

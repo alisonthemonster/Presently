@@ -62,7 +62,7 @@ class DropboxUploader(val context: Context, val settings: PresentlySettings) :
         suspend fun deauthorizeDropboxAccess(
             context: Context,
             settings: PresentlySettings,
-            dispatcher: CoroutineDispatcher = Dispatchers.IO,
+            dispatcher: CoroutineDispatcher = Dispatchers.IO
         ) {
             withContext(dispatcher) {
                 val accessToken = settings.getAccessToken()

@@ -50,9 +50,9 @@ import org.threeten.bp.LocalDate
 @Composable
 fun Search(
     onBackClicked: () -> Unit,
-    onEntryClicked: (date: LocalDate) -> Unit,
+    viewModel: SearchViewModel = hiltViewModel(),
+    onEntryClicked: (date: LocalDate) -> Unit
 ) {
-    val viewModel = hiltViewModel<SearchViewModel>()
     val state = viewModel.state.collectAsState()
 
     val focusRequester = remember { FocusRequester() }
@@ -67,7 +67,7 @@ fun Search(
     }
 
     PresentlyTheme(
-        selectedTheme = viewModel.getSelectedTheme(),
+        selectedTheme = viewModel.getSelectedTheme()
     ) {
         SearchContent(
             state = state.value,
@@ -77,7 +77,7 @@ fun Search(
                 viewModel.onEntryClicked()
                 onEntryClicked(it)
             },
-            focusRequester = focusRequester,
+            focusRequester = focusRequester
         )
     }
 }
@@ -89,13 +89,13 @@ fun SearchContent(
     onBackClicked: () -> Unit,
     onSearchQueryChanged: (query: String) -> Unit,
     onEntryClicked: (date: LocalDate) -> Unit,
-    focusRequester: FocusRequester,
+    focusRequester: FocusRequester
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(PresentlyTheme.colors.timelineBackground)
-            .windowInsetsPadding(WindowInsets.statusBars),
+            .windowInsetsPadding(WindowInsets.statusBars)
     ) {
         var searchQuery by remember { mutableStateOf(TextFieldValue(state.query)) }
         SearchTextField(
@@ -110,19 +110,19 @@ fun SearchContent(
             focusRequester = focusRequester,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(8.dp)
         )
         if (searchQuery.text.isNotEmpty() && state.results.isEmpty()) {
             Text(
                 modifier = modifier.fillMaxSize(),
                 text = stringResource(R.string.no_results),
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Center
             )
         } else {
             LazyColumn(
                 modifier = modifier
                     .navigationBarsPadding()
-                    .imePadding(),
+                    .imePadding()
             ) {
                 items(state.results) { searchResult ->
                     SearchResult(
@@ -130,10 +130,10 @@ fun SearchContent(
                             start = 16.dp,
                             end = 16.dp,
                             top = 8.dp,
-                            bottom = 8.dp,
+                            bottom = 8.dp
                         ),
                         result = searchResult,
-                        onEntryClicked = { onEntryClicked(it) },
+                        onEntryClicked = { onEntryClicked(it) }
                     )
                 }
             }
@@ -149,7 +149,7 @@ fun SearchTextField(
     onBackClicked: () -> Unit,
     focusRequester: FocusRequester,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions(),
+    keyboardActions: KeyboardActions = KeyboardActions()
 ) {
     TextField(
         modifier = modifier
@@ -162,7 +162,7 @@ fun SearchTextField(
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = stringResource(R.string.back),
-                    tint = PresentlyTheme.colors.timelineOnToolbar,
+                    tint = PresentlyTheme.colors.timelineOnToolbar
                 )
             }
         },
@@ -170,15 +170,15 @@ fun SearchTextField(
             AnimatedVisibility(
                 visible = value.text.isNotEmpty(),
                 enter = fadeIn(),
-                exit = fadeOut(),
+                exit = fadeOut()
             ) {
                 IconButton(
-                    onClick = { onValueChange(TextFieldValue()) },
+                    onClick = { onValueChange(TextFieldValue()) }
                 ) {
                     Icon(
                         imageVector = Icons.Default.Clear,
                         contentDescription = stringResource(R.string.clear),
-                        tint = PresentlyTheme.colors.timelineOnToolbar,
+                        tint = PresentlyTheme.colors.timelineOnToolbar
                     )
                 }
             }
@@ -186,7 +186,7 @@ fun SearchTextField(
         placeholder = {
             Text(
                 text = stringResource(R.string.search),
-                style = PresentlyTheme.typography.bodyLarge,
+                style = PresentlyTheme.typography.bodyLarge
             )
         },
         keyboardOptions = keyboardOptions,
@@ -202,7 +202,7 @@ fun SearchTextField(
             placeholderColor = PresentlyTheme.colors.timelineHint, // todo is this the best color?
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-        ),
+            disabledIndicatorColor = Color.Transparent
+        )
     )
 }

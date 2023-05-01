@@ -4,5 +4,5 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 
 data class SearchViewState(
     val query: String = "",
-    val results: List<Entry> = emptyList(),
+    val results: List<Entry> = emptyList()
 )

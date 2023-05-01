@@ -38,7 +38,7 @@ fun TimelineRow(
     shouldShowDayOfWeek: Boolean,
     numberOfLinesPerRow: Int,
     isLastEntry: Boolean = false,
-    onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit,
+    onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit
 ) {
     val isNewEntry = entryContent.isEmpty()
 
@@ -46,7 +46,7 @@ fun TimelineRow(
         modifier = modifier
             .requiredHeightIn(min = 100.dp)
             .fillMaxWidth()
-            .clickable { onEntryClicked(entryDate, isNewEntry) },
+            .clickable { onEntryClicked(entryDate, isNewEntry) }
     ) {
         val (dateString, entryString, image, timelineLine, timelineDot, timelineEndDot) = createRefs()
 
@@ -67,7 +67,7 @@ fun TimelineRow(
                 }
                 .width(5.dp)
                 .clip(RectangleShape)
-                .background(theme.timelineLine),
+                .background(theme.timelineLine)
         )
         Box(
             modifier = Modifier
@@ -79,7 +79,7 @@ fun TimelineRow(
                 }
                 .size(15.dp)
                 .clip(CircleShape)
-                .background(theme.timelineLine),
+                .background(theme.timelineLine)
         )
         Text(
             modifier = Modifier.constrainAs(dateString) {
@@ -90,7 +90,7 @@ fun TimelineRow(
             },
             text = if (shouldShowDayOfWeek) entryDate.toStringWithDayOfWeek() else entryDate.toFullString(),
             style = PresentlyTheme.typography.bodyLarge,
-            color = PresentlyTheme.colors.timelineDate,
+            color = PresentlyTheme.colors.timelineDate
         )
         Text(
             modifier = Modifier.constrainAs(entryString) {
@@ -104,7 +104,7 @@ fun TimelineRow(
             style = PresentlyTheme.typography.bodyMedium,
             color = if (isNewEntry) PresentlyTheme.colors.timelineHint else PresentlyTheme.colors.timelineContent,
             maxLines = numberOfLinesPerRow,
-            overflow = TextOverflow.Ellipsis,
+            overflow = TextOverflow.Ellipsis
         )
         if (isLastEntry) {
             Image(
@@ -117,7 +117,7 @@ fun TimelineRow(
                     }
                     .padding(bottom = 16.dp),
                 painter = painterResource(id = theme.iconResource),
-                contentDescription = null,
+                contentDescription = null
             )
             Box(
                 modifier = Modifier
@@ -128,7 +128,7 @@ fun TimelineRow(
                     }
                     .size(15.dp)
                     .clip(CircleShape)
-                    .background(theme.timelineLine),
+                    .background(theme.timelineLine)
             )
         }
     }

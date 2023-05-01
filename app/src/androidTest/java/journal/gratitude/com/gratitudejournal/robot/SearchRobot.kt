@@ -12,7 +12,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import journal.gratitude.com.gratitudejournal.MainActivity
 
 class SearchRobot(
-    val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>,
+    val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>
 ) {
     fun assertSearchViewIsShown() {
         composeTestRule.onNodeWithTag("searchFieldTestTag").assertIsDisplayed()

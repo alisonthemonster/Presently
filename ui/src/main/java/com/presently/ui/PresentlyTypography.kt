@@ -12,36 +12,36 @@ import androidx.compose.ui.unit.sp
 data class PresentlyTypography(
     val titleLarge: TextStyle = TextStyle(
         fontSize = 28.sp,
-        fontFamily = ValueFontFamily,
+        fontFamily = ValueFontFamily
     ),
     val titleMedium: TextStyle = TextStyle(
         fontSize = 22.sp,
-        fontFamily = ValueFontFamily,
+        fontFamily = ValueFontFamily
     ),
     val titleSmall: TextStyle = TextStyle(
         fontSize = 16.sp,
-        fontFamily = ValueFontFamily,
+        fontFamily = ValueFontFamily
     ),
     val bodyExtraLarge: TextStyle = TextStyle(
         fontSize = 22.sp,
-        fontFamily = LarsseitFontFamily,
+        fontFamily = LarsseitFontFamily
     ),
     val bodyLarge: TextStyle = TextStyle(
         fontSize = 20.sp,
-        fontFamily = LarsseitFontFamily,
+        fontFamily = LarsseitFontFamily
     ),
     val bodyMedium: TextStyle = TextStyle(
         fontSize = 18.sp,
-        fontFamily = LarsseitFontFamily,
+        fontFamily = LarsseitFontFamily
     ),
     val bodySmall: TextStyle = TextStyle(
         fontSize = 16.sp,
-        fontFamily = LarsseitFontFamily,
+        fontFamily = LarsseitFontFamily
     ),
     val bodyExtraSmall: TextStyle = TextStyle(
         fontSize = 14.sp,
-        fontFamily = LarsseitFontFamily,
-    ),
+        fontFamily = LarsseitFontFamily
+    )
 )
 
 @Stable
@@ -57,6 +57,6 @@ fun PresentlyTypography.toMaterialTheme(): Typography {
         titleSmall = this.titleSmall,
         bodyLarge = this.bodyLarge,
         bodyMedium = this.bodySmall,
-        bodySmall = this.bodySmall,
+        bodySmall = this.bodySmall
     )
 }

@@ -37,8 +37,8 @@ class SearchUiTest {
             query = "dogs",
             results = listOf(
                 Entry(LocalDate.of(2011, 11, 11), "Search result one"),
-                Entry(LocalDate.of(2001, 1, 1), "Search result two"),
-            ),
+                Entry(LocalDate.of(2001, 1, 1), "Search result two")
+            )
         )
 
         composeTestRule.setContent {
@@ -48,7 +48,7 @@ class SearchUiTest {
                     onEntryClicked = {},
                     onSearchQueryChanged = {},
                     onBackClicked = {},
-                    focusRequester = FocusRequester(),
+                    focusRequester = FocusRequester()
                 )
             }
         }
@@ -66,8 +66,8 @@ class SearchUiTest {
             query = "",
             results = listOf(
                 Entry(LocalDate.of(2011, 11, 11), "Search result one"),
-                Entry(LocalDate.of(2001, 1, 1), "Search result two"),
-            ),
+                Entry(LocalDate.of(2001, 1, 1), "Search result two")
+            )
         )
 
         composeTestRule.setContent {
@@ -79,7 +79,7 @@ class SearchUiTest {
                         onSearchQueryChangeQuery = it
                     },
                     onBackClicked = {},
-                    focusRequester = FocusRequester(),
+                    focusRequester = FocusRequester()
                 )
             }
         }
@@ -99,8 +99,8 @@ class SearchUiTest {
             query = "",
             results = listOf(
                 Entry(LocalDate.of(2011, 11, 11), "Search result one"),
-                Entry(LocalDate.of(2001, 1, 1), "Search result two"),
-            ),
+                Entry(LocalDate.of(2001, 1, 1), "Search result two")
+            )
         )
 
         composeTestRule.setContent {
@@ -110,7 +110,7 @@ class SearchUiTest {
                     onEntryClicked = {},
                     onSearchQueryChanged = {},
                     onBackClicked = {},
-                    focusRequester = FocusRequester(),
+                    focusRequester = FocusRequester()
                 )
             }
         }
@@ -138,8 +138,8 @@ class SearchUiTest {
             query = "dogs",
             results = listOf(
                 Entry(LocalDate.of(2011, 11, 11), "Search result one"),
-                Entry(LocalDate.of(2001, 1, 1), "Search result two"),
-            ),
+                Entry(LocalDate.of(2001, 1, 1), "Search result two")
+            )
         )
 
         composeTestRule.setContent {
@@ -151,7 +151,7 @@ class SearchUiTest {
                     },
                     onSearchQueryChanged = {},
                     onBackClicked = {},
-                    focusRequester = FocusRequester(),
+                    focusRequester = FocusRequester()
                 )
             }
         }

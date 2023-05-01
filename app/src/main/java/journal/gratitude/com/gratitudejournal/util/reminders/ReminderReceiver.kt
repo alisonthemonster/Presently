@@ -34,7 +34,7 @@ class ReminderReceiver : BroadcastReceiver() {
             context,
             ALARM_TYPE_RTC,
             openActivityIntent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         // Build notification

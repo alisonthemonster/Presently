@@ -25,7 +25,7 @@ class FileExporterTest {
     private val dispatchers = AppCoroutineDispatchers(
         io = TestCoroutineDispatcher(),
         computation = TestCoroutineDispatcher(),
-        main = TestCoroutineDispatcher(),
+        main = TestCoroutineDispatcher()
     )
     private val fileExporter = FileExporter(writer, dispatchers)
 

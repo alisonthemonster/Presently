@@ -9,5 +9,5 @@ data class TimelineViewState(
     val datesWritten: Set<LocalDate> = emptySet(),
     val shouldShowDayOfWeek: Boolean = false,
     val numberOfLinesPerRow: Int = 10,
-    val authenticationState: AuthenticationState = AuthenticationState.UNKNOWN,
+    val authenticationState: AuthenticationState = AuthenticationState.UNKNOWN
 )

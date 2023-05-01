@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [CloudUploadModule::class],
+    replaces = [CloudUploadModule::class]
 )
 abstract class FakeCloudUploadModule {
     @Singleton

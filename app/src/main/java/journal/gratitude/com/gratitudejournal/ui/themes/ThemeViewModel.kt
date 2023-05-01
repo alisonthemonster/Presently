@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ThemeViewModel @Inject constructor(
-    private val settings: PresentlySettings,
+    private val settings: PresentlySettings
 ) : ViewModel() {
 
     fun getSelectedTheme(): PresentlyColors {

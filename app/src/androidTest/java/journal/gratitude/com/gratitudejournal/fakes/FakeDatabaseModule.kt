@@ -14,7 +14,7 @@ import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [DatabaseModule::class],
+    replaces = [DatabaseModule::class]
 )
 object FakeDatabaseModule {
 

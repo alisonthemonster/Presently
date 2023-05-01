@@ -32,12 +32,12 @@ import journal.gratitude.com.gratitudejournal.R
 fun MilestoneRow(
     modifier: Modifier = Modifier,
     theme: PresentlyColors,
-    milestoneNumber: Int,
+    milestoneNumber: Int
 ) {
     ConstraintLayout(
         modifier = modifier
             .requiredHeightIn(min = 100.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
     ) {
         val (milestoneContent, timelineLine, timelineDot) = createRefs()
 
@@ -51,7 +51,7 @@ fun MilestoneRow(
                 }
                 .width(5.dp)
                 .clip(RectangleShape)
-                .background(theme.timelineLine),
+                .background(theme.timelineLine)
         )
         Box(
             modifier = Modifier
@@ -63,7 +63,7 @@ fun MilestoneRow(
                 }
                 .size(15.dp)
                 .clip(CircleShape)
-                .background(theme.timelineLine),
+                .background(theme.timelineLine)
         )
         MilestoneContent(
             modifier = Modifier.constrainAs(milestoneContent) {
@@ -73,7 +73,7 @@ fun MilestoneRow(
                 width = Dimension.fillToConstraints
             },
             milestoneNumber = milestoneNumber,
-            iconResource = theme.iconResource,
+            iconResource = theme.iconResource
         )
     }
 }
@@ -82,33 +82,33 @@ fun MilestoneRow(
 fun MilestoneContent(
     modifier: Modifier = Modifier,
     milestoneNumber: Int,
-    iconResource: Int,
+    iconResource: Int
 ) {
     Row(
         modifier = modifier
             .clip(shape = RoundedCornerShape(15.dp))
-            .background(color = PresentlyTheme.colors.timelineFab),
+            .background(color = PresentlyTheme.colors.timelineFab)
     ) {
         Image(
             modifier = modifier
                 .height(80.dp)
                 .padding(8.dp),
             painter = painterResource(id = iconResource),
-            contentDescription = null,
+            contentDescription = null
         )
         Column(
             modifier = modifier.height(80.dp),
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "$milestoneNumber",
                 style = PresentlyTheme.typography.bodyLarge,
-                color = PresentlyTheme.colors.timelineOnFab,
+                color = PresentlyTheme.colors.timelineOnFab
             )
             Text(
                 text = stringResource(R.string.days_of),
                 style = PresentlyTheme.typography.bodyLarge,
-                color = PresentlyTheme.colors.timelineOnFab,
+                color = PresentlyTheme.colors.timelineOnFab
             )
         }
     }

@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 class RealPresentlySettings @Inject constructor(
     private val sharedPrefs: SharedPreferences,
-    private val analytics: AnalyticsLogger,
+    private val analytics: AnalyticsLogger
 ) : PresentlySettings {
 
     override fun getCurrentTheme(): String {

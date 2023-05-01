@@ -25,25 +25,25 @@ import kotlin.random.Random
 
 @Composable
 fun ReadView(
-    modifier: Modifier = Modifier,
     date: LocalDate,
     content: String,
     shouldShowQuote: Boolean,
+    modifier: Modifier = Modifier
 ) {
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
     Column(
-        modifier = modifier
+        modifier = Modifier
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
-            .testTag("readMode"),
+            .testTag("readMode")
     ) {
         EntryHeader(date)
         Text(
-            modifier = modifier.padding(bottom = 16.dp),
+            modifier = Modifier.padding(bottom = 16.dp),
             text = content,
             style = PresentlyTheme.typography.bodyMedium,
-            color = PresentlyTheme.colors.entryBody,
+            color = PresentlyTheme.colors.entryBody
         )
         if (shouldShowQuote) {
             val quotes = stringArrayResource(id = R.array.inspirations)
@@ -54,10 +54,10 @@ fun ReadView(
                 style = PresentlyTheme.typography.bodyExtraSmall,
                 color = PresentlyTheme.colors.entryQuoteText,
                 textAlign = TextAlign.Center,
-                modifier = modifier.clickable {
+                modifier = Modifier.clickable {
                     clipboardManager.setText(AnnotatedString(quote))
                     Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
-                },
+                }
             )
         }
     }

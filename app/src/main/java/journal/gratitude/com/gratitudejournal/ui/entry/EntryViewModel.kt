@@ -28,7 +28,7 @@ class EntryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val repository: EntryRepository,
     private val analytics: AnalyticsLogger,
-    private val settings: PresentlySettings,
+    private val settings: PresentlySettings
 ) : ViewModel() {
     private val _state = MutableStateFlow(EntryViewState())
     val state: StateFlow<EntryViewState> = _state
@@ -67,7 +67,7 @@ class EntryViewModel @Inject constructor(
                 date = date,
                 content = content?.entryContent ?: "",
                 isEditingExistingEntry = content != null,
-                isInEditMode = content == null, // go straight to edit mode
+                isInEditMode = content == null // go straight to edit mode
             )
         }
     }
@@ -96,7 +96,7 @@ class EntryViewModel @Inject constructor(
             !_state.value.isEditingExistingEntry && isMilestone(_state.value.entryNumber ?: -1)
         _state.value = _state.value.copy(
             isInEditMode = false,
-            shouldShowMilestoneDialog = shouldShowMilestoneDialog,
+            shouldShowMilestoneDialog = shouldShowMilestoneDialog
         )
     }
 
@@ -140,7 +140,7 @@ class EntryViewModel @Inject constructor(
         _state.value = _state.value.copy(
             content = textToSave,
             undoStack = undoStack,
-            redoStack = redoStack,
+            redoStack = redoStack
         )
     }
 
@@ -148,7 +148,7 @@ class EntryViewModel @Inject constructor(
         val entry =
             journal.gratitude.com.gratitudejournal.model.Entry(
                 _state.value.date,
-                _state.value.content,
+                _state.value.content
             )
         viewModelScope.launch {
             val numberOfWrittenEntries = repository.addEntry(entry)
@@ -194,5 +194,5 @@ private fun <E> ArrayDeque<E>.pushWithLimit(item: E, limit: Int) {
 enum class TextChangeType {
     TYPING,
     UNDO,
-    REDO,
+    REDO
 }

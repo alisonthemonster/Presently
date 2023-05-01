@@ -9,12 +9,12 @@ object CsvWriter {
         val sb = StringBuffer()
         writeRow(
             sb,
-            Pair(DATE_COLUMN_HEADER, ENTRY_COLUMN_HEADER),
+            Pair(DATE_COLUMN_HEADER, ENTRY_COLUMN_HEADER)
         )
         for (element in items) {
             writeRow(
                 sb,
-                Pair(element.entryDate.toDatabaseString(), element.entryContent),
+                Pair(element.entryDate.toDatabaseString(), element.entryContent)
             )
         }
         return sb.toString()

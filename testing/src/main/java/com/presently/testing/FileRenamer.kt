@@ -43,7 +43,7 @@ object FileRenamer {
             Locale.ENGLISH,
             "pm grant %s %s",
             instrumentation.context.packageName,
-            permission,
+            permission
         )
         val parcelFileDescriptor = automation.executeShellCommand(command)
         val stream = FileInputStream(parcelFileDescriptor.fileDescriptor)

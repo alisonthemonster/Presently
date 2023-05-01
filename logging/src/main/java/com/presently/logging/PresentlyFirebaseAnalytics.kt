@@ -4,7 +4,7 @@ import android.os.Bundle
 
 internal class PresentlyFirebaseAnalytics(
     private val firebaseAnalytics: FirebaseAnalytics,
-    private val crashReporter: CrashReporter,
+    private val crashReporter: CrashReporter
 ) :
     AnalyticsLogger {
 
@@ -27,19 +27,19 @@ internal class PresentlyFirebaseAnalytics(
         val bundle = Bundle()
         bundle.putString(
             com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_NAME,
-            selectedContent,
+            selectedContent
         )
         bundle.putString(
             com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_ID,
-            selectedContent,
+            selectedContent
         )
         bundle.putString(
             com.google.firebase.analytics.FirebaseAnalytics.Param.CONTENT_TYPE,
-            selectedContentType,
+            selectedContentType
         )
         firebaseAnalytics.logEvent(
             com.google.firebase.analytics.FirebaseAnalytics.Event.SELECT_CONTENT,
-            bundle,
+            bundle
         )
     }
 
@@ -49,7 +49,7 @@ internal class PresentlyFirebaseAnalytics(
 
         firebaseAnalytics.logEvent(
             com.google.firebase.analytics.FirebaseAnalytics.Event.LEVEL_UP,
-            bundle,
+            bundle
         )
     }
 
@@ -57,15 +57,15 @@ internal class PresentlyFirebaseAnalytics(
         val bundle = Bundle()
         bundle.putString(
             com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME,
-            viewName,
+            viewName
         )
         bundle.putString(
             com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_CLASS,
-            viewName,
+            viewName
         )
         firebaseAnalytics.logEvent(
             com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW,
-            bundle,
+            bundle
         )
     }
 

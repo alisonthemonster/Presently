@@ -29,5 +29,5 @@ internal sealed class Screen(val route: String) {
 enum class UserStartDestination {
     ENTRY_SCREEN,
     SETTINGS_SCREEN,
-    DEFAULT_SCREEN,
+    DEFAULT_SCREEN
 }

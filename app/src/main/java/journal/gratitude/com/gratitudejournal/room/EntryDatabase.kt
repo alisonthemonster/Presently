@@ -29,7 +29,7 @@ abstract class EntryDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     EntryDatabase::class.java,
-                    "Entry_database",
+                    "Entry_database"
                 ).addMigrations(MIGRATION_1_2)
                     .build()
                 INSTANCE = instance
@@ -42,11 +42,11 @@ abstract class EntryDatabase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
                     "CREATE VIRTUAL TABLE IF NOT EXISTS `entriesFts` USING FTS4(" +
-                        "`entryDate` TEXT, `entryContent` TEXT, content=`entries`)",
+                        "`entryDate` TEXT, `entryContent` TEXT, content=`entries`)"
                 )
                 database.execSQL(
                     "INSERT INTO entriesFts (`rowid`, `entryDate`, `entryContent`) " +
-                        "SELECT `rowid`, `entryDate`, `entryContent` FROM entries",
+                        "SELECT `rowid`, `entryDate`, `entryContent` FROM entries"
                 )
             }
         }

@@ -124,7 +124,7 @@ class SettingsFragment :
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
             v.updatePadding(
                 top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
-                bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom,
+                bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
             )
             insets
         }
@@ -377,7 +377,7 @@ class SettingsFragment :
             val browserIntent =
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html"),
+                    Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html")
                 )
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
@@ -415,7 +415,7 @@ class SettingsFragment :
             val browserIntent =
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html"),
+                    Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html")
                 )
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
@@ -431,7 +431,7 @@ class SettingsFragment :
             val browserIntent =
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://presently-app.firebaseapp.com/faq.html"),
+                    Uri.parse("https://presently-app.firebaseapp.com/faq.html")
                 )
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
@@ -504,7 +504,7 @@ class SettingsFragment :
             val parser = CSVParser.parse(
                 inputStream,
                 Charset.defaultCharset(),
-                CSVFormat.DEFAULT,
+                CSVFormat.DEFAULT
             )
             val realCsvParser = RealCsvParser(parser)
             val entries = convertCsvToEntries(realCsvParser)
@@ -533,7 +533,7 @@ class SettingsFragment :
                     val csvResult = exportEntriesToCsvFile(
                         requireContext(),
                         uri,
-                        repository.getEntries(),
+                        repository.getEntries()
                     )
                     when (csvResult) {
                         is CsvUriError -> exportCallback.onFailure(csvResult.exception)
@@ -545,7 +545,7 @@ class SettingsFragment :
                 Toast.makeText(
                     context,
                     R.string.error_creating_csv_file,
-                    Toast.LENGTH_SHORT,
+                    Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -582,7 +582,7 @@ class SettingsFragment :
             Toast.makeText(
                 context,
                 "Error : ${exception.localizedMessage}",
-                Toast.LENGTH_SHORT,
+                Toast.LENGTH_SHORT
             )
                 .show()
         }

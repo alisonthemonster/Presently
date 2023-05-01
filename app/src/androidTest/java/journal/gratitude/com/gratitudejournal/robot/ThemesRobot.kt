@@ -7,7 +7,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import journal.gratitude.com.gratitudejournal.MainActivity
 
 class ThemesRobot(
-    val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>,
+    val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>
 ) {
 
     fun selectTheme(themeName: String) {

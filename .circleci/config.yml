@@ -17,6 +17,9 @@ jobs:
           java-version: 17
       - android/restore-gradle-cache
       - android/restore-build-cache
+      - run:
+          name: Check Kotlin formatting using Ktlint
+          command: ./gradlew ktlintCheck
       - android/run-tests:
             test-command: ./gradlew assembleDebug assembleAndroidTest
       - android/save-gradle-cache

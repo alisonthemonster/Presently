@@ -50,8 +50,8 @@ class FullIntegrationTest {
         // add some fake data
         repository.addEntries(
             listOf(
-                Entry(LocalDate.of(2022, 10, 9), "An entry from October of 2022"),
-            ),
+                Entry(LocalDate.of(2022, 10, 9), "An entry from October of 2022")
+            )
         )
     }
 

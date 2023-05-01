@@ -50,7 +50,7 @@ dependencies {
     implementation(Libraries.three_ten_abp)
     implementation(Libraries.dropbox_sdk)
 
-    //dependency injection
+    // dependency injection
     implementation(Libraries.dagger)
     kapt(Libraries.dagger_compiler)
     implementation(Libraries.dagger_android_support)

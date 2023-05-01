@@ -36,20 +36,20 @@ import org.threeten.bp.LocalDate
 @ExperimentalAnimationApi
 @Composable
 internal fun AppNavigation(
-    modifier: Modifier = Modifier,
     navController: NavHostController,
     startDestination: String,
     postAuthDestination: UserStartDestination,
+    modifier: Modifier = Modifier
 ) {
     val activity = LocalContext.current as Activity
 
     AnimatedNavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startDestination,
+        startDestination = startDestination
     ) {
         composable(
-            route = Screen.Timeline.route,
+            route = Screen.Timeline.route
         ) {
             Timeline(
                 onEntryClicked = { date ->
@@ -66,23 +66,23 @@ internal fun AppNavigation(
                 },
                 onContactClicked = {
                     onContactClicked(activity)
-                },
+                }
             )
         }
         composable(
             route = Screen.Entry.createRoute(),
             arguments = listOf(
-                navArgument("entry-date") { type = NavType.StringType },
-            ),
+                navArgument("entry-date") { type = NavType.StringType }
+            )
         ) {
             Entry(
                 onEntryExit = {
                     navController.popBackStack()
-                },
+                }
             )
         }
         composable(
-            route = Screen.Search.route,
+            route = Screen.Search.route
         ) {
             Search(
                 onEntryClicked = { date ->
@@ -90,26 +90,26 @@ internal fun AppNavigation(
                 },
                 onBackClicked = {
                     navController.navigateUp()
-                },
+                }
             )
         }
         composable(
-            route = Screen.Themes.route,
+            route = Screen.Themes.route
         ) {
             ThemeSelection(
                 onThemeChanged = {
                     navController.popBackStack()
                     activity.recreate()
-                },
+                }
             )
         }
         composable(
-            route = Screen.Settings.route,
+            route = Screen.Settings.route
         ) {
             SettingsFragmentContainer()
         }
         composable(
-            route = Screen.Lock.route,
+            route = Screen.Lock.route
         ) {
             AppLockScreen(
                 onUserAuthenticated = {
@@ -136,7 +136,7 @@ internal fun AppNavigation(
                         Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
                     }
                     activity.finish()
-                },
+                }
             )
         }
     }
@@ -188,9 +188,11 @@ internal class MilestoneArgs(val milestoneNumber: Int) {
 }
 
 @Composable
-fun SettingsFragmentContainer() {
+fun SettingsFragmentContainer(
+    modifier: Modifier = Modifier
+) {
     AndroidViewBinding(
-        modifier = Modifier.windowInsetsPadding(WindowInsets.safeContent),
-        factory = FragmentSettingsBinding::inflate,
+        modifier = modifier.windowInsetsPadding(WindowInsets.safeContent),
+        factory = FragmentSettingsBinding::inflate
     )
 }

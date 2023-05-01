@@ -33,7 +33,7 @@ import journal.gratitude.com.gratitudejournal.ui.milestone.MilestoneScreen
 fun Entry(
     modifier: Modifier = Modifier,
     viewModel: EntryViewModel = hiltViewModel(),
-    onEntryExit: () -> Unit,
+    onEntryExit: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -50,7 +50,7 @@ fun Entry(
     }
 
     PresentlyTheme(
-        selectedTheme = viewModel.getSelectedTheme(),
+        selectedTheme = viewModel.getSelectedTheme()
     ) {
         val systemUiController = rememberSystemUiController()
         val useDarkIcons = !PresentlyTheme.colors.entryBackground.isDark()
@@ -60,7 +60,7 @@ fun Entry(
             // dark icons if we're in light theme
             systemUiController.setStatusBarColor(
                 color = Color.Transparent,
-                darkIcons = useDarkIcons,
+                darkIcons = useDarkIcons
             )
             onDispose {}
         }
@@ -70,8 +70,8 @@ fun Entry(
                 theme = viewModel.getSelectedTheme(),
                 milestoneNumber = state.entryNumber!!,
                 onDismiss = { viewModel.onDismissMilestoneDialog() },
-            ) {
-            }
+                onShareClicked = {}
+            )
         }
 
         Scaffold(
@@ -86,7 +86,7 @@ fun Entry(
                         } else {
                             onEntryExit()
                         }
-                    },
+                    }
                 )
             },
             floatingActionButton = {
@@ -94,22 +94,22 @@ fun Entry(
                     FloatingActionButton(
                         onClick = viewModel::onFabClicked,
                         backgroundColor = PresentlyTheme.colors.entryButtonBackground,
-                        contentColor = PresentlyTheme.colors.entryButtonText,
+                        contentColor = PresentlyTheme.colors.entryButtonText
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Edit,
-                            contentDescription = stringResource(R.string.edit),
+                            contentDescription = stringResource(R.string.edit)
                         )
                     }
                 }
-            },
+            }
         ) {
             EntryContent(
                 state = state,
                 onTextChanged = viewModel::onTextChanged,
                 onHintClicked = viewModel::changeHint,
                 onUndoClicked = viewModel::onUndoClicked,
-                onRedoClicked = viewModel::onRedoClicked,
+                onRedoClicked = viewModel::onRedoClicked
             )
         }
     }
@@ -118,17 +118,17 @@ fun Entry(
 @OptIn(ExperimentalAnimationApi::class) // for AnimatedContent
 @Composable
 fun EntryContent(
-    modifier: Modifier = Modifier,
     state: EntryViewState,
     onTextChanged: (newText: String) -> Unit,
     onHintClicked: (Int) -> Unit,
     onUndoClicked: () -> Unit,
     onRedoClicked: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(PresentlyTheme.colors.entryBackground),
+            .background(PresentlyTheme.colors.entryBackground)
     ) {
         AnimatedContent(targetState = state.isInEditMode) { isInEditMode ->
             if (isInEditMode) {
@@ -141,13 +141,13 @@ fun EntryContent(
                     onTextChanged = { newText -> onTextChanged(newText) },
                     onHintClicked = { totalHints -> onHintClicked(totalHints) },
                     onUndoClicked = { onUndoClicked() },
-                    onRedoClicked = { onRedoClicked() },
+                    onRedoClicked = { onRedoClicked() }
                 )
             } else {
                 ReadView(
                     date = state.date,
                     content = state.content,
-                    shouldShowQuote = state.shouldShowQuote,
+                    shouldShowQuote = state.shouldShowQuote
                 )
             }
         }

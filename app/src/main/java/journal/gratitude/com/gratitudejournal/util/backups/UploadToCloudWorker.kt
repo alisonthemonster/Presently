@@ -11,7 +11,7 @@ import dagger.assisted.AssistedInject
 class UploadToCloudWorker @AssistedInject constructor(
     @Assisted val appContext: Context,
     @Assisted workerParams: WorkerParameters,
-    private val uploader: Uploader,
+    private val uploader: Uploader
 ) : CoroutineWorker(appContext, workerParams) {
     override suspend fun doWork(): Result {
         return uploader.uploadEntries(appContext)

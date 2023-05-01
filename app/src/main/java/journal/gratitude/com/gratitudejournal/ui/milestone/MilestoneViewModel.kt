@@ -18,7 +18,7 @@ import javax.inject.Inject
 class MilestoneViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val analytics: AnalyticsLogger,
-    private val settings: PresentlySettings,
+    private val settings: PresentlySettings
 ) : ViewModel() {
     private val navArgs = MilestoneArgs(savedStateHandle)
 

@@ -35,57 +35,57 @@ import journal.gratitude.com.gratitudejournal.ui.settings.SettingsViewModel
 fun AppLockScreen(
     modifier: Modifier = Modifier,
     onUserAuthenticated: () -> Unit,
-    onUserAuthenticationFailed: (String?) -> Unit,
+    viewModel: SettingsViewModel = hiltViewModel(),
+    onUserAuthenticationFailed: (String?) -> Unit
 ) {
-    val viewModel = hiltViewModel<SettingsViewModel>()
     var showDialog by remember { mutableStateOf(true) }
 
     val theme = remember { viewModel.getSelectedTheme() }
 
     PresentlyTheme(
-        selectedTheme = theme,
+        selectedTheme = theme
     ) {
         Surface(
             color = PresentlyTheme.colors.timelineBackground,
             modifier = modifier
                 .windowInsetsPadding(WindowInsets.statusBars)
-                .fillMaxHeight(),
+                .fillMaxHeight()
         ) {
             Column(
                 modifier = modifier.fillMaxSize().padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     stringResource(R.string.lock_summary),
                     style = PresentlyTheme.typography.titleLarge,
                     color = PresentlyTheme.colors.timelineLogo,
-                    textAlign = TextAlign.Center,
+                    textAlign = TextAlign.Center
                 )
                 Image(
                     modifier = modifier.size(80.dp).padding(8.dp),
                     painter = painterResource(id = theme.iconResource),
-                    contentDescription = null,
+                    contentDescription = null
                 )
                 if (showDialog) {
                     BiometricDialog(
                         callback = object : BiometricPrompt.AuthenticationCallback() {
                             override fun onAuthenticationError(
                                 errorCode: Int,
-                                errString: CharSequence,
+                                errString: CharSequence
                             ) {
                                 super.onAuthenticationError(errorCode, errString)
                                 showDialog = false
 
                                 when (errorCode) {
                                     BiometricPrompt.ERROR_NEGATIVE_BUTTON,
-                                    BiometricPrompt.ERROR_USER_CANCELED,
+                                    BiometricPrompt.ERROR_USER_CANCELED
                                     -> {
                                         onUserAuthenticationFailed(null)
                                     }
                                     // Occurs after a few failures,
                                     // and blocks us from showing the biometric prompt
                                     BiometricPrompt.ERROR_LOCKOUT,
-                                    BiometricPrompt.ERROR_LOCKOUT_PERMANENT,
+                                    BiometricPrompt.ERROR_LOCKOUT_PERMANENT
                                     -> {
                                         onUserAuthenticationFailed(errString.toString())
                                     }
@@ -94,7 +94,7 @@ fun AppLockScreen(
                                         // (happens onPause as well)
                                     }
                                     BiometricPrompt.ERROR_NO_BIOMETRICS,
-                                    BiometricPrompt.ERROR_NO_DEVICE_CREDENTIAL,
+                                    BiometricPrompt.ERROR_NO_DEVICE_CREDENTIAL
                                     -> {
                                         onUserAuthenticationFailed(errString.toString())
                                     }
@@ -106,14 +106,14 @@ fun AppLockScreen(
                             }
 
                             override fun onAuthenticationSucceeded(
-                                result: BiometricPrompt.AuthenticationResult,
+                                result: BiometricPrompt.AuthenticationResult
                             ) {
                                 showDialog = false
                                 super.onAuthenticationSucceeded(result)
                                 viewModel.onAuthenticationSucceeded()
                                 onUserAuthenticated()
                             }
-                        },
+                        }
                     )
                 }
             }

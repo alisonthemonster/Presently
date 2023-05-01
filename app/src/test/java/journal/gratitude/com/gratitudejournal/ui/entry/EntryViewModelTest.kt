@@ -285,8 +285,8 @@ class EntryViewModelTest {
         assertThat(writtenEntry).isEqualTo(
             Entry(
                 LocalDate.of(2023, 10, 12),
-                "Hello this is new text!",
-            ),
+                "Hello this is new text!"
+            )
         )
     }
 

@@ -116,7 +116,7 @@ class PresentlyFirebaseAnalyticsTest {
         val expectedBundle = bundleOf(
             "item_name" to expected,
             "item_id" to expected,
-            "content_type" to expectedType,
+            "content_type" to expectedType
         )
         presentlyAnalytics.recordSelectEvent(expected, expectedType)
 
@@ -153,7 +153,7 @@ class PresentlyFirebaseAnalyticsTest {
 
         val expected = 100
         val expectedBundle = bundleOf(
-            "level" to expected,
+            "level" to expected
         )
         presentlyAnalytics.recordEntryAdded(expected)
 
@@ -191,7 +191,7 @@ class PresentlyFirebaseAnalyticsTest {
         val expected = "MyFragment"
         val expectedBundle = bundleOf(
             "screen_name" to expected,
-            "screen_class" to expected,
+            "screen_class" to expected
         )
         presentlyAnalytics.recordView(expected)
 

@@ -48,9 +48,9 @@ fun Timeline(
     onSearchClicked: () -> Unit,
     onThemesClicked: () -> Unit,
     onSettingsClicked: () -> Unit,
-    onContactClicked: () -> Unit,
+    viewModel: TimelineViewModel = hiltViewModel(),
+    onContactClicked: () -> Unit
 ) {
-    val viewModel = hiltViewModel<TimelineViewModel>()
     val state by viewModel.state.collectAsState()
     val theme = viewModel.getSelectedTheme()
 
@@ -61,7 +61,7 @@ fun Timeline(
     }
 
     PresentlyTheme(
-        selectedTheme = theme,
+        selectedTheme = theme
     ) {
         TimelineContent(
             theme = theme,
@@ -85,7 +85,7 @@ fun Timeline(
             onContactClicked = {
                 viewModel.onContactClicked()
                 onContactClicked()
-            },
+            }
         )
     }
 }
@@ -99,7 +99,7 @@ fun TimelineContent(
     onSearchClicked: () -> Unit,
     onSettingsClicked: () -> Unit,
     onThemesClicked: () -> Unit,
-    onContactClicked: () -> Unit,
+    onContactClicked: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -112,7 +112,7 @@ fun TimelineContent(
         // dark icons if we're in light theme
         systemUiController.setStatusBarColor(
             color = Color.Transparent,
-            darkIcons = useDarkIcons,
+            darkIcons = useDarkIcons
         )
         onDispose {}
     }
@@ -126,7 +126,7 @@ fun TimelineContent(
                 onSearchClicked = onSearchClicked,
                 onThemesClicked = onThemesClicked,
                 onContactClicked = onContactClicked,
-                onSettingsClicked = onSettingsClicked,
+                onSettingsClicked = onSettingsClicked
             )
         },
         topBar = {
@@ -135,7 +135,7 @@ fun TimelineContent(
                     Text(
                         text = stringResource(id = R.string.presently),
                         style = PresentlyTheme.typography.titleLarge,
-                        color = PresentlyTheme.colors.timelineLogo,
+                        color = PresentlyTheme.colors.timelineLogo
                     )
                 },
                 navigationIcon = {
@@ -149,21 +149,21 @@ fun TimelineContent(
                         Icon(
                             imageVector = Icons.Default.Menu,
                             contentDescription = stringResource(R.string.menu),
-                            tint = PresentlyTheme.colors.timelineOnToolbar,
+                            tint = PresentlyTheme.colors.timelineOnToolbar
                         )
                     }
                 },
                 backgroundColor = PresentlyTheme.colors.timelineToolbar,
-                contentPadding = WindowInsets.statusBars.asPaddingValues(),
+                contentPadding = WindowInsets.statusBars.asPaddingValues()
             )
-        },
+        }
     ) { contentPadding ->
         Surface(
             color = PresentlyTheme.colors.timelineBackground,
             modifier = modifier
                 .testTag("timelineList")
                 .padding(contentPadding)
-                .fillMaxHeight(),
+                .fillMaxHeight()
         ) {
             TimelineList(
                 modifier = modifier,
@@ -171,7 +171,7 @@ fun TimelineContent(
                 timelineItems = state.timelineItems,
                 numberOfLinesPerRow = state.numberOfLinesPerRow,
                 shouldShowDayOfWeek = state.shouldShowDayOfWeek,
-                onEntryClicked = onEntryClicked,
+                onEntryClicked = onEntryClicked
             )
         }
     }
@@ -184,11 +184,11 @@ fun TimelineList(
     timelineItems: List<TimelineItem>,
     shouldShowDayOfWeek: Boolean,
     numberOfLinesPerRow: Int,
-    onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit,
+    onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
-            .navigationBarsPadding(),
+            .navigationBarsPadding()
     ) {
         // todo add keys to help with recomposition
         itemsIndexed(timelineItems) { index, timelineItem ->
@@ -201,13 +201,13 @@ fun TimelineList(
                         shouldShowDayOfWeek = shouldShowDayOfWeek,
                         numberOfLinesPerRow = numberOfLinesPerRow,
                         onEntryClicked = onEntryClicked,
-                        isLastEntry = index == timelineItems.size - 1,
+                        isLastEntry = index == timelineItems.size - 1
                     )
                 }
                 is Milestone -> {
                     MilestoneRow(
                         theme = theme,
-                        milestoneNumber = timelineItem.number,
+                        milestoneNumber = timelineItem.number
                     )
                 }
             }

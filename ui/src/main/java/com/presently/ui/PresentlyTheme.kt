@@ -10,7 +10,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 @Composable
 fun PresentlyTheme(
     selectedTheme: PresentlyColors = OriginalColors,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     val typography = PresentlyTheme.typography
     val colors = remember { selectedTheme }
@@ -18,12 +18,12 @@ fun PresentlyTheme(
 
     CompositionLocalProvider(
         LocalPresentlyTypography provides typography,
-        LocalPresentlyColors provides colors,
+        LocalPresentlyColors provides colors
     ) {
         MaterialTheme(
             content = content,
             typography = typography.toMaterialTheme(),
-            colorScheme = colors.toMaterialTheme(),
+            colorScheme = colors.toMaterialTheme()
         )
     }
 }
@@ -59,7 +59,7 @@ private fun PresentlyColors.toMaterialTheme(): ColorScheme {
         onErrorContainer = this.debugColor1,
         outline = this.debugColor1,
         outlineVariant = this.debugColor1,
-        scrim = this.debugColor1,
+        scrim = this.debugColor1
     )
 }
 

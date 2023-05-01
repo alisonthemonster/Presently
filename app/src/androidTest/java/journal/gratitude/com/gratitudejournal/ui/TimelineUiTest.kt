@@ -35,7 +35,7 @@ class TimelineUiTest {
             PresentlyTheme {
                 MilestoneRow(
                     theme = OriginalColors,
-                    milestoneNumber = 150,
+                    milestoneNumber = 150
                 )
             }
         }
@@ -53,7 +53,7 @@ class TimelineUiTest {
                     entryContent = "I was grateful for my very cuddly and cute dog. We went for a lovely walk today and played in the park for a while. Then we came home and played fetch together before snuggling on the couch.",
                     onEntryClicked = { _, _ -> },
                     shouldShowDayOfWeek = true,
-                    numberOfLinesPerRow = 10,
+                    numberOfLinesPerRow = 10
                 )
             }
         }
@@ -71,7 +71,7 @@ class TimelineUiTest {
                     entryContent = "I was grateful for my very cuddly and cute dog. We went for a lovely walk today and played in the park for a while. Then we came home and played fetch together before snuggling on the couch.",
                     onEntryClicked = { _, _ -> },
                     shouldShowDayOfWeek = false,
-                    numberOfLinesPerRow = 10,
+                    numberOfLinesPerRow = 10
                 )
             }
         }
@@ -90,7 +90,7 @@ class TimelineUiTest {
                     isLastEntry = true,
                     onEntryClicked = { _, _ -> },
                     shouldShowDayOfWeek = true,
-                    numberOfLinesPerRow = 10,
+                    numberOfLinesPerRow = 10
                 )
             }
         }
@@ -108,7 +108,7 @@ class TimelineUiTest {
                     entryContent = "",
                     onEntryClicked = { _, _ -> },
                     shouldShowDayOfWeek = true,
-                    numberOfLinesPerRow = 10,
+                    numberOfLinesPerRow = 10
                 )
             }
         }

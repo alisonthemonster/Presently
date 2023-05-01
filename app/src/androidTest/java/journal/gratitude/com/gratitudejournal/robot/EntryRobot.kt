@@ -16,7 +16,7 @@ import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
 
 class EntryRobot(
-    val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>,
+    val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>
 ) {
 
     fun assertCorrectDateIsShown(expectedDate: LocalDate) {

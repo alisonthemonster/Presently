@@ -24,7 +24,7 @@ class FileExporter(private val fileWriter: FileWriter, private val dispatchers: 
                 CsvFileCreated(file)
             } catch (exception: Exception) {
                 CsvFileError(
-                    exception,
+                    exception
                 )
             }
         }

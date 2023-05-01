@@ -10,7 +10,7 @@ import journal.gratitude.com.gratitudejournal.util.toFullString
 import org.threeten.bp.LocalDate
 
 class TimelineRobot(
-    val composeTestRule: ComposeTestRule,
+    val composeTestRule: ComposeTestRule
 ) {
 
     fun verifyCorrectTimelineState() {

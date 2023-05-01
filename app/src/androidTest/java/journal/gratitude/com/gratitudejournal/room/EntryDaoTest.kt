@@ -28,7 +28,7 @@ class EntryDaoTest {
     fun initDb() {
         database = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
-            EntryDatabase::class.java,
+            EntryDatabase::class.java
         ).allowMainThreadQueries().build()
         entryDao = database.entryDao()
     }

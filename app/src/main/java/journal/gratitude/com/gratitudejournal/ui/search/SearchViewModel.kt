@@ -21,7 +21,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val repository: EntryRepository,
     private val settings: PresentlySettings,
-    private val analytics: AnalyticsLogger,
+    private val analytics: AnalyticsLogger
 ) : ViewModel() {
 
     private val searchQuery = MutableStateFlow("")
@@ -35,7 +35,7 @@ class SearchViewModel @Inject constructor(
                 .onEach { query ->
                     _state.value = _state.value.copy(
                         query = query,
-                        results = repository.search(query),
+                        results = repository.search(query)
                     )
                 }
                 .collect()

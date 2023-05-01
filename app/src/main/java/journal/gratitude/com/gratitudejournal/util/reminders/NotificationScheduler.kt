@@ -44,7 +44,7 @@ class NotificationScheduler {
             context,
             EXACT_ALARM_REQUEST_CODE,
             Intent(context, ReminderReceiver::class.java),
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         val alarmTimeCal = if (LocalTime.now().isAfter(alarmTime)) {
@@ -69,14 +69,14 @@ class NotificationScheduler {
         context.packageManager.setComponentEnabledSetting(
             receiver,
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-            PackageManager.DONT_KILL_APP,
+            PackageManager.DONT_KILL_APP
         )
 
         val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             alarmTimeCal.timeInMillis,
-            alarmIntent,
+            alarmIntent
         )
     }
 
@@ -92,7 +92,7 @@ class NotificationScheduler {
                 context,
                 EXACT_ALARM_REQUEST_CODE,
                 Intent(context, ReminderReceiver::class.java),
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
 
         pendingIntent.cancel()
@@ -106,7 +106,7 @@ class NotificationScheduler {
         context.packageManager.setComponentEnabledSetting(
             receiver,
             PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-            PackageManager.DONT_KILL_APP,
+            PackageManager.DONT_KILL_APP
         )
     }
 
@@ -116,7 +116,7 @@ class NotificationScheduler {
                 context,
                 PENDING_INTENT,
                 Intent(context, ReminderReceiver::class.java),
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
 
         pendingIntent.cancel()

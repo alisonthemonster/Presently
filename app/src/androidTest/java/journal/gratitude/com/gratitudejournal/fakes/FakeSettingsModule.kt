@@ -21,7 +21,7 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [PresentlySettingsModule::class],
+    replaces = [PresentlySettingsModule::class]
 )
 abstract class FakeSettingsModule {
     @Singleton

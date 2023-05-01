@@ -28,7 +28,7 @@ import javax.inject.Inject
 class TimelineViewModel @Inject constructor(
     private val repository: EntryRepository,
     private val settings: PresentlySettings,
-    private val analyticsLogger: AnalyticsLogger,
+    private val analyticsLogger: AnalyticsLogger
 ) : ViewModel() {
     private val _state = MutableStateFlow(TimelineViewState())
     val state: StateFlow<TimelineViewState> = _state
@@ -43,8 +43,8 @@ class TimelineViewModel @Inject constructor(
                         _state.value = _state.value.copy(
                             timelineItems = listOf<TimelineItem>(
                                 Entry(today, ""),
-                                Entry(yesterday, ""),
-                            ),
+                                Entry(yesterday, "")
+                            )
                         )
                     }
 
@@ -62,7 +62,7 @@ class TimelineViewModel @Inject constructor(
                             timelineItems = newList,
                             datesWritten = list.map {
                                 it.entryDate
-                            }.toSet(),
+                            }.toSet()
                         )
                     }
 
@@ -93,7 +93,7 @@ class TimelineViewModel @Inject constructor(
                             timelineItems = listWithHintsAndMilestones,
                             datesWritten = list.map {
                                 it.entryDate
-                            }.toSet(),
+                            }.toSet()
                         )
                     }
                 }
@@ -104,7 +104,7 @@ class TimelineViewModel @Inject constructor(
     fun loadSettings() {
         _state.value = _state.value.copy(
             shouldShowDayOfWeek = settings.shouldShowDayOfWeekInTimeline(),
-            numberOfLinesPerRow = settings.getLinesPerEntryInTimeline(),
+            numberOfLinesPerRow = settings.getLinesPerEntryInTimeline()
         )
     }
 

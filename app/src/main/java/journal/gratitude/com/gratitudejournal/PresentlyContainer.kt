@@ -18,10 +18,9 @@ import journal.gratitude.com.gratitudejournal.ui.settings.SettingsViewModel
 @Composable
 fun PresentlyContainer(
     userStartDestination: UserStartDestination,
+    viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val navController = rememberAnimatedNavController()
-
-    val viewModel = hiltViewModel<SettingsViewModel>()
 
     /**
      * Listens to lifecycle events to determine if the app has been in the background
@@ -53,6 +52,6 @@ fun PresentlyContainer(
     AppNavigation(
         navController = navController,
         startDestination = startDestination,
-        postAuthDestination = userStartDestination,
+        postAuthDestination = userStartDestination
     )
 }
