@@ -4,12 +4,11 @@ import android.app.Instrumentation
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Environment
-import android.util.Log.d
+import android.util.Log
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
-import java.lang.IllegalStateException
-import java.util.*
+import java.util.Locale
 
 object FileRenamer {
 
@@ -29,9 +28,9 @@ object FileRenamer {
             val renamedCoverageFile = File(sdcard, "$path-coverage.ec")
             val renamed = coverageFile.renameTo(renamedCoverageFile)
             if (renamed) {
-                d("file-renamer","File renamed: $path-coverage.ec")
+                Log.d("file-renamer","File renamed: $path-coverage.ec")
             }else {
-                d("file-renamer","File NOT renamed: $path-coverage.ec");
+                Log.d("file-renamer","File NOT renamed: $path-coverage.ec");
             }
         } catch (exception: IOException) {
             throw IllegalStateException(exception)
@@ -70,7 +69,7 @@ object FileRenamer {
             val field = clazz.getField("PROJECT_PATH")
             return field[""] as String
         } catch (exception: Exception) {
-            d("file-renamer", "Unable to get project path: ${exception}")
+            Log.d("file-renamer", "Unable to get project path: ${exception}")
         }
         return null
     }

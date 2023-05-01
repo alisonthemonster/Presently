@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.presently.logging.AnalyticsLogger
@@ -8,8 +7,16 @@ import com.presently.settings.PresentlySettings
 import com.presently.ui.PresentlyColors
 import com.presently.ui.toPresentlyColors
 import dagger.hilt.android.lifecycle.HiltViewModel
-import journal.gratitude.com.gratitudejournal.model.*
+import journal.gratitude.com.gratitudejournal.model.CLICKED_EXISTING_ENTRY
+import journal.gratitude.com.gratitudejournal.model.CLICKED_NEW_ENTRY
+import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH
+import journal.gratitude.com.gratitudejournal.model.CLICKED_SETTINGS
+import journal.gratitude.com.gratitudejournal.model.CLICKED_THEMES
+import journal.gratitude.com.gratitudejournal.model.Entry
+import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilestone
+import journal.gratitude.com.gratitudejournal.model.OPENED_CONTACT_FORM
+import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -9,7 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import com.presently.settings.PresentlySettings
 import org.threeten.bp.LocalTime
-import java.util.*
+import java.util.Calendar
 
 /**
  * Schedules or cancels broadcasts to the ReminderReceiver at the specified time

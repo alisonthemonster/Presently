@@ -1,17 +1,16 @@
 package journal.gratitude.com.gratitudejournal.ui.search
 
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import com.presently.logging.AnalyticsLogger
 import com.presently.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.MainDispatcherRule
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.Rule
 import org.junit.Test
 

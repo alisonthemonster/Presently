@@ -1,11 +1,17 @@
 package journal.gratitude.com.gratitudejournal.ui.util
 
-import journal.gratitude.com.gratitudejournal.util.*
+import journal.gratitude.com.gratitudejournal.util.getYearString
+import journal.gratitude.com.gratitudejournal.util.toDatabaseString
+import journal.gratitude.com.gratitudejournal.util.toDate
+import journal.gratitude.com.gratitudejournal.util.toFullString
+import journal.gratitude.com.gratitudejournal.util.toLocalDate
+import journal.gratitude.com.gratitudejournal.util.toMonthString
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 import org.threeten.bp.LocalDate
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 class DateUtilTest {
 

@@ -7,7 +7,7 @@ import com.presently.logging.AnalyticsLogger
 import junit.framework.Assert.fail
 import org.junit.Test
 import org.threeten.bp.LocalTime
-import java.util.*
+import java.util.Date
 
 class PresentlySettingsTest {
 

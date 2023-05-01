@@ -5,7 +5,7 @@ import android.content.res.Configuration
 import android.os.Build
 import com.presently.settings.PresentlySettings
 import com.presently.settings.model.NO_LANG_PREF
-import java.util.*
+import java.util.Locale
 
 object LocaleHelper {
     fun onAppAttached(context: Context, settings: PresentlySettings): Context {

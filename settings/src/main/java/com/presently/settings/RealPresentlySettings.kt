@@ -8,9 +8,23 @@ import com.dropbox.core.oauth.DbxCredential
 import com.presently.logging.AnalyticsLogger
 import com.presently.logging.DROPBOX_AUTH_QUIT
 import com.presently.logging.DROPBOX_AUTH_SUCCESS
-import com.presently.settings.model.*
-import java.util.*
+import com.presently.settings.model.ACCESS_TOKEN
+import com.presently.settings.model.ANALYTICS_OPT_IN_PREF
+import com.presently.settings.model.APP_LANGUAGE
+import com.presently.settings.model.BACKUP_CADENCE
+import com.presently.settings.model.BACKUP_TOKEN
+import com.presently.settings.model.DAY_OF_WEEK
+import com.presently.settings.model.FINGERPRINT
+import com.presently.settings.model.LINES_PER_ENTRY_IN_TIMELINE
+import com.presently.settings.model.NOTIFS
+import com.presently.settings.model.NOTIF_PREF_TIME
+import com.presently.settings.model.NO_LANG_PREF
+import com.presently.settings.model.ON_PAUSE_TIME
+import com.presently.settings.model.SHOW_QUOTE
+import com.presently.settings.model.THEME_PREF
 import org.threeten.bp.LocalTime
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 class RealPresentlySettings @Inject constructor(

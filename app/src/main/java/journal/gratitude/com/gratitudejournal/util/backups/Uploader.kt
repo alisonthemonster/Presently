@@ -16,7 +16,10 @@ import journal.gratitude.com.gratitudejournal.MainActivity
 import journal.gratitude.com.gratitudejournal.MainActivity.Companion.BACKUP_STATUS_CHANNEL
 import journal.gratitude.com.gratitudejournal.MainActivity.Companion.INITIAL_SCREEN
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.model.*
+import journal.gratitude.com.gratitudejournal.model.CsvFileCreated
+import journal.gratitude.com.gratitudejournal.model.CsvFileError
+import journal.gratitude.com.gratitudejournal.model.UploadError
+import journal.gratitude.com.gratitudejournal.model.UploadSuccess
 import journal.gratitude.com.gratitudejournal.navigation.UserStartDestination
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.CloudProvider
