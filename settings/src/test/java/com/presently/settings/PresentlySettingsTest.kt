@@ -84,33 +84,6 @@ class PresentlySettingsTest {
     }
 
     @Test
-    fun `GIVEN RealPresentlySettings and saturday is first day of week WHEN getFirstDayOfWeek is called THEN shared preferences is called`() {
-        val expected = Calendar.SATURDAY
-        val sharedPrefs = getFakeSharedPreferences(string = "0")
-        val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
-        val actual = settings.getFirstDayOfWeek()
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
-    fun `GIVEN RealPresentlySettings and sunday is first day of week WHEN getFirstDayOfWeek is called THEN shared preferences is called`() {
-        val expected = Calendar.SUNDAY
-        val sharedPrefs = getFakeSharedPreferences(string = "1")
-        val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
-        val actual = settings.getFirstDayOfWeek()
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
-    fun `GIVEN RealPresentlySettings and monday is first day of week WHEN getFirstDayOfWeek is called THEN shared preferences is called`() {
-        val expected = Calendar.MONDAY
-        val sharedPrefs = getFakeSharedPreferences(string = "2")
-        val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
-        val actual = settings.getFirstDayOfWeek()
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
     fun `GIVEN RealPresentlySettings WHEN shouldShowQuote is called THEN shared preferences is called`() {
         val expected = false
         val sharedPrefs = getFakeSharedPreferences(boolean = expected)

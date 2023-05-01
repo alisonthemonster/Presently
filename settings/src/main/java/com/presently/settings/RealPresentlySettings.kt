@@ -57,14 +57,6 @@ class RealPresentlySettings @Inject constructor(
         sharedPrefs.edit().putLong(ON_PAUSE_TIME, date.time).apply()
     }
 
-    override fun getFirstDayOfWeek(): Int {
-        return when (sharedPrefs.getString(FIRST_DAY_OF_WEEK, "monday")) {
-            "0" -> Calendar.SATURDAY
-            "1" -> Calendar.SUNDAY
-            else -> Calendar.MONDAY
-        }
-    }
-
     override fun shouldShowQuote(): Boolean {
         return sharedPrefs.getBoolean(SHOW_QUOTE, true)
     }

@@ -79,8 +79,6 @@ class EntryViewModelTest {
 
         override fun setOnPauseTime() = fail("Not needed in this test")
 
-        override fun getFirstDayOfWeek(): Int = fail("Not needed in this test")
-
         override fun shouldShowQuote(): Boolean = true
 
         override fun getAutomaticBackupCadence(): BackupCadence = fail("Not needed in this test")
@@ -210,8 +208,6 @@ class EntryViewModelTest {
             override fun onAuthenticationSucceeded() = fail("Not needed in this test")
 
             override fun setOnPauseTime() = fail("Not needed in this test")
-
-            override fun getFirstDayOfWeek(): Int = fail("Not needed in this test")
 
             override fun shouldShowQuote(): Boolean {
                 shouldShowQuoteWasCalled = true

@@ -21,8 +21,6 @@ interface PresentlySettings {
 
     fun setOnPauseTime()
 
-    fun getFirstDayOfWeek(): Int
-
     fun shouldShowQuote(): Boolean
 
     fun getAutomaticBackupCadence(): BackupCadence

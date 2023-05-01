@@ -56,10 +56,6 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
 
     override fun setOnPauseTime() {}
 
-    override fun getFirstDayOfWeek(): Int {
-        return Calendar.MONDAY
-    }
-
     override fun shouldShowQuote(): Boolean {
         return true
     }
