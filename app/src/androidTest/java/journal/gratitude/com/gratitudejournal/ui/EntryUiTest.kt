@@ -40,7 +40,6 @@ class EntryUiTest {
             PresentlyTheme {
                 Entry(
                     onEntryExit = {},
-                    onShareClicked = { _, _ -> }
                 )
             }
         }
@@ -79,7 +78,6 @@ class EntryUiTest {
             PresentlyTheme {
                 Entry(
                     onEntryExit = {},
-                    onShareClicked = { _, _ -> }
                 )
             }
         }
@@ -107,7 +105,6 @@ class EntryUiTest {
             PresentlyTheme {
                 Entry(
                     onEntryExit = {},
-                    onShareClicked = { _, _ -> }
                 )
             }
         }
