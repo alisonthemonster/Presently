@@ -9,6 +9,7 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="fontFamily">@font/larsseit_medium</item>
         <item name="android:fontFamily">@font/larsseit_medium</item>
+        <item name="android:colorBackground">#ffdbd1c7</item>
     </style>
 
 </resources>
