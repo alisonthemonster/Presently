@@ -7,6 +7,7 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
 
@@ -28,11 +29,11 @@ class TimelineRobot(
 
     fun clickTodayEntry() {
         val today = LocalDate.now()
-        composeTestRule.onNodeWithText(today.toStringWithDayOfWeek()).performClick()
+        composeTestRule.onNodeWithText(today.toFullString()).performClick()
     }
 
     fun assertTimelineHasEntry(date: LocalDate, text: String) {
-        composeTestRule.onNodeWithText(date.toStringWithDayOfWeek()).assertIsDisplayed()
+        composeTestRule.onNodeWithText(date.toFullString()).assertIsDisplayed()
         composeTestRule.onNodeWithText(text).assertIsDisplayed()
     }
 

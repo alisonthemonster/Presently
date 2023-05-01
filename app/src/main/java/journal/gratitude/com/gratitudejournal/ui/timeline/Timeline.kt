@@ -29,9 +29,9 @@ import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.ui.NavigationDrawer
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
-import java.util.*
 
 //todo show the calendar somewhere
+//todo if you navigate back from settings the status bar icon colors are wrong
 @Composable
 fun Timeline(
     onEntryClicked: (date: LocalDate) -> Unit,
@@ -46,6 +46,8 @@ fun Timeline(
 
     LaunchedEffect(Unit) {
         viewModel.logScreenView()
+        //we load the settings here because sharedprefs aren't observable so we need to manually check
+        viewModel.loadSettings()
     }
 
     PresentlyTheme(
@@ -157,6 +159,8 @@ fun TimelineContent(
                 modifier = modifier,
                 theme = theme,
                 timelineItems = state.timelineItems,
+                numberOfLinesPerRow = state.numberOfLinesPerRow,
+                shouldShowDayOfWeek = state.shouldShowDayOfWeek,
                 onEntryClicked = onEntryClicked
             )
         }
@@ -168,6 +172,8 @@ fun TimelineList(
     modifier: Modifier = Modifier,
     theme: PresentlyColors,
     timelineItems: List<TimelineItem>,
+    shouldShowDayOfWeek: Boolean,
+    numberOfLinesPerRow: Int,
     onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit
 ) {
     LazyColumn(
@@ -182,6 +188,8 @@ fun TimelineList(
                         theme = theme,
                         entryDate = timelineItem.entryDate,
                         entryContent = timelineItem.entryContent,
+                        shouldShowDayOfWeek = shouldShowDayOfWeek,
+                        numberOfLinesPerRow = numberOfLinesPerRow,
                         onEntryClicked = onEntryClicked,
                         isLastEntry = index == timelineItems.size - 1,
                     )

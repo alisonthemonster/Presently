@@ -40,6 +40,7 @@ class TimelineViewModel @Inject constructor(
                             )
                         )
                     }
+
                     list.size < 2 -> {
                         //user has only ever written one day
                         val newList = mutableListOf<TimelineItem>()
@@ -54,8 +55,10 @@ class TimelineViewModel @Inject constructor(
                             timelineItems = newList,
                             datesWritten = list.map {
                                 it.entryDate
-                            }.toSet())
+                            }.toSet()
+                        )
                     }
+
                     else -> {
                         val latest = list[0]
                         val listWithHints = mutableListOf<Entry>()
@@ -90,6 +93,13 @@ class TimelineViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun loadSettings() {
+        _state.value = _state.value.copy(
+            shouldShowDayOfWeek = settings.shouldShowDayOfWeekInTimeline(),
+            numberOfLinesPerRow = settings.getLinesPerEntryInTimeline()
+        )
     }
 
     fun getSelectedTheme(): PresentlyColors {

@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui
 
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.google.common.truth.Truth.assertThat
@@ -39,7 +40,8 @@ class SearchUiTest {
                     state = state,
                     onEntryClicked = {},
                     onSearchQueryChanged = {},
-                    onBackClicked = {}
+                    onBackClicked = {},
+                    focusRequester = FocusRequester(),
                 )
             }
         }
@@ -69,7 +71,8 @@ class SearchUiTest {
                     onSearchQueryChanged = {
                         onSearchQueryChangeQuery = it
                     },
-                    onBackClicked = {}
+                    onBackClicked = {},
+                    focusRequester = FocusRequester(),
                 )
             }
         }
@@ -99,7 +102,8 @@ class SearchUiTest {
                     state = state,
                     onEntryClicked = {},
                     onSearchQueryChanged = {},
-                    onBackClicked = {}
+                    onBackClicked = {},
+                    focusRequester = FocusRequester(),
                 )
             }
         }
@@ -139,7 +143,8 @@ class SearchUiTest {
                         onEntryClickedDate = it
                     },
                     onSearchQueryChanged = {},
-                    onBackClicked = {}
+                    onBackClicked = {},
+                    focusRequester = FocusRequester(),
                 )
             }
         }

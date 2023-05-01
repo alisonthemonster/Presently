@@ -7,5 +7,7 @@ import org.threeten.bp.LocalDate
 data class TimelineViewState(
     val timelineItems: List<TimelineItem> = emptyList(),
     val datesWritten: Set<LocalDate> = emptySet(),
+    val shouldShowDayOfWeek: Boolean = false,
+    val numberOfLinesPerRow: Int = 10,
     val authenticationState: AuthenticationState = AuthenticationState.UNKNOWN,
 )

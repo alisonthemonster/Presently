@@ -367,4 +367,22 @@ class TimelineViewModelTest {
 
         verify(analytics).recordView("Timeline")
     }
+
+    @Test
+    fun `GIVEN a TimelineViewModel WHEN loadSettings is called THEN update the state`()  {
+        val viewModel = TimelineViewModel(repository, settings, analytics)
+        val shouldShowDayOfWeekInTimeline = true
+        whenever(settings.shouldShowDayOfWeekInTimeline()).thenReturn(shouldShowDayOfWeekInTimeline)
+        val linesPerEntryInTimeline = 34
+        whenever(settings.getLinesPerEntryInTimeline()).thenReturn(linesPerEntryInTimeline)
+
+        viewModel.loadSettings()
+
+        verify(settings).shouldShowDayOfWeekInTimeline()
+        verify(settings).getLinesPerEntryInTimeline()
+        assertThat(viewModel.state.value.numberOfLinesPerRow).isEqualTo(linesPerEntryInTimeline)
+        assertThat(viewModel.state.value.shouldShowDayOfWeek).isEqualTo(shouldShowDayOfWeekInTimeline)
+
+    }
+
 }

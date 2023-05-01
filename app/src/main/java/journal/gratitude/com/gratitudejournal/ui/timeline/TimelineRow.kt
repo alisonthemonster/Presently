@@ -12,12 +12,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import journal.gratitude.com.gratitudejournal.R
 import com.presently.ui.PresentlyColors
 import com.presently.ui.PresentlyTheme
+import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
 
@@ -27,6 +29,8 @@ fun TimelineRow(
     theme: PresentlyColors,
     entryDate: LocalDate,
     entryContent: String,
+    shouldShowDayOfWeek: Boolean,
+    numberOfLinesPerRow: Int,
     isLastEntry: Boolean = false,
     onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit,
 ) {
@@ -72,13 +76,13 @@ fun TimelineRow(
                 .background(theme.timelineLine)
         )
         Text(
-            modifier = Modifier.constrainAs(dateString) { //todo show day of week if settings says so
+            modifier = Modifier.constrainAs(dateString) {
                 top.linkTo(parent.top, margin = 16.dp)
                 start.linkTo(timelineLine.end, margin = 14.dp)
                 end.linkTo(parent.end, margin = 8.dp)
                 width = Dimension.fillToConstraints
             },
-            text = entryDate.toStringWithDayOfWeek(), //todo only show day of week if its in the settings
+            text = if (shouldShowDayOfWeek) entryDate.toStringWithDayOfWeek() else entryDate.toFullString(),
             style = PresentlyTheme.typography.bodyLarge,
             color = PresentlyTheme.colors.timelineDate
         )
@@ -90,9 +94,11 @@ fun TimelineRow(
                 if (!isLastEntry) bottom.linkTo(parent.bottom, margin = 8.dp)
                 width = Dimension.fillToConstraints
             },
-            text = content, //todo limit this to the max defined in settings
+            text = content,
             style = PresentlyTheme.typography.bodyMedium,
             color = if (isNewEntry) PresentlyTheme.colors.timelineHint else PresentlyTheme.colors.timelineContent,
+            maxLines = numberOfLinesPerRow,
+            overflow = TextOverflow.Ellipsis,
         )
         if (isLastEntry) {
             Image(

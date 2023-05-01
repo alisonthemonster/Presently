@@ -51,13 +51,35 @@ class TimelineUiTest {
                     theme = OriginalColors,
                     entryDate = LocalDate.of(2022, 11, 23),
                     entryContent = "I was grateful for my very cuddly and cute dog. We went for a lovely walk today and played in the park for a while. Then we came home and played fetch together before snuggling on the couch.",
-                    onEntryClicked = {_, _ ->}
+                    onEntryClicked = {_, _ ->},
+                    shouldShowDayOfWeek = true,
+                    numberOfLinesPerRow = 10,
                 )
             }
         }
 
         dropshots.assertSnapshot(composeTestRule.activity, "TimelineRow")
     }
+
+
+    @Test
+    fun testTimelineRowNoDayOfWeek() {
+        composeTestRule.setContent {
+            PresentlyTheme {
+                TimelineRow(
+                    theme = OriginalColors,
+                    entryDate = LocalDate.of(2022, 11, 23),
+                    entryContent = "I was grateful for my very cuddly and cute dog. We went for a lovely walk today and played in the park for a while. Then we came home and played fetch together before snuggling on the couch.",
+                    onEntryClicked = {_, _ ->},
+                    shouldShowDayOfWeek = false,
+                    numberOfLinesPerRow = 10,
+                )
+            }
+        }
+
+        dropshots.assertSnapshot(composeTestRule.activity, "TimelineRowNoDayOfWeek")
+    }
+
 
     @Test
     fun testTimelineRowEndItem() {
@@ -68,7 +90,9 @@ class TimelineUiTest {
                     entryDate = LocalDate.of(2022, 11, 23),
                     entryContent = "I was grateful for sushi and soy sauce.",
                     isLastEntry = true,
-                    onEntryClicked = {_, _ ->}
+                    onEntryClicked = {_, _ ->},
+                    shouldShowDayOfWeek = true,
+                    numberOfLinesPerRow = 10,
                 )
             }
         }
@@ -84,7 +108,9 @@ class TimelineUiTest {
                     theme = OriginalColors,
                     entryDate = LocalDate.of(2020, 12, 2),
                     entryContent = "",
-                    onEntryClicked = {_, _ ->}
+                    onEntryClicked = {_, _ ->},
+                    shouldShowDayOfWeek = true,
+                    numberOfLinesPerRow = 10,
                 )
             }
         }
