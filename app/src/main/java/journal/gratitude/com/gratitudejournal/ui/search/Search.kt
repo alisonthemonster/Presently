@@ -22,6 +22,8 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -34,12 +36,6 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
 
-//todo style this
-
-//todo log analytics
-
-//todo open keyboard when screen is launched
-
 @Composable
 fun Search(
     onBackClicked: () -> Unit,
@@ -47,6 +43,13 @@ fun Search(
 ) {
     val viewModel = hiltViewModel<SearchViewModel>()
     val state = viewModel.state.collectAsState()
+
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(Unit) {
+        //open the keyboard
+        focusRequester.requestFocus()
+    }
 
     LaunchedEffect(Unit) {
         viewModel.logScreenView()
@@ -62,7 +65,8 @@ fun Search(
             onEntryClicked = {
                 viewModel.onEntryClicked()
                 onEntryClicked(it)
-            }
+            },
+            focusRequester = focusRequester
         )
     }
 }
@@ -74,6 +78,7 @@ fun SearchContent(
     onBackClicked: () -> Unit,
     onSearchQueryChanged: (query: String) -> Unit,
     onEntryClicked: (date: LocalDate) -> Unit,
+    focusRequester: FocusRequester,
 ) {
     Column(
         modifier = modifier
@@ -91,6 +96,7 @@ fun SearchContent(
             onBackClicked = {
                 onBackClicked()
             },
+            focusRequester = focusRequester,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
@@ -126,15 +132,18 @@ fun SearchContent(
 
 @Composable
 fun SearchTextField(
+    modifier: Modifier = Modifier,
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     onBackClicked: () -> Unit,
-    modifier: Modifier = Modifier,
+    focusRequester: FocusRequester,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
 ) {
     TextField(
-        modifier = modifier.testTag("searchFieldTestTag"),
+        modifier = modifier
+            .testTag("searchFieldTestTag")
+            .focusRequester(focusRequester),
         value = value,
         onValueChange = onValueChange,
         leadingIcon = {
