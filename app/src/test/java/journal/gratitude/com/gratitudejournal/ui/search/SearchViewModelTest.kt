@@ -56,4 +56,13 @@ class SearchViewModelTest {
         verify(analytics).recordView("Search")
     }
 
+    @Test
+    fun `GIVEN a SearchViewModel WHEN onEntryClicked is called THEN log an analytics event`()  {
+        val viewModel = SearchViewModel(repository, settings, analytics)
+
+        viewModel.onEntryClicked()
+
+        verify(analytics).recordEvent("clickedSearchItem")
+    }
+
 }

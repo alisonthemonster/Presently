@@ -18,8 +18,6 @@ fun SearchResult(
 ) {
     Column(
         modifier = modifier.clickable {
-            //todo log analytics
-            //analytics.recordEvent(CLICKED_SEARCH_ITEM)
             onEntryClicked(result.entryDate)
         },
     ) {

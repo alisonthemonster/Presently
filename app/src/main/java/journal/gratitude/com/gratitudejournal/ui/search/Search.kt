@@ -59,7 +59,10 @@ fun Search(
             state = state.value,
             onBackClicked = { onBackClicked() },
             onSearchQueryChanged = viewModel::search,
-            onEntryClicked = onEntryClicked
+            onEntryClicked = {
+                viewModel.onEntryClicked()
+                onEntryClicked(it)
+            }
         )
     }
 }
@@ -124,6 +127,7 @@ fun SearchTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
 ) {
+    //todo hide the purple bar under the textfield
     TextField(
         modifier = modifier.testTag("searchFieldTestTag"),
         value = value,
