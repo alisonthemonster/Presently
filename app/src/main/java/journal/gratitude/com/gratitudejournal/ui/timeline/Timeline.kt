@@ -172,7 +172,7 @@ fun TimelineList(
     onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit
 ) {
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .navigationBarsPadding()
     ) {
         //todo add keys to help with recomposition

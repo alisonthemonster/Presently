@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.ui.search
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -55,7 +56,6 @@ fun Search(
         selectedTheme = viewModel.getSelectedTheme()
     ) {
         SearchContent(
-            modifier = Modifier.fillMaxWidth(),
             state = state.value,
             onBackClicked = { onBackClicked() },
             onSearchQueryChanged = viewModel::search,
@@ -72,40 +72,43 @@ fun SearchContent(
     onSearchQueryChanged: (query: String) -> Unit,
     onEntryClicked: (date: LocalDate) -> Unit,
 ) {
-    Surface(
-        color = PresentlyTheme.colors.timelineBackground,
-        modifier = modifier.windowInsetsPadding(WindowInsets.statusBars),
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(PresentlyTheme.colors.timelineBackground)
+            .windowInsetsPadding(WindowInsets.statusBars),
     ) {
-        Column {
-            var searchQuery by remember { mutableStateOf(TextFieldValue(state.query)) }
-            SearchTextField(
-                value = searchQuery,
-                onValueChange = { value ->
-                    searchQuery = value
-                    onSearchQueryChanged(value.text)
-                },
-                onBackClicked = {
-                    onBackClicked()
-                },
-                modifier = Modifier.fillMaxWidth().padding(8.dp)
+        var searchQuery by remember { mutableStateOf(TextFieldValue(state.query)) }
+        SearchTextField(
+            value = searchQuery,
+            onValueChange = { value ->
+                searchQuery = value
+                onSearchQueryChanged(value.text)
+            },
+            onBackClicked = {
+                onBackClicked()
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        )
+        if (searchQuery.text.isNotEmpty() && state.results.isEmpty()) {
+            Text(
+                modifier = modifier.fillMaxSize(),
+                text = stringResource(R.string.no_results),
+                textAlign = TextAlign.Center,
             )
-            if (searchQuery.text.isNotEmpty() && state.results.isEmpty()) {
-                Text(
-                    modifier = modifier.fillMaxSize(),
-                    text = stringResource(R.string.no_results),
-                    textAlign = TextAlign.Center,
-                )
-            } else {
-                //todo this doesn't scroll if the keyboard is up
-                LazyColumn(
-                    modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars),
-                ) {
-                    items(state.results) { searchResult ->
-                        SearchResult(
-                            result = searchResult,
-                            onEntryClicked = { onEntryClicked(it) }
-                        )
-                    }
+        } else {
+            LazyColumn(
+                modifier = modifier
+                    .navigationBarsPadding()
+                    .imePadding()
+            ) {
+                items(state.results) { searchResult ->
+                    SearchResult(
+                        result = searchResult,
+                        onEntryClicked = { onEntryClicked(it) }
+                    )
                 }
             }
         }
@@ -154,7 +157,7 @@ fun SearchTextField(
         placeholder = {
             Text(
                 text = stringResource(R.string.search),
-                style = PresentlyTheme.typography.bodyLarge
+                style = PresentlyTheme.typography.bodyLarge,
             )
         },
         keyboardOptions = keyboardOptions,
