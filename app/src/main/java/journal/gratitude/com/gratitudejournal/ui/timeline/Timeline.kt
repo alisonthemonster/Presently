@@ -52,7 +52,6 @@ fun Timeline(
         selectedTheme = theme
     ) {
         TimelineContent(
-            modifier = Modifier.fillMaxWidth(), //todo is this needed?
             theme = theme,
             state = state,
             onEntryClicked = { date, isNewEntry ->

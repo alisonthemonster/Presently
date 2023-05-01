@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ScaffoldState
@@ -16,16 +17,17 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun NavigationDrawer(
+    modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState,
     scope: CoroutineScope,
     onSearchClicked: () -> Unit,
     onThemesClicked: () -> Unit,
     onContactClicked: () -> Unit,
     onSettingsClicked: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Surface(
-        modifier = Modifier
+        modifier = modifier
+            .background(PresentlyTheme.colors.timelineToolbar)
             .windowInsetsPadding(WindowInsets.statusBars)
             .fillMaxSize(),
         color = PresentlyTheme.colors.timelineToolbar
@@ -33,7 +35,7 @@ fun NavigationDrawer(
         Column() {
             Text(
                 stringResource(R.string.presently),
-                modifier = Modifier.padding(10.dp),
+                modifier = modifier.padding(10.dp),
                 style = PresentlyTheme.typography.titleLarge,
                 color = PresentlyTheme.colors.timelineLogo
             )
