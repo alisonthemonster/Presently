@@ -98,12 +98,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             )
             insets
         }
-
-        val window = requireActivity().window
-        window.statusBarColor = Color.TRANSPARENT
-        val typedValue = TypedValue()
-        requireActivity().theme.resolveAttribute(R.attr.timelineBackgroundColor, typedValue, true)
-        setStatusBarColorsForBackground(window, typedValue.data)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -117,13 +111,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
         val share = findPreference<Preference>(getString(R.string.key_share_app))
-
-        // Handle icon issues for android versions < 23
-        if(Build.VERSION.SDK_INT <= 23) {
-            context?.getColor(R.color.text_color)?.let { share?.icon?.setTint(it) }
-            val lang = findPreference<Preference>(APP_LANGUAGE)
-            context?.getColor(R.color.text_color)?.let { lang?.icon?.setTint(it) }
-        }
 
         share?.setOnPreferenceClickListener {
             openShareApp()
@@ -344,7 +331,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             dialogFragment.show(parentFragmentManager, "DIALOG")
         } else {
                 val dialogFragment =
-                        CustomListPrefDialogFragCompat.newInstance(preference.key)
+                    ListPreferenceDialogFragmentCompat.newInstance(preference.key)
             dialogFragment.setTargetFragment(this, 0)
             dialogFragment.show(parentFragmentManager, null);
 

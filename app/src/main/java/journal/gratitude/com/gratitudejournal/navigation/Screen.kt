@@ -21,7 +21,6 @@ internal sealed class Screen(val route: String) {
     }
 
     object Settings : Screen("settings")
-    object Share : Screen("share")
     object Search : Screen("search")
     object Themes : Screen("themes")
     object Lock : Screen("lock")

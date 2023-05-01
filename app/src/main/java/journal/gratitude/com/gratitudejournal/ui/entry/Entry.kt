@@ -26,7 +26,6 @@ fun Entry(
     modifier: Modifier = Modifier,
     viewModel: EntryViewModel = hiltViewModel(),
     onEntryExit: () -> Unit,
-    onShareClicked: (date: String, content: String) -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -102,7 +101,6 @@ fun Entry(
                 onHintClicked = viewModel::changeHint,
                 onUndoClicked = viewModel::onUndoClicked,
                 onRedoClicked = viewModel::onRedoClicked,
-                onShareClicked = onShareClicked,
             )
         }
     }
@@ -117,7 +115,6 @@ fun EntryContent(
     onHintClicked: (Int) -> Unit,
     onUndoClicked: () -> Unit,
     onRedoClicked: () -> Unit,
-    onShareClicked: (date: String, content: String) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -142,7 +139,6 @@ fun EntryContent(
                     date = state.date,
                     content = state.content,
                     shouldShowQuote = state.shouldShowQuote,
-                    onShareClicked = { date, content -> onShareClicked(date, content) }
                 )
             }
         }

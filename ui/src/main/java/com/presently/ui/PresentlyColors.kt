@@ -132,7 +132,7 @@ val OriginalColors = PresentlyColors(
     entryBody = Color(0xff000000),
     entryHint = Color(0xff79736a),
     entryButtonBackground = Color(0xff000000),
-    entryButtonText = Color(0xff79736a),
+    entryButtonText = Color(0xffdbd1c7),
     entryQuoteText = Color(0xff79736a),
     debugColor1 = Color(0xffDFA700)
 )

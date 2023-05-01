@@ -83,18 +83,7 @@ internal fun AppNavigation(
                 onEntryExit = {
                      navController.popBackStack()
                 },
-                onShareClicked = { date, content ->
-                    navController.navigate(Screen.Share.createRoute())
-                },
             )
-        }
-        composable(
-            route = Screen.Share.route,
-        ) {
-            Column() {
-                Text("SHARE")
-                //todo launch the share fragment
-            }
         }
         composable(
             route = Screen.Search.route,

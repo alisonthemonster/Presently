@@ -35,7 +35,6 @@ fun ReadView(
     date: LocalDate,
     content: String,
     shouldShowQuote: Boolean,
-    onShareClicked: (date: String, content: String) -> Unit
 ) {
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
@@ -65,18 +64,6 @@ fun ReadView(
                     clipboardManager.setText(AnnotatedString(quote))
                     Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
                 }
-            )
-        }
-        IconButton(onClick = {
-            onShareClicked(
-                date.toFullString(),
-                content
-            )
-        }) {
-            Icon(
-                imageVector = Icons.Default.Share,
-                contentDescription = stringResource(R.string.share_your_gratitude),
-                tint = PresentlyTheme.colors.entryButtonBackground
             )
         }
     }

@@ -7,24 +7,24 @@
       android:pathData="M33,54H89"
       android:strokeWidth="6"
       android:fillColor="#00000000"
-      android:strokeColor="@color/text_color"
+      android:strokeColor="#000000"
       android:strokeLineCap="round"/>
   <path
       android:pathData="M33,40H89"
       android:strokeWidth="6"
       android:fillColor="#00000000"
-      android:strokeColor="@color/text_color"
+      android:strokeColor="#000000"
       android:strokeLineCap="round"/>
   <path
       android:pathData="M33,68H89"
       android:strokeWidth="6"
       android:fillColor="#00000000"
-      android:strokeColor="@color/text_color"
+      android:strokeColor="#000000"
       android:strokeLineCap="round"/>
   <path
       android:pathData="M33,82H57.889"
       android:strokeWidth="6"
       android:fillColor="#00000000"
-      android:strokeColor="@color/text_color"
+      android:strokeColor="#000000"
       android:strokeLineCap="round"/>
 </vector>
