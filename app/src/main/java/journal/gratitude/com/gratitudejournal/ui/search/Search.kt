@@ -133,7 +133,6 @@ fun SearchTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
 ) {
-    //todo hide the purple bar under the textfield
     TextField(
         modifier = modifier.testTag("searchFieldTestTag"),
         value = value,
@@ -181,6 +180,9 @@ fun SearchTextField(
             textColor = PresentlyTheme.colors.timelineOnToolbar,
             cursorColor = PresentlyTheme.colors.debugColor1, //todo find a color for this
             placeholderColor = PresentlyTheme.colors.timelineHint, //todo is this the best color?
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
         ),
     )
 }
