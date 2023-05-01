@@ -30,13 +30,12 @@ interface EntryDao {
     suspend fun search(query: String): List<Entry>
 
     @Insert(
-        onConflict = OnConflictStrategy.REPLACE
+        onConflict = OnConflictStrategy.REPLACE,
     )
     suspend fun insertEntry(entry: Entry)
 
     @Insert(
-        onConflict = OnConflictStrategy.REPLACE
+        onConflict = OnConflictStrategy.REPLACE,
     )
     fun insertEntries(entry: List<Entry>)
-
 }

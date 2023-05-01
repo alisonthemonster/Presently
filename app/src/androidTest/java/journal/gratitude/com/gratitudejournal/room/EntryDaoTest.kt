@@ -28,7 +28,7 @@ class EntryDaoTest {
     fun initDb() {
         database = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
-            EntryDatabase::class.java
+            EntryDatabase::class.java,
         ).allowMainThreadQueries().build()
         entryDao = database.entryDao()
     }
@@ -82,6 +82,4 @@ class EntryDaoTest {
     private val entryThree = Entry(LocalDate.of(2011, 1, 1), "Test content2")
 
     private val mockEntriesSorted = listOf(entryOne, entryTwo, entryThree)
-
 }
-

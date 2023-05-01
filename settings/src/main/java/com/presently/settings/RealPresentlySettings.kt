@@ -51,7 +51,7 @@ class RealPresentlySettings @Inject constructor(
         val lastPauseTime = sharedPrefs.getLong(ON_PAUSE_TIME, -1L)
         val currentTime = Date(System.currentTimeMillis()).time
         val diff = currentTime - lastPauseTime
-        //if more than 5 minutes (300000ms) have passed since last destroy, lock out user
+        // if more than 5 minutes (300000ms) have passed since last destroy, lock out user
         return isBiometricsEnabled() && diff > 300000L
     }
 
@@ -99,10 +99,10 @@ class RealPresentlySettings @Inject constructor(
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            //the user is on 12+ so we have to check if we still have permission
+            // the user is on 12+ so we have to check if we still have permission
             !alarmManager.canScheduleExactAlarms()
         } else {
-            //a pre 12 user cannot disable exact alarms
+            // a pre 12 user cannot disable exact alarms
             false
         }
     }
@@ -121,12 +121,12 @@ class RealPresentlySettings @Inject constructor(
             serializedToken == "attempted" -> null
             serializedToken == null -> null
             serializedToken.contains("{") -> {
-                //this user has a refresh token
+                // this user has a refresh token
                 DbxCredential.Reader.readFully(serializedToken)
             }
             else -> {
-                //this user has a long lived access token
-                    //users who auth'd with Dropbox before
+                // this user has a long lived access token
+                // users who auth'd with Dropbox before
                 DbxCredential(serializedToken)
             }
         }
@@ -147,7 +147,7 @@ class RealPresentlySettings @Inject constructor(
     }
 
     override fun markDropboxAuthAsCancelled() {
-        sharedPrefs.edit().putBoolean(BACKUP_TOKEN, false).apply() //reset the switch preference
+        sharedPrefs.edit().putBoolean(BACKUP_TOKEN, false).apply() // reset the switch preference
         sharedPrefs.edit().remove(ACCESS_TOKEN).apply()
         analytics.recordEvent(DROPBOX_AUTH_QUIT)
     }
@@ -164,5 +164,4 @@ class RealPresentlySettings @Inject constructor(
     private fun getDeviceLanguage(): String {
         return Locale.getDefault().toLanguageTag()
     }
-
 }

@@ -13,5 +13,5 @@ data class EntryFts(
     @ColumnInfo(name = "rowid")
     val rowId: Int,
     val entryDate: LocalDate,
-    val entryContent: String
+    val entryContent: String,
 )

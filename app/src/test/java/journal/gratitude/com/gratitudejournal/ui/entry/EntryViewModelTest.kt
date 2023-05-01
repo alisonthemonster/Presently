@@ -285,8 +285,8 @@ class EntryViewModelTest {
         assertThat(writtenEntry).isEqualTo(
             Entry(
                 LocalDate.of(2023, 10, 12),
-                "Hello this is new text!"
-            )
+                "Hello this is new text!",
+            ),
         )
     }
 
@@ -494,7 +494,7 @@ class EntryViewModelTest {
     fun `GIVEN an EntryViewModel WHEN onExitEditMode is called AND the user just wrote a milestone entry THEN update the state`() = runTest {
         val repository = object : EntryRepository {
             override suspend fun getEntry(date: LocalDate): Entry? {
-                return null //new entry
+                return null // new entry
             }
 
             override fun getEntriesFlow(): Flow<List<Entry>> {

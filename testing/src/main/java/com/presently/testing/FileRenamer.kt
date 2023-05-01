@@ -28,9 +28,9 @@ object FileRenamer {
             val renamedCoverageFile = File(sdcard, "$path-coverage.ec")
             val renamed = coverageFile.renameTo(renamedCoverageFile)
             if (renamed) {
-                Log.d("file-renamer","File renamed: $path-coverage.ec")
-            }else {
-                Log.d("file-renamer","File NOT renamed: $path-coverage.ec");
+                Log.d("file-renamer", "File renamed: $path-coverage.ec")
+            } else {
+                Log.d("file-renamer", "File NOT renamed: $path-coverage.ec")
             }
         } catch (exception: IOException) {
             throw IllegalStateException(exception)
@@ -43,23 +43,22 @@ object FileRenamer {
             Locale.ENGLISH,
             "pm grant %s %s",
             instrumentation.context.packageName,
-            permission
+            permission,
         )
         val parcelFileDescriptor = automation.executeShellCommand(command)
         val stream = FileInputStream(parcelFileDescriptor.fileDescriptor)
         try {
             val buffer = ByteArray(1024)
             while (stream.read(buffer) != -1) {
-                //consume until stream is complete
+                // consume until stream is complete
             }
-        } catch (exception: IOException) {}
-        finally {
+        } catch (exception: IOException) {} finally {
             try { stream.close() } catch (exception: IOException) {}
             try { parcelFileDescriptor.close() } catch (exception: IOException) {}
         }
     }
 
-    //uses reflection to gt the PROJECT_PATH value from the BuildConfig.java
+    // uses reflection to gt the PROJECT_PATH value from the BuildConfig.java
     private fun getProjectPath(context: Context): String? {
         try {
             val info = context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
@@ -69,7 +68,7 @@ object FileRenamer {
             val field = clazz.getField("PROJECT_PATH")
             return field[""] as String
         } catch (exception: Exception) {
-            Log.d("file-renamer", "Unable to get project path: ${exception}")
+            Log.d("file-renamer", "Unable to get project path: $exception")
         }
         return null
     }

@@ -83,7 +83,7 @@ dependencies {
     implementation(project(":settings"))
     implementation(project(":strings"))
     implementation(project(":ui"))
-    implementation(project(":coroutine_utils"))
+    implementation(project(":coroutineutils"))
 
     implementation(Libraries.kotlin_stdlib)
     implementation(Libraries.androidx_compat)

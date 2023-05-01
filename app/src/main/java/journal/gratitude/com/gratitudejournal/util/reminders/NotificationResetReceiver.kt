@@ -12,7 +12,7 @@ import javax.inject.Inject
  * It updates the notification scheduler to reset the notification time if notifications are turned on.
  */
 @AndroidEntryPoint
-class NotificationResetReceiver: BroadcastReceiver() {
+class NotificationResetReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var settings: PresentlySettings
@@ -20,7 +20,8 @@ class NotificationResetReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
         if (intent?.action.equals("android.intent.action.BOOT_COMPLETED") ||
             intent?.action.equals("android.intent.action.TIMEZONE_CHANGED") ||
-            intent?.action.equals("android.intent.action.TIME_SET")) {
+            intent?.action.equals("android.intent.action.TIME_SET")
+        ) {
             val notificationScheduler = NotificationScheduler()
             notificationScheduler.configureNotifications(context, settings)
         }

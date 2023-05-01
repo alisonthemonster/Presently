@@ -40,8 +40,8 @@ import journal.gratitude.com.gratitudejournal.ui.NavigationDrawer
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 
-//todo show the calendar somewhere
-//todo if you navigate back from settings the status bar icon colors are wrong
+// todo show the calendar somewhere
+// todo if you navigate back from settings the status bar icon colors are wrong
 @Composable
 fun Timeline(
     onEntryClicked: (date: LocalDate) -> Unit,
@@ -56,12 +56,12 @@ fun Timeline(
 
     LaunchedEffect(Unit) {
         viewModel.logScreenView()
-        //we load the settings here because sharedprefs aren't observable so we need to manually check
+        // we load the settings here because sharedprefs aren't observable so we need to manually check
         viewModel.loadSettings()
     }
 
     PresentlyTheme(
-        selectedTheme = theme
+        selectedTheme = theme,
     ) {
         TimelineContent(
             theme = theme,
@@ -85,7 +85,7 @@ fun Timeline(
             onContactClicked = {
                 viewModel.onContactClicked()
                 onContactClicked()
-            }
+            },
         )
     }
 }
@@ -112,7 +112,7 @@ fun TimelineContent(
         // dark icons if we're in light theme
         systemUiController.setStatusBarColor(
             color = Color.Transparent,
-            darkIcons = useDarkIcons
+            darkIcons = useDarkIcons,
         )
         onDispose {}
     }
@@ -135,7 +135,7 @@ fun TimelineContent(
                     Text(
                         text = stringResource(id = R.string.presently),
                         style = PresentlyTheme.typography.titleLarge,
-                        color = PresentlyTheme.colors.timelineLogo
+                        color = PresentlyTheme.colors.timelineLogo,
                     )
                 },
                 navigationIcon = {
@@ -149,21 +149,21 @@ fun TimelineContent(
                         Icon(
                             imageVector = Icons.Default.Menu,
                             contentDescription = stringResource(R.string.menu),
-                            tint = PresentlyTheme.colors.timelineOnToolbar
+                            tint = PresentlyTheme.colors.timelineOnToolbar,
                         )
                     }
                 },
                 backgroundColor = PresentlyTheme.colors.timelineToolbar,
                 contentPadding = WindowInsets.statusBars.asPaddingValues(),
             )
-        }
+        },
     ) { contentPadding ->
         Surface(
             color = PresentlyTheme.colors.timelineBackground,
             modifier = modifier
                 .testTag("timelineList")
                 .padding(contentPadding)
-                .fillMaxHeight()
+                .fillMaxHeight(),
         ) {
             TimelineList(
                 modifier = modifier,
@@ -171,7 +171,7 @@ fun TimelineContent(
                 timelineItems = state.timelineItems,
                 numberOfLinesPerRow = state.numberOfLinesPerRow,
                 shouldShowDayOfWeek = state.shouldShowDayOfWeek,
-                onEntryClicked = onEntryClicked
+                onEntryClicked = onEntryClicked,
             )
         }
     }
@@ -184,13 +184,13 @@ fun TimelineList(
     timelineItems: List<TimelineItem>,
     shouldShowDayOfWeek: Boolean,
     numberOfLinesPerRow: Int,
-    onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit
+    onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
-            .navigationBarsPadding()
+            .navigationBarsPadding(),
     ) {
-        //todo add keys to help with recomposition
+        // todo add keys to help with recomposition
         itemsIndexed(timelineItems) { index, timelineItem ->
             when (timelineItem) {
                 is Entry -> {

@@ -42,5 +42,4 @@ class TimePreference(context: Context, attrs: AttributeSet) : DialogPreference(c
         val time = value.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         return Integer.parseInt(time[1])
     }
-
 }

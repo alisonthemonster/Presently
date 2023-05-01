@@ -16,5 +16,4 @@ data class EntryViewState(
 ) {
     val userCanUndo = undoStack.isNotEmpty()
     val userCanRedo = redoStack.isNotEmpty()
-
 }

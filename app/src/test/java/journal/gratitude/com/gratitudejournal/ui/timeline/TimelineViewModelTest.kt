@@ -22,7 +22,6 @@ class TimelineViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-
     private val repository = mock<EntryRepository>()
     private val settings = mock<PresentlySettings>()
     private val analytics = mock<AnalyticsLogger>()
@@ -79,11 +78,9 @@ class TimelineViewModelTest {
         val expectedList = listOf(todayEntry, yesterdayEntry, oldEntry)
         whenever(repository.getEntriesFlow()).thenReturn(flowOf(expectedList))
 
-
         val viewModel = TimelineViewModel(repository, settings, analytics)
 
         assertThat(viewModel.state.value.timelineItems).isEqualTo(expectedList)
-
     }
 
     @Test
@@ -155,7 +152,7 @@ class TimelineViewModelTest {
             writtenDates.add(Entry(LocalDate.now().minusDays(3 + i), "content"))
         }
 
-        //empty entries for user to fill in today and yesterday
+        // empty entries for user to fill in today and yesterday
         val todayEntry = Entry(LocalDate.now(), "")
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
 
@@ -182,7 +179,7 @@ class TimelineViewModelTest {
         }
         writtenDates.addAll(pastDays)
 
-        //empty entry for user to fill in today
+        // empty entry for user to fill in today
         val todayEntry = Entry(LocalDate.now(), "")
 
         expectedList.add(todayEntry)
@@ -198,8 +195,8 @@ class TimelineViewModelTest {
 
     @Test
     fun init_listWithFiveEntriesWrittenWithGapYesterday_returnsFiveEntriesAndMilestoneAndOneHintInCorrectOrder() = runTest {
-        //the milestone entry is written today and yesterday was not filled in
-        //the milestone should appear before today's entry which is followed by a hint
+        // the milestone entry is written today and yesterday was not filled in
+        // the milestone should appear before today's entry which is followed by a hint
 
         val todayEntry = Entry(LocalDate.now(), "content")
         val writtenDates = mutableListOf<Entry>()
@@ -211,7 +208,7 @@ class TimelineViewModelTest {
         }
         writtenDates.addAll(pastDays)
 
-        //empty entry for user to fill in yesterday
+        // empty entry for user to fill in yesterday
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
 
         expectedList.add(Milestone.create(5))
@@ -228,8 +225,8 @@ class TimelineViewModelTest {
 
     @Test
     fun init_listWithMilestoneWrittenYesterday_returnsFiveEntriesAndMilestoneAndOneHintInCorrectOrder() = runTest {
-        //the milestone entry is written yesterday and today is not filled in
-        //the milestone should appear after today's entry and then followed by a hint
+        // the milestone entry is written yesterday and today is not filled in
+        // the milestone should appear after today's entry and then followed by a hint
 
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "content")
         val writtenDates = mutableListOf<Entry>()
@@ -237,12 +234,12 @@ class TimelineViewModelTest {
         writtenDates.add(yesterdayEntry)
         val pastDays = mutableListOf<Entry>()
         for (i in 1L until 5L) {
-            //write four entries in the past
+            // write four entries in the past
             pastDays.add(Entry(LocalDate.now().minusDays(10 + i), "content"))
         }
         writtenDates.addAll(pastDays)
 
-        //empty entry for user to fill in today
+        // empty entry for user to fill in today
         val todayEntry = Entry(LocalDate.now(), "")
 
         expectedList.add(todayEntry)
@@ -259,24 +256,24 @@ class TimelineViewModelTest {
 
     @Test
     fun init_listWithMultipleMilestones_returnsCorrectOrderList() = runTest {
-        //multiple milestones written in the past
+        // multiple milestones written in the past
 
         val writtenDates = mutableListOf<Entry>()
         val expectedList = mutableListOf<TimelineItem>()
         val pastDays = mutableListOf<Entry>()
         for (i in 5L until 10L) {
-            //write five entries in the past
+            // write five entries in the past
             pastDays.add(Entry(LocalDate.now().minusDays(i), "content"))
         }
         val morePastDays = mutableListOf<Entry>()
         for (i in 10L until 15L) {
-            //write five entries in the more distant past
+            // write five entries in the more distant past
             morePastDays.add(Entry(LocalDate.now().minusDays(10 + i), "content"))
         }
         writtenDates.addAll(pastDays)
         writtenDates.addAll(morePastDays)
 
-        //empty entries for user to fill in today and yesterday
+        // empty entries for user to fill in today and yesterday
         val todayEntry = Entry(LocalDate.now(), "")
         val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
 
@@ -295,7 +292,7 @@ class TimelineViewModelTest {
     }
 
     @Test
-    fun `GIVEN a TimelineViewModel WHEN getSelectedTheme is called THEN fetch the theme`()  {
+    fun `GIVEN a TimelineViewModel WHEN getSelectedTheme is called THEN fetch the theme`() {
         val viewModel = TimelineViewModel(repository, settings, analytics)
         val expected = "MyTheme"
         whenever(settings.getCurrentTheme()).thenReturn(expected)
@@ -306,7 +303,7 @@ class TimelineViewModelTest {
     }
 
     @Test
-    fun `GIVEN a TimelineViewModel WHEN onEntryClicked is called with new entry THEN log an analytics event`()  {
+    fun `GIVEN a TimelineViewModel WHEN onEntryClicked is called with new entry THEN log an analytics event`() {
         val viewModel = TimelineViewModel(repository, settings, analytics)
 
         viewModel.onEntryClicked(true)
@@ -315,7 +312,7 @@ class TimelineViewModelTest {
     }
 
     @Test
-    fun `GIVEN a TimelineViewModel WHEN onEntryClicked is called with existing entry THEN log an analytics event`()  {
+    fun `GIVEN a TimelineViewModel WHEN onEntryClicked is called with existing entry THEN log an analytics event`() {
         val viewModel = TimelineViewModel(repository, settings, analytics)
 
         viewModel.onEntryClicked(false)
@@ -324,7 +321,7 @@ class TimelineViewModelTest {
     }
 
     @Test
-    fun `GIVEN a TimelineViewModel WHEN onThemesClicked THEN log an analytics event`()  {
+    fun `GIVEN a TimelineViewModel WHEN onThemesClicked THEN log an analytics event`() {
         val viewModel = TimelineViewModel(repository, settings, analytics)
 
         viewModel.onThemesClicked()
@@ -333,7 +330,7 @@ class TimelineViewModelTest {
     }
 
     @Test
-    fun `GIVEN a TimelineViewModel WHEN onSearchClicked THEN log an analytics event`()  {
+    fun `GIVEN a TimelineViewModel WHEN onSearchClicked THEN log an analytics event`() {
         val viewModel = TimelineViewModel(repository, settings, analytics)
 
         viewModel.onSearchClicked()
@@ -342,7 +339,7 @@ class TimelineViewModelTest {
     }
 
     @Test
-    fun `GIVEN a TimelineViewModel WHEN onSettingsClicked THEN log an analytics event`()  {
+    fun `GIVEN a TimelineViewModel WHEN onSettingsClicked THEN log an analytics event`() {
         val viewModel = TimelineViewModel(repository, settings, analytics)
 
         viewModel.onSettingsClicked()
@@ -351,7 +348,7 @@ class TimelineViewModelTest {
     }
 
     @Test
-    fun `GIVEN a TimelineViewModel WHEN onContactClicked THEN log an analytics event`()  {
+    fun `GIVEN a TimelineViewModel WHEN onContactClicked THEN log an analytics event`() {
         val viewModel = TimelineViewModel(repository, settings, analytics)
 
         viewModel.onContactClicked()
@@ -360,7 +357,7 @@ class TimelineViewModelTest {
     }
 
     @Test
-    fun `GIVEN a TimelineViewModel WHEN logScreenView THEN log an analytics event`()  {
+    fun `GIVEN a TimelineViewModel WHEN logScreenView THEN log an analytics event`() {
         val viewModel = TimelineViewModel(repository, settings, analytics)
 
         viewModel.logScreenView()
@@ -369,7 +366,7 @@ class TimelineViewModelTest {
     }
 
     @Test
-    fun `GIVEN a TimelineViewModel WHEN loadSettings is called THEN update the state`()  {
+    fun `GIVEN a TimelineViewModel WHEN loadSettings is called THEN update the state`() {
         val viewModel = TimelineViewModel(repository, settings, analytics)
         val shouldShowDayOfWeekInTimeline = true
         whenever(settings.shouldShowDayOfWeekInTimeline()).thenReturn(shouldShowDayOfWeekInTimeline)
@@ -382,7 +379,5 @@ class TimelineViewModelTest {
         verify(settings).getLinesPerEntryInTimeline()
         assertThat(viewModel.state.value.numberOfLinesPerRow).isEqualTo(linesPerEntryInTimeline)
         assertThat(viewModel.state.value.shouldShowDayOfWeek).isEqualTo(shouldShowDayOfWeekInTimeline)
-
     }
-
 }

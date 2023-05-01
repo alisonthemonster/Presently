@@ -34,7 +34,7 @@ fun SearchResult(
         Text(
             text = result.entryContent,
             style = PresentlyTheme.typography.bodyMedium,
-            color = PresentlyTheme.colors.timelineContent
+            color = PresentlyTheme.colors.timelineContent,
         )
     }
 }

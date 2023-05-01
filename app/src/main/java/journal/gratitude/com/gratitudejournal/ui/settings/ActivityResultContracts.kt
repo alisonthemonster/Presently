@@ -13,7 +13,6 @@ class OpenCsvDocumentContract : ActivityResultContracts.GetContent() {
     }
 }
 
-
 class CreateCsvDocumentContract : ActivityResultContracts.CreateDocument() {
     override fun createIntent(context: Context, input: String): Intent {
         val intent = super.createIntent(context, input)

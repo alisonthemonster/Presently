@@ -5,15 +5,12 @@ import com.presently.settings.PresentlySettings
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import journal.gratitude.com.gratitudejournal.util.backups.RealUploader
 import journal.gratitude.com.gratitudejournal.util.backups.Uploader
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.CloudProvider
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
-import javax.inject.Singleton
-
 
 @Module
 @InstallIn(SingletonComponent::class)

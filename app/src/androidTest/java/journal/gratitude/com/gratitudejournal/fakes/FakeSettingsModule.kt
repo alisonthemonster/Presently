@@ -21,7 +21,7 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [PresentlySettingsModule::class]
+    replaces = [PresentlySettingsModule::class],
 )
 abstract class FakeSettingsModule {
     @Singleton
@@ -29,7 +29,7 @@ abstract class FakeSettingsModule {
     abstract fun bindSettings(repo: FakePresentlySettings): PresentlySettings
 }
 
-class FakePresentlySettings @Inject constructor(): PresentlySettings {
+class FakePresentlySettings @Inject constructor() : PresentlySettings {
 
     var fakeTheme = "Original"
 

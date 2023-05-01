@@ -24,7 +24,7 @@ object AnalyticsModule {
     @Provides
     fun providesAnalyticsLogger(
         @InternalApi firebase: com.presently.logging.FirebaseAnalytics,
-        crashReporting: CrashReporter
+        crashReporting: CrashReporter,
     ): AnalyticsLogger {
         return PresentlyFirebaseAnalytics(firebase, crashReporting)
     }
@@ -40,5 +40,4 @@ object AnalyticsModule {
     fun provideFirebaseAnalytics(@ApplicationContext context: Context): FirebaseAnalytics {
         return FirebaseAnalytics.getInstance(context)
     }
-
 }

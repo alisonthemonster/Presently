@@ -20,7 +20,6 @@ class RealCsvParser(private val parser: CSVParser) : CsvParser {
         }
         return result
     }
-
 }
 
 data class CsvRecord(val values: Array<String>) {

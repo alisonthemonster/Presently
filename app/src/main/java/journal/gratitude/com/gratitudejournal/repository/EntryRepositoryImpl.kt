@@ -8,7 +8,7 @@ import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
-class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): EntryRepository {
+class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao) : EntryRepository {
 
     override suspend fun getEntry(date: LocalDate): Entry {
         return entryDao.getEntry(date)
@@ -31,7 +31,7 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         entryDao.getNumberOfEntries()
     }
 
-    override suspend fun addEntries(entries: List<Entry>)  = withContext(Dispatchers.IO) {
+    override suspend fun addEntries(entries: List<Entry>) = withContext(Dispatchers.IO) {
         entryDao.insertEntries(entries)
     }
 
@@ -40,5 +40,4 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         val wildcardQuery = String.format("*%s*", escapedQuery)
         return entryDao.search(wildcardQuery)
     }
-
 }

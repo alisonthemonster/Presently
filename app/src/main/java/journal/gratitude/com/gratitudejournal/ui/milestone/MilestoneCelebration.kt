@@ -44,7 +44,7 @@ fun MilestoneCelebration(
         onShareClicked = {
             viewModel.onShareClicked()
             onShareClicked()
-        }
+        },
     )
 }
 
@@ -57,17 +57,17 @@ fun MilestoneScreen(
     onShareClicked: () -> Unit,
 ) {
     PresentlyTheme(
-        selectedTheme = theme
+        selectedTheme = theme,
     ) {
         Surface(
             modifier = modifier.fillMaxSize().testTag("milestoneScreen"),
-            color = PresentlyTheme.colors.timelineBackground
+            color = PresentlyTheme.colors.timelineBackground,
         ) {
             Column(
                 modifier = modifier
                     .windowInsetsPadding(WindowInsets.safeDrawing)
                     .padding(16.dp),
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
                 IconButton(
                     onClick = { onDismiss() },
@@ -75,7 +75,7 @@ fun MilestoneScreen(
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = stringResource(R.string.close),
-                        tint =  PresentlyTheme.colors.timelineBackground
+                        tint = PresentlyTheme.colors.timelineBackground,
                     )
                 }
                 Text(
@@ -85,10 +85,10 @@ fun MilestoneScreen(
                 Text(
                     text = "$milestoneNumber " + stringResource(R.string.days_of_gratitude),
                     style = PresentlyTheme.typography.titleLarge,
-                    fontSize = 64.sp
+                    fontSize = 64.sp,
                 )
                 Text(
-                    text = stringResource(R.string.congrats_milestone)
+                    text = stringResource(R.string.congrats_milestone),
                 )
                 Button(
                     onClick = { onShareClicked() },
@@ -100,7 +100,7 @@ fun MilestoneScreen(
                 ) {
                     Text(stringResource(R.string.share_your_achievement))
                 }
-                //todo feature idea -- if user hasn't turned on backups show button to export or to set up auto backup
+                // todo feature idea -- if user hasn't turned on backups show button to export or to set up auto backup
             }
         }
     }

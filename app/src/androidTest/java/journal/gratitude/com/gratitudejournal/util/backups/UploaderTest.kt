@@ -10,7 +10,7 @@ import com.dropbox.core.v2.auth.AuthError.INVALID_ACCESS_TOKEN
 import com.dropbox.core.v2.files.UploadError.OTHER
 import com.dropbox.core.v2.files.UploadErrorException
 import com.google.common.truth.Truth.assertThat
-import com.presently.coroutine_utils.AppCoroutineDispatchers
+import com.presently.coroutineutils.AppCoroutineDispatchers
 import com.presently.logging.AnalyticsLogger
 import com.presently.logging.CrashReporter
 import com.presently.settings.BackupCadence
@@ -22,9 +22,7 @@ import journal.gratitude.com.gratitudejournal.model.UploadSuccess
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.CloudProvider
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.threeten.bp.LocalDate
@@ -40,7 +38,7 @@ class UploaderTest {
     private val dispatchers = AppCoroutineDispatchers(
         io = UnconfinedTestDispatcher(),
         computation = UnconfinedTestDispatcher(),
-        main = UnconfinedTestDispatcher()
+        main = UnconfinedTestDispatcher(),
     )
 
     private val repo = object : EntryRepository {
@@ -53,7 +51,6 @@ class UploaderTest {
         override suspend fun addEntry(entry: Entry): Int = fail("Not needed in this test")
         override suspend fun addEntries(entries: List<Entry>) = fail("Not needed in this test")
         override suspend fun search(query: String): List<Entry> = emptyList()
-
     }
 
     private var wasCloudProviderCalled = false
@@ -123,7 +120,7 @@ class UploaderTest {
                 return emptyList()
             }
             override suspend fun getEntry(date: LocalDate): Entry = fail("Not needed in this test")
-            override  fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
+            override fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
             override suspend fun addEntry(entry: Entry) = fail("Not needed in this test")
             override suspend fun addEntries(entries: List<Entry>) = fail("Not needed in this test")
             override suspend fun search(query: String): List<Entry> = fail("Not needed in this test")
@@ -134,7 +131,7 @@ class UploaderTest {
         val actual = uploader.uploadEntries(context)
 
         assertThat(actual).isEqualTo(ListenableWorker.Result.success())
-        assertThat(wasCloudProviderCalled).isFalse() //don't use the cloud provider here since there is no data to upload
+        assertThat(wasCloudProviderCalled).isFalse() // don't use the cloud provider here since there is no data to upload
     }
 
     @Test
@@ -162,8 +159,8 @@ class UploaderTest {
         val actual = uploader.uploadEntries(context)
 
         assertThat(actual).isEqualTo(ListenableWorker.Result.failure())
-        assertThat(wasAccessTokenCleared).isTrue() //clear access tokens
-        assertThat(crashReporter.loggedException).isEqualTo(exception) //log the exception
+        assertThat(wasAccessTokenCleared).isTrue() // clear access tokens
+        assertThat(crashReporter.loggedException).isEqualTo(exception) // log the exception
     }
 
     @Test
@@ -181,7 +178,7 @@ class UploaderTest {
         val actual = uploader.uploadEntries(context)
 
         assertThat(actual).isEqualTo(ListenableWorker.Result.failure())
-        assertThat(wasAccessTokenCleared).isFalse() //dont clear access tokens
-        assertThat(crashReporter.loggedException).isEqualTo(exception) //log the exception
+        assertThat(wasAccessTokenCleared).isFalse() // dont clear access tokens
+        assertThat(crashReporter.loggedException).isEqualTo(exception) // log the exception
     }
 }

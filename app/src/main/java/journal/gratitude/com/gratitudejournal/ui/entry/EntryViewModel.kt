@@ -67,7 +67,7 @@ class EntryViewModel @Inject constructor(
                 date = date,
                 content = content?.entryContent ?: "",
                 isEditingExistingEntry = content != null,
-                isInEditMode = content == null, //go straight to edit mode
+                isInEditMode = content == null, // go straight to edit mode
             )
         }
     }
@@ -84,7 +84,7 @@ class EntryViewModel @Inject constructor(
     fun onExitEditMode() {
         val entryNumber = _state.value.entryNumber
         if (entryNumber != null) {
-            //the user saved an entry
+            // the user saved an entry
             if (_state.value.isEditingExistingEntry) {
                 analytics.recordEvent(EDITED_EXISTING_ENTRY)
             } else {
@@ -140,7 +140,7 @@ class EntryViewModel @Inject constructor(
         _state.value = _state.value.copy(
             content = textToSave,
             undoStack = undoStack,
-            redoStack = redoStack
+            redoStack = redoStack,
         )
     }
 
@@ -148,12 +148,12 @@ class EntryViewModel @Inject constructor(
         val entry =
             journal.gratitude.com.gratitudejournal.model.Entry(
                 _state.value.date,
-                _state.value.content
+                _state.value.content,
             )
         viewModelScope.launch {
             val numberOfWrittenEntries = repository.addEntry(entry)
             _state.value = _state.value.copy(entryNumber = numberOfWrittenEntries)
-            //todo show some indication that data was saved?
+            // todo show some indication that data was saved?
         }
     }
 

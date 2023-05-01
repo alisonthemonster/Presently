@@ -1,13 +1,10 @@
 package journal.gratitude.com.gratitudejournal.testUtils
 
-
 import android.app.Application
-import android.app.Instrumentation
 import android.content.Context
 import android.os.Bundle
 import androidx.test.runner.AndroidJUnitRunner
 import com.presently.testing.FileRenamer
-import dagger.hilt.android.testing.HiltTestApplication
 
 /**
  * A custom [AndroidJUnitRunner] used to update coverage filenames after tests complete.
@@ -27,4 +24,3 @@ class AppCustomTestRunner : AndroidJUnitRunner() {
         super.finish(resultCode, results)
     }
 }
-

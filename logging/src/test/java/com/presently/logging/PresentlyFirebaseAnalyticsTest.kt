@@ -3,7 +3,6 @@ package com.presently.logging
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import com.google.common.truth.Truth.assertThat
-import com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_NAME
 import junit.framework.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,7 +39,6 @@ class PresentlyFirebaseAnalyticsTest {
             override fun setAnalyticsCollection(enabled: Boolean) {
                 fail("bundle setAnalyticsCollection shouldn't be called")
             }
-
         }
         val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics, crashReporter)
 
@@ -118,7 +116,7 @@ class PresentlyFirebaseAnalyticsTest {
         val expectedBundle = bundleOf(
             "item_name" to expected,
             "item_id" to expected,
-            "content_type" to expectedType
+            "content_type" to expectedType,
         )
         presentlyAnalytics.recordSelectEvent(expected, expectedType)
 
@@ -225,7 +223,6 @@ class PresentlyFirebaseAnalyticsTest {
                     setAnalyticsCollectionWasCalled = true
                 }
             }
-
         }
 
         val crashReporter = object : CrashReporter {
@@ -243,7 +240,6 @@ class PresentlyFirebaseAnalyticsTest {
         assertThat(deleteAllWasCalled).isTrue()
         assertThat(setAnalyticsCollectionWasCalled).isTrue()
     }
-
 
     @Test
     fun `GIVEN PresentlyFirebaseAnalytics WHEN optIntoAnalytics called THEN firebase is called`() {
@@ -267,7 +263,6 @@ class PresentlyFirebaseAnalyticsTest {
                     setAnalyticsCollectionWasCalled = true
                 }
             }
-
         }
 
         val crashReporter = object : CrashReporter {

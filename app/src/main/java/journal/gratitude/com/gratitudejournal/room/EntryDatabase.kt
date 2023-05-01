@@ -10,7 +10,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.EntryFts
 
-
 @Database(entities = [Entry::class, EntryFts::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class EntryDatabase : RoomDatabase() {
@@ -30,7 +29,7 @@ abstract class EntryDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     EntryDatabase::class.java,
-                    "Entry_database"
+                    "Entry_database",
                 ).addMigrations(MIGRATION_1_2)
                     .build()
                 INSTANCE = instance
@@ -41,10 +40,14 @@ abstract class EntryDatabase : RoomDatabase() {
         val MIGRATION_1_2 = object : Migration(1, 2) {
 
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE VIRTUAL TABLE IF NOT EXISTS `entriesFts` USING FTS4(" +
-                        "`entryDate` TEXT, `entryContent` TEXT, content=`entries`)")
-                database.execSQL("INSERT INTO entriesFts (`rowid`, `entryDate`, `entryContent`) " +
-                        "SELECT `rowid`, `entryDate`, `entryContent` FROM entries")
+                database.execSQL(
+                    "CREATE VIRTUAL TABLE IF NOT EXISTS `entriesFts` USING FTS4(" +
+                        "`entryDate` TEXT, `entryContent` TEXT, content=`entries`)",
+                )
+                database.execSQL(
+                    "INSERT INTO entriesFts (`rowid`, `entryDate`, `entryContent`) " +
+                        "SELECT `rowid`, `entryDate`, `entryContent` FROM entries",
+                )
             }
         }
     }

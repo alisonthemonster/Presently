@@ -7,7 +7,6 @@ import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import journal.gratitude.com.gratitudejournal.di.ApplicationModule
 import journal.gratitude.com.gratitudejournal.di.DatabaseModule
 import journal.gratitude.com.gratitudejournal.room.EntryDao
 import journal.gratitude.com.gratitudejournal.room.EntryDatabase
@@ -15,7 +14,7 @@ import journal.gratitude.com.gratitudejournal.room.EntryDatabase
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [DatabaseModule::class]
+    replaces = [DatabaseModule::class],
 )
 object FakeDatabaseModule {
 

@@ -1,12 +1,11 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
-import com.presently.coroutine_utils.AppCoroutineDispatchers
+import com.presently.coroutineutils.AppCoroutineDispatchers
 import journal.gratitude.com.gratitudejournal.model.CsvFileCreated
 import journal.gratitude.com.gratitudejournal.model.CsvFileError
 import journal.gratitude.com.gratitudejournal.model.CsvFileResult
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvString
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileWriter
@@ -25,7 +24,7 @@ class FileExporter(private val fileWriter: FileWriter, private val dispatchers: 
                 CsvFileCreated(file)
             } catch (exception: Exception) {
                 CsvFileError(
-                    exception
+                    exception,
                 )
             }
         }

@@ -53,7 +53,7 @@ class PresentlySettingsTest {
         assertThat(actual).isEqualTo(expected)
     }
 
-    //todo
+    // todo
     @Test
     fun `GIVEN RealPresentlySettings with more than 5 minutes WHEN shouldLockApp is called THEN shared preferences is called`() {
         val fiveMinutesInThePast = Date(System.currentTimeMillis()).time - 300001L
@@ -72,7 +72,6 @@ class PresentlySettingsTest {
         val actual = settings.shouldLockApp()
         assertThat(actual).isEqualTo(expected)
     }
-
 
     @Test
     fun `GIVEN RealPresentlySettings WHEN shouldShowQuote is called THEN shared preferences is called`() {
@@ -174,7 +173,7 @@ class PresentlySettingsTest {
 
     @Test
     fun `GIVEN RealPresentlySettings and no token WHEN getAccessToken is called THEN shared preferences is called`() {
-        val expected =  null
+        val expected = null
         val sharedPrefs = getFakeSharedPreferences(string = expected)
         val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
         val actual = settings.getAccessToken()
@@ -192,7 +191,7 @@ class PresentlySettingsTest {
 
     @Test
     fun `GIVEN RealPresentlySettings WHEN getAccessToken is called THEN shared preferences is called`() {
-        val expected =  DbxCredential("accessToken")
+        val expected = DbxCredential("accessToken")
         val sharedPrefs = getFakeSharedPreferences(string = "accessToken")
         val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
         val actual = settings.getAccessToken()
@@ -201,7 +200,7 @@ class PresentlySettingsTest {
 
     @Test
     fun `GIVEN RealPresentlySettings AND a serialized DbxCredential with refresh tokens WHEN getAccessToken is called THEN shared preferences is called`() {
-        val expected =  DbxCredential("accessToken", 1000L, "refreshtoken", "appkey", null)
+        val expected = DbxCredential("accessToken", 1000L, "refreshtoken", "appkey", null)
         val sharedPrefs = getFakeSharedPreferences(string = expected.toString())
         val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
         val actual = settings.getAccessToken()
@@ -356,7 +355,7 @@ class PresentlySettingsTest {
 
             override fun putStringSet(
                 key: String?,
-                values: MutableSet<String>?
+                values: MutableSet<String>?,
             ): SharedPreferences.Editor {
                 fail("putStringSet should not be called")
                 return this
@@ -397,7 +396,6 @@ class PresentlySettingsTest {
             }
 
             override fun apply() {}
-
         }
 
         return object : SharedPreferences {
@@ -412,7 +410,7 @@ class PresentlySettingsTest {
 
             override fun getStringSet(
                 key: String?,
-                defValues: MutableSet<String>?
+                defValues: MutableSet<String>?,
             ): MutableSet<String> {
                 fail("getStringSet should be used")
                 return mutableSetOf()

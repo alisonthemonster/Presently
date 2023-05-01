@@ -11,7 +11,6 @@ interface FirebaseAnalytics {
     fun deleteAllAnalyticsDataForUser()
 
     fun setAnalyticsCollection(enabled: Boolean)
-
 }
 
 class RealFirebaseAnalytics(private val firebaseAnalytics: com.google.firebase.analytics.FirebaseAnalytics) :
@@ -25,12 +24,12 @@ class RealFirebaseAnalytics(private val firebaseAnalytics: com.google.firebase.a
     }
 
     override fun deleteAllAnalyticsDataForUser() {
-        //Clears all analytics data for this app from the device and resets the app instance id.
+        // Clears all analytics data for this app from the device and resets the app instance id.
         firebaseAnalytics.resetAnalyticsData()
     }
 
     override fun setAnalyticsCollection(enabled: Boolean) {
-        //Sets whether analytics collection is enabled for this app on this device.
+        // Sets whether analytics collection is enabled for this app on this device.
         firebaseAnalytics.setAnalyticsCollectionEnabled(enabled)
     }
 }

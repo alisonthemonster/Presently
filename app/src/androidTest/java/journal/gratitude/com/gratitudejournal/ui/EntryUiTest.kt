@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltAndroidTest
 class EntryUiTest {
-    //so that it uses the fake dependencies
+    // so that it uses the fake dependencies
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)
 
@@ -54,7 +54,7 @@ class EntryUiTest {
 
         entryRobot.type("Hello there!")
 
-        //type some more and then undo
+        // type some more and then undo
         entryRobot.type(" More text")
         entryRobot.assertEntryEditTextEquals("Hello there! More text")
         entryRobot.clickUndo()
@@ -62,19 +62,18 @@ class EntryUiTest {
 
         entryRobot.exitEditMode()
         composeTestRule.onNodeWithText("Hello there!").assertIsDisplayed()
-
     }
 
     @Test
     fun milestoneTest() = runTest {
-        //set up with four entries in db already
+        // set up with four entries in db already
         repository.addEntries(
             listOf(
                 journal.gratitude.com.gratitudejournal.model.Entry(LocalDate.of(2022, 10, 9), "An entry from October of 2022"),
                 journal.gratitude.com.gratitudejournal.model.Entry(LocalDate.of(2022, 9, 9), "An entry from September of 2022"),
                 journal.gratitude.com.gratitudejournal.model.Entry(LocalDate.of(2022, 8, 9), "An entry from August of 2022"),
                 journal.gratitude.com.gratitudejournal.model.Entry(LocalDate.of(2022, 7, 9), "An entry from July of 2022"),
-            )
+            ),
         )
 
         composeTestRule.setContent {
@@ -97,7 +96,7 @@ class EntryUiTest {
 
         composeTestRule.onRoot().printToLog("blerg")
 
-        //todo get milestone tests working
+        // todo get milestone tests working
 //        milestoneRobot.assertMilestoneScreenShown(5)
 //        milestoneRobot.dismissMilestoneScreen()
     }

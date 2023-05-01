@@ -3,7 +3,7 @@ package journal.gratitude.com.gratitudejournal.util.backups
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import com.presently.coroutine_utils.AppCoroutineDispatchers
+import com.presently.coroutineutils.AppCoroutineDispatchers
 import journal.gratitude.com.gratitudejournal.model.CsvFileCreated
 import journal.gratitude.com.gratitudejournal.model.CsvFileError
 import journal.gratitude.com.gratitudejournal.model.Entry
@@ -19,13 +19,13 @@ import java.io.IOException
 import kotlin.jvm.Throws
 import kotlin.test.assertTrue
 
-class FileExporterTest  {
+class FileExporterTest {
 
     private val writer = mock<FileWriter>()
     private val dispatchers = AppCoroutineDispatchers(
         io = TestCoroutineDispatcher(),
         computation = TestCoroutineDispatcher(),
-        main = TestCoroutineDispatcher()
+        main = TestCoroutineDispatcher(),
     )
     private val fileExporter = FileExporter(writer, dispatchers)
 

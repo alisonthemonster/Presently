@@ -50,7 +50,7 @@ fun Entry(
     }
 
     PresentlyTheme(
-        selectedTheme = viewModel.getSelectedTheme()
+        selectedTheme = viewModel.getSelectedTheme(),
     ) {
         val systemUiController = rememberSystemUiController()
         val useDarkIcons = !PresentlyTheme.colors.entryBackground.isDark()
@@ -60,7 +60,7 @@ fun Entry(
             // dark icons if we're in light theme
             systemUiController.setStatusBarColor(
                 color = Color.Transparent,
-                darkIcons = useDarkIcons
+                darkIcons = useDarkIcons,
             )
             onDispose {}
         }
@@ -69,7 +69,8 @@ fun Entry(
             MilestoneScreen(
                 theme = viewModel.getSelectedTheme(),
                 milestoneNumber = state.entryNumber!!,
-                onDismiss = { viewModel.onDismissMilestoneDialog() }) {
+                onDismiss = { viewModel.onDismissMilestoneDialog() },
+            ) {
             }
         }
 
@@ -85,7 +86,7 @@ fun Entry(
                         } else {
                             onEntryExit()
                         }
-                    }
+                    },
                 )
             },
             floatingActionButton = {
@@ -114,7 +115,7 @@ fun Entry(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class) //for AnimatedContent
+@OptIn(ExperimentalAnimationApi::class) // for AnimatedContent
 @Composable
 fun EntryContent(
     modifier: Modifier = Modifier,
@@ -129,7 +130,7 @@ fun EntryContent(
             .fillMaxSize()
             .background(PresentlyTheme.colors.entryBackground),
     ) {
-        AnimatedContent(targetState = state.isInEditMode) {isInEditMode ->
+        AnimatedContent(targetState = state.isInEditMode) { isInEditMode ->
             if (isInEditMode) {
                 EditView(
                     date = state.date,

@@ -12,12 +12,11 @@ import dagger.hilt.android.EarlyEntryPoint
 import dagger.hilt.android.EarlyEntryPoints
 import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
 
 @HiltAndroidApp
 class GratitudeApplication : BaseGratitudeApplication()
 
-open class BaseGratitudeApplication: Application() {
+open class BaseGratitudeApplication : Application() {
 
     // Hilt test applications cannot use field injection, so you an entry point instead
     @EarlyEntryPoint
@@ -25,7 +24,6 @@ open class BaseGratitudeApplication: Application() {
     interface ApplicationEarlyEntryPoint {
         fun getWorkerFactory(): HiltWorkerFactory
     }
-
 
     override fun onCreate() {
         super.onCreate()
@@ -49,5 +47,4 @@ open class BaseGratitudeApplication: Application() {
         // Emulates installation of future on demand modules using SplitCompat.
         SplitCompat.install(this)
     }
-
 }

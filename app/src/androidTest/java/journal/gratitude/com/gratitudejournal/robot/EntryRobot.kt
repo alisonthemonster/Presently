@@ -2,11 +2,9 @@ package journal.gratitude.com.gratitudejournal.robot
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
-import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -18,7 +16,7 @@ import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
 
 class EntryRobot(
-    val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>
+    val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>,
 ) {
 
     fun assertCorrectDateIsShown(expectedDate: LocalDate) {
@@ -63,7 +61,7 @@ class EntryRobot(
         composeTestRule.onNodeWithContentDescription("Back").performClick()
     }
 
-    //assumes user has not typed yet, so undo/redo are not enabled
+    // assumes user has not typed yet, so undo/redo are not enabled
     fun assertUserIsInEditMode() {
         composeTestRule.onNodeWithContentDescription("Back").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("Undo").assertIsDisplayed()
@@ -130,5 +128,4 @@ class EntryRobot(
         composeTestRule.onNodeWithTag(presentTense).assertDoesNotExist()
         composeTestRule.onNodeWithText(pastTense).assertDoesNotExist()
     }
-
 }

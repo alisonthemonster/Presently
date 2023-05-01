@@ -18,13 +18,12 @@ import java.io.DataOutputStream
 import java.io.IOException
 import java.io.OutputStream
 
-
 object LocalExporter {
 
     suspend fun exportEntriesToCsvFile(
         context: Context,
         source: Uri,
-        items: List<Entry>
+        items: List<Entry>,
     ): CsvUriResult =
         withContext(Dispatchers.IO) {
             val resolver: ContentResolver = context.contentResolver
@@ -34,11 +33,11 @@ object LocalExporter {
                     ?.use { stream -> stream.writeEntriesToStream(items) }
                     ?: throw IllegalStateException("Could not open $source")
                 return@withContext CsvUriCreated(
-                    source
+                    source,
                 )
             } catch (exception: Exception) {
                 return@withContext CsvUriError(
-                    exception
+                    exception,
                 )
             }
         }

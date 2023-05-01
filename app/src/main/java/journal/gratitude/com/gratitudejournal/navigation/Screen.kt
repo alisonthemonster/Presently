@@ -16,7 +16,7 @@ internal sealed class Screen(val route: String) {
 
     object MilestoneCelebration : Screen("milestone/{number}") {
         fun createRoute(milestoneNumber: Int): String {
-            return "milestone/${milestoneNumber}"
+            return "milestone/$milestoneNumber"
         }
     }
 

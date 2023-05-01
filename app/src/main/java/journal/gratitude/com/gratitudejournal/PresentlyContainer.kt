@@ -17,7 +17,7 @@ import journal.gratitude.com.gratitudejournal.ui.settings.SettingsViewModel
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PresentlyContainer(
-    userStartDestination: UserStartDestination
+    userStartDestination: UserStartDestination,
 ) {
     val navController = rememberAnimatedNavController()
 

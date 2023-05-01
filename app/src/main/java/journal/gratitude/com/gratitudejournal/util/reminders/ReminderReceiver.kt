@@ -28,19 +28,19 @@ class ReminderReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val openActivityIntent = Intent(context, MainActivity::class.java)
-        openActivityIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP //set flag to restart/relaunch the app
+        openActivityIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP // set flag to restart/relaunch the app
         openActivityIntent.putExtra(INITIAL_SCREEN, UserStartDestination.ENTRY_SCREEN)
         val pendingIntent = PendingIntent.getActivity(
             context,
             ALARM_TYPE_RTC,
             openActivityIntent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
 
-        //Build notification
+        // Build notification
         createLocalNotification(context, pendingIntent)
 
-        //Schedule tomorrows alarm
+        // Schedule tomorrows alarm
         NotificationScheduler().configureNotifications(context, settings)
     }
 
@@ -60,5 +60,4 @@ class ReminderReceiver : BroadcastReceiver() {
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(ALARM_TYPE_RTC, notificationBuilder.build())
     }
-
 }

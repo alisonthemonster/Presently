@@ -83,7 +83,7 @@ class EntryRepositoryTest {
         verify(entryDao, times(1)).search("*Howdy!*")
     }
 
-    //Fixes crash with FTS and quotation marks
+    // Fixes crash with FTS and quotation marks
     @Test
     fun searchEntries_removesQuotesFromQuery() = runTest {
         val query = "\"Howdy!\""

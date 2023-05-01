@@ -48,18 +48,9 @@ import com.presently.settings.model.NOTIFS_DISABLED
 import com.presently.settings.model.NOTIF_PREF_TIME
 import com.presently.settings.model.ONE_TIME_EXPORT_PREF
 import com.presently.settings.model.VERSION_PREF
+import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.convertCsvToEntries
-import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.exportEntriesToCsvFile
-import journal.gratitude.com.gratitudejournal.util.backups.RealCsvParser
-import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
-import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
-import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader.Companion.PRESENTLY_BACKUP
-import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
-import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
-import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
-import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_DESELECT
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_SELECT
 import journal.gratitude.com.gratitudejournal.model.CANCELLED_NOTIFS
@@ -76,7 +67,16 @@ import journal.gratitude.com.gratitudejournal.model.OPENED_PRIVACY_POLICY
 import journal.gratitude.com.gratitudejournal.model.OPENED_SHARE_APP
 import journal.gratitude.com.gratitudejournal.model.OPENED_TERMS_CONDITIONS
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.convertCsvToEntries
+import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.exportEntriesToCsvFile
+import journal.gratitude.com.gratitudejournal.util.backups.RealCsvParser
 import journal.gratitude.com.gratitudejournal.util.backups.RealUploader.Companion.BACKUP_NOTIFICATION_ID
+import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader.Companion.PRESENTLY_BACKUP
+import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
+import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
+import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
 import kotlinx.coroutines.launch
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -88,12 +88,17 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SettingsFragment : PreferenceFragmentCompat(),
-    SharedPreferences.OnSharedPreferenceChangeListener, DialogPreference.TargetFragment {
+class SettingsFragment :
+    PreferenceFragmentCompat(),
+    SharedPreferences.OnSharedPreferenceChangeListener,
+    DialogPreference.TargetFragment {
 
     @Inject lateinit var repository: EntryRepository
+
     @Inject lateinit var settings: PresentlySettings
+
     @Inject lateinit var analytics: AnalyticsLogger
+
     @Inject lateinit var crashReporter: CrashReporter
 
     private lateinit var splitInstallManager: SplitInstallManager
@@ -118,15 +123,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
             v.updatePadding(
-                    top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
-                    bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+                top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
+                bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom,
             )
             insets
         }
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         //region App Information
@@ -203,11 +207,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val alarmDisabled = findPreference<Preference>(NOTIFS_DISABLED)
         val notifsCategory = findPreference<PreferenceCategory>(NOTIFS_CATEGORY)
         if (!settings.hasUserDisabledAlarmReminders(requireContext())) {
-            //if the alarm hasn't been disabled then hide the explanation row
+            // if the alarm hasn't been disabled then hide the explanation row
             notifsCategory?.removePreference(alarmDisabled)
         } else {
             alarmDisabled?.setOnPreferenceClickListener {
-                //open exact alarm settings
+                // open exact alarm settings
                 Intent().apply {
                     action = ACTION_REQUEST_SCHEDULE_EXACT_ALARM
                 }.also {
@@ -231,15 +235,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         // If we just resumed after launching the Dropbox activity
         if (settings.wasDropboxAuthInitiated()) {
-            val token = Auth.getDbxCredential() //get token from Dropbox Auth activity
+            val token = Auth.getDbxCredential() // get token from Dropbox Auth activity
             if (token == null) {
-                //user started to auth and didn't succeed
+                // user started to auth and didn't succeed
                 settings.markDropboxAuthAsCancelled()
                 activity?.recreate()
             } else {
                 settings.setAccessToken(token)
                 createDropboxUploaderWorker(BackupCadence.DAILY)
-                cancelDropboxFailureNotifications() //now that user has auth'd cancel any notifs about previous failure
+                cancelDropboxFailureNotifications() // now that user has auth'd cancel any notifs about previous failure
             }
         }
     }
@@ -327,7 +331,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
             }
             BackupCadence.EVERY_CHANGE -> {
-                //every change so do an upload now
+                // every change so do an upload now
                 val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
                     .addTag(PRESENTLY_BACKUP)
                     .build()
@@ -355,11 +359,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
             dialogFragment.setTargetFragment(this, 0)
             dialogFragment.show(parentFragmentManager, "DIALOG")
         } else {
-                val dialogFragment =
-                    ListPreferenceDialogFragmentCompat.newInstance(preference.key)
+            val dialogFragment =
+                ListPreferenceDialogFragmentCompat.newInstance(preference.key)
             dialogFragment.setTargetFragment(this, 0)
-            dialogFragment.show(parentFragmentManager, null);
-
+            dialogFragment.show(parentFragmentManager, null)
         }
     }
 
@@ -373,8 +376,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         try {
             val browserIntent =
                 Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html")
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://presently-app.firebaseapp.com/termsconditions.html"),
                 )
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
@@ -399,7 +402,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             textIntent.putExtra(Intent.EXTRA_TEXT, shareText)
 
             val chooserIntent = Intent.createChooser(textIntent, appName)
-            startActivity(chooserIntent);
+            startActivity(chooserIntent)
         } catch (exception: Exception) {
             crashReporter.logHandledException(exception)
         }
@@ -411,8 +414,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         try {
             val browserIntent =
                 Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html")
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://presently-app.firebaseapp.com/privacypolicy.html"),
                 )
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
@@ -427,8 +430,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         try {
             val browserIntent =
                 Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://presently-app.firebaseapp.com/faq.html")
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://presently-app.firebaseapp.com/faq.html"),
                 )
             startActivity(browserIntent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
@@ -499,8 +502,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private fun importFromCsv(inputStream: InputStream) {
         try {
             val parser = CSVParser.parse(
-                    inputStream, Charset.defaultCharset(),
-                    CSVFormat.DEFAULT
+                inputStream,
+                Charset.defaultCharset(),
+                CSVFormat.DEFAULT,
             )
             val realCsvParser = RealCsvParser(parser)
             val entries = convertCsvToEntries(realCsvParser)
@@ -527,9 +531,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
             if (uri != null) {
                 lifecycleScope.launch {
                     val csvResult = exportEntriesToCsvFile(
-                            requireContext(),
-                            uri,
-                            repository.getEntries()
+                        requireContext(),
+                        uri,
+                        repository.getEntries(),
                     )
                     when (csvResult) {
                         is CsvUriError -> exportCallback.onFailure(csvResult.exception)
@@ -539,12 +543,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
             } else {
                 crashReporter.logHandledException(NullPointerException("URI was null after user selected file location"))
                 Toast.makeText(
-                        context,
-                        R.string.error_creating_csv_file,
-                        Toast.LENGTH_SHORT
+                    context,
+                    R.string.error_creating_csv_file,
+                    Toast.LENGTH_SHORT,
                 ).show()
             }
-
         }
 
     /**
@@ -577,9 +580,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
         override fun onFailure(exception: Exception) {
             crashReporter.logHandledException(exception)
             Toast.makeText(
-                    context,
-                    "Error : ${exception.localizedMessage}",
-                    Toast.LENGTH_SHORT
+                context,
+                "Error : ${exception.localizedMessage}",
+                Toast.LENGTH_SHORT,
             )
                 .show()
         }

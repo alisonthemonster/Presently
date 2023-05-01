@@ -38,7 +38,7 @@ class SearchUiTest {
             results = listOf(
                 Entry(LocalDate.of(2011, 11, 11), "Search result one"),
                 Entry(LocalDate.of(2001, 1, 1), "Search result two"),
-            )
+            ),
         )
 
         composeTestRule.setContent {
@@ -67,7 +67,7 @@ class SearchUiTest {
             results = listOf(
                 Entry(LocalDate.of(2011, 11, 11), "Search result one"),
                 Entry(LocalDate.of(2001, 1, 1), "Search result two"),
-            )
+            ),
         )
 
         composeTestRule.setContent {
@@ -100,7 +100,7 @@ class SearchUiTest {
             results = listOf(
                 Entry(LocalDate.of(2011, 11, 11), "Search result one"),
                 Entry(LocalDate.of(2001, 1, 1), "Search result two"),
-            )
+            ),
         )
 
         composeTestRule.setContent {
@@ -128,7 +128,7 @@ class SearchUiTest {
                 .onAllNodesWithText("Search")
                 .fetchSemanticsNodes().size == 1
         }
-        composeTestRule.onNodeWithTag("searchFieldTestTag").assertTextEquals("Search", includeEditableText = false) //hint text
+        composeTestRule.onNodeWithTag("searchFieldTestTag").assertTextEquals("Search", includeEditableText = false) // hint text
     }
 
     @Test
@@ -139,7 +139,7 @@ class SearchUiTest {
             results = listOf(
                 Entry(LocalDate.of(2011, 11, 11), "Search result one"),
                 Entry(LocalDate.of(2001, 1, 1), "Search result two"),
-            )
+            ),
         )
 
         composeTestRule.setContent {

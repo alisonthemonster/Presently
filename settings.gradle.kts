@@ -4,7 +4,7 @@ include(":strings")
 include(":settings")
 include(":testing")
 include(":logging")
-include(":coroutine_utils")
+include(":coroutineutils")
 
 //needed for running jvmToolchain on CircleCi
 plugins {

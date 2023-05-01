@@ -21,8 +21,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    //todo test theme is preserved when they get this update to the rewrite
-    //todo test dropbox backup still works (esp the every change option)
+    // todo test theme is preserved when they get this update to the rewrite
+    // todo test dropbox backup still works (esp the every change option)
 
     @Inject lateinit var settings: PresentlySettings
 
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         NotificationScheduler().configureNotifications(this, settings)
 
-        //tells the app we'll be handling insets ourselves!
+        // tells the app we'll be handling insets ourselves!
         WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(CHANNEL_ID, getString(R.string.channel_name),  NotificationManager.IMPORTANCE_DEFAULT)
+            val notificationChannel = NotificationChannel(CHANNEL_ID, getString(R.string.channel_name), NotificationManager.IMPORTANCE_DEFAULT)
             notificationChannel.description = getString(R.string.channel_description)
             notificationChannel.enableVibration(true)
 
@@ -69,8 +69,6 @@ class MainActivity : AppCompatActivity() {
             val notificationManager = getSystemService(NotificationManager::class.java)
 
             notificationManager.createNotificationChannels(listOf(notificationChannel, backupChannel))
-
         }
     }
-
 }

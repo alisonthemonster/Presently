@@ -8,8 +8,10 @@ data class Theme(
     val iconColor: Int,
     val icon: Int,
     val multicolorIcon: Boolean = false,
-    val designer: Designer? = null
+    val designer: Designer? = null,
 )
 
-data class Designer(val designerName: String,
-                    val designerWebsite: String)
+data class Designer(
+    val designerName: String,
+    val designerWebsite: String,
+)

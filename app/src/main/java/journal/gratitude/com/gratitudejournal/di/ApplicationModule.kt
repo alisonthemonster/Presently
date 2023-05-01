@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal.di
 
 import android.content.Context
-import com.presently.coroutine_utils.AppCoroutineDispatchers
+import com.presently.coroutineutils.AppCoroutineDispatchers
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +21,7 @@ object ApplicationModule {
     fun provideCoroutineDispatchers() = AppCoroutineDispatchers(
         io = Dispatchers.IO,
         computation = Dispatchers.Default,
-        main = Dispatchers.Main
+        main = Dispatchers.Main,
     )
 }
 

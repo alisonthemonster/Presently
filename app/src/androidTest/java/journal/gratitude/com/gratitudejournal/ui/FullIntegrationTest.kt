@@ -26,10 +26,9 @@ import org.junit.Test
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
-
 @HiltAndroidTest
 class FullIntegrationTest {
-    //so that it uses the fake dependencies
+    // so that it uses the fake dependencies
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)
 
@@ -48,10 +47,12 @@ class FullIntegrationTest {
     @Before
     fun init() = runTest {
         hiltRule.inject()
-        //add some fake data
-        repository.addEntries(listOf(
-            Entry(LocalDate.of(2022, 10, 9), "An entry from October of 2022"),
-        ))
+        // add some fake data
+        repository.addEntries(
+            listOf(
+                Entry(LocalDate.of(2022, 10, 9), "An entry from October of 2022"),
+            ),
+        )
     }
 
     @Test
@@ -76,7 +77,7 @@ class FullIntegrationTest {
         timelineRobot.clickTodayEntry()
 
         entryRobot.assertCorrectDateIsShown(LocalDate.now())
-        entryRobot.assertUserIsInEditMode() //user enters edit mode when its empty
+        entryRobot.assertUserIsInEditMode() // user enters edit mode when its empty
 
         entryRobot.type("Hello there, this is the Presently integration test!")
         entryRobot.assertEntryEditTextEquals("Hello there, this is the Presently integration test!")
@@ -92,7 +93,7 @@ class FullIntegrationTest {
 
         entryRobot.clickBackButton()
 
-        //assert view mode
+        // assert view mode
         entryRobot.assertEntryReadTextEquals("Hello there, this is the Presently integration test! More text!")
 
         entryRobot.clickBackButton()
@@ -121,6 +122,6 @@ class FullIntegrationTest {
 
         assertThat(settings.getCurrentTheme()).isEqualTo("Boo")
 
-        //todo figure out a way to test opening contact us and opening settings
+        // todo figure out a way to test opening contact us and opening settings
     }
 }

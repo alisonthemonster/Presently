@@ -43,13 +43,13 @@ class TimelineViewModel @Inject constructor(
                         _state.value = _state.value.copy(
                             timelineItems = listOf<TimelineItem>(
                                 Entry(today, ""),
-                                Entry(yesterday, "")
-                            )
+                                Entry(yesterday, ""),
+                            ),
                         )
                     }
 
                     list.size < 2 -> {
-                        //user has only ever written one day
+                        // user has only ever written one day
                         val newList = mutableListOf<TimelineItem>()
                         newList.addAll(list)
                         if (list[0].entryDate != today) {
@@ -62,7 +62,7 @@ class TimelineViewModel @Inject constructor(
                             timelineItems = newList,
                             datesWritten = list.map {
                                 it.entryDate
-                            }.toSet()
+                            }.toSet(),
                         )
                     }
 
@@ -71,7 +71,7 @@ class TimelineViewModel @Inject constructor(
                         val listWithHints = mutableListOf<Entry>()
                         listWithHints.addAll(list)
                         if (latest.entryDate != today) {
-                            //they dont have the latest
+                            // they dont have the latest
                             listWithHints.add(0, Entry(today, ""))
                         }
                         if (listWithHints[1].entryDate != yesterday) {
@@ -88,13 +88,12 @@ class TimelineViewModel @Inject constructor(
                                     listWithHintsAndMilestones.add(0, Milestone.create(numEntries))
                                 }
                             }
-
                         }
                         _state.value = _state.value.copy(
                             timelineItems = listWithHintsAndMilestones,
                             datesWritten = list.map {
                                 it.entryDate
-                            }.toSet()
+                            }.toSet(),
                         )
                     }
                 }
@@ -105,7 +104,7 @@ class TimelineViewModel @Inject constructor(
     fun loadSettings() {
         _state.value = _state.value.copy(
             shouldShowDayOfWeek = settings.shouldShowDayOfWeekInTimeline(),
-            numberOfLinesPerRow = settings.getLinesPerEntryInTimeline()
+            numberOfLinesPerRow = settings.getLinesPerEntryInTimeline(),
         )
     }
 

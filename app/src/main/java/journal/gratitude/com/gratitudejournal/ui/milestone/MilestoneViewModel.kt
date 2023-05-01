@@ -7,9 +7,9 @@ import com.presently.logging.AnalyticsLogger
 import com.presently.settings.PresentlySettings
 import com.presently.ui.PresentlyColors
 import com.presently.ui.toPresentlyColors
-import journal.gratitude.com.gratitudejournal.navigation.MilestoneArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import journal.gratitude.com.gratitudejournal.model.CLICKED_SHARE_MILESTONE
+import journal.gratitude.com.gratitudejournal.navigation.MilestoneArgs
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
@@ -37,5 +37,4 @@ class MilestoneViewModel @Inject constructor(
     fun onShareClicked() {
         analytics.recordEvent(CLICKED_SHARE_MILESTONE)
     }
-
 }

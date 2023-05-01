@@ -46,7 +46,7 @@ fun TimelineRow(
         modifier = modifier
             .requiredHeightIn(min = 100.dp)
             .fillMaxWidth()
-            .clickable { onEntryClicked(entryDate, isNewEntry) }
+            .clickable { onEntryClicked(entryDate, isNewEntry) },
     ) {
         val (dateString, entryString, image, timelineLine, timelineDot, timelineEndDot) = createRefs()
 
@@ -67,7 +67,7 @@ fun TimelineRow(
                 }
                 .width(5.dp)
                 .clip(RectangleShape)
-                .background(theme.timelineLine)
+                .background(theme.timelineLine),
         )
         Box(
             modifier = Modifier
@@ -79,7 +79,7 @@ fun TimelineRow(
                 }
                 .size(15.dp)
                 .clip(CircleShape)
-                .background(theme.timelineLine)
+                .background(theme.timelineLine),
         )
         Text(
             modifier = Modifier.constrainAs(dateString) {
@@ -90,7 +90,7 @@ fun TimelineRow(
             },
             text = if (shouldShowDayOfWeek) entryDate.toStringWithDayOfWeek() else entryDate.toFullString(),
             style = PresentlyTheme.typography.bodyLarge,
-            color = PresentlyTheme.colors.timelineDate
+            color = PresentlyTheme.colors.timelineDate,
         )
         Text(
             modifier = Modifier.constrainAs(entryString) {
@@ -128,9 +128,8 @@ fun TimelineRow(
                     }
                     .size(15.dp)
                     .clip(CircleShape)
-                    .background(theme.timelineLine)
+                    .background(theme.timelineLine),
             )
         }
     }
 }
-

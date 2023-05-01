@@ -17,14 +17,14 @@ class RealCsvParserTest {
         val actual = realCsvParser.getRecords()
         val expected = listOf(
             CsvRecord(
-                arrayOf("a", "b", "c", "d")
+                arrayOf("a", "b", "c", "d"),
             ),
             CsvRecord(
-                arrayOf(" a", "b", "c", "d")
+                arrayOf(" a", "b", "c", "d"),
             ),
             CsvRecord(
-                arrayOf("a ", " b ", " 1 2 ")
-            )
+                arrayOf("a ", " b ", " 1 2 "),
+            ),
         )
 
         assertEquals(expected, actual)
@@ -34,33 +34,32 @@ class RealCsvParserTest {
     fun `GIVEN apache CSVParser AND exported gratitude entries with escaped chars WHEN getRecords is called THEN the correctly parsed records are returned`() {
         val csvString =
             "entryDate,entryContent\n" +
-                    "2020-06-02,Unit tests are great!\n" +
-                    "2020-06-03,\"Unit tests are great!\n" +
-                    "\n" +
-                    "\n" +
-                    "\n" +
-                    "Super great!\"\n" +
-                    "2020-06-04,\"Unit tests are the \"\"bomb\"\"\"\n"
+                "2020-06-02,Unit tests are great!\n" +
+                "2020-06-03,\"Unit tests are great!\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "Super great!\"\n" +
+                "2020-06-04,\"Unit tests are the \"\"bomb\"\"\"\n"
         val apacheParser = CSVParser.parse(csvString, CSVFormat.DEFAULT)
         val realCsvParser = RealCsvParser(apacheParser)
 
         val actual = realCsvParser.getRecords()
         val expected = listOf(
             CsvRecord(
-                arrayOf("entryDate", "entryContent")
+                arrayOf("entryDate", "entryContent"),
             ),
             CsvRecord(
-                arrayOf("2020-06-02", "Unit tests are great!")
+                arrayOf("2020-06-02", "Unit tests are great!"),
             ),
             CsvRecord(
-                arrayOf("2020-06-03", "Unit tests are great!\n\n\n\nSuper great!")
+                arrayOf("2020-06-03", "Unit tests are great!\n\n\n\nSuper great!"),
             ),
             CsvRecord(
-                arrayOf("2020-06-04", "Unit tests are the \"bomb\"")
-            )
+                arrayOf("2020-06-04", "Unit tests are the \"bomb\""),
+            ),
         )
 
         assertEquals(expected, actual)
     }
-
 }

@@ -56,14 +56,14 @@ fun EditView(
     val prompts = stringArrayResource(R.array.prompts)
 
     LaunchedEffect(Unit) {
-        //open the keyboard
+        // open the keyboard
         focusRequester.requestFocus()
     }
     Box(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = modifier
                 .verticalScroll(rememberScrollState())
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp),
         ) {
             Text(
                 text = when (date) {
@@ -72,7 +72,7 @@ fun EditView(
                     else -> date.toStringWithDayOfWeek()
                 },
                 style = PresentlyTheme.typography.titleLarge,
-                color = PresentlyTheme.colors.entryDate
+                color = PresentlyTheme.colors.entryDate,
             )
             Text(
                 modifier = modifier
@@ -80,8 +80,8 @@ fun EditView(
                     .animateContentSize(
                         animationSpec = spring(
                             dampingRatio = Spring.DampingRatioLowBouncy,
-                            stiffness = Spring.StiffnessLow
-                        )
+                            stiffness = Spring.StiffnessLow,
+                        ),
                     ),
                 text = if (promptNumber == null) {
                     if (date == LocalDate.now()) {
@@ -110,16 +110,16 @@ fun EditView(
                         } else {
                             stringResource(id = R.string.what_were_you_thankful_for)
                         },
-                        color = PresentlyTheme.colors.entryHint
+                        color = PresentlyTheme.colors.entryHint,
                     )
                 },
                 keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
                 textStyle = PresentlyTheme.typography.bodyMedium,
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = PresentlyTheme.colors.entryBackground,
-                    focusedIndicatorColor = Color.Transparent, //hide the indicator
+                    focusedIndicatorColor = Color.Transparent, // hide the indicator
                     textColor = PresentlyTheme.colors.entryBody,
-                    cursorColor = PresentlyTheme.colors.debugColor1 //todo pick a color for this
+                    cursorColor = PresentlyTheme.colors.debugColor1, // todo pick a color for this
                 ),
             )
         }
@@ -131,7 +131,7 @@ fun EditView(
             userCanRedo = userCanRedo,
             onPromptSuggestionClicked = { onHintClicked(prompts.size) },
             onUndoClicked = { onUndoClicked() },
-            onRedoClicked = { onRedoClicked() }
+            onRedoClicked = { onRedoClicked() },
         )
     }
 }
@@ -143,12 +143,12 @@ fun TextActions(
     userCanRedo: Boolean,
     onPromptSuggestionClicked: () -> Unit,
     onUndoClicked: () -> Unit,
-    onRedoClicked: () -> Unit
+    onRedoClicked: () -> Unit,
 ) {
     Row(
         modifier = modifier
             .clip(shape = RoundedCornerShape(30.dp))
-            .background(color = PresentlyTheme.colors.entryButtonBackground)
+            .background(color = PresentlyTheme.colors.entryButtonBackground),
     ) {
         IconButton(
             onClick = { onUndoClicked() },
@@ -162,9 +162,9 @@ fun TextActions(
         }
         IconButton(onClick = { onPromptSuggestionClicked() }) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_idea_empty), //todo animate
+                painter = painterResource(id = R.drawable.ic_idea_empty), // todo animate
                 contentDescription = stringResource(R.string.get_a_new_prompt),
-                tint = PresentlyTheme.colors.entryButtonText
+                tint = PresentlyTheme.colors.entryButtonText,
             )
         }
         IconButton(

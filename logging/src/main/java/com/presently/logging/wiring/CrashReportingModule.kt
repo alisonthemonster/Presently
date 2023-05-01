@@ -21,5 +21,4 @@ object CrashReportingModule {
     fun provideFirebaseCrashlytics(): FirebaseCrashlytics {
         return FirebaseCrashlytics.getInstance()
     }
-
 }

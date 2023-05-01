@@ -29,7 +29,7 @@ class AppLockScreenUiTest {
                     onUserAuthenticated = {},
                     onUserAuthenticationFailed = { errString ->
                         errorResource = errString
-                    }
+                    },
                 )
             }
         }

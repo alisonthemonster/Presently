@@ -17,7 +17,7 @@ class MigrationTest {
 
     // Array of all migrations
     private val ALL_MIGRATIONS = arrayOf(
-        EntryDatabase.MIGRATION_1_2
+        EntryDatabase.MIGRATION_1_2,
     )
 
     @Rule
@@ -25,7 +25,7 @@ class MigrationTest {
     val helper: MigrationTestHelper = MigrationTestHelper(
         InstrumentationRegistry.getInstrumentation(),
         EntryDatabase::class.java.canonicalName,
-        FrameworkSQLiteOpenHelperFactory()
+        FrameworkSQLiteOpenHelperFactory(),
     )
 
     @Test
@@ -41,7 +41,7 @@ class MigrationTest {
         Room.databaseBuilder(
             InstrumentationRegistry.getInstrumentation().targetContext,
             EntryDatabase::class.java,
-            TEST_DB
+            TEST_DB,
         ).addMigrations(*ALL_MIGRATIONS).build().apply {
             openHelper.writableDatabase
             close()

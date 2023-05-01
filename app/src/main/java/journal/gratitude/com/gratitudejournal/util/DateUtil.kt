@@ -27,7 +27,6 @@ fun LocalDate.toFullString(): String {
         .ofLocalizedDate(FormatStyle.LONG)
 
     return localizedTimeFormatter.format(this)
-
 }
 
 fun LocalDate.toStringWithDayOfWeek(): String {

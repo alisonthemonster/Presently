@@ -3,24 +3,22 @@ package journal.gratitude.com.gratitudejournal.robot
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onAllNodesWithTag
-import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import journal.gratitude.com.gratitudejournal.util.toFullString
-import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import org.threeten.bp.LocalDate
 
 class TimelineRobot(
-    val composeTestRule: ComposeTestRule
+    val composeTestRule: ComposeTestRule,
 ) {
 
     fun verifyCorrectTimelineState() {
-        //verify fake entry from FakeEntryRepository
+        // verify fake entry from FakeEntryRepository
         composeTestRule.onNodeWithText("Monday, December 19, 2022").assertIsDisplayed()
         composeTestRule.onNodeWithText("A test entry on the 19th of December.").assertIsDisplayed()
 
-        //verify we're showing today and yesterday items
+        // verify we're showing today and yesterday items
         val today = LocalDate.now()
         val yesterday = today.minusDays(1)
         assertTimelineHasEntry(today, "What are you grateful for?")

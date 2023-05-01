@@ -36,38 +36,38 @@ fun NavigationDrawer(
             .background(PresentlyTheme.colors.timelineToolbar)
             .windowInsetsPadding(WindowInsets.statusBars)
             .fillMaxSize(),
-        color = PresentlyTheme.colors.timelineToolbar
+        color = PresentlyTheme.colors.timelineToolbar,
     ) {
         Column() {
             Text(
                 stringResource(R.string.presently),
                 modifier = modifier.padding(10.dp),
                 style = PresentlyTheme.typography.titleLarge,
-                color = PresentlyTheme.colors.timelineLogo
+                color = PresentlyTheme.colors.timelineLogo,
             )
             NavigationDrawerItem(
                 title = stringResource(id = R.string.search),
                 onClicked = onSearchClicked,
                 scope = scope,
-                scaffoldState = scaffoldState
+                scaffoldState = scaffoldState,
             )
             NavigationDrawerItem(
                 title = stringResource(id = R.string.theme),
                 onClicked = onThemesClicked,
                 scope = scope,
-                scaffoldState = scaffoldState
+                scaffoldState = scaffoldState,
             )
             NavigationDrawerItem(
                 title = stringResource(id = R.string.contact_us),
                 onClicked = { onContactClicked() },
                 scope = scope,
-                scaffoldState = scaffoldState
+                scaffoldState = scaffoldState,
             )
             NavigationDrawerItem(
                 title = stringResource(id = R.string.settings),
                 onClicked = onSettingsClicked,
                 scope = scope,
-                scaffoldState = scaffoldState
+                scaffoldState = scaffoldState,
             )
         }
     }
@@ -79,7 +79,7 @@ fun NavigationDrawerItem(
     onClicked: () -> Unit,
     scaffoldState: ScaffoldState,
     scope: CoroutineScope,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = title,
@@ -95,6 +95,6 @@ fun NavigationDrawerItem(
             }
             .padding(10.dp),
         style = PresentlyTheme.typography.titleLarge,
-        color = PresentlyTheme.colors.timelineOnToolbar
+        color = PresentlyTheme.colors.timelineOnToolbar,
     )
 }

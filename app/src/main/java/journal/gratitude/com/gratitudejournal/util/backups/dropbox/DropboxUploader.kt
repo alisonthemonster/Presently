@@ -23,7 +23,7 @@ interface CloudProvider {
     suspend fun uploadToCloud(file: File): CloudUploadResult
 }
 
-class DropboxUploader(val context: Context, val settings: PresentlySettings):
+class DropboxUploader(val context: Context, val settings: PresentlySettings) :
     CloudProvider {
 
     override suspend fun uploadToCloud(file: File): CloudUploadResult {
@@ -62,7 +62,7 @@ class DropboxUploader(val context: Context, val settings: PresentlySettings):
         suspend fun deauthorizeDropboxAccess(
             context: Context,
             settings: PresentlySettings,
-            dispatcher: CoroutineDispatcher = Dispatchers.IO
+            dispatcher: CoroutineDispatcher = Dispatchers.IO,
         ) {
             withContext(dispatcher) {
                 val accessToken = settings.getAccessToken()
@@ -80,5 +80,4 @@ class DropboxUploader(val context: Context, val settings: PresentlySettings):
 
         const val PRESENTLY_BACKUP = "PRESENTLY_BACKUP"
     }
-
 }

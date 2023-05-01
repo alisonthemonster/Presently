@@ -23,14 +23,18 @@ fun EntryHeader(
                 else -> date.toStringWithDayOfWeek()
             },
             style = PresentlyTheme.typography.titleLarge,
-            color = PresentlyTheme.colors.entryDate
+            color = PresentlyTheme.colors.entryDate,
         )
         Text(
-            text = if (date == LocalDate.now()) stringResource(R.string.iam) else stringResource(
-                R.string.iwas
-            ),
+            text = if (date == LocalDate.now()) {
+                stringResource(R.string.iam)
+            } else {
+                stringResource(
+                    R.string.iwas,
+                )
+            },
             style = PresentlyTheme.typography.titleLarge,
-            color = PresentlyTheme.colors.entryDate
+            color = PresentlyTheme.colors.entryDate,
         )
     }
 }

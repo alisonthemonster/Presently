@@ -13,26 +13,26 @@ class CreateCsvStringTest {
         val entries = listOf(
             Entry(
                 LocalDate.of(2020, 6, 2),
-                "Unit tests are great!"
+                "Unit tests are great!",
             ),
             Entry(
                 LocalDate.of(2020, 6, 3),
-                "Unit tests are great!\n\n\n\nSuper great!"
+                "Unit tests are great!\n\n\n\nSuper great!",
             ),
             Entry(
                 LocalDate.of(2020, 6, 4),
-                "Unit tests are the \"bomb\""
-            )
+                "Unit tests are the \"bomb\"",
+            ),
         )
         val actual = createCsvString(entries)
         val expected = "entryDate,entryContent\n" +
-                "2020-06-02,Unit tests are great!\n" +
-                "2020-06-03,\"Unit tests are great!\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "Super great!\"\n" +
-                "2020-06-04,\"Unit tests are the \"\"bomb\"\"\"\n"
+            "2020-06-02,Unit tests are great!\n" +
+            "2020-06-03,\"Unit tests are great!\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "Super great!\"\n" +
+            "2020-06-04,\"Unit tests are the \"\"bomb\"\"\"\n"
 
         assertEquals(expected, actual)
     }

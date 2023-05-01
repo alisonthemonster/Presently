@@ -58,7 +58,7 @@ fun Search(
     val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit) {
-        //open the keyboard
+        // open the keyboard
         focusRequester.requestFocus()
     }
 
@@ -67,7 +67,7 @@ fun Search(
     }
 
     PresentlyTheme(
-        selectedTheme = viewModel.getSelectedTheme()
+        selectedTheme = viewModel.getSelectedTheme(),
     ) {
         SearchContent(
             state = state.value,
@@ -77,7 +77,7 @@ fun Search(
                 viewModel.onEntryClicked()
                 onEntryClicked(it)
             },
-            focusRequester = focusRequester
+            focusRequester = focusRequester,
         )
     }
 }
@@ -110,7 +110,7 @@ fun SearchContent(
             focusRequester = focusRequester,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(8.dp),
         )
         if (searchQuery.text.isNotEmpty() && state.results.isEmpty()) {
             Text(
@@ -122,7 +122,7 @@ fun SearchContent(
             LazyColumn(
                 modifier = modifier
                     .navigationBarsPadding()
-                    .imePadding()
+                    .imePadding(),
             ) {
                 items(state.results) { searchResult ->
                     SearchResult(
@@ -130,10 +130,10 @@ fun SearchContent(
                             start = 16.dp,
                             end = 16.dp,
                             top = 8.dp,
-                            bottom = 8.dp
+                            bottom = 8.dp,
                         ),
                         result = searchResult,
-                        onEntryClicked = { onEntryClicked(it) }
+                        onEntryClicked = { onEntryClicked(it) },
                     )
                 }
             }
@@ -162,7 +162,7 @@ fun SearchTextField(
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = stringResource(R.string.back),
-                    tint = PresentlyTheme.colors.timelineOnToolbar
+                    tint = PresentlyTheme.colors.timelineOnToolbar,
                 )
             }
         },
@@ -170,7 +170,7 @@ fun SearchTextField(
             AnimatedVisibility(
                 visible = value.text.isNotEmpty(),
                 enter = fadeIn(),
-                exit = fadeOut()
+                exit = fadeOut(),
             ) {
                 IconButton(
                     onClick = { onValueChange(TextFieldValue()) },
@@ -178,7 +178,7 @@ fun SearchTextField(
                     Icon(
                         imageVector = Icons.Default.Clear,
                         contentDescription = stringResource(R.string.clear),
-                        tint = PresentlyTheme.colors.timelineOnToolbar
+                        tint = PresentlyTheme.colors.timelineOnToolbar,
                     )
                 }
             }
@@ -198,8 +198,8 @@ fun SearchTextField(
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = PresentlyTheme.colors.timelineToolbar,
             textColor = PresentlyTheme.colors.timelineOnToolbar,
-            cursorColor = PresentlyTheme.colors.debugColor1, //todo find a color for this
-            placeholderColor = PresentlyTheme.colors.timelineHint, //todo is this the best color?
+            cursorColor = PresentlyTheme.colors.debugColor1, // todo find a color for this
+            placeholderColor = PresentlyTheme.colors.timelineHint, // todo is this the best color?
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,

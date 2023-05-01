@@ -22,7 +22,7 @@ fun EntryEditTopBar(
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = stringResource(R.string.back),
-                    tint = PresentlyTheme.colors.entryDate
+                    tint = PresentlyTheme.colors.entryDate,
                 )
             }
         },

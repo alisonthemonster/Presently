@@ -25,25 +25,25 @@ import com.presently.ui.colorSchemes
 
 @Composable
 fun ThemeSelection(
-    onThemeChanged: () -> Unit
+    onThemeChanged: () -> Unit,
 ) {
     val viewModel = hiltViewModel<ThemeViewModel>()
 
     PresentlyTheme(
-        selectedTheme = viewModel.getSelectedTheme()
+        selectedTheme = viewModel.getSelectedTheme(),
     ) {
         ThemeSelectionContent(
             onThemeSelected = {
                 viewModel.onThemeSelected(it)
                 onThemeChanged()
-            }
+            },
         )
     }
 }
 
 @Composable
 private fun ThemeSelectionContent(
-    onThemeSelected: (theme: String) -> Unit
+    onThemeSelected: (theme: String) -> Unit,
 ) {
     val colorSchemes = remember { colorSchemes.toList() }
 
@@ -56,7 +56,7 @@ private fun ThemeSelectionContent(
             Surface(
                 color = colors.timelineBackground,
                 modifier = Modifier
-                    .clickable { onThemeSelected(themeName) }
+                    .clickable { onThemeSelected(themeName) },
             ) {
                 Row(
                     modifier = Modifier.padding(10.dp),
@@ -73,11 +73,10 @@ private fun ThemeSelectionContent(
                         color = colors.timelineContent,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(10.dp)
+                            .padding(10.dp),
                     )
                 }
             }
-
         }
     }
 }

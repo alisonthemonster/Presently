@@ -8,12 +8,9 @@ import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -27,7 +24,6 @@ import com.google.accompanist.navigation.animation.composable
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.FragmentSettingsBinding
 import journal.gratitude.com.gratitudejournal.ui.entry.Entry
-import journal.gratitude.com.gratitudejournal.ui.milestone.MilestoneCelebration
 import journal.gratitude.com.gratitudejournal.ui.search.Search
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockScreen
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeSelection
@@ -35,7 +31,7 @@ import journal.gratitude.com.gratitudejournal.ui.timeline.Timeline
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import org.threeten.bp.LocalDate
 
-//todo test with other bottom gesture navs
+// todo test with other bottom gesture navs
 
 @ExperimentalAnimationApi
 @Composable
@@ -50,7 +46,7 @@ internal fun AppNavigation(
     AnimatedNavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
     ) {
         composable(
             route = Screen.Timeline.route,
@@ -70,18 +66,18 @@ internal fun AppNavigation(
                 },
                 onContactClicked = {
                     onContactClicked(activity)
-                }
+                },
             )
         }
         composable(
             route = Screen.Entry.createRoute(),
             arguments = listOf(
-                navArgument("entry-date") { type = NavType.StringType }
-            )
+                navArgument("entry-date") { type = NavType.StringType },
+            ),
         ) {
             Entry(
                 onEntryExit = {
-                     navController.popBackStack()
+                    navController.popBackStack()
                 },
             )
         }
@@ -94,7 +90,7 @@ internal fun AppNavigation(
                 },
                 onBackClicked = {
                     navController.navigateUp()
-                }
+                },
             )
         }
         composable(
@@ -104,7 +100,7 @@ internal fun AppNavigation(
                 onThemeChanged = {
                     navController.popBackStack()
                     activity.recreate()
-                }
+                },
             )
         }
         composable(
@@ -113,24 +109,24 @@ internal fun AppNavigation(
             SettingsFragmentContainer()
         }
         composable(
-            route = Screen.Lock.route
+            route = Screen.Lock.route,
         ) {
             AppLockScreen(
                 onUserAuthenticated = {
                     when (postAuthDestination) {
                         UserStartDestination.ENTRY_SCREEN -> {
                             navController.navigate(Screen.Entry.createRoute(LocalDate.now())) {
-                                popUpTo(0) //reset stack
+                                popUpTo(0) // reset stack
                             }
                         }
                         UserStartDestination.SETTINGS_SCREEN -> {
                             navController.navigate(Screen.Settings.createRoute()) {
-                                popUpTo(0) //reset stack
+                                popUpTo(0) // reset stack
                             }
                         }
                         UserStartDestination.DEFAULT_SCREEN -> {
                             navController.navigate(Screen.Timeline.createRoute()) {
-                                popUpTo(0) //reset stack
+                                popUpTo(0) // reset stack
                             }
                         }
                     }
@@ -140,7 +136,7 @@ internal fun AppNavigation(
                         Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
                     }
                     activity.finish()
-                }
+                },
             )
         }
     }
@@ -163,7 +159,7 @@ private fun onContactClicked(context: Context) {
                 App Version: ${packageInfo.versionName}
                 
                 
-                """.trimIndent()
+        """.trimIndent()
         putExtra(Intent.EXTRA_TEXT, text)
     }
 
@@ -188,7 +184,7 @@ private fun SavedStateHandle.getDateString(): String {
 
 internal class MilestoneArgs(val milestoneNumber: Int) {
     constructor(savedStateHandle: SavedStateHandle) :
-            this(checkNotNull(savedStateHandle["number"]) as Int)
+        this(checkNotNull(savedStateHandle["number"]) as Int)
 }
 
 @Composable

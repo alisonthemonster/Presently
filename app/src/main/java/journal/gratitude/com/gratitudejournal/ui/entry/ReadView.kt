@@ -6,11 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -19,13 +15,11 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.util.toFullString
 import org.threeten.bp.LocalDate
 import kotlin.random.Random
 
@@ -42,7 +36,7 @@ fun ReadView(
         modifier = modifier
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
-            .testTag("readMode")
+            .testTag("readMode"),
     ) {
         EntryHeader(date)
         Text(
@@ -63,7 +57,7 @@ fun ReadView(
                 modifier = modifier.clickable {
                     clipboardManager.setText(AnnotatedString(quote))
                     Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show()
-                }
+                },
             )
         }
     }

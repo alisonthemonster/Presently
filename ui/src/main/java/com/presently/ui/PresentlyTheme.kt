@@ -10,7 +10,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 @Composable
 fun PresentlyTheme(
     selectedTheme: PresentlyColors = OriginalColors,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val typography = PresentlyTheme.typography
     val colors = remember { selectedTheme }
@@ -18,17 +18,17 @@ fun PresentlyTheme(
 
     CompositionLocalProvider(
         LocalPresentlyTypography provides typography,
-        LocalPresentlyColors provides colors
+        LocalPresentlyColors provides colors,
     ) {
         MaterialTheme(
             content = content,
             typography = typography.toMaterialTheme(),
-            colorScheme = colors.toMaterialTheme()
+            colorScheme = colors.toMaterialTheme(),
         )
     }
 }
 
-//following the JetSnack Compose sample to discourage the use of MaterialTheme
+// following the JetSnack Compose sample to discourage the use of MaterialTheme
 private fun PresentlyColors.toMaterialTheme(): ColorScheme {
     return ColorScheme(
         primary = this.debugColor1,
@@ -63,12 +63,10 @@ private fun PresentlyColors.toMaterialTheme(): ColorScheme {
     )
 }
 
-
 private val LocalPresentlyTypography = staticCompositionLocalOf { PresentlyTypography() }
 private val LocalPresentlyColors = staticCompositionLocalOf<PresentlyColors> {
     error("No colors provided!")
 }
-
 
 object PresentlyTheme {
     val typography: PresentlyTypography

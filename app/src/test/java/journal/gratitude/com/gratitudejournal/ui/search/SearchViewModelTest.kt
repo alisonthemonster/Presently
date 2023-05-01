@@ -36,7 +36,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `GIVEN a SearchViewModel WHEN getSelectedTheme is called THEN fetch the theme`()  {
+    fun `GIVEN a SearchViewModel WHEN getSelectedTheme is called THEN fetch the theme`() {
         val viewModel = SearchViewModel(repository, settings, analytics)
         val expected = "MyTheme"
         whenever(settings.getCurrentTheme()).thenReturn(expected)
@@ -47,7 +47,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `GIVEN a SearchViewModel WHEN logScreenView is called THEN log an analytics event`()  {
+    fun `GIVEN a SearchViewModel WHEN logScreenView is called THEN log an analytics event`() {
         val viewModel = SearchViewModel(repository, settings, analytics)
 
         viewModel.logScreenView()
@@ -56,12 +56,11 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `GIVEN a SearchViewModel WHEN onEntryClicked is called THEN log an analytics event`()  {
+    fun `GIVEN a SearchViewModel WHEN onEntryClicked is called THEN log an analytics event`() {
         val viewModel = SearchViewModel(repository, settings, analytics)
 
         viewModel.onEntryClicked()
 
         verify(analytics).recordEvent("clickedSearchItem")
     }
-
 }
