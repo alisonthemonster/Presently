@@ -2,9 +2,11 @@ package journal.gratitude.com.gratitudejournal.ui.search
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
@@ -17,14 +19,17 @@ fun SearchResult(
     onEntryClicked: (date: LocalDate) -> Unit,
 ) {
     Column(
-        modifier = modifier.clickable {
-            onEntryClicked(result.entryDate)
-        },
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable {
+                onEntryClicked(result.entryDate)
+            },
     ) {
         Text(
             text = result.entryDate.toStringWithDayOfWeek(),
             style = PresentlyTheme.typography.bodyLarge,
-            color = PresentlyTheme.colors.timelineDate
+            color = PresentlyTheme.colors.timelineDate,
+            fontWeight = FontWeight.Bold,
         )
         Text(
             text = result.entryContent,

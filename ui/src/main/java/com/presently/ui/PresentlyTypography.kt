@@ -22,6 +22,10 @@ data class PresentlyTypography(
         fontSize = 16.sp,
         fontFamily = ValueFontFamily
     ),
+    val bodyExtraLarge: TextStyle = TextStyle(
+        fontSize = 22.sp,
+        fontFamily = LarsseitFontFamily
+    ),
     val bodyLarge: TextStyle = TextStyle(
         fontSize = 20.sp,
         fontFamily = LarsseitFontFamily

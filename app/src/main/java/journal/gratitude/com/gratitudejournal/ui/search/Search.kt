@@ -109,6 +109,12 @@ fun SearchContent(
             ) {
                 items(state.results) { searchResult ->
                     SearchResult(
+                        modifier = modifier.padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            top = 8.dp,
+                            bottom = 8.dp
+                        ),
                         result = searchResult,
                         onEntryClicked = { onEntryClicked(it) }
                     )
