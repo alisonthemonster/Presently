@@ -152,7 +152,7 @@ fun TextActions(
             enabled = userCanUndo,
         ) {
             Icon(
-                imageVector = Icons.Default.ArrowBack,
+                painterResource(id = R.drawable.undo),
                 contentDescription = stringResource(R.string.undo),
                 tint = if (userCanUndo) PresentlyTheme.colors.entryBackground else PresentlyTheme.colors.entryHint,
             )
@@ -161,7 +161,7 @@ fun TextActions(
             Icon(
                 painter = painterResource(id = R.drawable.ic_idea_empty), //todo animate
                 contentDescription = stringResource(R.string.get_a_new_prompt),
-                tint = PresentlyTheme.colors.entryBackground
+                tint = PresentlyTheme.colors.entryButtonText
             )
         }
         IconButton(
@@ -169,7 +169,7 @@ fun TextActions(
             enabled = userCanRedo,
         ) {
             Icon(
-                imageVector = Icons.Default.ArrowForward,
+                painterResource(id = R.drawable.redo),
                 contentDescription = stringResource(R.string.redo),
                 tint = if (userCanRedo) PresentlyTheme.colors.entryBackground else PresentlyTheme.colors.entryHint,
             )

@@ -3,6 +3,7 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -66,7 +67,9 @@ fun Entry(
         }
 
         Scaffold(
-            modifier = modifier.windowInsetsPadding(WindowInsets.safeContent),
+            modifier = modifier
+                .background(PresentlyTheme.colors.entryBackground)
+                .windowInsetsPadding(WindowInsets.safeContent),
             topBar = {
                 EntryEditTopBar(
                     onBackPressed = {
@@ -83,13 +86,15 @@ fun Entry(
                     FloatingActionButton(
                         onClick = viewModel::onFabClicked,
                         backgroundColor = PresentlyTheme.colors.entryButtonBackground,
-                        contentColor = PresentlyTheme.colors.entryBackground,
+                        contentColor = PresentlyTheme.colors.entryButtonText,
                     ) {
-                        Icon(Icons.Filled.Edit, stringResource(R.string.edit))
+                        Icon(
+                            imageVector = Icons.Filled.Edit,
+                            contentDescription = stringResource(R.string.edit),
+                        )
                     }
                 }
             },
-            backgroundColor = PresentlyTheme.colors.entryBackground,
         ) {
             EntryContent(
                 state = state,
@@ -116,7 +121,8 @@ fun EntryContent(
 ) {
     Column(
         modifier = modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(PresentlyTheme.colors.entryBackground),
     ) {
         AnimatedContent(targetState = state.isInEditMode) {isInEditMode ->
             if (isInEditMode) {
