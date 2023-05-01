@@ -41,12 +41,6 @@ class RealPresentlySettings @Inject constructor(
         return isBiometricsEnabled() && diff > 300000L
     }
 
-    override fun setOnPauseTime() {
-        //todo delete this is the old auth
-        val date = Date(System.currentTimeMillis())
-        sharedPrefs.edit().putLong(ON_PAUSE_TIME, date.time).apply()
-    }
-
     override fun onAppBackgrounded() {
         val date = Date(System.currentTimeMillis())
         sharedPrefs.edit().putLong(ON_PAUSE_TIME, date.time).apply()

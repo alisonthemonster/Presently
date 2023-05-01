@@ -89,7 +89,6 @@ class UploaderTest {
         override fun shouldLockApp(): Boolean = fail("Not needed in this test")
         override fun onAppBackgrounded() = fail("Not needed in this test")
         override fun onAuthenticationSucceeded() = fail("Not needed in this test")
-        override fun setOnPauseTime() = fail("Not needed in this test")
         override fun shouldShowQuote(): Boolean = fail("Not needed in this test")
         override fun getAutomaticBackupCadence(): BackupCadence = fail("Not needed in this test")
         override fun getLocale(): String = fail("Not needed in this test")

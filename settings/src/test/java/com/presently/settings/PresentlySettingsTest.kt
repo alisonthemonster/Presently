@@ -73,15 +73,6 @@ class PresentlySettingsTest {
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test
-    fun `GIVEN RealPresentlySettings WHEN setOnPauseTime is called THEN shared preferences is called`() {
-        editLongWasCalled = false
-        val sharedPrefs = getFakeSharedPreferences()
-        val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
-        settings.setOnPauseTime()
-
-        assertThat(editLongWasCalled).isTrue()
-    }
 
     @Test
     fun `GIVEN RealPresentlySettings WHEN shouldShowQuote is called THEN shared preferences is called`() {

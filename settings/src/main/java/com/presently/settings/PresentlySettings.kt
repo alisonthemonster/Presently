@@ -19,8 +19,6 @@ interface PresentlySettings {
 
     fun onAuthenticationSucceeded()
 
-    fun setOnPauseTime()
-
     fun shouldShowQuote(): Boolean
 
     fun getAutomaticBackupCadence(): BackupCadence

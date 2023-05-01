@@ -54,8 +54,6 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
 
     override fun onAuthenticationSucceeded() {}
 
-    override fun setOnPauseTime() {}
-
     override fun shouldShowQuote(): Boolean {
         return true
     }
