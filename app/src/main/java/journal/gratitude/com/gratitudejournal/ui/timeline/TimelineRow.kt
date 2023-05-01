@@ -31,14 +31,14 @@ import org.threeten.bp.LocalDate
 
 @Composable
 fun TimelineRow(
-    modifier: Modifier = Modifier,
     theme: PresentlyColors,
     entryDate: LocalDate,
     entryContent: String,
     shouldShowDayOfWeek: Boolean,
     numberOfLinesPerRow: Int,
-    isLastEntry: Boolean = false,
-    onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit
+    onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    isLastEntry: Boolean = false
 ) {
     val isNewEntry = entryContent.isEmpty()
 
@@ -108,7 +108,7 @@ fun TimelineRow(
         )
         if (isLastEntry) {
             Image(
-                modifier = modifier
+                modifier = Modifier
                     .requiredHeight(80.dp)
                     .constrainAs(image) {
                         top.linkTo(entryString.bottom, margin = 24.dp)

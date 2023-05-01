@@ -33,10 +33,10 @@ import journal.gratitude.com.gratitudejournal.ui.settings.SettingsViewModel
 
 @Composable
 fun AppLockScreen(
-    modifier: Modifier = Modifier,
     onUserAuthenticated: () -> Unit,
-    viewModel: SettingsViewModel = hiltViewModel(),
-    onUserAuthenticationFailed: (String?) -> Unit
+    onUserAuthenticationFailed: (String?) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: SettingsViewModel = hiltViewModel()
 ) {
     var showDialog by remember { mutableStateOf(true) }
 
@@ -47,12 +47,12 @@ fun AppLockScreen(
     ) {
         Surface(
             color = PresentlyTheme.colors.timelineBackground,
-            modifier = modifier
+            modifier = Modifier
                 .windowInsetsPadding(WindowInsets.statusBars)
                 .fillMaxHeight()
         ) {
             Column(
-                modifier = modifier.fillMaxSize().padding(16.dp),
+                modifier = Modifier.fillMaxSize().padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -62,7 +62,7 @@ fun AppLockScreen(
                     textAlign = TextAlign.Center
                 )
                 Image(
-                    modifier = modifier.size(80.dp).padding(8.dp),
+                    modifier = Modifier.size(80.dp).padding(8.dp),
                     painter = painterResource(id = theme.iconResource),
                     contentDescription = null
                 )
@@ -122,7 +122,10 @@ fun AppLockScreen(
 }
 
 @Composable
-fun BiometricDialog(callback: BiometricPrompt.AuthenticationCallback) {
+fun BiometricDialog(
+    callback: BiometricPrompt.AuthenticationCallback,
+    modifier: Modifier = Modifier
+) {
     val promptInfo = BiometricPrompt.PromptInfo.Builder().apply {
         setTitle(stringResource(R.string.lock_title))
         setSubtitle(stringResource(R.string.lock_summary))

@@ -14,9 +14,9 @@ import org.threeten.bp.LocalDate
 
 @Composable
 fun SearchResult(
-    modifier: Modifier = Modifier,
     result: Entry,
-    onEntryClicked: (date: LocalDate) -> Unit
+    onEntryClicked: (date: LocalDate) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier

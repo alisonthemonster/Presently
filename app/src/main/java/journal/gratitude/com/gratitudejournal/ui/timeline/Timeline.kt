@@ -37,6 +37,7 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.ui.NavigationDrawer
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 
@@ -48,8 +49,8 @@ fun Timeline(
     onSearchClicked: () -> Unit,
     onThemesClicked: () -> Unit,
     onSettingsClicked: () -> Unit,
-    viewModel: TimelineViewModel = hiltViewModel(),
-    onContactClicked: () -> Unit
+    onContactClicked: () -> Unit,
+    viewModel: TimelineViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     val theme = viewModel.getSelectedTheme()
@@ -92,14 +93,14 @@ fun Timeline(
 
 @Composable
 fun TimelineContent(
-    modifier: Modifier = Modifier,
     theme: PresentlyColors,
     state: TimelineViewState,
     onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit,
     onSearchClicked: () -> Unit,
     onSettingsClicked: () -> Unit,
     onThemesClicked: () -> Unit,
-    onContactClicked: () -> Unit
+    onContactClicked: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -160,13 +161,13 @@ fun TimelineContent(
     ) { contentPadding ->
         Surface(
             color = PresentlyTheme.colors.timelineBackground,
-            modifier = modifier
+            modifier = Modifier
                 .testTag("timelineList")
                 .padding(contentPadding)
                 .fillMaxHeight()
         ) {
             TimelineList(
-                modifier = modifier,
+                modifier = Modifier,
                 theme = theme,
                 timelineItems = state.timelineItems,
                 numberOfLinesPerRow = state.numberOfLinesPerRow,
@@ -179,12 +180,12 @@ fun TimelineContent(
 
 @Composable
 fun TimelineList(
-    modifier: Modifier = Modifier,
     theme: PresentlyColors,
-    timelineItems: List<TimelineItem>,
+    timelineItems: ImmutableList<TimelineItem>,
     shouldShowDayOfWeek: Boolean,
     numberOfLinesPerRow: Int,
-    onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit
+    onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier

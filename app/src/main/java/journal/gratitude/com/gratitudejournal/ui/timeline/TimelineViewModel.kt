@@ -18,6 +18,8 @@ import journal.gratitude.com.gratitudejournal.model.Milestone.Companion.isMilest
 import journal.gratitude.com.gratitudejournal.model.OPENED_CONTACT_FORM
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -41,7 +43,7 @@ class TimelineViewModel @Inject constructor(
                 when {
                     list.isEmpty() -> {
                         _state.value = _state.value.copy(
-                            timelineItems = listOf<TimelineItem>(
+                            timelineItems = persistentListOf<TimelineItem>(
                                 Entry(today, ""),
                                 Entry(yesterday, "")
                             )
@@ -59,7 +61,7 @@ class TimelineViewModel @Inject constructor(
                             newList.add(1, Entry(yesterday, ""))
                         }
                         _state.value = _state.value.copy(
-                            timelineItems = newList,
+                            timelineItems = newList.toImmutableList(),
                             datesWritten = list.map {
                                 it.entryDate
                             }.toSet()
@@ -90,7 +92,7 @@ class TimelineViewModel @Inject constructor(
                             }
                         }
                         _state.value = _state.value.copy(
-                            timelineItems = listWithHintsAndMilestones,
+                            timelineItems = listWithHintsAndMilestones.toImmutableList(),
                             datesWritten = list.map {
                                 it.entryDate
                             }.toSet()

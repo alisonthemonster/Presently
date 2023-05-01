@@ -53,6 +53,7 @@ object Versions {
     const val COMPOSE = "1.1.1"
     const val COMPOSE_ACTIVITY = "1.4.0"
     const val ACCOMPANIST = "0.24.5-alpha"
+    const val KOTLIN_IMMUTABLE = "0.3.5"
 }
 
 object Libraries {
@@ -105,6 +106,7 @@ object Libraries {
    const val compose_accompanist_systemuicontroller = "com.google.accompanist:accompanist-systemuicontroller:${Versions.ACCOMPANIST}"
    const val compose_accompanist_insetsui = "com.google.accompanist:accompanist-insets-ui:${Versions.ACCOMPANIST}"
    const val compose_constraint = "androidx.constraintlayout:constraintlayout-compose:${Versions.ANDROIDX_CONSTRAINT_COMPOSE}"
+   const val kotlin_immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:${Versions.KOTLIN_IMMUTABLE}"
 }
 
 object TestLibraries {

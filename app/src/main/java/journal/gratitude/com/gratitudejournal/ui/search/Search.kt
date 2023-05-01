@@ -84,12 +84,12 @@ fun Search(
 
 @Composable
 fun SearchContent(
-    modifier: Modifier = Modifier,
     state: SearchViewState,
     onBackClicked: () -> Unit,
     onSearchQueryChanged: (query: String) -> Unit,
     onEntryClicked: (date: LocalDate) -> Unit,
-    focusRequester: FocusRequester
+    focusRequester: FocusRequester,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -114,19 +114,19 @@ fun SearchContent(
         )
         if (searchQuery.text.isNotEmpty() && state.results.isEmpty()) {
             Text(
-                modifier = modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 text = stringResource(R.string.no_results),
                 textAlign = TextAlign.Center
             )
         } else {
             LazyColumn(
-                modifier = modifier
+                modifier = Modifier
                     .navigationBarsPadding()
                     .imePadding()
             ) {
                 items(state.results) { searchResult ->
                     SearchResult(
-                        modifier = modifier.padding(
+                        modifier = Modifier.padding(
                             start = 16.dp,
                             end = 16.dp,
                             top = 8.dp,
@@ -143,11 +143,11 @@ fun SearchContent(
 
 @Composable
 fun SearchTextField(
-    modifier: Modifier = Modifier,
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     onBackClicked: () -> Unit,
     focusRequester: FocusRequester,
+    modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions()
 ) {

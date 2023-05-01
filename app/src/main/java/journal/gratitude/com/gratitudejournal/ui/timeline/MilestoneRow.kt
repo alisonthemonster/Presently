@@ -30,9 +30,9 @@ import journal.gratitude.com.gratitudejournal.R
 
 @Composable
 fun MilestoneRow(
-    modifier: Modifier = Modifier,
     theme: PresentlyColors,
-    milestoneNumber: Int
+    milestoneNumber: Int,
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
         modifier = modifier
@@ -80,9 +80,9 @@ fun MilestoneRow(
 
 @Composable
 fun MilestoneContent(
-    modifier: Modifier = Modifier,
     milestoneNumber: Int,
-    iconResource: Int
+    iconResource: Int,
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
@@ -90,14 +90,14 @@ fun MilestoneContent(
             .background(color = PresentlyTheme.colors.timelineFab)
     ) {
         Image(
-            modifier = modifier
+            modifier = Modifier
                 .height(80.dp)
                 .padding(8.dp),
             painter = painterResource(id = iconResource),
             contentDescription = null
         )
         Column(
-            modifier = modifier.height(80.dp),
+            modifier = Modifier.height(80.dp),
             verticalArrangement = Arrangement.Center
         ) {
             Text(

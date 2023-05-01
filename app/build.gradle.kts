@@ -85,6 +85,7 @@ dependencies {
     implementation(project(":coroutineutils"))
 
     implementation(Libraries.kotlin_stdlib)
+    implementation(Libraries.kotlin_immutable)
     implementation(Libraries.androidx_compat)
     implementation(Libraries.androidx_core_ktx)
     implementation(Libraries.androidx_constraint_layout)
