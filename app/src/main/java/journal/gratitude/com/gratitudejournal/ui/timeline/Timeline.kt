@@ -205,6 +205,7 @@ fun TimelineContent(
                     writtenDates = state.datesWritten.toImmutableSet(),
                     onDateSelected = { date, isNewEntry ->
                         onEntryClicked(date, isNewEntry)
+                        onFabDismissed()
                     },
                     onCalendarDismissed = onFabDismissed
                 )

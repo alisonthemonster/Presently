@@ -1,6 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui.calendar
 
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberDatePickerState
@@ -36,9 +37,30 @@ fun Calendar(
                     val date = Instant.fromEpochMilliseconds(utcDateInMills).toLocalDateTime(TimeZone.currentSystemDefault()).date
                     val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
 
-                    date > today
-                }
+                    date < today
+                },
+                showModeToggle = false,
+                colors = DatePickerDefaults.colors(
+                    subheadContentColor = PresentlyTheme.colors.timelineOnFab,
+                    weekdayContentColor = PresentlyTheme.colors.timelineOnFab,
+                    disabledSelectedDayContentColor = PresentlyTheme.colors.timelineHint,
+                    yearContentColor = PresentlyTheme.colors.timelineOnFab,
+                    currentYearContentColor = PresentlyTheme.colors.timelineOnFab,
+                    selectedYearContentColor = PresentlyTheme.colors.timelineFab,
+                    selectedYearContainerColor = PresentlyTheme.colors.timelineOnFab,
+
+                ),
+                title = null,
+                headline = null
             )
+        }
+
+        val selectedDate = datePickerState.selectedDateMillis
+        if (selectedDate != null) {
+            //todo this date is off by one
+            val date = Instant.fromEpochMilliseconds(selectedDate).toLocalDateTime(TimeZone.currentSystemDefault()).date
+            onDateSelected(date, writtenDates.contains(date))
+            datePickerState.setSelection(null)
         }
     }
 }
