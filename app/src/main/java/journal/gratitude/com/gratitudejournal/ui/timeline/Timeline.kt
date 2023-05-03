@@ -14,7 +14,6 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -42,6 +41,7 @@ import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.ui.NavigationDrawer
 import journal.gratitude.com.gratitudejournal.ui.calendar.Calendar
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableSet
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
@@ -182,7 +182,7 @@ fun TimelineContent(
                     contentDescription = stringResource(R.string.edit)
                 )
             }
-        },
+        }
     ) { contentPadding ->
 
         Surface(
@@ -202,7 +202,7 @@ fun TimelineContent(
             )
             if (state.isCalendarOpen) {
                 Calendar(
-                    writtenDates = state.datesWritten,
+                    writtenDates = state.datesWritten.toImmutableSet(),
                     onDateSelected = { date, isNewEntry ->
                         onEntryClicked(date, isNewEntry)
                     },

@@ -54,4 +54,3 @@ enum class BackupCadence(val index: Int, val string: String) {
     WEEKLY(1, "Weekly"),
     EVERY_CHANGE(2, "Every change")
 }
-

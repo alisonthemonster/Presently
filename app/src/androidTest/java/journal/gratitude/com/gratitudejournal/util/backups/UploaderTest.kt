@@ -24,9 +24,9 @@ import journal.gratitude.com.gratitudejournal.util.backups.dropbox.CloudProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
+import org.junit.Test
 import java.io.File
 import java.lang.Exception
 import kotlin.test.fail

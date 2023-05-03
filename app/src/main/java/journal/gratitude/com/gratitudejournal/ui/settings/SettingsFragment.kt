@@ -81,9 +81,6 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import java.io.InputStream
 import java.nio.charset.Charset
 import java.util.Locale
@@ -561,7 +558,7 @@ class SettingsFragment :
      * */
     private fun createFileOnDevice() {
         val today = Clock.System.now()
-        val date = today.toString().replace(':', '-') //todo make sure this matches what we used to have
+        val date = today.toString().replace(':', '-') // todo make sure this matches what we used to have
         val fileName = "PresentlyBackup$date.csv"
         saveCsvResultContact.launch(fileName)
     }

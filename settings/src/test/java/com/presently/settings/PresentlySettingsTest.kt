@@ -5,8 +5,8 @@ import com.dropbox.core.oauth.DbxCredential
 import com.google.common.truth.Truth.assertThat
 import com.presently.logging.AnalyticsLogger
 import junit.framework.Assert.fail
-import org.junit.Test
 import kotlinx.datetime.LocalTime
+import org.junit.Test
 import java.util.Date
 
 class PresentlySettingsTest {

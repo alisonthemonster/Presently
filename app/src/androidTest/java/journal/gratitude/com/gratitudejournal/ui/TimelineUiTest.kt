@@ -10,9 +10,9 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.MainActivity
 import journal.gratitude.com.gratitudejournal.ui.timeline.MilestoneRow
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineRow
+import kotlinx.datetime.LocalDate
 import org.junit.Rule
 import org.junit.Test
-import kotlinx.datetime.LocalDate
 
 /**
  * To update screenshot tests run {./gradlew :app:connectedAndroidTest -Pdropshots.record}

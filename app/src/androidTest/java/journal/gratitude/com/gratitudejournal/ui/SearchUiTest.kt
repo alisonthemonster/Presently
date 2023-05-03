@@ -19,11 +19,11 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.ui.search.SearchContent
 import journal.gratitude.com.gratitudejournal.ui.search.SearchViewState
 import kotlinx.datetime.Clock
-import org.junit.Rule
-import org.junit.Test
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
+import org.junit.Rule
+import org.junit.Test
 
 @HiltAndroidTest
 class SearchUiTest {

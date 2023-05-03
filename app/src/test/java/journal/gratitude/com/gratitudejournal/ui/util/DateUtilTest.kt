@@ -3,11 +3,11 @@ package journal.gratitude.com.gratitudejournal.ui.util
 import journal.gratitude.com.gratitudejournal.util.getYearString
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import journal.gratitude.com.gratitudejournal.util.toFullString
-import kotlinx.datetime.toLocalDate
 import journal.gratitude.com.gratitudejournal.util.toMonthString
 import junit.framework.TestCase.assertEquals
-import org.junit.Test
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.toLocalDate
+import org.junit.Test
 import java.util.Calendar
 import java.util.Locale
 

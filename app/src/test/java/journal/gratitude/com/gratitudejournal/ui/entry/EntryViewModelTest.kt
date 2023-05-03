@@ -15,10 +15,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
-import org.junit.Test
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
+import org.junit.Rule
+import org.junit.Test
 import kotlin.test.fail
 
 class EntryViewModelTest {

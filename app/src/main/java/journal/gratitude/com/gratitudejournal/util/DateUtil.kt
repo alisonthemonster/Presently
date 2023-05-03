@@ -8,7 +8,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-fun LocalDate.toThreeTenBpLocalDate() : org.threeten.bp.LocalDate {
+fun LocalDate.toThreeTenBpLocalDate(): org.threeten.bp.LocalDate {
     val year = this.year
     val month = this.month.value
     val day = this.dayOfMonth

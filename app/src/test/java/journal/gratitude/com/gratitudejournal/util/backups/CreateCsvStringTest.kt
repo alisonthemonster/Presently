@@ -2,8 +2,8 @@ package journal.gratitude.com.gratitudejournal.util.backups
 
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvString
-import org.junit.Test
 import kotlinx.datetime.LocalDate
+import org.junit.Test
 import kotlin.test.assertEquals
 
 class CreateCsvStringTest {

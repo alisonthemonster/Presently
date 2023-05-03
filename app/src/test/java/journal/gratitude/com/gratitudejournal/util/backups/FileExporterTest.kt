@@ -1,8 +1,5 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
 import com.presently.coroutineutils.AppCoroutineDispatchers
 import journal.gratitude.com.gratitudejournal.model.CsvFileCreated
 import journal.gratitude.com.gratitudejournal.model.CsvFileError
@@ -11,11 +8,13 @@ import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvSt
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.datetime.Clock
-import org.junit.Test
-import org.mockito.ArgumentMatchers.anyString
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
+import org.junit.Test
+import org.mockito.ArgumentMatchers.anyString
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException

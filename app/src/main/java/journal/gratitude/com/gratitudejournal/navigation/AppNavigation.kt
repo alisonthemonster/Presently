@@ -30,7 +30,6 @@ import journal.gratitude.com.gratitudejournal.ui.themes.ThemeSelection
 import journal.gratitude.com.gratitudejournal.ui.timeline.Timeline
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
 
@@ -118,8 +117,10 @@ internal fun AppNavigation(
                 onUserAuthenticated = {
                     when (postAuthDestination) {
                         UserStartDestination.ENTRY_SCREEN -> {
-                            navController.navigate(Screen.Entry.createRoute(
-                                Clock.System.todayIn(TimeZone.currentSystemDefault()))
+                            navController.navigate(
+                                Screen.Entry.createRoute(
+                                    Clock.System.todayIn(TimeZone.currentSystemDefault())
+                                )
                             ) {
                                 popUpTo(0) // reset stack
                             }

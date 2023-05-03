@@ -21,14 +21,14 @@ import journal.gratitude.com.gratitudejournal.robot.TimelineRobot
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
-import org.hamcrest.CoreMatchers.not
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import kotlinx.datetime.todayIn
+import org.hamcrest.CoreMatchers.not
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import javax.inject.Inject
 
 @HiltAndroidTest

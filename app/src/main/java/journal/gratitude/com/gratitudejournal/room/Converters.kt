@@ -2,8 +2,8 @@ package journal.gratitude.com.gratitudejournal.room
 
 import androidx.room.TypeConverter
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
-import kotlinx.datetime.toLocalDate
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.toLocalDate
 
 object Converters {
     @TypeConverter

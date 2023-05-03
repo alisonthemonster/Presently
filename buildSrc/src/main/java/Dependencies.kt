@@ -38,7 +38,7 @@ object Versions {
     const val JUNIT = "4.13.2"
     const val DROPBOX_SDK = "5.1.1" //https://github.com/dropbox/dropbox-sdk-java/releases
     const val PLAY_CORE = "1.10.0"
-    const val MOCKITO_KOTLIN = "2.0.0"
+    const val MOCKITO_KOTLIN = "4.1.0"
     const val MOCKITO_ANDROID = "2.23.0"
     const val ROBOLECTRIC = "4.6.1" //https://github.com/robolectric/robolectric/releases/
     const val TRUTH = "1.1.3"
@@ -55,7 +55,7 @@ object Versions {
     const val ACCOMPANIST = "0.24.5-alpha"
     const val KOTLIN_IMMUTABLE = "0.3.5"
     const val DESUGAR_JDK = "1.2.2"
-    const val KOTLIN_DATETIME = "0.4.0"
+    const val KOTLIN_DATETIME = "0.4.0" //https://github.com/Kotlin/kotlinx-datetime/tags
 }
 
 object Libraries {
@@ -117,7 +117,7 @@ object TestLibraries {
     const val junit = "junit:junit:${Versions.JUNIT}"
     const val kotlin_test_junit = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.KOTLIN}"
     const val kotlin_coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.KOTLIN_COROUTINES_TEST}"
-    const val mockito_kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.MOCKITO_KOTLIN}"
+    const val mockito_kotlin = "org.mockito.kotlin:mockito-kotlin:${Versions.MOCKITO_KOTLIN}"
     const val mockito_android = "org.mockito:mockito-android:${Versions.MOCKITO_ANDROID}"
     const val robolectric = "org.robolectric:robolectric:${Versions.ROBOLECTRIC}"
     const val truth = "com.google.truth:truth:${Versions.TRUTH}"

@@ -15,12 +15,12 @@ import journal.gratitude.com.gratitudejournal.robot.MilestoneRobot
 import journal.gratitude.com.gratitudejournal.ui.entry.Entry
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Clock
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import javax.inject.Inject
 
 @HiltAndroidTest
