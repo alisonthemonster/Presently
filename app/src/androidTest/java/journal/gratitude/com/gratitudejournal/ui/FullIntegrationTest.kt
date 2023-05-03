@@ -19,11 +19,16 @@ import journal.gratitude.com.gratitudejournal.robot.SearchRobot
 import journal.gratitude.com.gratitudejournal.robot.ThemesRobot
 import journal.gratitude.com.gratitudejournal.robot.TimelineRobot
 import kotlinx.coroutines.test.runTest
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
 import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
+import kotlinx.datetime.todayIn
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -44,13 +49,15 @@ class FullIntegrationTest {
     @Inject
     lateinit var settings: PresentlySettings
 
+    private val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+
     @Before
     fun init() = runTest {
         hiltRule.inject()
         // add some fake data
         repository.addEntries(
             listOf(
-                Entry(LocalDate.of(2022, 10, 9), "An entry from October of 2022")
+                Entry(LocalDate(2022, 10, 9), "An entry from October of 2022")
             )
         )
     }
@@ -68,15 +75,15 @@ class FullIntegrationTest {
         val searchRobot = SearchRobot(composeTestRule)
         val themeRobot = ThemesRobot(composeTestRule)
 
-        val today = LocalDate.now()
-        val yesterday = today.minusDays(1)
+        val today = today
+        val yesterday = today.minus(1, DateTimeUnit.DAY)
         timelineRobot.assertTimelineHasEntry(today, "What are you grateful for?")
         timelineRobot.assertTimelineHasEntry(yesterday, "What were you grateful for?")
-        timelineRobot.assertTimelineHasEntry(LocalDate.of(2022, 10, 9), "An entry from October of 2022")
+        timelineRobot.assertTimelineHasEntry(LocalDate(2022, 10, 9), "An entry from October of 2022")
 
         timelineRobot.clickTodayEntry()
 
-        entryRobot.assertCorrectDateIsShown(LocalDate.now())
+        entryRobot.assertCorrectDateIsShown(today)
         entryRobot.assertUserIsInEditMode() // user enters edit mode when its empty
 
         entryRobot.type("Hello there, this is the Presently integration test!")
@@ -100,7 +107,7 @@ class FullIntegrationTest {
 
         timelineRobot.waitForTimelineScreen()
         composeTestRule.onRoot().printToLog("blerg")
-        timelineRobot.assertTimelineHasEntry(LocalDate.now(), "Hello there, this is the Presently integration test! More text!")
+        timelineRobot.assertTimelineHasEntry(today, "Hello there, this is the Presently integration test! More text!")
 
         timelineRobot.launchSearch()
         searchRobot.assertSearchViewIsShown()

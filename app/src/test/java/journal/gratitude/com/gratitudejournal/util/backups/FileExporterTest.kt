@@ -10,9 +10,12 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvString
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.datetime.Clock
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyString
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.todayIn
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
@@ -29,9 +32,11 @@ class FileExporterTest {
     )
     private val fileExporter = FileExporter(writer, dispatchers)
 
+    private val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+
     @Test
     fun `GIVEN list of entries WHEN exportToCSV is called THEN writer writes the csv string`() {
-        val items = listOf(Entry(LocalDate.now(), "string"))
+        val items = listOf(Entry(today, "string"))
 
         runBlocking {
             fileExporter.exportToCSV(items, mock())
@@ -43,7 +48,7 @@ class FileExporterTest {
 
     @Test
     fun `GIVEN list of entries WHEN exportToCSV is called THEN writer is closed`() {
-        val items = listOf(Entry(LocalDate.now(), "string"))
+        val items = listOf(Entry(today, "string"))
 
         runBlocking {
             fileExporter.exportToCSV(items, mock())
@@ -54,7 +59,7 @@ class FileExporterTest {
 
     @Test
     fun `GIVEN list of entries WHEN exportToCSV is called THEN success is returned`() {
-        val items = listOf(Entry(LocalDate.now(), "string"))
+        val items = listOf(Entry(today, "string"))
         val file = mock<File>()
 
         val result = runBlocking {
@@ -66,7 +71,7 @@ class FileExporterTest {
     @Test
     @Throws(Exception::class)
     fun `GIVEN list of entries WHEN exportToCSV is called AND writer throws exception THEN return failure`() {
-        val items = listOf(Entry(LocalDate.now(), "string"))
+        val items = listOf(Entry(today, "string"))
         val file = mock<File>()
 
         whenever(writer.write(anyString())).thenThrow(IOException("Error"))

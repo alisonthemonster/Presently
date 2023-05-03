@@ -78,14 +78,19 @@ import journal.gratitude.com.gratitudejournal.util.reminders.NotificationSchedul
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
-import org.threeten.bp.LocalDateTime
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import java.io.InputStream
 import java.nio.charset.Charset
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
+// todo this is no longer styled at all
 
 @AndroidEntryPoint
 class SettingsFragment :
@@ -555,7 +560,8 @@ class SettingsFragment :
      * export the CSV file.
      * */
     private fun createFileOnDevice() {
-        val date = LocalDateTime.now().withNano(0).toString().replace(':', '-')
+        val today = Clock.System.now()
+        val date = today.toString().replace(':', '-') //todo make sure this matches what we used to have
         val fileName = "PresentlyBackup$date.csv"
         saveCsvResultContact.launch(fileName)
     }

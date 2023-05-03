@@ -3,7 +3,7 @@ package journal.gratitude.com.gratitudejournal.util.backups
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvString
 import org.junit.Test
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
 import kotlin.test.assertEquals
 
 class CreateCsvStringTest {
@@ -12,15 +12,15 @@ class CreateCsvStringTest {
     fun `GIVEN a set of entries WHEN createCsvString is called THEN a csv is created`() {
         val entries = listOf(
             Entry(
-                LocalDate.of(2020, 6, 2),
+                LocalDate(2020, 6, 2),
                 "Unit tests are great!"
             ),
             Entry(
-                LocalDate.of(2020, 6, 3),
+                LocalDate(2020, 6, 3),
                 "Unit tests are great!\n\n\n\nSuper great!"
             ),
             Entry(
-                LocalDate.of(2020, 6, 4),
+                LocalDate(2020, 6, 4),
                 "Unit tests are the \"bomb\""
             )
         )

@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal.navigation
 
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
 
 internal sealed class Screen(val route: String) {
     fun createRoute() = route

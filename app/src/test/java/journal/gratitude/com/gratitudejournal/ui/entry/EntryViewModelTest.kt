@@ -17,8 +17,8 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalTime
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 import kotlin.test.fail
 
 class EntryViewModelTest {
@@ -34,11 +34,11 @@ class EntryViewModelTest {
         }
 
         override fun getEntriesFlow(): Flow<List<Entry>> {
-            return flowOf(listOf(Entry(LocalDate.of(2021, 2, 28), "hii there")))
+            return flowOf(listOf(Entry(LocalDate(2021, 2, 28), "hii there")))
         }
 
         override suspend fun getEntries(): List<Entry> {
-            return listOf(Entry(LocalDate.of(2021, 2, 28), "hii there"))
+            return listOf(Entry(LocalDate(2021, 2, 28), "hii there"))
         }
 
         override suspend fun addEntry(entry: Entry): Int = -1
@@ -183,8 +183,8 @@ class EntryViewModelTest {
         viewModel = EntryViewModel(savedStateHandle, repository, analytics, settings)
 
         assertThat(getEntryWasCalled).isTrue()
-        assertThat(dateFetched).isEqualTo(LocalDate.of(2023, 10, 12))
-        assertThat(viewModel.state.value.date).isEqualTo(LocalDate.of(2023, 10, 12))
+        assertThat(dateFetched).isEqualTo(LocalDate(2023, 10, 12))
+        assertThat(viewModel.state.value.date).isEqualTo(LocalDate(2023, 10, 12))
         assertThat(viewModel.state.value.content).isEqualTo("hii there")
         assertThat(viewModel.state.value.isEditingExistingEntry).isTrue()
     }
@@ -284,7 +284,7 @@ class EntryViewModelTest {
         assertThat(timesAddEntryWasCalled).isEqualTo(1)
         assertThat(writtenEntry).isEqualTo(
             Entry(
-                LocalDate.of(2023, 10, 12),
+                LocalDate(2023, 10, 12),
                 "Hello this is new text!"
             )
         )
@@ -403,11 +403,11 @@ class EntryViewModelTest {
             }
 
             override fun getEntriesFlow(): Flow<List<Entry>> {
-                return flowOf(listOf(Entry(LocalDate.of(2021, 2, 28), "hii there")))
+                return flowOf(listOf(Entry(LocalDate(2021, 2, 28), "hii there")))
             }
 
             override suspend fun getEntries(): List<Entry> {
-                return listOf(Entry(LocalDate.of(2021, 2, 28), "hii there"))
+                return listOf(Entry(LocalDate(2021, 2, 28), "hii there"))
             }
 
             override suspend fun addEntry(entry: Entry): Int = -1
@@ -453,11 +453,11 @@ class EntryViewModelTest {
             }
 
             override fun getEntriesFlow(): Flow<List<Entry>> {
-                return flowOf(listOf(Entry(LocalDate.of(2021, 2, 28), "hii there")))
+                return flowOf(listOf(Entry(LocalDate(2021, 2, 28), "hii there")))
             }
 
             override suspend fun getEntries(): List<Entry> {
-                return listOf(Entry(LocalDate.of(2021, 2, 28), "hii there"))
+                return listOf(Entry(LocalDate(2021, 2, 28), "hii there"))
             }
 
             override suspend fun addEntry(entry: Entry): Int = 199
@@ -498,11 +498,11 @@ class EntryViewModelTest {
             }
 
             override fun getEntriesFlow(): Flow<List<Entry>> {
-                return flowOf(listOf(Entry(LocalDate.of(2021, 2, 28), "hii there")))
+                return flowOf(listOf(Entry(LocalDate(2021, 2, 28), "hii there")))
             }
 
             override suspend fun getEntries(): List<Entry> {
-                return listOf(Entry(LocalDate.of(2021, 2, 28), "hii there"))
+                return listOf(Entry(LocalDate(2021, 2, 28), "hii there"))
             }
 
             override suspend fun addEntry(entry: Entry): Int = 100

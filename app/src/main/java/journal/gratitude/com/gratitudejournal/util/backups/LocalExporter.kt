@@ -10,7 +10,7 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.DATE_COLUMN_HEADER
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.ENTRY_COLUMN_HEADER
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvString
-import journal.gratitude.com.gratitudejournal.util.toLocalDate
+import kotlinx.datetime.toLocalDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream

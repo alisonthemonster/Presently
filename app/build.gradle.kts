@@ -66,6 +66,9 @@ android {
     testOptions.animationsDisabled = true
 
     compileOptions {
+        // Flag to enable support for the new language APIs
+        isCoreLibraryDesugaringEnabled = true
+
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
@@ -122,6 +125,9 @@ dependencies {
     implementation(Libraries.dropbox_sdk)
     implementation(Libraries.apache_text)
     implementation(Libraries.apache_csv)
+
+    implementation(Libraries.kotlinx_datetime)
+    coreLibraryDesugaring(Libraries.desugar)
 
     // dependency injection
     implementation(Libraries.dagger)

@@ -2,7 +2,7 @@ package com.presently.settings
 
 import android.content.Context
 import com.dropbox.core.oauth.DbxCredential
-import org.threeten.bp.LocalTime
+import kotlinx.datetime.LocalTime
 
 interface PresentlySettings {
 
@@ -55,9 +55,3 @@ enum class BackupCadence(val index: Int, val string: String) {
     EVERY_CHANGE(2, "Every change")
 }
 
-enum class AuthenticationState {
-    AUTHENTICATED, // user is in a valid authenticated session
-    TIMED_OUT, // user has timed out and needs to re-auth
-    DISABLED, // user has not enabled authentication
-    UNKNOWN
-}

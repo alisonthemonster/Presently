@@ -12,7 +12,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
 
 @RunWith(AndroidJUnit4::class)
 class EntryDaoTest {
@@ -41,7 +41,7 @@ class EntryDaoTest {
     @Test
     @Throws(Exception::class)
     fun writeEntryAndReadInList() = runTest {
-        val date = LocalDate.of(2012, 1, 1)
+        val date = LocalDate(2012, 1, 1)
         val expectedEntry = Entry(date, "Test content")
         entryDao.insertEntry(expectedEntry)
 
@@ -77,9 +77,9 @@ class EntryDaoTest {
         assertEquals(listOf(entryOne, entryThree), actualEntry)
     }
 
-    private val entryOne = Entry(LocalDate.of(2013, 1, 1), "Test content")
-    private val entryTwo = Entry(LocalDate.of(2012, 1, 1), "Test content1")
-    private val entryThree = Entry(LocalDate.of(2011, 1, 1), "Test content2")
+    private val entryOne = Entry(LocalDate(2013, 1, 1), "Test content")
+    private val entryTwo = Entry(LocalDate(2012, 1, 1), "Test content1")
+    private val entryThree = Entry(LocalDate(2011, 1, 1), "Test content2")
 
     private val mockEntriesSorted = listOf(entryOne, entryTwo, entryThree)
 }

@@ -3,7 +3,7 @@ package journal.gratitude.com.gratitudejournal.util.backups
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.convertCsvToEntries
 import org.junit.Test
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
 import java.io.IOException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -62,7 +62,7 @@ class ParseCsvTest {
 
         val expected = listOf(
             Entry(
-                LocalDate.of(2020, 6, 14),
+                LocalDate(2020, 6, 14),
                 "Unit tests are great!"
             )
         )
@@ -101,7 +101,7 @@ class ParseCsvTest {
 
         val expected = listOf(
             Entry(
-                LocalDate.of(2020, 6, 2),
+                LocalDate(2020, 6, 2),
                 "Unit tests are great!"
             )
         )

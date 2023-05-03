@@ -12,7 +12,7 @@ import journal.gratitude.com.gratitudejournal.ui.timeline.MilestoneRow
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineRow
 import org.junit.Rule
 import org.junit.Test
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
 
 /**
  * To update screenshot tests run {./gradlew :app:connectedAndroidTest -Pdropshots.record}
@@ -49,7 +49,7 @@ class TimelineUiTest {
             PresentlyTheme {
                 TimelineRow(
                     theme = OriginalColors,
-                    entryDate = LocalDate.of(2022, 11, 23),
+                    entryDate = LocalDate(2022, 11, 23),
                     entryContent = "I was grateful for my very cuddly and cute dog. We went for a lovely walk today and played in the park for a while. Then we came home and played fetch together before snuggling on the couch.",
                     onEntryClicked = { _, _ -> },
                     shouldShowDayOfWeek = true,
@@ -67,7 +67,7 @@ class TimelineUiTest {
             PresentlyTheme {
                 TimelineRow(
                     theme = OriginalColors,
-                    entryDate = LocalDate.of(2022, 11, 23),
+                    entryDate = LocalDate(2022, 11, 23),
                     entryContent = "I was grateful for my very cuddly and cute dog. We went for a lovely walk today and played in the park for a while. Then we came home and played fetch together before snuggling on the couch.",
                     onEntryClicked = { _, _ -> },
                     shouldShowDayOfWeek = false,
@@ -85,7 +85,7 @@ class TimelineUiTest {
             PresentlyTheme {
                 TimelineRow(
                     theme = OriginalColors,
-                    entryDate = LocalDate.of(2022, 11, 23),
+                    entryDate = LocalDate(2022, 11, 23),
                     entryContent = "I was grateful for sushi and soy sauce.",
                     isLastEntry = true,
                     onEntryClicked = { _, _ -> },
@@ -104,7 +104,7 @@ class TimelineUiTest {
             PresentlyTheme {
                 TimelineRow(
                     theme = OriginalColors,
-                    entryDate = LocalDate.of(2020, 12, 2),
+                    entryDate = LocalDate(2020, 12, 2),
                     entryContent = "",
                     onEntryClicked = { _, _ -> },
                     shouldShowDayOfWeek = true,

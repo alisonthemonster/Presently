@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import journal.gratitude.com.gratitudejournal.model.Entry
 import kotlinx.coroutines.flow.Flow
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
 
 @Dao
 interface EntryDao {

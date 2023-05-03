@@ -8,7 +8,11 @@ import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
 import com.presently.settings.PresentlySettings
-import org.threeten.bp.LocalTime
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.todayIn
 import java.util.Calendar
 
 /**
@@ -47,7 +51,8 @@ class NotificationScheduler {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val alarmTimeCal = if (LocalTime.now().isAfter(alarmTime)) {
+        val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
+        val alarmTimeCal = if (today > alarmTime) { //todo test if this is true
             // today's alarm already happened use start the next one tomorrow
             Calendar.getInstance().apply {
                 timeInMillis = System.currentTimeMillis()

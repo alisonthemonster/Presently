@@ -9,7 +9,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import org.threeten.bp.LocalTime
+import kotlinx.datetime.LocalTime
 import javax.inject.Inject
 import javax.inject.Singleton
 

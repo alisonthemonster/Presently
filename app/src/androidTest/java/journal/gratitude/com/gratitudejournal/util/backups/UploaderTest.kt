@@ -25,8 +25,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalTime
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 import java.io.File
 import java.lang.Exception
 import kotlin.test.fail
@@ -43,7 +43,7 @@ class UploaderTest {
 
     private val repo = object : EntryRepository {
         override suspend fun getEntries(): List<Entry> {
-            return listOf(Entry(LocalDate.of(2021, 12, 25), "Merry Christmas!"))
+            return listOf(Entry(LocalDate(2021, 12, 25), "Merry Christmas!"))
         }
 
         override suspend fun getEntry(date: LocalDate): Entry = fail("Not needed in this test")

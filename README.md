@@ -24,6 +24,7 @@ We support several languages currently and are always looking for translators to
 - Firebase Test Lab
 - WorkManager
 - Dropbox Java SDK
+- Ktlint with Twitter's Compose rules
 
 <img src="https://i.imgur.com/EN4oOF4.png" width="220"> <img src="https://i.imgur.com/8RJvH6E.png" width="220"> <img src="https://i.imgur.com/UQQ7wbq.png" width="220"> <img src="https://i.imgur.com/JtYuyq2.png" width="220">
 

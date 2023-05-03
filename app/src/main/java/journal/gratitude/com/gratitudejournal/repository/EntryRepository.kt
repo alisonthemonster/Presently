@@ -2,7 +2,7 @@ package journal.gratitude.com.gratitudejournal.repository
 
 import journal.gratitude.com.gratitudejournal.model.Entry
 import kotlinx.coroutines.flow.Flow
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
 
 interface EntryRepository {
 

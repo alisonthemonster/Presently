@@ -7,26 +7,30 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import journal.gratitude.com.gratitudejournal.util.toFullString
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
+import kotlinx.datetime.todayIn
 
 class TimelineRobot(
     val composeTestRule: ComposeTestRule
 ) {
 
+    private val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+    private val yesterday = today.minus(1, DateTimeUnit.DAY)
     fun verifyCorrectTimelineState() {
         // verify fake entry from FakeEntryRepository
         composeTestRule.onNodeWithText("Monday, December 19, 2022").assertIsDisplayed()
         composeTestRule.onNodeWithText("A test entry on the 19th of December.").assertIsDisplayed()
 
         // verify we're showing today and yesterday items
-        val today = LocalDate.now()
-        val yesterday = today.minusDays(1)
         assertTimelineHasEntry(today, "What are you grateful for?")
         assertTimelineHasEntry(yesterday, "What were you grateful for?")
     }
 
     fun clickTodayEntry() {
-        val today = LocalDate.now()
         composeTestRule.onNodeWithText(today.toFullString()).performClick()
     }
 

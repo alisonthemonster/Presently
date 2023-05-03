@@ -23,7 +23,12 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
+import kotlinx.datetime.todayIn
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,8 +43,8 @@ class TimelineViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             repository.getEntriesFlow().collect { list ->
-                val today = LocalDate.now()
-                val yesterday = LocalDate.now().minusDays(1)
+                val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+                val yesterday = today.minus(1, DateTimeUnit.DAY)
                 when {
                     list.isEmpty() -> {
                         _state.value = _state.value.copy(
@@ -140,5 +145,17 @@ class TimelineViewModel @Inject constructor(
 
     fun logScreenView() {
         analyticsLogger.recordView("Timeline")
+    }
+
+    fun onFabClicked() {
+        _state.value = _state.value.copy(
+            isCalendarOpen = true
+        )
+    }
+
+    fun dismissFab() {
+        _state.value = _state.value.copy(
+            isCalendarOpen = false
+        )
     }
 }

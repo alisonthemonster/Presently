@@ -8,7 +8,12 @@ import androidx.compose.ui.res.stringResource
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
+import kotlinx.datetime.todayIn
 
 @Composable
 fun EntryHeader(
@@ -16,17 +21,18 @@ fun EntryHeader(
     modifier: Modifier = Modifier
 ) {
     Column() {
+        val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
         Text(
             text = when (date) {
-                LocalDate.now() -> stringResource(R.string.today)
-                LocalDate.now().minusDays(1) -> stringResource(R.string.yesterday)
+                today -> stringResource(R.string.today)
+                today.minus(1, DateTimeUnit.DAY) -> stringResource(R.string.yesterday)
                 else -> date.toStringWithDayOfWeek()
             },
             style = PresentlyTheme.typography.titleLarge,
             color = PresentlyTheme.colors.entryDate
         )
         Text(
-            text = if (date == LocalDate.now()) {
+            text = if (date == today) {
                 stringResource(R.string.iam)
             } else {
                 stringResource(

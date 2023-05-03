@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
 
 @Composable
 fun Search(

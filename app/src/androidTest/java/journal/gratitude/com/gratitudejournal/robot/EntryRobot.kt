@@ -13,16 +13,23 @@ import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import journal.gratitude.com.gratitudejournal.MainActivity
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
+import kotlinx.datetime.todayIn
 
 class EntryRobot(
     val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>
 ) {
+    private val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+    private val yesterday = today.minus(1, DateTimeUnit.DAY)
 
     fun assertCorrectDateIsShown(expectedDate: LocalDate) {
-        val expectedDateString = if (expectedDate == LocalDate.now()) {
+        val expectedDateString = if (expectedDate == today) {
             "Today"
-        } else if (expectedDate == LocalDate.now().minusDays(1)) {
+        } else if (expectedDate == yesterday) {
             "Yesterday"
         } else {
             expectedDate.toStringWithDayOfWeek()
@@ -32,7 +39,7 @@ class EntryRobot(
     }
 
     fun assertCorrectTenseIsUsed(expectedDate: LocalDate) {
-        val expectedGratitudeString = if (expectedDate == LocalDate.now()) {
+        val expectedGratitudeString = if (expectedDate == today) {
             "I am grateful for"
         } else {
             "I was grateful for"
@@ -41,7 +48,7 @@ class EntryRobot(
     }
 
     fun assertCorrectQuestionTense(expectedDate: LocalDate?) {
-        val expectedGratitudeString = if (expectedDate == LocalDate.now()) {
+        val expectedGratitudeString = if (expectedDate == today) {
             "What are you grateful for?"
         } else {
             "What were you grateful for?"

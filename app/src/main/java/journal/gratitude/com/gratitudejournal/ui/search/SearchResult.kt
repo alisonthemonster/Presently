@@ -10,7 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
 
 @Composable
 fun SearchResult(

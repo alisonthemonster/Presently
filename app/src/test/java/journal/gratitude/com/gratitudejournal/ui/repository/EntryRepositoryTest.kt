@@ -9,7 +9,10 @@ import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.repository.EntryRepositoryImpl
 import journal.gratitude.com.gratitudejournal.room.EntryDao
 import kotlinx.coroutines.test.runTest
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.todayIn
 import kotlin.test.Test
 
 class EntryRepositoryTest {
@@ -17,16 +20,18 @@ class EntryRepositoryTest {
     private val entryDao = mock<EntryDao>()
     private val repository: EntryRepository = EntryRepositoryImpl(entryDao)
 
+    private val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+
     @Test
     fun getEntry_CallsDaoOnce() = runTest {
-        repository.getEntry(LocalDate.now())
+        repository.getEntry(today)
 
         verify(entryDao, times(1)).getEntry(any())
     }
 
     @Test
     fun getEntry_CallsDaoWithRightDate() = runTest {
-        val expectedDate = LocalDate.now()
+        val expectedDate = today
         repository.getEntry(expectedDate)
 
         verify(entryDao).getEntry(expectedDate)
@@ -48,21 +53,21 @@ class EntryRepositoryTest {
 
     @Test
     fun addEntry_CallsDaoOnce() = runTest {
-        repository.addEntry(Entry(LocalDate.now(), "Henlo!"))
+        repository.addEntry(Entry(today, "Henlo!"))
 
         verify(entryDao, times(1)).insertEntry(any())
     }
 
     @Test
     fun addEntryEmpty_CallsDaoDelete() = runTest {
-        repository.addEntry(Entry(LocalDate.now(), ""))
+        repository.addEntry(Entry(today, ""))
 
         verify(entryDao, times(1)).delete(any())
     }
 
     @Test
     fun addEntry_CallsDaoWithCorrectEntry() = runTest {
-        val expectedEntry = Entry(LocalDate.now(), "Hello!")
+        val expectedEntry = Entry(today, "Hello!")
         repository.addEntry(expectedEntry)
 
         verify(entryDao).insertEntry(expectedEntry)
@@ -70,7 +75,7 @@ class EntryRepositoryTest {
 
     @Test
     fun addEntries_CallsDaoWithCorrectEntry() = runTest {
-        val expectedEntry = listOf(Entry(LocalDate.now(), "Hello!"))
+        val expectedEntry = listOf(Entry(today, "Hello!"))
         repository.addEntries(expectedEntry)
 
         verify(entryDao).insertEntries(expectedEntry)

@@ -22,7 +22,7 @@ import com.presently.settings.model.NO_LANG_PREF
 import com.presently.settings.model.ON_PAUSE_TIME
 import com.presently.settings.model.SHOW_QUOTE
 import com.presently.settings.model.THEME_PREF
-import org.threeten.bp.LocalTime
+import kotlinx.datetime.LocalTime
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
@@ -91,7 +91,7 @@ class RealPresentlySettings @Inject constructor(
     }
 
     override fun getNotificationTime(): LocalTime {
-        val prefTime = sharedPrefs.getString(NOTIF_PREF_TIME, "21:00")
+        val prefTime = sharedPrefs.getString(NOTIF_PREF_TIME, "21:00") ?: "21:00"
         return LocalTime.parse(prefTime)
     }
 

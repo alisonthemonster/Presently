@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
 import kotlin.random.Random
 
 @Composable

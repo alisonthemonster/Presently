@@ -13,9 +13,14 @@ import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
 import org.junit.Rule
 import org.junit.Test
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
+import kotlinx.datetime.todayIn
 
 class TimelineViewModelTest {
 
@@ -26,10 +31,13 @@ class TimelineViewModelTest {
     private val settings = mock<PresentlySettings>()
     private val analytics = mock<AnalyticsLogger>()
 
+    private val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+    private val yesterday = today.minus(1, DateTimeUnit.DAY)
+
     @Test
     fun init_emptylistWithoutTodayOrYesterdayWritten_addsEmptyTodayAndYesterdayEntries() = runTest {
-        val todayEntry = Entry(LocalDate.now(), "")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
+        val todayEntry = Entry(today, "")
+        val yesterdayEntry = Entry(yesterday, "")
 
         whenever(repository.getEntriesFlow()).thenReturn(flowOf(emptyList<Entry>()))
 
@@ -40,11 +48,11 @@ class TimelineViewModelTest {
 
     @Test
     fun init_listWithoutTodayOrYesterdayWritten_addsEmptyTodayAndYesterdayEntriesToList() = runTest {
-        val todayEntry = Entry(LocalDate.now(), "")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-        val oldEntry = Entry(LocalDate.of(2011, 11, 11), "")
-        val oldEntry1 = Entry(LocalDate.of(2011, 11, 10), "")
-        val oldEntry2 = Entry(LocalDate.of(2011, 11, 9), "")
+        val todayEntry = Entry(today, "")
+        val yesterdayEntry = Entry(yesterday, "")
+        val oldEntry = Entry(LocalDate(2011, 11, 11), "")
+        val oldEntry1 = Entry(LocalDate(2011, 11, 10), "")
+        val oldEntry2 = Entry(LocalDate(2011, 11, 9), "")
 
         val list = listOf(oldEntry, oldEntry1, oldEntry2)
         whenever(repository.getEntriesFlow()).thenReturn(flowOf(list))
@@ -58,8 +66,8 @@ class TimelineViewModelTest {
 
     @Test
     fun init_listWithTodayAndYesterdayWritten_returnsOriginalList() = runTest {
-        val todayEntry = Entry(LocalDate.now(), "hello!")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "howdy")
+        val todayEntry = Entry(today, "hello!")
+        val yesterdayEntry = Entry(yesterday, "howdy")
         val expectedList = listOf(todayEntry, yesterdayEntry)
 
         whenever(repository.getEntriesFlow()).thenReturn(flowOf(expectedList))
@@ -71,9 +79,9 @@ class TimelineViewModelTest {
 
     @Test
     fun init_listWithTodayWrittenNoYesterday_returnsOriginalListPlusYesterday() = runTest {
-        val todayEntry = Entry(LocalDate.now(), "hello!")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-        val oldEntry = Entry(LocalDate.of(2011, 11, 11), "")
+        val todayEntry = Entry(today, "hello!")
+        val yesterdayEntry = Entry(yesterday, "")
+        val oldEntry = Entry(LocalDate(2011, 11, 11), "")
 
         val expectedList = listOf(todayEntry, yesterdayEntry, oldEntry)
         whenever(repository.getEntriesFlow()).thenReturn(flowOf(expectedList))
@@ -85,8 +93,8 @@ class TimelineViewModelTest {
 
     @Test
     fun init_listWithTodayWrittenNoYesterday_returnsTodayPlusYesterday() = runTest {
-        val todayEntry = Entry(LocalDate.now(), "hello!")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
+        val todayEntry = Entry(today, "hello!")
+        val yesterdayEntry = Entry(yesterday, "")
         val expectedList = listOf(todayEntry, yesterdayEntry)
 
         whenever(repository.getEntriesFlow()).thenReturn(flowOf(expectedList))
@@ -98,9 +106,9 @@ class TimelineViewModelTest {
 
     @Test
     fun init_listWithYesterdayWrittenNoToday_returnsOriginalListPlusToday() = runTest {
-        val todayEntry = Entry(LocalDate.now(), "")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-        val oldEntry = Entry(LocalDate.of(2011, 11, 11), "")
+        val todayEntry = Entry(today, "")
+        val yesterdayEntry = Entry(yesterday, "")
+        val oldEntry = Entry(LocalDate(2011, 11, 11), "")
         val expectedList = listOf(todayEntry, yesterdayEntry, oldEntry)
 
         whenever(repository.getEntriesFlow()).thenReturn(flowOf(expectedList))
@@ -112,8 +120,8 @@ class TimelineViewModelTest {
 
     @Test
     fun init_listWithYesterdayWrittenNoToday_returnsYesterdayPlusToday() = runTest {
-        val todayEntry = Entry(LocalDate.now(), "")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
+        val todayEntry = Entry(today, "")
+        val yesterdayEntry = Entry(yesterday, "")
         val expectedList = listOf(todayEntry, yesterdayEntry)
 
         whenever(repository.getEntriesFlow()).thenReturn(flowOf(expectedList))
@@ -125,12 +133,12 @@ class TimelineViewModelTest {
 
     @Test
     fun init_listWithFiveEntries_returnsFiveEntriesAndMilestone() = runTest {
-        val todayEntry = Entry(LocalDate.now(), "content")
+        val todayEntry = Entry(today, "content")
         val writtenDates = mutableListOf<Entry>()
         val expectedList = mutableListOf<TimelineItem>()
         writtenDates.add(todayEntry)
         for (i in 1L until 5L) {
-            writtenDates.add(Entry(LocalDate.now().minusDays(i), "content"))
+            writtenDates.add(Entry(today.minus(i, DateTimeUnit.DAY), "content"))
         }
         expectedList.add(Milestone.create(5))
         expectedList.addAll(writtenDates)
@@ -144,17 +152,17 @@ class TimelineViewModelTest {
 
     @Test
     fun init_listWithFiveEntriesWrittenThreeDaysAgo_returnsFiveEntriesAndMilestoneAndHints() = runTest {
-        val firstEntry = Entry(LocalDate.now().minusDays(3), "content")
+        val firstEntry = Entry(today.minus(3, DateTimeUnit.DAY), "content")
         val writtenDates = mutableListOf<Entry>()
         val expectedList = mutableListOf<TimelineItem>()
         writtenDates.add(firstEntry)
         for (i in 1L until 5L) {
-            writtenDates.add(Entry(LocalDate.now().minusDays(3 + i), "content"))
+            writtenDates.add(Entry(today.minus(3 + i, DateTimeUnit.DAY), "content"))
         }
 
         // empty entries for user to fill in today and yesterday
-        val todayEntry = Entry(LocalDate.now(), "")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
+        val todayEntry = Entry(today, "")
+        val yesterdayEntry = Entry(yesterday, "")
 
         expectedList.add(todayEntry)
         expectedList.add(yesterdayEntry)
@@ -175,12 +183,12 @@ class TimelineViewModelTest {
 
         val pastDays = mutableListOf<Entry>()
         for (i in 0L until 5L) {
-            pastDays.add(Entry(LocalDate.now().minusDays(1 + i), "content"))
+            pastDays.add(Entry(today.minus(1 + i, DateTimeUnit.DAY), "content"))
         }
         writtenDates.addAll(pastDays)
 
         // empty entry for user to fill in today
-        val todayEntry = Entry(LocalDate.now(), "")
+        val todayEntry = Entry(today, "")
 
         expectedList.add(todayEntry)
         expectedList.add(Milestone.create(5))
@@ -198,18 +206,18 @@ class TimelineViewModelTest {
         // the milestone entry is written today and yesterday was not filled in
         // the milestone should appear before today's entry which is followed by a hint
 
-        val todayEntry = Entry(LocalDate.now(), "content")
+        val todayEntry = Entry(today, "content")
         val writtenDates = mutableListOf<Entry>()
         val expectedList = mutableListOf<TimelineItem>()
         writtenDates.add(todayEntry)
         val pastDays = mutableListOf<Entry>()
         for (i in 1L until 5L) {
-            pastDays.add(Entry(LocalDate.now().minusDays(5 + i), "content"))
+            pastDays.add(Entry(today.minus(5 + i, DateTimeUnit.DAY), "content"))
         }
         writtenDates.addAll(pastDays)
 
         // empty entry for user to fill in yesterday
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
+        val yesterdayEntry = Entry(yesterday, "")
 
         expectedList.add(Milestone.create(5))
         expectedList.add(todayEntry)
@@ -228,19 +236,19 @@ class TimelineViewModelTest {
         // the milestone entry is written yesterday and today is not filled in
         // the milestone should appear after today's entry and then followed by a hint
 
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "content")
+        val yesterdayEntry = Entry(yesterday, "content")
         val writtenDates = mutableListOf<Entry>()
         val expectedList = mutableListOf<TimelineItem>()
         writtenDates.add(yesterdayEntry)
         val pastDays = mutableListOf<Entry>()
         for (i in 1L until 5L) {
             // write four entries in the past
-            pastDays.add(Entry(LocalDate.now().minusDays(10 + i), "content"))
+            pastDays.add(Entry(today.minus(10 + i, DateTimeUnit.DAY), "content"))
         }
         writtenDates.addAll(pastDays)
 
         // empty entry for user to fill in today
-        val todayEntry = Entry(LocalDate.now(), "")
+        val todayEntry = Entry(today, "")
 
         expectedList.add(todayEntry)
         expectedList.add(Milestone.create(5))
@@ -263,19 +271,19 @@ class TimelineViewModelTest {
         val pastDays = mutableListOf<Entry>()
         for (i in 5L until 10L) {
             // write five entries in the past
-            pastDays.add(Entry(LocalDate.now().minusDays(i), "content"))
+            pastDays.add(Entry(today.minus(i, DateTimeUnit.DAY), "content"))
         }
         val morePastDays = mutableListOf<Entry>()
         for (i in 10L until 15L) {
             // write five entries in the more distant past
-            morePastDays.add(Entry(LocalDate.now().minusDays(10 + i), "content"))
+            morePastDays.add(Entry(today.minus(10 + i, DateTimeUnit.DAY), "content"))
         }
         writtenDates.addAll(pastDays)
         writtenDates.addAll(morePastDays)
 
         // empty entries for user to fill in today and yesterday
-        val todayEntry = Entry(LocalDate.now(), "")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
+        val todayEntry = Entry(today, "")
+        val yesterdayEntry = Entry(yesterday, "")
 
         expectedList.add(todayEntry)
         expectedList.add(yesterdayEntry)

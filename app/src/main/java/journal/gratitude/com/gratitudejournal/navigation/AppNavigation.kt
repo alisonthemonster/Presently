@@ -29,7 +29,10 @@ import journal.gratitude.com.gratitudejournal.ui.security.AppLockScreen
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeSelection
 import journal.gratitude.com.gratitudejournal.ui.timeline.Timeline
 import journal.gratitude.com.gratitudejournal.util.toDatabaseString
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.todayIn
 
 // todo test with other bottom gesture navs
 
@@ -115,7 +118,9 @@ internal fun AppNavigation(
                 onUserAuthenticated = {
                     when (postAuthDestination) {
                         UserStartDestination.ENTRY_SCREEN -> {
-                            navController.navigate(Screen.Entry.createRoute(LocalDate.now())) {
+                            navController.navigate(Screen.Entry.createRoute(
+                                Clock.System.todayIn(TimeZone.currentSystemDefault()))
+                            ) {
                                 popUpTo(0) // reset stack
                             }
                         }
@@ -178,7 +183,7 @@ private fun SavedStateHandle.getDateString(): String {
     return if (this.contains("entry-date")) {
         checkNotNull(this["entry-date"]) as String
     } else {
-        LocalDate.now().toDatabaseString()
+        Clock.System.todayIn(TimeZone.currentSystemDefault()).toDatabaseString()
     }
 }
 

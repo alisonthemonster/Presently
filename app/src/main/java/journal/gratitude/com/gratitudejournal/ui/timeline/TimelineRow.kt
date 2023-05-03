@@ -27,7 +27,10 @@ import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.todayIn
 
 @Composable
 fun TimelineRow(
@@ -51,7 +54,7 @@ fun TimelineRow(
         val (dateString, entryString, image, timelineLine, timelineDot, timelineEndDot) = createRefs()
 
         val content = entryContent.ifEmpty {
-            if (entryDate == LocalDate.now()) {
+            if (entryDate == Clock.System.todayIn(TimeZone.currentSystemDefault())) {
                 stringResource(R.string.what_are_you_thankful_for)
             } else {
                 stringResource(R.string.what_were_you_thankful_for)

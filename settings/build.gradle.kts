@@ -49,6 +49,7 @@ dependencies {
 
     implementation(Libraries.three_ten_abp)
     implementation(Libraries.dropbox_sdk)
+    implementation(Libraries.kotlinx_datetime)
 
     // dependency injection
     implementation(Libraries.dagger)

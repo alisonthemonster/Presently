@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -24,6 +26,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.ui.Scaffold
@@ -37,9 +40,10 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.ui.NavigationDrawer
+import journal.gratitude.com.gratitudejournal.ui.calendar.Calendar
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
 
 // todo show the calendar somewhere
 // todo if you navigate back from settings the status bar icon colors are wrong
@@ -86,6 +90,12 @@ fun Timeline(
             onContactClicked = {
                 viewModel.onContactClicked()
                 onContactClicked()
+            },
+            onFabClicked = {
+                viewModel.onFabClicked()
+            },
+            onFabDismissed = {
+                viewModel.dismissFab()
             }
         )
     }
@@ -100,6 +110,8 @@ fun TimelineContent(
     onSettingsClicked: () -> Unit,
     onThemesClicked: () -> Unit,
     onContactClicked: () -> Unit,
+    onFabClicked: () -> Unit,
+    onFabDismissed: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -119,6 +131,7 @@ fun TimelineContent(
     }
 
     Scaffold(
+        modifier = modifier.navigationBarsPadding(),
         scaffoldState = scaffoldState,
         drawerContent = {
             NavigationDrawer(
@@ -157,8 +170,21 @@ fun TimelineContent(
                 backgroundColor = PresentlyTheme.colors.timelineToolbar,
                 contentPadding = WindowInsets.statusBars.asPaddingValues()
             )
-        }
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { onFabClicked() },
+                backgroundColor = PresentlyTheme.colors.timelineFab,
+                contentColor = PresentlyTheme.colors.timelineOnFab
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_calendar),
+                    contentDescription = stringResource(R.string.edit)
+                )
+            }
+        },
     ) { contentPadding ->
+
         Surface(
             color = PresentlyTheme.colors.timelineBackground,
             modifier = Modifier
@@ -174,6 +200,15 @@ fun TimelineContent(
                 shouldShowDayOfWeek = state.shouldShowDayOfWeek,
                 onEntryClicked = onEntryClicked
             )
+            if (state.isCalendarOpen) {
+                Calendar(
+                    writtenDates = state.datesWritten,
+                    onDateSelected = { date, isNewEntry ->
+                        onEntryClicked(date, isNewEntry)
+                    },
+                    onCalendarDismissed = onFabDismissed
+                )
+            }
         }
     }
 }
@@ -187,10 +222,7 @@ fun TimelineList(
     onEntryClicked: (date: LocalDate, isNewEntry: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier
-            .navigationBarsPadding()
-    ) {
+    LazyColumn() {
         // todo add keys to help with recomposition
         itemsIndexed(timelineItems) { index, timelineItem ->
             when (timelineItem) {
@@ -205,6 +237,7 @@ fun TimelineList(
                         isLastEntry = index == timelineItems.size - 1
                     )
                 }
+
                 is Milestone -> {
                     MilestoneRow(
                         theme = theme,

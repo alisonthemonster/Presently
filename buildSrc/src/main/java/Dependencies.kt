@@ -44,7 +44,7 @@ object Versions {
     const val TRUTH = "1.1.3"
     const val THREE_TEN_ABP = "1.3.1" //https://github.com/JakeWharton/ThreeTenABP/tags
     const val MATERIAL = "1.4.0-rc01"
-    const val MATERIAL_3 = "1.0.0-beta01" //https://developer.android.com/jetpack/androidx/releases/compose-material3
+    const val MATERIAL_3 = "1.1.0-rc01" //https://developer.android.com/jetpack/androidx/releases/compose-material3
     const val OSS_LICENSES = "17.0.0"
     const val COMPACT_CAL_VIEW = "3.0.0"
     const val APACHE = "1.6"
@@ -54,6 +54,8 @@ object Versions {
     const val COMPOSE_ACTIVITY = "1.4.0"
     const val ACCOMPANIST = "0.24.5-alpha"
     const val KOTLIN_IMMUTABLE = "0.3.5"
+    const val DESUGAR_JDK = "1.2.2"
+    const val KOTLIN_DATETIME = "0.4.0"
 }
 
 object Libraries {
@@ -107,6 +109,8 @@ object Libraries {
    const val compose_accompanist_insetsui = "com.google.accompanist:accompanist-insets-ui:${Versions.ACCOMPANIST}"
    const val compose_constraint = "androidx.constraintlayout:constraintlayout-compose:${Versions.ANDROIDX_CONSTRAINT_COMPOSE}"
    const val kotlin_immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:${Versions.KOTLIN_IMMUTABLE}"
+   const val desugar = "com.android.tools:desugar_jdk_libs:${Versions.DESUGAR_JDK}"
+   const val kotlinx_datetime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.KOTLIN_DATETIME}"
 }
 
 object TestLibraries {

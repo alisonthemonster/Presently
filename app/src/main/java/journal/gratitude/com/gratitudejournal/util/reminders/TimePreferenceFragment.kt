@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.TimePicker
 import androidx.preference.PreferenceDialogFragmentCompat
-import org.threeten.bp.LocalTime
+import kotlinx.datetime.LocalTime
 
 class TimePreferenceFragment : PreferenceDialogFragmentCompat() {
 
@@ -30,7 +30,7 @@ class TimePreferenceFragment : PreferenceDialogFragmentCompat() {
             pref.hour = timePicker?.hour!!
             pref.minute = timePicker?.minute!!
 
-            val time = LocalTime.of(pref.hour, pref.minute)
+            val time = LocalTime(pref.hour, pref.minute, 0, 0)
 
             if (pref.callChangeListener(time)) {
                 pref.persistStringValue(time.toString())

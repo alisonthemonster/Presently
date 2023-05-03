@@ -1,9 +1,12 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.todayIn
 
 data class EntryViewState(
-    val date: LocalDate = LocalDate.now(),
+    val date: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault()),
     val content: String = "",
     val isEditingExistingEntry: Boolean = false,
     val isInEditMode: Boolean = false,

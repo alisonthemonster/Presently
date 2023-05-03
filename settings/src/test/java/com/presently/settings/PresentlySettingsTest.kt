@@ -6,7 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import com.presently.logging.AnalyticsLogger
 import junit.framework.Assert.fail
 import org.junit.Test
-import org.threeten.bp.LocalTime
+import kotlinx.datetime.LocalTime
 import java.util.Date
 
 class PresentlySettingsTest {

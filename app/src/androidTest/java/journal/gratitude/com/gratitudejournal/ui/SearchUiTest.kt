@@ -18,9 +18,12 @@ import journal.gratitude.com.gratitudejournal.MainActivity
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.ui.search.SearchContent
 import journal.gratitude.com.gratitudejournal.ui.search.SearchViewState
+import kotlinx.datetime.Clock
 import org.junit.Rule
 import org.junit.Test
-import org.threeten.bp.LocalDate
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.todayIn
 
 @HiltAndroidTest
 class SearchUiTest {
@@ -36,8 +39,8 @@ class SearchUiTest {
         val state = SearchViewState(
             query = "dogs",
             results = listOf(
-                Entry(LocalDate.of(2011, 11, 11), "Search result one"),
-                Entry(LocalDate.of(2001, 1, 1), "Search result two")
+                Entry(LocalDate(2011, 11, 11), "Search result one"),
+                Entry(LocalDate(2001, 1, 1), "Search result two")
             )
         )
 
@@ -65,8 +68,8 @@ class SearchUiTest {
         val state = SearchViewState(
             query = "",
             results = listOf(
-                Entry(LocalDate.of(2011, 11, 11), "Search result one"),
-                Entry(LocalDate.of(2001, 1, 1), "Search result two")
+                Entry(LocalDate(2011, 11, 11), "Search result one"),
+                Entry(LocalDate(2001, 1, 1), "Search result two")
             )
         )
 
@@ -98,8 +101,8 @@ class SearchUiTest {
         val state = SearchViewState(
             query = "",
             results = listOf(
-                Entry(LocalDate.of(2011, 11, 11), "Search result one"),
-                Entry(LocalDate.of(2001, 1, 1), "Search result two")
+                Entry(LocalDate(2011, 11, 11), "Search result one"),
+                Entry(LocalDate(2001, 1, 1), "Search result two")
             )
         )
 
@@ -133,12 +136,12 @@ class SearchUiTest {
 
     @Test
     fun testSearchClickingResult() {
-        var onEntryClickedDate = LocalDate.now()
+        var onEntryClickedDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
         val state = SearchViewState(
             query = "dogs",
             results = listOf(
-                Entry(LocalDate.of(2011, 11, 11), "Search result one"),
-                Entry(LocalDate.of(2001, 1, 1), "Search result two")
+                Entry(LocalDate(2011, 11, 11), "Search result one"),
+                Entry(LocalDate(2001, 1, 1), "Search result two")
             )
         )
 
@@ -157,6 +160,6 @@ class SearchUiTest {
         }
 
         composeTestRule.onNodeWithText("Search result one").performClick()
-        assertThat(onEntryClickedDate).isEqualTo(LocalDate.of(2011, 11, 11))
+        assertThat(onEntryClickedDate).isEqualTo(LocalDate(2011, 11, 11))
     }
 }
