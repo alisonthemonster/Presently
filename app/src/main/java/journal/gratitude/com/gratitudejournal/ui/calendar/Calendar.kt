@@ -47,7 +47,7 @@ fun Calendar(
                     yearContentColor = PresentlyTheme.colors.timelineOnFab,
                     currentYearContentColor = PresentlyTheme.colors.timelineOnFab,
                     selectedYearContentColor = PresentlyTheme.colors.timelineFab,
-                    selectedYearContainerColor = PresentlyTheme.colors.timelineOnFab,
+                    selectedYearContainerColor = PresentlyTheme.colors.timelineOnFab
 
                 ),
                 title = null,
@@ -57,7 +57,7 @@ fun Calendar(
 
         val selectedDate = datePickerState.selectedDateMillis
         if (selectedDate != null) {
-            //todo this date is off by one
+            // todo this date is off by one
             val date = Instant.fromEpochMilliseconds(selectedDate).toLocalDateTime(TimeZone.currentSystemDefault()).date
             onDateSelected(date, writtenDates.contains(date))
             datePickerState.setSelection(null)
