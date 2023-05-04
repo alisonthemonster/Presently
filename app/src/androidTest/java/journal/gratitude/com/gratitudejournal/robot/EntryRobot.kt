@@ -4,14 +4,12 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertTextEquals
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
+import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import journal.gratitude.com.gratitudejournal.MainActivity
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
@@ -21,7 +19,7 @@ import kotlinx.datetime.minus
 import kotlinx.datetime.todayIn
 
 class EntryRobot(
-    val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>
+    val composeTestRule: ComposeContentTestRule
 ) {
     private val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
     private val yesterday = today.minus(1, DateTimeUnit.DAY)
@@ -107,12 +105,6 @@ class EntryRobot(
     fun clickRedo() {
         assertRedoIsEnabled()
         composeTestRule.onNodeWithContentDescription("Redo").performClick()
-    }
-
-    fun exitEntryScreen() {
-        composeTestRule.activityRule.scenario.onActivity { activity ->
-            activity.onBackPressedDispatcher.onBackPressed()
-        }
     }
 
     fun clickBackButton() {

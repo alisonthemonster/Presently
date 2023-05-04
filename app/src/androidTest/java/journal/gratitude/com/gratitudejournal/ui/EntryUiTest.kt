@@ -1,52 +1,126 @@
 package journal.gratitude.com.gratitudejournal.ui
 
+import android.content.Context
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToLog
+import androidx.lifecycle.SavedStateHandle
+import com.dropbox.core.oauth.DbxCredential
+import com.presently.logging.AnalyticsLogger
+import com.presently.settings.BackupCadence
+import com.presently.settings.PresentlySettings
 import com.presently.ui.PresentlyTheme
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
-import journal.gratitude.com.gratitudejournal.MainActivity
+import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.robot.EntryRobot
 import journal.gratitude.com.gratitudejournal.robot.MilestoneRobot
 import journal.gratitude.com.gratitudejournal.ui.entry.Entry
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
+import kotlin.test.fail
 
-@HiltAndroidTest
 class EntryUiTest {
-    // so that it uses the fake dependencies
-    @get:Rule(order = 0)
-    var hiltRule = HiltAndroidRule(this)
 
-    @get:Rule(order = 1)
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
-
-    @Inject
-    lateinit var repository: EntryRepository
+    @get:Rule
+    val composeTestRule = createComposeRule()
 
     val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
 
-    @Before
-    fun init() {
-        hiltRule.inject()
+    private val analytics = object : AnalyticsLogger {
+        override fun recordEvent(event: String) {}
+
+        override fun recordEvent(event: String, details: Map<String, Any>) {}
+
+        override fun recordSelectEvent(selectedContent: String, selectedContentType: String) {}
+
+        override fun recordEntryAdded(numEntries: Int) {}
+
+        override fun recordView(viewName: String) {}
+
+        override fun optOutOfAnalytics() {}
+
+        override fun optIntoAnalytics() {}
+    }
+
+    private val settings = object : PresentlySettings {
+        override fun getCurrentTheme(): String = "Original"
+
+        override fun setTheme(themeName: String) = fail("Not needed in this test")
+
+        override fun isBiometricsEnabled(): Boolean = fail("Not needed in this test")
+
+        override fun shouldLockApp(): Boolean = fail("Not needed in this test")
+
+        override fun onAppBackgrounded() = fail("Not needed in this test")
+
+        override fun onAuthenticationSucceeded() = fail("Not needed in this test")
+
+        override fun shouldShowQuote(): Boolean = true
+
+        override fun getAutomaticBackupCadence(): BackupCadence = fail("Not needed in this test")
+
+        override fun getLocale(): String = fail("Not needed in this test")
+
+        override fun hasEnabledNotifications(): Boolean = fail("Not needed in this test")
+
+        override fun getNotificationTime(): LocalTime = fail("Not needed in this test")
+
+        override fun hasUserDisabledAlarmReminders(context: Context): Boolean =
+            fail("Not needed in this test")
+
+        override fun getLinesPerEntryInTimeline(): Int = fail("Not needed in this test")
+
+        override fun shouldShowDayOfWeekInTimeline(): Boolean = fail("Not needed in this test")
+
+        override fun getAccessToken(): DbxCredential? = fail("Not needed in this test")
+
+        override fun setAccessToken(newToken: DbxCredential) = fail("Not needed in this test")
+
+        override fun wasDropboxAuthInitiated(): Boolean = fail("Not needed in this test")
+
+        override fun markDropboxAuthAsCancelled() = fail("Not needed in this test")
+
+        override fun markDropboxAuthInitiated() = fail("Not needed in this test")
+
+        override fun clearAccessToken() = fail("Not needed in this test")
+
+        override fun isOptedIntoAnalytics(): Boolean = fail("Not needed in this test")
     }
 
     @Test
     fun entryIntegrationTest() {
+        val repository = object : EntryRepository {
+            override suspend fun getEntry(date: LocalDate): Entry? {
+                return null
+            }
+            override suspend fun addEntry(entry: Entry): Int = 1
+            override fun getEntriesFlow(): Flow<List<Entry>> = fail("not needed in this test")
+            override suspend fun getEntries(): List<Entry> = fail("not needed in this test")
+            override suspend fun addEntries(entries: List<Entry>) = fail("not needed in this test")
+            override suspend fun search(query: String): List<Entry> = fail("not needed in this test")
+        }
+
+        val viewModel = EntryViewModel(
+            SavedStateHandle(),
+            repository,
+            analytics,
+            settings
+        )
+
         composeTestRule.setContent {
             PresentlyTheme {
                 Entry(
+                    viewModel = viewModel,
                     onEntryExit = {}
                 )
             }
@@ -71,19 +145,28 @@ class EntryUiTest {
 
     @Test
     fun milestoneTest() = runTest {
-        // set up with four entries in db already
-        repository.addEntries(
-            listOf(
-                journal.gratitude.com.gratitudejournal.model.Entry(LocalDate(2022, 10, 9), "An entry from October of 2022"),
-                journal.gratitude.com.gratitudejournal.model.Entry(LocalDate(2022, 9, 9), "An entry from September of 2022"),
-                journal.gratitude.com.gratitudejournal.model.Entry(LocalDate(2022, 8, 9), "An entry from August of 2022"),
-                journal.gratitude.com.gratitudejournal.model.Entry(LocalDate(2022, 7, 9), "An entry from July of 2022")
-            )
+        val repository = object : EntryRepository {
+            override suspend fun getEntry(date: LocalDate): Entry? {
+                return null
+            }
+            override suspend fun addEntry(entry: Entry): Int = 5
+            override fun getEntriesFlow(): Flow<List<Entry>> = fail("not needed in this test")
+            override suspend fun getEntries(): List<Entry> = fail("not needed in this test")
+            override suspend fun addEntries(entries: List<Entry>) = fail("not needed in this test")
+            override suspend fun search(query: String): List<Entry> = fail("not needed in this test")
+        }
+
+        val viewModel = EntryViewModel(
+            SavedStateHandle(),
+            repository,
+            analytics,
+            settings
         )
 
         composeTestRule.setContent {
             PresentlyTheme {
                 Entry(
+                    viewModel = viewModel,
                     onEntryExit = {}
                 )
             }
@@ -108,9 +191,27 @@ class EntryUiTest {
 
     @Test
     fun entryPromptTest() {
+        val repository = object : EntryRepository {
+            override suspend fun getEntry(date: LocalDate): Entry? {
+                return null
+            }
+            override suspend fun addEntry(entry: Entry): Int = 1
+            override fun getEntriesFlow(): Flow<List<Entry>> = fail("not needed in this test")
+            override suspend fun getEntries(): List<Entry> = fail("not needed in this test")
+            override suspend fun addEntries(entries: List<Entry>) = fail("not needed in this test")
+            override suspend fun search(query: String): List<Entry> = fail("not needed in this test")
+        }
+        val viewModel = EntryViewModel(
+            SavedStateHandle(),
+            repository,
+            analytics,
+            settings
+        )
+
         composeTestRule.setContent {
             PresentlyTheme {
                 Entry(
+                    viewModel = viewModel,
                     onEntryExit = {}
                 )
             }

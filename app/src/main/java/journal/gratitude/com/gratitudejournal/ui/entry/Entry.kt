@@ -67,7 +67,6 @@ fun Entry(
 
         if (state.shouldShowMilestoneDialog) {
             MilestoneScreen(
-                theme = viewModel.getSelectedTheme(),
                 milestoneNumber = state.entryNumber!!,
                 onDismiss = { viewModel.onDismissMilestoneDialog() },
                 onShareClicked = {}

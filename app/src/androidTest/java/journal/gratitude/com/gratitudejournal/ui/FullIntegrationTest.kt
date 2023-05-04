@@ -6,13 +6,17 @@ import androidx.compose.ui.test.printToLog
 import com.dropbox.dropshots.Dropshots
 import com.google.common.truth.Truth.assertThat
 import com.presently.settings.PresentlySettings
-import com.presently.ui.PresentlyTheme
+import com.presently.settings.wiring.PresentlySettingsModule
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
+import dagger.hilt.components.SingletonComponent
 import journal.gratitude.com.gratitudejournal.MainActivity
-import journal.gratitude.com.gratitudejournal.PresentlyContainer
+import journal.gratitude.com.gratitudejournal.fakes.FakePresentlySettings
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.navigation.UserStartDestination
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.robot.EntryRobot
 import journal.gratitude.com.gratitudejournal.robot.SearchRobot
@@ -25,14 +29,24 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import kotlinx.datetime.todayIn
-import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@UninstallModules(PresentlySettingsModule::class)
 @HiltAndroidTest
 class FullIntegrationTest {
+
+    @Module
+    @InstallIn(SingletonComponent::class)
+    abstract class FakeSettingsModule {
+        @Singleton
+        @Binds
+        abstract fun bindSettings(repo: FakePresentlySettings): PresentlySettings
+    }
+
     // so that it uses the fake dependencies
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)
@@ -64,12 +78,6 @@ class FullIntegrationTest {
 
     @Test
     fun testPresentlyFlow() {
-        composeTestRule.setContent {
-            PresentlyTheme {
-                PresentlyContainer(UserStartDestination.DEFAULT_SCREEN)
-            }
-        }
-
         val timelineRobot = TimelineRobot(composeTestRule)
         val entryRobot = EntryRobot(composeTestRule)
         val searchRobot = SearchRobot(composeTestRule)
@@ -117,7 +125,9 @@ class FullIntegrationTest {
         searchRobot.clickSearchResult("An entry from October of 2022")
         entryRobot.assertEntryReadTextEquals("An entry from October of 2022")
 
-        entryRobot.exitEntryScreen()
+        composeTestRule.activityRule.scenario.onActivity { activity ->
+            activity.onBackPressedDispatcher.onBackPressed()
+        }
         searchRobot.assertSearchViewIsShown()
 
         searchRobot.exitSearchScreen()

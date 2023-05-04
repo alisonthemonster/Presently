@@ -24,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.presently.ui.PresentlyColors
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
 
@@ -38,7 +37,6 @@ fun MilestoneCelebration(
     val state = viewModel.state.collectAsState()
 
     MilestoneScreen(
-        theme = viewModel.getSelectedTheme(),
         milestoneNumber = state.value.milestoneNumber,
         onDismiss = onDismiss,
         onShareClicked = {
@@ -50,58 +48,55 @@ fun MilestoneCelebration(
 
 @Composable
 fun MilestoneScreen(
-    theme: PresentlyColors,
     milestoneNumber: Int,
     onDismiss: () -> Unit,
     onShareClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    PresentlyTheme(
-        selectedTheme = theme
+    Surface(
+        modifier = modifier
+            .fillMaxSize()
+            .testTag("milestoneScreen"),
+        color = PresentlyTheme.colors.timelineBackground
     ) {
-        Surface(
-            modifier = modifier.fillMaxSize().testTag("milestoneScreen"),
-            color = PresentlyTheme.colors.timelineBackground
+        Column(
+            modifier = Modifier
+                .windowInsetsPadding(WindowInsets.safeDrawing)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center
         ) {
-            Column(
-                modifier = Modifier
-                    .windowInsetsPadding(WindowInsets.safeDrawing)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center
+            IconButton(
+                onClick = { onDismiss() }
             ) {
-                IconButton(
-                    onClick = { onDismiss() }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = stringResource(R.string.close),
-                        tint = PresentlyTheme.colors.timelineBackground
-                    )
-                }
-                Text(
-                    text = "$milestoneNumber",
-                    fontSize = 128.sp
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = stringResource(R.string.close),
+                    tint = PresentlyTheme.colors.timelineBackground
                 )
-                Text(
-                    text = "$milestoneNumber " + stringResource(R.string.days_of_gratitude),
-                    style = PresentlyTheme.typography.titleLarge,
-                    fontSize = 64.sp
-                )
-                Text(
-                    text = stringResource(R.string.congrats_milestone)
-                )
-                Button(
-                    onClick = { onShareClicked() },
-                    shape = RoundedCornerShape(20.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = PresentlyTheme.colors.timelineContent,
-                        contentColor = PresentlyTheme.colors.timelineBackground
-                    )
-                ) {
-                    Text(stringResource(R.string.share_your_achievement))
-                }
-                // todo feature idea -- if user hasn't turned on backups show button to export or to set up auto backup
             }
+            Text(
+                text = "$milestoneNumber",
+                fontSize = 128.sp
+            )
+            Text(
+                text = "$milestoneNumber " + stringResource(R.string.days_of_gratitude),
+                style = PresentlyTheme.typography.titleLarge,
+                fontSize = 64.sp
+            )
+            Text(
+                text = stringResource(R.string.congrats_milestone)
+            )
+            Button(
+                onClick = { onShareClicked() },
+                shape = RoundedCornerShape(20.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = PresentlyTheme.colors.timelineContent,
+                    contentColor = PresentlyTheme.colors.timelineBackground
+                )
+            ) {
+                Text(stringResource(R.string.share_your_achievement))
+            }
+            // todo feature idea -- if user hasn't turned on backups show button to export or to set up auto backup
         }
     }
 }

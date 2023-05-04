@@ -4,30 +4,8 @@ import android.content.Context
 import com.dropbox.core.oauth.DbxCredential
 import com.presently.settings.BackupCadence
 import com.presently.settings.PresentlySettings
-import com.presently.settings.wiring.PresentlySettingsModule
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.components.SingletonComponent
-import dagger.hilt.testing.TestInstallIn
 import kotlinx.datetime.LocalTime
 import javax.inject.Inject
-import javax.inject.Singleton
-
-/**
- * PresentlySettings binding to use in tests.
- *
- * Hilt will inject a [FakePresentlySettings] instead of a [RealPresentlySettings].
- */
-@Module
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [PresentlySettingsModule::class]
-)
-abstract class FakeSettingsModule {
-    @Singleton
-    @Binds
-    abstract fun bindSettings(repo: FakePresentlySettings): PresentlySettings
-}
 
 class FakePresentlySettings @Inject constructor() : PresentlySettings {
 
