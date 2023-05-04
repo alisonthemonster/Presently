@@ -155,12 +155,9 @@ dependencies {
     androidTestImplementation(project(":testing"))
     androidTestImplementation(TestLibraries.androidx_test_runner)
     androidTestImplementation(TestLibraries.androidx_arch_testing)
-    androidTestImplementation(TestLibraries.espresso_core)
-    androidTestImplementation(TestLibraries.espresso_contrib)
     androidTestImplementation(TestLibraries.androidx_room_testing)
     androidTestImplementation(TestLibraries.androidx_test_junit)
     androidTestImplementation(TestLibraries.kotlin_test_junit)
-    androidTestImplementation(TestLibraries.androidx_test_espresso_intents)
     androidTestImplementation(TestLibraries.truth)
     androidTestImplementation(TestLibraries.mockito_kotlin)
     androidTestImplementation(TestLibraries.three_ten_abp)
@@ -169,11 +166,11 @@ dependencies {
     androidTestImplementation(TestLibraries.androidx_work_testing)
     androidTestImplementation(TestLibraries.hilt_android_testing)
     androidTestImplementation(TestLibraries.compose_ui_testing)
-    androidTestImplementation(TestLibraries.compose_ui_testing_manifest)
+    debugImplementation(TestLibraries.compose_ui_testing_manifest)
     kaptAndroidTest(Libraries.hilt_compiler)
     debugImplementation(project(":testing")) // needed for the hilt test activity
     debugImplementation(TestLibraries.fragment_testing)
-    //debugImplementation("androidx.test:monitor:1.6.0")
+    // debugImplementation("androidx.test:monitor:1.6.0")
 
 //    androidTestUtil(TestLibraries.test_orchestrator)
 }

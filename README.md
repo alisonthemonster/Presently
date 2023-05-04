@@ -20,7 +20,6 @@ We support several languages currently and are always looking for translators to
 - Jacoco coverage reports (integrated with CI)
 - Firebase Crashlytics Crash Reporting
 - Dagger + Hilt
-- Espresso
 - Firebase Test Lab
 - WorkManager
 - Dropbox Java SDK

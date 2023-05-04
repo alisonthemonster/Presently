@@ -1,6 +1,10 @@
 package journal.gratitude.com.gratitudejournal.ui
 
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onRoot
 import com.dropbox.dropshots.Dropshots
 import com.dropbox.dropshots.ThresholdValidator
 import com.presently.ui.OriginalColors
@@ -17,14 +21,14 @@ import org.junit.Test
 /**
  * To update screenshot tests run {./gradlew :app:connectedAndroidTest -Pdropshots.record}
  */
-@HiltAndroidTest
+//@HiltAndroidTest
 class TimelineUiTest {
 
-    @get:Rule(order = 0)
-    var hiltRule = HiltAndroidRule(this)
+//    @get:Rule(order = 0)
+//    var hiltRule = HiltAndroidRule(this)
 
-    @get:Rule(order = 1)
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    @get:Rule
+    val composeTestRule = createComposeRule()
 
     @get:Rule
     val dropshots = Dropshots(resultValidator = ThresholdValidator(0.033f))
@@ -40,7 +44,7 @@ class TimelineUiTest {
             }
         }
 
-        dropshots.assertSnapshot(composeTestRule.activity, "TimelineRowMilestone")
+        dropshots.assertSnapshot(composeTestRule.onRoot().captureToImage().asAndroidBitmap(), "TimelineRowMilestone")
     }
 
     @Test
@@ -57,8 +61,7 @@ class TimelineUiTest {
                 )
             }
         }
-
-        dropshots.assertSnapshot(composeTestRule.activity, "TimelineRow")
+        dropshots.assertSnapshot(composeTestRule.onRoot().captureToImage().asAndroidBitmap(), "TimelineRow")
     }
 
     @Test
@@ -76,7 +79,7 @@ class TimelineUiTest {
             }
         }
 
-        dropshots.assertSnapshot(composeTestRule.activity, "TimelineRowNoDayOfWeek")
+        dropshots.assertSnapshot(composeTestRule.onRoot().captureToImage().asAndroidBitmap(), "TimelineRowNoDayOfWeek")
     }
 
     @Test
@@ -95,7 +98,7 @@ class TimelineUiTest {
             }
         }
 
-        dropshots.assertSnapshot(composeTestRule.activity, "TimelineRowLastEntry")
+        dropshots.assertSnapshot(composeTestRule.onRoot().captureToImage().asAndroidBitmap(), "TimelineRowLastEntry")
     }
 
     @Test
@@ -113,6 +116,6 @@ class TimelineUiTest {
             }
         }
 
-        dropshots.assertSnapshot(composeTestRule.activity, "TimelineRowEmpty")
+        dropshots.assertSnapshot(composeTestRule.onRoot().captureToImage().asAndroidBitmap(), "TimelineRowEmpty")
     }
 }
