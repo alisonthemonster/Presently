@@ -17,12 +17,11 @@ object Versions {
     const val ANDROIDX_CONSTRAINT = "2.0.4" //https://developer.android.com/jetpack/androidx/releases/constraintlayout
     const val ANDROIDX_CONSTRAINT_COMPOSE = "1.0.1" //https://developer.android.com/jetpack/androidx/releases/constraintlayout
     const val ANDROIDX_LIFECYCLE = "2.5.1" //https://developer.android.com/jetpack/androidx/releases/lifecycle
-    const val FRAGMENT_TESTING = "1.3.4"
+    const val ANDROIDX_FRAGMENT = "1.6.0-beta01" //https://developer.android.com/jetpack/androidx/releases/fragment
     const val ANDROIDX_BIOMETRIC = "1.2.0-alpha04" //https://developer.android.com/jetpack/androidx/releases/biometric
     const val ANDROIDX_TEST_JUNIT = "1.1.2"
     const val ANDROIDX_WORK = "2.7.1" //https://developer.android.com/jetpack/androidx/releases/work
     const val ANDROIDX_ROOM = "2.4.0-alpha03" //https://developer.android.com/jetpack/androidx/releases/room
-    const val ANDROIDX_FRAGMENT_KTX = "1.5.6" //https://developer.android.com/jetpack/androidx/releases/fragment
     const val ANDROIDX_TEST_CORE_KTX = "1.3.0"
     const val ANDROIDX_TEST_ESPRESSO = "3.3.0"
     const val ANDROIDX_TEST_RULES = "1.3.0"
@@ -74,7 +73,7 @@ object Libraries {
    const val hilt_android_compiler = "androidx.hilt:hilt-compiler:${Versions.HILT_ANDROID}"
    const val androidx_compat = "androidx.appcompat:appcompat:${Versions.ANDROIDX_COMPAT}"
    const val androidx_constraint_layout = "androidx.constraintlayout:constraintlayout:${Versions.ANDROIDX_CONSTRAINT}"
-   const val androidx_fragment = "androidx.fragment:fragment-ktx:${Versions.ANDROIDX_FRAGMENT_KTX}"
+   const val androidx_fragment = "androidx.fragment:fragment-ktx:${Versions.ANDROIDX_FRAGMENT}"
    const val androidx_lifecycle_compiler = "androidx.lifecycle:lifecycle-compiler:${Versions.ANDROIDX_LIFECYCLE}"
    const val androidx_viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.ANDROIDX_LIFECYCLE}"
    const val androidx_lifecycle_runtime_ktx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.ANDROIDX_LIFECYCLE}"
@@ -121,7 +120,7 @@ object TestLibraries {
     const val mockito_android = "org.mockito:mockito-android:${Versions.MOCKITO_ANDROID}"
     const val robolectric = "org.robolectric:robolectric:${Versions.ROBOLECTRIC}"
     const val truth = "com.google.truth:truth:${Versions.TRUTH}"
-    const val fragment_testing = "androidx.fragment:fragment-testing:${Versions.FRAGMENT_TESTING}"
+    const val fragment_testing = "androidx.fragment:fragment-testing:${Versions.ANDROIDX_FRAGMENT}"
     const val androidx_arch_testing = "androidx.arch.core:core-testing:${Versions.ANDROIDX_ARCH_CORE}"
     const val androidx_test_junit = "androidx.test.ext:junit:${Versions.ANDROIDX_TEST_JUNIT}"
     const val androidx_test_core_ktx = "androidx.test:core-ktx:${Versions.ANDROIDX_TEST_CORE_KTX}"

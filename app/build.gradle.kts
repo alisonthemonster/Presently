@@ -173,7 +173,7 @@ dependencies {
     kaptAndroidTest(Libraries.hilt_compiler)
     debugImplementation(project(":testing")) // needed for the hilt test activity
     debugImplementation(TestLibraries.fragment_testing)
-    debugImplementation("androidx.test:monitor:1.6.0")
+    //debugImplementation("androidx.test:monitor:1.6.0")
 
 //    androidTestUtil(TestLibraries.test_orchestrator)
 }
