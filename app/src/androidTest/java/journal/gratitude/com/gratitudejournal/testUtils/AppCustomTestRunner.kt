@@ -15,11 +15,7 @@ class AppCustomTestRunner : AndroidJUnitRunner() {
         return super.newApplication(cl, HiltTestApplication_Application::class.java.name, context)
     }
 
-    override fun onCreate(args: Bundle) {
-        super.onCreate(args)
-    }
-
-    override fun finish(resultCode: Int, results: Bundle) {
+    override fun finish(resultCode: Int, results: Bundle?) {
         FileRenamer.write(this)
         super.finish(resultCode, results)
     }

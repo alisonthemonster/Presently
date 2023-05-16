@@ -3,7 +3,6 @@ package journal.gratitude.com.gratitudejournal.ui
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToLog
-import com.dropbox.dropshots.Dropshots
 import com.google.common.truth.Truth.assertThat
 import com.presently.settings.PresentlySettings
 import com.presently.settings.wiring.PresentlySettingsModule
@@ -53,9 +52,6 @@ class FullIntegrationTest {
 
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<MainActivity>()
-
-    @get:Rule
-    val dropshots = Dropshots()
 
     @Inject
     lateinit var repository: EntryRepository
