@@ -18,6 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,6 +29,8 @@ import androidx.constraintlayout.compose.Dimension
 import com.presently.ui.PresentlyColors
 import com.presently.ui.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.R
+
+// todo finish styling (icon is varying size)
 
 @Composable
 fun MilestoneRow(
@@ -73,7 +77,8 @@ fun MilestoneRow(
                 width = Dimension.fillToConstraints
             },
             milestoneNumber = milestoneNumber,
-            iconResource = theme.iconResource
+            iconResource = theme.iconResource,
+            shouldTintIcon = theme.shouldTintIcon
         )
     }
 }
@@ -82,6 +87,7 @@ fun MilestoneRow(
 fun MilestoneContent(
     milestoneNumber: Int,
     iconResource: Int,
+    shouldTintIcon: Boolean,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -94,6 +100,7 @@ fun MilestoneContent(
                 .height(80.dp)
                 .padding(8.dp),
             painter = painterResource(id = iconResource),
+            colorFilter = if (shouldTintIcon) ColorFilter.tint(PresentlyTheme.colors.timelineOnFab) else null,
             contentDescription = null
         )
         Column(

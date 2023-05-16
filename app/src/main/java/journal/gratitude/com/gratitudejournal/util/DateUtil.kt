@@ -21,11 +21,6 @@ fun LocalDate.toThreeTenBpLocalDate(): org.threeten.bp.LocalDate {
 fun LocalDate.toDatabaseString(): String {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     return this.toThreeTenBpLocalDate().format(formatter)
-
-//    val year = this.year
-//    val month = this.month.value
-//    val day = this.dayOfMonth
-//    return "$year-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}"
 }
 
 fun LocalDate.toFullString(): String {

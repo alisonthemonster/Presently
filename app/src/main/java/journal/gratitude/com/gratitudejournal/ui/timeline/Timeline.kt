@@ -40,6 +40,7 @@ import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.ui.NavigationDrawer
 import journal.gratitude.com.gratitudejournal.ui.calendar.Calendar
+import journal.gratitude.com.gratitudejournal.util.toDatabaseString
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableSet
 import kotlinx.coroutines.launch
@@ -224,8 +225,15 @@ fun TimelineList(
     modifier: Modifier = Modifier
 ) {
     LazyColumn() {
-        // todo add keys to help with recomposition
-        itemsIndexed(timelineItems) { index, timelineItem ->
+        itemsIndexed(
+            items = timelineItems,
+            key = { index, timelineItem ->
+                when (timelineItem) {
+                    is Entry -> timelineItem.entryDate.toDatabaseString()
+                    is Milestone -> timelineItem.number.toString()
+                }
+            }
+        ) { index, timelineItem ->
             when (timelineItem) {
                 is Entry -> {
                     TimelineRow(

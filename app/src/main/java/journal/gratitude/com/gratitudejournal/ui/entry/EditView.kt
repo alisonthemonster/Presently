@@ -125,7 +125,7 @@ fun EditView(
                     backgroundColor = PresentlyTheme.colors.entryBackground,
                     focusedIndicatorColor = Color.Transparent, // hide the indicator
                     textColor = PresentlyTheme.colors.entryBody,
-                    cursorColor = PresentlyTheme.colors.debugColor1 // todo pick a color for this
+                    cursorColor = PresentlyTheme.colors.entryHint
                 )
             )
         }

@@ -198,7 +198,7 @@ fun SearchTextField(
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = PresentlyTheme.colors.timelineToolbar,
             textColor = PresentlyTheme.colors.timelineOnToolbar,
-            cursorColor = PresentlyTheme.colors.debugColor1, // todo find a color for this
+            cursorColor = PresentlyTheme.colors.timelineHint,
             placeholderColor = PresentlyTheme.colors.timelineHint, // todo is this the best color?
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,

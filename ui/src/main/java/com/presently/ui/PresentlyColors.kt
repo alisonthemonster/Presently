@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.luminance
 
 class PresentlyColors(
     iconResource: Int,
+    shouldTintIcon: Boolean = false,
     timelineBackground: Color,
     timelineLine: Color,
     timelineDate: Color,
@@ -28,6 +29,9 @@ class PresentlyColors(
     debugColor1: Color
 ) {
     var iconResource by mutableStateOf(iconResource)
+        private set
+
+    var shouldTintIcon by mutableStateOf(shouldTintIcon)
         private set
 
     var timelineBackground by mutableStateOf(timelineBackground)
@@ -86,6 +90,7 @@ class PresentlyColors(
 
     fun update(other: PresentlyColors) {
         iconResource = other.iconResource
+        shouldTintIcon = other.shouldTintIcon
         timelineBackground = other.timelineBackground
         timelineLine = other.timelineLine
         timelineDate = other.timelineDate
@@ -117,6 +122,7 @@ fun String.toPresentlyColors(): PresentlyColors {
 
 val OriginalColors = PresentlyColors(
     iconResource = R.drawable.ic_flower,
+    shouldTintIcon = true,
     timelineBackground = Color(0xffdbd1c7),
     timelineLine = Color(0xff000000),
     timelineDate = Color(0xff000000),
@@ -161,6 +167,7 @@ val CalmColors = PresentlyColors(
 
 val PassionColors = PresentlyColors(
     iconResource = R.drawable.ic_passion,
+    shouldTintIcon = true,
     timelineBackground = Color(0xffF8CDFA),
     timelineLine = Color(0xffFFFFFF),
     timelineDate = Color(0xffFFFFFF),
@@ -183,6 +190,7 @@ val PassionColors = PresentlyColors(
 
 val JoyColors = PresentlyColors(
     iconResource = R.drawable.ic_joy,
+    shouldTintIcon = true,
     timelineBackground = Color(0xffB8EEEE),
     timelineLine = Color(0xff77C4CC),
     timelineDate = Color(0xffFFFFFF),
@@ -254,16 +262,16 @@ val AutumnColors = PresentlyColors(
     timelineDate = Color(0xff4B3534),
     timelineContent = Color(0xff4B3534),
     timelineHint = Color(0xff938C8C),
-    timelineToolbar = Color(0xffA98043),
+    timelineToolbar = Color(0xFFDDB57A),
     timelineLogo = Color(0xff000000),
     timelineOnToolbar = Color(0xff000000),
-    timelineFab = Color(0xffA98043),
+    timelineFab = Color(0xFFDDB57A),
     timelineOnFab = Color(0xff000000),
     entryBackground = Color(0xffF4E8DB),
     entryDate = Color(0xff4B3534),
     entryBody = Color(0xff4B3534),
     entryHint = Color(0xff938C8C),
-    entryButtonBackground = Color(0xffA98043),
+    entryButtonBackground = Color(0xFFDDB57A),
     entryButtonText = Color(0xff000000),
     entryQuoteText = Color(0xff938C8C),
     debugColor1 = Color(0xff510998)
@@ -297,7 +305,7 @@ val MarshaColors = PresentlyColors(
     timelineLine = Color(0xff000000),
     timelineDate = Color(0xff000000),
     timelineContent = Color(0xff000000),
-    timelineHint = Color(0xff4E4E4E),
+    timelineHint = Color(0xFF7C7C7C),
     timelineToolbar = Color(0xff000000),
     timelineLogo = Color(0xffFFFAFA),
     timelineOnToolbar = Color(0xffFFFAFA),
@@ -306,7 +314,7 @@ val MarshaColors = PresentlyColors(
     entryBackground = Color(0xffFFFAFA),
     entryDate = Color(0xff000000),
     entryBody = Color(0xff000000),
-    entryHint = Color(0xff4E4E4E),
+    entryHint = Color(0xFF7C7C7C),
     entryButtonBackground = Color(0xff000000),
     entryButtonText = Color(0xffFFFAFA),
     entryQuoteText = Color(0xff4E4E4E),
@@ -367,8 +375,8 @@ val DanahColors = PresentlyColors(
     timelineToolbar = Color(0xff000000),
     timelineLogo = Color(0xffFFEBE7),
     timelineOnToolbar = Color(0xffFFEBE7),
-    timelineFab = Color(0xff000000),
-    timelineOnFab = Color(0xffFFEBE7),
+    timelineFab = Color(0xFFFFE5C2),
+    timelineOnFab = Color(0xff000000),
     entryBackground = Color(0xffFFEBE7),
     entryDate = Color(0xff342E2E),
     entryBody = Color(0xff342E2E),
@@ -470,14 +478,14 @@ val BrittanyColors = PresentlyColors(
 val KatieColors = PresentlyColors(
     iconResource = R.drawable.ic_katie,
     timelineBackground = Color(0xffFEE9E6),
-    timelineLine = Color(0xff3B1011),
+    timelineLine = Color(0xff757B6D),
     timelineDate = Color(0xff241E1E),
     timelineContent = Color(0xff241E1E),
     timelineHint = Color(0xff706767),
     timelineToolbar = Color(0xffFEC2B8),
     timelineLogo = Color(0xff3B1011),
     timelineOnToolbar = Color(0xff3B1011),
-    timelineFab = Color(0xffFEC2B8),
+    timelineFab = Color(0xFFF8C9C2),
     timelineOnFab = Color(0xff3B1011),
     entryBackground = Color(0xffFEE9E6),
     entryDate = Color(0xff241E1E),
@@ -491,6 +499,7 @@ val KatieColors = PresentlyColors(
 
 val LotusColors = PresentlyColors(
     iconResource = R.drawable.ic_lotus,
+    shouldTintIcon = true,
     timelineBackground = Color(0xffF2C1C1),
     timelineLine = Color(0xff4D1616),
     timelineDate = Color(0xff4D1616),
@@ -513,6 +522,7 @@ val LotusColors = PresentlyColors(
 
 val MonsteraColors = PresentlyColors(
     iconResource = R.drawable.ic_monstera,
+    shouldTintIcon = true,
     timelineBackground = Color(0xffFFFFFF),
     timelineLine = Color(0xff000000),
     timelineDate = Color(0xff000000),
@@ -535,6 +545,7 @@ val MonsteraColors = PresentlyColors(
 
 val CloudColors = PresentlyColors(
     iconResource = R.drawable.clouds,
+    shouldTintIcon = true,
     timelineBackground = Color(0xff3EBCE4),
     timelineLine = Color(0xffFFFFFF),
     timelineDate = Color(0xffFFFFFF),
@@ -543,8 +554,8 @@ val CloudColors = PresentlyColors(
     timelineToolbar = Color(0xffFFFFFF),
     timelineLogo = Color(0xff000000),
     timelineOnToolbar = Color(0xff000000),
-    timelineFab = Color(0xffFFFFFF),
-    timelineOnFab = Color(0xff000000),
+    timelineFab = Color(0xFF9ADAEE),
+    timelineOnFab = Color(0xffFFFFFF),
     entryBackground = Color(0xff3EBCE4),
     entryDate = Color(0xff000000),
     entryBody = Color(0xff000000),
@@ -557,6 +568,7 @@ val CloudColors = PresentlyColors(
 
 val MatisseColors = PresentlyColors(
     iconResource = R.drawable.ic_matisse,
+    shouldTintIcon = true,
     timelineBackground = Color(0xff7D727B),
     timelineLine = Color(0xff332626),
     timelineDate = Color(0xff332626),
@@ -584,7 +596,7 @@ val DaisyColors = PresentlyColors(
     timelineDate = Color(0xff373E39),
     timelineContent = Color(0xff373E39),
     timelineHint = Color(0xff7E837F),
-    timelineToolbar = Color(0xff373E39),
+    timelineToolbar = Color(0xFF88AD92),
     timelineLogo = Color(0xffFFFFFF),
     timelineOnToolbar = Color(0xffFFFFFF),
     timelineFab = Color(0xff373E39),
@@ -602,14 +614,14 @@ val DaisyColors = PresentlyColors(
 val RosieColors = PresentlyColors(
     iconResource = R.drawable.ic_rosie,
     timelineBackground = Color(0xffF1DDD4),
-    timelineLine = Color(0xffD26635),
+    timelineLine = Color(0xFFE4875D),
     timelineDate = Color(0xff797979),
     timelineContent = Color(0xff797979),
     timelineHint = Color(0xffAAA09C),
     timelineToolbar = Color(0xffD26635),
     timelineLogo = Color(0xffF1DDD4),
     timelineOnToolbar = Color(0xffF1DDD4),
-    timelineFab = Color(0xffD26635),
+    timelineFab = Color(0xFFE4875D),
     timelineOnFab = Color(0xffF1DDD4),
     entryBackground = Color(0xffF1DDD4),
     entryDate = Color(0xff797979),
@@ -631,7 +643,7 @@ val TulipColors = PresentlyColors(
     timelineToolbar = Color(0xff4E603A),
     timelineLogo = Color(0xffE6D4CC),
     timelineOnToolbar = Color(0xffE6D4CC),
-    timelineFab = Color(0xff4E603A),
+    timelineFab = Color(0xFF748562),
     timelineOnFab = Color(0xffE6D4CC),
     entryBackground = Color(0xffE6C5B6),
     entryDate = Color(0xff474747),
@@ -643,18 +655,19 @@ val TulipColors = PresentlyColors(
     debugColor1 = Color(0xff510998)
 )
 
+// todo sunlight colors don't feel quite right
 val SunlightColors = PresentlyColors(
     iconResource = R.drawable.ic_sunshine,
     timelineBackground = Color(0xffFCF8D4),
-    timelineLine = Color(0xffF1AF1B),
+    timelineLine = Color(0xFFF1C35D),
     timelineDate = Color(0xff797979),
     timelineContent = Color(0xff797979),
     timelineHint = Color(0xffAAA09C),
-    timelineToolbar = Color(0xffF1AF1B),
+    timelineToolbar = Color(0xFFF1C35D),
     timelineLogo = Color(0xffFCF8D4),
     timelineOnToolbar = Color(0xffFCF8D4),
-    timelineFab = Color(0xffF1AF1B),
-    timelineOnFab = Color(0xffFCF8D4),
+    timelineFab = Color(0xFFC9F2FF),
+    timelineOnFab = Color(0xffE9A61A),
     entryBackground = Color(0xffFCF8D4),
     entryDate = Color(0xff797979),
     entryBody = Color(0xff797979),
@@ -667,6 +680,7 @@ val SunlightColors = PresentlyColors(
 
 val WesternColors = PresentlyColors(
     iconResource = R.drawable.ic_cactus,
+    shouldTintIcon = true,
     timelineBackground = Color(0xff282828),
     timelineLine = Color(0xffB1977E),
     timelineDate = Color(0xffB1977E),
@@ -733,6 +747,7 @@ val BeachColors = PresentlyColors(
 
 val WavesColors = PresentlyColors(
     iconResource = R.drawable.ic_wave,
+    shouldTintIcon = true,
     timelineBackground = Color(0xff96B8D8),
     timelineLine = Color(0xff000000),
     timelineDate = Color(0xff000000),
@@ -755,6 +770,7 @@ val WavesColors = PresentlyColors(
 
 val GelatoColors = PresentlyColors(
     iconResource = R.drawable.ic_flower,
+    shouldTintIcon = true,
     timelineBackground = Color(0xffC7A8A8),
     timelineLine = Color(0xff000000),
     timelineDate = Color(0xff000000),
@@ -777,6 +793,7 @@ val GelatoColors = PresentlyColors(
 
 val GlacierColors = PresentlyColors(
     iconResource = R.drawable.ic_cube,
+    shouldTintIcon = true,
     timelineBackground = Color(0xffA8C7C7),
     timelineLine = Color(0xffFFFFFF),
     timelineDate = Color(0xffFFFFFF),
@@ -799,6 +816,7 @@ val GlacierColors = PresentlyColors(
 
 val CleanColors = PresentlyColors(
     iconResource = R.drawable.ic_flower,
+    shouldTintIcon = true,
     timelineBackground = Color(0xffA8C7C7),
     timelineLine = Color(0xff000000),
     timelineDate = Color(0xff000000),
@@ -821,6 +839,7 @@ val CleanColors = PresentlyColors(
 
 val MossColors = PresentlyColors(
     iconResource = R.drawable.ic_flower,
+    shouldTintIcon = true,
     timelineBackground = Color(0xff7F9975),
     timelineLine = Color(0xff000000),
     timelineDate = Color(0xff000000),
@@ -843,6 +862,7 @@ val MossColors = PresentlyColors(
 
 val WesleyColors = PresentlyColors(
     iconResource = R.drawable.ic_cube,
+    shouldTintIcon = true,
     timelineBackground = Color(0xff000000),
     timelineLine = Color(0xffFFFFFF),
     timelineDate = Color(0xffFFFFFF),
@@ -865,6 +885,7 @@ val WesleyColors = PresentlyColors(
 
 val IvyColors = PresentlyColors(
     iconResource = R.drawable.ic_flower,
+    shouldTintIcon = true,
     timelineBackground = Color(0xff374F4B),
     timelineLine = Color(0xff131515),
     timelineDate = Color(0xff131515),
@@ -886,7 +907,8 @@ val IvyColors = PresentlyColors(
 )
 
 val MidnightColors = PresentlyColors(
-    iconResource = R.drawable.ic_moon,
+    iconResource = R.drawable.ic_moon, //todo this icon is the wrong color now
+    shouldTintIcon = true,
     timelineBackground = Color(0xff28262C),
     timelineLine = Color(0xff484349),
     timelineDate = Color(0xff8A878B),
@@ -908,7 +930,8 @@ val MidnightColors = PresentlyColors(
 )
 
 val DawnColors = PresentlyColors(
-    iconResource = R.drawable.ic_sun_icon,
+    iconResource = R.drawable.ic_sun_icon, //todo this icon is the wrong color now
+    shouldTintIcon = true,
     timelineBackground = Color(0xff4F5D75),
     timelineLine = Color(0xff2D3142),
     timelineDate = Color(0xffBFC0C0),
@@ -931,6 +954,7 @@ val DawnColors = PresentlyColors(
 
 val MoonlightColors = PresentlyColors(
     iconResource = R.drawable.ic_moon,
+    shouldTintIcon = true,
     timelineBackground = Color(0xff091016),
     timelineLine = Color(0xff838383),
     timelineDate = Color(0xff838383),
@@ -953,6 +977,7 @@ val MoonlightColors = PresentlyColors(
 
 val SunsetColors = PresentlyColors(
     iconResource = R.drawable.ic_sun_icon,
+    shouldTintIcon = true,
     timelineBackground = Color(0xff303030),
     timelineLine = Color(0xffA47272),
     timelineDate = Color(0xffA47272),
