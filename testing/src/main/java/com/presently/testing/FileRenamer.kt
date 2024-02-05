@@ -60,7 +60,7 @@ object FileRenamer {
         }
     }
 
-    //uses reflection to gt the PROJECT_PATH value from the BuildConfig.java
+    //uses reflection to get the PROJECT_PATH value from the BuildConfig.java
     private fun getProjectPath(context: Context): String? {
         try {
             val info = context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
