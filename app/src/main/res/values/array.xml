@@ -43,6 +43,7 @@
         <item>@string/language_tr</item>
         <item>@string/language_af</item>
         <item>@string/language_zh_hk</item>
+        <item>@string/language_he</item>
     </string-array>
 
     <string-array name="AppLanguageValues">
@@ -64,5 +65,6 @@
         <item>tr</item>
         <item>af</item>
         <item>zh-HK</item>
+        <item>he</item>
     </string-array>
 </resources>
