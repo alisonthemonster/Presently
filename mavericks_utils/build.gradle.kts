@@ -42,7 +42,6 @@ android {
     dependencies {
         implementation(Libraries.kotlin_stdlib)
         implementation(Libraries.mavericks)
-        implementation(Libraries.mavericks_mocking)
 
         //dependency injection
         implementation(Libraries.dagger)

@@ -49,6 +49,6 @@ dependencies {
     implementation(TestLibraries.hilt_android_testing)
     kapt(Libraries.hilt_compiler)
 
-    debugImplementation(TestLibraries.fragment_testing)
+    implementation(TestLibraries.fragment_testing)
     debugImplementation(project(":ui"))
 }

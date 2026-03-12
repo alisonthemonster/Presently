@@ -2,11 +2,10 @@ package journal.gratitude.com.gratitudejournal
 
 import android.app.Application
 import android.content.Context
+import com.airbnb.mvrx.Mavericks
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import com.airbnb.mvrx.mocking.MockableMavericks
-import com.google.android.play.core.splitcompat.SplitCompat
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EarlyEntryPoint
@@ -34,8 +33,9 @@ open class BaseGratitudeApplication: Application() {
         configureWorkManager()
 
         AndroidThreeTen.init(this)
-
-        MockableMavericks.initialize(this)
+        Mavericks.initialize(this)
+        // TODO: If Mavericks runtime mocking is needed again, re-enable it only after upgrading
+        // to a version that is compatible with Android 13+ dynamic receiver registration rules.
     }
 
     private fun configureWorkManager() {
@@ -46,11 +46,4 @@ open class BaseGratitudeApplication: Application() {
             .build()
         WorkManager.initialize(this, config)
     }
-
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(base)
-        // Emulates installation of future on demand modules using SplitCompat.
-        SplitCompat.install(this)
-    }
-
 }
