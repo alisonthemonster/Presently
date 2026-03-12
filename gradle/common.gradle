@@ -2,6 +2,9 @@ subprojects { Project project ->
     project.afterEvaluate {
         if (project.plugins.hasPlugin('com.android.library') || project.plugins.hasPlugin('com.android.application')) {
             project.android {
+                buildFeatures {
+                    buildConfig = true
+                }
                 defaultConfig {
                     //Used by custom test runner to tell FTL the module name
                     buildConfigField "String", "PROJECT_PATH", "\"" + project.path + "\""
@@ -10,4 +13,3 @@ subprojects { Project project ->
         }
     }
 }
-

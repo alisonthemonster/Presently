@@ -69,6 +69,8 @@ class EntryViewPagerViewModel @AssistedInject constructor(
     }
 
     companion object :
-        MavericksViewModelFactory<EntryViewPagerViewModel, EntryViewPagerState> by hiltMavericksViewModelFactory()
+        MavericksViewModelFactory<EntryViewPagerViewModel, EntryViewPagerState> by hiltMavericksViewModelFactory(
+            EntryViewPagerViewModel::class.java
+        )
 
 }

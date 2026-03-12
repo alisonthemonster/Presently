@@ -1,55 +1,55 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
-    ext {
-        kotlin_version = '1.4.32'
-    }
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
+        gradlePluginPortal()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jacoco:org.jacoco.core:0.8.7"
-        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
-        classpath 'com.google.gms:google-services:4.3.8'
-        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.4'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
-        classpath 'com.facebook.testing.screenshot:plugin:0.13.0'
-        classpath "com.osacky.flank.gradle:fladle:0.15.1"
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.38.1'
+        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.10'
     }
 }
 
 plugins {
-    id 'com.osacky.fulladle' version '0.15.1'
+    id 'com.android.application' version '8.8.2' apply false
+    id 'com.android.library' version '8.8.2' apply false
+    id 'org.jetbrains.kotlin.android' version '2.1.20' apply false
+    id 'org.jetbrains.kotlin.kapt' version '2.1.20' apply false
+    id 'org.jetbrains.kotlin.plugin.parcelize' version '2.1.20' apply false
+    id 'com.google.dagger.hilt.android' version '2.57.2' apply false
+    id 'com.google.gms.google-services' version '4.4.4' apply false
+    id 'com.google.firebase.crashlytics' version '3.0.6' apply false
+    id 'io.screenshotbot.screenshot-tests-for-android' version '0.18.0' apply false
+    id 'com.osacky.fulladle' version '0.19.0' apply false
 }
 
-fladle {
-    serviceAccountCredentials = project.file("gcloud-service-key.json")
-    projectId = "gratitude-journal-app"
+if (project.hasProperty("enableFladle")) {
+    apply plugin: 'com.osacky.fulladle'
 
-    flankVersion = "21.05.0"
+    fladle {
+        serviceAccountCredentials = project.file("gcloud-service-key.json")
+        projectId = "gratitude-journal-app"
 
-    directoriesToPull = [
-            "/sdcard"
-    ]
+        flankVersion = "21.05.0"
 
-    filesToDownload = [
-            "JUnitReport.xml",
-            ".*/coverage/.*",
-            ".*/sdcard/[^/]+\\.ec\$"
-    ]
+        directoriesToPull = [
+                "/sdcard"
+        ]
 
-    environmentVariables = [
-            coverage : "true",
-            coverageFile: "/sdcard/coverage.ec"
-    ]
+        filesToDownload = [
+                "JUnitReport.xml",
+                ".*/coverage/.*",
+                ".*/sdcard/[^/]+\\.ec\$"
+        ]
 
-    devices = [
-            [ "model": "walleye", "version": "27", "locale": "en_US", "orientation": "portrait" ],
-    ]
+        environmentVariables = [
+                coverage : "true",
+                coverageFile: "/sdcard/coverage.ec"
+        ]
+
+        devices = [
+                [ "model": "walleye", "version": "27", "locale": "en_US", "orientation": "portrait" ],
+        ]
+    }
 }
 
 apply from: 'gradle/jacoco_ci.gradle'
@@ -59,8 +59,5 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url 'https://maven.google.com/'
-        }
     }
 }

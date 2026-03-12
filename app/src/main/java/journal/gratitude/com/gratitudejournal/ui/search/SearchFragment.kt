@@ -51,7 +51,7 @@ class SearchFragment : Fragment() {
         _binding = SearchFragmentBinding.inflate(inflater, container, false)
 
         val transition =
-            TransitionInflater.from(this.activity).inflateTransition(android.R.transition.move)
+            TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
 
         sharedElementEnterTransition = ChangeBounds().apply {
             sharedElementEnterTransition = transition

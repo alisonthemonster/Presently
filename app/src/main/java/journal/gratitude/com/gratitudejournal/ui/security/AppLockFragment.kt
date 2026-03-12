@@ -57,7 +57,7 @@ class AppLockFragment : Fragment() {
     }
 
     private fun showFingerprintLock() {
-        val executor = ContextCompat.getMainExecutor(context)
+        val executor = ContextCompat.getMainExecutor(requireContext())
         val biometricPrompt = BiometricPrompt(this, executor,
                 object : BiometricPrompt.AuthenticationCallback() {
                     override fun onAuthenticationError(

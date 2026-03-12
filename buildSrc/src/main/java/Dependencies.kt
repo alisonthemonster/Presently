@@ -1,6 +1,6 @@
 object Versions {
-    const val COMPILE_SDK = 31
-    const val TARGET_SDK = 31
+    const val COMPILE_SDK = 35
+    const val TARGET_SDK = 35
     const val MIN_SDK = 23
 
     const val APP_VERSION_CODE = 90
@@ -9,9 +9,9 @@ object Versions {
     const val MINOR = 22
     const val PATCH = 2
 
-    const val KOTLIN = "1.4.32" //https://developer.android.com/jetpack/androidx/releases/core
-    const val KOTLIN_COROUTINES = "1.5.0" //https://github.com/Kotlin/kotlinx.coroutines/releases/
-    const val KOTLIN_COROUTINES_TEST = "1.3.2"
+    const val KOTLIN = "2.1.20"
+    const val KOTLIN_COROUTINES = "1.8.1"
+    const val KOTLIN_COROUTINES_TEST = "1.8.1"
     const val ANDROIDX_CORE_KTX = "1.6.0" //https://developer.android.com/jetpack/androidx/releases/core
     const val ANDROIDX_COMPAT = "1.3.0" //https://developer.android.com/jetpack/androidx/releases/appcompat
     const val ANDROIDX_CONSTRAINT = "2.0.4" //https://developer.android.com/jetpack/androidx/releases/constraintlayout
@@ -20,9 +20,9 @@ object Versions {
     const val FRAGMENT_TESTING = "1.3.4"
     const val ANDROIDX_BIOMETRIC = "1.2.0-alpha04" //https://developer.android.com/jetpack/androidx/releases/biometric
     const val ANDROIDX_TEST_JUNIT = "1.1.2"
-    const val ANDROIDX_WORK = "2.7.1" //https://developer.android.com/jetpack/androidx/releases/work
-    const val ANDROIDX_ROOM = "2.4.0-alpha03" //https://developer.android.com/jetpack/androidx/releases/room
-    const val ANDROIDX_PAGING = "3.1.0-alpha01" //https://developer.android.com/jetpack/androidx/releases/paging
+    const val ANDROIDX_WORK = "2.10.0"
+    const val ANDROIDX_ROOM = "2.7.1"
+    const val ANDROIDX_PAGING = "3.3.6"
     const val ANDROIDX_FRAGMENT_KTX = "1.3.6" //https://developer.android.com/jetpack/androidx/releases/fragment
     const val ANDROIDX_TEST_CORE_KTX = "1.3.0"
     const val ANDROIDX_TEST_ESPRESSO = "3.3.0"
@@ -31,9 +31,9 @@ object Versions {
     const val ANDROIDX_TEST_UIAUTOMATOR = "2.2.0"
     const val ANDROIDX_PREF_KTX = "1.1.1"
     const val ANDROIDX_ARCH_CORE = "2.1.0" //https://developer.android.com/jetpack/androidx/releases/arch-core
-    const val FIREBASE = "28.2.1" //https://firebase.google.com/support/release-notes/android
-    const val DAGGER = "2.38.1" //https://github.com/google/dagger/releases
-    const val HILT_ANDROID = "1.0.0" //https://developer.android.com/jetpack/androidx/releases/hilt
+    const val FIREBASE = "33.10.0"
+    const val DAGGER = "2.57.2"
+    const val HILT_ANDROID = "1.3.0"
     const val JUNIT = "4.13.2"
     const val DROPBOX_SDK = "5.1.1" //https://github.com/dropbox/dropbox-sdk-java/releases
     const val PLAY_CORE = "1.10.0"
@@ -43,8 +43,8 @@ object Versions {
     const val TRUTH = "1.1.3"
     const val MAVERICKS = "2.2.0" //https://github.com/airbnb/mavericks/releases
     const val THREE_TEN_ABP = "1.3.1" //https://github.com/JakeWharton/ThreeTenABP/tags
-    const val MATERIAL = "1.4.0-rc01"
-    const val OSS_LICENSES = "17.0.0"
+    const val MATERIAL = "1.12.0"
+    const val OSS_LICENSES = "17.1.0"
     const val COMPACT_CAL_VIEW = "3.0.0"
     const val APACHE = "1.6"
     const val RX_JAVA = "2.2.9"
@@ -52,7 +52,7 @@ object Versions {
     const val RX_KOTLIN = "2.3.0"
     const val RX_BINDING = "2.1.1"
     const val ESPRESSO = "3.3.0"
-    const val TEST_ORCHESTRATOR = "1.0.2"
+    const val TEST_ORCHESTRATOR = "1.5.1"
 }
 
 object Libraries {
@@ -87,6 +87,7 @@ object Libraries {
    const val androidx_room_ktx = "androidx.room:room-ktx:${Versions.ANDROIDX_ROOM}"
    const val androidx_room_runtime = "androidx.room:room-runtime:${Versions.ANDROIDX_ROOM}"
    const val androidx_room_compiler = "androidx.room:room-compiler:${Versions.ANDROIDX_ROOM}"
+   const val androidx_room_paging = "androidx.room:room-paging:${Versions.ANDROIDX_ROOM}"
    const val three_ten_abp = "com.jakewharton.threetenabp:threetenabp:${Versions.THREE_TEN_ABP}"
    const val dropbox_sdk = "com.dropbox.core:dropbox-core-sdk:${Versions.DROPBOX_SDK}"
    const val play_core = "com.google.android.play:core:${Versions.PLAY_CORE}"
@@ -125,6 +126,6 @@ object TestLibraries {
     const val hilt_android_testing = "com.google.dagger:hilt-android-testing:${Versions.DAGGER}"
     const val espresso_core = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO}"
     const val espresso_contrib = "androidx.test.espresso:espresso-contrib:${Versions.ESPRESSO}"
-    const val test_orchestrator = "com.android.support.test:orchestrator:${Versions.TEST_ORCHESTRATOR}"
+    const val test_orchestrator = "androidx.test:orchestrator:${Versions.TEST_ORCHESTRATOR}"
     const val three_ten_abp = "org.threeten:threetenbp:${Versions.THREE_TEN_ABP}"
 }

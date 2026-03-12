@@ -26,7 +26,9 @@ import dagger.hilt.components.SingletonComponent
  * }
  */
 
-inline fun <reified VM : MavericksViewModel<S>, S : MavericksState> hiltMavericksViewModelFactory() = HiltMavericksViewModelFactory<VM, S>(VM::class.java)
+fun <VM : MavericksViewModel<S>, S : MavericksState> hiltMavericksViewModelFactory(
+    viewModelClass: Class<out MavericksViewModel<S>>
+) = HiltMavericksViewModelFactory<VM, S>(viewModelClass)
 
 class HiltMavericksViewModelFactory<VM : MavericksViewModel<S>, S : MavericksState>(
     private val viewModelClass: Class<out MavericksViewModel<S>>

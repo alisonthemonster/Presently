@@ -9,6 +9,22 @@ final ignoredByJacoco = [
         'coroutine_utils'
     ]
 
+def setReportEnabled = { report, value ->
+    if (report.hasProperty('required')) {
+        report.required.set(value)
+    } else {
+        report.enabled = value
+    }
+}
+
+def setReportOutput = { report, value ->
+    if (report.hasProperty('outputLocation')) {
+        report.outputLocation.set(value)
+    } else {
+        report.destination = value
+    }
+}
+
 /**
  *  Apply additional build steps to sub-projects
  */
@@ -33,9 +49,9 @@ subprojects { prj ->
             description = 'Generate Jacoco coverage'
 
             reports {
-                csv.enabled = true
-                xml.enabled = false
-                html.enabled = true
+                setReportEnabled(csv, true)
+                setReportEnabled(xml, false)
+                setReportEnabled(html, true)
             }
 
             // Excluded files
@@ -122,14 +138,14 @@ task jacocoFullReport(type: JacocoReport, group: 'Coverage reports') {
     executionData.setFrom files(projects.jacocoReport.executionData)
 
     reports {
-        xml.enabled = true
+        setReportEnabled(xml, true)
         html {
-            enabled true
-            destination file('build/reports/jacoco/html')
+            setReportEnabled(it, true)
+            setReportOutput(it, file('build/reports/jacoco/html'))
         }
         csv {
-            enabled true
-            destination file('build/reports/jacoco/jacocoFullReport.csv')
+            setReportEnabled(it, true)
+            setReportOutput(it, file('build/reports/jacoco/jacocoFullReport.csv'))
         }
     }
 

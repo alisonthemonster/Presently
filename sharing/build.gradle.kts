@@ -1,13 +1,14 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("kotlin-parcelize")
-    id("com.facebook.testing.screenshot")
-    id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
+    id("org.jetbrains.kotlin.plugin.parcelize")
+    id("io.screenshotbot.screenshot-tests-for-android")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
+    namespace = "com.presently.sharing"
     compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
@@ -29,21 +30,23 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
     buildFeatures {
         viewBinding = true
     }
 
-    packagingOptions {
-        exclude ("META-INF/AL2.0")
-        exclude ("META-INF/LGPL2.1")
+    packaging {
+        resources {
+            excludes += "META-INF/AL2.0"
+            excludes += "META-INF/LGPL2.1"
+        }
     }
 }
 

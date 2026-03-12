@@ -7,7 +7,7 @@ import journal.gratitude.com.gratitudejournal.model.CsvFileError
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvString
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyString
 import org.threeten.bp.LocalDate
@@ -21,9 +21,9 @@ class FileExporterTest  {
 
     private val writer = mock<FileWriter>()
     private val dispatchers = AppCoroutineDispatchers(
-        io = TestCoroutineDispatcher(),
-        computation = TestCoroutineDispatcher(),
-        main = TestCoroutineDispatcher()
+        io = StandardTestDispatcher(),
+        computation = StandardTestDispatcher(),
+        main = StandardTestDispatcher()
     )
     private val fileExporter = FileExporter(writer, dispatchers)
 
