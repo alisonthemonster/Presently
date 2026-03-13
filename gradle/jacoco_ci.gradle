@@ -1,13 +1,7 @@
 /**
- *  List of modules that don't require code coverage
+ * Presently now builds as a single app module, so no subprojects are excluded from coverage.
  */
-final ignoredByJacoco = [
-        'ui',
-        'strings',
-        'mavericks_utils',
-        'testing',
-        'coroutine_utils'
-    ]
+final ignoredByJacoco = []
 
 def setReportEnabled = { report, value ->
     if (report.hasProperty('required')) {
@@ -126,7 +120,7 @@ jacoco {
 }
 
 /**
- *  Root task that generates an aggregated Jacoco test coverage report for all sub-projects
+ * Root task that generates the JaCoCo coverage report for the current Gradle subprojects.
  */
 task jacocoFullReport(type: JacocoReport, group: 'Coverage reports') {
     group = 'Reporting'
