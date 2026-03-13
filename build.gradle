@@ -47,7 +47,7 @@ if (project.hasProperty("enableFladle")) {
         ]
 
         devices = [
-                [ "model": "walleye", "version": "27", "locale": "en_US", "orientation": "portrait" ],
+                [ "model": "Pixel2.arm", "version": "27", "locale": "en_US", "orientation": "portrait" ],
         ]
     }
 }
