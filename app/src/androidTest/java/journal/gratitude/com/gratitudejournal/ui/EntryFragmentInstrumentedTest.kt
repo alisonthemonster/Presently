@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.ui
 
-import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.KeyEvent
@@ -11,7 +13,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.RootMatchers.isDialog
-import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -36,6 +37,7 @@ import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 import com.presently.testing.launchFragmentInHiltContainer
+import junit.framework.TestCase.assertEquals
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryArgs
 
 @HiltAndroidTest
@@ -261,20 +263,23 @@ class EntryFragmentInstrumentedTest {
 
         val args = EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList())
 
-        val scenario = launchFragmentInHiltContainer<EntryFragment>(
+        launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = args.asMavericksArgs()
         )
 
-        var activity: Activity? = null
-        scenario?.onActivity { act ->
-            activity = act
-        }
+        val clipboard = InstrumentationRegistry
+            .getInstrumentation()
+            .targetContext
+            .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.setPrimaryClip(ClipData.newPlainText("Gratitude quote", ""))
 
         onView(withId(R.id.inspiration)).perform(longClick())
 
-        onView(withText(R.string.copied)).inRoot(withDecorView(not((activity?.window?.decorView))))
-            .check(matches(isDisplayed()))
+        val copiedText = clipboard.primaryClip?.getItemAt(0)?.coerceToText(
+            InstrumentationRegistry.getInstrumentation().targetContext
+        )?.toString()
+        assertEquals("quote", copiedText)
     }
 
     //these tests are all together to save testing debounce time
@@ -284,7 +289,7 @@ class EntryFragmentInstrumentedTest {
 
         val args = EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList())
 
-        launchFragmentInHiltContainer<EntryFragment>(
+        val scenario = launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = args.asMavericksArgs()
         )
@@ -303,21 +308,26 @@ class EntryFragmentInstrumentedTest {
         onView(isRoot()).perform(waitFor(550))
 
         //back is pressed
-        val mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        mDevice.pressBack()
+        scenario?.onActivity {
+            it.onBackPressedDispatcher.onBackPressed()
+        }
 
         //dialog is displayed
-        onView(withText(R.string.are_you_sure)).check(matches(isDisplayed()))
+        onView(isRoot()).perform(waitFor(250))
+        onView(withText(R.string.are_you_sure)).inRoot(isDialog()).check(matches(isDisplayed()))
 
         //cancel is pressed
-        onView(withId(android.R.id.button1)).perform(click())
+        onView(withId(android.R.id.button2)).inRoot(isDialog()).perform(click())
         onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
 
         //back pressed again
-        mDevice.pressBack()
+        scenario?.onActivity {
+            it.onBackPressedDispatcher.onBackPressed()
+        }
 
         //continue clicked
-        onView(withId(android.R.id.button2)).perform(click())
+        onView(isRoot()).perform(waitFor(250))
+        onView(withId(android.R.id.button1)).inRoot(isDialog()).perform(click())
         onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
     }
 
@@ -327,13 +337,14 @@ class EntryFragmentInstrumentedTest {
 
         val args = EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList())
 
-        launchFragmentInHiltContainer<EntryFragment>(
+        val scenario = launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
             fragmentArgs = args.asMavericksArgs()
         )
 
-        val mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        mDevice.pressBack()
+        scenario?.onActivity {
+            it.onBackPressedDispatcher.onBackPressed()
+        }
 
         onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
     }

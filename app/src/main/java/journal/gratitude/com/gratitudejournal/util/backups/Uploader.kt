@@ -94,7 +94,12 @@ class RealUploader @Inject constructor(
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
         val helpPagePendingIntent: PendingIntent =
-            PendingIntent.getActivity(appContext, 0, helpPageIntent, 0)
+            PendingIntent.getActivity(
+                appContext,
+                0,
+                helpPageIntent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
 
         val accountPageIntent =
             Intent(
@@ -104,7 +109,12 @@ class RealUploader @Inject constructor(
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
         val accountPagePendingIntent: PendingIntent =
-            PendingIntent.getActivity(appContext, 0, accountPageIntent, 0)
+            PendingIntent.getActivity(
+                appContext,
+                0,
+                accountPageIntent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
 
         val notificationBodyText = appContext.getString(R.string.dropbox_too_full_notif_body)
 

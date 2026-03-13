@@ -23,8 +23,10 @@ import journal.gratitude.com.gratitudejournal.model.UploadError
 import journal.gratitude.com.gratitudejournal.model.UploadSuccess
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.CloudProvider
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.threeten.bp.LocalDate
@@ -33,14 +35,15 @@ import java.io.File
 import java.lang.Exception
 import kotlin.test.fail
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class UploaderTest {
 
     private val context = ApplicationProvider.getApplicationContext<Context>()
 
-    private val dispatchers = AppCoroutineDispatchers(
-        io = StandardTestDispatcher(),
-        computation = StandardTestDispatcher(),
-        main = StandardTestDispatcher()
+    private fun TestScope.createDispatchers() = AppCoroutineDispatchers(
+        io = StandardTestDispatcher(testScheduler),
+        computation = StandardTestDispatcher(testScheduler),
+        main = StandardTestDispatcher(testScheduler)
     )
 
     private val repo = object : EntryRepository {
@@ -119,6 +122,7 @@ class UploaderTest {
     @Test
     fun emptyRepositoryDoesNothing() = runTest {
         wasCloudProviderCalled = false
+        val dispatchers = createDispatchers()
         val repo = object : EntryRepository {
             override suspend fun getEntries(): List<Entry> {
                 return emptyList()
@@ -143,6 +147,7 @@ class UploaderTest {
     @Test
     fun successfulUpload() = runTest {
         wasCloudProviderCalled = false
+        val dispatchers = createDispatchers()
         val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings)
         val actual = uploader.uploadEntries(context)
 
@@ -154,6 +159,7 @@ class UploaderTest {
     fun invalidAccessTokenUpload() = runTest {
         wasAccessTokenCleared = false
         crashReporter.loggedException = null
+        val dispatchers = createDispatchers()
         val exception = InvalidAccessTokenException("requestId", "message", INVALID_ACCESS_TOKEN)
         val cloudProvider = object : CloudProvider {
             override suspend fun uploadToCloud(file: File): CloudUploadResult {
@@ -173,6 +179,7 @@ class UploaderTest {
     fun insufficientSpaceUpload() = runTest {
         wasAccessTokenCleared = false
         crashReporter.loggedException = null
+        val dispatchers = createDispatchers()
         val exception = UploadErrorException("/route", "requestId", LocalizedText("insufficient_space", "en_US"), OTHER)
         val cloudProvider = object : CloudProvider {
             override suspend fun uploadToCloud(file: File): CloudUploadResult {
