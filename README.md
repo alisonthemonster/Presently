@@ -157,8 +157,3 @@ Reports are written to:
 
 - HTML: `build/reports/jacoco/html/index.html`
 - XML: `build/reports/jacoco/jacocoFullReport/jacocoFullReport.xml`
-
-### Project Structure
-
-Presently now uses a single Android app module. Shared code that previously lived in small library
-modules has been folded back into `app/` to keep the repo easier to navigate.
