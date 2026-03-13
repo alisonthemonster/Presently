@@ -7,9 +7,6 @@ plugins {
     id("org.jetbrains.kotlin.plugin.parcelize")
     id("io.screenshotbot.screenshot-tests-for-android")
     id("com.google.dagger.hilt.android")
-    // TODO: Make Firebase opt-in for OSS/local builds via a Gradle property such as
-    // -PenableFirebase=true, use no-op analytics/crash-reporting bindings by default,
-    // and have CI inject the real google-services.json only for release builds.
     id("com.google.android.gms.oss-licenses-plugin")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
