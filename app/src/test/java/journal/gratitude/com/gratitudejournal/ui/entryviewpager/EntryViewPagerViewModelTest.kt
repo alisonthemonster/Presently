@@ -6,19 +6,25 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.Rule
 import org.junit.Test
 import org.threeten.bp.LocalDate
 import kotlin.test.assertEquals
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class EntryViewPagerViewModelTest {
 
     private val repository = mock<EntryRepository>()
 
     @get:Rule
-    val mvrxRule = MvRxTestRule()
+    val mvrxRule = MvRxTestRule(
+        testDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler())
+    )
 
     @Test
     fun `GIVEN empty list WHEN getEntriesFlow called THEN the list should have Today and Yesterday`() {

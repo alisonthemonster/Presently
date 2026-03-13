@@ -6,17 +6,16 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import journal.gratitude.com.gratitudejournal.util.LiveDataTestUtil
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.model.TimelineItem
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.testUtils.MainDispatcherRule
+import journal.gratitude.com.gratitudejournal.util.LiveDataTestUtil
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,11 +29,15 @@ class TimelineViewModelTest {
     @JvmField
     val rule = InstantTaskExecutorRule()
 
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     @Before
     fun setUp() {
-        Dispatchers.setMain(mainThreadSurrogate)
+        runBlocking {
+            whenever(repository.getEntriesFlow()).thenReturn(flowOf(emptyList()))
+            whenever(repository.getWrittenDates()).thenReturn(MutableLiveData(emptyList()))
+        }
     }
 
     @Test

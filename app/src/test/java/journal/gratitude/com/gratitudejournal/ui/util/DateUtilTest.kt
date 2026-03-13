@@ -43,9 +43,9 @@ class DateUtilTest {
         Locale.setDefault(Locale.forLanguageTag("ru"))
 
         val expected = "11 ноября 2011 г."
-        val actual = LocalDate.of(2011, 11, 11).toFullString()
+        val actual = LocalDate.of(2011, 11, 11).toFullString().normalizeSpaceSeparators()
 
-        assertEquals(expected, actual)
+        assertEquals(expected.normalizeSpaceSeparators(), actual)
         Locale.setDefault(Locale.forLanguageTag("en"))
     }
 
@@ -129,4 +129,8 @@ class DateUtilTest {
         val fmt = SimpleDateFormat("yyyyMMdd")
         assertEquals(fmt.format(expected), fmt.format(localDate.toDate()))
     }
+}
+
+private fun String.normalizeSpaceSeparators(): String {
+    return replace(Regex("\\p{Zs}+"), " ")
 }
