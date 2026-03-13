@@ -485,7 +485,7 @@ class ThemeFragment : Fragment() {
 
         val window = requireActivity().window
         val typedValue = TypedValue()
-        requireActivity().theme.resolveAttribute(com.presently.sharing.R.attr.toolbarColor, typedValue, true)
+        requireActivity().theme.resolveAttribute(R.attr.toolbarColor, typedValue, true)
         setStatusBarColorsForBackground(window, typedValue.data)
         window.statusBarColor = typedValue.data
     }

@@ -53,21 +53,112 @@ unit tests but will not run instrumented tests. A repo owner will run those test
 secret keys. You can set DROPBOX_KEY in local.properties if you want to test Dropbox features
 locally.
 
+### Translation Guide
+
+Presently is translated by volunteers. All translatable app copy now lives under
+`app/src/main/res`, so translators only need to work in that tree.
+
+#### Translate via GitHub
+
+1. Fork this repository.
+2. In your fork, create a new directory in `app/src/main/res/` named `values-XX`, where `XX` is
+   your language locale code. For locale codes and special variants such as Brazilian Portuguese,
+   refer to the [IANA language subtag registry](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry).
+3. Create `app/src/main/res/values-XX/presently_strings.xml` and copy the contents of
+   `app/src/main/res/values/presently_strings.xml` into it.
+4. Translate every string except the ones marked `translatable="false"`.
+5. Create `app/src/main/res/values-XX/presently_prompts.xml` and copy the contents of
+   `app/src/main/res/values/presently_prompts.xml` into it.
+6. Translate every item in that file.
+7. Add your Play Store listing translation to the end of
+   `StoreListing.md`. Please keep the first line under 50 characters and the second under 80:
+
+```text
+[NOTE TO TRANSLATORS: please keep the following line under 50 characters long]
+
+Presently: A gratitude journal
+
+[NOTE TO TRANSLATORS: please keep the following line under 80 characters long]
+
+Celebrate your daily life with Presently, a free & private gratitude journal
+
+[NOTE TO TRANSLATORS: no length limits below this point, translate however you like!]
+
+Practice gratitude with this simple, always free, and private gratitude journaling app.
+
+Presently lets you: ⁕ Record daily entries of gratitude ⁕ Reflect back on your past moments of gratitude ⁕ Find motivation through quotes and prompts ⁕ Set daily reminders to continue your gratitude practice ⁕ Lock your entries with fingerprint or face id ⁕ Automatically back up your entries to Dropbox ⁕ Search your old entries ⁕ Share your entries with family and friends ⁕ Export/import your entries ⁕ Switch to your favorite color scheme
+
+Presently is 100% free and ad free. All of your entries stay on your device and in your control.
+```
+
+8. Optional: create `app/src/main/res/values-XX/presently_inspirations.xml` from
+   `app/src/main/res/values/presently_inspirations.xml` and translate it. This file contains
+   gratitude quotes, so it is appreciated but not required.
+9. Add your language label to `app/src/main/res/values/strings.xml`:
+
+```xml
+<string name="language_XX" translatable="false">LANGUAGE</string>
+```
+
+Replace `XX` with your locale code and `LANGUAGE` with the language name written in that language
+such as `Français`, `English`, or `русский`.
+
+10. Add your language to the `AppLanguage` and `AppLanguageValues` arrays in
+    `app/src/main/res/values/array.xml`.
+11. Open a pull request with a short description of the translation.
+12. Respond to review comments if needed. Once approved, the translation will ship in a future release.
+
+#### Translate Without GitHub
+
+If you do not want to use GitHub, email your translated files to
+`gratitude.journal.app@gmail.com`.
+
+Send:
+- `presently_strings.xml`
+- `presently_prompts.xml`
+- your translated Play Store listing text
+- optional `presently_inspirations.xml`
+
+Use these source files as the starting point:
+- `app/src/main/res/values/presently_strings.xml`
+- `app/src/main/res/values/presently_prompts.xml`
+- `app/src/main/res/values/presently_inspirations.xml`
+
+#### Translating XML
+
+String resources look like this:
+
+```xml
+<string name="key_name">Translate me!</string>
+```
+
+Only translate the text between the tags. Some characters such as `'` must be escaped in Android
+XML. See the Android docs on [string resource escaping](https://developer.android.com/guide/topics/resources/string-resource#escaping_quotes).
+
+String arrays look like this:
+
+```xml
+<resources>
+    <string-array name="prompts">
+        <item>What is something that made you smile?</item>
+    </string-array>
+</resources>
+```
+
+Only translate the text inside each `<item>...</item>`.
+
 ### Local coverage
 
 Use the local coverage helper script:
 - Unit tests only: `./scripts/local_coverage.sh`
 - Unit tests + connected Android tests for `app`: `./scripts/local_coverage.sh --connected`
-- Unit tests + connected Android tests for `app` and `sharing`: `./scripts/local_coverage.sh --connected --connected-sharing`
 
 Reports are written to:
 
 - HTML: `build/reports/jacoco/html/index.html`
 - XML: `build/reports/jacoco/jacocoFullReport/jacocoFullReport.xml`
 
-### Dependency Graph
+### Project Structure
 
-Presently is a small and simple app, did it need modularizing? Probably not. But Presently also
-servees as a playground for me for trying out new technologies and keeping up with best practices.
-Here's how we've broken down the app so far.
-![](dependency-graph/project.dot.png)
+Presently now uses a single Android app module. Shared code that previously lived in small library
+modules has been folded back into `app/` to keep the repo easier to navigate.
