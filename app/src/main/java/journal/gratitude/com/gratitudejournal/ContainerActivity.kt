@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.play.core.splitcompat.SplitCompat
 import com.presently.logging.AnalyticsLogger
 import com.presently.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +39,6 @@ class ContainerActivity : AppCompatActivity() {
         val settings = EntryPointAccessors.fromApplication(newBase, SettingsEntryPoint::class.java).settings
         val context: Context = LocaleHelper.onAppAttached(newBase, settings)
         super.attachBaseContext(context)
-        SplitCompat.installActivity(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +75,7 @@ class ContainerActivity : AppCompatActivity() {
         val status = googleApiAvailability.isGooglePlayServicesAvailable(activity)
         if (status != ConnectionResult.SUCCESS) {
             if (googleApiAvailability.isUserResolvableError(status)) {
-                googleApiAvailability.getErrorDialog(activity, status, 2404).show()
+                googleApiAvailability.getErrorDialog(activity, status, 2404)?.show()
             }
             return false
         }

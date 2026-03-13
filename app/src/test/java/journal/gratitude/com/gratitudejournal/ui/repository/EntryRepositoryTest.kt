@@ -6,7 +6,7 @@ import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.repository.EntryRepositoryImpl
 import journal.gratitude.com.gratitudejournal.room.EntryDao
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.threeten.bp.LocalDate
 import kotlin.test.Test
@@ -24,14 +24,14 @@ class EntryRepositoryTest {
     }
 
     @Test
-    fun getEntry_CallsDaoOnce() = runBlockingTest {
+    fun getEntry_CallsDaoOnce() = runTest {
         repository.getEntry(LocalDate.now())
 
         verify(entryDao, times(1)).getEntry(any())
     }
 
     @Test
-    fun getEntry_CallsDaoWithRightDate() = runBlockingTest {
+    fun getEntry_CallsDaoWithRightDate() = runTest {
         val expectedDate = LocalDate.now()
         repository.getEntry(expectedDate)
 

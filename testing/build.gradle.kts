@@ -1,12 +1,13 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("com.facebook.testing.screenshot")
-    id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
+    id("io.screenshotbot.screenshot-tests-for-android")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
+    namespace = "com.presently.testing"
     compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
@@ -28,12 +29,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
@@ -42,12 +43,9 @@ dependencies {
     implementation(Libraries.androidx_core_ktx)
     implementation(Libraries.androidx_compat)
     implementation(Libraries.material)
-    implementation(TestLibraries.androidx_arch_testing)
+    implementation(TestLibraries.androidx_test_core_ktx)
 
     implementation(Libraries.hilt)
-    implementation(TestLibraries.hilt_android_testing)
     kapt(Libraries.hilt_compiler)
-
-    debugImplementation(TestLibraries.fragment_testing)
     debugImplementation(project(":ui"))
 }

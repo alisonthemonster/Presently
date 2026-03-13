@@ -9,6 +9,22 @@ final ignoredByJacoco = [
         'coroutine_utils'
     ]
 
+def setReportEnabled = { report, value ->
+    if (report.hasProperty('required')) {
+        report.required.set(value)
+    } else {
+        report.enabled = value
+    }
+}
+
+def setReportOutput = { report, value ->
+    if (report.hasProperty('outputLocation')) {
+        report.outputLocation.set(value)
+    } else {
+        report.destination = value
+    }
+}
+
 /**
  *  Apply additional build steps to sub-projects
  */
@@ -20,7 +36,7 @@ subprojects { prj ->
         apply plugin: 'jacoco'
 
         jacoco {
-            toolVersion = "0.8.7"
+            toolVersion = "0.8.11"
         }
 
         tasks.withType(Test) {
@@ -28,14 +44,14 @@ subprojects { prj ->
             jacoco.excludes = ['jdk.internal.*']
         }
 
-        task jacocoReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
+        task jacocoReport(type: JacocoReport) {
             group = 'Reporting'
             description = 'Generate Jacoco coverage'
 
             reports {
-                csv.enabled = true
-                xml.enabled = false
-                html.enabled = true
+                setReportEnabled(csv, true)
+                setReportEnabled(xml, false)
+                setReportEnabled(html, true)
             }
 
             // Excluded files
@@ -78,13 +94,27 @@ subprojects { prj ->
 
             final kotlinTree = fileTree(dir: "${prj.buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
             final javacTree = fileTree(dir: "${prj.buildDir}/intermediates/javac/debug", excludes: fileFilter)
+            final asmTree = fileTree(dir: "${prj.buildDir}/intermediates/classes/debug/transformDebugClassesWithAsm/dirs", excludes: fileFilter)
             final mainSrc = "${prj.projectDir}/src/main/java"
+            final hasAndroidTests = new File(prj.projectDir, "src/androidTest").exists()
+
+            def selectedClassDirectories = [kotlinTree, javacTree]
+            if (!asmTree.isEmpty()) {
+                selectedClassDirectories = [asmTree]
+            }
+
+            def executionDataIncludes = [
+                    'jacoco/testDebugUnitTest.exec',
+                    'outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec'
+            ]
+            if (hasAndroidTests) {
+                executionDataIncludes.add('outputs/code-coverage/connected/*coverage.ec')
+                executionDataIncludes.add('outputs/code_coverage/debugAndroidTest/connected/**/*.ec')
+            }
 
             sourceDirectories.setFrom files([mainSrc])
-            classDirectories.setFrom files([kotlinTree, javacTree])
-            executionData.setFrom fileTree(dir: prj.buildDir, includes: [
-                    'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-            ])
+            classDirectories.setFrom files(selectedClassDirectories)
+            executionData.setFrom fileTree(dir: prj.buildDir, includes: executionDataIncludes)
         }
     }
 }
@@ -92,7 +122,7 @@ subprojects { prj ->
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion "0.8.7"
+    toolVersion "0.8.11"
 }
 
 /**
@@ -122,21 +152,16 @@ task jacocoFullReport(type: JacocoReport, group: 'Coverage reports') {
     executionData.setFrom files(projects.jacocoReport.executionData)
 
     reports {
-        xml.enabled = true
+        setReportEnabled(xml, true)
         html {
-            enabled true
-            destination file('build/reports/jacoco/html')
+            setReportEnabled(it, true)
+            setReportOutput(it, file('build/reports/jacoco/html'))
         }
         csv {
-            enabled true
-            destination file('build/reports/jacoco/jacocoFullReport.csv')
+            setReportEnabled(it, true)
+            setReportOutput(it, file('build/reports/jacoco/jacocoFullReport.csv'))
         }
     }
-
-//    doFirst {
-//        //noinspection GroovyAssignabilityCheck
-//        executionData.setFrom files(executionData.findAll { it.exists() })
-//    }
 
     doLast {
         printReport("jacocoFullReport")
@@ -146,6 +171,7 @@ task jacocoFullReport(type: JacocoReport, group: 'Coverage reports') {
 def printReport(task) {
     def report = file("$buildDir/reports/jacoco/${task}/${task}.xml")
     logger.lifecycle("Checking reports from ${report}")
+    def skipCoverageVerification = project.hasProperty("skipCoverageVerification")
 
     def parser = new XmlParser()
     parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
@@ -197,7 +223,9 @@ def printReport(task) {
         passes.each {
             logger.quiet(it)
         }
-        throw new GradleException("Code coverage failed")
+        if (!skipCoverageVerification) {
+            throw new GradleException("Code coverage failed")
+        }
     } else {
         logger.quiet("\n\n Code coverage passed!")
         passes.each {

@@ -6,7 +6,6 @@ import journal.gratitude.com.gratitudejournal.model.CsvFileError
 import journal.gratitude.com.gratitudejournal.model.CsvFileResult
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvString
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileWriter

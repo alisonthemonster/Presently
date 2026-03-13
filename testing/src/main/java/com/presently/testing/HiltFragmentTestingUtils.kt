@@ -20,7 +20,7 @@ import androidx.test.core.app.ApplicationProvider
  */
 inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     fragmentArgs: Bundle? = null,
-    @StyleRes themeResId: Int = R.style.FragmentScenarioEmptyFragmentActivityTheme,
+    @StyleRes themeResId: Int = 0,
     crossinline action: Fragment.() -> Unit = {}
 ): ActivityScenario<HiltTestActivity>? {
     val startActivityIntent = Intent.makeMainActivity(
@@ -28,10 +28,13 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
             ApplicationProvider.getApplicationContext(),
             HiltTestActivity::class.java
         )
-    ).putExtra(
-        "androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY",
-        themeResId
     )
+    if (themeResId != 0) {
+        startActivityIntent.putExtra(
+            "androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY",
+            themeResId
+        )
+    }
 
     val blah = ActivityScenario.launch<HiltTestActivity>(startActivityIntent).onActivity { activity ->
         val fragment: Fragment = activity.supportFragmentManager.fragmentFactory.instantiate(
@@ -60,7 +63,7 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
  */
 inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     fragmentArgs: Bundle? = null,
-    @StyleRes themeResId: Int = R.style.FragmentScenarioEmptyFragmentActivityTheme,
+    @StyleRes themeResId: Int = 0,
     crossinline action: Fragment.() -> Unit = {},
     crossinline instantiate: () -> T
 ): ActivityScenario<HiltTestActivity>? {
@@ -69,10 +72,13 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
             ApplicationProvider.getApplicationContext(),
             HiltTestActivity::class.java
         )
-    ).putExtra(
-        "androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY",
-        themeResId
     )
+    if (themeResId != 0) {
+        startActivityIntent.putExtra(
+            "androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY",
+            themeResId
+        )
+    }
 
     val blah = ActivityScenario.launch<HiltTestActivity>(startActivityIntent).onActivity { activity ->
         val fragment = instantiate()

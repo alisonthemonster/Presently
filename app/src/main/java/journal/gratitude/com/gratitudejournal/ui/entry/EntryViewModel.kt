@@ -101,6 +101,8 @@ class EntryViewModel @AssistedInject constructor(
     }
 
     companion object :
-        MavericksViewModelFactory<EntryViewModel, EntryState> by hiltMavericksViewModelFactory()
+        MavericksViewModelFactory<EntryViewModel, EntryState> by hiltMavericksViewModelFactory(
+            EntryViewModel::class.java
+        )
 
 }

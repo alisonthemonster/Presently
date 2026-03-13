@@ -44,6 +44,8 @@ class SharingViewModel @AssistedInject constructor(
         override fun create(state: SharingViewState): SharingViewModel
     }
 
-    companion object : MavericksViewModelFactory<SharingViewModel, SharingViewState> by hiltMavericksViewModelFactory()
+    companion object : MavericksViewModelFactory<SharingViewModel, SharingViewState> by hiltMavericksViewModelFactory(
+        SharingViewModel::class.java
+    )
 
 }

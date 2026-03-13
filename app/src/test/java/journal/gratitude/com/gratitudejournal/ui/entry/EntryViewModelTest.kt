@@ -13,10 +13,14 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.Rule
 import org.junit.Test
 import org.threeten.bp.LocalDate
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class EntryViewModelTest {
 
     private lateinit var viewModel: EntryViewModel
@@ -61,7 +65,9 @@ class EntryViewModelTest {
     }
 
     @get:Rule
-    val mvrxRule = MvRxTestRule()
+    val mvrxRule = MvRxTestRule(
+        testDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler())
+    )
 
     @Test
     fun `GIVEN entry view model WHEN changePrompt is called THEN the state is updated`() {

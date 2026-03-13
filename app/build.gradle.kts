@@ -1,12 +1,12 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.util.Properties
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("kotlin-parcelize")
-    id("com.facebook.testing.screenshot")
-    id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
+    id("org.jetbrains.kotlin.plugin.parcelize")
+    id("io.screenshotbot.screenshot-tests-for-android")
+    id("com.google.dagger.hilt.android")
     id("com.google.android.gms.oss-licenses-plugin")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -15,6 +15,7 @@ plugins {
 apply(from = "../gradle/dependency_graph.gradle")
 
 android {
+    namespace = "journal.gratitude.com.gratitudejournal"
     compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
@@ -62,12 +63,12 @@ android {
     testOptions.animationsDisabled = true
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
@@ -93,6 +94,7 @@ dependencies {
     implementation(Libraries.androidx_paging_runtime)
     implementation(Libraries.androidx_room_runtime)
     implementation(Libraries.androidx_room_ktx)
+    implementation(Libraries.androidx_room_paging)
     kapt(Libraries.androidx_room_compiler)
 
     implementation(Libraries.androidx_livedata_ktx)
@@ -113,7 +115,6 @@ dependencies {
     implementation(Libraries.rxbinding)
 
     implementation(Libraries.mavericks)
-    implementation(Libraries.mavericks_mocking)
 
     //dependency injection
     implementation(Libraries.dagger)
@@ -136,10 +137,14 @@ dependencies {
     testImplementation(TestLibraries.kotlin_coroutines_test)
     testImplementation(TestLibraries.mavericks_testing)
     testImplementation(TestLibraries.truth)
+    testImplementation(TestLibraries.robolectric)
+    testImplementation(TestLibraries.androidx_test_core_ktx)
+    testImplementation(TestLibraries.androidx_work_testing)
 
     androidTestImplementation(project(":testing"))
     androidTestImplementation(TestLibraries.androidx_test_runner)
     androidTestImplementation(TestLibraries.androidx_arch_testing)
+    androidTestImplementation(TestLibraries.hamcrest)
     androidTestImplementation(TestLibraries.espresso_core)
     androidTestImplementation(TestLibraries.espresso_contrib)
     androidTestImplementation(TestLibraries.androidx_room_testing)
@@ -155,7 +160,6 @@ dependencies {
     androidTestImplementation(TestLibraries.hilt_android_testing)
     kaptAndroidTest(Libraries.hilt_compiler)
     debugImplementation(project(":testing")) //needed for the hilt test activity
-    debugImplementation(TestLibraries.fragment_testing)
 
     androidTestUtil(TestLibraries.test_orchestrator)
 }
@@ -165,6 +169,13 @@ fun getVersionName(): String {
 }
 
 fun getDropboxKey(): String {
-    val localPropsKey = gradleLocalProperties(rootDir).getProperty("DROPBOX_KEY") ?: "missing_local_key"
-    return System.getenv("DROPBOX_APP_KEY") ?: localPropsKey
+    val localPropertiesFile = rootProject.file("local.properties")
+    val localPropsKey = if (localPropertiesFile.isFile) {
+        Properties().apply {
+            localPropertiesFile.inputStream().use(::load)
+        }.getProperty("DROPBOX_KEY")
+    } else {
+        null
+    }
+    return System.getenv("DROPBOX_APP_KEY") ?: localPropsKey ?: "missing_local_key"
 }

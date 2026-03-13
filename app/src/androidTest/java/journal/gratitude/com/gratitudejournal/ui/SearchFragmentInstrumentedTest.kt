@@ -13,7 +13,7 @@ import journal.gratitude.com.gratitudejournal.testUtils.RecyclerViewItemCountAss
 import com.presently.testing.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
-import org.hamcrest.Matchers.not
+import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

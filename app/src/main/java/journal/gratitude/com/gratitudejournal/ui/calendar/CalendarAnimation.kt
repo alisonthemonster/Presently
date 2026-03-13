@@ -28,7 +28,7 @@ class CalendarAnimation(private val fabView: FloatingActionButton, private val c
         val growCalAnimation = AnimatorSet()
         growCalAnimation.playTogether(scaleUpX, scaleUpY)
         growCalAnimation.addListener(object: AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
                 calendarView.visibility = View.VISIBLE
             }
         })
@@ -46,7 +46,7 @@ class CalendarAnimation(private val fabView: FloatingActionButton, private val c
         val shrinkCalAnimation = AnimatorSet()
         shrinkCalAnimation.playTogether(scaleDownX, scaleDownY)
         shrinkCalAnimation.addListener(object: AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 calendarView.visibility = View.INVISIBLE
             }
         })
