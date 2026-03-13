@@ -38,6 +38,16 @@ The app currently has over 40 themes to choose from! Here's a few:
 ### Contributions
 Contributions are welcome! Please fork the repo and make a PR. Forked PRs will build the app and run unit tests but will not run instrumented tests. A repo owner will run those tests as they require secret keys. To make the app build locally you'll need to add a Dropbox Key (or any string if you don't want to test Dropbox backup features) to the `local.properties` file. Like so: `DROPBOX_KEY=myDropboxKey`.
 
+### Local coverage
+To generate local coverage reports:
+
+- Unit tests only: `./scripts/local_coverage.sh`
+- Unit tests + connected Android tests: `./scripts/local_coverage.sh --connected`
+- Unit tests + connected Android tests for `app` and `sharing`: `./scripts/local_coverage.sh --connected --connected-sharing`
+
+The HTML report is written to `build/reports/jacoco/html/index.html`.
+The connected mode runs `:app:connectedDebugAndroidTest`, and can optionally include `:sharing:connectedDebugAndroidTest`.
+
 
 ### Dependency Graph
 Presently is a small and simple app, did it need modularizing? Probably not. But Presently also servees as a playground for me for trying out new technologies and keeping up with best practices. Here's how we've broken down the app so far.
