@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.entryviewpager
 
+import androidx.lifecycle.viewModelScope
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.presently.mavericks_utils.AssistedViewModelFactory
@@ -10,25 +11,16 @@ import dagger.assisted.AssistedInject
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.appendTodayAndYesterday
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
-import kotlin.coroutines.CoroutineContext
 
 class EntryViewPagerViewModel @AssistedInject constructor(
     @Assisted val initialState: EntryViewPagerState, private val repository: EntryRepository
 ) : MavericksViewModel<EntryViewPagerState>(initialState) {
 
-    private var parentJob = Job()
-    private val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.Main
-    private val scope = CoroutineScope(coroutineContext)
-
     init {
-        scope.launch {
+        viewModelScope.launch {
             repository.getEntriesFlow().collect { list ->
                 val listWithAppendedTodayAndYesterday = appendTodayAndYesterday(list)
                 val entriesList = addSelectedDate(listWithAppendedTodayAndYesterday)

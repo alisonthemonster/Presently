@@ -7,9 +7,8 @@ import journal.gratitude.com.gratitudejournal.model.CsvFileError
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvString
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyString
 import org.threeten.bp.LocalDate
@@ -24,8 +23,8 @@ class FileExporterTest  {
 
     private val writer = mock<FileWriter>()
 
-    private fun TestScope.createFileExporter(): FileExporter {
-        val dispatcher = StandardTestDispatcher(testScheduler)
+    private fun createFileExporter(): FileExporter {
+        val dispatcher = UnconfinedTestDispatcher()
         val dispatchers = AppCoroutineDispatchers(
             io = dispatcher,
             computation = dispatcher,
@@ -35,7 +34,7 @@ class FileExporterTest  {
     }
 
     @Test
-    fun `GIVEN list of entries WHEN exportToCSV is called THEN writer writes the csv string`() = runTest {
+    fun `GIVEN list of entries WHEN exportToCSV is called THEN writer writes the csv string`() = runBlocking {
         val items = listOf(Entry(LocalDate.now(), "string"))
         val fileExporter = createFileExporter()
 
@@ -46,7 +45,7 @@ class FileExporterTest  {
     }
 
     @Test
-    fun `GIVEN list of entries WHEN exportToCSV is called THEN writer is closed`() = runTest {
+    fun `GIVEN list of entries WHEN exportToCSV is called THEN writer is closed`() = runBlocking {
         val items = listOf(Entry(LocalDate.now(), "string"))
         val fileExporter = createFileExporter()
 
@@ -56,7 +55,7 @@ class FileExporterTest  {
     }
 
     @Test
-    fun `GIVEN list of entries WHEN exportToCSV is called THEN success is returned`() = runTest {
+    fun `GIVEN list of entries WHEN exportToCSV is called THEN success is returned`() = runBlocking {
         val items = listOf(Entry(LocalDate.now(), "string"))
         val file = mock<File>()
         val fileExporter = createFileExporter()
@@ -67,7 +66,7 @@ class FileExporterTest  {
 
     @Test
     @Throws(Exception::class)
-    fun `GIVEN list of entries WHEN exportToCSV is called AND writer throws exception THEN return failure`() = runTest {
+    fun `GIVEN list of entries WHEN exportToCSV is called AND writer throws exception THEN return failure`() = runBlocking {
         val items = listOf(Entry(LocalDate.now(), "string"))
         val file = mock<File>()
 
