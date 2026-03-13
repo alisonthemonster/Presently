@@ -140,6 +140,9 @@ dependencies {
     testImplementation(TestLibraries.kotlin_coroutines_test)
     testImplementation(TestLibraries.mavericks_testing)
     testImplementation(TestLibraries.truth)
+    testImplementation(TestLibraries.robolectric)
+    testImplementation(TestLibraries.androidx_test_core_ktx)
+    testImplementation(TestLibraries.androidx_work_testing)
 
     androidTestImplementation(project(":testing"))
     androidTestImplementation(TestLibraries.androidx_test_runner)
