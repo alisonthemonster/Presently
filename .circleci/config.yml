@@ -32,6 +32,9 @@ jobs:
           name: Build
           command: ./gradlew -Pcoverage assembleDebug assembleDebugAndroidTest --stacktrace
       - run:
+          name: Run unit tests
+          command: ./gradlew -Pcoverage testDebugUnitTest --stacktrace
+      - run:
           name: Test with Firebase Test Lab
           command: ./gradlew -PenableFladle runFlank --stacktrace
       - run:
@@ -39,7 +42,7 @@ jobs:
           command: ./coverage_mover.sh
       - run:
           name: Generate JaCoCo report
-          command: ./gradlew jacocoFullReport --stacktrace
+          command: ./gradlew -Pcoverage jacocoFullReport --stacktrace
       - store_artifacts:
           path: build/fladle/
           destination: fladle/

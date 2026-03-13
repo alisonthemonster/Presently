@@ -44,7 +44,7 @@ subprojects { prj ->
             jacoco.excludes = ['jdk.internal.*']
         }
 
-        task jacocoReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
+        task jacocoReport(type: JacocoReport) {
             group = 'Reporting'
             description = 'Generate Jacoco coverage'
 
