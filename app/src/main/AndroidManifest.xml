@@ -60,14 +60,6 @@
             </intent-filter>
         </receiver>
 
-
-        <!-- Disabling default initializer for WorkManager so we can have our own custom init in GratitudeApplication -->
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            tools:node="remove">
-        </provider>
-
         <provider
             android:name="com.presently.sharing.data.SharingFileProvider"
             android:authorities="${applicationId}.fileprovider"

@@ -6,6 +6,16 @@
         android:maxSdkVersion="28" />
 
     <application>
+        <receiver
+            android:name="journal.gratitude.com.gratitudejournal.util.reminders.NotificationResetReceiver"
+            android:enabled="false"
+            tools:replace="android:enabled" />
+
+        <receiver
+            android:name="journal.gratitude.com.gratitudejournal.util.reminders.AlarmPermissionReceiver"
+            android:enabled="false"
+            tools:replace="android:enabled" />
+
         <activity
             android:name="com.presently.testing.HiltTestActivity"
             android:exported="false"

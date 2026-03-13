@@ -6,6 +6,7 @@ import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
@@ -27,6 +28,7 @@ import com.presently.testing.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import org.hamcrest.CoreMatchers
 import org.hamcrest.Matcher
 import org.hamcrest.CoreMatchers.allOf
@@ -106,6 +108,7 @@ class SharingFragmentTest {
 
         //click done button
         onView(withId(R.id.check_mark)).perform(ViewActions.click())
+        onView(isRoot()).perform(waitFor(1000))
 
         intended(
             allOf(
