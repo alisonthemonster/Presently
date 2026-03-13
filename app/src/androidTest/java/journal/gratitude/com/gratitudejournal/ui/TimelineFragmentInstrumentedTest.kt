@@ -21,8 +21,8 @@ import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import com.presently.testing.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.testUtils.scroll
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
+import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
-import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -130,4 +130,3 @@ class TimelineFragmentInstrumentedTest {
     }
 
 }
-

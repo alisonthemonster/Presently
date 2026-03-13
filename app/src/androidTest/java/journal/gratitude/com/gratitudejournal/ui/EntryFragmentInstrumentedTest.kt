@@ -27,6 +27,7 @@ import journal.gratitude.com.gratitudejournal.testUtils.isEditTextValueEqualTo
 import journal.gratitude.com.gratitudejournal.testUtils.saveEntryBlocking
 import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Rule
@@ -36,7 +37,6 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 import com.presently.testing.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryArgs
-import org.hamcrest.Matchers
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -187,7 +187,7 @@ class EntryFragmentInstrumentedTest {
 
         val uri = Uri.parse("market://details?id=journal.gratitude.com.gratitudejournal")
         Intents.intended(
-            Matchers.allOf(
+            allOf(
                 IntentMatchers.hasAction(Intent.ACTION_VIEW),
                 IntentMatchers.hasData(uri)
             )
@@ -219,7 +219,7 @@ class EntryFragmentInstrumentedTest {
         onView(withId(R.id.share_presently)).perform(click())
 
         Intents.intended(
-            Matchers.allOf(
+            allOf(
                 IntentMatchers.hasAction(Intent.ACTION_CHOOSER),
                 IntentMatchers.hasExtra(Intent.EXTRA_TITLE, "Share your gratitude")
             )

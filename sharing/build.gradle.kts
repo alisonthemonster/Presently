@@ -77,13 +77,12 @@ dependencies {
     kapt(Libraries.hilt_compiler)
     kapt(Libraries.hilt_android_compiler)
 
-    debugImplementation(TestLibraries.fragment_testing)
-
     testImplementation(TestLibraries.junit)
     testImplementation(TestLibraries.mavericks_testing)
     testImplementation(TestLibraries.truth)
 
     debugImplementation(project(":testing")) //needed for the hilt test activity
+    androidTestImplementation(TestLibraries.hamcrest)
     androidTestImplementation(TestLibraries.androidx_test_junit)
     androidTestImplementation(TestLibraries.androidx_test_core_ktx)
     androidTestImplementation(TestLibraries.androidx_test_espresso_core)

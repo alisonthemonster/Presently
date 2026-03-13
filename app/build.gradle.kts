@@ -144,6 +144,7 @@ dependencies {
     androidTestImplementation(project(":testing"))
     androidTestImplementation(TestLibraries.androidx_test_runner)
     androidTestImplementation(TestLibraries.androidx_arch_testing)
+    androidTestImplementation(TestLibraries.hamcrest)
     androidTestImplementation(TestLibraries.espresso_core)
     androidTestImplementation(TestLibraries.espresso_contrib)
     androidTestImplementation(TestLibraries.androidx_room_testing)
@@ -159,7 +160,6 @@ dependencies {
     androidTestImplementation(TestLibraries.hilt_android_testing)
     kaptAndroidTest(Libraries.hilt_compiler)
     debugImplementation(project(":testing")) //needed for the hilt test activity
-    debugImplementation(TestLibraries.fragment_testing)
 
     androidTestUtil(TestLibraries.test_orchestrator)
 }

@@ -9,6 +9,14 @@ subprojects { Project project ->
                     //Used by custom test runner to tell FTL the module name
                     buildConfigField "String", "PROJECT_PATH", "\"" + project.path + "\""
                 }
+                packaging {
+                    resources {
+                        excludes += [
+                                'META-INF/LICENSE.md',
+                                'META-INF/LICENSE-notice.md'
+                        ]
+                    }
+                }
             }
         }
     }

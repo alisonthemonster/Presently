@@ -19,16 +19,16 @@ object Versions {
     const val ANDROIDX_RECYCLER_VIEW = "1.2.0"
     const val FRAGMENT_TESTING = "1.8.6"
     const val ANDROIDX_BIOMETRIC = "1.2.0-alpha04" //https://developer.android.com/jetpack/androidx/releases/biometric
-    const val ANDROIDX_TEST_JUNIT = "1.1.2"
+    const val ANDROIDX_TEST_JUNIT = "1.3.0"
     const val ANDROIDX_WORK = "2.10.0"
     const val ANDROIDX_ROOM = "2.7.1"
     const val ANDROIDX_PAGING = "3.3.6"
     const val ANDROIDX_FRAGMENT_KTX = "1.8.6"
-    const val ANDROIDX_TEST_CORE_KTX = "1.3.0"
-    const val ANDROIDX_TEST_ESPRESSO = "3.3.0"
-    const val ANDROIDX_TEST_RULES = "1.3.0"
-    const val ANDROIDX_TEST_RUNNER = "1.3.0"
-    const val ANDROIDX_TEST_UIAUTOMATOR = "2.2.0"
+    const val ANDROIDX_TEST_CORE_KTX = "1.7.0"
+    const val ANDROIDX_TEST_ESPRESSO = "3.7.0"
+    const val ANDROIDX_TEST_RULES = "1.7.0"
+    const val ANDROIDX_TEST_RUNNER = "1.7.0"
+    const val ANDROIDX_TEST_UIAUTOMATOR = "2.3.0"
     const val ANDROIDX_PREF_KTX = "1.2.1"
     const val ANDROIDX_ARCH_CORE = "2.1.0" //https://developer.android.com/jetpack/androidx/releases/arch-core
     const val FIREBASE = "33.10.0"
@@ -51,8 +51,8 @@ object Versions {
     const val RX_ANDROID = "2.1.1"
     const val RX_KOTLIN = "2.3.0"
     const val RX_BINDING = "2.1.1"
-    const val ESPRESSO = "3.3.0"
-    const val TEST_ORCHESTRATOR = "1.5.1"
+    const val ESPRESSO = "3.7.0"
+    const val TEST_ORCHESTRATOR = "1.6.1"
 }
 
 object Libraries {
@@ -103,6 +103,7 @@ object Libraries {
 }
 
 object TestLibraries {
+    const val hamcrest = "org.hamcrest:hamcrest:2.2"
     const val junit = "junit:junit:${Versions.JUNIT}"
     const val kotlin_test_junit = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.KOTLIN}"
     const val kotlin_coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.KOTLIN_COROUTINES_TEST}"

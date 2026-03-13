@@ -43,12 +43,9 @@ dependencies {
     implementation(Libraries.androidx_core_ktx)
     implementation(Libraries.androidx_compat)
     implementation(Libraries.material)
-    implementation(TestLibraries.androidx_arch_testing)
+    implementation(TestLibraries.androidx_test_core_ktx)
 
     implementation(Libraries.hilt)
-    implementation(TestLibraries.hilt_android_testing)
     kapt(Libraries.hilt_compiler)
-
-    implementation(TestLibraries.fragment_testing)
     debugImplementation(project(":ui"))
 }
