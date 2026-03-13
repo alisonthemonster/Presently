@@ -2,9 +2,9 @@ package journal.gratitude.com.gratitudejournal.ui
 
 import android.content.Context
 import com.dropbox.core.oauth.DbxCredential
-import com.presently.settings.BackupCadence
-import com.presently.settings.PresentlySettings
-import com.presently.settings.wiring.PresentlySettingsModule
+import journal.gratitude.com.gratitudejournal.settings.BackupCadence
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.settings.wiring.PresentlySettingsModule
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent

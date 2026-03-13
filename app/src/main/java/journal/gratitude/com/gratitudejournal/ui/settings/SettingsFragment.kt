@@ -26,11 +26,11 @@ import androidx.work.WorkManager
 import com.dropbox.core.android.Auth
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
-import com.presently.logging.AnalyticsLogger
-import com.presently.logging.CrashReporter
-import com.presently.settings.BackupCadence
-import com.presently.settings.PresentlySettings
-import com.presently.settings.model.*
+import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
+import journal.gratitude.com.gratitudejournal.logging.CrashReporter
+import journal.gratitude.com.gratitudejournal.settings.BackupCadence
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.settings.model.*
 import journal.gratitude.com.gratitudejournal.BuildConfig
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
@@ -43,7 +43,7 @@ import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUpload
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
-import com.presently.ui.setStatusBarColorsForBackground
+import journal.gratitude.com.gratitudejournal.ui.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository

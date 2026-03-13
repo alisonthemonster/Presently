@@ -60,7 +60,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <com.presently.sharing.view.OriginalView
+    <journal.gratitude.com.gratitudejournal.sharing.view.OriginalView
         android:id="@+id/sharing_preview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

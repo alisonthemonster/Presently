@@ -3,7 +3,7 @@ package journal.gratitude.com.gratitudejournal.util.reminders
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.presently.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

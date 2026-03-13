@@ -36,7 +36,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
-import com.presently.testing.launchFragmentInHiltContainer
+import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
 import junit.framework.TestCase.assertEquals
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryArgs
 

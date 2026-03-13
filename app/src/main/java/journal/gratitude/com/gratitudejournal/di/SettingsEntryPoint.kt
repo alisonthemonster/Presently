@@ -1,6 +1,6 @@
 package journal.gratitude.com.gratitudejournal.di
 
-import com.presently.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent

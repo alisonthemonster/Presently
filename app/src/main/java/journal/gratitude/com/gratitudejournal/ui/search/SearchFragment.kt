@@ -20,8 +20,8 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionInflater
-import com.presently.logging.AnalyticsLogger
-import com.presently.ui.setStatusBarColorsForBackground
+import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
+import journal.gratitude.com.gratitudejournal.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.SearchFragmentBinding

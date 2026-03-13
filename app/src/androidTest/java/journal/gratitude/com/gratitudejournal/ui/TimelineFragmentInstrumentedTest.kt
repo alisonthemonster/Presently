@@ -18,7 +18,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import com.presently.testing.launchFragmentInHiltContainer
+import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.testUtils.scroll
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import org.hamcrest.CoreMatchers.allOf

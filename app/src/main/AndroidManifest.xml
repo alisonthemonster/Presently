@@ -61,7 +61,7 @@
         </receiver>
 
         <provider
-            android:name="com.presently.sharing.data.SharingFileProvider"
+            android:name="journal.gratitude.com.gratitudejournal.sharing.data.SharingFileProvider"
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">

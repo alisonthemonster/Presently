@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.presently.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.ContainerActivity.Companion.CHANNEL_ID

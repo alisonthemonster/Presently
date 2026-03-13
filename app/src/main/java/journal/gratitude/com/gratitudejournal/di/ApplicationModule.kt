@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal.di
 
 import android.content.Context
-import com.presently.coroutine_utils.AppCoroutineDispatchers
+import journal.gratitude.com.gratitudejournal.coroutine_utils.AppCoroutineDispatchers
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

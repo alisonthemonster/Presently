@@ -7,7 +7,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.test.runner.AndroidJUnitRunner
 import com.facebook.testing.screenshot.ScreenshotRunner
-import com.presently.testing.FileRenamer
+import journal.gratitude.com.gratitudejournal.testUtils.FileRenamer
 import dagger.hilt.android.testing.HiltTestApplication
 
 /**

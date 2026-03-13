@@ -2,9 +2,9 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
-import com.presently.logging.AnalyticsLogger
-import com.presently.mavericks_utils.AssistedViewModelFactory
-import com.presently.mavericks_utils.hiltMavericksViewModelFactory
+import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
+import journal.gratitude.com.gratitudejournal.mavericks_utils.AssistedViewModelFactory
+import journal.gratitude.com.gratitudejournal.mavericks_utils.hiltMavericksViewModelFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
