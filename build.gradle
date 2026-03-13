@@ -29,7 +29,7 @@ if (project.hasProperty("enableFladle")) {
         serviceAccountCredentials = project.file("gcloud-service-key.json")
         projectId = "gratitude-journal-app"
 
-        flankVersion = "21.05.0"
+        flankVersion = "23.10.1"
 
         directoriesToPull = [
                 "/sdcard"
