@@ -10,10 +10,10 @@ import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
+import androidx.test.espresso.intent.rule.IntentsRule
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -45,6 +45,9 @@ class SharingFragmentTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
+
+    @get:Rule
+    val intentsRule = IntentsRule()
 
     @get:Rule
     val mvrxRule = MvRxTestRule()
@@ -93,8 +96,6 @@ class SharingFragmentTest {
 
     @Test
     fun clickingDoneIconOpensShareSheet() {
-        Intents.init()
-
         //launch fragment
         val args = SharingArgs("content", "May 5th, 2021").asMavericksArgs()
 
@@ -116,7 +117,6 @@ class SharingFragmentTest {
                 hasExtra(Intent.EXTRA_TITLE, "Share your gratitude")
             )
         )
-        Intents.release()
     }
 }
 
