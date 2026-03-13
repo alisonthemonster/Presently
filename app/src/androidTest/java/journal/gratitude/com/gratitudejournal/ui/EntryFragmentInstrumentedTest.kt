@@ -268,17 +268,24 @@ class EntryFragmentInstrumentedTest {
             fragmentArgs = args.asMavericksArgs()
         )
 
-        val clipboard = InstrumentationRegistry
-            .getInstrumentation()
-            .targetContext
-            .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.setPrimaryClip(ClipData.newPlainText("Gratitude quote", ""))
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        val targetContext = instrumentation.targetContext
+        lateinit var clipboard: ClipboardManager
+        instrumentation.runOnMainSync {
+            clipboard = targetContext
+                .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            clipboard.setPrimaryClip(ClipData.newPlainText("Gratitude quote", ""))
+        }
 
         onView(withId(R.id.inspiration)).perform(longClick())
 
-        val copiedText = clipboard.primaryClip?.getItemAt(0)?.coerceToText(
-            InstrumentationRegistry.getInstrumentation().targetContext
-        )?.toString()
+        var copiedText: String? = null
+        instrumentation.runOnMainSync {
+            copiedText = clipboard.primaryClip
+                ?.getItemAt(0)
+                ?.coerceToText(targetContext)
+                ?.toString()
+        }
         assertEquals("quote", copiedText)
     }
 
