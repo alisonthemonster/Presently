@@ -39,7 +39,7 @@ object Versions {
     const val PLAY_CORE = "2.1.0"
     const val MOCKITO_KOTLIN = "2.0.0"
     const val MOCKITO_ANDROID = "2.23.0"
-    const val ROBOLECTRIC = "4.6.1" //https://github.com/robolectric/robolectric/releases/
+    const val ROBOLECTRIC = "4.15.1" //https://github.com/robolectric/robolectric/releases/
     const val TRUTH = "1.1.3"
     const val MAVERICKS = "3.0.12"
     const val THREE_TEN_ABP = "1.3.1" //https://github.com/JakeWharton/ThreeTenABP/tags
