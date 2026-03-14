@@ -64,7 +64,7 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
     }
 
     override fun hasEnabledNotifications(): Boolean {
-        return true
+        return false
     }
 
     override fun getNotificationTime(): LocalTime {
