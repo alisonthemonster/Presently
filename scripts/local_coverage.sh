@@ -55,6 +55,12 @@ COVERAGE_ARGS=(-Pcoverage -PskipCoverageVerification --stacktrace)
 HTML_REPORT="$ROOT_DIR/build/reports/jacoco/html/index.html"
 XML_REPORT="$ROOT_DIR/build/reports/jacoco/jacocoFullReport/jacocoFullReport.xml"
 
+echo "Cleaning previous coverage artifacts..."
+find "$ROOT_DIR" -path '*/build/jacoco/*.exec' -delete
+find "$ROOT_DIR" -path '*/build/outputs/code-coverage/connected/*coverage.ec' -delete
+find "$ROOT_DIR" -path '*/build/outputs/code_coverage/debugAndroidTest/connected/*.ec' -delete
+rm -rf "$ROOT_DIR/build/reports/jacoco"
+
 echo "Building debug artifacts..."
 "$GRADLEW" "${COVERAGE_ARGS[@]}" assembleDebug assembleDebugAndroidTest
 
