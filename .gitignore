@@ -67,3 +67,4 @@ freeline_project_description.json
 #fabric keys
 fabric.properties
 node_modules
+release-secrets/
