@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
+import androidx.core.app.NotificationManagerCompat
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import org.threeten.bp.LocalTime
 import java.util.*
@@ -27,7 +28,8 @@ class NotificationScheduler {
     fun configureNotifications(context: Context, settings: PresentlySettings) {
         val hasNotificationsOn = settings.hasEnabledNotifications()
         val hasDisabledAlarmReminders = settings.hasUserDisabledAlarmReminders(context)
-        if (hasNotificationsOn && !hasDisabledAlarmReminders) {
+        val canPostNotifications = NotificationManagerCompat.from(context).areNotificationsEnabled()
+        if (hasNotificationsOn && !hasDisabledAlarmReminders && canPostNotifications) {
             val alarmTime = settings.getNotificationTime()
             setNotificationTime(context, alarmTime)
         } else {
