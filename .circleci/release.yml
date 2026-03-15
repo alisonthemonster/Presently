@@ -1,0 +1,174 @@
+version: 2.1
+
+parameters:
+  release_bump:
+    type: string
+    default: "none"
+  release_version_name:
+    type: string
+    default: ""
+  release_version_code:
+    type: string
+    default: ""
+  release_instrumented:
+    type: string
+    default: "firebase"
+  release_build_apk:
+    type: boolean
+    default: false
+  release_play_track:
+    type: string
+    default: ""
+  release_play_release_name:
+    type: string
+    default: ""
+  release_commit_version:
+    type: boolean
+    default: false
+
+jobs:
+  release_build:
+    machine:
+      image: android:2025.10.1
+    resource_class: large
+    steps:
+      - checkout
+      - run:
+          name: Materialize release secrets
+          command: |
+            mkdir -p release-secrets/fonts
+
+            required_vars=(
+              DROPBOX_APP_KEY
+              ANDROID_KEYSTORE_B64
+              RELEASE_STORE_PASSWORD
+              RELEASE_KEY_ALIAS
+              RELEASE_KEY_PASSWORD
+            )
+
+            for var_name in "${required_vars[@]}"; do
+              if [ -z "${!var_name:-}" ]; then
+                echo "${var_name} is required" >&2
+                exit 1
+              fi
+            done
+
+            google_services_b64="${GOOGLE_SERVICES_JSON_B64:-${GOOGLE_SERVICES_JSON:-}}"
+            if [ -z "$google_services_b64" ]; then
+              echo "GOOGLE_SERVICES_JSON_B64 or GOOGLE_SERVICES_JSON is required" >&2
+              exit 1
+            fi
+
+            echo "$google_services_b64" | base64 -di > release-secrets/google-services.json
+
+            wants_fonts=false
+            if [ -n "${LARSSEIT_MEDIUM_TTF_GCS_URI:-}" ] || [ -n "${VALUE_SERIF_TTF_GCS_URI:-}" ]; then
+              if [ -z "${LARSSEIT_MEDIUM_TTF_GCS_URI:-}" ] || [ -z "${VALUE_SERIF_TTF_GCS_URI:-}" ]; then
+                echo "Both GCS font URI env vars must be set together" >&2
+                exit 1
+              fi
+              wants_fonts=true
+            fi
+
+            needs_gcloud=false
+            if [ "<< pipeline.parameters.release_instrumented >>" = "firebase" ] || [ "$wants_fonts" = "true" ]; then
+              needs_gcloud=true
+            fi
+
+            if [ "$needs_gcloud" = "true" ]; then
+              if [ -z "${GCLOUD_SERVICE_KEY:-}" ]; then
+                echo "GCLOUD_SERVICE_KEY is required for Firebase Test Lab or GCS-hosted fonts" >&2
+                exit 1
+              fi
+
+              echo "$GCLOUD_SERVICE_KEY" | base64 -di > release-secrets/gcloud-service-key.json
+              gcloud auth activate-service-account presently-cicd-service-account@gratitude-journal-app.iam.gserviceaccount.com --key-file release-secrets/gcloud-service-key.json
+              gcloud config set project gratitude-journal-app
+            fi
+
+            if [ "$wants_fonts" = "true" ]; then
+              gcloud storage cp "$LARSSEIT_MEDIUM_TTF_GCS_URI" release-secrets/fonts/larsseit_medium.ttf
+              gcloud storage cp "$VALUE_SERIF_TTF_GCS_URI" release-secrets/fonts/value_serif.ttf
+            fi
+
+            play_service_account_b64=""
+            if [ -n "${GOOGLE_PLAY_SERVICE_ACCOUNT_B64:-}" ]; then
+              play_service_account_b64="$GOOGLE_PLAY_SERVICE_ACCOUNT_B64"
+            elif [ -n "${GCLOUD_SERVICE_KEY:-}" ]; then
+              play_service_account_b64="$GCLOUD_SERVICE_KEY"
+            fi
+
+            play_service_account_file=""
+            if [ -n "<< pipeline.parameters.release_play_track >>" ]; then
+              if [ -z "$play_service_account_b64" ]; then
+                echo "GOOGLE_PLAY_SERVICE_ACCOUNT_B64 or GCLOUD_SERVICE_KEY is required for Play uploads" >&2
+                exit 1
+              fi
+
+              play_service_account_file="/home/circleci/project/release-secrets/play-service-account.json"
+              echo "$play_service_account_b64" | base64 -di > "$play_service_account_file"
+            fi
+
+            printf '%s\n' \
+              "DROPBOX_APP_KEY=${DROPBOX_APP_KEY}" \
+              "RELEASE_STORE_FILE=/home/circleci/project/release-secrets/upload-keystore.jks" \
+              "RELEASE_STORE_PASSWORD=${RELEASE_STORE_PASSWORD}" \
+              "RELEASE_KEY_ALIAS=${RELEASE_KEY_ALIAS}" \
+              "RELEASE_KEY_PASSWORD=${RELEASE_KEY_PASSWORD}" \
+              "PLAY_SERVICE_ACCOUNT_FILE=${play_service_account_file}" \
+              > release-secrets/release.properties
+
+            echo "$ANDROID_KEYSTORE_B64" | base64 -di > release-secrets/upload-keystore.jks
+      - run:
+          name: Run release job
+          command: |
+            cmd=(./scripts/release_job.sh --instrumented << pipeline.parameters.release_instrumented >>)
+
+            if [ "<< pipeline.parameters.release_bump >>" != "none" ]; then
+              cmd+=(--bump << pipeline.parameters.release_bump >>)
+            fi
+
+            if [ -n "<< pipeline.parameters.release_version_name >>" ]; then
+              cmd+=(--version-name "<< pipeline.parameters.release_version_name >>")
+            fi
+
+            if [ -n "<< pipeline.parameters.release_version_code >>" ]; then
+              cmd+=(--version-code "<< pipeline.parameters.release_version_code >>")
+            fi
+
+            if [ "<< pipeline.parameters.release_build_apk >>" = "true" ]; then
+              cmd+=(--build-apk)
+            fi
+
+            if [ -n "<< pipeline.parameters.release_play_track >>" ]; then
+              cmd+=(--play-track "<< pipeline.parameters.release_play_track >>")
+            fi
+
+            if [ -n "<< pipeline.parameters.release_play_release_name >>" ]; then
+              cmd+=(--play-release-name "<< pipeline.parameters.release_play_release_name >>")
+            fi
+
+            if [ "<< pipeline.parameters.release_commit_version >>" = "true" ]; then
+              cmd+=(--git-commit-version --git-branch "$CIRCLE_BRANCH")
+            fi
+
+            "${cmd[@]}"
+      - store_artifacts:
+          path: app/build/outputs/bundle/release/
+          destination: release-bundle/
+      - store_artifacts:
+          path: app/build/outputs/apk/release/
+          destination: release-apk/
+      - store_artifacts:
+          path: build/fladle/
+          destination: fladle/
+      - store_test_results:
+          path: build/
+
+workflows:
+  version: 2
+  release:
+    jobs:
+      - release_build:
+          context:
+            - presently-release
