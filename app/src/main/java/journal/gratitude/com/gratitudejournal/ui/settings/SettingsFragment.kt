@@ -67,6 +67,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
     @Inject lateinit var analytics: AnalyticsLogger
     @Inject lateinit var crashReporter: CrashReporter
 
+    private var versionTapCount = 0
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -127,6 +129,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val version = findPreference<Preference>(VERSION_PREF)
         val versionNum = BuildConfig.VERSION_NAME
         version?.summary = versionNum
+        version?.setOnPreferenceClickListener {
+            versionTapCount += 1
+            if (versionTapCount >= TEST_CRASH_TAP_THRESHOLD) {
+                versionTapCount = 0
+                showTestCrashDialog()
+            }
+            true
+        }
         //endregion
 
         val theme = findPreference<Preference>(THEME_PREF)
@@ -429,6 +439,22 @@ class SettingsFragment : PreferenceFragmentCompat(),
         alertDialog?.show()
     }
 
+    private fun showTestCrashDialog() {
+        val alertDialog: AlertDialog? = activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.apply {
+                setTitle(R.string.test_crash_title)
+                setMessage(R.string.test_crash_message)
+                setPositiveButton(android.R.string.ok) { _, _ ->
+                    throw RuntimeException("Crashlytics test crash")
+                }
+                setNegativeButton(android.R.string.cancel) { _, _ -> }
+            }
+            builder.create()
+        }
+        alertDialog?.show()
+    }
+
     /**
      * Result contract for activity result to read from the backup CSV file
      * */
@@ -559,6 +585,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     companion object {
+        private const val TEST_CRASH_TAP_THRESHOLD = 7
         const val BACKUP_TOKEN = "dropbox_pref"
         const val SETTINGS_TO_THEME = "SETTINGS_TO_THEME"
     }
