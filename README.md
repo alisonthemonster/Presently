@@ -157,3 +157,84 @@ Reports are written to:
 
 - HTML: `build/reports/jacoco/html/index.html`
 - XML: `build/reports/jacoco/jacocoFullReport/jacocoFullReport.xml`
+
+### Release automation
+
+The repo now includes a local release helper:
+
+`./scripts/release_job.sh`
+
+It handles the release-only steps that should not live in git:
+- stages `app/google-services.json`
+- loads Dropbox + signing secrets from a local `release.properties`
+- optionally overlays paid fonts for the `release` source set only
+- optionally bumps `versionName` / `versionCode`
+- runs unit tests
+- runs connected Android tests or Firebase Test Lab tests
+- builds a signed release bundle, plus an APK if requested
+
+Create a local `release-secrets/` directory like this:
+
+```text
+release-secrets/
+  google-services.json
+  gcloud-service-key.json        # only if using --instrumented firebase
+  release.properties
+  fonts/
+    larsseit_medium.ttf
+    value_serif.ttf
+```
+
+Start from `scripts/release.properties.example` and copy it to `release-secrets/release.properties`.
+
+Examples:
+- `./scripts/release_job.sh --bump patch`
+- `./scripts/release_job.sh --version-name 1.22.3 --version-code 91 --instrumented connected`
+- `./scripts/release_job.sh --bump minor --instrumented firebase --build-apk`
+
+The script cleans up staged secret files when it exits, so you do not need to stash or swap tracked files for a release build.
+
+### CircleCI release job
+
+CircleCI is set up so you can trigger a release pipeline manually.
+
+The `release` workflow is intended to run with a restricted CircleCI context named `presently-release`.
+
+In CircleCI, use `Trigger Pipeline` and pass:
+- `run_release: true`
+- optional `release_bump: patch|minor|major|none`
+- optional `release_version_name: X.Y.Z`
+- optional `release_version_code: N`
+- optional `release_instrumented: firebase|connected|skip`
+- optional `release_build_apk: true|false`
+
+Required CircleCI environment variables:
+- `GOOGLE_SERVICES_JSON_B64` or `GOOGLE_SERVICES_JSON`
+- `DROPBOX_APP_KEY`
+- `ANDROID_KEYSTORE_B64`
+- `RELEASE_STORE_PASSWORD`
+- `RELEASE_KEY_ALIAS`
+- `RELEASE_KEY_PASSWORD`
+
+Optional CircleCI environment variables:
+- `GCLOUD_SERVICE_KEY` for `release_instrumented=firebase` or for GCS-hosted fonts
+- `LARSSEIT_MEDIUM_TTF_GCS_URI` and `VALUE_SERIF_TTF_GCS_URI` if you want CI to swap in paid fonts from private Cloud Storage objects
+
+The CircleCI release job will:
+- materialize the release-only files into `release-secrets/`
+- run `./scripts/release_job.sh`
+- store the generated AAB and optional APK as CircleCI artifacts
+
+Important: version bumping in CI changes the workspace used for that build, but it does not commit the new version numbers back to git. If you want the repo to reflect the shipped version, commit that bump separately.
+
+To host paid fonts privately for CircleCI:
+- upload each font to a private GCS bucket
+- grant the CircleCI service account `roles/storage.objectViewer` on that bucket
+- set `LARSSEIT_MEDIUM_TTF_GCS_URI` and `VALUE_SERIF_TTF_GCS_URI` to the `gs://...` object URIs
+
+To restrict who can run releases:
+- create a CircleCI context named `presently-release`
+- move the release-only secrets into that context instead of plain project env vars
+- restrict that context to the GitHub team or project that should be allowed to run releases
+
+If a user triggers the release pipeline without access to that context, the `release_build` job will fail with `Unauthorized`.

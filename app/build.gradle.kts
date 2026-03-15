@@ -1,3 +1,4 @@
+import org.gradle.api.GradleException
 import java.util.Properties
 
 plugins {
@@ -14,9 +15,24 @@ plugins {
 
 apply(from = "../gradle/dependency_graph.gradle")
 
+val localProperties = loadLocalProperties()
+val missingDropboxKey = "missing_local_key"
+
 android {
     namespace = "journal.gratitude.com.gratitudejournal"
     compileSdk = Versions.COMPILE_SDK
+
+    signingConfigs {
+        create("release") {
+            val releaseStoreFile = getReleaseStoreFile()
+            if (releaseStoreFile != null) {
+                storeFile = file(releaseStoreFile)
+                storePassword = getRequiredReleaseSecret("RELEASE_STORE_PASSWORD")
+                keyAlias = getRequiredReleaseSecret("RELEASE_KEY_ALIAS")
+                keyPassword = getRequiredReleaseSecret("RELEASE_KEY_PASSWORD")
+            }
+        }
+    }
 
     defaultConfig {
         applicationId = "journal.gratitude.com.gratitudejournal"
@@ -58,6 +74,10 @@ android {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            val releaseStoreFile = getReleaseStoreFile()
+            if (releaseStoreFile != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 
@@ -76,6 +96,53 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
+    }
+}
+
+tasks.register("verifyReleaseConfig") {
+    group = "verification"
+    description = "Checks release-only secrets and files before building a release."
+
+    doLast {
+        val missing = mutableListOf<String>()
+
+        if (!project.file("google-services.json").isFile) {
+            missing += "app/google-services.json"
+        }
+
+        if (getDropboxKey() == missingDropboxKey) {
+            missing += "DROPBOX_APP_KEY (or DROPBOX_KEY in local.properties)"
+        }
+
+        val releaseStoreFile = getReleaseStoreFile()
+        if (releaseStoreFile == null) {
+            missing += "RELEASE_STORE_FILE"
+        } else {
+            if (getReleaseSecret("RELEASE_STORE_PASSWORD") == null) {
+                missing += "RELEASE_STORE_PASSWORD"
+            }
+            if (getReleaseSecret("RELEASE_KEY_ALIAS") == null) {
+                missing += "RELEASE_KEY_ALIAS"
+            }
+            if (getReleaseSecret("RELEASE_KEY_PASSWORD") == null) {
+                missing += "RELEASE_KEY_PASSWORD"
+            }
+        }
+
+        if (missing.isNotEmpty()) {
+            throw GradleException(
+                buildString {
+                    appendLine("Release inputs are missing:")
+                    missing.forEach { appendLine(" - $it") }
+                }.trimEnd()
+            )
+        }
+    }
+}
+
+listOf("bundleRelease", "assembleRelease").forEach { taskName ->
+    tasks.matching { it.name == taskName }.configureEach {
+        dependsOn("verifyReleaseConfig")
     }
 }
 
@@ -176,13 +243,30 @@ fun getVersionName(): String {
 }
 
 fun getDropboxKey(): String {
+    return getReleaseSecret("DROPBOX_APP_KEY")
+        ?: getReleaseSecret("DROPBOX_KEY")
+        ?: missingDropboxKey
+}
+
+fun getReleaseStoreFile(): String? {
+    return getReleaseSecret("RELEASE_STORE_FILE")
+}
+
+fun getRequiredReleaseSecret(name: String): String {
+    return getReleaseSecret(name)
+        ?: throw GradleException("Missing required release secret: $name")
+}
+
+fun getReleaseSecret(name: String): String? {
+    return System.getenv(name)?.takeIf { it.isNotBlank() }
+        ?: localProperties.getProperty(name)?.takeIf { it.isNotBlank() }
+}
+
+fun loadLocalProperties(): Properties {
     val localPropertiesFile = rootProject.file("local.properties")
-    val localPropsKey = if (localPropertiesFile.isFile) {
-        Properties().apply {
+    return Properties().apply {
+        if (localPropertiesFile.isFile) {
             localPropertiesFile.inputStream().use(::load)
-        }.getProperty("DROPBOX_KEY")
-    } else {
-        null
+        }
     }
-    return System.getenv("DROPBOX_APP_KEY") ?: localPropsKey ?: "missing_local_key"
 }

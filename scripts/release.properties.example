@@ -1,0 +1,9 @@
+# Copy this file to release-secrets/release.properties and fill in your local values.
+#
+# The release job will source this file before invoking Gradle.
+
+DROPBOX_APP_KEY=replace_me
+RELEASE_STORE_FILE=/absolute/path/to/upload-keystore.jks
+RELEASE_STORE_PASSWORD=replace_me
+RELEASE_KEY_ALIAS=replace_me
+RELEASE_KEY_PASSWORD=replace_me
