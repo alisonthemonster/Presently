@@ -15,10 +15,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.presently.logging.AnalyticsLogger
-import com.presently.logging.CrashReporter
-import com.presently.settings.PresentlySettings
-import com.presently.ui.setStatusBarColorsForBackground
+import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
+import journal.gratitude.com.gratitudejournal.logging.CrashReporter
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.FragmentThemeBinding
@@ -485,7 +485,7 @@ class ThemeFragment : Fragment() {
 
         val window = requireActivity().window
         val typedValue = TypedValue()
-        requireActivity().theme.resolveAttribute(com.presently.sharing.R.attr.toolbarColor, typedValue, true)
+        requireActivity().theme.resolveAttribute(R.attr.toolbarColor, typedValue, true)
         setStatusBarColorsForBackground(window, typedValue.data)
         window.statusBarColor = typedValue.data
     }

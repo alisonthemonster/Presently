@@ -1,6 +1,6 @@
 package journal.gratitude.com.gratitudejournal.util.backups
 
-import com.presently.coroutine_utils.AppCoroutineDispatchers
+import journal.gratitude.com.gratitudejournal.coroutine_utils.AppCoroutineDispatchers
 import journal.gratitude.com.gratitudejournal.model.CsvFileCreated
 import journal.gratitude.com.gratitudejournal.model.CsvFileError
 import journal.gratitude.com.gratitudejournal.model.CsvFileResult

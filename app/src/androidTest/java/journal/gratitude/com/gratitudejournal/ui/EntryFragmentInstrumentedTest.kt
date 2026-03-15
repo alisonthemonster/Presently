@@ -10,7 +10,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.rule.IntentsRule
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -36,7 +36,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
-import com.presently.testing.launchFragmentInHiltContainer
+import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
 import junit.framework.TestCase.assertEquals
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryArgs
 
@@ -46,6 +46,9 @@ class EntryFragmentInstrumentedTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
+
+    @get:Rule
+    val intentsRule = IntentsRule()
 
     @Inject
     lateinit var repository: EntryRepository
@@ -167,8 +170,6 @@ class EntryFragmentInstrumentedTest {
 
     @Test
     fun saveButton_onMilestone_clickRateOpensStore() {
-        Intents.init()
-
         val date = LocalDate.of(2019, 3, 22)
 
         val args = EntryArgs(date.toString(), true, 4, "quote", "hint", emptyList())
@@ -188,20 +189,16 @@ class EntryFragmentInstrumentedTest {
         onView(withId(R.id.rate_presently)).perform(click())
 
         val uri = Uri.parse("market://details?id=journal.gratitude.com.gratitudejournal")
-        Intents.intended(
+        androidx.test.espresso.intent.Intents.intended(
             allOf(
                 IntentMatchers.hasAction(Intent.ACTION_VIEW),
                 IntentMatchers.hasData(uri)
             )
         )
-
-        Intents.release()
     }
 
     @Test
     fun saveButton_onMilestone_clickShare_opensShareDialog() {
-        Intents.init()
-
         val date = LocalDate.of(2019, 3, 22)
 
         val args = EntryArgs(date.toString(), true, 4, "quote", "hint", emptyList())
@@ -220,14 +217,12 @@ class EntryFragmentInstrumentedTest {
 
         onView(withId(R.id.share_presently)).perform(click())
 
-        Intents.intended(
+        androidx.test.espresso.intent.Intents.intended(
             allOf(
                 IntentMatchers.hasAction(Intent.ACTION_CHOOSER),
                 IntentMatchers.hasExtra(Intent.EXTRA_TITLE, "Share your gratitude")
             )
         )
-
-        Intents.release()
     }
 
     @Test

@@ -28,11 +28,11 @@ import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.jakewharton.rxbinding2.widget.RxTextView
-import com.presently.logging.AnalyticsLogger
-import com.presently.settings.BackupCadence
-import com.presently.settings.PresentlySettings
-import com.presently.sharing.view.SharingFragment
-import com.presently.ui.setStatusBarColorsForBackground
+import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
+import journal.gratitude.com.gratitudejournal.settings.BackupCadence
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.sharing.view.SharingFragment
+import journal.gratitude.com.gratitudejournal.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.presently.logging.AnalyticsLogger
+import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.databinding.FragmentMilestoneDialogBinding

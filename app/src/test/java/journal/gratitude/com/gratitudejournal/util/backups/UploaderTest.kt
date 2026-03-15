@@ -14,10 +14,10 @@ import com.dropbox.core.v2.auth.AuthError.INVALID_ACCESS_TOKEN
 import com.dropbox.core.v2.files.UploadError.OTHER
 import com.dropbox.core.v2.files.UploadErrorException
 import com.google.common.truth.Truth.assertThat
-import com.presently.coroutine_utils.AppCoroutineDispatchers
-import com.presently.logging.CrashReporter
-import com.presently.settings.BackupCadence
-import com.presently.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.coroutine_utils.AppCoroutineDispatchers
+import journal.gratitude.com.gratitudejournal.logging.CrashReporter
+import journal.gratitude.com.gratitudejournal.settings.BackupCadence
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.model.CloudUploadResult
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.UploadError

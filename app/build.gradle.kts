@@ -43,6 +43,13 @@ android {
         viewBinding = true
     }
 
+    packaging {
+        resources {
+            excludes += "META-INF/AL2.0"
+            excludes += "META-INF/LGPL2.1"
+        }
+    }
+
     buildTypes {
         getByName("debug") {
             isTestCoverageEnabled = project.hasProperty("coverage")
@@ -73,14 +80,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":logging"))
-    implementation(project(":mavericks_utils"))
-    implementation(project(":settings"))
-    implementation(project(":sharing"))
-    implementation(project(":strings"))
-    implementation(project(":ui"))
-    implementation(project(":coroutine_utils"))
-
     implementation(Libraries.kotlin_stdlib)
     implementation(Libraries.androidx_compat)
     implementation(Libraries.androidx_core_ktx)
@@ -98,6 +97,7 @@ dependencies {
     kapt(Libraries.androidx_room_compiler)
 
     implementation(Libraries.androidx_livedata_ktx)
+    implementation(Libraries.androidx_lifecycle_runtime_ktx)
     implementation(Libraries.androidx_viewmodel_ktx)
     kapt(Libraries.androidx_lifecycle_compiler)
 
@@ -115,6 +115,11 @@ dependencies {
     implementation(Libraries.rxbinding)
 
     implementation(Libraries.mavericks)
+    implementation(Libraries.mavericks_mocking)
+
+    implementation(platform(Libraries.firebase_bom))
+    implementation(Libraries.firebase_analytics_ktx)
+    implementation(Libraries.firebase_crashlytics)
 
     //dependency injection
     implementation(Libraries.dagger)
@@ -141,7 +146,6 @@ dependencies {
     testImplementation(TestLibraries.androidx_test_core_ktx)
     testImplementation(TestLibraries.androidx_work_testing)
 
-    androidTestImplementation(project(":testing"))
     androidTestImplementation(TestLibraries.androidx_test_runner)
     androidTestImplementation(TestLibraries.androidx_arch_testing)
     androidTestImplementation(TestLibraries.hamcrest)
@@ -155,11 +159,14 @@ dependencies {
     androidTestImplementation(TestLibraries.mockito_kotlin)
     androidTestImplementation(TestLibraries.three_ten_abp)
     androidTestImplementation(TestLibraries.androidx_test_uiautomator)
+    androidTestImplementation(TestLibraries.androidx_test_rules)
     androidTestImplementation(TestLibraries.kotlin_coroutines_test)
+    androidTestImplementation(TestLibraries.mavericks_testing)
+    androidTestImplementation(TestLibraries.mockito_android)
     androidTestImplementation(TestLibraries.androidx_work_testing)
     androidTestImplementation(TestLibraries.hilt_android_testing)
     kaptAndroidTest(Libraries.hilt_compiler)
-    debugImplementation(project(":testing")) //needed for the hilt test activity
+    debugImplementation(TestLibraries.androidx_test_core_ktx)
 
     androidTestUtil(TestLibraries.test_orchestrator)
 }

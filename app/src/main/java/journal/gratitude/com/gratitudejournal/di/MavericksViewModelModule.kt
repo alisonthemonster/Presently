@@ -1,8 +1,8 @@
 package journal.gratitude.com.gratitudejournal.di
 
-import com.presently.mavericks_utils.AssistedViewModelFactory
-import com.presently.mavericks_utils.MavericksViewModelComponent
-import com.presently.mavericks_utils.MavericksViewModelKey
+import journal.gratitude.com.gratitudejournal.mavericks_utils.AssistedViewModelFactory
+import journal.gratitude.com.gratitudejournal.mavericks_utils.MavericksViewModelComponent
+import journal.gratitude.com.gratitudejournal.mavericks_utils.MavericksViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

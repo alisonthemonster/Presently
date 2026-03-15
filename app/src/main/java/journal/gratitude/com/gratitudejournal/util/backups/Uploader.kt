@@ -9,9 +9,9 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.ListenableWorker
 import com.dropbox.core.InvalidAccessTokenException
 import com.dropbox.core.v2.files.UploadErrorException
-import com.presently.coroutine_utils.AppCoroutineDispatchers
-import com.presently.logging.CrashReporter
-import com.presently.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.coroutine_utils.AppCoroutineDispatchers
+import journal.gratitude.com.gratitudejournal.logging.CrashReporter
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*

@@ -1,0 +1,33 @@
+package journal.gratitude.com.gratitudejournal.sharing
+
+import journal.gratitude.com.gratitudejournal.logging.CrashReporter
+import journal.gratitude.com.gratitudejournal.logging.wiring.CrashReportingModule
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
+import java.lang.Exception
+import javax.inject.Inject
+import javax.inject.Singleton
+
+class FakeCrashReporter @Inject constructor(): CrashReporter {
+    override fun logHandledException(exception: Exception) {}
+    override fun optOutOfCrashReporting() {}
+    override fun optIntoCrashReporting() {}
+}
+
+/**
+ * CrashReporter binding to use in instrumented tests.
+ *
+ * Hilt will inject a [FakeCrashReporter] instead of a [RealCrashReporter].
+ */
+@Module
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [CrashReportingModule::class]
+)
+abstract class FakeAnalyticsModule {
+    @Singleton
+    @Binds
+    abstract fun bindCrashReporter(crashReporter: FakeCrashReporter): CrashReporter
+}

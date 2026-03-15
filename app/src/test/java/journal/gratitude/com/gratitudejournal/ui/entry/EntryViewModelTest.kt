@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.airbnb.mvrx.withState
 import com.google.common.truth.Truth.assertThat
-import com.presently.logging.AnalyticsLogger
+import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import junit.framework.TestCase.assertEquals

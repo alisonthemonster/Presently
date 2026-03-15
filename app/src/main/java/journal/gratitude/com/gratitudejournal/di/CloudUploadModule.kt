@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal.di
 
 import android.content.Context
-import com.presently.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -6,20 +6,16 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 MODE="unit"
-INCLUDE_SHARING_CONNECTED="false"
 
 usage() {
   cat <<'EOF'
-Usage: ./scripts/local_coverage.sh [--connected] [--connected-sharing]
+Usage: ./scripts/local_coverage.sh [--connected]
 
 Runs the local coverage flow for this repo.
 
 Options:
   --connected   Include connected Android tests before generating the merged
                 JaCoCo report. Requires a running emulator or attached device.
-  --connected-sharing
-                When used with --connected, also run sharing module connected
-                Android tests.
   --help        Show this help text.
 
 Default behavior runs:
@@ -29,9 +25,6 @@ Default behavior runs:
 
 With --connected it also runs:
   :app:connectedDebugAndroidTest
-
-With --connected --connected-sharing it also runs:
-  :sharing:connectedDebugAndroidTest
 
 Reports:
   HTML: build/reports/jacoco/html/index.html
@@ -43,10 +36,6 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --connected)
       MODE="connected"
-      shift
-      ;;
-    --connected-sharing)
-      INCLUDE_SHARING_CONNECTED="true"
       shift
       ;;
     --help|-h)
@@ -66,6 +55,12 @@ COVERAGE_ARGS=(-Pcoverage -PskipCoverageVerification --stacktrace)
 HTML_REPORT="$ROOT_DIR/build/reports/jacoco/html/index.html"
 XML_REPORT="$ROOT_DIR/build/reports/jacoco/jacocoFullReport/jacocoFullReport.xml"
 
+echo "Cleaning previous coverage artifacts..."
+find "$ROOT_DIR" -path '*/build/jacoco/*.exec' -delete
+find "$ROOT_DIR" -path '*/build/outputs/code-coverage/connected/*coverage.ec' -delete
+find "$ROOT_DIR" -path '*/build/outputs/code_coverage/debugAndroidTest/connected/*.ec' -delete
+rm -rf "$ROOT_DIR/build/reports/jacoco"
+
 echo "Building debug artifacts..."
 "$GRADLEW" "${COVERAGE_ARGS[@]}" assembleDebug assembleDebugAndroidTest
 
@@ -75,14 +70,6 @@ echo "Running unit tests..."
 if [[ "$MODE" == "connected" ]]; then
   echo "Running connected Android tests for the app module..."
   "$GRADLEW" "${COVERAGE_ARGS[@]}" :app:connectedDebugAndroidTest
-
-  if [[ "$INCLUDE_SHARING_CONNECTED" == "true" ]]; then
-    echo "Running connected Android tests for the sharing module..."
-    "$GRADLEW" "${COVERAGE_ARGS[@]}" :sharing:connectedDebugAndroidTest
-  fi
-elif [[ "$INCLUDE_SHARING_CONNECTED" == "true" ]]; then
-  echo "--connected-sharing requires --connected" >&2
-  exit 1
 fi
 
 echo "Generating JaCoCo report..."

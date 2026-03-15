@@ -1,11 +1,9 @@
 package journal.gratitude.com.gratitudejournal
 
 import android.app.Application
-import android.content.Context
 import com.airbnb.mvrx.Mavericks
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import androidx.work.WorkManager
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EarlyEntryPoint
@@ -17,33 +15,29 @@ import javax.inject.Inject
 @HiltAndroidApp
 class GratitudeApplication : BaseGratitudeApplication()
 
-open class BaseGratitudeApplication: Application() {
+open class BaseGratitudeApplication : Application(), Configuration.Provider {
 
-    // Hilt test applications cannot use field injection, so you an entry point instead
+    // Hilt test applications cannot use field injection, so use an entry point instead.
     @EarlyEntryPoint
     @InstallIn(SingletonComponent::class)
     interface ApplicationEarlyEntryPoint {
         fun getWorkerFactory(): HiltWorkerFactory
     }
 
+    override val workManagerConfiguration: Configuration
+        get() {
+            val earlyEntryPoint = EarlyEntryPoints.get(this, ApplicationEarlyEntryPoint::class.java)
+            return Configuration.Builder()
+                .setWorkerFactory(earlyEntryPoint.getWorkerFactory())
+                .build()
+        }
 
     override fun onCreate() {
         super.onCreate()
-
-        configureWorkManager()
 
         AndroidThreeTen.init(this)
         Mavericks.initialize(this)
         // TODO: If Mavericks runtime mocking is needed again, re-enable it only after upgrading
         // to a version that is compatible with Android 13+ dynamic receiver registration rules.
-    }
-
-    private fun configureWorkManager() {
-        val earlyEntryPoint = EarlyEntryPoints.get(this, ApplicationEarlyEntryPoint::class.java)
-        val daggerAwareWorkerFactory = earlyEntryPoint.getWorkerFactory()
-        val config = Configuration.Builder()
-            .setWorkerFactory(daggerAwareWorkerFactory)
-            .build()
-        WorkManager.initialize(this, config)
     }
 }

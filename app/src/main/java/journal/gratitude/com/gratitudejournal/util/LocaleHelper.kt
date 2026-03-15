@@ -3,8 +3,8 @@ package journal.gratitude.com.gratitudejournal.util
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
-import com.presently.settings.PresentlySettings
-import com.presently.settings.model.NO_LANG_PREF
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.settings.model.NO_LANG_PREF
 import java.util.*
 
 object LocaleHelper {

@@ -7,7 +7,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.airbnb.mvrx.asMavericksArgs
-import com.presently.testing.launchFragmentInHiltContainer
+import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
