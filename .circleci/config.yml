@@ -136,13 +136,13 @@ jobs:
               gcloud storage cp "$VALUE_SERIF_TTF_GCS_URI" release-secrets/fonts/value_serif.ttf
             fi
 
-            cat > release-secrets/release.properties <<EOF
-            DROPBOX_APP_KEY=${DROPBOX_APP_KEY}
-            RELEASE_STORE_FILE=/home/circleci/project/release-secrets/upload-keystore.jks
-            RELEASE_STORE_PASSWORD=${RELEASE_STORE_PASSWORD}
-            RELEASE_KEY_ALIAS=${RELEASE_KEY_ALIAS}
-            RELEASE_KEY_PASSWORD=${RELEASE_KEY_PASSWORD}
-            EOF
+            printf '%s\n' \
+              "DROPBOX_APP_KEY=${DROPBOX_APP_KEY}" \
+              "RELEASE_STORE_FILE=/home/circleci/project/release-secrets/upload-keystore.jks" \
+              "RELEASE_STORE_PASSWORD=${RELEASE_STORE_PASSWORD}" \
+              "RELEASE_KEY_ALIAS=${RELEASE_KEY_ALIAS}" \
+              "RELEASE_KEY_PASSWORD=${RELEASE_KEY_PASSWORD}" \
+              > release-secrets/release.properties
 
             echo "$ANDROID_KEYSTORE_B64" | base64 -di > release-secrets/upload-keystore.jks
       - run:
