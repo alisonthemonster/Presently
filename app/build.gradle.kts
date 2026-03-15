@@ -3,6 +3,7 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
+    id("com.github.triplet.play")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
     id("org.jetbrains.kotlin.plugin.parcelize")
@@ -99,6 +100,15 @@ android {
     }
 }
 
+play {
+    defaultToAppBundles.set(true)
+
+    val playServiceAccountFile = getPlayServiceAccountFile()
+    if (playServiceAccountFile != null) {
+        serviceAccountCredentials.set(file(playServiceAccountFile))
+    }
+}
+
 tasks.register("verifyReleaseConfig") {
     group = "verification"
     description = "Checks release-only secrets and files before building a release."
@@ -140,9 +150,37 @@ tasks.register("verifyReleaseConfig") {
     }
 }
 
+tasks.register("verifyPlayPublisherConfig") {
+    group = "verification"
+    description = "Checks Play publishing credentials before upload or promotion."
+
+    doLast {
+        val playServiceAccountFile = getPlayServiceAccountFile()
+        if (playServiceAccountFile == null) {
+            throw GradleException("Missing required Play publishing secret: PLAY_SERVICE_ACCOUNT_FILE")
+        }
+
+        if (!file(playServiceAccountFile).isFile) {
+            throw GradleException("Play publishing credentials file does not exist: $playServiceAccountFile")
+        }
+    }
+}
+
 listOf("bundleRelease", "assembleRelease").forEach { taskName ->
     tasks.matching { it.name == taskName }.configureEach {
         dependsOn("verifyReleaseConfig")
+    }
+}
+
+listOf("publishReleaseBundle", "publishBundle").forEach { taskName ->
+    tasks.matching { it.name == taskName }.configureEach {
+        dependsOn("verifyReleaseConfig", "verifyPlayPublisherConfig")
+    }
+}
+
+listOf("promoteReleaseArtifact", "promoteArtifact").forEach { taskName ->
+    tasks.matching { it.name == taskName }.configureEach {
+        dependsOn("verifyPlayPublisherConfig")
     }
 }
 
@@ -250,6 +288,10 @@ fun getDropboxKey(): String {
 
 fun getReleaseStoreFile(): String? {
     return getReleaseSecret("RELEASE_STORE_FILE")
+}
+
+fun getPlayServiceAccountFile(): String? {
+    return getReleaseSecret("PLAY_SERVICE_ACCOUNT_FILE")
 }
 
 fun getRequiredReleaseSecret(name: String): String {

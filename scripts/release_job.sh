@@ -21,6 +21,11 @@ BUILD_APK=false
 BUMP_LEVEL="none"
 TARGET_VERSION_NAME=""
 TARGET_VERSION_CODE=""
+PLAY_TRACK=""
+PLAY_RELEASE_NAME=""
+GIT_COMMIT_VERSION=false
+GIT_BRANCH=""
+GIT_REMOTE="origin"
 
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/presently-release.XXXXXX")"
 GOOGLE_BACKUP=""
@@ -42,6 +47,11 @@ Options:
   --instrumented MODE         MODE is one of: firebase, connected, skip.
   --skip-unit-tests           Skip unit tests.
   --build-apk                 Build assembleRelease in addition to bundleRelease.
+  --play-track TRACK          Upload the built AAB to a Play track like internal.
+  --play-release-name NAME    Override the Play release name for this upload.
+  --git-commit-version        Commit the bumped version and push it back to Git.
+  --git-branch BRANCH         Branch to push when using --git-commit-version.
+  --git-remote REMOTE         Git remote to push when using --git-commit-version. Default: origin
   --help                      Show this help text.
 
 Expected local files under release-secrets/:
@@ -57,6 +67,7 @@ release.properties should export:
   RELEASE_STORE_PASSWORD=...
   RELEASE_KEY_ALIAS=...
   RELEASE_KEY_PASSWORD=...
+  PLAY_SERVICE_ACCOUNT_FILE=/absolute/path/to/play-service-account.json
 EOF
 }
 
@@ -110,6 +121,26 @@ while [[ $# -gt 0 ]]; do
       BUILD_APK=true
       shift
       ;;
+    --play-track)
+      PLAY_TRACK="${2:-}"
+      shift 2
+      ;;
+    --play-release-name)
+      PLAY_RELEASE_NAME="${2:-}"
+      shift 2
+      ;;
+    --git-commit-version)
+      GIT_COMMIT_VERSION=true
+      shift
+      ;;
+    --git-branch)
+      GIT_BRANCH="${2:-}"
+      shift 2
+      ;;
+    --git-remote)
+      GIT_REMOTE="${2:-}"
+      shift 2
+      ;;
     --help|-h)
       usage
       exit 0
@@ -147,6 +178,11 @@ fi
 
 if [[ -n "$TARGET_VERSION_CODE" && ! "$TARGET_VERSION_CODE" =~ ^[0-9]+$ ]]; then
   echo "Version code must be numeric: $TARGET_VERSION_CODE" >&2
+  exit 1
+fi
+
+if [[ -n "$PLAY_TRACK" && ! "$PLAY_TRACK" =~ ^[A-Za-z0-9_-]+$ ]]; then
+  echo "Play track must contain only letters, numbers, underscores, or hyphens: $PLAY_TRACK" >&2
   exit 1
 fi
 
@@ -242,6 +278,18 @@ write_version_numbers() {
   perl -0pi -e "s/const val PATCH = \\d+/const val PATCH = ${patch}/" "$VERSIONS_FILE"
 }
 
+current_version_name() {
+  local major
+  local minor
+  local patch
+
+  major="$(read_current_version_component "MAJOR")"
+  minor="$(read_current_version_component "MINOR")"
+  patch="$(read_current_version_component "PATCH")"
+
+  echo "${major}.${minor}.${patch}"
+}
+
 apply_version_update() {
   local current_major
   local current_minor
@@ -305,6 +353,72 @@ run_gradle() {
   ./gradlew --stacktrace "$@"
 }
 
+authenticated_git_url() {
+  local remote_url="$1"
+
+  if [[ -z "${GITHUB_BOT_TOKEN:-}" ]]; then
+    echo "GITHUB_BOT_TOKEN is required when using --git-commit-version" >&2
+    exit 1
+  fi
+
+  case "$remote_url" in
+    https://github.com/*)
+      echo "${remote_url/https:\/\//https:\/\/x-access-token:${GITHUB_BOT_TOKEN}@}"
+      ;;
+    git@github.com:*)
+      echo "https://x-access-token:${GITHUB_BOT_TOKEN}@github.com/${remote_url#git@github.com:}"
+      ;;
+    *)
+      echo "Unsupported git remote URL for authenticated push: $remote_url" >&2
+      exit 1
+      ;;
+  esac
+}
+
+push_version_commit() {
+  if [[ "$GIT_COMMIT_VERSION" != true ]]; then
+    return
+  fi
+
+  if git diff --quiet -- "$VERSIONS_FILE"; then
+    echo "Version file was not changed; skipping git commit step."
+    return
+  fi
+
+  local branch
+  local version_name
+  local original_remote_url
+  local push_remote_url
+  local git_user_name
+  local git_user_email
+
+  branch="$GIT_BRANCH"
+  if [[ -z "$branch" ]]; then
+    branch="${CIRCLE_BRANCH:-$(git rev-parse --abbrev-ref HEAD)}"
+  fi
+
+  if [[ "$branch" == "HEAD" || -z "$branch" ]]; then
+    echo "Unable to determine git branch for push. Pass --git-branch explicitly." >&2
+    exit 1
+  fi
+
+  version_name="$(current_version_name)"
+  original_remote_url="$(git remote get-url "$GIT_REMOTE")"
+  push_remote_url="$(authenticated_git_url "$original_remote_url")"
+  git_user_name="${GIT_USER_NAME:-Presently Release Bot}"
+  git_user_email="${GIT_USER_EMAIL:-presently-release-bot@users.noreply.github.com}"
+
+  git config user.name "$git_user_name"
+  git config user.email "$git_user_email"
+  git add "$VERSIONS_FILE"
+  git commit -m "Release ${version_name}"
+  git remote set-url "$GIT_REMOTE" "$push_remote_url"
+  git push "$GIT_REMOTE" "HEAD:${branch}"
+  git remote set-url "$GIT_REMOTE" "$original_remote_url"
+
+  echo "Pushed release version commit: ${version_name}"
+}
+
 stage_google_services
 stage_release_fonts
 stage_gcloud_key
@@ -338,9 +452,24 @@ fi
 echo "Building release artifacts..."
 run_gradle "${RELEASE_TASKS[@]}"
 
+if [[ -n "$PLAY_TRACK" ]]; then
+  PLAY_TASKS=(publishReleaseBundle --artifact-dir "${ROOT_DIR}/app/build/outputs/bundle/release" --track "$PLAY_TRACK")
+  if [[ -n "$PLAY_RELEASE_NAME" ]]; then
+    PLAY_TASKS+=(--release-name "$PLAY_RELEASE_NAME")
+  fi
+
+  echo "Uploading release bundle to Google Play track: $PLAY_TRACK"
+  run_gradle "${PLAY_TASKS[@]}"
+fi
+
+push_version_commit
+
 echo
 echo "Release outputs:"
 echo "  AAB: ${ROOT_DIR}/app/build/outputs/bundle/release/app-release.aab"
 if [[ "$BUILD_APK" == true ]]; then
   echo "  APK: ${ROOT_DIR}/app/build/outputs/apk/release/app-release.apk"
+fi
+if [[ -n "$PLAY_TRACK" ]]; then
+  echo "  Play track upload: ${PLAY_TRACK}"
 fi

@@ -7,3 +7,4 @@ RELEASE_STORE_FILE=/absolute/path/to/upload-keystore.jks
 RELEASE_STORE_PASSWORD=replace_me
 RELEASE_KEY_ALIAS=replace_me
 RELEASE_KEY_PASSWORD=replace_me
+PLAY_SERVICE_ACCOUNT_FILE=/absolute/path/to/play-service-account.json

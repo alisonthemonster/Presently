@@ -160,9 +160,10 @@ Reports are written to:
 
 ### Release automation
 
-The repo now includes a local release helper:
+The repo now includes local release helpers:
 
 `./scripts/release_job.sh`
+`./scripts/promote_release.sh`
 
 It handles the release-only steps that should not live in git:
 - stages `app/google-services.json`
@@ -172,6 +173,7 @@ It handles the release-only steps that should not live in git:
 - runs unit tests
 - runs connected Android tests or Firebase Test Lab tests
 - builds a signed release bundle, plus an APK if requested
+- optionally uploads the built AAB to a Play track
 
 Create a local `release-secrets/` directory like this:
 
@@ -191,6 +193,10 @@ Examples:
 - `./scripts/release_job.sh --bump patch`
 - `./scripts/release_job.sh --version-name 1.22.3 --version-code 91 --instrumented connected`
 - `./scripts/release_job.sh --bump minor --instrumented firebase --build-apk`
+- `./scripts/release_job.sh --bump patch --instrumented firebase --play-track internal`
+
+To promote an existing Play release:
+- `./scripts/promote_release.sh --from-track internal --to-track production`
 
 The script cleans up staged secret files when it exits, so you do not need to stash or swap tracked files for a release build.
 
@@ -207,6 +213,16 @@ In CircleCI, use `Trigger Pipeline` and pass:
 - optional `release_version_code: N`
 - optional `release_instrumented: firebase|connected|skip`
 - optional `release_build_apk: true|false`
+- optional `release_play_track: internal|production|...`
+- optional `release_play_release_name: your label`
+- optional `release_commit_version: true|false`
+
+To promote an existing uploaded release, trigger a pipeline with:
+- `run_promote_release: true`
+- optional `promote_from_track: internal|beta|...`
+- optional `promote_to_track: production|beta|...`
+- optional `promote_release_status: completed|draft|halted|inProgress`
+- optional `promote_user_fraction: 0.1`
 
 Required CircleCI environment variables:
 - `GOOGLE_SERVICES_JSON_B64` or `GOOGLE_SERVICES_JSON`
@@ -215,17 +231,31 @@ Required CircleCI environment variables:
 - `RELEASE_STORE_PASSWORD`
 - `RELEASE_KEY_ALIAS`
 - `RELEASE_KEY_PASSWORD`
+- `GITHUB_BOT_TOKEN` if you use `release_commit_version: true`
 
 Optional CircleCI environment variables:
 - `GCLOUD_SERVICE_KEY` for `release_instrumented=firebase` or for GCS-hosted fonts
+- `GOOGLE_PLAY_SERVICE_ACCOUNT_B64` for Play upload/promotion. If absent, the workflow falls back to `GCLOUD_SERVICE_KEY`
 - `LARSSEIT_MEDIUM_TTF_GCS_URI` and `VALUE_SERIF_TTF_GCS_URI` if you want CI to swap in paid fonts from private Cloud Storage objects
 
 The CircleCI release job will:
 - materialize the release-only files into `release-secrets/`
 - run `./scripts/release_job.sh`
 - store the generated AAB and optional APK as CircleCI artifacts
+- optionally upload the AAB to Google Play
 
-Important: version bumping in CI changes the workspace used for that build, but it does not commit the new version numbers back to git. If you want the repo to reflect the shipped version, commit that bump separately.
+Important: version bumping in CI changes the workspace used for that build unless you also enable `release_commit_version`. With `release_commit_version: true`, the job will push the bumped version file back to the triggering branch after the release succeeds.
+
+Recommended production flow:
+- `run_release: true` with `release_bump: patch`, `release_play_track: internal`, and `release_commit_version: true`
+- verify the internal release in Play
+- `run_promote_release: true` to move the existing artifact from `internal` to `production`
+
+When `release_commit_version` is enabled, the release job will:
+- commit the bumped version in `buildSrc/src/main/java/Dependencies.kt`
+- push that commit back to the triggering branch
+
+This requires a `GITHUB_BOT_TOKEN` with push access to the repository. If the branch is protected against direct pushes from that token, the release job will fail at the final push step.
 
 To host paid fonts privately for CircleCI:
 - upload each font to a private GCS bucket
