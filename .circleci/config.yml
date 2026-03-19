@@ -18,7 +18,7 @@ parameters:
     default: "firebase"
   release_build_apk:
     type: boolean
-    default: false
+    default: true
   release_play_track:
     type: string
     default: ""
@@ -28,21 +28,6 @@ parameters:
   release_commit_version:
     type: boolean
     default: false
-  run_promote_release:
-    type: boolean
-    default: false
-  promote_from_track:
-    type: string
-    default: "internal"
-  promote_to_track:
-    type: string
-    default: "production"
-  promote_release_status:
-    type: string
-    default: "completed"
-  promote_user_fraction:
-    type: string
-    default: ""
 
 jobs:
   build_debug:
@@ -192,13 +177,16 @@ jobs:
           name: Run release job
           command: |
             cmd=(./scripts/release_job.sh --instrumented << pipeline.parameters.release_instrumented >>)
+            should_commit_version="<< pipeline.parameters.release_commit_version >>"
 
             if [ "<< pipeline.parameters.release_bump >>" != "none" ]; then
               cmd+=(--bump << pipeline.parameters.release_bump >>)
+              should_commit_version="true"
             fi
 
             if [ -n "<< pipeline.parameters.release_version_name >>" ]; then
               cmd+=(--version-name "<< pipeline.parameters.release_version_name >>")
+              should_commit_version="true"
             fi
 
             if [ -n "<< pipeline.parameters.release_version_code >>" ]; then
@@ -217,7 +205,7 @@ jobs:
               cmd+=(--play-release-name "<< pipeline.parameters.release_play_release_name >>")
             fi
 
-            if [ "<< pipeline.parameters.release_commit_version >>" = "true" ]; then
+            if [ "$should_commit_version" = "true" ]; then
               cmd+=(--git-commit-version --git-branch "$CIRCLE_BRANCH")
             fi
 
@@ -234,50 +222,11 @@ jobs:
       - store_test_results:
           path: build/
 
-  promote_release:
-    machine:
-      image: android:2025.10.1
-    resource_class: large
-    steps:
-      - checkout
-      - run:
-          name: Materialize Play publishing credentials
-          command: |
-            mkdir -p release-secrets
-
-            play_service_account_b64="${GOOGLE_PLAY_SERVICE_ACCOUNT_B64:-${GCLOUD_SERVICE_KEY:-}}"
-            if [ -z "$play_service_account_b64" ]; then
-              echo "GOOGLE_PLAY_SERVICE_ACCOUNT_B64 or GCLOUD_SERVICE_KEY is required for Play promotions" >&2
-              exit 1
-            fi
-
-            play_service_account_file="/home/circleci/project/release-secrets/play-service-account.json"
-            echo "$play_service_account_b64" | base64 -di > "$play_service_account_file"
-
-            printf '%s\n' \
-              "PLAY_SERVICE_ACCOUNT_FILE=${play_service_account_file}" \
-              > release-secrets/release.properties
-      - run:
-          name: Promote release in Google Play
-          command: |
-            cmd=(./scripts/promote_release.sh \
-              --from-track "<< pipeline.parameters.promote_from_track >>" \
-              --to-track "<< pipeline.parameters.promote_to_track >>" \
-              --release-status "<< pipeline.parameters.promote_release_status >>")
-
-            if [ -n "<< pipeline.parameters.promote_user_fraction >>" ]; then
-              cmd+=(--user-fraction "<< pipeline.parameters.promote_user_fraction >>")
-            fi
-
-            "${cmd[@]}"
-
 workflows:
   version: 2
   workflow:
     when:
-      and:
-        - equal: [ false, << pipeline.parameters.run_release >> ]
-        - equal: [ false, << pipeline.parameters.run_promote_release >> ]
+      equal: [ false, << pipeline.parameters.run_release >> ]
     jobs:
       - build_debug:
           filters:
@@ -292,11 +241,5 @@ workflows:
     when: << pipeline.parameters.run_release >>
     jobs:
       - release_build:
-          context:
-            - presently-release
-  promote_release:
-    when: << pipeline.parameters.run_promote_release >>
-    jobs:
-      - promote_release:
           context:
             - presently-release
