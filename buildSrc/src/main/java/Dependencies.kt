@@ -3,7 +3,7 @@ object Versions {
     const val TARGET_SDK = 35
     const val MIN_SDK = 26
 
-    const val APP_VERSION_CODE = 91
+    const val APP_VERSION_CODE = 92
 
     const val MAJOR = 1
     const val MINOR = 22

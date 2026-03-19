@@ -26,6 +26,9 @@ PLAY_RELEASE_NAME=""
 GIT_COMMIT_VERSION=false
 GIT_BRANCH=""
 GIT_REMOTE="origin"
+VERSION_COMMIT_CREATED=false
+VERSION_COMMIT_BRANCH=""
+VERSION_COMMIT_SHA=""
 
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/presently-release.XXXXXX")"
 GOOGLE_BACKUP=""
@@ -193,6 +196,35 @@ if [[ -f "$RELEASE_PROPS_FILE" ]]; then
   set +a
 fi
 
+validate_versioning_strategy() {
+  if [[ -z "$PLAY_TRACK" ]]; then
+    return
+  fi
+
+  if [[ "${CIRCLECI:-}" != "true" ]]; then
+    return
+  fi
+
+  if [[ -n "$TARGET_VERSION_CODE" || "$GIT_COMMIT_VERSION" == true ]]; then
+    return
+  fi
+
+  if [[ -z "$TARGET_VERSION_NAME" && "$BUMP_LEVEL" == "none" ]]; then
+    return
+  fi
+
+  cat >&2 <<'EOF'
+CircleCI Play uploads that auto-bump the version must persist that bump or set an explicit versionCode.
+
+Use one of:
+  - --git-commit-version
+  - --version-code N
+
+Otherwise the next CI release can reuse the same versionCode and Google Play will reject it.
+EOF
+  exit 1
+}
+
 backup_file_if_present() {
   local source_file="$1"
   local backup_file="$2"
@@ -260,6 +292,8 @@ stage_gcloud_key() {
   backup_file_if_present "$GCLOUD_TARGET" "$GCLOUD_BACKUP"
   cp "$GCLOUD_SOURCE" "$GCLOUD_TARGET"
 }
+
+validate_versioning_strategy
 
 read_current_version_component() {
   local name="$1"
@@ -375,7 +409,7 @@ authenticated_git_url() {
   esac
 }
 
-push_version_commit() {
+create_version_commit() {
   if [[ "$GIT_COMMIT_VERSION" != true ]]; then
     return
   fi
@@ -387,8 +421,6 @@ push_version_commit() {
 
   local branch
   local version_name
-  local original_remote_url
-  local push_remote_url
   local git_user_name
   local git_user_email
 
@@ -403,8 +435,6 @@ push_version_commit() {
   fi
 
   version_name="$(current_version_name)"
-  original_remote_url="$(git remote get-url "$GIT_REMOTE")"
-  push_remote_url="$(authenticated_git_url "$original_remote_url")"
   git_user_name="${GIT_USER_NAME:-Presently Release Bot}"
   git_user_email="${GIT_USER_EMAIL:-presently-release-bot@users.noreply.github.com}"
 
@@ -412,17 +442,34 @@ push_version_commit() {
   git config user.email "$git_user_email"
   git add "$VERSIONS_FILE"
   git commit -m "Release ${version_name}"
-  git remote set-url "$GIT_REMOTE" "$push_remote_url"
-  git push "$GIT_REMOTE" "HEAD:${branch}"
-  git remote set-url "$GIT_REMOTE" "$original_remote_url"
+  VERSION_COMMIT_CREATED=true
+  VERSION_COMMIT_BRANCH="$branch"
+  VERSION_COMMIT_SHA="$(git rev-parse HEAD)"
 
-  echo "Pushed release version commit: ${version_name}"
+  echo "Created release version commit: ${version_name}"
+}
+
+push_version_commit() {
+  if [[ "$VERSION_COMMIT_CREATED" != true ]]; then
+    return
+  fi
+
+  local original_remote_url
+  local push_remote_url
+
+  original_remote_url="$(git remote get-url "$GIT_REMOTE")"
+  push_remote_url="$(authenticated_git_url "$original_remote_url")"
+
+  git push "$push_remote_url" "HEAD:${VERSION_COMMIT_BRANCH}"
+
+  echo "Pushed release version commit: ${VERSION_COMMIT_SHA}"
 }
 
 stage_google_services
 stage_release_fonts
 stage_gcloud_key
 apply_version_update
+create_version_commit
 
 if [[ "$RUN_UNIT_TESTS" == true || "$INSTRUMENTED_MODE" != "skip" ]]; then
   echo "Building debug test artifacts..."
