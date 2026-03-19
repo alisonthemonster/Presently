@@ -1,7 +1,7 @@
 object Versions {
     const val COMPILE_SDK = 35
     const val TARGET_SDK = 35
-    const val MIN_SDK = 23
+    const val MIN_SDK = 26
 
     const val APP_VERSION_CODE = 91
 
@@ -35,7 +35,7 @@ object Versions {
     const val DAGGER = "2.57.2"
     const val HILT_ANDROID = "1.3.0"
     const val JUNIT = "4.13.2"
-    const val DROPBOX_SDK = "5.1.1" //https://github.com/dropbox/dropbox-sdk-java/releases
+    const val DROPBOX_SDK = "7.0.0" //https://github.com/dropbox/dropbox-sdk-java/releases
     const val PLAY_CORE = "2.1.0"
     const val MOCKITO_KOTLIN = "2.0.0"
     const val MOCKITO_ANDROID = "2.23.0"
@@ -89,7 +89,8 @@ object Libraries {
    const val androidx_room_compiler = "androidx.room:room-compiler:${Versions.ANDROIDX_ROOM}"
    const val androidx_room_paging = "androidx.room:room-paging:${Versions.ANDROIDX_ROOM}"
    const val three_ten_abp = "com.jakewharton.threetenabp:threetenabp:${Versions.THREE_TEN_ABP}"
-   const val dropbox_sdk = "com.dropbox.core:dropbox-core-sdk:${Versions.DROPBOX_SDK}"
+   const val dropbox_core_sdk = "com.dropbox.core:dropbox-core-sdk:${Versions.DROPBOX_SDK}"
+   const val dropbox_android_sdk = "com.dropbox.core:dropbox-android-sdk:${Versions.DROPBOX_SDK}"
    const val play_core = "com.google.android.play:feature-delivery:${Versions.PLAY_CORE}"
    const val material = "com.google.android.material:material:${Versions.MATERIAL}"
    const val play_services_oss_licenses = "com.google.android.gms:play-services-oss-licenses:${Versions.OSS_LICENSES}"

@@ -115,5 +115,6 @@
     <string name="backup_failure_notif_header">Fallo de copia de respaldo automático de Presently</string>
     <string name="dropbox_too_full_notif_body">Presently no pudo hacer una copia de respaldo de sus datos porque su Dropbox está lleno. Toque para ver su cuenta de Dropbox</string>
     <string name="dropbox_sync_error_notif_body">Hubo un problema con su cuenta de Dropbox, haga clic aquí para volver a conectarse a Dropbox y reanudar las copias de respaldo automáticos.</string>
+    <string name="dropbox_auth_failed">Error al vincular la cuenta de Dropbox</string>
     <string name="learn_more">Aprende más</string>
 </resources>

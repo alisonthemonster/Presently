@@ -113,5 +113,6 @@
     <string name="backup_failure_notif_header">Presently Automatisches Backup fehlgeschlagen</string>
     <string name="dropbox_too_full_notif_body">Presently konnte Ihre Daten nicht sichern, da Ihre Dropbox voll ist. Tippen Sie hier, um Ihr Dropbox-Konto anzuzeigen.</string>
     <string name="dropbox_sync_error_notif_body">Es ist ein Problem mit Ihrem Dropbox-Konto aufgetreten. Klicken Sie hier, um sich erneut mit Dropbox zu verbinden und die automatischen Backups fortzusetzen.</string>
+    <string name="dropbox_auth_failed">Fehler beim Verknüpfen des Dropbox-Kontos</string>
     <string name="learn_more">Mehr erfahren</string>
 </resources>

@@ -112,5 +112,6 @@
     <string name="backup_failure_notif_header">Awaria automatycznej kopii zapasowej Presently</string>
     <string name="dropbox_too_full_notif_body">Presently nie utworzyła kopii zapasowej Twoich danych, ponieważ Twój Dropbox jest pełny. Dotknij, aby wyświetlić swoje konto Dropbox</string>
     <string name="dropbox_sync_error_notif_body">Wystąpił problem z Twoim kontem Dropbox. Kliknij tutaj, aby ponownie połączyć się z Dropbox i wznowić automatyczne tworzenie kopii zapasowych.</string>
+    <string name="dropbox_auth_failed">Błąd podczas łączenia konta Dropbox</string>
     <string name="learn_more">Ucz się więcej</string>
 </resources>
