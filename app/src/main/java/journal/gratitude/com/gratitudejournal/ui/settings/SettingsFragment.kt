@@ -29,6 +29,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.dropbox.core.android.Auth
+import com.dropbox.core.android.AuthActivity
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
@@ -162,7 +163,23 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 }
             } else {
                 analytics.recordEvent(DROPBOX_AUTH_ATTEMPT)
-                DropboxUploader.authorizeDropboxAccess(requireContext(), settings)
+                try {
+                    val appKey = BuildConfig.DROPBOX_APP_KEY
+                    val manifestCheckPassed =
+                        AuthActivity.checkAppBeforeAuth(requireContext(), appKey, false)
+                    if (!manifestCheckPassed) {
+                        val exception = IllegalStateException(
+                            "Dropbox manifest/auth precheck failed before auth start"
+                        )
+                        crashReporter.logHandledException(exception)
+                        Toast.makeText(context, R.string.dropbox_auth_failed, Toast.LENGTH_SHORT).show()
+                        return@setOnPreferenceClickListener true
+                    }
+                    DropboxUploader.authorizeDropboxAccess(requireContext(), settings)
+                } catch (exception: Exception) {
+                    crashReporter.logHandledException(exception)
+                    Toast.makeText(context, R.string.dropbox_auth_failed, Toast.LENGTH_SHORT).show()
+                }
             }
             true
         }
@@ -204,11 +221,16 @@ class SettingsFragment : PreferenceFragmentCompat(),
             val token = Auth.getDbxCredential() //get token from Dropbox Auth activity
             if (token == null) {
                 //user started to auth and didn't succeed
+                val exception = IllegalStateException(
+                    "Dropbox auth resumed without a credential. data=${activity?.intent?.data}"
+                )
+                crashReporter.logHandledException(exception)
                 settings.markDropboxAuthAsCancelled()
+                Toast.makeText(context, R.string.dropbox_auth_failed, Toast.LENGTH_SHORT).show()
                 activity?.recreate()
             } else {
                 settings.setAccessToken(token)
-                createDropboxUploaderWorker(BackupCadence.DAILY)
+                createDropboxUploaderWorker(settings.getAutomaticBackupCadence())
                 cancelDropboxFailureNotifications() //now that user has auth'd cancel any notifs about previous failure
             }
         }

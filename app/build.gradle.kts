@@ -211,7 +211,8 @@ dependencies {
     implementation(Libraries.material)
     implementation(Libraries.play_services_oss_licenses)
     implementation(Libraries.compact_calendar_view)
-    implementation(Libraries.dropbox_sdk)
+    implementation(Libraries.dropbox_core_sdk)
+    implementation(Libraries.dropbox_android_sdk)
     implementation(Libraries.apache_text)
     implementation(Libraries.apache_csv)
 

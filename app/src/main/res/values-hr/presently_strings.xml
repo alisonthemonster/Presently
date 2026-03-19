@@ -113,5 +113,6 @@
     <string name="backup_failure_notif_header">Presently automatikus biztonsági mentési hiba</string>
     <string name="dropbox_too_full_notif_body">Presently nem sikerült biztonsági másolatot készítenie az adatokról, mert a Dropbox megtelt. Érintse meg a Dropbox-fiók megtekintéséhez</string>
     <string name="dropbox_sync_error_notif_body">Probléma lépett fel a Dropbox-fiókjával. Kattintson ide, hogy újra csatlakozzon a Dropboxhoz az automatikus biztonsági mentések folytatásához.</string>
+    <string name="dropbox_auth_failed">Pogreška pri povezivanju Dropbox računa</string>
     <string name="learn_more">Tudj meg többet</string>
 </resources>

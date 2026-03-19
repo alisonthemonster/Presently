@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
@@ -68,6 +69,11 @@ class ContainerActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         isGooglePlayServicesAvailable(this)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
     }
 
     private fun isGooglePlayServicesAvailable(activity: Activity): Boolean {

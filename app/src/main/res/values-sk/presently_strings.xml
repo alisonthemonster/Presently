@@ -115,5 +115,6 @@
     <string name="backup_failure_notif_header">Presently zlyhalo automatické zálohovanie</string>
     <string name="dropbox_too_full_notif_body">Presently zlyhala pri zálohovaní vašich údajov, pretože váš Dropbox je plný. Klepnutím zobrazíte svoj účet Dropbox</string>
     <string name="dropbox_sync_error_notif_body">Vyskytol sa problém s vaším účtom Dropbox. Kliknutím sem sa znova pripojte k Dropboxu a obnovte automatické zálohovanie.</string>
+    <string name="dropbox_auth_failed">Chyba pri prepájaní účtu Dropbox</string>
     <string name="learn_more">Uč sa viac</string>
 </resources>
