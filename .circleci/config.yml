@@ -1,33 +1,14 @@
 version: 2.1
 
 parameters:
-  run_release:
-    type: boolean
-    default: false
   release_bump:
-    type: string
+    type: enum
     default: "none"
-  release_version_name:
-    type: string
-    default: ""
-  release_version_code:
-    type: string
-    default: ""
+    enum: ["none", "patch", "minor", "major"]
   release_instrumented:
-    type: string
+    type: enum
     default: "firebase"
-  release_build_apk:
-    type: boolean
-    default: true
-  release_play_track:
-    type: string
-    default: ""
-  release_play_release_name:
-    type: string
-    default: ""
-  release_commit_version:
-    type: boolean
-    default: false
+    enum: ["skip", "connected", "firebase"]
 
 jobs:
   build_debug:
@@ -81,7 +62,7 @@ jobs:
       - store_test_results:
           path: build/
 
-  release_build:
+  release_internal_build:
     machine:
       image: android:2025.10.1
     resource_class: large
@@ -152,16 +133,13 @@ jobs:
               play_service_account_b64="$GCLOUD_SERVICE_KEY"
             fi
 
-            play_service_account_file=""
-            if [ -n "<< pipeline.parameters.release_play_track >>" ]; then
-              if [ -z "$play_service_account_b64" ]; then
-                echo "GOOGLE_PLAY_SERVICE_ACCOUNT_B64 or GCLOUD_SERVICE_KEY is required for Play uploads" >&2
-                exit 1
-              fi
-
-              play_service_account_file="/home/circleci/project/release-secrets/play-service-account.json"
-              echo "$play_service_account_b64" | base64 -di > "$play_service_account_file"
+            if [ -z "$play_service_account_b64" ]; then
+              echo "GOOGLE_PLAY_SERVICE_ACCOUNT_B64 or GCLOUD_SERVICE_KEY is required for Play uploads" >&2
+              exit 1
             fi
+
+            play_service_account_file="/home/circleci/project/release-secrets/play-service-account.json"
+            echo "$play_service_account_b64" | base64 -di > "$play_service_account_file"
 
             printf '%s\n' \
               "DROPBOX_APP_KEY=${DROPBOX_APP_KEY}" \
@@ -174,40 +152,14 @@ jobs:
 
             echo "$ANDROID_KEYSTORE_B64" | base64 -di > release-secrets/upload-keystore.jks
       - run:
-          name: Run release job
+          name: Run internal release job
           command: |
             cmd=(./scripts/release_job.sh --instrumented << pipeline.parameters.release_instrumented >>)
-            should_commit_version="<< pipeline.parameters.release_commit_version >>"
+            cmd+=(--bump << pipeline.parameters.release_bump >>)
+            cmd+=(--build-apk)
+            cmd+=(--play-track internal)
 
-            if [ "<< pipeline.parameters.release_bump >>" != "none" ]; then
-              cmd+=(--bump << pipeline.parameters.release_bump >>)
-              should_commit_version="true"
-            fi
-
-            if [ -n "<< pipeline.parameters.release_version_name >>" ]; then
-              cmd+=(--version-name "<< pipeline.parameters.release_version_name >>")
-              should_commit_version="true"
-            fi
-
-            if [ -n "<< pipeline.parameters.release_version_code >>" ]; then
-              cmd+=(--version-code "<< pipeline.parameters.release_version_code >>")
-            fi
-
-            if [ "<< pipeline.parameters.release_build_apk >>" = "true" ]; then
-              cmd+=(--build-apk)
-            fi
-
-            if [ -n "<< pipeline.parameters.release_play_track >>" ]; then
-              cmd+=(--play-track "<< pipeline.parameters.release_play_track >>")
-            fi
-
-            if [ -n "<< pipeline.parameters.release_play_release_name >>" ]; then
-              cmd+=(--play-release-name "<< pipeline.parameters.release_play_release_name >>")
-            fi
-
-            if [ "$should_commit_version" = "true" ]; then
-              cmd+=(--git-commit-version --git-branch "$CIRCLE_BRANCH")
-            fi
+            cmd+=(--git-commit-version --git-branch "$CIRCLE_BRANCH")
 
             "${cmd[@]}"
       - store_artifacts:
@@ -226,7 +178,7 @@ workflows:
   version: 2
   workflow:
     when:
-      equal: [ false, << pipeline.parameters.run_release >> ]
+      equal: [ "none", << pipeline.parameters.release_bump >> ]
     jobs:
       - build_debug:
           filters:
@@ -237,9 +189,11 @@ workflows:
             branches:
               # Forked pull requests have CIRCLE_BRANCH set to pull/XXX
               ignore: /pull\/[0-9]+/
-  release:
-    when: << pipeline.parameters.run_release >>
+  release_internal:
+    when:
+      not:
+        equal: [ "none", << pipeline.parameters.release_bump >> ]
     jobs:
-      - release_build:
+      - release_internal_build:
           context:
             - presently-release
