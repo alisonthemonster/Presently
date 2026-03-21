@@ -5,6 +5,7 @@ plugins {
     id("com.android.application")
     id("com.github.triplet.play")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.kapt")
     id("org.jetbrains.kotlin.plugin.parcelize")
     id("io.screenshotbot.screenshot-tests-for-android")
@@ -58,6 +59,7 @@ android {
     buildFeatures {
         dataBinding = true //TODO are we still using this?
         viewBinding = true
+        compose = true
     }
 
     packaging {
@@ -192,6 +194,7 @@ dependencies {
     implementation(Libraries.androidx_preference_ktx)
     implementation(Libraries.androidx_recycler_view)
     implementation(Libraries.androidx_fragment)
+    implementation(Libraries.androidx_activity_compose)
     implementation(Libraries.androidx_biometric)
     implementation(Libraries.androidx_work_runtime_ktx)
     implementation(Libraries.play_core)
@@ -203,8 +206,18 @@ dependencies {
 
     implementation(Libraries.androidx_livedata_ktx)
     implementation(Libraries.androidx_lifecycle_runtime_ktx)
+    implementation(Libraries.androidx_lifecycle_runtime_compose)
     implementation(Libraries.androidx_viewmodel_ktx)
     kapt(Libraries.androidx_lifecycle_compiler)
+
+    implementation(platform(Libraries.androidx_compose_bom))
+    androidTestImplementation(platform(Libraries.androidx_compose_bom))
+    implementation(Libraries.androidx_compose_ui)
+    implementation(Libraries.androidx_compose_ui_graphics)
+    implementation(Libraries.androidx_compose_ui_tooling_preview)
+    implementation(Libraries.androidx_compose_foundation)
+    implementation(Libraries.androidx_compose_material3)
+    implementation(Libraries.androidx_compose_runtime_livedata)
 
     implementation(Libraries.three_ten_abp)
     implementation(Libraries.kotlin_coroutines_android)
@@ -273,6 +286,8 @@ dependencies {
     androidTestImplementation(TestLibraries.hilt_android_testing)
     kaptAndroidTest(Libraries.hilt_compiler)
     debugImplementation(TestLibraries.androidx_test_core_ktx)
+    debugImplementation(Libraries.androidx_compose_ui_tooling)
+    debugImplementation(TestLibraries.androidx_compose_ui_test_manifest)
 
     androidTestUtil(TestLibraries.test_orchestrator)
 }
