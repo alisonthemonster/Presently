@@ -1,7 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.search
 
 import android.os.Build
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,9 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -52,7 +48,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import journal.gratitude.com.gratitudejournal.R
@@ -282,20 +277,13 @@ private fun SearchResultRow(
 private fun SearchEmptyStateIcon(
     resId: Int,
 ) {
-    val context = LocalContext.current
-    val painter = remember(resId) {
-        val drawable = AppCompatResources.getDrawable(context, resId) ?: return@remember null
-        BitmapPainter(drawable.toBitmap().asImageBitmap())
-    }
-
-    if (painter != null) {
-        Image(
-            painter = painter,
-            contentDescription = null,
-            modifier = Modifier
-                .size(160.dp)
-                .padding(horizontal = 8.dp),
-            contentScale = ContentScale.Fit,
-        )
-    }
+    Image(
+        painter = painterResource(resId),
+        contentDescription = null,
+        modifier = Modifier
+            .size(160.dp)
+            .padding(horizontal = 8.dp),
+        contentScale = ContentScale.Fit,
+        colorFilter = null
+    )
 }
