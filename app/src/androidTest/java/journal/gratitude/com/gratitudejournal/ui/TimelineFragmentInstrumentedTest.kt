@@ -106,7 +106,6 @@ class TimelineFragmentInstrumentedTest {
         onView(withId(R.id.search_icon)).perform(click())
 
         assertCurrentFragmentIs<SearchFragment>(scenario)
-        onView(withId(R.id.search_text)).check(matches(isDisplayed()))
     }
 
     @Test

@@ -30,7 +30,7 @@ subprojects { prj ->
         apply plugin: 'jacoco'
 
         jacoco {
-            toolVersion = "0.8.11"
+            toolVersion = "0.8.14"
         }
 
         tasks.withType(Test) {
@@ -116,7 +116,7 @@ subprojects { prj ->
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion "0.8.11"
+    toolVersion "0.8.14"
 }
 
 /**
