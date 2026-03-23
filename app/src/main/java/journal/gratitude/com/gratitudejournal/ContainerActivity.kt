@@ -19,6 +19,7 @@ import dagger.hilt.android.EntryPointAccessors
 import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment
+import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import journal.gratitude.com.gratitudejournal.util.LocaleHelper
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
@@ -128,53 +129,8 @@ class ContainerActivity : AppCompatActivity() {
     }
 
     private fun setAppTheme(currentTheme: String) {
-        when (currentTheme) {
-            "Sunset" -> setTheme(R.style.AppTheme_SUNSET)
-            "Moonlight" -> setTheme(R.style.AppTheme_MOONLIGHT)
-            "Midnight" -> setTheme(R.style.AppTheme_MIDNIGHT)
-            "Ivy" -> setTheme(R.style.AppTheme_IVY)
-            "Dawn" -> setTheme(R.style.AppTheme_DAWN)
-            "Wesley" -> setTheme(R.style.AppTheme_WESLEY)
-            "Moss" -> setTheme(R.style.AppTheme_MOSS)
-            "Clean" -> setTheme(R.style.AppTheme_CLEAN)
-            "Glacier" -> setTheme(R.style.AppTheme_GLACIER)
-            "Gelato" -> setTheme(R.style.AppTheme_GELATO)
-            "Waves" -> setTheme(R.style.AppTheme_WAVES)
-            "Beach" -> setTheme(R.style.AppTheme_BEACH)
-            "Field" -> setTheme(R.style.AppTheme_FIELD)
-            "Western" -> setTheme(R.style.AppTheme_WESTERN)
-            "Sunlight" -> setTheme(R.style.AppTheme_SUNLIGHT)
-            "Tulip" -> setTheme(R.style.AppTheme_TULIP)
-            "Rosie" -> setTheme(R.style.AppTheme_ROSIE)
-            "Daisy" -> setTheme(R.style.AppTheme_DAISY)
-            "Matisse" -> setTheme(R.style.AppTheme_MATISSE)
-            "Clouds" -> setTheme(R.style.AppTheme_CLOUDS)
-            "Monstera" -> setTheme(R.style.AppTheme_MONSTERA)
-            "Lotus" -> setTheme(R.style.AppTheme_LOTUS)
-            "Katie" -> setTheme(R.style.AppTheme_KATIE)
-            "Brittany" -> setTheme(R.style.AppTheme_BRITTANY)
-            "Jungle" -> setTheme(R.style.AppTheme_JUNGLE)
-            "Julie" -> setTheme(R.style.AppTheme_JULIE)
-            "Ellen" -> setTheme(R.style.AppTheme_ELLEN)
-            "Danah" -> setTheme(R.style.AppTheme_DANAH)
-            "Ahalya" -> setTheme(R.style.AppTheme_AHALYA)
-            "Rem'mie" -> setTheme(R.style.AppTheme_REMMIE)
-            "Marsha" -> setTheme(R.style.AppTheme_MARSHA)
-            "Brayla" -> setTheme(R.style.AppTheme_BRAYLA)
-            "Autumn" -> setTheme(R.style.AppTheme_AUTUMN)
-            "Betty" -> setTheme(R.style.AppTheme_BETTY)
-            "Boo" -> setTheme(R.style.AppTheme_BOO)
-            "Calm" -> setTheme(R.style.AppTheme_CALM)
-            "Passion" -> setTheme(R.style.AppTheme_PASSION)
-            "Joy" -> setTheme(R.style.AppTheme_JOY)
-            "Annalisa" -> setTheme(R.style.AppTheme_ANNALISA)
-            "Celia" -> setTheme(R.style.AppTheme_CELIA)
-            "Sophia" -> setTheme(R.style.AppTheme_SOPHIA)
-            "Emilia" -> setTheme(R.style.AppTheme_EMILIA)
-            "Betsy" -> setTheme(R.style.AppTheme_BETSY)
-            "Pacific" -> setTheme(R.style.AppTheme_PACIFIC)
-            else -> setTheme(R.style.Base_AppTheme)
-        }
+        val themeSpec = PresentlyThemeSpec.fromStorageValue(currentTheme)
+        setTheme(themeSpec.styleRes)
     }
 
 }
