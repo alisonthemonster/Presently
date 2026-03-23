@@ -42,6 +42,7 @@ object Versions {
     const val MOCKITO_KOTLIN = "2.0.0"
     const val MOCKITO_ANDROID = "2.23.0"
     const val ROBOLECTRIC = "4.15.1" //https://github.com/robolectric/robolectric/releases/
+    const val ROBORAZZI = "1.52.0"
     const val TRUTH = "1.1.3"
     const val MAVERICKS = "3.0.12"
     const val THREE_TEN_ABP = "1.3.1" //https://github.com/JakeWharton/ThreeTenABP/tags
@@ -141,6 +142,8 @@ object TestLibraries {
     const val androidx_compose_ui_test_manifest = "androidx.compose.ui:ui-test-manifest"
     const val androidx_compose_ui_test_junit4 = "androidx.compose.ui:ui-test-junit4"
     const val hilt_android_testing = "com.google.dagger:hilt-android-testing:${Versions.DAGGER}"
+    const val roborazzi = "io.github.takahirom.roborazzi:roborazzi:${Versions.ROBORAZZI}"
+    const val roborazzi_compose = "io.github.takahirom.roborazzi:roborazzi-compose:${Versions.ROBORAZZI}"
     const val espresso_core = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO}"
     const val espresso_contrib = "androidx.test.espresso:espresso-contrib:${Versions.ESPRESSO}"
     const val test_orchestrator = "androidx.test:orchestrator:${Versions.TEST_ORCHESTRATOR}"

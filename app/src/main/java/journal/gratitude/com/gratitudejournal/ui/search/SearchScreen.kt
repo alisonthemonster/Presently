@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.ui.search
 
-import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -47,7 +46,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import journal.gratitude.com.gratitudejournal.R
@@ -62,24 +60,58 @@ object SearchScreenTags {
     const val EMPTY_STATE = "search_empty_state"
 }
 
+data class SearchScreenState(
+    val query: String,
+    val results: List<Entry>,
+    val showEmptyState: Boolean
+)
+
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel,
     onBackClick: () -> Unit,
     onSearchResultClick: (LocalDate) -> Unit
 ) {
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val searchResults = viewModel.searchResults.collectAsLazyPagingItems()
+    val results = List(searchResults.itemCount) { index -> searchResults[index] }.filterNotNull()
+    val state = SearchScreenState(
+        query = uiState.value.query,
+        results = results,
+        showEmptyState = uiState.value.query.isNotBlank() &&
+            searchResults.loadState.refresh is LoadState.NotLoading &&
+            searchResults.itemCount == 0
+    )
+
+    SearchScreenContent(
+        state = state,
+        onQueryChanged = viewModel::onSearchQueryChanged,
+        onSearchTriggered = { viewModel.onSearchTriggered(uiState.value.query) },
+        onBackClick = onBackClick,
+        onSearchResultClick = onSearchResultClick
+    )
+}
+
+@Composable
+fun SearchScreenContent(
+    state: SearchScreenState,
+    onQueryChanged: (String) -> Unit,
+    onSearchTriggered: () -> Unit,
+    onBackClick: () -> Unit,
+    onSearchResultClick: (LocalDate) -> Unit,
+    requestInitialFocus: Boolean = true
+) {
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val theme = LocalPresentlyTheme.current
 
-    val searchResults = viewModel.searchResults.collectAsLazyPagingItems()
-
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-        keyboardController?.show()
+    if (requestInitialFocus) {
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
+            keyboardController?.show()
+        }
     }
 
     Column(
@@ -112,10 +144,8 @@ fun SearchScreen(
             }
 
             OutlinedTextField(
-                value = uiState.value.query,
-                onValueChange = {
-                    viewModel.onSearchQueryChanged(it)
-                },
+                value = state.query,
+                onValueChange = onQueryChanged,
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 8.dp)
@@ -140,7 +170,7 @@ fun SearchScreen(
                     onSearch = {
                         focusManager.clearFocus(force = true)
                         keyboardController?.hide()
-                        viewModel.onSearchTriggered(uiState.value.query)
+                        onSearchTriggered()
                     }
                 ),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -156,7 +186,7 @@ fun SearchScreen(
                 onClick = {
                     focusManager.clearFocus(force = true)
                     keyboardController?.hide()
-                    viewModel.onSearchTriggered(uiState.value.query)
+                    onSearchTriggered()
                 },
                 modifier = Modifier.semantics { contentDescription = "Search" }
             ) {
@@ -168,11 +198,7 @@ fun SearchScreen(
             }
         }
 
-        val showEmptyState = uiState.value.query.isNotBlank() &&
-            searchResults.loadState.refresh is LoadState.NotLoading &&
-            searchResults.itemCount == 0
-
-        if (showEmptyState) {
+        if (state.showEmptyState) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -188,7 +214,7 @@ fun SearchScreen(
                     )
                     Text(
                         text = context.getString(R.string.no_results),
-                        color = Color(ContextCompat.getColor(context, R.color.text_color))
+                        color = theme.timelineBody
                     )
                 }
             }
@@ -199,10 +225,9 @@ fun SearchScreen(
                     .padding(horizontal = 8.dp, vertical = 8.dp)
             ) {
                 items(
-                    count = searchResults.itemCount,
-                    key = { index -> searchResults[index]?.entryDate?.toString() ?: index }
-                ) { index ->
-                    val entry = searchResults[index] ?: return@items
+                    items = state.results,
+                    key = { entry -> entry.entryDate.toString() }
+                ) { entry ->
                     SearchResultRow(
                         entry = entry,
                         dateColor = theme.timelineBody,

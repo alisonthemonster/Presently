@@ -84,14 +84,24 @@ fun PresentlyTheme(
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
-    val tokens = remember(context, themeSpec) {
-        context.resolvePresentlyThemeTokens(themeSpec)
+    val themedContext = remember(context, themeSpec) {
+        if (themeSpec == null) {
+            context
+        } else {
+            ContextThemeWrapper(context, themeSpec.styleRes)
+        }
+    }
+    val tokens = remember(themedContext) {
+        themedContext.resolvePresentlyThemeTokens()
     }
     val colorScheme = remember(tokens) {
         tokens.toColorScheme()
     }
 
-    CompositionLocalProvider(LocalPresentlyTheme provides tokens) {
+    CompositionLocalProvider(
+        LocalContext provides themedContext,
+        LocalPresentlyTheme provides tokens
+    ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = PresentlyTypography,

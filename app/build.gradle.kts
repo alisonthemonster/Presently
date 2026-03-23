@@ -8,6 +8,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.kapt")
     id("org.jetbrains.kotlin.plugin.parcelize")
+    id("io.github.takahirom.roborazzi")
     id("io.screenshotbot.screenshot-tests-for-android")
     id("com.google.dagger.hilt.android")
     id("com.google.android.gms.oss-licenses-plugin")
@@ -89,8 +90,18 @@ android {
     }
 
 
-    testOptions.unitTests.isIncludeAndroidResources = true
-    testOptions.animationsDisabled = true
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+        animationsDisabled = true
+        unitTests.all {
+            it.systemProperty("robolectric.pixelCopyRenderMode", "hardware")
+            if (project.hasProperty("screenshot")) {
+                it.useJUnit {
+                    includeCategories("journal.gratitude.com.gratitudejournal.testutils.ScreenshotTest")
+                }
+            }
+        }
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -265,6 +276,9 @@ dependencies {
     testImplementation(TestLibraries.robolectric)
     testImplementation(TestLibraries.androidx_test_core_ktx)
     testImplementation(TestLibraries.androidx_work_testing)
+    testImplementation(TestLibraries.androidx_compose_ui_test_junit4)
+    testImplementation(TestLibraries.roborazzi)
+    testImplementation(TestLibraries.roborazzi_compose)
 
     androidTestImplementation(TestLibraries.androidx_test_runner)
     androidTestImplementation(TestLibraries.androidx_arch_testing)
@@ -292,6 +306,10 @@ dependencies {
     debugImplementation(TestLibraries.androidx_compose_ui_test_manifest)
 
     androidTestUtil(TestLibraries.test_orchestrator)
+}
+
+roborazzi {
+    outputDir.set(file("src/test/screenshots"))
 }
 
 fun getVersionName(): String {
