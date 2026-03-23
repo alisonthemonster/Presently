@@ -15,6 +15,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -166,11 +167,17 @@ class TimelineFragment : Fragment() {
             animation.openCalendar()
         }
 
+        val titleTopMargin =
+            (binding.title.layoutParams as ViewGroup.MarginLayoutParams).topMargin
+
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            val statusBarTopInset = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
             v.updatePadding(
-                top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
                 bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
             )
+            binding.title.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = titleTopMargin + statusBarTopInset
+            }
             insets
         }
 
@@ -257,4 +264,3 @@ class TimelineFragment : Fragment() {
         const val TIMELINE_TO_SETTINGS = "TIMELINE_TO_ENTRY"
     }
 }
-

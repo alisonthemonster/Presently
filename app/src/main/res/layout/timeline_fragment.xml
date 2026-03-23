@@ -41,7 +41,7 @@
         android:transitionName="search_transition"
         app:layout_constraintBottom_toBottomOf="@+id/title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title"
         app:srcCompat="@drawable/ic_search" />
 
     <ImageView
