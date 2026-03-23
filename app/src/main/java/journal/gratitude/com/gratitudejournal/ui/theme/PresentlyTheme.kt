@@ -15,6 +15,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import journal.gratitude.com.gratitudejournal.R
 
 @Immutable
@@ -54,6 +56,28 @@ val LocalPresentlyTheme = staticCompositionLocalOf<PresentlyThemeTokens> {
     error("PresentlyThemeTokens not provided")
 }
 
+object PresentlyFontFamilies {
+    val body = FontFamily(Font(R.font.larsseit_medium))
+    val accent = FontFamily(Font(R.font.value_serif))
+}
+
+private val PresentlyTypography = Typography().run {
+    copy(
+        bodyLarge = bodyLarge.copy(fontFamily = PresentlyFontFamilies.body),
+        bodyMedium = bodyMedium.copy(fontFamily = PresentlyFontFamilies.body),
+        bodySmall = bodySmall.copy(fontFamily = PresentlyFontFamilies.body),
+        labelLarge = labelLarge.copy(fontFamily = PresentlyFontFamilies.body),
+        labelMedium = labelMedium.copy(fontFamily = PresentlyFontFamilies.body),
+        labelSmall = labelSmall.copy(fontFamily = PresentlyFontFamilies.body),
+        titleLarge = titleLarge.copy(fontFamily = PresentlyFontFamilies.accent),
+        titleMedium = titleMedium.copy(fontFamily = PresentlyFontFamilies.accent),
+        titleSmall = titleSmall.copy(fontFamily = PresentlyFontFamilies.accent),
+        headlineLarge = headlineLarge.copy(fontFamily = PresentlyFontFamilies.accent),
+        headlineMedium = headlineMedium.copy(fontFamily = PresentlyFontFamilies.accent),
+        headlineSmall = headlineSmall.copy(fontFamily = PresentlyFontFamilies.accent)
+    )
+}
+
 @Composable
 fun PresentlyTheme(
     themeSpec: PresentlyThemeSpec? = null,
@@ -70,7 +94,7 @@ fun PresentlyTheme(
     CompositionLocalProvider(LocalPresentlyTheme provides tokens) {
         MaterialTheme(
             colorScheme = colorScheme,
-            typography = Typography(),
+            typography = PresentlyTypography,
             content = content
         )
     }

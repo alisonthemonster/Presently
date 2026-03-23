@@ -58,6 +58,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
+import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyFontFamilies
 import journal.gratitude.com.gratitudejournal.util.toShortMonthString
 import org.threeten.bp.LocalDate
 
@@ -248,18 +249,21 @@ private fun SearchResultRow(
                 textAlign = TextAlign.Center,
                 fontSize = 18.sp,
                 color = dateColor,
+                fontFamily = PresentlyFontFamilies.accent
             )
             Text(
                 text = entry.entryDate.dayOfMonth.toString(),
                 textAlign = TextAlign.Center,
                 fontSize = 34.sp,
                 color = dateColor,
+                fontFamily = PresentlyFontFamilies.accent
             )
             Text(
                 text = entry.entryDate.year.toString(),
                 textAlign = TextAlign.Center,
                 fontSize = 18.sp,
                 color = dateColor,
+                fontFamily = PresentlyFontFamilies.accent
             )
         }
 
