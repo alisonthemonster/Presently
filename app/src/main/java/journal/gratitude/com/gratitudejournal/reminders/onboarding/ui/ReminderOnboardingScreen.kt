@@ -3,12 +3,14 @@ package journal.gratitude.com.gratitudejournal.reminders.onboarding.ui
 import android.widget.NumberPicker
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,17 +22,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -44,12 +46,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -111,19 +114,23 @@ fun ReminderOnboardingScreenContent(
                     )
                 )
         ) {
-            BotanicalBackground()
+            BotanicalBackground(step = state.currentStep)
 
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 24.dp, vertical = 20.dp)
+                    .padding(horizontal = 32.dp, vertical = 20.dp)
+                    .padding(bottom = 152.dp)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    IconButton(onClick = onDismiss, modifier = Modifier.testTag("reminder_onboarding_close")) {
+                    IconButton(
+                        onClick = onDismiss,
+                        modifier = Modifier.testTag("reminder_onboarding_close")
+                    ) {
                         Image(
                             painter = painterResource(R.drawable.ic_close_24),
                             contentDescription = "Dismiss onboarding"
@@ -131,63 +138,32 @@ fun ReminderOnboardingScreenContent(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(28.dp))
 
-                StaggeredReveal(index = 0) {
-                    Text(
-                        text = "Daily reminders, set your way",
-                        style = ReminderOnboardingTypography.Headline.copy(
-                            fontWeight = FontWeight.SemiBold,
-                            lineHeight = 40.sp
-                        ),
-                        color = tokens.timelineHeader
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                StaggeredReveal(index = 1) {
-                    Text(
-                        text = "Choose a time, finish permissions, and Presently will take care of the rest.",
-                        style = ReminderOnboardingTypography.Body,
-                        color = tokens.timelineBody.copy(alpha = 0.78f)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                StepProgress(state = state)
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                AnimatedContent(targetState = state.currentStep, label = "reminder_onboarding_step") { step ->
+                AnimatedContent(
+                    targetState = state.currentStep,
+                    label = "reminder_onboarding_step"
+                ) { step ->
                     when (step) {
                         ReminderOnboardingStep.TIME -> TimeStep(
                             selectedTime = state.selectedTime,
-                            onContinue = onPrimaryAction,
                             onTimeChanged = onTimeChanged
                         )
+
                         ReminderOnboardingStep.NOTIFICATIONS -> PermissionStep(
                             title = if (state.notificationPermissionDenied) {
-                                "Notifications are still off"
+                                stringResource(R.string.notification_permission_is_required_for_reminders)
                             } else {
-                                "Turn on notifications"
+                                stringResource(R.string.turn_on_notifications)
                             },
                             body = if (state.notificationPermissionDenied) {
-                                "Presently still can't send reminders. You can try again or open app settings to allow notifications."
+                                stringResource(R.string.presently_can_t_send_reminders_without_your_permission_please_try_again)
                             } else {
-                                "Allow notifications so your daily reminder can show up at the time you picked."
+                                ""
                             },
-                            primaryLabel = if (state.notificationPermissionDenied) {
-                                "Open settings"
-                            } else {
-                                "Allow notifications"
-                            },
-                            showSkipForNow = state.notificationPermissionDenied,
-                            onPrimaryAction = onPrimaryAction,
-                            onSkipForNow = onSkipForNow,
                             modifier = Modifier.testTag("notification_step")
                         )
+
                         ReminderOnboardingStep.EXACT_ALARM -> PermissionStep(
                             title = if (state.exactAlarmPermissionDenied) {
                                 "Exact alarms are still blocked"
@@ -195,41 +171,47 @@ fun ReminderOnboardingScreenContent(
                                 "Allow exact alarms"
                             },
                             body = if (state.exactAlarmPermissionDenied) {
-                                "Presently still needs exact alarm access to fire your reminder on time. Open settings and allow it when you're ready."
+                                stringResource(R.string.without_granting_exact_alarm_permissions_notifications_may_be_delayed_or_skipped_by_your_phone)
                             } else {
-                                "On this Android version, exact alarm access keeps your reminder from drifting. We'll take you straight to the app setting."
+                                stringResource(R.string.presently_needs_exact_alarm_scheduling_to_send_notifications_at_the_right_time)
                             },
-                            primaryLabel = "Open settings",
-                            showSkipForNow = state.exactAlarmPermissionDenied,
-                            onPrimaryAction = onPrimaryAction,
-                            onSkipForNow = onSkipForNow,
                             modifier = Modifier.testTag("exact_alarm_step")
                         )
+
                         ReminderOnboardingStep.SUCCESS -> SuccessStep(
-                            selectedTime = state.selectedTime,
-                            onDone = onPrimaryAction
+                            selectedTime = state.selectedTime
                         )
                     }
                 }
             }
+
+            BottomActions(
+                state = state,
+                onPrimaryAction = onPrimaryAction,
+                onSkipForNow = onSkipForNow,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+            )
         }
     }
 }
 
 @Composable
-private fun BoxScope.BotanicalBackground() {
-    val transition = rememberInfiniteTransition(label = "botanical")
-    val driftA by transition.animateFloat(
-        initialValue = -8f,
-        targetValue = 14f,
+private fun BoxScope.BotanicalBackground(step: ReminderOnboardingStep) {
+    val stepTransition = updateTransition(targetState = step, label = "presently_logo_background")
+    val drift = rememberInfiniteTransition(label = "presently_logo_drift")
+    val driftA by drift.animateFloat(
+        initialValue = -10f,
+        targetValue = 10f,
         animationSpec = infiniteRepeatable(
-            animation = tween(7000, easing = LinearEasing),
+            animation = tween(8000, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         ),
         label = "driftA"
     )
-    val driftB by transition.animateFloat(
-        initialValue = 10f,
+    val driftB by drift.animateFloat(
+        initialValue = 12f,
         targetValue = -12f,
         animationSpec = infiniteRepeatable(
             animation = tween(9000, easing = LinearEasing),
@@ -238,101 +220,205 @@ private fun BoxScope.BotanicalBackground() {
         label = "driftB"
     )
 
-    Image(
-        painter = painterResource(R.drawable.ic_monstera),
-        contentDescription = null,
+    val bottomLeftX by stepTransition.animateDp(
+        transitionSpec = { tween(durationMillis = 700) },
+        label = "bottomLeftX"
+    ) { targetStep ->
+        when (targetStep) {
+            ReminderOnboardingStep.TIME -> (-120).dp
+            ReminderOnboardingStep.NOTIFICATIONS -> (-112).dp
+            ReminderOnboardingStep.EXACT_ALARM -> (-106).dp
+            ReminderOnboardingStep.SUCCESS -> (-98).dp
+        }
+    }
+    val bottomLeftY by stepTransition.animateDp(
+        transitionSpec = { tween(durationMillis = 700) },
+        label = "bottomLeftY"
+    ) { targetStep ->
+        when (targetStep) {
+            ReminderOnboardingStep.TIME -> 176.dp
+            ReminderOnboardingStep.NOTIFICATIONS -> 158.dp
+            ReminderOnboardingStep.EXACT_ALARM -> 144.dp
+            ReminderOnboardingStep.SUCCESS -> 150.dp
+        }
+    }
+
+    val middleRightX by stepTransition.animateDp(
+        transitionSpec = { tween(durationMillis = 700) },
+        label = "middleRightX"
+    ) { targetStep ->
+        when (targetStep) {
+            ReminderOnboardingStep.TIME -> 162.dp
+            ReminderOnboardingStep.NOTIFICATIONS -> 116.dp
+            ReminderOnboardingStep.EXACT_ALARM -> 88.dp
+            ReminderOnboardingStep.SUCCESS -> 104.dp
+        }
+    }
+    val middleRightY by stepTransition.animateDp(
+        transitionSpec = { tween(durationMillis = 700) },
+        label = "middleRightY"
+    ) { targetStep ->
+        when (targetStep) {
+            ReminderOnboardingStep.TIME -> 138.dp
+            ReminderOnboardingStep.NOTIFICATIONS -> 78.dp
+            ReminderOnboardingStep.EXACT_ALARM -> 36.dp
+            ReminderOnboardingStep.SUCCESS -> 58.dp
+        }
+    }
+    val middleRightAlpha by stepTransition.animateFloat(
+        transitionSpec = { tween(durationMillis = 700) },
+        label = "middleRightAlpha"
+    ) { targetStep ->
+        when (targetStep) {
+            ReminderOnboardingStep.TIME -> 0.14f
+            ReminderOnboardingStep.NOTIFICATIONS -> 0.5f
+            ReminderOnboardingStep.EXACT_ALARM -> 0.5f
+            ReminderOnboardingStep.SUCCESS -> 0.38f
+        }
+    }
+
+    val topRightX by stepTransition.animateDp(
+        transitionSpec = { tween(durationMillis = 700) },
+        label = "topRightX"
+    ) { targetStep ->
+        when (targetStep) {
+            ReminderOnboardingStep.TIME -> 188.dp
+            ReminderOnboardingStep.NOTIFICATIONS -> 160.dp
+            ReminderOnboardingStep.EXACT_ALARM -> 104.dp
+            ReminderOnboardingStep.SUCCESS -> 122.dp
+        }
+    }
+    val topRightY by stepTransition.animateDp(
+        transitionSpec = { tween(durationMillis = 700) },
+        label = "topRightY"
+    ) { targetStep ->
+        when (targetStep) {
+            ReminderOnboardingStep.TIME -> (-132).dp
+            ReminderOnboardingStep.NOTIFICATIONS -> (-88).dp
+            ReminderOnboardingStep.EXACT_ALARM -> (-26).dp
+            ReminderOnboardingStep.SUCCESS -> (-18).dp
+        }
+    }
+    val topRightAlpha by stepTransition.animateFloat(
+        transitionSpec = { tween(durationMillis = 700) },
+        label = "topRightAlpha"
+    ) { targetStep ->
+        when (targetStep) {
+            ReminderOnboardingStep.TIME -> 0f
+            ReminderOnboardingStep.NOTIFICATIONS -> 0.1f
+            ReminderOnboardingStep.EXACT_ALARM -> 0.5f
+            ReminderOnboardingStep.SUCCESS -> 0.5f
+        }
+    }
+
+    val lowerRightX by stepTransition.animateDp(
+        transitionSpec = { tween(durationMillis = 700) },
+        label = "lowerRightX"
+    ) { targetStep ->
+        when (targetStep) {
+            ReminderOnboardingStep.TIME -> 226.dp
+            ReminderOnboardingStep.NOTIFICATIONS -> 174.dp
+            ReminderOnboardingStep.EXACT_ALARM -> 138.dp
+            ReminderOnboardingStep.SUCCESS -> 152.dp
+        }
+    }
+    val lowerRightY by stepTransition.animateDp(
+        transitionSpec = { tween(durationMillis = 700) },
+        label = "lowerRightY"
+    ) { targetStep ->
+        when (targetStep) {
+            ReminderOnboardingStep.TIME -> 310.dp
+            ReminderOnboardingStep.NOTIFICATIONS -> 252.dp
+            ReminderOnboardingStep.EXACT_ALARM -> 220.dp
+            ReminderOnboardingStep.SUCCESS -> 236.dp
+        }
+    }
+    val lowerRightAlpha by stepTransition.animateFloat(
+        transitionSpec = { tween(durationMillis = 700) },
+        label = "lowerRightAlpha"
+    ) { targetStep ->
+        when (targetStep) {
+            ReminderOnboardingStep.TIME -> 0f
+            ReminderOnboardingStep.NOTIFICATIONS -> 0.28f
+            ReminderOnboardingStep.EXACT_ALARM -> 0.5f
+            ReminderOnboardingStep.SUCCESS -> 0.42f
+        }
+    }
+
+    BackgroundLogo(
         modifier = Modifier
-            .size(240.dp)
-            .offset(x = (-48).dp, y = (24 + driftA).dp)
-            .alpha(0.08f)
+            .align(Alignment.BottomStart)
+            .offset(x = bottomLeftX, y = bottomLeftY + driftA.dp)
+            .size(470.dp),
+        alpha = 0.5f,
+        rotation = -14f
     )
 
-    Image(
-        painter = painterResource(R.drawable.ic_tiny_flower),
-        contentDescription = null,
+    BackgroundLogo(
         modifier = Modifier
-            .size(120.dp)
+            .align(Alignment.CenterEnd)
+            .offset(x = middleRightX, y = middleRightY + driftB.dp)
+            .size(340.dp),
+        alpha = middleRightAlpha,
+        rotation = 20f
+    )
+
+    BackgroundLogo(
+        modifier = Modifier
+            .align(Alignment.TopEnd)
+            .offset(x = topRightX, y = topRightY + driftA.dp)
+            .size(300.dp),
+        alpha = topRightAlpha,
+        rotation = 8f
+    )
+
+    BackgroundLogo(
+        modifier = Modifier
             .align(Alignment.BottomEnd)
-            .offset(x = (-12).dp, y = (-64 + driftB).dp)
-            .alpha(0.16f)
+            .offset(x = lowerRightX, y = lowerRightY + driftB.dp)
+            .size(290.dp),
+        alpha = lowerRightAlpha,
+        rotation = -24f
     )
 }
 
 @Composable
-private fun StepProgress(state: ReminderOnboardingState) {
-    val tokens = LocalPresentlyTheme.current
-    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        state.steps.forEachIndexed { index, _ ->
-            Box(
-                modifier = Modifier
-                    .height(6.dp)
-                    .width(if (index == state.currentStepIndex) 36.dp else 18.dp)
-                    .background(
-                        color = if (index <= state.currentStepIndex) {
-                            tokens.highlight
-                        } else {
-                            tokens.timelineBody.copy(alpha = 0.12f)
-                        },
-                        shape = RoundedCornerShape(999.dp)
-                    )
-            )
-        }
-    }
+private fun BackgroundLogo(
+    modifier: Modifier,
+    alpha: Float,
+    rotation: Float
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_presently),
+        contentDescription = null,
+        modifier = modifier
+            .alpha(alpha)
+            .graphicsLayer { rotationZ = rotation }
+    )
 }
 
 @Composable
 private fun TimeStep(
     selectedTime: LocalTime,
-    onContinue: () -> Unit,
     onTimeChanged: (LocalTime) -> Unit
 ) {
     val tokens = LocalPresentlyTheme.current
-    Card(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("time_step"),
-        colors = CardDefaults.cardColors(
-            containerColor = tokens.entryBackground.copy(alpha = 0.9f)
-        ),
-        shape = RoundedCornerShape(28.dp)
+            .testTag("time_step")
     ) {
-        Column(modifier = Modifier.padding(24.dp)) {
-            Text(
-                text = "Pick your reminder time",
-                style = ReminderOnboardingTypography.CardTitle.copy(fontWeight = FontWeight.SemiBold),
-                color = tokens.entryHeader
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "You can change this later, but choosing it now lets us finish setup in one pass.",
-                style = ReminderOnboardingTypography.Body,
-                color = tokens.entryBody.copy(alpha = 0.74f)
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            ReminderTimeWheelPicker(
-                selectedTime = selectedTime,
-                onTimeChanged = onTimeChanged
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = "Reminder time: ${selectedTime.formatReminderTime()}",
-                style = ReminderOnboardingTypography.Accent.copy(fontWeight = FontWeight.Medium),
-                color = tokens.entryHeader
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Button(
-                onClick = onContinue,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("primary_cta"),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = tokens.fab,
-                    contentColor = tokens.fabText
-                )
-            ) {
-                Text("Save reminder time", style = ReminderOnboardingTypography.Button)
-            }
-        }
+        Text(
+            text = stringResource(R.string.set_a_reminder_time),
+            style = ReminderOnboardingTypography.Headline,
+            color = tokens.timelineHeader
+        )
+        Spacer(modifier = Modifier.height(36.dp))
+        ReminderTimeWheelPicker(
+            selectedTime = selectedTime,
+            onTimeChanged = onTimeChanged
+        )
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
@@ -340,123 +426,119 @@ private fun TimeStep(
 private fun PermissionStep(
     title: String,
     body: String,
-    primaryLabel: String,
-    showSkipForNow: Boolean,
-    onPrimaryAction: () -> Unit,
-    onSkipForNow: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val tokens = LocalPresentlyTheme.current
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = tokens.entryBackground.copy(alpha = 0.92f)
-        ),
-        shape = RoundedCornerShape(28.dp)
-    ) {
-        Column(modifier = Modifier.padding(24.dp)) {
-            Text(
-                text = title,
-                style = ReminderOnboardingTypography.CardTitle.copy(fontWeight = FontWeight.SemiBold),
-                color = tokens.entryHeader
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = body,
-                style = ReminderOnboardingTypography.Body,
-                color = tokens.entryBody.copy(alpha = 0.74f)
-            )
-            Spacer(modifier = Modifier.height(28.dp))
-            Button(
-                onClick = onPrimaryAction,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("primary_cta"),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = tokens.fab,
-                    contentColor = tokens.fabText
-                )
-            ) {
-                Text(primaryLabel, style = ReminderOnboardingTypography.Button)
-            }
-            if (showSkipForNow) {
-                Spacer(modifier = Modifier.height(12.dp))
-                OutlinedButton(
-                    onClick = onSkipForNow,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag("skip_for_now"),
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = tokens.timelineBody
-                    )
-                ) {
-                    Text("Skip for now", style = ReminderOnboardingTypography.Button)
-                }
-            }
-        }
+    Column(modifier = modifier.fillMaxWidth()) {
+        Text(
+            text = title,
+            style = ReminderOnboardingTypography.Headline.copy(fontWeight = FontWeight.SemiBold),
+            color = tokens.timelineHeader
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        Text(
+            text = body,
+            style = ReminderOnboardingTypography.Body,
+            color = tokens.timelineBody.copy(alpha = 0.8f)
+        )
     }
 }
 
 @Composable
 private fun SuccessStep(
-    selectedTime: LocalTime,
-    onDone: () -> Unit
+    selectedTime: LocalTime
 ) {
     val tokens = LocalPresentlyTheme.current
-    Card(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .testTag("success_step"),
-        colors = CardDefaults.cardColors(
-            containerColor = tokens.entryBackground
-        ),
-        shape = RoundedCornerShape(30.dp)
+        horizontalAlignment = Alignment.Start
     ) {
-        Column(
-            modifier = Modifier.padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+        Box(
+            modifier = Modifier
+                .size(72.dp)
+                .background(tokens.highlight, RoundedCornerShape(24.dp)),
+            contentAlignment = Alignment.Center
         ) {
-            Box(
-                modifier = Modifier
-                    .size(72.dp)
-                    .background(tokens.highlight, RoundedCornerShape(24.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.ic_check),
-                    contentDescription = null,
-                    modifier = Modifier.size(28.dp)
-                )
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = "Your reminders are ready",
-                style = ReminderOnboardingTypography.CardTitle.copy(
-                    fontWeight = FontWeight.SemiBold
-                ),
-                textAlign = TextAlign.Center,
-                color = tokens.entryHeader
+            Image(
+                painter = painterResource(R.drawable.ic_check),
+                contentDescription = null,
+                modifier = Modifier.size(28.dp)
             )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = "Presently will check in every day at ${selectedTime.formatReminderTime()}.",
-                style = ReminderOnboardingTypography.Body,
-                textAlign = TextAlign.Center,
-                color = tokens.entryBody
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            Button(
-                onClick = onDone,
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text = "Reminders are ready",
+            style = ReminderOnboardingTypography.Headline.copy(fontWeight = FontWeight.SemiBold),
+            color = tokens.timelineHeader
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        Text(
+            text = selectedTime.formatReminderTime(),
+            style = ReminderOnboardingTypography.Accent.copy(fontWeight = FontWeight.Medium),
+            color = tokens.timelineBody
+        )
+    }
+}
+
+@Composable
+private fun BottomActions(
+    state: ReminderOnboardingState,
+    onPrimaryAction: () -> Unit,
+    onSkipForNow: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val tokens = LocalPresentlyTheme.current
+    val primaryLabel = when (state.currentStep) {
+        ReminderOnboardingStep.TIME -> "Continue"
+        ReminderOnboardingStep.NOTIFICATIONS -> {
+            if (state.notificationPermissionDenied) "Open settings" else "Allow notifications"
+        }
+
+        ReminderOnboardingStep.EXACT_ALARM -> "Open settings"
+        ReminderOnboardingStep.SUCCESS -> "Done"
+    }
+    val showSkipForNow = when (state.currentStep) {
+        ReminderOnboardingStep.NOTIFICATIONS -> state.notificationPermissionDenied
+        ReminderOnboardingStep.EXACT_ALARM -> state.exactAlarmPermissionDenied
+        else -> false
+    }
+
+    Column(
+        modifier = modifier
+            .navigationBarsPadding()
+            .imePadding()
+            .padding(horizontal = 32.dp, vertical = 20.dp)
+    ) {
+        if (showSkipForNow) {
+            OutlinedButton(
+                onClick = onSkipForNow,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("primary_cta"),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = tokens.fab,
-                    contentColor = tokens.fabText
-                )
+                    .testTag("skip_for_now"),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = tokens.timelineBody
+                ),
+                shape = RoundedCornerShape(0.dp)
             ) {
-                Text("Done", style = ReminderOnboardingTypography.Button)
+                Text(stringResource(R.string.skip_for_now), style = ReminderOnboardingTypography.Button)
             }
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+
+        Button(
+            onClick = onPrimaryAction,
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("primary_cta"),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = tokens.fab,
+                contentColor = tokens.fabText
+            ),
+            shape = RoundedCornerShape(0.dp)
+        ) {
+            Text(primaryLabel, style = ReminderOnboardingTypography.Button)
         }
     }
 }
@@ -575,12 +657,6 @@ private object ReminderOnboardingTypography {
         fontFamily = PresentlyFontFamilies.accent,
         fontSize = 32.sp,
         lineHeight = 36.sp
-    )
-
-    val CardTitle = TextStyle(
-        fontFamily = PresentlyFontFamilies.accent,
-        fontSize = 28.sp,
-        lineHeight = 32.sp
     )
 
     val Accent = TextStyle(

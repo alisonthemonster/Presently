@@ -26,4 +26,11 @@
     <string name="language_tr" translatable="false">Türkçe</string>
     <string name="language_af" translatable="false">Afrikaans</string>
     <string name="language_zh_hk" translatable="false">繁體中文(香港)</string>
+    <string name="set_a_reminder_time">Set a reminder time</string>
+    <string name="turn_on_notifications">Turn on notifications</string>
+    <string name="presently_can_t_send_reminders_without_your_permission_please_try_again">Presently can\'t send reminders without your permission. Please try again.</string>
+    <string name="notification_permission_is_required_for_reminders">Notification permission is required for Reminders</string>
+    <string name="without_granting_exact_alarm_permissions_notifications_may_be_delayed_or_skipped_by_your_phone">Without granting Exact Alarm permissions notifications may be delayed or skipped by your phone!</string>
+    <string name="presently_needs_exact_alarm_scheduling_to_send_notifications_at_the_right_time">Presently needs Exact Alarm scheduling to send notifications at the right time.</string>
+    <string name="skip_for_now">Skip for now</string>
 </resources>
