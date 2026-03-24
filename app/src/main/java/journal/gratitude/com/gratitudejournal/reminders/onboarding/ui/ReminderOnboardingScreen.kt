@@ -33,13 +33,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TimePickerDefaults
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -580,50 +578,26 @@ private fun ReminderTimePicker(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
-        MaterialTheme(
-            colorScheme = lightColorScheme(
-                primary = tokens.fab,
-                onPrimary = tokens.fabText,
-                primaryContainer = tokens.fab,
-                onPrimaryContainer = tokens.fabText,
-                secondary = tokens.highlight,
-                onSecondary = tokens.timelineBackground,
-                secondaryContainer = tokens.entryBackground,
-                onSecondaryContainer = tokens.entryBody,
-                tertiary = tokens.highlight,
-                onTertiary = tokens.timelineBackground,
-                tertiaryContainer = tokens.entryBackground,
-                onTertiaryContainer = tokens.entryBody,
-                background = Color.Transparent,
-                onBackground = tokens.timelineBody,
-                surface = Color.Transparent,
-                onSurface = tokens.timelineBody,
-                surfaceVariant = tokens.entryBackground,
-                onSurfaceVariant = tokens.entryBody,
-                outline = tokens.timelineBody.copy(alpha = 0.18f)
+        TimePicker(
+            state = timePickerState,
+            modifier = Modifier.testTag("material_time_picker"),
+            colors = TimePickerDefaults.colors(
+                clockDialColor = tokens.entryBody.copy(alpha = 0.94f),
+                clockDialSelectedContentColor = tokens.entryBody,
+                clockDialUnselectedContentColor = tokens.timelineBackground.copy(alpha = 0.92f),
+                selectorColor = tokens.timelineBackground,
+                containerColor = Color.Transparent,
+                periodSelectorBorderColor = tokens.timelineBody.copy(alpha = 0.14f),
+                periodSelectorSelectedContainerColor = tokens.fab,
+                periodSelectorUnselectedContainerColor = tokens.entryBackground.copy(alpha = 0.96f),
+                periodSelectorSelectedContentColor = tokens.fabText,
+                periodSelectorUnselectedContentColor = tokens.entryBody,
+                timeSelectorSelectedContainerColor = tokens.entryBackground.copy(alpha = 0.96f),
+                timeSelectorUnselectedContainerColor = tokens.entryBackground.copy(alpha = 0.72f),
+                timeSelectorSelectedContentColor = tokens.fab,
+                timeSelectorUnselectedContentColor = tokens.entryBody
             )
-        ) {
-            TimePicker(
-                state = timePickerState,
-                modifier = Modifier.testTag("material_time_picker"),
-                colors = TimePickerDefaults.colors(
-                    clockDialColor = tokens.entryBody.copy(alpha = 0.94f),
-                    clockDialSelectedContentColor = tokens.entryBody,
-                    clockDialUnselectedContentColor = tokens.timelineBackground.copy(alpha = 0.92f),
-                    selectorColor = tokens.timelineBackground,
-                    containerColor = Color.Transparent,
-                    periodSelectorBorderColor = tokens.timelineBody.copy(alpha = 0.14f),
-                    periodSelectorSelectedContainerColor = tokens.fab,
-                    periodSelectorUnselectedContainerColor = tokens.entryBackground.copy(alpha = 0.96f),
-                    periodSelectorSelectedContentColor = tokens.fabText,
-                    periodSelectorUnselectedContentColor = tokens.entryBody,
-                    timeSelectorSelectedContainerColor = tokens.entryBackground.copy(alpha = 0.96f),
-                    timeSelectorUnselectedContainerColor = tokens.entryBackground.copy(alpha = 0.72f),
-                    timeSelectorSelectedContentColor = tokens.fab,
-                    timeSelectorUnselectedContentColor = tokens.entryBody
-                )
-            )
-        }
+        )
     }
 }
 

@@ -97,7 +97,7 @@ android {
             it.systemProperty("robolectric.pixelCopyRenderMode", "hardware")
             if (project.hasProperty("screenshot")) {
                 it.useJUnit {
-                    includeCategories("journal.gratitude.com.gratitudejournal.testutils.ScreenshotTest")
+                    includeCategories("journal.gratitude.com.gratitudejournal.testUtils.ScreenshotTest")
                 }
             }
         }
