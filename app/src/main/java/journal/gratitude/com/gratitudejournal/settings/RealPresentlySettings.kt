@@ -125,6 +125,16 @@ class RealPresentlySettings @Inject constructor(
             .apply()
     }
 
+    override fun hasRequestedNotificationPermission(): Boolean {
+        return sharedPrefs.getBoolean(NOTIFICATION_PERMISSION_REQUESTED, false)
+    }
+
+    override fun markNotificationPermissionRequested() {
+        sharedPrefs.edit()
+            .putBoolean(NOTIFICATION_PERMISSION_REQUESTED, true)
+            .apply()
+    }
+
     override fun getLinesPerEntryInTimeline(): Int {
         return sharedPrefs.getInt(LINES_PER_ENTRY_IN_TIMELINE, 10)
     }

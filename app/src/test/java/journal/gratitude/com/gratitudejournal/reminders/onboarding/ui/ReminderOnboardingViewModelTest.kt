@@ -288,6 +288,26 @@ class ReminderOnboardingViewModelTest {
     }
 
     @Test
+    @Config(sdk = [35])
+    fun skipForNow_onExactAlarmStep_advancesToSuccess_andEnablesReminders() = runTest {
+        viewModel.start(
+            ReminderPermissionSnapshot(
+                notificationsEnabled = false,
+                canRequestNotificationPermission = true,
+                exactAlarmGranted = false
+            )
+        )
+        viewModel.onTimeSaved()
+        viewModel.onNotificationPermissionDialogResult(true)
+        viewModel.onExactAlarmSettingsResult(false)
+
+        viewModel.onSkipForNowClicked()
+
+        assertThat(viewModel.state.value.currentStep).isEqualTo(ReminderOnboardingStep.SUCCESS)
+        assertThat(fakeSettings.notificationsEnabledValue).isTrue()
+    }
+
+    @Test
     fun skipForNow_emitsDismissEffect() = runTest {
         viewModel.start(
             ReminderPermissionSnapshot(
@@ -358,6 +378,7 @@ class ReminderOnboardingViewModelTest {
         var notificationsEnabledValue = false
         var notificationTimeValue: LocalTime = LocalTime.parse("21:00")
         var reminderOnboardingSeenValue = false
+        var notificationPermissionRequestedValue = false
 
         override fun getCurrentTheme(): String = "original"
         override fun setTheme(themeName: String) = Unit
@@ -383,6 +404,10 @@ class ReminderOnboardingViewModelTest {
         }
         override fun clearReminderOnboardingSeen() {
             reminderOnboardingSeenValue = false
+        }
+        override fun hasRequestedNotificationPermission(): Boolean = notificationPermissionRequestedValue
+        override fun markNotificationPermissionRequested() {
+            notificationPermissionRequestedValue = true
         }
         override fun getLinesPerEntryInTimeline(): Int = 10
         override fun shouldShowDayOfWeekInTimeline(): Boolean = false

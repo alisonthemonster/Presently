@@ -135,6 +135,10 @@ class ReminderOnboardingViewModel @Inject constructor(
     }
 
     fun onSkipForNowClicked() {
+        if (_state.value.currentStep == ReminderOnboardingStep.EXACT_ALARM) {
+            showSuccess()
+            return
+        }
         analytics.recordEvent(REMINDER_ONBOARDING_DISMISSED)
         _effects.tryEmit(ReminderOnboardingEffect.Dismiss)
     }

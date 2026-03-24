@@ -34,6 +34,7 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
     var notificationsEnabledValue = false
     var notificationTimeValue: LocalTime = LocalTime.parse("21:00")
     var reminderOnboardingSeenValue = false
+    var notificationPermissionRequestedValue = false
 
     override fun getCurrentTheme(): String {
         return "Original"
@@ -97,6 +98,14 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
 
     override fun clearReminderOnboardingSeen() {
         reminderOnboardingSeenValue = false
+    }
+
+    override fun hasRequestedNotificationPermission(): Boolean {
+        return notificationPermissionRequestedValue
+    }
+
+    override fun markNotificationPermissionRequested() {
+        notificationPermissionRequestedValue = true
     }
 
     override fun getLinesPerEntryInTimeline(): Int {

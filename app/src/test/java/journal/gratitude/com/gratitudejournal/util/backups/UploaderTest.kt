@@ -115,6 +115,8 @@ class UploaderTest {
         override fun hasSeenReminderOnboarding(): Boolean = fail("Not needed in this test")
         override fun markReminderOnboardingSeen() = fail("Not needed in this test")
         override fun clearReminderOnboardingSeen() = fail("Not needed in this test")
+        override fun hasRequestedNotificationPermission(): Boolean = fail("Not needed in this test")
+        override fun markNotificationPermissionRequested() = fail("Not needed in this test")
         override fun getLinesPerEntryInTimeline(): Int = fail("Not needed in this test")
         override fun shouldShowDayOfWeekInTimeline(): Boolean = fail("Not needed in this test")
         override fun wasDropboxAuthInitiated(): Boolean = fail("Not needed in this test")

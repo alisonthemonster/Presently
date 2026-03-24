@@ -73,11 +73,16 @@ class SettingsFragment : PreferenceFragmentCompat(),
     @Inject lateinit var analytics: AnalyticsLogger
     @Inject lateinit var crashReporter: CrashReporter
 
+    private var awaitingNotificationSettingsResult = false
+    private var awaitingExactAlarmSettingsResult = false
+
     private val notificationPermissionLauncher =
         registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
+                settings.setNotificationsEnabled(true)
                 NotificationScheduler().configureNotifications(requireContext(), settings)
             } else {
+                settings.setNotificationsEnabled(false)
                 findPreference<SwitchPreference>(NOTIFS)?.isChecked = false
             }
             refreshReminderPreferences()
@@ -205,6 +210,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 .canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
         fingerprint?.parent!!.isEnabled = canAuthenticateUsingFingerPrint
 
+        findPreference<SwitchPreference>(EXACT_ALARMS)?.apply {
+            isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+            setOnPreferenceChangeListener { _, _ ->
+                openExactAlarmPermissionSettings()
+                false
+            }
+        }
+
         refreshReminderPreferences()
     }
 
@@ -214,6 +227,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         // Set up a listener whenever a key changes
         prefs?.registerOnSharedPreferenceChangeListener(this)
+        syncReminderPreferencesWithSystemState()
         refreshReminderPreferences()
 
         // If we just resumed after launching the Dropbox activity
@@ -239,31 +253,68 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private fun refreshReminderPreferences() {
         val hasDisabledAlarmReminders = settings.hasUserDisabledAlarmReminders(requireContext())
         val hasDisabledSystemNotifications = !NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
-        val hasDisabledReminderPermissions = hasDisabledAlarmReminders || hasDisabledSystemNotifications
-        val alarmDisabled = findPreference<Preference>(NOTIFS_DISABLED)
-        val notifs = findPreference<Preference>(NOTIFS)
+        val remindersEnabled = settings.hasEnabledNotifications() && !hasDisabledSystemNotifications
+        val notifs = findPreference<SwitchPreference>(NOTIFS)
         val prefTime = findPreference<Preference>(NOTIF_PREF_TIME)
+        val exactAlarms = findPreference<SwitchPreference>(EXACT_ALARMS)
 
-        alarmDisabled?.isVisible = hasDisabledReminderPermissions
-        alarmDisabled?.setOnPreferenceClickListener {
-            if (hasDisabledSystemNotifications) {
-                openNotificationPermissionSettings()
-            } else {
-                openExactAlarmPermissionSettings()
-            }
-            true
+        notifs?.isChecked = remindersEnabled
+        notifs?.isEnabled = true
+        prefTime?.isEnabled = remindersEnabled
+        exactAlarms?.isEnabled = remindersEnabled
+        exactAlarms?.isChecked = !hasDisabledAlarmReminders
+    }
+
+    private fun syncReminderPreferencesWithSystemState() {
+        val notificationsEnabledInSystem =
+            NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
+
+        if (!notificationsEnabledInSystem && settings.hasEnabledNotifications()) {
+            settings.setNotificationsEnabled(false)
+            NotificationScheduler().disableNotifications(requireContext())
         }
 
-        notifs?.isEnabled = !hasDisabledReminderPermissions
-        prefTime?.isEnabled = !hasDisabledReminderPermissions
+        if (awaitingNotificationSettingsResult) {
+            awaitingNotificationSettingsResult = false
+            settings.setNotificationsEnabled(notificationsEnabledInSystem)
+            if (notificationsEnabledInSystem) {
+                NotificationScheduler().configureNotifications(requireContext(), settings)
+            } else {
+                NotificationScheduler().disableNotifications(requireContext())
+            }
+        }
+
+        if (awaitingExactAlarmSettingsResult && settings.hasEnabledNotifications()) {
+            awaitingExactAlarmSettingsResult = false
+            NotificationScheduler().configureNotifications(requireContext(), settings)
+        } else {
+            awaitingExactAlarmSettingsResult = false
+        }
     }
 
     private fun openNotificationPermissionSettings() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !hasNotificationPermission()) {
-            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            val shouldRequestInApp =
+                !settings.hasRequestedNotificationPermission() ||
+                    shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)
+
+            if (shouldRequestInApp) {
+                settings.markNotificationPermissionRequested()
+                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                return
+            }
+
+            awaitingNotificationSettingsResult = true
+            Intent().apply {
+                action = ACTION_APP_NOTIFICATION_SETTINGS
+                putExtra(EXTRA_APP_PACKAGE, requireContext().packageName)
+            }.also {
+                startActivity(it)
+            }
             return
         }
 
+        awaitingNotificationSettingsResult = true
         Intent().apply {
             action = ACTION_APP_NOTIFICATION_SETTINGS
             putExtra(EXTRA_APP_PACKAGE, requireContext().packageName)
@@ -273,6 +324,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun openExactAlarmPermissionSettings() {
+        awaitingExactAlarmSettingsResult = true
         Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
             data = Uri.parse("package:${requireContext().packageName}")
         }.also {
@@ -298,11 +350,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
             NOTIFS -> {
                 val notifsTurnedOn = settings.hasEnabledNotifications()
                 if (notifsTurnedOn) {
-                    if (hasNotificationPermission()) {
+                    if (
+                        hasNotificationPermission() &&
+                        NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
+                    ) {
                         NotificationScheduler().configureNotifications(requireContext(), settings)
                         refreshReminderPreferences()
                     } else {
-                        notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                        openNotificationPermissionSettings()
                     }
                 } else {
                     NotificationScheduler().disableNotifications(requireContext())

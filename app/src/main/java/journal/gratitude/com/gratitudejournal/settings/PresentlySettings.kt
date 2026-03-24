@@ -40,6 +40,10 @@ interface PresentlySettings {
 
     fun clearReminderOnboardingSeen()
 
+    fun hasRequestedNotificationPermission(): Boolean
+
+    fun markNotificationPermissionRequested()
+
     fun getLinesPerEntryInTimeline(): Int
 
     fun shouldShowDayOfWeekInTimeline(): Boolean
