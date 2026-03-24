@@ -28,10 +28,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -45,9 +45,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -56,14 +56,17 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ReminderOnboardingStep
+import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
+import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyFontFamilies
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.StateFlow
 import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.Locale
 
 @Composable
 fun ReminderOnboardingScreen(
-    state: kotlinx.coroutines.flow.StateFlow<ReminderOnboardingState>,
+    state: StateFlow<ReminderOnboardingState>,
     onDismiss: () -> Unit,
     onPrimaryAction: () -> Unit,
     onSkipForNow: () -> Unit,
@@ -87,11 +90,13 @@ fun ReminderOnboardingScreenContent(
     onSkipForNow: () -> Unit,
     onTimeChanged: (LocalTime) -> Unit
 ) {
+    val tokens = LocalPresentlyTheme.current
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .testTag("reminder_onboarding_root"),
-        color = MaterialTheme.colorScheme.background
+        color = tokens.timelineBackground
     ) {
         Box(
             modifier = Modifier
@@ -99,9 +104,9 @@ fun ReminderOnboardingScreenContent(
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
-                            MaterialTheme.colorScheme.background,
-                            MaterialTheme.colorScheme.tertiary.copy(alpha = 0.1f)
+                            tokens.highlight.copy(alpha = 0.12f),
+                            tokens.timelineBackground,
+                            tokens.entryBackground.copy(alpha = 0.55f)
                         )
                     )
                 )
@@ -131,10 +136,11 @@ fun ReminderOnboardingScreenContent(
                 StaggeredReveal(index = 0) {
                     Text(
                         text = "Daily reminders, set your way",
-                        style = MaterialTheme.typography.headlineMedium.copy(
+                        style = ReminderOnboardingTypography.Headline.copy(
                             fontWeight = FontWeight.SemiBold,
                             lineHeight = 40.sp
-                        )
+                        ),
+                        color = tokens.timelineHeader
                     )
                 }
 
@@ -143,8 +149,8 @@ fun ReminderOnboardingScreenContent(
                 StaggeredReveal(index = 1) {
                     Text(
                         text = "Choose a time, finish permissions, and Presently will take care of the rest.",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.78f)
+                        style = ReminderOnboardingTypography.Body,
+                        color = tokens.timelineBody.copy(alpha = 0.78f)
                     )
                 }
 
@@ -254,6 +260,7 @@ private fun BoxScope.BotanicalBackground() {
 
 @Composable
 private fun StepProgress(state: ReminderOnboardingState) {
+    val tokens = LocalPresentlyTheme.current
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         state.steps.forEachIndexed { index, _ ->
             Box(
@@ -262,9 +269,9 @@ private fun StepProgress(state: ReminderOnboardingState) {
                     .width(if (index == state.currentStepIndex) 36.dp else 18.dp)
                     .background(
                         color = if (index <= state.currentStepIndex) {
-                            MaterialTheme.colorScheme.primary
+                            tokens.highlight
                         } else {
-                            MaterialTheme.colorScheme.onBackground.copy(alpha = 0.12f)
+                            tokens.timelineBody.copy(alpha = 0.12f)
                         },
                         shape = RoundedCornerShape(999.dp)
                     )
@@ -279,26 +286,27 @@ private fun TimeStep(
     onContinue: () -> Unit,
     onTimeChanged: (LocalTime) -> Unit
 ) {
+    val tokens = LocalPresentlyTheme.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .testTag("time_step"),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.88f)
+            containerColor = tokens.entryBackground.copy(alpha = 0.9f)
         ),
         shape = RoundedCornerShape(28.dp)
     ) {
         Column(modifier = Modifier.padding(24.dp)) {
             Text(
                 text = "Pick your reminder time",
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.SemiBold
+                style = ReminderOnboardingTypography.CardTitle.copy(fontWeight = FontWeight.SemiBold),
+                color = tokens.entryHeader
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "You can change this later, but choosing it now lets us finish setup in one pass.",
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.74f)
+                style = ReminderOnboardingTypography.Body,
+                color = tokens.entryBody.copy(alpha = 0.74f)
             )
             Spacer(modifier = Modifier.height(24.dp))
             ReminderTimeWheelPicker(
@@ -308,17 +316,21 @@ private fun TimeStep(
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = "Reminder time: ${selectedTime.formatReminderTime()}",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Medium
+                style = ReminderOnboardingTypography.Accent.copy(fontWeight = FontWeight.Medium),
+                color = tokens.entryHeader
             )
             Spacer(modifier = Modifier.height(20.dp))
             Button(
                 onClick = onContinue,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("primary_cta")
+                    .testTag("primary_cta"),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = tokens.fab,
+                    contentColor = tokens.fabText
+                )
             ) {
-                Text("Save reminder time")
+                Text("Save reminder time", style = ReminderOnboardingTypography.Button)
             }
         }
     }
@@ -334,33 +346,38 @@ private fun PermissionStep(
     onSkipForNow: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val tokens = LocalPresentlyTheme.current
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
+            containerColor = tokens.entryBackground.copy(alpha = 0.92f)
         ),
         shape = RoundedCornerShape(28.dp)
     ) {
         Column(modifier = Modifier.padding(24.dp)) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.SemiBold
+                style = ReminderOnboardingTypography.CardTitle.copy(fontWeight = FontWeight.SemiBold),
+                color = tokens.entryHeader
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = body,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.74f)
+                style = ReminderOnboardingTypography.Body,
+                color = tokens.entryBody.copy(alpha = 0.74f)
             )
             Spacer(modifier = Modifier.height(28.dp))
             Button(
                 onClick = onPrimaryAction,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("primary_cta")
+                    .testTag("primary_cta"),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = tokens.fab,
+                    contentColor = tokens.fabText
+                )
             ) {
-                Text(primaryLabel)
+                Text(primaryLabel, style = ReminderOnboardingTypography.Button)
             }
             if (showSkipForNow) {
                 Spacer(modifier = Modifier.height(12.dp))
@@ -368,9 +385,12 @@ private fun PermissionStep(
                     onClick = onSkipForNow,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .testTag("skip_for_now")
+                        .testTag("skip_for_now"),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = tokens.timelineBody
+                    )
                 ) {
-                    Text("Skip for now")
+                    Text("Skip for now", style = ReminderOnboardingTypography.Button)
                 }
             }
         }
@@ -382,12 +402,13 @@ private fun SuccessStep(
     selectedTime: LocalTime,
     onDone: () -> Unit
 ) {
+    val tokens = LocalPresentlyTheme.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .testTag("success_step"),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFF4F0E6)
+            containerColor = tokens.entryBackground
         ),
         shape = RoundedCornerShape(30.dp)
     ) {
@@ -398,7 +419,7 @@ private fun SuccessStep(
             Box(
                 modifier = Modifier
                     .size(72.dp)
-                    .background(Color(0xFF2E7D5A), RoundedCornerShape(24.dp)),
+                    .background(tokens.highlight, RoundedCornerShape(24.dp)),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
@@ -410,24 +431,31 @@ private fun SuccessStep(
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = "Your reminders are ready",
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.SemiBold,
-                textAlign = TextAlign.Center
+                style = ReminderOnboardingTypography.CardTitle.copy(
+                    fontWeight = FontWeight.SemiBold
+                ),
+                textAlign = TextAlign.Center,
+                color = tokens.entryHeader
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = "Presently will check in every day at ${selectedTime.formatReminderTime()}.",
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Center
+                style = ReminderOnboardingTypography.Body,
+                textAlign = TextAlign.Center,
+                color = tokens.entryBody
             )
             Spacer(modifier = Modifier.height(24.dp))
             Button(
                 onClick = onDone,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("primary_cta")
+                    .testTag("primary_cta"),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = tokens.fab,
+                    contentColor = tokens.fabText
+                )
             ) {
-                Text("Done")
+                Text("Done", style = ReminderOnboardingTypography.Button)
             }
         }
     }
@@ -438,6 +466,7 @@ private fun ReminderTimeWheelPicker(
     selectedTime: LocalTime,
     onTimeChanged: (LocalTime) -> Unit
 ) {
+    val tokens = LocalPresentlyTheme.current
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
@@ -449,7 +478,12 @@ private fun ReminderTimeWheelPicker(
         ) { hour ->
             onTimeChanged(selectedTime.withHour(hour.to24Hour(selectedTime.hour < 12)))
         }
-        Text(":", style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(horizontal = 8.dp))
+        Text(
+            ":",
+            style = ReminderOnboardingTypography.Headline,
+            color = tokens.entryHeader,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
         WheelPicker(
             values = (0..59).map { it.toString().padStart(2, '0') },
             selectedIndex = selectedTime.minute
@@ -533,5 +567,38 @@ private fun Int.to24Hour(isAm: Boolean): Int {
 private fun LocalTime.formatReminderTime(): String {
     return format(
         DateTimeFormatter.ofPattern("h:mm a", Locale.getDefault())
+    )
+}
+
+private object ReminderOnboardingTypography {
+    val Headline = TextStyle(
+        fontFamily = PresentlyFontFamilies.accent,
+        fontSize = 32.sp,
+        lineHeight = 36.sp
+    )
+
+    val CardTitle = TextStyle(
+        fontFamily = PresentlyFontFamilies.accent,
+        fontSize = 28.sp,
+        lineHeight = 32.sp
+    )
+
+    val Accent = TextStyle(
+        fontFamily = PresentlyFontFamilies.accent,
+        fontSize = 22.sp,
+        lineHeight = 28.sp
+    )
+
+    val Body = TextStyle(
+        fontFamily = PresentlyFontFamilies.body,
+        fontSize = 18.sp,
+        lineHeight = 26.sp
+    )
+
+    val Button = TextStyle(
+        fontFamily = PresentlyFontFamilies.body,
+        fontSize = 16.sp,
+        lineHeight = 20.sp,
+        fontWeight = FontWeight.Medium
     )
 }
