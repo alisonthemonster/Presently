@@ -249,11 +249,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             if (hasDisabledSystemNotifications) {
                 openNotificationPermissionSettings()
             } else {
-                Intent().apply {
-                    action = ACTION_REQUEST_SCHEDULE_EXACT_ALARM
-                }.also {
-                    startActivity(it)
-                }
+                openExactAlarmPermissionSettings()
             }
             true
         }
@@ -271,6 +267,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
         Intent().apply {
             action = ACTION_APP_NOTIFICATION_SETTINGS
             putExtra(EXTRA_APP_PACKAGE, requireContext().packageName)
+        }.also {
+            startActivity(it)
+        }
+    }
+
+    private fun openExactAlarmPermissionSettings() {
+        Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+            data = Uri.parse("package:${requireContext().packageName}")
         }.also {
             startActivity(it)
         }

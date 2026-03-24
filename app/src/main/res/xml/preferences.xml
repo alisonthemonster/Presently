@@ -15,7 +15,7 @@
             android:summary="@string/alarm_disabled_body"/>
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:icon="@drawable/ic_bell"
             android:key="notif_parent"
             android:summaryOff="@string/notifs_off"

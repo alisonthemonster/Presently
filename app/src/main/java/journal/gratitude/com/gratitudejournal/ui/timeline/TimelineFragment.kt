@@ -26,6 +26,9 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.ui.calendar.CalendarAnimation
 import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
+import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ShouldShowReminderOnboardingUseCase
+import journal.gratitude.com.gratitudejournal.reminders.onboarding.ui.ReminderOnboardingFragment
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
@@ -44,6 +47,7 @@ class TimelineFragment : Fragment() {
     @Inject lateinit var settings: PresentlySettings
     @Inject lateinit var analyticsLogger: AnalyticsLogger
     @Inject lateinit var crashReporter: CrashReporter
+    @Inject lateinit var shouldShowReminderOnboarding: ShouldShowReminderOnboardingUseCase
 
     private lateinit var adapter: TimelineAdapter
 
@@ -111,6 +115,23 @@ class TimelineFragment : Fragment() {
         viewModel.entries.observe(viewLifecycleOwner, {
             adapter.submitList(it)
         })
+
+        parentFragmentManager.setFragmentResultListener(
+            EntryFragment.REMINDER_ONBOARDING_TRIGGER_REQUEST_KEY,
+            viewLifecycleOwner
+        ) { _, bundle ->
+            val savedBrandNewFirstEntry =
+                bundle.getBoolean(EntryFragment.REMINDER_ONBOARDING_TRIGGER_RESULT_KEY, false)
+
+            if (
+                shouldShowReminderOnboarding(
+                    savedBrandNewFirstEntry = savedBrandNewFirstEntry,
+                    hasSeenReminderOnboarding = settings.hasSeenReminderOnboarding()
+                )
+            ) {
+                openReminderOnboarding()
+            }
+        }
 
         binding.overflowButton.setOnClickListener {
             PopupMenu(context, it).apply {
@@ -248,6 +269,14 @@ class TimelineFragment : Fragment() {
             .commit()
     }
 
+    private fun openReminderOnboarding() {
+        parentFragmentManager
+            .beginTransaction()
+            .replace(R.id.container_fragment, ReminderOnboardingFragment())
+            .addToBackStack(TIMELINE_TO_REMINDER_ONBOARDING)
+            .commit()
+    }
+
     companion object {
         fun newInstance() = TimelineFragment()
 
@@ -255,6 +284,6 @@ class TimelineFragment : Fragment() {
         const val TIMELINE_TO_ENTRY_VIEW_PAGER = "TIMELINE_TO_ENTRY_VIEW_PAGER"
         const val TIMELINE_TO_SEARCH = "TIMELINE_TO_SEARCH"
         const val TIMELINE_TO_SETTINGS = "TIMELINE_TO_ENTRY"
+        const val TIMELINE_TO_REMINDER_ONBOARDING = "TIMELINE_TO_REMINDER_ONBOARDING"
     }
 }
-
