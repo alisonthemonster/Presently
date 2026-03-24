@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.reminders.onboarding.ui
 
-import android.widget.NumberPicker
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDp
@@ -23,20 +22,25 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerDefaults
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -46,6 +50,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.testTag
@@ -55,7 +60,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ReminderOnboardingStep
@@ -414,7 +418,7 @@ private fun TimeStep(
             color = tokens.timelineHeader
         )
         Spacer(modifier = Modifier.height(36.dp))
-        ReminderTimeWheelPicker(
+        ReminderTimePicker(
             selectedTime = selectedTime,
             onTimeChanged = onTimeChanged
         )
@@ -543,78 +547,84 @@ private fun BottomActions(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ReminderTimeWheelPicker(
+private fun ReminderTimePicker(
     selectedTime: LocalTime,
     onTimeChanged: (LocalTime) -> Unit
 ) {
     val tokens = LocalPresentlyTheme.current
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        WheelPicker(
-            values = (1..12).map(Int::toString),
-            selectedIndex = selectedTime.to12Hour() - 1
-        ) { hour ->
-            onTimeChanged(selectedTime.withHour(hour.to24Hour(selectedTime.hour < 12)))
+    val timePickerState = rememberTimePickerState(
+        initialHour = selectedTime.hour,
+        initialMinute = selectedTime.minute,
+        is24Hour = false
+    )
+
+    LaunchedEffect(selectedTime.hour, selectedTime.minute) {
+        if (timePickerState.hour != selectedTime.hour) {
+            timePickerState.hour = selectedTime.hour
         }
-        Text(
-            ":",
-            style = ReminderOnboardingTypography.Headline,
-            color = tokens.entryHeader,
-            modifier = Modifier.padding(horizontal = 8.dp)
-        )
-        WheelPicker(
-            values = (0..59).map { it.toString().padStart(2, '0') },
-            selectedIndex = selectedTime.minute
-        ) { minute ->
-            onTimeChanged(selectedTime.withMinute(minute))
-        }
-        Spacer(modifier = Modifier.width(8.dp))
-        WheelPicker(
-            values = listOf("AM", "PM"),
-            selectedIndex = if (selectedTime.hour < 12) 0 else 1
-        ) { index ->
-            onTimeChanged(selectedTime.withHour(selectedTime.to12Hour().to24Hour(index == 0)))
+        if (timePickerState.minute != selectedTime.minute) {
+            timePickerState.minute = selectedTime.minute
         }
     }
-}
 
-@Composable
-private fun WheelPicker(
-    values: List<String>,
-    selectedIndex: Int,
-    onValueSelected: (Int) -> Unit
-) {
-    AndroidView(
-        factory = { context ->
-            NumberPicker(context).apply {
-                minValue = 0
-                maxValue = values.lastIndex
-                displayedValues = values.toTypedArray()
-                wrapSelectorWheel = true
-                descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-                setOnValueChangedListener { _, _, newVal ->
-                    onValueSelected(if (values.size == 12) newVal + 1 else newVal)
-                }
-            }
-        },
-        update = { picker ->
-            picker.minValue = 0
-            picker.maxValue = values.lastIndex
-            picker.displayedValues = null
-            picker.displayedValues = values.toTypedArray()
-            if (picker.value != selectedIndex) {
-                picker.value = selectedIndex
-            }
-            picker.setOnValueChangedListener { _, _, newVal ->
-                onValueSelected(if (values.size == 12) newVal + 1 else newVal)
-            }
-        },
-        modifier = Modifier.size(width = 92.dp, height = 180.dp)
-    )
+    LaunchedEffect(timePickerState.hour, timePickerState.minute) {
+        val updatedTime = LocalTime.of(timePickerState.hour, timePickerState.minute)
+        if (updatedTime != selectedTime) {
+            onTimeChanged(updatedTime)
+        }
+    }
+
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        MaterialTheme(
+            colorScheme = lightColorScheme(
+                primary = tokens.fab,
+                onPrimary = tokens.fabText,
+                primaryContainer = tokens.fab,
+                onPrimaryContainer = tokens.fabText,
+                secondary = tokens.highlight,
+                onSecondary = tokens.timelineBackground,
+                secondaryContainer = tokens.entryBackground,
+                onSecondaryContainer = tokens.entryBody,
+                tertiary = tokens.highlight,
+                onTertiary = tokens.timelineBackground,
+                tertiaryContainer = tokens.entryBackground,
+                onTertiaryContainer = tokens.entryBody,
+                background = Color.Transparent,
+                onBackground = tokens.timelineBody,
+                surface = Color.Transparent,
+                onSurface = tokens.timelineBody,
+                surfaceVariant = tokens.entryBackground,
+                onSurfaceVariant = tokens.entryBody,
+                outline = tokens.timelineBody.copy(alpha = 0.18f)
+            )
+        ) {
+            TimePicker(
+                state = timePickerState,
+                modifier = Modifier.testTag("material_time_picker"),
+                colors = TimePickerDefaults.colors(
+                    clockDialColor = tokens.entryBody.copy(alpha = 0.94f),
+                    clockDialSelectedContentColor = tokens.entryBody,
+                    clockDialUnselectedContentColor = tokens.timelineBackground.copy(alpha = 0.92f),
+                    selectorColor = tokens.timelineBackground,
+                    containerColor = Color.Transparent,
+                    periodSelectorBorderColor = tokens.timelineBody.copy(alpha = 0.14f),
+                    periodSelectorSelectedContainerColor = tokens.fab,
+                    periodSelectorUnselectedContainerColor = tokens.entryBackground.copy(alpha = 0.96f),
+                    periodSelectorSelectedContentColor = tokens.fabText,
+                    periodSelectorUnselectedContentColor = tokens.entryBody,
+                    timeSelectorSelectedContainerColor = tokens.entryBackground.copy(alpha = 0.96f),
+                    timeSelectorUnselectedContainerColor = tokens.entryBackground.copy(alpha = 0.72f),
+                    timeSelectorSelectedContentColor = tokens.fab,
+                    timeSelectorUnselectedContentColor = tokens.entryBody
+                )
+            )
+        }
+    }
 }
 
 @Composable
@@ -629,20 +639,6 @@ private fun StaggeredReveal(
     }
     AnimatedVisibility(visible = visible) {
         content()
-    }
-}
-
-private fun LocalTime.to12Hour(): Int {
-    val hour = hour % 12
-    return if (hour == 0) 12 else hour
-}
-
-private fun Int.to24Hour(isAm: Boolean): Int {
-    return when {
-        this == 12 && isAm -> 0
-        this == 12 -> 12
-        isAm -> this
-        else -> this + 12
     }
 }
 
