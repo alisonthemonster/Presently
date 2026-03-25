@@ -182,7 +182,7 @@ private fun BoxScope.StepBackgroundLogos(
     screenHeight: androidx.compose.ui.unit.Dp
 ) {
     val tokens = LocalPresentlyTheme.current
-    val logoColor = tokens.timelineBody.copy(alpha = 0.5f)
+    val logoColor = tokens.timelineBody.copy(alpha = 0.25f)
     val largeLogoSize = screenWidth * 1.35f
     val logoVerticalSpacing = screenHeight * 0.24f
     val bottomLogoY = screenHeight * 0.65f
@@ -214,7 +214,10 @@ private fun BoxScope.StepBackgroundLogos(
                 .align(Alignment.BottomEnd)
                 .offset(x = sideLogoX, y = secondLogoY)
                 .size(largeLogoSize)
-                .graphicsLayer { scaleX = -1f },
+                .graphicsLayer {
+                    scaleX = -1f
+                    rotationZ = -90f
+                },
             color = logoColor
         )
     }
