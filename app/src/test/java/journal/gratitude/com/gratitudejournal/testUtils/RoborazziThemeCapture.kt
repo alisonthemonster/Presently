@@ -55,3 +55,27 @@ fun ComposeContentTestRule.captureAcrossThemes(
         onRoot().captureRoboImage("$screen/$scenario/${themeSpec.name.lowercase()}.png")
     }
 }
+
+fun ComposeContentTestRule.captureInTheme(
+    screen: String,
+    scenario: String,
+    themeSpec: PresentlyThemeSpec,
+    device: ScreenshotDevice = ScreenshotDevices.MediumPhone,
+    content: @Composable () -> Unit
+) {
+    setContent {
+        Box(
+            modifier = Modifier.requiredSize(
+                width = device.widthDp.dp,
+                height = device.heightDp.dp
+            )
+        ) {
+            PresentlyTheme(themeSpec = themeSpec) {
+                content()
+            }
+        }
+    }
+
+    waitForIdle()
+    onRoot().captureRoboImage("$screen/$scenario/${themeSpec.name.lowercase()}.png")
+}

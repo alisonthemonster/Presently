@@ -24,6 +24,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ReminderPermissionSnapshot
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyTheme
+import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -60,7 +61,7 @@ class ReminderOnboardingFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                PresentlyTheme {
+                PresentlyTheme(themeSpec = PresentlyThemeSpec.Original) {
                     ReminderOnboardingScreen(
                         state = viewModel.state,
                         onDismiss = viewModel::onDismissRequested,

@@ -3,7 +3,8 @@ package journal.gratitude.com.gratitudejournal.reminders.onboarding.ui
 import androidx.compose.ui.test.junit4.createComposeRule
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ReminderOnboardingStep
 import journal.gratitude.com.gratitudejournal.testUtils.ScreenshotTest
-import journal.gratitude.com.gratitudejournal.testUtils.captureAcrossThemes
+import journal.gratitude.com.gratitudejournal.testUtils.captureInTheme
+import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
@@ -23,8 +24,12 @@ class ReminderOnboardingScreenRoborazziTest {
     val composeRule = createComposeRule()
 
     @Test
-    fun timeStep_allThemes() {
-        composeRule.captureAcrossThemes(screen = "reminder-onboarding", scenario = "time-step") { _ ->
+    fun timeStep_originalTheme() {
+        composeRule.captureInTheme(
+            screen = "reminder-onboarding",
+            scenario = "time-step",
+            themeSpec = PresentlyThemeSpec.Original
+        ) {
             ReminderOnboardingScreenContent(
                 state = ReminderOnboardingState(
                     selectedTime = LocalTime.of(8, 30)
@@ -38,8 +43,12 @@ class ReminderOnboardingScreenRoborazziTest {
     }
 
     @Test
-    fun notificationStep_allThemes() {
-        composeRule.captureAcrossThemes(screen = "reminder-onboarding", scenario = "notification-step") { _ ->
+    fun notificationStep_originalTheme() {
+        composeRule.captureInTheme(
+            screen = "reminder-onboarding",
+            scenario = "notification-step",
+            themeSpec = PresentlyThemeSpec.Original
+        ) {
             ReminderOnboardingScreenContent(
                 state = ReminderOnboardingState(
                     currentStep = ReminderOnboardingStep.NOTIFICATIONS,
@@ -58,8 +67,12 @@ class ReminderOnboardingScreenRoborazziTest {
     }
 
     @Test
-    fun exactAlarmStep_allThemes() {
-        composeRule.captureAcrossThemes(screen = "reminder-onboarding", scenario = "exact-alarm-step") { _ ->
+    fun exactAlarmStep_originalTheme() {
+        composeRule.captureInTheme(
+            screen = "reminder-onboarding",
+            scenario = "exact-alarm-step",
+            themeSpec = PresentlyThemeSpec.Original
+        ) {
             ReminderOnboardingScreenContent(
                 state = ReminderOnboardingState(
                     currentStep = ReminderOnboardingStep.EXACT_ALARM,
@@ -78,8 +91,12 @@ class ReminderOnboardingScreenRoborazziTest {
     }
 
     @Test
-    fun successStep_allThemes() {
-        composeRule.captureAcrossThemes(screen = "reminder-onboarding", scenario = "success-step") { _ ->
+    fun successStep_originalTheme() {
+        composeRule.captureInTheme(
+            screen = "reminder-onboarding",
+            scenario = "success-step",
+            themeSpec = PresentlyThemeSpec.Original
+        ) {
             ReminderOnboardingScreenContent(
                 state = ReminderOnboardingState(
                     selectedTime = LocalTime.of(7, 5),

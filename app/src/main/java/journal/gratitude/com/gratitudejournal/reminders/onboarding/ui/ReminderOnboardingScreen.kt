@@ -1,20 +1,9 @@
 package journal.gratitude.com.gratitudejournal.reminders.onboarding.ui
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateDp
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -41,16 +30,9 @@ import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -63,7 +45,6 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ReminderOnboardingStep
 import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyFontFamilies
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
 import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -103,21 +84,7 @@ fun ReminderOnboardingScreenContent(
             .testTag("reminder_onboarding_root"),
         color = tokens.timelineBackground
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            tokens.highlight.copy(alpha = 0.12f),
-                            tokens.timelineBackground,
-                            tokens.entryBackground.copy(alpha = 0.55f)
-                        )
-                    )
-                )
-        ) {
-            BotanicalBackground(step = state.currentStep)
-
+        Box(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -142,48 +109,43 @@ fun ReminderOnboardingScreenContent(
 
                 Spacer(modifier = Modifier.height(28.dp))
 
-                AnimatedContent(
-                    targetState = state.currentStep,
-                    label = "reminder_onboarding_step"
-                ) { step ->
-                    when (step) {
-                        ReminderOnboardingStep.TIME -> TimeStep(
-                            selectedTime = state.selectedTime,
-                            onTimeChanged = onTimeChanged
-                        )
+                when (state.currentStep) {
+                    ReminderOnboardingStep.TIME -> TimeStep(
+                        selectedTime = state.selectedTime,
+                        onTimeChanged = onTimeChanged
+                    )
 
-                        ReminderOnboardingStep.NOTIFICATIONS -> PermissionStep(
-                            title = if (state.notificationPermissionDenied) {
-                                stringResource(R.string.notification_permission_is_required_for_reminders)
-                            } else {
-                                stringResource(R.string.turn_on_notifications)
-                            },
-                            body = if (state.notificationPermissionDenied) {
-                                stringResource(R.string.presently_can_t_send_reminders_without_your_permission_please_try_again)
-                            } else {
-                                ""
-                            },
-                            modifier = Modifier.testTag("notification_step")
-                        )
+                    ReminderOnboardingStep.NOTIFICATIONS -> PermissionStep(
+                        title = if (state.notificationPermissionDenied) {
+                            stringResource(R.string.notification_permission_is_required_for_reminders)
+                        } else {
+                            stringResource(R.string.turn_on_notifications)
+                        },
+                        body = if (state.notificationPermissionDenied) {
+                            stringResource(R.string.presently_can_t_send_reminders_without_your_permission_please_try_again)
+                        } else {
+                            ""
+                        },
+                        modifier = Modifier.testTag("notification_step")
+                    )
 
-                        ReminderOnboardingStep.EXACT_ALARM -> PermissionStep(
-                            title = if (state.exactAlarmPermissionDenied) {
-                                "Exact alarms are still blocked"
-                            } else {
-                                "Allow exact alarms"
-                            },
-                            body = if (state.exactAlarmPermissionDenied) {
-                                stringResource(R.string.without_granting_exact_alarm_permissions_notifications_may_be_delayed_or_skipped_by_your_phone)
-                            } else {
-                                stringResource(R.string.presently_needs_exact_alarm_scheduling_to_send_notifications_at_the_right_time)
-                            },
-                            modifier = Modifier.testTag("exact_alarm_step")
-                        )
+                    ReminderOnboardingStep.EXACT_ALARM -> PermissionStep(
+                        title = if (state.exactAlarmPermissionDenied) {
+                            "Exact alarms are still blocked"
+                        } else {
+                            "Allow exact alarms"
+                        },
+                        body = if (state.exactAlarmPermissionDenied) {
+                            stringResource(R.string.without_granting_exact_alarm_permissions_notifications_may_be_delayed_or_skipped_by_your_phone)
+                        } else {
+                            stringResource(R.string.presently_needs_exact_alarm_scheduling_to_send_notifications_at_the_right_time)
+                        },
+                        modifier = Modifier.testTag("exact_alarm_step")
+                    )
 
-                        ReminderOnboardingStep.SUCCESS -> SuccessStep(
-                            selectedTime = state.selectedTime
-                        )
-                    }
+                    ReminderOnboardingStep.SUCCESS -> SuccessStep(
+                        selectedTime = state.selectedTime
+                    )
                 }
             }
 
@@ -197,206 +159,6 @@ fun ReminderOnboardingScreenContent(
             )
         }
     }
-}
-
-@Composable
-private fun BoxScope.BotanicalBackground(step: ReminderOnboardingStep) {
-    val stepTransition = updateTransition(targetState = step, label = "presently_logo_background")
-    val drift = rememberInfiniteTransition(label = "presently_logo_drift")
-    val driftA by drift.animateFloat(
-        initialValue = -10f,
-        targetValue = 10f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(8000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "driftA"
-    )
-    val driftB by drift.animateFloat(
-        initialValue = 12f,
-        targetValue = -12f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(9000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "driftB"
-    )
-
-    val bottomLeftX by stepTransition.animateDp(
-        transitionSpec = { tween(durationMillis = 700) },
-        label = "bottomLeftX"
-    ) { targetStep ->
-        when (targetStep) {
-            ReminderOnboardingStep.TIME -> (-120).dp
-            ReminderOnboardingStep.NOTIFICATIONS -> (-112).dp
-            ReminderOnboardingStep.EXACT_ALARM -> (-106).dp
-            ReminderOnboardingStep.SUCCESS -> (-98).dp
-        }
-    }
-    val bottomLeftY by stepTransition.animateDp(
-        transitionSpec = { tween(durationMillis = 700) },
-        label = "bottomLeftY"
-    ) { targetStep ->
-        when (targetStep) {
-            ReminderOnboardingStep.TIME -> 176.dp
-            ReminderOnboardingStep.NOTIFICATIONS -> 158.dp
-            ReminderOnboardingStep.EXACT_ALARM -> 144.dp
-            ReminderOnboardingStep.SUCCESS -> 150.dp
-        }
-    }
-
-    val middleRightX by stepTransition.animateDp(
-        transitionSpec = { tween(durationMillis = 700) },
-        label = "middleRightX"
-    ) { targetStep ->
-        when (targetStep) {
-            ReminderOnboardingStep.TIME -> 162.dp
-            ReminderOnboardingStep.NOTIFICATIONS -> 116.dp
-            ReminderOnboardingStep.EXACT_ALARM -> 88.dp
-            ReminderOnboardingStep.SUCCESS -> 104.dp
-        }
-    }
-    val middleRightY by stepTransition.animateDp(
-        transitionSpec = { tween(durationMillis = 700) },
-        label = "middleRightY"
-    ) { targetStep ->
-        when (targetStep) {
-            ReminderOnboardingStep.TIME -> 138.dp
-            ReminderOnboardingStep.NOTIFICATIONS -> 78.dp
-            ReminderOnboardingStep.EXACT_ALARM -> 36.dp
-            ReminderOnboardingStep.SUCCESS -> 58.dp
-        }
-    }
-    val middleRightAlpha by stepTransition.animateFloat(
-        transitionSpec = { tween(durationMillis = 700) },
-        label = "middleRightAlpha"
-    ) { targetStep ->
-        when (targetStep) {
-            ReminderOnboardingStep.TIME -> 0.14f
-            ReminderOnboardingStep.NOTIFICATIONS -> 0.5f
-            ReminderOnboardingStep.EXACT_ALARM -> 0.5f
-            ReminderOnboardingStep.SUCCESS -> 0.38f
-        }
-    }
-
-    val topRightX by stepTransition.animateDp(
-        transitionSpec = { tween(durationMillis = 700) },
-        label = "topRightX"
-    ) { targetStep ->
-        when (targetStep) {
-            ReminderOnboardingStep.TIME -> 188.dp
-            ReminderOnboardingStep.NOTIFICATIONS -> 160.dp
-            ReminderOnboardingStep.EXACT_ALARM -> 104.dp
-            ReminderOnboardingStep.SUCCESS -> 122.dp
-        }
-    }
-    val topRightY by stepTransition.animateDp(
-        transitionSpec = { tween(durationMillis = 700) },
-        label = "topRightY"
-    ) { targetStep ->
-        when (targetStep) {
-            ReminderOnboardingStep.TIME -> (-132).dp
-            ReminderOnboardingStep.NOTIFICATIONS -> (-88).dp
-            ReminderOnboardingStep.EXACT_ALARM -> (-26).dp
-            ReminderOnboardingStep.SUCCESS -> (-18).dp
-        }
-    }
-    val topRightAlpha by stepTransition.animateFloat(
-        transitionSpec = { tween(durationMillis = 700) },
-        label = "topRightAlpha"
-    ) { targetStep ->
-        when (targetStep) {
-            ReminderOnboardingStep.TIME -> 0f
-            ReminderOnboardingStep.NOTIFICATIONS -> 0.1f
-            ReminderOnboardingStep.EXACT_ALARM -> 0.5f
-            ReminderOnboardingStep.SUCCESS -> 0.5f
-        }
-    }
-
-    val lowerRightX by stepTransition.animateDp(
-        transitionSpec = { tween(durationMillis = 700) },
-        label = "lowerRightX"
-    ) { targetStep ->
-        when (targetStep) {
-            ReminderOnboardingStep.TIME -> 226.dp
-            ReminderOnboardingStep.NOTIFICATIONS -> 174.dp
-            ReminderOnboardingStep.EXACT_ALARM -> 138.dp
-            ReminderOnboardingStep.SUCCESS -> 152.dp
-        }
-    }
-    val lowerRightY by stepTransition.animateDp(
-        transitionSpec = { tween(durationMillis = 700) },
-        label = "lowerRightY"
-    ) { targetStep ->
-        when (targetStep) {
-            ReminderOnboardingStep.TIME -> 310.dp
-            ReminderOnboardingStep.NOTIFICATIONS -> 252.dp
-            ReminderOnboardingStep.EXACT_ALARM -> 220.dp
-            ReminderOnboardingStep.SUCCESS -> 236.dp
-        }
-    }
-    val lowerRightAlpha by stepTransition.animateFloat(
-        transitionSpec = { tween(durationMillis = 700) },
-        label = "lowerRightAlpha"
-    ) { targetStep ->
-        when (targetStep) {
-            ReminderOnboardingStep.TIME -> 0f
-            ReminderOnboardingStep.NOTIFICATIONS -> 0.28f
-            ReminderOnboardingStep.EXACT_ALARM -> 0.5f
-            ReminderOnboardingStep.SUCCESS -> 0.42f
-        }
-    }
-
-    BackgroundLogo(
-        modifier = Modifier
-            .align(Alignment.BottomStart)
-            .offset(x = bottomLeftX, y = bottomLeftY + driftA.dp)
-            .size(470.dp),
-        alpha = 0.5f,
-        rotation = -14f
-    )
-
-    BackgroundLogo(
-        modifier = Modifier
-            .align(Alignment.CenterEnd)
-            .offset(x = middleRightX, y = middleRightY + driftB.dp)
-            .size(340.dp),
-        alpha = middleRightAlpha,
-        rotation = 20f
-    )
-
-    BackgroundLogo(
-        modifier = Modifier
-            .align(Alignment.TopEnd)
-            .offset(x = topRightX, y = topRightY + driftA.dp)
-            .size(300.dp),
-        alpha = topRightAlpha,
-        rotation = 8f
-    )
-
-    BackgroundLogo(
-        modifier = Modifier
-            .align(Alignment.BottomEnd)
-            .offset(x = lowerRightX, y = lowerRightY + driftB.dp)
-            .size(290.dp),
-        alpha = lowerRightAlpha,
-        rotation = -24f
-    )
-}
-
-@Composable
-private fun BackgroundLogo(
-    modifier: Modifier,
-    alpha: Float,
-    rotation: Float
-) {
-    Image(
-        painter = painterResource(R.drawable.ic_presently),
-        contentDescription = null,
-        modifier = modifier
-            .alpha(alpha)
-            .graphicsLayer { rotationZ = rotation }
-    )
 }
 
 @Composable
@@ -598,21 +360,6 @@ private fun ReminderTimePicker(
                 timeSelectorUnselectedContentColor = tokens.entryBody
             )
         )
-    }
-}
-
-@Composable
-private fun StaggeredReveal(
-    index: Int,
-    content: @Composable () -> Unit
-) {
-    var visible by remember { mutableStateOf(false) }
-    LaunchedEffect(index) {
-        delay(index * 90L)
-        visible = true
-    }
-    AnimatedVisibility(visible = visible) {
-        content()
     }
 }
 
