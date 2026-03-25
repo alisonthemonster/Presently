@@ -27,7 +27,7 @@ class ReminderOnboardingScreenRoborazziTest {
     fun timeStep_originalTheme() {
         composeRule.captureInTheme(
             screen = "reminder-onboarding",
-            scenario = "time-step",
+            scenario = "1-time-step",
             themeSpec = PresentlyThemeSpec.Original
         ) {
             ReminderOnboardingScreenContent(
@@ -46,7 +46,7 @@ class ReminderOnboardingScreenRoborazziTest {
     fun notificationStep_originalTheme() {
         composeRule.captureInTheme(
             screen = "reminder-onboarding",
-            scenario = "notification-step",
+            scenario = "2-notification-step",
             themeSpec = PresentlyThemeSpec.Original
         ) {
             ReminderOnboardingScreenContent(
@@ -70,7 +70,7 @@ class ReminderOnboardingScreenRoborazziTest {
     fun exactAlarmStep_originalTheme() {
         composeRule.captureInTheme(
             screen = "reminder-onboarding",
-            scenario = "exact-alarm-step",
+            scenario = "3-exact-alarm-step",
             themeSpec = PresentlyThemeSpec.Original
         ) {
             ReminderOnboardingScreenContent(
@@ -94,7 +94,7 @@ class ReminderOnboardingScreenRoborazziTest {
     fun successStep_originalTheme() {
         composeRule.captureInTheme(
             screen = "reminder-onboarding",
-            scenario = "success-step",
+            scenario = "4-success-step",
             themeSpec = PresentlyThemeSpec.Original
         ) {
             ReminderOnboardingScreenContent(

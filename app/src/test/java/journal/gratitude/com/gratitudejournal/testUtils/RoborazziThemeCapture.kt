@@ -77,5 +77,5 @@ fun ComposeContentTestRule.captureInTheme(
     }
 
     waitForIdle()
-    onRoot().captureRoboImage("$screen/$scenario/${themeSpec.name.lowercase()}.png")
+    onRoot().captureRoboImage("$screen/${scenario}-${themeSpec.name.lowercase()}.png")
 }
