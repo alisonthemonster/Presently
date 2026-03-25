@@ -1,9 +1,15 @@
 package journal.gratitude.com.gratitudejournal.reminders.onboarding.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,6 +39,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -84,7 +92,13 @@ fun ReminderOnboardingScreenContent(
             .testTag("reminder_onboarding_root"),
         color = tokens.timelineBackground
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            StepBackgroundLogos(
+                step = state.currentStep,
+                screenWidth = maxWidth,
+                screenHeight = maxHeight
+            )
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -159,6 +173,78 @@ fun ReminderOnboardingScreenContent(
             )
         }
     }
+}
+
+@Composable
+private fun BoxScope.StepBackgroundLogos(
+    step: ReminderOnboardingStep,
+    screenWidth: androidx.compose.ui.unit.Dp,
+    screenHeight: androidx.compose.ui.unit.Dp
+) {
+    val tokens = LocalPresentlyTheme.current
+    val logoColor = tokens.timelineBody.copy(alpha = 0.5f)
+    val largeLogoSize = screenWidth * 1.35f
+    val logoVerticalSpacing = screenHeight * 0.24f
+    val bottomLogoY = screenHeight * 0.65f
+    val secondLogoY = bottomLogoY - logoVerticalSpacing
+    val sideLogoX = screenWidth * 0.52f
+    val bottomLeftX = -(screenWidth * 0.25f)
+    val topLogoX = screenWidth * 0.5f
+    val topLogoY = -(screenHeight * 0.32f)
+
+    AnimatedVisibility(
+        visible = true,
+        enter = slideInVertically(initialOffsetY = { it / 2 }) + fadeIn()
+    ) {
+        BackgroundLogo(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .offset(x = bottomLeftX, y = bottomLogoY)
+                .size(largeLogoSize),
+            color = logoColor
+        )
+    }
+
+    AnimatedVisibility(
+        visible = step >= ReminderOnboardingStep.NOTIFICATIONS,
+        enter = slideInHorizontally(initialOffsetX = { it }) + fadeIn()
+    ) {
+        BackgroundLogo(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .offset(x = sideLogoX, y = secondLogoY)
+                .size(largeLogoSize)
+                .graphicsLayer { scaleX = -1f },
+            color = logoColor
+        )
+    }
+
+    AnimatedVisibility(
+        visible = step >= ReminderOnboardingStep.EXACT_ALARM,
+        enter = slideInVertically(initialOffsetY = { -it / 2 }) + fadeIn()
+    ) {
+        BackgroundLogo(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .offset(x = topLogoX, y = topLogoY)
+                .size(largeLogoSize)
+                .graphicsLayer { scaleY = -1f },
+            color = logoColor
+        )
+    }
+}
+
+@Composable
+private fun BackgroundLogo(
+    modifier: Modifier,
+    color: Color
+) {
+    Image(
+        painter = painterResource(R.drawable.presently_leaves),
+        contentDescription = null,
+        colorFilter = ColorFilter.tint(color),
+        modifier = modifier
+    )
 }
 
 @Composable
