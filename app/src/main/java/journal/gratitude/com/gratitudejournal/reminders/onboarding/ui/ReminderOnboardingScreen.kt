@@ -68,7 +68,6 @@ import org.threeten.bp.format.DateTimeFormatter
 import java.util.Locale
 
 
-//todo don't show a skip for now on notification permission failure
 @Composable
 fun ReminderOnboardingScreen(
     state: StateFlow<ReminderOnboardingState>,
@@ -461,7 +460,6 @@ private fun BottomActions(
         ReminderOnboardingStep.SUCCESS -> stringResource(R.string.done)
     }
     val showSkipForNow = when (state.currentStep) {
-        ReminderOnboardingStep.NOTIFICATIONS -> state.notificationPermissionDenied
         ReminderOnboardingStep.EXACT_ALARM -> state.exactAlarmPermissionDenied
         else -> false
     }

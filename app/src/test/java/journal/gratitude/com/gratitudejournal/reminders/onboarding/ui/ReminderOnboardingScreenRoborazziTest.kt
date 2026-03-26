@@ -25,89 +25,104 @@ class ReminderOnboardingScreenRoborazziTest {
 
     @Test
     fun timeStep_originalTheme() {
-        composeRule.captureInTheme(
-            screen = "reminder-onboarding",
+        captureScenario(
             scenario = "1-time-step",
-            themeSpec = PresentlyThemeSpec.Original
-        ) {
-            ReminderOnboardingScreenContent(
-                state = ReminderOnboardingState(
-                    selectedTime = LocalTime.of(8, 30)
-                ),
-                onDismiss = {},
-                onPrimaryAction = {},
-                onSkipForNow = {},
-                onTimeChanged = {}
+            state = ReminderOnboardingState(
+                selectedTime = LocalTime.of(8, 30)
             )
-        }
+        )
     }
 
     @Test
     fun notificationStep_originalTheme() {
-        composeRule.captureInTheme(
-            screen = "reminder-onboarding",
+        captureScenario(
             scenario = "2-notification-step",
-            themeSpec = PresentlyThemeSpec.Original
-        ) {
-            ReminderOnboardingScreenContent(
-                state = ReminderOnboardingState(
-                    currentStep = ReminderOnboardingStep.NOTIFICATIONS,
-                    steps = listOf(
-                        ReminderOnboardingStep.TIME,
-                        ReminderOnboardingStep.NOTIFICATIONS,
-                        ReminderOnboardingStep.SUCCESS
-                    )
-                ),
-                onDismiss = {},
-                onPrimaryAction = {},
-                onSkipForNow = {},
-                onTimeChanged = {}
+            state = notificationStepState()
+        )
+    }
+
+    @Test
+    fun notificationStepDenied_originalTheme() {
+        captureScenario(
+            scenario = "2b-notification-step-denied",
+            state = notificationStepState(
+                notificationPermissionDenied = true
             )
-        }
+        )
     }
 
     @Test
     fun exactAlarmStep_originalTheme() {
-        composeRule.captureInTheme(
-            screen = "reminder-onboarding",
+        captureScenario(
             scenario = "3-exact-alarm-step",
-            themeSpec = PresentlyThemeSpec.Original
-        ) {
-            ReminderOnboardingScreenContent(
-                state = ReminderOnboardingState(
-                    currentStep = ReminderOnboardingStep.EXACT_ALARM,
-                    steps = listOf(
-                        ReminderOnboardingStep.TIME,
-                        ReminderOnboardingStep.EXACT_ALARM,
-                        ReminderOnboardingStep.SUCCESS
-                    )
-                ),
-                onDismiss = {},
-                onPrimaryAction = {},
-                onSkipForNow = {},
-                onTimeChanged = {}
+            state = exactAlarmStepState()
+        )
+    }
+
+    @Test
+    fun exactAlarmStepDenied_originalTheme() {
+        captureScenario(
+            scenario = "3b-exact-alarm-step-denied",
+            state = exactAlarmStepState(
+                exactAlarmPermissionDenied = true
             )
-        }
+        )
     }
 
     @Test
     fun successStep_originalTheme() {
+        captureScenario(
+            scenario = "4-success-step",
+            state = ReminderOnboardingState(
+                selectedTime = LocalTime.of(7, 5),
+                currentStep = ReminderOnboardingStep.SUCCESS
+            ),
+            successAnimationProgressOverride = 1f
+        )
+    }
+
+    private fun captureScenario(
+        scenario: String,
+        state: ReminderOnboardingState,
+        successAnimationProgressOverride: Float? = null
+    ) {
         composeRule.captureInTheme(
             screen = "reminder-onboarding",
-            scenario = "4-success-step",
+            scenario = scenario,
             themeSpec = PresentlyThemeSpec.Original
         ) {
             ReminderOnboardingScreenContent(
-                state = ReminderOnboardingState(
-                    selectedTime = LocalTime.of(7, 5),
-                    currentStep = ReminderOnboardingStep.SUCCESS
-                ),
+                state = state,
                 onDismiss = {},
                 onPrimaryAction = {},
                 onSkipForNow = {},
                 onTimeChanged = {},
-                successAnimationProgressOverride = 1f
+                successAnimationProgressOverride = successAnimationProgressOverride
             )
         }
     }
+
+    private fun notificationStepState(
+        notificationPermissionDenied: Boolean = false
+    ) = ReminderOnboardingState(
+        currentStep = ReminderOnboardingStep.NOTIFICATIONS,
+        steps = listOf(
+            ReminderOnboardingStep.TIME,
+            ReminderOnboardingStep.NOTIFICATIONS,
+            ReminderOnboardingStep.SUCCESS
+        ),
+        notificationPermissionDenied = notificationPermissionDenied
+    )
+
+    private fun exactAlarmStepState(
+        exactAlarmPermissionDenied: Boolean = false
+    ) = ReminderOnboardingState(
+        currentStep = ReminderOnboardingStep.EXACT_ALARM,
+        steps = listOf(
+            ReminderOnboardingStep.TIME,
+            ReminderOnboardingStep.EXACT_ALARM,
+            ReminderOnboardingStep.SUCCESS
+        ),
+        exactAlarmPermissionDenied = exactAlarmPermissionDenied
+    )
 }
