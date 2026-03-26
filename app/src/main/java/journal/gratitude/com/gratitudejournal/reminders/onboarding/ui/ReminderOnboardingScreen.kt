@@ -215,7 +215,7 @@ private fun BoxScope.StepBackgroundLogos(
     )
     val density = LocalDensity.current
     val firstLogoTranslationY = with(density) { (1f - firstLogoProgress) * (screenHeight * 0.18f).toPx() }
-    val secondLogoTranslationX = with(density) { -((1f - secondLogoProgress) * (screenWidth * 0.22f).toPx()) }
+    val secondLogoTranslationX = with(density) { ((1f - secondLogoProgress) * (screenWidth * 0.22f).toPx()) }
     val secondLogoBaseTranslationY = with(density) { -(screenHeight * 0.22f).toPx() }
     val secondLogoTranslationY = with(density) {
         secondLogoBaseTranslationY + ((1f - secondLogoProgress) * (screenHeight * 0.18f).toPx())
