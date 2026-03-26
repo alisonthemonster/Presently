@@ -33,4 +33,9 @@
     <string name="without_granting_exact_alarm_permissions_notifications_may_be_delayed_or_skipped_by_your_phone">Without granting Exact Alarm permissions notifications may be delayed or skipped by your phone!</string>
     <string name="presently_needs_exact_alarm_scheduling_to_send_notifications_at_the_right_time">Presently needs Exact Alarm scheduling to send notifications at the right time.</string>
     <string name="skip_for_now">Skip for now</string>
+    <string name="exact_alarms_are_still_blocked">Exact alarms are still blocked</string>
+    <string name="allow_exact_alarms">Allow exact alarms</string>
+    <string name="open_settings">Open settings</string>
+    <string name="allow_notifications">Allow notifications</string>
+    <string name="done">Done</string>
 </resources>

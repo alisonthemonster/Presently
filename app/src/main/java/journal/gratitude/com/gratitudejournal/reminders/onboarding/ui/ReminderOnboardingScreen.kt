@@ -24,9 +24,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -54,6 +52,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -104,37 +103,37 @@ fun ReminderOnboardingScreenContent(
         color = tokens.timelineBackground
     ) {
         BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-            val headerTopSpacer = maxHeight * 0.12f
             StepBackgroundLogos(
                 step = state.currentStep,
                 screenWidth = maxWidth,
                 screenHeight = maxHeight
             )
 
-            Column(
+            Row(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp, vertical = 20.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
+                IconButton(
+                    onClick = onDismiss,
+                    modifier = Modifier.testTag("reminder_onboarding_close")
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.ic_close_24),
+                        contentDescription = "Dismiss onboarding"
+                    )
+                }
+            }
+
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 32.dp, vertical = 20.dp)
-                    .padding(bottom = 152.dp)
+                    .padding(horizontal = 32.dp)
+                    .padding(top = 72.dp, bottom = 152.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    IconButton(
-                        onClick = onDismiss,
-                        modifier = Modifier.testTag("reminder_onboarding_close")
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.ic_close_24),
-                            contentDescription = "Dismiss onboarding"
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(headerTopSpacer))
-
                 when (state.currentStep) {
                     ReminderOnboardingStep.TIME -> TimeStep(
                         selectedTime = state.selectedTime,
@@ -150,16 +149,16 @@ fun ReminderOnboardingScreenContent(
                         body = if (state.notificationPermissionDenied) {
                             stringResource(R.string.presently_can_t_send_reminders_without_your_permission_please_try_again)
                         } else {
-                            ""
+                            "Presently needs notification permissions in order to deliver daily reminders"
                         },
                         modifier = Modifier.testTag("notification_step")
                     )
 
                     ReminderOnboardingStep.EXACT_ALARM -> PermissionStep(
                         title = if (state.exactAlarmPermissionDenied) {
-                            "Exact alarms are still blocked"
+                            stringResource(R.string.exact_alarms_are_still_blocked)
                         } else {
-                            "Allow exact alarms"
+                            stringResource(R.string.allow_exact_alarms)
                         },
                         body = if (state.exactAlarmPermissionDenied) {
                             stringResource(R.string.without_granting_exact_alarm_permissions_notifications_may_be_delayed_or_skipped_by_your_phone)
@@ -202,7 +201,9 @@ private fun BoxScope.StepBackgroundLogos(
     val secondLogoX = screenWidth * 0.58f
     val bottomLeftX = -(largeLogoSize * 0.33f) + (screenWidth * 0.15f)
     val topLogoX = screenWidth * 0.5f
-    val topLogoY = -(screenHeight * 0.32f)
+    val topLogoY = -(screenHeight * 0.27f)
+    val fourthLogoX = -(largeLogoSize * 0.46f)
+    val fourthLogoY = -(largeLogoSize * 0.42f)
     var firstLogoTarget by remember { mutableFloatStateOf(0f) }
     var thirdLogoTarget by remember { mutableFloatStateOf(0f) }
     LaunchedEffect(Unit) {
@@ -234,6 +235,14 @@ private fun BoxScope.StepBackgroundLogos(
         ),
         label = "thirdLogoProgress"
     )
+    val fourthLogoProgress by animateFloatAsState(
+        targetValue = if (step >= ReminderOnboardingStep.EXACT_ALARM) 1f else 0f,
+        animationSpec = tween(
+            durationMillis = entranceDurationMillis,
+            easing = FastOutSlowInEasing
+        ),
+        label = "fourthLogoProgress"
+    )
     val density = LocalDensity.current
     val firstLogoTranslationY = with(density) { (1f - firstLogoProgress) * (screenHeight * 0.18f).toPx() }
     val secondLogoTranslationX = with(density) { ((1f - secondLogoProgress) * (screenWidth * 0.22f).toPx()) }
@@ -242,6 +251,7 @@ private fun BoxScope.StepBackgroundLogos(
         secondLogoBaseTranslationY + ((1f - secondLogoProgress) * (screenHeight * 0.18f).toPx())
     }
     val thirdLogoTranslationY = with(density) { -((1f - thirdLogoProgress) * (screenHeight * 0.18f).toPx()) }
+    val fourthLogoTranslationX = with(density) { -((1f - fourthLogoProgress) * (screenWidth * 0.22f).toPx()) }
 
     BackgroundLogo(
         modifier = Modifier
@@ -282,6 +292,20 @@ private fun BoxScope.StepBackgroundLogos(
             },
         color = logoColor
     )
+
+    BackgroundLogo(
+        modifier = Modifier
+            .align(Alignment.TopStart)
+            .offset(x = fourthLogoX, y = fourthLogoY)
+            .size(largeLogoSize)
+            .graphicsLayer {
+                translationX = fourthLogoTranslationX
+                alpha = fourthLogoProgress
+                scaleX = -1f
+                rotationZ = 105f
+            },
+        color = logoColor
+    )
 }
 
 @Composable
@@ -306,12 +330,14 @@ private fun TimeStep(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("time_step")
+            .testTag("time_step"),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = stringResource(R.string.set_a_reminder_time),
             style = ReminderOnboardingTypography.Headline,
-            color = tokens.timelineHeader
+            color = tokens.timelineHeader,
+            textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(36.dp))
         ReminderTimePicker(
@@ -329,17 +355,22 @@ private fun PermissionStep(
     modifier: Modifier = Modifier
 ) {
     val tokens = LocalPresentlyTheme.current
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
             text = title,
             style = ReminderOnboardingTypography.Headline.copy(fontWeight = FontWeight.SemiBold),
-            color = tokens.timelineHeader
+            color = tokens.timelineHeader,
+            textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = body,
             style = ReminderOnboardingTypography.Body,
-            color = tokens.timelineBody.copy(alpha = 0.8f)
+            color = tokens.timelineBody.copy(alpha = 0.8f),
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -353,7 +384,7 @@ private fun SuccessStep(
         modifier = Modifier
             .fillMaxWidth()
             .testTag("success_step"),
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
@@ -371,13 +402,15 @@ private fun SuccessStep(
         Text(
             text = "Reminders are ready",
             style = ReminderOnboardingTypography.Headline.copy(fontWeight = FontWeight.SemiBold),
-            color = tokens.timelineHeader
+            color = tokens.timelineHeader,
+            textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = selectedTime.formatReminderTime(),
             style = ReminderOnboardingTypography.Accent.copy(fontWeight = FontWeight.Medium),
-            color = tokens.timelineBody
+            color = tokens.timelineBody,
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -391,13 +424,15 @@ private fun BottomActions(
 ) {
     val tokens = LocalPresentlyTheme.current
     val primaryLabel = when (state.currentStep) {
-        ReminderOnboardingStep.TIME -> "Continue"
+        ReminderOnboardingStep.TIME -> stringResource(R.string.continue_to_exit)
         ReminderOnboardingStep.NOTIFICATIONS -> {
-            if (state.notificationPermissionDenied) "Open settings" else "Allow notifications"
+            if (state.notificationPermissionDenied) stringResource(R.string.open_settings) else stringResource(
+                R.string.allow_notifications
+            )
         }
 
-        ReminderOnboardingStep.EXACT_ALARM -> "Open settings"
-        ReminderOnboardingStep.SUCCESS -> "Done"
+        ReminderOnboardingStep.EXACT_ALARM -> stringResource(R.string.open_settings)
+        ReminderOnboardingStep.SUCCESS -> stringResource(R.string.done)
     }
     val showSkipForNow = when (state.currentStep) {
         ReminderOnboardingStep.NOTIFICATIONS -> state.notificationPermissionDenied
