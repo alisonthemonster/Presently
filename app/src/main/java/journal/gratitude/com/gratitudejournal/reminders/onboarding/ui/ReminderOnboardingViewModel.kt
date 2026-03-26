@@ -185,8 +185,17 @@ class ReminderOnboardingViewModel @Inject constructor(
             analytics.recordEvent(REMINDER_ONBOARDING_COMPLETED)
             completed = true
         }
-        refreshSteps()
-        moveToStep(ReminderOnboardingStep.SUCCESS)
+        _state.update {
+            val steps = if (it.steps.contains(ReminderOnboardingStep.SUCCESS)) {
+                it.steps
+            } else {
+                it.steps + ReminderOnboardingStep.SUCCESS
+            }
+            it.copy(
+                steps = steps,
+                currentStep = ReminderOnboardingStep.SUCCESS
+            )
+        }
     }
 
     private fun refreshSteps() {

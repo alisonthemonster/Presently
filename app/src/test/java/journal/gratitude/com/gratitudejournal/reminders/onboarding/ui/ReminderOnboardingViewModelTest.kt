@@ -308,6 +308,32 @@ class ReminderOnboardingViewModelTest {
     }
 
     @Test
+    @Config(sdk = [35])
+    fun successState_isRetained_whenStartRefreshesStepsAgain() = runTest {
+        viewModel.start(
+            ReminderPermissionSnapshot(
+                notificationsEnabled = false,
+                canRequestNotificationPermission = true,
+                exactAlarmGranted = false
+            )
+        )
+        viewModel.onTimeSaved()
+        viewModel.onNotificationPermissionDialogResult(true)
+        viewModel.onSkipForNowClicked()
+
+        viewModel.start(
+            ReminderPermissionSnapshot(
+                notificationsEnabled = false,
+                canRequestNotificationPermission = true,
+                exactAlarmGranted = false
+            )
+        )
+
+        assertThat(viewModel.state.value.currentStep).isEqualTo(ReminderOnboardingStep.SUCCESS)
+        assertThat(viewModel.state.value.steps).contains(ReminderOnboardingStep.SUCCESS)
+    }
+
+    @Test
     fun skipForNow_emitsDismissEffect() = runTest {
         viewModel.start(
             ReminderPermissionSnapshot(

@@ -193,6 +193,7 @@ private fun BoxScope.StepBackgroundLogos(
     screenHeight: androidx.compose.ui.unit.Dp
 ) {
     val entranceDurationMillis = 800
+    val isSuccessStep = step == ReminderOnboardingStep.SUCCESS
     val tokens = LocalPresentlyTheme.current
     val logoColor = tokens.timelineBody.copy(alpha = 0.25f)
     val largeLogoSize = screenWidth * 1.35f
@@ -212,7 +213,7 @@ private fun BoxScope.StepBackgroundLogos(
         thirdLogoTarget = 1f
     }
     val firstLogoProgress by animateFloatAsState(
-        targetValue = firstLogoTarget,
+        targetValue = if (isSuccessStep) 0f else firstLogoTarget,
         animationSpec = tween(
             durationMillis = entranceDurationMillis,
             easing = FastOutSlowInEasing
@@ -220,7 +221,13 @@ private fun BoxScope.StepBackgroundLogos(
         label = "firstLogoProgress"
     )
     val secondLogoProgress by animateFloatAsState(
-        targetValue = if (step >= ReminderOnboardingStep.NOTIFICATIONS) 1f else 0f,
+        targetValue = if (isSuccessStep) {
+            0f
+        } else if (step >= ReminderOnboardingStep.NOTIFICATIONS) {
+            1f
+        } else {
+            0f
+        },
         animationSpec = tween(
             durationMillis = entranceDurationMillis,
             easing = FastOutSlowInEasing
@@ -228,7 +235,7 @@ private fun BoxScope.StepBackgroundLogos(
         label = "secondLogoProgress"
     )
     val thirdLogoProgress by animateFloatAsState(
-        targetValue = thirdLogoTarget,
+        targetValue = if (isSuccessStep) 0f else thirdLogoTarget,
         animationSpec = tween(
             durationMillis = entranceDurationMillis,
             easing = FastOutSlowInEasing
@@ -236,7 +243,13 @@ private fun BoxScope.StepBackgroundLogos(
         label = "thirdLogoProgress"
     )
     val fourthLogoProgress by animateFloatAsState(
-        targetValue = if (step >= ReminderOnboardingStep.EXACT_ALARM) 1f else 0f,
+        targetValue = if (isSuccessStep) {
+            0f
+        } else if (step >= ReminderOnboardingStep.EXACT_ALARM) {
+            1f
+        } else {
+            0f
+        },
         animationSpec = tween(
             durationMillis = entranceDurationMillis,
             easing = FastOutSlowInEasing
