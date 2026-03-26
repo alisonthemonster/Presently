@@ -62,6 +62,7 @@ import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.Remind
 import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyFontFamilies
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.delay
 import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.Locale
@@ -203,8 +204,11 @@ private fun BoxScope.StepBackgroundLogos(
     val topLogoX = screenWidth * 0.5f
     val topLogoY = -(screenHeight * 0.32f)
     var firstLogoTarget by remember { mutableFloatStateOf(0f) }
+    var thirdLogoTarget by remember { mutableFloatStateOf(0f) }
     LaunchedEffect(Unit) {
         firstLogoTarget = 1f
+        delay(120)
+        thirdLogoTarget = 1f
     }
     val firstLogoProgress by animateFloatAsState(
         targetValue = firstLogoTarget,
@@ -222,6 +226,14 @@ private fun BoxScope.StepBackgroundLogos(
         ),
         label = "secondLogoProgress"
     )
+    val thirdLogoProgress by animateFloatAsState(
+        targetValue = thirdLogoTarget,
+        animationSpec = tween(
+            durationMillis = entranceDurationMillis,
+            easing = FastOutSlowInEasing
+        ),
+        label = "thirdLogoProgress"
+    )
     val density = LocalDensity.current
     val firstLogoTranslationY = with(density) { (1f - firstLogoProgress) * (screenHeight * 0.18f).toPx() }
     val secondLogoTranslationX = with(density) { ((1f - secondLogoProgress) * (screenWidth * 0.22f).toPx()) }
@@ -229,6 +241,7 @@ private fun BoxScope.StepBackgroundLogos(
     val secondLogoTranslationY = with(density) {
         secondLogoBaseTranslationY + ((1f - secondLogoProgress) * (screenHeight * 0.18f).toPx())
     }
+    val thirdLogoTranslationY = with(density) { -((1f - thirdLogoProgress) * (screenHeight * 0.18f).toPx()) }
 
     BackgroundLogo(
         modifier = Modifier
@@ -257,30 +270,18 @@ private fun BoxScope.StepBackgroundLogos(
         color = logoColor
     )
 
-    AnimatedVisibility(
-        visible = step >= ReminderOnboardingStep.EXACT_ALARM,
-        enter = slideInVertically(
-            initialOffsetY = { -it / 2 },
-            animationSpec = tween(
-                durationMillis = entranceDurationMillis,
-                easing = FastOutSlowInEasing
-            )
-        ) + fadeIn(
-            animationSpec = tween(
-                durationMillis = entranceDurationMillis,
-                easing = FastOutSlowInEasing
-            )
-        )
-    ) {
-        BackgroundLogo(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .offset(x = topLogoX, y = topLogoY)
-                .size(largeLogoSize)
-                .graphicsLayer { scaleY = -1f },
-            color = logoColor
-        )
-    }
+    BackgroundLogo(
+        modifier = Modifier
+            .align(Alignment.TopEnd)
+            .offset(x = topLogoX, y = topLogoY)
+            .size(largeLogoSize)
+            .graphicsLayer {
+                translationY = thirdLogoTranslationY
+                alpha = thirdLogoProgress
+                scaleY = -1f
+            },
+        color = logoColor
+    )
 }
 
 @Composable
