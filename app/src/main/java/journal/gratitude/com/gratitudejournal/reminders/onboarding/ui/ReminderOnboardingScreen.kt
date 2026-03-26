@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.reminders.onboarding.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
@@ -36,11 +38,16 @@ import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -58,6 +65,8 @@ import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.Locale
 
+
+//todo don't show a skip for now on notification permission failure
 @Composable
 fun ReminderOnboardingScreen(
     state: StateFlow<ReminderOnboardingState>,
@@ -184,43 +193,60 @@ private fun BoxScope.StepBackgroundLogos(
     val tokens = LocalPresentlyTheme.current
     val logoColor = tokens.timelineBody.copy(alpha = 0.25f)
     val largeLogoSize = screenWidth * 1.35f
-    val logoVerticalSpacing = screenHeight * 0.24f
-    val bottomLogoY = screenHeight * 0.65f
-    val secondLogoY = bottomLogoY - logoVerticalSpacing
-    val sideLogoX = screenWidth * 0.52f
-    val bottomLeftX = -(screenWidth * 0.25f)
+    val bottomLogoY = screenHeight * 0.24f
+    val secondLogoY = screenHeight * 0.24f
+    val secondLogoX = screenWidth * 0.58f
+    val bottomLeftX = -(largeLogoSize * 0.33f) + (screenWidth * 0.15f)
     val topLogoX = screenWidth * 0.5f
     val topLogoY = -(screenHeight * 0.32f)
-
-    AnimatedVisibility(
-        visible = true,
-        enter = slideInVertically(initialOffsetY = { it / 2 }) + fadeIn()
-    ) {
-        BackgroundLogo(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .offset(x = bottomLeftX, y = bottomLogoY)
-                .size(largeLogoSize),
-            color = logoColor
-        )
+    var firstLogoTarget by remember { mutableFloatStateOf(0f) }
+    LaunchedEffect(Unit) {
+        firstLogoTarget = 1f
+    }
+    val firstLogoProgress by animateFloatAsState(
+        targetValue = firstLogoTarget,
+        animationSpec = tween(durationMillis = 450),
+        label = "firstLogoProgress"
+    )
+    val secondLogoProgress by animateFloatAsState(
+        targetValue = if (step >= ReminderOnboardingStep.NOTIFICATIONS) 1f else 0f,
+        animationSpec = tween(durationMillis = 450),
+        label = "secondLogoProgress"
+    )
+    val density = LocalDensity.current
+    val firstLogoTranslationY = with(density) { (1f - firstLogoProgress) * (screenHeight * 0.18f).toPx() }
+    val secondLogoTranslationX = with(density) { -((1f - secondLogoProgress) * (screenWidth * 0.22f).toPx()) }
+    val secondLogoBaseTranslationY = with(density) { -(screenHeight * 0.22f).toPx() }
+    val secondLogoTranslationY = with(density) {
+        secondLogoBaseTranslationY + ((1f - secondLogoProgress) * (screenHeight * 0.18f).toPx())
     }
 
-    AnimatedVisibility(
-        visible = step >= ReminderOnboardingStep.NOTIFICATIONS,
-        enter = slideInHorizontally(initialOffsetX = { it }) + fadeIn()
-    ) {
-        BackgroundLogo(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .offset(x = sideLogoX, y = secondLogoY)
-                .size(largeLogoSize)
-                .graphicsLayer {
-                    scaleX = -1f
-                    rotationZ = -90f
-                },
-            color = logoColor
-        )
-    }
+    BackgroundLogo(
+        modifier = Modifier
+            .align(Alignment.BottomStart)
+            .offset(x = bottomLeftX, y = bottomLogoY)
+            .size(largeLogoSize)
+            .graphicsLayer {
+                translationY = firstLogoTranslationY
+                alpha = firstLogoProgress
+            },
+        color = logoColor
+    )
+
+    BackgroundLogo(
+        modifier = Modifier
+            .align(Alignment.BottomStart)
+            .offset(x = secondLogoX, y = secondLogoY)
+            .size(largeLogoSize)
+            .graphicsLayer {
+                translationX = secondLogoTranslationX
+                translationY = secondLogoTranslationY
+                alpha = secondLogoProgress
+                scaleX = -1f
+                rotationZ = -90f
+            },
+        color = logoColor
+    )
 
     AnimatedVisibility(
         visible = step >= ReminderOnboardingStep.EXACT_ALARM,
