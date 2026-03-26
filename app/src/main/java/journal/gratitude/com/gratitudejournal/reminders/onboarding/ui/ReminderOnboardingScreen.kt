@@ -93,7 +93,8 @@ fun ReminderOnboardingScreenContent(
     onDismiss: () -> Unit,
     onPrimaryAction: () -> Unit,
     onSkipForNow: () -> Unit,
-    onTimeChanged: (LocalTime) -> Unit
+    onTimeChanged: (LocalTime) -> Unit,
+    successAnimationProgressOverride: Float? = null
 ) {
     val tokens = LocalPresentlyTheme.current
 
@@ -170,7 +171,8 @@ fun ReminderOnboardingScreenContent(
                     )
 
                     ReminderOnboardingStep.SUCCESS -> SuccessStep(
-                        selectedTime = state.selectedTime
+                        selectedTime = state.selectedTime,
+                        animationProgressOverride = successAnimationProgressOverride
                     )
                 }
             }
@@ -395,15 +397,17 @@ private fun PermissionStep(
 
 @Composable
 private fun SuccessStep(
-    selectedTime: LocalTime
+    selectedTime: LocalTime,
+    animationProgressOverride: Float? = null
 ) {
     val tokens = LocalPresentlyTheme.current
     val composition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(R.raw.logo_animated)
     )
-    val progress by animateLottieCompositionAsState(
+    val animatedProgress by animateLottieCompositionAsState(
         composition = composition,
     )
+    val progress = animationProgressOverride ?: animatedProgress
     Column(
         modifier = Modifier
             .fillMaxWidth()

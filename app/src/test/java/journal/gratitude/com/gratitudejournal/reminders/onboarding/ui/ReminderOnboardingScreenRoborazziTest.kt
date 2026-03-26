@@ -105,7 +105,8 @@ class ReminderOnboardingScreenRoborazziTest {
                 onDismiss = {},
                 onPrimaryAction = {},
                 onSkipForNow = {},
-                onTimeChanged = {}
+                onTimeChanged = {},
+                successAnimationProgressOverride = 1f
             )
         }
     }
