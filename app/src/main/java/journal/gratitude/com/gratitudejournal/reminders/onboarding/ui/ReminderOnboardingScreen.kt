@@ -1,12 +1,8 @@
 package journal.gratitude.com.gratitudejournal.reminders.onboarding.ui
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +31,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberTimePickerState
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -257,14 +258,18 @@ private fun BoxScope.StepBackgroundLogos(
         label = "fourthLogoProgress"
     )
     val density = LocalDensity.current
-    val firstLogoTranslationY = with(density) { (1f - firstLogoProgress) * (screenHeight * 0.18f).toPx() }
-    val secondLogoTranslationX = with(density) { ((1f - secondLogoProgress) * (screenWidth * 0.22f).toPx()) }
+    val firstLogoTranslationY =
+        with(density) { (1f - firstLogoProgress) * (screenHeight * 0.18f).toPx() }
+    val secondLogoTranslationX =
+        with(density) { ((1f - secondLogoProgress) * (screenWidth * 0.22f).toPx()) }
     val secondLogoBaseTranslationY = with(density) { -(screenHeight * 0.22f).toPx() }
     val secondLogoTranslationY = with(density) {
         secondLogoBaseTranslationY + ((1f - secondLogoProgress) * (screenHeight * 0.18f).toPx())
     }
-    val thirdLogoTranslationY = with(density) { -((1f - thirdLogoProgress) * (screenHeight * 0.18f).toPx()) }
-    val fourthLogoTranslationX = with(density) { -((1f - fourthLogoProgress) * (screenWidth * 0.22f).toPx()) }
+    val thirdLogoTranslationY =
+        with(density) { -((1f - thirdLogoProgress) * (screenHeight * 0.18f).toPx()) }
+    val fourthLogoTranslationX =
+        with(density) { -((1f - fourthLogoProgress) * (screenWidth * 0.22f).toPx()) }
 
     BackgroundLogo(
         modifier = Modifier
@@ -393,27 +398,26 @@ private fun SuccessStep(
     selectedTime: LocalTime
 ) {
     val tokens = LocalPresentlyTheme.current
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(R.raw.logo_animated)
+    )
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+    )
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .testTag("success_step"),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .size(72.dp)
-                .background(tokens.highlight, RoundedCornerShape(24.dp)),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(R.drawable.ic_check),
-                contentDescription = null,
-                modifier = Modifier.size(28.dp)
-            )
-        }
+        LottieAnimation(
+            composition = composition,
+            progress = { progress },
+            modifier = Modifier.size(224.dp)
+        )
         Spacer(modifier = Modifier.height(24.dp))
         Text(
-            text = "Reminders are ready",
+            text = stringResource(R.string.reminder_success),
             style = ReminderOnboardingTypography.Headline.copy(fontWeight = FontWeight.SemiBold),
             color = tokens.timelineHeader,
             textAlign = TextAlign.Center
@@ -421,7 +425,12 @@ private fun SuccessStep(
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = selectedTime.formatReminderTime(),
-            style = ReminderOnboardingTypography.Accent.copy(fontWeight = FontWeight.Medium),
+            color = tokens.timelineBody,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(6.dp))
+        Text(
+            text = stringResource(R.string.see_you_tomorrow),
             color = tokens.timelineBody,
             textAlign = TextAlign.Center
         )
@@ -470,7 +479,10 @@ private fun BottomActions(
                 ),
                 shape = RoundedCornerShape(0.dp)
             ) {
-                Text(stringResource(R.string.skip_for_now), style = ReminderOnboardingTypography.Button)
+                Text(
+                    stringResource(R.string.skip_for_now),
+                    style = ReminderOnboardingTypography.Button
+                )
             }
             Spacer(modifier = Modifier.height(12.dp))
         }

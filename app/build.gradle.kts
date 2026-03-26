@@ -230,6 +230,7 @@ dependencies {
     implementation(Libraries.androidx_compose_foundation)
     implementation(Libraries.androidx_compose_material3)
     implementation(Libraries.androidx_compose_runtime_livedata)
+    implementation(Libraries.lottie_compose)
 
     implementation(Libraries.three_ten_abp)
     implementation(Libraries.kotlin_coroutines_android)

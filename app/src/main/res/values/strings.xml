@@ -38,4 +38,6 @@
     <string name="open_settings">Open settings</string>
     <string name="allow_notifications">Allow notifications</string>
     <string name="done">Done</string>
+    <string name="reminder_success">Reminder is set</string>
+    <string name="see_you_tomorrow">See you tomorrow!</string>
 </resources>
