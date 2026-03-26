@@ -1,6 +1,7 @@
 package journal.gratitude.com.gratitudejournal.reminders.onboarding.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -102,6 +103,7 @@ fun ReminderOnboardingScreenContent(
         color = tokens.timelineBackground
     ) {
         BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            val headerTopSpacer = maxHeight * 0.12f
             StepBackgroundLogos(
                 step = state.currentStep,
                 screenWidth = maxWidth,
@@ -130,7 +132,7 @@ fun ReminderOnboardingScreenContent(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(28.dp))
+                Spacer(modifier = Modifier.height(headerTopSpacer))
 
                 when (state.currentStep) {
                     ReminderOnboardingStep.TIME -> TimeStep(
@@ -190,6 +192,7 @@ private fun BoxScope.StepBackgroundLogos(
     screenWidth: androidx.compose.ui.unit.Dp,
     screenHeight: androidx.compose.ui.unit.Dp
 ) {
+    val entranceDurationMillis = 800
     val tokens = LocalPresentlyTheme.current
     val logoColor = tokens.timelineBody.copy(alpha = 0.25f)
     val largeLogoSize = screenWidth * 1.35f
@@ -205,12 +208,18 @@ private fun BoxScope.StepBackgroundLogos(
     }
     val firstLogoProgress by animateFloatAsState(
         targetValue = firstLogoTarget,
-        animationSpec = tween(durationMillis = 450),
+        animationSpec = tween(
+            durationMillis = entranceDurationMillis,
+            easing = FastOutSlowInEasing
+        ),
         label = "firstLogoProgress"
     )
     val secondLogoProgress by animateFloatAsState(
         targetValue = if (step >= ReminderOnboardingStep.NOTIFICATIONS) 1f else 0f,
-        animationSpec = tween(durationMillis = 450),
+        animationSpec = tween(
+            durationMillis = entranceDurationMillis,
+            easing = FastOutSlowInEasing
+        ),
         label = "secondLogoProgress"
     )
     val density = LocalDensity.current
@@ -250,7 +259,18 @@ private fun BoxScope.StepBackgroundLogos(
 
     AnimatedVisibility(
         visible = step >= ReminderOnboardingStep.EXACT_ALARM,
-        enter = slideInVertically(initialOffsetY = { -it / 2 }) + fadeIn()
+        enter = slideInVertically(
+            initialOffsetY = { -it / 2 },
+            animationSpec = tween(
+                durationMillis = entranceDurationMillis,
+                easing = FastOutSlowInEasing
+            )
+        ) + fadeIn(
+            animationSpec = tween(
+                durationMillis = entranceDurationMillis,
+                easing = FastOutSlowInEasing
+            )
+        )
     ) {
         BackgroundLogo(
             modifier = Modifier
