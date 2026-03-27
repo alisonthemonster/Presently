@@ -67,6 +67,10 @@ class ReminderOnboardingViewModelTest {
 
         assertThat(fakeSettings.notificationTimeValue).isEqualTo(newTime)
         assertThat(viewModel.state.value.currentStep).isEqualTo(ReminderOnboardingStep.NOTIFICATIONS)
+        assertThat(analytics.recordedEventDetailsFor("reminderOnboardingStepCompleted"))
+            .contains(mapOf("step" to "time"))
+        assertThat(analytics.recordedEventDetailsFor("reminderOnboardingStepViewed"))
+            .contains(mapOf("step" to "notifications"))
     }
 
     @Test
@@ -87,6 +91,8 @@ class ReminderOnboardingViewModelTest {
         ).inOrder()
         assertThat(fakeSettings.reminderOnboardingSeenValue).isTrue()
         assertThat(analytics.recordedEvents).contains("reminderOnboardingViewed")
+        assertThat(analytics.recordedEventDetailsFor("reminderOnboardingStepViewed"))
+            .containsExactly(mapOf("step" to "time"))
     }
 
     @Test
@@ -112,6 +118,7 @@ class ReminderOnboardingViewModelTest {
             ReminderOnboardingStep.SUCCESS
         ).inOrder()
         assertThat(analytics.recordedEvents.count { it == "reminderOnboardingViewed" }).isEqualTo(1)
+        assertThat(analytics.recordedEvents.count { it == "reminderOnboardingStepViewed" }).isEqualTo(1)
     }
 
     @Test
@@ -138,6 +145,8 @@ class ReminderOnboardingViewModelTest {
 
         assertThat(viewModel.state.value.currentStep).isEqualTo(ReminderOnboardingStep.NOTIFICATIONS)
         assertThat(viewModel.state.value.notificationPermissionDenied).isTrue()
+        assertThat(analytics.recordedEventDetailsFor("reminderOnboardingPermissionResult"))
+            .contains(mapOf("permission" to "notifications", "result" to "denied"))
     }
 
     @Test
@@ -208,6 +217,12 @@ class ReminderOnboardingViewModelTest {
         assertThat(viewModel.state.value.currentStep).isEqualTo(ReminderOnboardingStep.SUCCESS)
         assertThat(viewModel.state.value.notificationPermissionDenied).isFalse()
         assertThat(fakeSettings.notificationsEnabledValue).isTrue()
+        assertThat(analytics.recordedEventDetailsFor("reminderOnboardingPermissionResult"))
+            .contains(mapOf("permission" to "notifications", "result" to "granted"))
+        assertThat(analytics.recordedEventDetailsFor("reminderOnboardingStepCompleted"))
+            .contains(mapOf("step" to "notifications"))
+        assertThat(analytics.recordedEventDetailsFor("reminderOnboardingStepViewed"))
+            .contains(mapOf("step" to "success"))
     }
 
     @Test
@@ -247,6 +262,24 @@ class ReminderOnboardingViewModelTest {
         assertThat(viewModel.state.value.currentStep).isEqualTo(ReminderOnboardingStep.SUCCESS)
         assertThat(fakeSettings.notificationsEnabledValue).isTrue()
         assertThat(analytics.recordedEvents).contains("reminderOnboardingCompleted")
+        assertThat(analytics.recordedEventDetailsFor("reminderOnboardingPermissionResult"))
+            .containsAtLeast(
+                mapOf("permission" to "notifications", "result" to "granted"),
+                mapOf("permission" to "exact_alarm", "result" to "granted")
+            )
+        assertThat(analytics.recordedEventDetailsFor("reminderOnboardingStepCompleted"))
+            .containsAtLeast(
+                mapOf("step" to "time"),
+                mapOf("step" to "notifications"),
+                mapOf("step" to "exact_alarm")
+            )
+        assertThat(analytics.recordedEventDetailsFor("reminderOnboardingStepViewed"))
+            .containsAtLeast(
+                mapOf("step" to "time"),
+                mapOf("step" to "notifications"),
+                mapOf("step" to "exact_alarm"),
+                mapOf("step" to "success")
+            )
     }
 
     @Test
@@ -384,6 +417,7 @@ class ReminderOnboardingViewModelTest {
 
     private class TestAnalyticsLogger : AnalyticsLogger {
         val recordedEvents = mutableListOf<String>()
+        private val recordedEventDetails = mutableListOf<Pair<String, Map<String, Any>>>()
 
         override fun recordEvent(event: String) {
             recordedEvents += event
@@ -391,6 +425,11 @@ class ReminderOnboardingViewModelTest {
 
         override fun recordEvent(event: String, details: Map<String, Any>) {
             recordedEvents += event
+            recordedEventDetails += event to details
+        }
+
+        fun recordedEventDetailsFor(event: String): List<Map<String, Any>> {
+            return recordedEventDetails.filter { it.first == event }.map { it.second }
         }
 
         override fun recordSelectEvent(selectedContent: String, selectedContentType: String) = Unit

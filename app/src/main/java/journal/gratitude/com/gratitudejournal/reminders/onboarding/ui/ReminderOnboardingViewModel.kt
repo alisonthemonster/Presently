@@ -8,6 +8,9 @@ import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_COMPLE
 import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_DISMISSED
 import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PERMISSION_DENIED
 import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PERMISSION_GRANTED
+import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PERMISSION_RESULT
+import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_STEP_COMPLETED
+import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_STEP_VIEWED
 import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_VIEWED
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.data.ReminderOnboardingRepository
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.BuildReminderOnboardingStepsUseCase
@@ -61,6 +64,7 @@ class ReminderOnboardingViewModel @Inject constructor(
                 isStarted = true
             )
         }
+        recordStepViewed(_state.value.currentStep)
     }
 
     fun onTimeChanged(time: LocalTime) {
@@ -70,6 +74,7 @@ class ReminderOnboardingViewModel @Inject constructor(
     fun onTimeSaved() {
         val state = _state.value
         repository.setNotificationTime(state.selectedTime)
+        recordStepCompleted(ReminderOnboardingStep.TIME)
         moveFromTimeStep()
     }
 
@@ -95,14 +100,17 @@ class ReminderOnboardingViewModel @Inject constructor(
 
     fun onNotificationPermissionDialogResult(granted: Boolean) {
         if (granted) {
+            recordPermissionResult(permission = NOTIFICATION_PERMISSION, granted = true)
             analytics.recordEvent(REMINDER_ONBOARDING_PERMISSION_GRANTED)
             permissionSnapshot = permissionSnapshot.copy(
                 notificationsEnabled = true,
                 canRequestNotificationPermission = false
             )
             _state.update { it.copy(notificationPermissionDenied = false) }
+            recordStepCompleted(ReminderOnboardingStep.NOTIFICATIONS)
             advanceFromNotificationStep()
         } else {
+            recordPermissionResult(permission = NOTIFICATION_PERMISSION, granted = false)
             analytics.recordEvent(REMINDER_ONBOARDING_PERMISSION_DENIED)
             _state.update { it.copy(notificationPermissionDenied = true) }
         }
@@ -111,10 +119,13 @@ class ReminderOnboardingViewModel @Inject constructor(
     fun onNotificationSettingsResult(enabled: Boolean) {
         permissionSnapshot = permissionSnapshot.copy(notificationsEnabled = enabled)
         if (enabled) {
+            recordPermissionResult(permission = NOTIFICATION_PERMISSION, granted = true)
             analytics.recordEvent(REMINDER_ONBOARDING_PERMISSION_GRANTED)
             _state.update { it.copy(notificationPermissionDenied = false) }
+            recordStepCompleted(ReminderOnboardingStep.NOTIFICATIONS)
             advanceFromNotificationStep()
         } else {
+            recordPermissionResult(permission = NOTIFICATION_PERMISSION, granted = false)
             analytics.recordEvent(REMINDER_ONBOARDING_PERMISSION_DENIED)
             _state.update { it.copy(notificationPermissionDenied = true) }
             refreshSteps()
@@ -124,10 +135,13 @@ class ReminderOnboardingViewModel @Inject constructor(
     fun onExactAlarmSettingsResult(granted: Boolean) {
         permissionSnapshot = permissionSnapshot.copy(exactAlarmGranted = granted)
         if (granted) {
+            recordPermissionResult(permission = EXACT_ALARM_PERMISSION, granted = true)
             analytics.recordEvent(REMINDER_ONBOARDING_PERMISSION_GRANTED)
             _state.update { it.copy(exactAlarmPermissionDenied = false) }
+            recordStepCompleted(ReminderOnboardingStep.EXACT_ALARM)
             showSuccess()
         } else {
+            recordPermissionResult(permission = EXACT_ALARM_PERMISSION, granted = false)
             analytics.recordEvent(REMINDER_ONBOARDING_PERMISSION_DENIED)
             _state.update { it.copy(exactAlarmPermissionDenied = true) }
             refreshSteps()
@@ -165,8 +179,8 @@ class ReminderOnboardingViewModel @Inject constructor(
     }
 
     private fun advanceFromNotificationStep() {
-        refreshSteps()
-        val steps = _state.value.steps
+        val steps = buildReminderOnboardingSteps(permissionSnapshot)
+        _state.update { it.copy(steps = steps) }
         val nextStep = when {
             steps.contains(ReminderOnboardingStep.EXACT_ALARM) -> ReminderOnboardingStep.EXACT_ALARM
             else -> ReminderOnboardingStep.SUCCESS
@@ -184,6 +198,9 @@ class ReminderOnboardingViewModel @Inject constructor(
             repository.enableAndScheduleReminders()
             analytics.recordEvent(REMINDER_ONBOARDING_COMPLETED)
             completed = true
+        }
+        if (_state.value.currentStep != ReminderOnboardingStep.SUCCESS) {
+            recordStepViewed(ReminderOnboardingStep.SUCCESS)
         }
         _state.update {
             val steps = if (it.steps.contains(ReminderOnboardingStep.SUCCESS)) {
@@ -214,7 +231,50 @@ class ReminderOnboardingViewModel @Inject constructor(
         val current = _state.value.currentStep
         if (current != step) {
             analytics.recordEvent(REMINDER_ONBOARDING_ADVANCED)
+            recordStepViewed(step)
         }
         _state.update { it.copy(currentStep = step) }
+    }
+
+    private fun recordStepViewed(step: ReminderOnboardingStep) {
+        analytics.recordEvent(
+            REMINDER_ONBOARDING_STEP_VIEWED,
+            mapOf(STEP_KEY to step.analyticsValue)
+        )
+    }
+
+    private fun recordStepCompleted(step: ReminderOnboardingStep) {
+        analytics.recordEvent(
+            REMINDER_ONBOARDING_STEP_COMPLETED,
+            mapOf(STEP_KEY to step.analyticsValue)
+        )
+    }
+
+    private fun recordPermissionResult(permission: String, granted: Boolean) {
+        analytics.recordEvent(
+            REMINDER_ONBOARDING_PERMISSION_RESULT,
+            mapOf(
+                PERMISSION_KEY to permission,
+                RESULT_KEY to if (granted) GRANTED_RESULT else DENIED_RESULT
+            )
+        )
+    }
+
+    private val ReminderOnboardingStep.analyticsValue: String
+        get() = when (this) {
+            ReminderOnboardingStep.TIME -> "time"
+            ReminderOnboardingStep.NOTIFICATIONS -> "notifications"
+            ReminderOnboardingStep.EXACT_ALARM -> "exact_alarm"
+            ReminderOnboardingStep.SUCCESS -> "success"
+        }
+
+    companion object {
+        private const val STEP_KEY = "step"
+        private const val PERMISSION_KEY = "permission"
+        private const val RESULT_KEY = "result"
+        private const val NOTIFICATION_PERMISSION = "notifications"
+        private const val EXACT_ALARM_PERMISSION = "exact_alarm"
+        private const val GRANTED_RESULT = "granted"
+        private const val DENIED_RESULT = "denied"
     }
 }
