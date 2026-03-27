@@ -26,6 +26,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_VIEWED
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
@@ -63,10 +64,14 @@ class TimelineFragmentInstrumentedTest {
     @Inject
     lateinit var settings: FakePresentlySettings
 
+    @Inject
+    lateinit var analytics: FakeAnalyticsLogger
+
     @Before
     fun init() {
         hiltRule.inject()
         settings.clearReminderOnboardingSeen()
+        analytics.reset()
     }
 
     @Test
@@ -153,6 +158,7 @@ class TimelineFragmentInstrumentedTest {
                 activity.supportFragmentManager.findFragmentByTag(DayOneDialogFragment.TAG)
             assertThat(dialogFragment).isInstanceOf(DayOneDialogFragment::class.java)
         }
+        assertThat(analytics.recordedEvents).contains(REMINDER_ONBOARDING_PROMPT_VIEWED)
     }
 
     @Test

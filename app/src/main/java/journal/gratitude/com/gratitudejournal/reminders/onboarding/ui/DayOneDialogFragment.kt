@@ -39,6 +39,9 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
+import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_ACCEPTED
+import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_DISMISSED
 import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyFontFamilies
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyTheme
@@ -48,6 +51,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DayOneDialogFragment : DialogFragment() {
 
+    @Inject lateinit var analytics: AnalyticsLogger
     @Inject lateinit var themeSpecProvider: ReminderPromptThemeSpecProvider
 
     private var openedFullOnboarding = false
@@ -80,6 +84,7 @@ class DayOneDialogFragment : DialogFragment() {
 
     private fun openReminderOnboarding() {
         openedFullOnboarding = true
+        analytics.recordEvent(REMINDER_ONBOARDING_PROMPT_ACCEPTED)
         val fragmentManager = parentFragmentManager
         dismissNow()
         fragmentManager
@@ -87,6 +92,13 @@ class DayOneDialogFragment : DialogFragment() {
             .replace(R.id.container_fragment, ReminderOnboardingFragment())
             .addToBackStack(TAG_REMINDER_ONBOARDING)
             .commit()
+    }
+
+    override fun onDismiss(dialog: android.content.DialogInterface) {
+        super.onDismiss(dialog)
+        if (!openedFullOnboarding) {
+            analytics.recordEvent(REMINDER_ONBOARDING_PROMPT_DISMISSED)
+        }
     }
 
     companion object {

@@ -30,6 +30,7 @@ abstract class FakeSettingsModule {
     abstract fun bindSettings(repo: FakePresentlySettings): PresentlySettings
 }
 
+@Singleton
 class FakePresentlySettings @Inject constructor(): PresentlySettings {
     var notificationsEnabledValue = false
     var notificationTimeValue: LocalTime = LocalTime.parse("21:00")

@@ -17,6 +17,8 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.fakes.FakeEntryRepository
+import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_ACCEPTED
+import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_DISMISSED
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.ui.DayOneDialogFragment
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.ui.ReminderOnboardingFragment
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
@@ -44,11 +46,15 @@ class DayOneDialogFragmentInstrumentedTest {
     @Inject
     lateinit var settings: FakePresentlySettings
 
+    @Inject
+    lateinit var analytics: FakeAnalyticsLogger
+
     @Before
     fun setUp() {
         hiltRule.inject()
         repository.entriesDatabase.clear()
         settings.clearReminderOnboardingSeen()
+        analytics.reset()
     }
 
     @Test
@@ -71,6 +77,8 @@ class DayOneDialogFragmentInstrumentedTest {
         }
 
         assertCurrentFragmentIs<TimelineFragment>()
+        assertThat(settings.hasSeenReminderOnboarding()).isFalse()
+        assertThat(analytics.recordedEvents).contains(REMINDER_ONBOARDING_PROMPT_DISMISSED)
     }
 
     @Test
@@ -94,6 +102,9 @@ class DayOneDialogFragmentInstrumentedTest {
         }
 
         assertCurrentFragmentIs<ReminderOnboardingFragment>()
+        assertThat(settings.hasSeenReminderOnboarding()).isTrue()
+        assertThat(analytics.recordedEvents).contains(REMINDER_ONBOARDING_PROMPT_ACCEPTED)
+        assertThat(analytics.recordedEvents).doesNotContain(REMINDER_ONBOARDING_PROMPT_DISMISSED)
     }
 
     private fun launchTimelineWithFirstEntryScreen() {

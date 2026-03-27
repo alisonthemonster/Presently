@@ -21,6 +21,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.logging.CrashReporter
+import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_VIEWED
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.*
@@ -277,7 +278,7 @@ class TimelineFragment : Fragment() {
             return
         }
 
-        settings.markReminderOnboardingSeen()
+        analyticsLogger.recordEvent(REMINDER_ONBOARDING_PROMPT_VIEWED)
         DayOneDialogFragment()
             .show(parentFragmentManager, DayOneDialogFragment.TAG)
     }
