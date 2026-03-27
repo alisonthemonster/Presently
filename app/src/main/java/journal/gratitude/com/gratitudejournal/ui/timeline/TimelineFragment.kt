@@ -27,7 +27,7 @@ import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.ui.calendar.CalendarAnimation
 import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ShouldShowReminderOnboardingUseCase
-import journal.gratitude.com.gratitudejournal.reminders.onboarding.ui.ReminderOnboardingFragment
+import journal.gratitude.com.gratitudejournal.reminders.onboarding.ui.DayOneDialogFragment
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.setStatusBarColorsForBackground
 import dagger.hilt.android.AndroidEntryPoint
@@ -129,7 +129,7 @@ class TimelineFragment : Fragment() {
                     hasSeenReminderOnboarding = settings.hasSeenReminderOnboarding()
                 )
             ) {
-                openReminderOnboarding()
+                openReminderOnboardingPrompt()
             }
         }
 
@@ -269,12 +269,17 @@ class TimelineFragment : Fragment() {
             .commit()
     }
 
-    private fun openReminderOnboarding() {
-        parentFragmentManager
-            .beginTransaction()
-            .replace(R.id.container_fragment, ReminderOnboardingFragment())
-            .addToBackStack(TIMELINE_TO_REMINDER_ONBOARDING)
-            .commit()
+    private fun openReminderOnboardingPrompt() {
+        if (
+            parentFragmentManager.findFragmentByTag(DayOneDialogFragment.TAG)
+                != null
+        ) {
+            return
+        }
+
+        settings.markReminderOnboardingSeen()
+        DayOneDialogFragment()
+            .show(parentFragmentManager, DayOneDialogFragment.TAG)
     }
 
     companion object {

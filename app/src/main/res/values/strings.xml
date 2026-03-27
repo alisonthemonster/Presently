@@ -40,4 +40,7 @@
     <string name="done">Done</string>
     <string name="reminder_success">Reminder is set</string>
     <string name="see_you_tomorrow">See you tomorrow!</string>
+    <string name="reminder_prompt_title">Day one of gratitude</string>
+    <string name="reminder_prompt_body">Let\'s make it a habit, turn on daily reminders.</string>
+    <string name="reminder_prompt_cta">Remind me daily</string>
 </resources>
