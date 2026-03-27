@@ -197,6 +197,7 @@ private fun BoxScope.StepBackgroundLogos(
     screenHeight: androidx.compose.ui.unit.Dp
 ) {
     val entranceDurationMillis = 800
+    val initialLeafStaggerMillis = 90L
     val isSuccessStep = step == ReminderOnboardingStep.SUCCESS
     val tokens = LocalPresentlyTheme.current
     val logoColor = tokens.timelineBody.copy(alpha = 0.25f)
@@ -213,7 +214,7 @@ private fun BoxScope.StepBackgroundLogos(
     var thirdLogoTarget by remember { mutableFloatStateOf(0f) }
     LaunchedEffect(Unit) {
         firstLogoTarget = 1f
-        delay(120)
+        delay(initialLeafStaggerMillis)
         thirdLogoTarget = 1f
     }
     val firstLogoProgress by animateFloatAsState(
