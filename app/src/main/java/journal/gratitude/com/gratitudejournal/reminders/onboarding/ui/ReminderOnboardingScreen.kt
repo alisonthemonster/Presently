@@ -205,8 +205,8 @@ private fun BoxScope.StepBackgroundLogos(
     val bottomLeftX = -(largeLogoSize * 0.33f) + (screenWidth * 0.15f)
     val topLogoX = screenWidth * 0.5f
     val topLogoY = -(screenHeight * 0.27f)
-    val fourthLogoX = -(largeLogoSize * 0.46f)
-    val fourthLogoY = -(largeLogoSize * 0.42f)
+    val fourthLogoX = -(largeLogoSize * 0.34f)
+    val fourthLogoY = -(largeLogoSize * 0.32f)
     var firstLogoTarget by remember { mutableFloatStateOf(0f) }
     var thirdLogoTarget by remember { mutableFloatStateOf(0f) }
     LaunchedEffect(Unit) {
