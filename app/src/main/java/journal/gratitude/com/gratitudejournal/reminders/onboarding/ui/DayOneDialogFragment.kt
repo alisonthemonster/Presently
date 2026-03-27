@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.DialogFragment
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import dagger.hilt.android.AndroidEntryPoint
@@ -188,8 +187,7 @@ private fun ReminderOnboardingPromptSheet(
 private fun LogoAnimation() {
     val composition = rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.logo_animated))
     val progress = animateLottieCompositionAsState(
-        composition = composition.value,
-        iterations = LottieConstants.IterateForever
+        composition = composition.value
     )
 
     LottieAnimation(
