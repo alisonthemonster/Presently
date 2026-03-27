@@ -123,7 +123,7 @@ fun ReminderOnboardingScreenContent(
                 ) {
                     Image(
                         painter = painterResource(R.drawable.ic_close_24),
-                        contentDescription = "Dismiss onboarding"
+                        contentDescription = stringResource(R.string.close)
                     )
                 }
             }
@@ -150,7 +150,9 @@ fun ReminderOnboardingScreenContent(
                         body = if (state.notificationPermissionDenied) {
                             stringResource(R.string.presently_can_t_send_reminders_without_your_permission_please_try_again)
                         } else {
-                            "Presently needs notification permissions in order to deliver daily reminders"
+                            stringResource(
+                                R.string.presently_needs_notification_permission_in_order_to_deliver_daily_reminders
+                            )
                         },
                         modifier = Modifier.testTag("notification_step")
                     )
