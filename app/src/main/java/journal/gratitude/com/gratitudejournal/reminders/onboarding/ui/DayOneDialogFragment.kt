@@ -80,8 +80,9 @@ class DayOneDialogFragment : DialogFragment() {
 
     private fun openReminderOnboarding() {
         openedFullOnboarding = true
-        dismiss()
-        parentFragmentManager
+        val fragmentManager = parentFragmentManager
+        dismissNow()
+        fragmentManager
             .beginTransaction()
             .replace(R.id.container_fragment, ReminderOnboardingFragment())
             .addToBackStack(TAG_REMINDER_ONBOARDING)
