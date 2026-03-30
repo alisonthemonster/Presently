@@ -69,7 +69,7 @@
     <string name="done">完成</string>
     <string name="reminder_success">已設定提醒</string>
     <string name="see_you_tomorrow">明天見！</string>
-    <string name="reminder_prompt_title">感恩的第一天</string>
+    <string name="reminder_prompt_title">第一天完成了！</string>
     <string name="reminder_prompt_body">讓我們把它變成習慣，開啟每日提醒。</string>
     <string name="reminder_prompt_cta">每天提醒我</string>
     <string name="notifs_name">通知</string>

@@ -69,7 +69,7 @@
     <string name="done">Tamam</string>
     <string name="reminder_success">Hatırlatma ayarlandı</string>
     <string name="see_you_tomorrow">Yarın görüşürüz!</string>
-    <string name="reminder_prompt_title">Minnettarlığın ilk günü</string>
+    <string name="reminder_prompt_title">İlk gün tamamlandı!</string>
     <string name="reminder_prompt_body">Bunu bir alışkanlık haline getirelim, günlük hatırlatmaları aç.</string>
     <string name="reminder_prompt_cta">Bana her gün hatırlat</string>
     <string name="notifs_name">Bildirimler</string>

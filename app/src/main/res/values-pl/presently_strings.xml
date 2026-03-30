@@ -64,7 +64,7 @@
     <string name="done">Gotowe</string>
     <string name="reminder_success">Przypomnienie ustawione</string>
     <string name="see_you_tomorrow">Do jutra!</string>
-    <string name="reminder_prompt_title">Pierwszy dzień wdzięczności</string>
+    <string name="reminder_prompt_title">Pierwszy dzień ukończony!</string>
     <string name="reminder_prompt_body">Niech to wejdzie w nawyk, włącz codzienne przypomnienia.</string>
     <string name="reminder_prompt_cta">Przypominaj mi codziennie</string>
     <string name="notifs_name">Powiadomienia</string>

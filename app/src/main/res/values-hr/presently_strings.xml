@@ -67,7 +67,7 @@
     <string name="done">Gotovo</string>
     <string name="reminder_success">Podsjetnik je postavljen</string>
     <string name="see_you_tomorrow">Vidimo se sutra!</string>
-    <string name="reminder_prompt_title">Prvi dan zahvalnosti</string>
+    <string name="reminder_prompt_title">Prvi dan završen!</string>
     <string name="reminder_prompt_body">Pretvorimo to u naviku, uključi dnevne podsjetnike.</string>
     <string name="reminder_prompt_cta">Podsjeti me svaki dan</string>
     <string name="notifs_name">Obavijesti</string>

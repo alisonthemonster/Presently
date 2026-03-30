@@ -66,7 +66,7 @@
     <string name="done">Fatto</string>
     <string name="reminder_success">Promemoria impostato</string>
     <string name="see_you_tomorrow">A domani!</string>
-    <string name="reminder_prompt_title">Primo giorno di gratitudine</string>
+    <string name="reminder_prompt_title">Primo giorno completato!</string>
     <string name="reminder_prompt_body">Trasformiamolo in un\'abitudine: attiva i promemoria quotidiani.</string>
     <string name="reminder_prompt_cta">Ricordamelo ogni giorno</string>
     <string name="notifs_name">Notifiche</string>

@@ -68,7 +68,7 @@
     <string name="done">Gata</string>
     <string name="reminder_success">Mementoul este setat</string>
     <string name="see_you_tomorrow">Ne vedem mâine!</string>
-    <string name="reminder_prompt_title">Prima zi de recunoștință</string>
+    <string name="reminder_prompt_title">Prima zi e gata!</string>
     <string name="reminder_prompt_body">Hai să facem din asta un obicei și să activăm mementourile zilnice.</string>
     <string name="reminder_prompt_cta">Amintește-mi zilnic</string>
     <string name="notifs_name">Notificări</string>

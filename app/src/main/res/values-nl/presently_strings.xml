@@ -64,7 +64,7 @@
     <string name="done">Klaar</string>
     <string name="reminder_success">Herinnering is ingesteld</string>
     <string name="see_you_tomorrow">Tot morgen!</string>
-    <string name="reminder_prompt_title">Eerste dag van dankbaarheid</string>
+    <string name="reminder_prompt_title">Dag één voltooid!</string>
     <string name="reminder_prompt_body">Laten we er een gewoonte van maken en dagelijkse herinneringen inschakelen.</string>
     <string name="reminder_prompt_cta">Herinner me dagelijks</string>
     <string name="notifs_name">Herinneringen</string>

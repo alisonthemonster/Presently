@@ -66,7 +66,7 @@
     <string name="done">Concluído</string>
     <string name="reminder_success">Lembrete definido</string>
     <string name="see_you_tomorrow">Até amanhã!</string>
-    <string name="reminder_prompt_title">Primeiro dia de gratidão</string>
+    <string name="reminder_prompt_title">Primeiro dia concluído!</string>
     <string name="reminder_prompt_body">Vamos torná-lo um hábito e ativar lembretes diários.</string>
     <string name="reminder_prompt_cta">Lembrar-me diariamente</string>
     <string name="notifs_name">Notificações</string>

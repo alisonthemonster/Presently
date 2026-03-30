@@ -65,7 +65,7 @@
     <string name="done">Fertig</string>
     <string name="reminder_success">Erinnerung ist eingerichtet</string>
     <string name="see_you_tomorrow">Bis morgen!</string>
-    <string name="reminder_prompt_title">Tag eins der Dankbarkeit</string>
+    <string name="reminder_prompt_title">Tag eins geschafft!</string>
     <string name="reminder_prompt_body">Lass uns eine Gewohnheit daraus machen und tägliche Erinnerungen aktivieren.</string>
     <string name="reminder_prompt_cta">Erinnere mich täglich</string>
     <string name="notifs_name">Benachrichtigungen</string>

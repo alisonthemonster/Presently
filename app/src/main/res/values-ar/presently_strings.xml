@@ -67,7 +67,7 @@
     <string name="done">تم</string>
     <string name="reminder_success">تم ضبط التذكير</string>
     <string name="see_you_tomorrow">أراك غدا!</string>
-    <string name="reminder_prompt_title">اليوم الأول من الامتنان</string>
+    <string name="reminder_prompt_title">اكتمل اليوم الأول!</string>
     <string name="reminder_prompt_body">لنجعلها عادة، فعّل التذكيرات اليومية.</string>
     <string name="reminder_prompt_cta">ذكّرني يوميا</string>
     <string name="notifs_name">إشعارات</string>

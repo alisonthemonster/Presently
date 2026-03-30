@@ -66,7 +66,7 @@
     <string name="done">Terminé</string>
     <string name="reminder_success">Le rappel est activé</string>
     <string name="see_you_tomorrow">À demain !</string>
-    <string name="reminder_prompt_title">Premier jour de gratitude</string>
+    <string name="reminder_prompt_title">Premier jour terminé !</string>
     <string name="reminder_prompt_body">Prenons-en l\'habitude : activez les rappels quotidiens.</string>
     <string name="reminder_prompt_cta">Rappelez-moi chaque jour</string>
     <string name="notifs_name">Notifications</string>
