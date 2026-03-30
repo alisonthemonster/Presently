@@ -47,7 +47,7 @@ object Versions {
     const val MAVERICKS = "3.0.12"
     const val THREE_TEN_ABP = "1.3.1" //https://github.com/JakeWharton/ThreeTenABP/tags
     const val MATERIAL = "1.12.0"
-    const val OSS_LICENSES = "17.4.0"
+    const val OSS_LICENSES = "17.1.0"
     const val COMPACT_CAL_VIEW = "3.0.0"
     const val APACHE = "1.6"
     const val RX_JAVA = "2.2.9"
