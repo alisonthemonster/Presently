@@ -3,10 +3,10 @@ object Versions {
     const val TARGET_SDK = 35
     const val MIN_SDK = 26
 
-    const val APP_VERSION_CODE = 93
+    const val APP_VERSION_CODE = 94
 
     const val MAJOR = 1
-    const val MINOR = 23
+    const val MINOR = 24
     const val PATCH = 0
 
     const val KOTLIN = "2.1.20"
