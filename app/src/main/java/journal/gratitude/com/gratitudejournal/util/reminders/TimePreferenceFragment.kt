@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.View
 import android.widget.TimePicker
 import androidx.preference.PreferenceDialogFragmentCompat
+import dagger.hilt.android.EntryPointAccessors
+import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
 import org.threeten.bp.LocalTime
 
 class TimePreferenceFragment: PreferenceDialogFragmentCompat() {
@@ -31,10 +33,15 @@ class TimePreferenceFragment: PreferenceDialogFragmentCompat() {
             pref.minute = timePicker?.minute!!
 
             val time = LocalTime.of(pref.hour, pref.minute)
+            val settings = EntryPointAccessors.fromApplication(
+                requireContext(),
+                SettingsEntryPoint::class.java
+            ).settings
 
             if (pref.callChangeListener(time)) {
+                settings.setNotificationTime(time)
                 pref.persistStringValue(time.toString())
-                NotificationScheduler().setNotificationTime(requireContext(), time)
+                NotificationScheduler().configureNotifications(requireContext(), settings)
             }
         }
     }

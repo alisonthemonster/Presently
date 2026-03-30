@@ -173,6 +173,24 @@ class PresentlySettingsTest {
     }
 
     @Test
+    fun `GIVEN RealPresentlySettings WHEN notifications preference missing THEN notifications default off`() {
+        val sharedPrefs = getFakeSharedPreferences(boolean = false)
+        val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
+
+        assertThat(settings.hasEnabledNotifications()).isFalse()
+    }
+
+    @Test
+    fun `GIVEN RealPresentlySettings WHEN setNotificationsEnabled is called THEN shared preferences is updated`() {
+        putBooleanWasCalled = false
+        val settings = RealPresentlySettings(getFakeSharedPreferences(), fakeAnalyticsLogger)
+
+        settings.setNotificationsEnabled(true)
+
+        assertThat(putBooleanWasCalled).isTrue()
+    }
+
+    @Test
     fun `GIVEN RealPresentlySettings with no time set WHEN getNotificationTime is called THEN shared preferences is called`() {
         val expected = LocalTime.parse("21:00")
         val sharedPrefs = getFakeSharedPreferences(string = null)
@@ -188,6 +206,48 @@ class PresentlySettingsTest {
         val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
         val actual = settings.getNotificationTime()
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `GIVEN RealPresentlySettings WHEN setNotificationTime is called THEN shared preferences is updated`() {
+        editStringWasCalled = false
+        editString = ""
+        val settings = RealPresentlySettings(getFakeSharedPreferences(), fakeAnalyticsLogger)
+
+        settings.setNotificationTime(LocalTime.of(6, 15))
+
+        assertThat(editStringWasCalled).isTrue()
+        assertThat(editString).isEqualTo("06:15")
+    }
+
+    @Test
+    fun `GIVEN RealPresentlySettings WHEN hasSeenReminderOnboarding is called THEN shared preferences is queried`() {
+        val settings = RealPresentlySettings(
+            getFakeSharedPreferences(boolean = true),
+            fakeAnalyticsLogger
+        )
+
+        assertThat(settings.hasSeenReminderOnboarding()).isTrue()
+    }
+
+    @Test
+    fun `GIVEN RealPresentlySettings WHEN markReminderOnboardingSeen is called THEN shared preferences is updated`() {
+        putBooleanWasCalled = false
+        val settings = RealPresentlySettings(getFakeSharedPreferences(), fakeAnalyticsLogger)
+
+        settings.markReminderOnboardingSeen()
+
+        assertThat(putBooleanWasCalled).isTrue()
+    }
+
+    @Test
+    fun `GIVEN RealPresentlySettings WHEN clearReminderOnboardingSeen is called THEN shared preferences key is removed`() {
+        removeWasCalled = false
+        val settings = RealPresentlySettings(getFakeSharedPreferences(), fakeAnalyticsLogger)
+
+        settings.clearReminderOnboardingSeen()
+
+        assertThat(removeWasCalled).isTrue()
     }
 
     @Test

@@ -56,6 +56,7 @@ object Versions {
     const val RX_BINDING = "2.1.1"
     const val ESPRESSO = "3.7.0"
     const val TEST_ORCHESTRATOR = "1.6.1"
+    const val LOTTIE = "6.4.1"
 }
 
 object Libraries {
@@ -94,6 +95,7 @@ object Libraries {
    const val androidx_compose_material3 = "androidx.compose.material3:material3"
    const val androidx_compose_foundation = "androidx.compose.foundation:foundation"
    const val androidx_compose_runtime_livedata = "androidx.compose.runtime:runtime-livedata"
+   const val lottie_compose = "com.airbnb.android:lottie-compose:${Versions.LOTTIE}"
    const val androidx_hilt_work = "androidx.hilt:hilt-work:${Versions.HILT_ANDROID}"
    const val androidx_biometric = "androidx.biometric:biometric:${Versions.ANDROIDX_BIOMETRIC}"
    const val androidx_paging_runtime = "androidx.paging:paging-runtime:${Versions.ANDROIDX_PAGING}"

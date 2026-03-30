@@ -12,6 +12,8 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
@@ -24,11 +26,15 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_VIEWED
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.testUtils.saveEntriesBlocking
 import journal.gratitude.com.gratitudejournal.testUtils.scroll
+import journal.gratitude.com.gratitudejournal.testUtils.waitFor
+import journal.gratitude.com.gratitudejournal.reminders.onboarding.ui.DayOneDialogFragment
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.entryviewpager.EntryViewPagerFragment
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
@@ -55,9 +61,17 @@ class TimelineFragmentInstrumentedTest {
     @Inject
     lateinit var repository: EntryRepository
 
+    @Inject
+    lateinit var settings: FakePresentlySettings
+
+    @Inject
+    lateinit var analytics: FakeAnalyticsLogger
+
     @Before
     fun init() {
         hiltRule.inject()
+        settings.clearReminderOnboardingSeen()
+        analytics.reset()
     }
 
     @Test
@@ -132,6 +146,22 @@ class TimelineFragmentInstrumentedTest {
     }
 
     @Test
+    fun timelineFragment_afterSavingFirstEntry_opensDayOneDialog() {
+        val scenario = launchTimelineWithFirstEntryScreen()
+
+        onView(withId(R.id.entry_text)).perform(typeText("First entry"), closeSoftKeyboard())
+        onView(withId(R.id.save_button)).perform(click())
+        onView(isRoot()).perform(waitFor(500))
+
+        scenario.onActivity { activity ->
+            val dialogFragment =
+                activity.supportFragmentManager.findFragmentByTag(DayOneDialogFragment.TAG)
+            assertThat(dialogFragment).isInstanceOf(DayOneDialogFragment::class.java)
+        }
+        assertThat(analytics.recordedEvents).contains(REMINDER_ONBOARDING_PROMPT_VIEWED)
+    }
+
+    @Test
     fun timelineFragment_clicksOverflow_opensContact() {
         launchFragmentInHiltContainer<TimelineFragment>()
 
@@ -173,6 +203,31 @@ class TimelineFragmentInstrumentedTest {
                 .beginTransaction()
                 .replace(R.id.container_fragment, TimelineFragment())
                 .commitNow()
+        }
+    }
+
+    private fun launchTimelineWithFirstEntryScreen(): ActivityScenario<ContainerActivity> {
+        return ActivityScenario.launch(ContainerActivity::class.java).onActivity { activity ->
+            activity.supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.container_fragment, TimelineFragment())
+                .commitNow()
+
+            activity.supportFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.container_fragment,
+                    EntryFragment.newInstance(
+                        date = LocalDate.now(),
+                        numEntries = 0,
+                        isNewEntry = true,
+                        resources = activity.resources
+                    )
+                )
+                .addToBackStack(TimelineFragment.TIMELINE_TO_ENTRY)
+                .commit()
+
+            activity.supportFragmentManager.executePendingTransactions()
         }
     }
 

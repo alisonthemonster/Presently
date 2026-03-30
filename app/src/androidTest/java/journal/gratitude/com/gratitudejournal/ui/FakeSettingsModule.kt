@@ -30,7 +30,13 @@ abstract class FakeSettingsModule {
     abstract fun bindSettings(repo: FakePresentlySettings): PresentlySettings
 }
 
+@Singleton
 class FakePresentlySettings @Inject constructor(): PresentlySettings {
+    var notificationsEnabledValue = false
+    var notificationTimeValue: LocalTime = LocalTime.parse("21:00")
+    var reminderOnboardingSeenValue = false
+    var notificationPermissionRequestedValue = false
+
     override fun getCurrentTheme(): String {
         return "Original"
     }
@@ -64,15 +70,43 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
     }
 
     override fun hasEnabledNotifications(): Boolean {
-        return false
+        return notificationsEnabledValue
+    }
+
+    override fun setNotificationsEnabled(enabled: Boolean) {
+        notificationsEnabledValue = enabled
     }
 
     override fun getNotificationTime(): LocalTime {
-        return LocalTime.parse("21:00")
+        return notificationTimeValue
+    }
+
+    override fun setNotificationTime(time: LocalTime) {
+        notificationTimeValue = time
     }
 
     override fun hasUserDisabledAlarmReminders(context: Context): Boolean {
         return false
+    }
+
+    override fun hasSeenReminderOnboarding(): Boolean {
+        return reminderOnboardingSeenValue
+    }
+
+    override fun markReminderOnboardingSeen() {
+        reminderOnboardingSeenValue = true
+    }
+
+    override fun clearReminderOnboardingSeen() {
+        reminderOnboardingSeenValue = false
+    }
+
+    override fun hasRequestedNotificationPermission(): Boolean {
+        return notificationPermissionRequestedValue
+    }
+
+    override fun markNotificationPermissionRequested() {
+        notificationPermissionRequestedValue = true
     }
 
     override fun getLinesPerEntryInTimeline(): Int {

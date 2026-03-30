@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.util.reminders
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.os.Build
 import android.content.ComponentName
 import android.content.Context
 import android.content.Context.ALARM_SERVICE
@@ -27,9 +28,8 @@ class NotificationScheduler {
     // Called to ensure the notification is properly scheduled or cancelled
     fun configureNotifications(context: Context, settings: PresentlySettings) {
         val hasNotificationsOn = settings.hasEnabledNotifications()
-        val hasDisabledAlarmReminders = settings.hasUserDisabledAlarmReminders(context)
         val canPostNotifications = NotificationManagerCompat.from(context).areNotificationsEnabled()
-        if (hasNotificationsOn && !hasDisabledAlarmReminders && canPostNotifications) {
+        if (hasNotificationsOn && canPostNotifications) {
             val alarmTime = settings.getNotificationTime()
             setNotificationTime(context, alarmTime)
         } else {
@@ -75,11 +75,19 @@ class NotificationScheduler {
         )
 
         val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            alarmTimeCal.timeInMillis,
-            alarmIntent
-        )
+        if (canScheduleExactAlarms(alarmManager)) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                alarmTimeCal.timeInMillis,
+                alarmIntent
+            )
+        } else {
+            alarmManager.setAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                alarmTimeCal.timeInMillis,
+                alarmIntent
+            )
+        }
     }
 
     fun disableNotifications(context: Context) {
@@ -124,5 +132,9 @@ class NotificationScheduler {
         pendingIntent.cancel()
         val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(pendingIntent)
+    }
+
+    private fun canScheduleExactAlarms(alarmManager: AlarmManager): Boolean {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.S || alarmManager.canScheduleExactAlarms()
     }
 }

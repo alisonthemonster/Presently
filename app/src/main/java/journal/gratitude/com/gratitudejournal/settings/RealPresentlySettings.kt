@@ -77,12 +77,24 @@ class RealPresentlySettings @Inject constructor(
     }
 
     override fun hasEnabledNotifications(): Boolean {
-        return sharedPrefs.getBoolean(NOTIFS, true)
+        return sharedPrefs.getBoolean(NOTIFS, false)
+    }
+
+    override fun setNotificationsEnabled(enabled: Boolean) {
+        sharedPrefs.edit()
+            .putBoolean(NOTIFS, enabled)
+            .apply()
     }
 
     override fun getNotificationTime(): LocalTime {
         val prefTime = sharedPrefs.getString(NOTIF_PREF_TIME, "21:00")
         return LocalTime.parse(prefTime)
+    }
+
+    override fun setNotificationTime(time: LocalTime) {
+        sharedPrefs.edit()
+            .putString(NOTIF_PREF_TIME, time.toString())
+            .apply()
     }
 
     override fun hasUserDisabledAlarmReminders(context: Context): Boolean {
@@ -95,6 +107,32 @@ class RealPresentlySettings @Inject constructor(
             //a pre 12 user cannot disable exact alarms
             false
         }
+    }
+
+    override fun hasSeenReminderOnboarding(): Boolean {
+        return sharedPrefs.getBoolean(REMINDER_ONBOARDING_SEEN, false)
+    }
+
+    override fun markReminderOnboardingSeen() {
+        sharedPrefs.edit()
+            .putBoolean(REMINDER_ONBOARDING_SEEN, true)
+            .apply()
+    }
+
+    override fun clearReminderOnboardingSeen() {
+        sharedPrefs.edit()
+            .remove(REMINDER_ONBOARDING_SEEN)
+            .apply()
+    }
+
+    override fun hasRequestedNotificationPermission(): Boolean {
+        return sharedPrefs.getBoolean(NOTIFICATION_PERMISSION_REQUESTED, false)
+    }
+
+    override fun markNotificationPermissionRequested() {
+        sharedPrefs.edit()
+            .putBoolean(NOTIFICATION_PERMISSION_REQUESTED, true)
+            .apply()
     }
 
     override fun getLinesPerEntryInTimeline(): Int {

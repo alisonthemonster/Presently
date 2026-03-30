@@ -44,6 +44,7 @@ import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
 import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import journal.gratitude.com.gratitudejournal.util.toFullString
+import androidx.core.os.bundleOf
 import org.threeten.bp.LocalDate
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -234,7 +235,20 @@ class EntryFragment : Fragment(), MavericksView, EntryScreenCallbacks {
     private fun onEntrySaved() {
         hideKeyboard()
         backupEntryIfNeeded()
+        emitEntrySavedResultIfNeeded()
         requireActivity().supportFragmentManager.popBackStack()
+    }
+
+    private fun emitEntrySavedResultIfNeeded() {
+        withState(viewModel) { state ->
+            requireActivity().supportFragmentManager.setFragmentResult(
+                REMINDER_ONBOARDING_TRIGGER_REQUEST_KEY,
+                bundleOf(
+                    REMINDER_ONBOARDING_TRIGGER_RESULT_KEY to
+                        (state.isNewEntry && (state.numberExistingEntries ?: -1) == 0)
+                )
+            )
+        }
     }
 
     private fun showUnsavedEntryDialog(isFromSwipe: Boolean) {
@@ -299,6 +313,8 @@ class EntryFragment : Fragment(), MavericksView, EntryScreenCallbacks {
         }
 
         const val ENTRY_TO_SHARE = "ENTRY_TO_SHARE"
+        const val REMINDER_ONBOARDING_TRIGGER_REQUEST_KEY = "reminder_onboarding_trigger_request"
+        const val REMINDER_ONBOARDING_TRIGGER_RESULT_KEY = "saved_brand_new_first_entry"
     }
 
     override fun showSaveDialog() {

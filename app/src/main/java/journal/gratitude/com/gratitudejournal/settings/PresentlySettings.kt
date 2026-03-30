@@ -26,9 +26,23 @@ interface PresentlySettings {
 
     fun hasEnabledNotifications(): Boolean
 
+    fun setNotificationsEnabled(enabled: Boolean)
+
     fun getNotificationTime(): LocalTime
 
+    fun setNotificationTime(time: LocalTime)
+
     fun hasUserDisabledAlarmReminders(context: Context): Boolean
+
+    fun hasSeenReminderOnboarding(): Boolean
+
+    fun markReminderOnboardingSeen()
+
+    fun clearReminderOnboardingSeen()
+
+    fun hasRequestedNotificationPermission(): Boolean
+
+    fun markNotificationPermissionRequested()
 
     fun getLinesPerEntryInTimeline(): Int
 
