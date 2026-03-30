@@ -2,28 +2,33 @@ import org.gradle.api.GradleException
 import java.util.Properties
 
 plugins {
-    id("com.android.application")
-    id("com.github.triplet.play")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.kotlin.kapt")
-    id("org.jetbrains.kotlin.plugin.parcelize")
-    id("io.github.takahirom.roborazzi")
-    id("io.screenshotbot.screenshot-tests-for-android")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.play.publisher)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.roborazzi)
+    alias(libs.plugins.screenshotbot)
+    alias(libs.plugins.hilt.android)
     id("com.google.android.gms.oss-licenses-plugin")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 apply(from = "../gradle/dependency_graph.gradle")
 
 val localProperties = loadLocalProperties()
 val missingDropboxKey = "missing_local_key"
+val appVersionName = listOf(
+    libs.versions.appVersionMajor.get(),
+    libs.versions.appVersionMinor.get(),
+    libs.versions.appVersionPatch.get(),
+).joinToString(".")
 
 android {
     namespace = "journal.gratitude.com.gratitudejournal"
-    compileSdk = Versions.COMPILE_SDK
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     signingConfigs {
         create("release") {
@@ -39,10 +44,10 @@ android {
 
     defaultConfig {
         applicationId = "journal.gratitude.com.gratitudejournal"
-        minSdk = Versions.MIN_SDK
-        targetSdk = Versions.TARGET_SDK
-        versionCode = Versions.APP_VERSION_CODE
-        versionName = getVersionName()
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+        versionCode = libs.versions.appVersionCode.get().toInt()
+        versionName = appVersionName
 
         testInstrumentationRunner = "journal.gratitude.com.gratitudejournal.testUtils.AppCustomTestRunner"
 
@@ -198,123 +203,118 @@ listOf("promoteReleaseArtifact", "promoteArtifact").forEach { taskName ->
 }
 
 dependencies {
-    implementation(Libraries.kotlin_stdlib)
-    implementation(Libraries.androidx_compat)
-    implementation(Libraries.androidx_core_ktx)
-    implementation(Libraries.androidx_constraint_layout)
-    implementation(Libraries.androidx_preference_ktx)
-    implementation(Libraries.androidx_recycler_view)
-    implementation(Libraries.androidx_fragment)
-    implementation(Libraries.androidx_activity_compose)
-    implementation(Libraries.androidx_biometric)
-    implementation(Libraries.androidx_work_runtime_ktx)
-    implementation(Libraries.play_core)
-    implementation(Libraries.androidx_paging_runtime)
-    implementation(Libraries.androidx_paging_compose)
-    implementation(Libraries.androidx_room_runtime)
-    implementation(Libraries.androidx_room_ktx)
-    implementation(Libraries.androidx_room_paging)
-    kapt(Libraries.androidx_room_compiler)
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.preference.ktx)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.biometric)
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.google.play.feature.delivery)
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    kapt(libs.androidx.room.compiler)
 
-    implementation(Libraries.androidx_livedata_ktx)
-    implementation(Libraries.androidx_lifecycle_runtime_ktx)
-    implementation(Libraries.androidx_lifecycle_runtime_compose)
-    implementation(Libraries.androidx_viewmodel_ktx)
-    kapt(Libraries.androidx_lifecycle_compiler)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    kapt(libs.androidx.lifecycle.compiler)
 
-    implementation(platform(Libraries.androidx_compose_bom))
-    androidTestImplementation(platform(Libraries.androidx_compose_bom))
-    implementation(Libraries.androidx_compose_ui)
-    implementation(Libraries.androidx_compose_ui_graphics)
-    implementation(Libraries.androidx_compose_ui_tooling_preview)
-    implementation(Libraries.androidx_compose_foundation)
-    implementation(Libraries.androidx_compose_material3)
-    implementation(Libraries.androidx_compose_runtime_livedata)
-    implementation(Libraries.lottie_compose)
+    implementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.runtime.livedata)
+    implementation(libs.lottie.compose)
 
-    implementation(Libraries.three_ten_abp)
-    implementation(Libraries.kotlin_coroutines_android)
-    implementation(Libraries.material)
-    implementation(Libraries.play_services_oss_licenses)
-    implementation(Libraries.compact_calendar_view)
-    implementation(Libraries.dropbox_core_sdk)
-    implementation(Libraries.dropbox_android_sdk)
-    implementation(Libraries.apache_text)
-    implementation(Libraries.apache_csv)
+    implementation(libs.three.ten.abp)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.material)
+    implementation(libs.google.play.services.oss.licenses)
+    implementation(libs.compact.calendar.view)
+    implementation(libs.dropbox.core.sdk)
+    implementation(libs.dropbox.android.sdk)
+    implementation(libs.apache.text)
+    implementation(libs.apache.csv)
 
-    implementation(Libraries.rxjava)
-    implementation(Libraries.rxandroid)
-    implementation(Libraries.rxbinding)
+    implementation(libs.rxjava)
+    implementation(libs.rxandroid)
+    implementation(libs.rxbinding)
 
-    implementation(Libraries.mavericks)
-    implementation(Libraries.mavericks_mocking)
+    implementation(libs.mavericks)
+    implementation(libs.mavericks.mocking)
 
-    implementation(platform(Libraries.firebase_bom))
-    implementation(Libraries.firebase_analytics_ktx)
-    implementation(Libraries.firebase_crashlytics)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics.ktx)
+    implementation(libs.firebase.crashlytics)
 
-    //dependency injection
-    implementation(Libraries.dagger)
-    kapt(Libraries.dagger_compiler)
-    implementation(Libraries.dagger_android_support)
-    kapt(Libraries.dagger_android_processor)
-    implementation(Libraries.hilt)
-    kapt(Libraries.hilt_compiler)
-    kapt(Libraries.hilt_android_compiler)
-    implementation(Libraries.androidx_hilt_work)
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
+    implementation(libs.dagger.android.support)
+    kapt(libs.dagger.android.processor)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.work)
 
-    testImplementation(TestLibraries.junit)
-    testImplementation(TestLibraries.three_ten_abp) {
+    testImplementation(libs.junit4)
+    testImplementation(libs.three.ten.bp) {
         exclude(group = "com.jakewharton.threetenabp", module = "threetenabp")
     }
-    testImplementation(TestLibraries.androidx_room_testing)
-    testImplementation(TestLibraries.mockito_kotlin)
-    testImplementation(TestLibraries.androidx_arch_testing)
-    testImplementation(TestLibraries.kotlin_test_junit)
-    testImplementation(TestLibraries.kotlin_coroutines_test)
-    testImplementation(TestLibraries.mavericks_testing)
-    testImplementation(TestLibraries.truth)
-    testImplementation(TestLibraries.robolectric)
-    testImplementation(TestLibraries.androidx_test_core_ktx)
-    testImplementation(TestLibraries.androidx_work_testing)
-    testImplementation(TestLibraries.androidx_compose_ui_test_junit4)
-    testImplementation(TestLibraries.roborazzi)
-    testImplementation(TestLibraries.roborazzi_compose)
+    testImplementation(libs.androidx.room.testing)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.androidx.arch.core.testing)
+    testImplementation(libs.kotlin.test.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mavericks.testing)
+    testImplementation(libs.truth)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core.ktx)
+    testImplementation(libs.androidx.work.testing)
+    testImplementation(libs.androidx.compose.ui.test.junit4)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
 
-    androidTestImplementation(TestLibraries.androidx_test_runner)
-    androidTestImplementation(TestLibraries.androidx_arch_testing)
-    androidTestImplementation(TestLibraries.hamcrest)
-    androidTestImplementation(TestLibraries.espresso_core)
-    androidTestImplementation(TestLibraries.espresso_contrib)
-    androidTestImplementation(TestLibraries.androidx_room_testing)
-    androidTestImplementation(TestLibraries.androidx_test_junit)
-    androidTestImplementation(TestLibraries.kotlin_test_junit)
-    androidTestImplementation(TestLibraries.androidx_test_espresso_intents)
-    androidTestImplementation(TestLibraries.truth)
-    androidTestImplementation(TestLibraries.mockito_kotlin)
-    androidTestImplementation(TestLibraries.three_ten_abp)
-    androidTestImplementation(TestLibraries.androidx_test_uiautomator)
-    androidTestImplementation(TestLibraries.androidx_test_rules)
-    androidTestImplementation(TestLibraries.kotlin_coroutines_test)
-    androidTestImplementation(TestLibraries.mavericks_testing)
-    androidTestImplementation(TestLibraries.mockito_android)
-    androidTestImplementation(TestLibraries.androidx_work_testing)
-    androidTestImplementation(TestLibraries.hilt_android_testing)
-    androidTestImplementation(TestLibraries.androidx_compose_ui_test_junit4)
-    kaptAndroidTest(Libraries.hilt_compiler)
-    debugImplementation(TestLibraries.androidx_test_core_ktx)
-    debugImplementation(Libraries.androidx_compose_ui_tooling)
-    debugImplementation(TestLibraries.androidx_compose_ui_test_manifest)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.arch.core.testing)
+    androidTestImplementation(libs.hamcrest)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.test.espresso.contrib)
+    androidTestImplementation(libs.androidx.room.testing)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.kotlin.test.junit)
+    androidTestImplementation(libs.androidx.test.espresso.intents)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.mockito.kotlin)
+    androidTestImplementation(libs.three.ten.bp)
+    androidTestImplementation(libs.androidx.test.uiautomator)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.mavericks.testing)
+    androidTestImplementation(libs.mockito.android)
+    androidTestImplementation(libs.androidx.work.testing)
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    kaptAndroidTest(libs.hilt.android.compiler)
+    debugImplementation(libs.androidx.test.core.ktx)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    androidTestUtil(TestLibraries.test_orchestrator)
+    androidTestUtil(libs.androidx.test.orchestrator)
 }
 
 roborazzi {
     outputDir.set(file("src/test/screenshots"))
-}
-
-fun getVersionName(): String {
-    return "${Versions.MAJOR}.${Versions.MINOR}.${Versions.PATCH}"
 }
 
 fun getDropboxKey(): String {
