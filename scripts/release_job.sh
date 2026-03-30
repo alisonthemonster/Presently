@@ -13,7 +13,7 @@ FONT_SOURCE_DIR="${SECRETS_DIR}/fonts"
 APP_GOOGLE_SERVICES="${ROOT_DIR}/app/google-services.json"
 GCLOUD_TARGET="${ROOT_DIR}/gcloud-service-key.json"
 RELEASE_FONT_DIR="${ROOT_DIR}/app/src/release/res/font"
-VERSIONS_FILE="${ROOT_DIR}/buildSrc/src/main/java/Dependencies.kt"
+VERSIONS_FILE="${ROOT_DIR}/gradle/libs.versions.toml"
 
 RUN_UNIT_TESTS=true
 INSTRUMENTED_MODE="skip"
@@ -297,7 +297,28 @@ validate_versioning_strategy
 
 read_current_version_component() {
   local name="$1"
-  awk -v key="$name" '$0 ~ "const val " key " =" { print $5 }' "$VERSIONS_FILE"
+  local catalog_key
+
+  case "$name" in
+    APP_VERSION_CODE)
+      catalog_key="appVersionCode"
+      ;;
+    MAJOR)
+      catalog_key="appVersionMajor"
+      ;;
+    MINOR)
+      catalog_key="appVersionMinor"
+      ;;
+    PATCH)
+      catalog_key="appVersionPatch"
+      ;;
+    *)
+      echo "Unknown version component: $name" >&2
+      exit 1
+      ;;
+  esac
+
+  perl -ne 'if (/^\Q'"$catalog_key"'\E\s*=\s*"([^"]+)"/) { print "$1\n"; exit }' "$VERSIONS_FILE"
 }
 
 write_version_numbers() {
@@ -306,10 +327,10 @@ write_version_numbers() {
   local patch="$3"
   local code="$4"
 
-  perl -0pi -e "s/const val APP_VERSION_CODE = \\d+/const val APP_VERSION_CODE = ${code}/" "$VERSIONS_FILE"
-  perl -0pi -e "s/const val MAJOR = \\d+/const val MAJOR = ${major}/" "$VERSIONS_FILE"
-  perl -0pi -e "s/const val MINOR = \\d+/const val MINOR = ${minor}/" "$VERSIONS_FILE"
-  perl -0pi -e "s/const val PATCH = \\d+/const val PATCH = ${patch}/" "$VERSIONS_FILE"
+  perl -0pi -e 's/^appVersionCode = "\d+"/appVersionCode = "'"${code}"'"/m' "$VERSIONS_FILE"
+  perl -0pi -e 's/^appVersionMajor = "\d+"/appVersionMajor = "'"${major}"'"/m' "$VERSIONS_FILE"
+  perl -0pi -e 's/^appVersionMinor = "\d+"/appVersionMinor = "'"${minor}"'"/m' "$VERSIONS_FILE"
+  perl -0pi -e 's/^appVersionPatch = "\d+"/appVersionPatch = "'"${patch}"'"/m' "$VERSIONS_FILE"
 }
 
 current_version_name() {
