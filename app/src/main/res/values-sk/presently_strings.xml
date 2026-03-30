@@ -67,7 +67,7 @@
     <string name="done">Hotovo</string>
     <string name="reminder_success">Pripomienka je nastavená</string>
     <string name="see_you_tomorrow">Uvidíme sa zajtra!</string>
-    <string name="reminder_prompt_title">Prvý deň vďačnosti</string>
+    <string name="reminder_prompt_title">Prvý deň hotový!</string>
     <string name="reminder_prompt_body">Urobme si z toho zvyk a zapnime denné pripomienky.</string>
     <string name="reminder_prompt_cta">Pripomínaj mi denne</string>
     <string name="notifs_name">Notifikácie</string>

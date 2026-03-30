@@ -65,7 +65,7 @@
     <string name="done">Готово</string>
     <string name="reminder_success">Напоминание установлено</string>
     <string name="see_you_tomorrow">До завтра!</string>
-    <string name="reminder_prompt_title">Первый день благодарности</string>
+    <string name="reminder_prompt_title">Первый день завершён!</string>
     <string name="reminder_prompt_body">Давайте сделаем это привычкой и включим ежедневные напоминания.</string>
     <string name="reminder_prompt_cta">Напоминать мне ежедневно</string>
     <string name="notifs_name">Уведомления</string>

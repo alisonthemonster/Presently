@@ -67,7 +67,7 @@
     <string name="done">Listo</string>
     <string name="reminder_success">Recordatorio configurado</string>
     <string name="see_you_tomorrow">Hasta mañana!</string>
-    <string name="reminder_prompt_title">Primer día de gratitud</string>
+    <string name="reminder_prompt_title">¡Primer día completado!</string>
     <string name="reminder_prompt_body">Convirtámoslo en un hábito: activa los recordatorios diarios.</string>
     <string name="reminder_prompt_cta">Recuérdamelo cada día</string>
     <string name="notifs_name">Notificaciones</string>

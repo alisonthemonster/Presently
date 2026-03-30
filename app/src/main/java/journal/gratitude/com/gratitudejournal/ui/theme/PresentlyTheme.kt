@@ -63,6 +63,9 @@ object PresentlyFontFamilies {
 
 private val PresentlyTypography = Typography().run {
     copy(
+        displayLarge = displayLarge.copy(fontFamily = PresentlyFontFamilies.body),
+        displayMedium = displayMedium.copy(fontFamily = PresentlyFontFamilies.body),
+        displaySmall = displaySmall.copy(fontFamily = PresentlyFontFamilies.body),
         bodyLarge = bodyLarge.copy(fontFamily = PresentlyFontFamilies.body),
         bodyMedium = bodyMedium.copy(fontFamily = PresentlyFontFamilies.body),
         bodySmall = bodySmall.copy(fontFamily = PresentlyFontFamilies.body),

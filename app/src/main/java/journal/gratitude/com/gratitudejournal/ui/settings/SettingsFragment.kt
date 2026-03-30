@@ -562,20 +562,39 @@ class SettingsFragment : PreferenceFragmentCompat(),
      * */
     private val readCsvResultContact =
         registerForActivityResult(OpenCsvDocumentContract()) { uri: Uri? ->
-            if (uri != null) {
-                if (uri.scheme == "content") {
-                    val inputStream = activity?.contentResolver?.openInputStream(uri)
-                    if (inputStream != null) {
-                        importFromCsv(inputStream)
-                    } else {
-                        crashReporter.logHandledException(NullPointerException("inputStream is null, uri: $uri"))
-                        Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
-            } else {
+            if (uri == null) {
                 crashReporter.logHandledException(NullPointerException("URI was null when receiving file"))
                 Toast.makeText(context, R.string.file_not_csv, Toast.LENGTH_SHORT).show()
+                return@registerForActivityResult
+            }
+
+            try {
+                val contentResolver = requireContext().contentResolver
+                contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            } catch (_: SecurityException) {
+                // Some providers do not offer persistable permissions for one-time access.
+            } catch (exception: IllegalArgumentException) {
+                crashReporter.logHandledException(exception)
+            }
+
+            try {
+                requireContext().contentResolver.openInputStream(uri)?.use { inputStream ->
+                    importFromCsv(inputStream)
+                } ?: run {
+                    crashReporter.logHandledException(
+                        NullPointerException("inputStream is null, uri: $uri")
+                    )
+                    Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
+                }
+            } catch (exception: Exception) {
+                analytics.recordEvent(IMPORTING_BACKUP_ERROR)
+                crashReporter.logHandledException(
+                    IllegalStateException("Unable to open selected CSV uri: $uri", exception)
+                )
+                Toast.makeText(context, R.string.error_parsing, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -585,7 +604,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private fun selectCSVFile() {
         analytics.recordEvent(LOOKED_FOR_DATA)
         try {
-            readCsvResultContact.launch("text/csv|text/comma-separated-values|application/csv")
+            readCsvResultContact.launch(OpenCsvDocumentContract.mimeTypes)
         } catch (ex: ActivityNotFoundException) {
             crashReporter.logHandledException(ex)
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()

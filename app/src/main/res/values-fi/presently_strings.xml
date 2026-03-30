@@ -66,7 +66,7 @@
     <string name="done">Valmis</string>
     <string name="reminder_success">Muistutus on asetettu</string>
     <string name="see_you_tomorrow">Nähdään huomenna!</string>
-    <string name="reminder_prompt_title">Kiitollisuuden ensimmäinen päivä</string>
+    <string name="reminder_prompt_title">Ensimmäinen päivä valmis!</string>
     <string name="reminder_prompt_body">Tehdään tästä tapa ja otetaan päivittäiset muistutukset käyttöön.</string>
     <string name="reminder_prompt_cta">Muistuta minua päivittäin</string>
     <string name="notifs_name">Ilmoitukset</string>
