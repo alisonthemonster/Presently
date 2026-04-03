@@ -25,6 +25,26 @@ val appVersionName = listOf(
     libs.versions.appVersionMinor.get(),
     libs.versions.appVersionPatch.get(),
 ).joinToString(".")
+val supportedAppLanguages = listOf(
+    "en",
+    "af",
+    "ar",
+    "de",
+    "es",
+    "fi",
+    "fr",
+    "hr",
+    "it",
+    "nl",
+    "pl",
+    "pt",
+    "pt-rBR",
+    "ro",
+    "ru",
+    "sk",
+    "tr",
+    "zh-rHK",
+)
 
 android {
     namespace = "journal.gratitude.com.gratitudejournal"
@@ -66,6 +86,16 @@ android {
         dataBinding = true //TODO are we still using this?
         viewBinding = true
         compose = true
+    }
+
+    androidResources {
+        localeFilters += supportedAppLanguages
+    }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
     }
 
     packaging {

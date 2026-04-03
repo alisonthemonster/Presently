@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.testUtils
 
-import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.StyleRes
@@ -23,11 +22,9 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     @StyleRes themeResId: Int = 0,
     crossinline action: Fragment.() -> Unit = {}
 ): ActivityScenario<HiltTestActivity>? {
-    val startActivityIntent = Intent.makeMainActivity(
-        ComponentName(
-            ApplicationProvider.getApplicationContext(),
-            HiltTestActivity::class.java
-        )
+    val startActivityIntent = Intent(
+        ApplicationProvider.getApplicationContext(),
+        HiltTestActivity::class.java
     )
     if (themeResId != 0) {
         startActivityIntent.putExtra(
@@ -45,7 +42,7 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
         activity.supportFragmentManager
             .beginTransaction()
             .add(android.R.id.content, fragment, "")
-            .commitNow()
+            .commitNowAllowingStateLoss()
 
         fragment.action()
     }
@@ -67,11 +64,9 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     crossinline action: Fragment.() -> Unit = {},
     crossinline instantiate: () -> T
 ): ActivityScenario<HiltTestActivity>? {
-    val startActivityIntent = Intent.makeMainActivity(
-        ComponentName(
-            ApplicationProvider.getApplicationContext(),
-            HiltTestActivity::class.java
-        )
+    val startActivityIntent = Intent(
+        ApplicationProvider.getApplicationContext(),
+        HiltTestActivity::class.java
     )
     if (themeResId != 0) {
         startActivityIntent.putExtra(
@@ -86,7 +81,7 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
         activity.supportFragmentManager
             .beginTransaction()
             .add(android.R.id.content, fragment, "")
-            .commitNow()
+            .commitNowAllowingStateLoss()
 
         fragment.action()
     }

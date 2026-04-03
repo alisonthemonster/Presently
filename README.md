@@ -105,8 +105,13 @@ such as `Français`, `English`, or `русский`.
 
 10. Add your language to the `AppLanguage` and `AppLanguageValues` arrays in
     `app/src/main/res/values/array.xml`.
-11. Open a pull request with a short description of the translation.
-12. Respond to review comments if needed. Once approved, the translation will ship in a future release.
+11. Add your language to `app/src/main/res/xml/locales_config.xml` so Android's system
+    "App language" settings page knows the app supports it.
+12. Add your locale qualifier to `supportedAppLanguages` in `app/build.gradle.kts`. This keeps the
+    packaged language list aligned with the app picker and system locale config. Use Android
+    resource qualifiers here, for example `fr`, `pt-rBR`, or `zh-rHK`.
+13. Open a pull request with a short description of the translation.
+14. Respond to review comments if needed. Once approved, the translation will ship in a future release.
 
 #### Translate Without GitHub
 

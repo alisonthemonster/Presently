@@ -112,7 +112,7 @@ class DayOneDialogFragmentInstrumentedTest {
             composeRule.activity.supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.container_fragment, TimelineFragment())
-                .commitNow()
+                .commitNowAllowingStateLoss()
 
             composeRule.activity.supportFragmentManager
                 .beginTransaction()
@@ -126,9 +126,7 @@ class DayOneDialogFragmentInstrumentedTest {
                     )
                 )
                 .addToBackStack(TimelineFragment.TIMELINE_TO_ENTRY)
-                .commit()
-
-            composeRule.activity.supportFragmentManager.executePendingTransactions()
+                .commitAllowingStateLoss()
         }
         composeRule.waitForIdle()
     }
