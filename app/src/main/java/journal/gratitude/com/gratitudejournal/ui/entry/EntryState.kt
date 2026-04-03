@@ -2,7 +2,6 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 
 import android.annotation.SuppressLint
 import android.os.Parcelable
-import com.airbnb.mvrx.MavericksState
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.parcelize.Parcelize
 import org.threeten.bp.LocalDate
@@ -18,36 +17,60 @@ data class EntryArgs(
     val prompts: List<String>
 ) : Parcelable
 
-data class EntryState(
+data class EntryUiState(
     val date: LocalDate,
     val entryContent: String,
     val isNewEntry: Boolean,
     val numberExistingEntries: Int?,
     val hint: String,
     val quote: String,
-    val hasUserEdits: Boolean,
+    val showQuote: Boolean,
     val promptNumber: Int,
     val promptsList: List<String>,
-    val isSaved: Boolean,
-    val milestoneNumber: Int = 0
-) : MavericksState {
+    val isLoading: Boolean,
+    val hasUnsavedChanges: Boolean
+) {
 
     constructor(args: EntryArgs) : this(
         args.date.toLocalDate(),
-        // space will stop the hint from showing while the entry is fetched from db
-        if (args.isNewEntry) "" else " ",
+        "",
         args.isNewEntry,
         args.numberExistingEntries,
         args.firstHint,
         args.quote,
-        false,
+        true,
         0,
         args.prompts,
+        !args.isNewEntry,
         false
     )
 
     val isEmpty = entryContent.isEmpty()
-    val editsWereMade = (hasUserEdits && (isNewEntry && isEmpty).not() /*no edits if it is a new entry and is empty*/ )
+}
 
+sealed interface EntryEffect {
+    data class OpenShare(val entryContent: String, val date: LocalDate) : EntryEffect
 
+    data class CopyQuote(val quote: String) : EntryEffect
+
+    data object ShowUnsavedChangesDialog : EntryEffect
+
+    data class EntrySaved(
+        val milestoneNumber: Int,
+        val shouldTriggerReminderOnboarding: Boolean
+    ) : EntryEffect
+
+    data object NavigateBack : EntryEffect
+}
+
+enum class EntryHeaderMode {
+    TODAY,
+    YESTERDAY,
+    PAST
+}
+
+fun LocalDate.toEntryHeaderMode(today: LocalDate = LocalDate.now()): EntryHeaderMode = when (this) {
+    today -> EntryHeaderMode.TODAY
+    today.minusDays(1) -> EntryHeaderMode.YESTERDAY
+    else -> EntryHeaderMode.PAST
 }
