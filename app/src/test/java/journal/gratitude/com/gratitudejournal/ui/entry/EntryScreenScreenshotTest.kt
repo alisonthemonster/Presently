@@ -3,6 +3,9 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 import androidx.compose.ui.test.junit4.createComposeRule
 import journal.gratitude.com.gratitudejournal.testUtils.ScreenshotTest
 import journal.gratitude.com.gratitudejournal.testUtils.captureAcrossThemes
+import journal.gratitude.com.gratitudejournal.testUtils.captureInTheme
+import journal.gratitude.com.gratitudejournal.testUtils.ScreenshotDevices
+import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
@@ -50,6 +53,38 @@ class EntryScreenScreenshotTest {
     @Test
     fun writtenEntry_allThemes() {
         composeRule.captureAcrossThemes(screen = "entry", scenario = "written-entry") { _ ->
+            EntryScreenContent(
+                state = EntryUiState(
+                    date = LocalDate.of(2026, 3, 28),
+                    entryContent = "Sunshine on the balcony",
+                    isNewEntry = false,
+                    numberExistingEntries = 42,
+                    hint = "What were you grateful for?",
+                    quote = "\"Gratitude is the sign of noble souls\" \nAesop",
+                    showQuote = true,
+                    promptNumber = 0,
+                    promptsList = listOf("What are you carrying forward?"),
+                    isLoading = false,
+                    hasUnsavedChanges = false
+                ),
+                onPromptClick = {},
+                onShareClick = {},
+                onSaveClick = {},
+                onQuoteLongClick = {},
+                onTextChanged = {}
+            )
+        }
+    }
+
+    @Test
+    @Config(sdk = [35], qualifiers = "w800dp-h1280dp-xxhdpi")
+    fun writtenEntry_tablet_originalTheme() {
+        composeRule.captureInTheme(
+            screen = "entry",
+            scenario = "written-entry-tablet",
+            themeSpec = PresentlyThemeSpec.Original,
+            device = ScreenshotDevices.TabletPortrait
+        ) {
             EntryScreenContent(
                 state = EntryUiState(
                     date = LocalDate.of(2026, 3, 28),

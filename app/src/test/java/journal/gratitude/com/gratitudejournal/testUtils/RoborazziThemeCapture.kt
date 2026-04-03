@@ -24,6 +24,11 @@ object ScreenshotDevices {
         widthDp = 411,
         heightDp = 891
     )
+
+    val TabletPortrait = ScreenshotDevice(
+        widthDp = 800,
+        heightDp = 1280
+    )
 }
 
 fun ComposeContentTestRule.captureAcrossThemes(
