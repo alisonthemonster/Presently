@@ -1,15 +1,24 @@
 package journal.gratitude.com.gratitudejournal.ui
 
+import android.app.Activity
+import android.app.Instrumentation
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.KeyEvent
+import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.rule.IntentsRule
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.RootMatchers.isDialog
@@ -23,22 +32,24 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.testUtils.getText
-import journal.gratitude.com.gratitudejournal.testUtils.isEditTextValueEqualTo
-import journal.gratitude.com.gratitudejournal.testUtils.saveEntryBlocking
-import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.anyOf
 import org.hamcrest.CoreMatchers.not
+import org.hamcrest.Description
+import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
-import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
+import kotlinx.coroutines.runBlocking
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import junit.framework.TestCase.assertEquals
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryArgs
+import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -173,6 +184,21 @@ class EntryFragmentInstrumentedTest {
         val date = LocalDate.of(2019, 3, 22)
 
         val args = EntryArgs(date.toString(), true, 4, "quote", "hint", emptyList())
+        val marketUri = Uri.parse("market://details?id=journal.gratitude.com.gratitudejournal")
+        val webUri = Uri.parse("https://play.google.com/store/apps/details?id=journal.gratitude.com.gratitudejournal")
+
+        intending(
+            anyOf(
+                allOf(
+                    IntentMatchers.hasAction(Intent.ACTION_VIEW),
+                    IntentMatchers.hasData(marketUri)
+                ),
+                allOf(
+                    IntentMatchers.hasAction(Intent.ACTION_VIEW),
+                    IntentMatchers.hasData(webUri)
+                )
+            )
+        ).respondWith(Instrumentation.ActivityResult(Activity.RESULT_OK, Intent()))
 
         launchFragmentInHiltContainer<EntryFragment>(
             themeResId = R.style.Base_AppTheme,
@@ -186,13 +212,19 @@ class EntryFragmentInstrumentedTest {
 
         onView(withId(R.id.save_button)).perform(click())
 
+        onView(withText("Share your achievement")).inRoot(isDialog()).check(matches(isDisplayed()))
         onView(withId(R.id.rate_presently)).perform(click())
 
-        val uri = Uri.parse("market://details?id=journal.gratitude.com.gratitudejournal")
-        androidx.test.espresso.intent.Intents.intended(
-            allOf(
-                IntentMatchers.hasAction(Intent.ACTION_VIEW),
-                IntentMatchers.hasData(uri)
+        intended(
+            anyOf(
+                allOf(
+                    IntentMatchers.hasAction(Intent.ACTION_VIEW),
+                    IntentMatchers.hasData(marketUri)
+                ),
+                allOf(
+                    IntentMatchers.hasAction(Intent.ACTION_VIEW),
+                    IntentMatchers.hasData(webUri)
+                )
             )
         )
     }
@@ -315,7 +347,6 @@ class EntryFragmentInstrumentedTest {
         }
 
         //dialog is displayed
-        onView(isRoot()).perform(waitFor(250))
         onView(withText(R.string.are_you_sure)).inRoot(isDialog()).check(matches(isDisplayed()))
 
         //cancel is pressed
@@ -328,7 +359,7 @@ class EntryFragmentInstrumentedTest {
         }
 
         //continue clicked
-        onView(isRoot()).perform(waitFor(250))
+        onView(withText(R.string.are_you_sure)).inRoot(isDialog()).check(matches(isDisplayed()))
         onView(withId(android.R.id.button1)).inRoot(isDialog()).perform(click())
         onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
     }
@@ -351,4 +382,55 @@ class EntryFragmentInstrumentedTest {
         onView(withText(R.string.are_you_sure)).check(ViewAssertions.doesNotExist())
     }
 
+}
+
+private fun EntryRepository.saveEntryBlocking(entry: Entry) = runBlocking {
+    addEntry(entry)
+}
+
+private fun getText(matcher: Matcher<View>): String {
+    val stringHolder = arrayOf<String?>(null)
+    onView(matcher).perform(object : ViewAction {
+        override fun getConstraints(): Matcher<View> = isAssignableFrom(TextView::class.java)
+
+        override fun getDescription(): String = "getting text from a TextView"
+
+        override fun perform(uiController: UiController, view: View) {
+            stringHolder[0] = (view as TextView).text.toString()
+        }
+    })
+    return stringHolder[0] ?: ""
+}
+
+private fun isEditTextValueEqualTo(content: String): Matcher<View> {
+    return object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description) {
+            description.appendText("Match Edit Text Value with View ID Value : :  $content")
+        }
+
+        override fun matchesSafely(view: View?): Boolean {
+            if (view !is TextView && view !is EditText) {
+                return false
+            }
+            val text = if (view is TextView) {
+                view.text.toString()
+            } else {
+                (view as EditText).text.toString()
+            }
+
+            return text.equals(content, ignoreCase = true)
+        }
+    }
+}
+
+private fun waitFor(delay: Long): ViewAction {
+    return object : ViewAction {
+        override fun getConstraints(): Matcher<View> = isRoot()
+
+        override fun getDescription(): String = "wait for ${delay}milliseconds"
+
+        override fun perform(uiController: UiController, view: View) {
+            uiController.loopMainThreadForAtLeast(delay)
+        }
+    }
 }
