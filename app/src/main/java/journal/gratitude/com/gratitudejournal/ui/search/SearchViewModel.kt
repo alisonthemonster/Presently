@@ -3,19 +3,19 @@ package journal.gratitude.com.gratitudejournal.ui.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,50 +24,32 @@ class SearchViewModel @Inject constructor(private val repository: EntryRepositor
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
 
-    private val _searchResults = MutableStateFlow(PagingData.empty<Entry>())
-    val searchResults: StateFlow<PagingData<Entry>> = _searchResults.asStateFlow()
+    private val searchRequest = MutableStateFlow(SearchRequest())
 
-    private val _searchRequests = MutableSharedFlow<SearchRequest>(
-        extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
-    )
-    private val searchRequests = _searchRequests.asSharedFlow()
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val searchResults: Flow<PagingData<Entry>> = searchRequest
+        .transformLatest { request ->
+            if (request.debounce) {
+                delay(300)
+            }
 
-    init {
-        observeSearchRequests()
-    }
-
-    private fun observeSearchRequests() {
-        viewModelScope.launch {
-            searchRequests.collectLatest { request ->
-                if (request.debounce) {
-                    delay(300)
-                }
-                performSearch(request.query)
+            val trimmedQuery = request.query.trim()
+            if (trimmedQuery.isEmpty()) {
+                emit(PagingData.empty())
+            } else {
+                emitAll(repository.searchEntries(trimmedQuery))
             }
         }
-    }
-
-    private suspend fun performSearch(query: String) {
-        val trimmedQuery = query.trim()
-        if (trimmedQuery.isEmpty()) {
-            _searchResults.value = PagingData.empty()
-            return
-        }
-
-        repository.searchEntries(trimmedQuery).collectLatest { pagingData ->
-            _searchResults.value = pagingData
-        }
-    }
+        .cachedIn(viewModelScope)
 
     fun onSearchQueryChanged(queryString: String) {
         _uiState.update { it.copy(query = queryString) }
-        _searchRequests.tryEmit(SearchRequest(query = queryString, debounce = true))
+        searchRequest.value = SearchRequest(query = queryString, debounce = true)
     }
 
     fun onSearchTriggered(queryString: String) {
         _uiState.update { it.copy(query = queryString) }
-        _searchRequests.tryEmit(SearchRequest(query = queryString, debounce = false))
+        searchRequest.value = SearchRequest(query = queryString, debounce = false)
     }
 }
 
@@ -76,6 +58,6 @@ data class SearchUiState(
 )
 
 private data class SearchRequest(
-    val query: String,
-    val debounce: Boolean
+    val query: String = "",
+    val debounce: Boolean = false
 )
