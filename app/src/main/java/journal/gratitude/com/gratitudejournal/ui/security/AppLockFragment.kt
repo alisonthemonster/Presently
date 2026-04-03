@@ -1,13 +1,12 @@
 package journal.gratitude.com.gratitudejournal.ui.security
 
-import android.hardware.biometrics.BiometricManager.Authenticators.BIOMETRIC_WEAK
-import android.hardware.biometrics.BiometricManager.Authenticators.DEVICE_CREDENTIAL
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -121,11 +120,7 @@ class AppLockFragment : Fragment() {
             setTitle(getString(R.string.lock_title))
             setSubtitle(getString(R.string.lock_summary))
             setConfirmationRequired(false)
-            if (Build.VERSION.SDK_INT > 29) {
-                setAllowedAuthenticators(BIOMETRIC_WEAK or DEVICE_CREDENTIAL)
-            } else {
-                setDeviceCredentialAllowed(true)
-            }
+            setAllowedAuthenticators(BIOMETRIC_WEAK or DEVICE_CREDENTIAL)
         }.build()
 
         biometricPrompt.authenticate(promptInfo)
