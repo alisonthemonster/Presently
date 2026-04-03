@@ -35,6 +35,10 @@ const val BIOMETRICS_DESELECT = "biometricsDeselected"
 const val BIOMETRICS_USER_CANCELLED = "biometricsScanUserCancelled"
 const val BIOMETRICS_CANCELLED = "biometricsScanCancelled"
 const val BIOMETRICS_LOCKOUT = "biometricsLockout"
+const val BIOMETRICS_AVAILABILITY_CHECKED = "biometricsAvailabilityChecked"
+const val BIOMETRICS_PROMPT_SHOWN = "biometricsPromptShown"
+const val BIOMETRICS_PROMPT_ERROR = "biometricsPromptError"
+const val BIOMETRICS_AUTH_SUCCEEDED = "biometricsAuthSucceeded"
 
 //ENTRY EVENTS
 const val SHARED_ENTRY = "sharedEntry"
