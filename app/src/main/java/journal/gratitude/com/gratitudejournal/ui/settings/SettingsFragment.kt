@@ -16,8 +16,6 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
-import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.core.content.ContextCompat
 import androidx.biometric.BiometricManager
 import androidx.core.app.NotificationManagerCompat
@@ -52,6 +50,9 @@ import journal.gratitude.com.gratitudejournal.util.reminders.NotificationSchedul
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
 import journal.gratitude.com.gratitudejournal.ui.setStatusBarColorsForBackground
+import journal.gratitude.com.gratitudejournal.ui.security.APP_LOCK_BIOMETRIC_AUTHENTICATORS
+import journal.gratitude.com.gratitudejournal.ui.security.BIOMETRIC_SOURCE_SETTINGS
+import journal.gratitude.com.gratitudejournal.ui.security.BiometricTelemetry
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
@@ -207,9 +208,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
 
         val fingerprint = findPreference<Preference>(FINGERPRINT)
+        val biometricStatus = BiometricManager.from(requireContext())
+            .canAuthenticate(APP_LOCK_BIOMETRIC_AUTHENTICATORS)
+        analytics.recordEvent(
+            BIOMETRICS_AVAILABILITY_CHECKED,
+            BiometricTelemetry.availabilityDetails(biometricStatus, BIOMETRIC_SOURCE_SETTINGS)
+        )
         val canAuthenticateUsingFingerPrint =
-            BiometricManager.from(requireContext())
-                .canAuthenticate(BIOMETRIC_WEAK or DEVICE_CREDENTIAL) == BiometricManager.BIOMETRIC_SUCCESS
+            biometricStatus == BiometricManager.BIOMETRIC_SUCCESS
         fingerprint?.parent!!.isEnabled = canAuthenticateUsingFingerPrint
 
         findPreference<SwitchPreference>(EXACT_ALARMS)?.apply {

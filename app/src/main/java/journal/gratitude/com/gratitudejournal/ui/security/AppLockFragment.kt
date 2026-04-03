@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
-import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -16,7 +14,10 @@ import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
+import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_AUTH_SUCCEEDED
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_CANCELLED
+import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_PROMPT_ERROR
+import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_PROMPT_SHOWN
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_LOCKOUT
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_USER_CANCELLED
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
@@ -45,6 +46,10 @@ class AppLockFragment : Fragment() {
                             errString: CharSequence
                     ) {
                         super.onAuthenticationError(errorCode, errString)
+                        analytics.recordEvent(
+                            BIOMETRICS_PROMPT_ERROR,
+                            BiometricTelemetry.authErrorDetails(errorCode, BIOMETRIC_SOURCE_APP_LOCK)
+                        )
 
                         when (errorCode) {
                             BiometricPrompt.ERROR_NEGATIVE_BUTTON,
@@ -67,7 +72,15 @@ class AppLockFragment : Fragment() {
                             }
                             BiometricPrompt.ERROR_NO_BIOMETRICS,
                             BiometricPrompt.ERROR_NO_DEVICE_CREDENTIAL -> {
-                                crashReporter.logHandledException(Exception(errString.toString()))
+                                crashReporter.logHandledException(
+                                    IllegalStateException(
+                                        BiometricTelemetry.authErrorMessage(
+                                            errorCode = errorCode,
+                                            errString = errString,
+                                            source = BIOMETRIC_SOURCE_APP_LOCK
+                                        )
+                                    )
+                                )
                                 //no finger print is setup
                                 //TODO move this hardcoded string to strings.xml
                                 Toast.makeText(
@@ -77,7 +90,15 @@ class AppLockFragment : Fragment() {
                                 requireActivity().finish()
                             }
                             else -> {
-                                crashReporter.logHandledException(Exception("Code: $errorCode: $errString"))
+                                crashReporter.logHandledException(
+                                    IllegalStateException(
+                                        BiometricTelemetry.authErrorMessage(
+                                            errorCode = errorCode,
+                                            errString = errString,
+                                            source = BIOMETRIC_SOURCE_APP_LOCK
+                                        )
+                                    )
+                                )
                                 //TODO move this hardcoded string to strings.xml
                                 Toast.makeText(
                                         context,
@@ -92,6 +113,10 @@ class AppLockFragment : Fragment() {
                             result: BiometricPrompt.AuthenticationResult
                     ) {
                         super.onAuthenticationSucceeded(result)
+                        analytics.recordEvent(
+                            BIOMETRICS_AUTH_SUCCEEDED,
+                            mapOf("source" to BIOMETRIC_SOURCE_APP_LOCK)
+                        )
                         val screen = activity?.intent?.extras?.getString(ContainerActivity.NOTIFICATION_SCREEN_EXTRA) ?: TIMELINE_SCREEN
                         enterApp(screen)
                     }
@@ -101,7 +126,7 @@ class AppLockFragment : Fragment() {
             setTitle(getString(R.string.lock_title))
             setSubtitle(getString(R.string.lock_summary))
             setConfirmationRequired(false)
-            setAllowedAuthenticators(BIOMETRIC_WEAK or DEVICE_CREDENTIAL)
+            setAllowedAuthenticators(APP_LOCK_BIOMETRIC_AUTHENTICATORS)
         }.build()
     }
 
@@ -129,6 +154,22 @@ class AppLockFragment : Fragment() {
     }
 
     private fun showFingerprintLock() {
+        val canAuthenticate = androidx.biometric.BiometricManager.from(requireContext())
+            .canAuthenticate(APP_LOCK_BIOMETRIC_AUTHENTICATORS)
+        analytics.recordEvent(
+            BIOMETRICS_PROMPT_SHOWN,
+            BiometricTelemetry.availabilityDetails(canAuthenticate, BIOMETRIC_SOURCE_APP_LOCK)
+        )
+        if (canAuthenticate != androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS) {
+            crashReporter.logHandledException(
+                IllegalStateException(
+                    BiometricTelemetry.availabilityMessage(
+                        statusCode = canAuthenticate,
+                        source = BIOMETRIC_SOURCE_APP_LOCK
+                    )
+                )
+            )
+        }
         biometricPrompt.authenticate(promptInfo)
     }
 
