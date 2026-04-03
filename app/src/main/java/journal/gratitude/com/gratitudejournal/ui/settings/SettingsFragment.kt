@@ -16,6 +16,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.biometric.BiometricManager
 import androidx.core.app.NotificationManagerCompat
@@ -46,6 +47,7 @@ import journal.gratitude.com.gratitudejournal.util.backups.RealCsvParser
 import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader.Companion.PRESENTLY_BACKUP
+import journal.gratitude.com.gratitudejournal.util.AppLocaleManager
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreferenceFragment
@@ -405,9 +407,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     private fun updateLanguage(language: String) {
         analytics.recordSelectEvent(language, "language")
-        // TODO: Replace this recreate-based locale switch with AppCompatDelegate.setApplicationLocales
-        // so language changes use the modern per-app language API and we can remove LocaleHelper.
-        activity?.recreate()
+        val locales = AppLocaleManager.localeListFor(language)
+        if (AppCompatDelegate.getApplicationLocales() != locales) {
+            AppCompatDelegate.setApplicationLocales(locales)
+        }
     }
 
     private fun createDropboxUploaderWorker(cadence: BackupCadence) {
