@@ -29,17 +29,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -48,6 +52,9 @@ import androidx.appcompat.widget.AppCompatImageView
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyFontFamilies
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.IntSize
 import kotlinx.coroutines.flow.StateFlow
 import journal.gratitude.com.gratitudejournal.util.toFullString
 
@@ -232,21 +239,61 @@ private fun HeaderText(
     contentAlignment: Alignment
 ) {
     val tokens = LocalPresentlyTheme.current
+    val textMeasurer = rememberTextMeasurer()
+    val baseStyle = MaterialTheme.typography.headlineMedium.copy(
+        fontFamily = PresentlyFontFamilies.accent,
+        fontSize = 36.sp
+    )
+    var containerSize by remember { mutableStateOf(IntSize.Zero) }
     Box(
-        modifier = modifier,
+        modifier = modifier.onSizeChanged { containerSize = it },
         contentAlignment = contentAlignment
     ) {
+        val autoSizedFont = rememberAutoSizedHeaderFont(
+            text = text,
+            maxWidthPx = containerSize.width,
+            maxHeightPx = containerSize.height,
+            textMeasurer = textMeasurer,
+            baseStyle = baseStyle
+        )
         Text(
             text = text,
             color = tokens.entryHeader,
             maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             textAlign = textAlign,
-            style = MaterialTheme.typography.headlineMedium.copy(
-                fontFamily = PresentlyFontFamilies.accent,
-                fontSize = 36.sp
-            )
+            style = baseStyle.copy(fontSize = autoSizedFont)
         )
     }
+}
+
+@Composable
+private fun rememberAutoSizedHeaderFont(
+    text: String,
+    maxWidthPx: Int,
+    maxHeightPx: Int,
+    textMeasurer: TextMeasurer,
+    baseStyle: TextStyle
+) = remember(text, maxWidthPx, maxHeightPx) {
+    if (maxWidthPx <= 0 || maxHeightPx <= 0) {
+        return@remember 36.sp
+    }
+
+    for (fontSize in 36 downTo 16) {
+        val layoutResult = textMeasurer.measure(
+            text = text,
+            style = baseStyle.copy(fontSize = fontSize.sp),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            constraints = Constraints(maxWidth = maxWidthPx, maxHeight = maxHeightPx)
+        )
+
+        if (!layoutResult.hasVisualOverflow) {
+            return@remember fontSize.sp
+        }
+    }
+
+    16.sp
 }
 
 @Composable
