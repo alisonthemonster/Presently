@@ -2,7 +2,11 @@ package journal.gratitude.com.gratitudejournal.fakes
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.flow.Flow
@@ -52,19 +56,30 @@ class FakeEntryRepository @Inject constructor() : EntryRepository {
     }
 
     override fun searchEntries(query: String): Flow<PagingData<Entry>> {
-        val list = mutableListOf<Entry>()
-        entriesDatabase.forEach { (_, entry) -> list.add(entry) }
-
-        return if (query == "query with no result") {
-            flow {
-                emit(PagingData.from(emptyList<Entry>()))
-            }
+        val results = if (query == "query with no result") {
+            emptyList()
         } else {
-            val results = listOf(Entry(LocalDate.now(), "Today's content"), Entry(LocalDate.of(2019, 11, 29), "Happy birthday, Alison!"))
-            flow {
-                emit(PagingData.from(results))
-            }
+            listOf(
+                Entry(LocalDate.now(), "Today's content"),
+                Entry(LocalDate.of(2019, 11, 29), "Happy birthday, Alison!")
+            )
         }
+
+        return Pager(
+            config = PagingConfig(pageSize = results.size.coerceAtLeast(1))
+        ) {
+            object : PagingSource<Int, Entry>() {
+                override fun getRefreshKey(state: PagingState<Int, Entry>): Int? = null
+
+                override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Entry> {
+                    return LoadResult.Page(
+                        data = results,
+                        prevKey = null,
+                        nextKey = null
+                    )
+                }
+            }
+        }.flow
     }
 
 }
