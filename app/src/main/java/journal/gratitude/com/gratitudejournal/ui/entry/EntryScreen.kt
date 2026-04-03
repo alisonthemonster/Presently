@@ -147,8 +147,8 @@ internal fun EntryScreenContent(
                     textStyle = TextStyle(
                         color = theme.entryBody,
                         fontFamily = PresentlyFontFamilies.body,
-                        fontSize = 20.sp,
-                        lineHeight = 28.sp
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp
                     ),
                     decorationBox = { innerTextField ->
                         Box(
@@ -162,8 +162,8 @@ internal fun EntryScreenContent(
                                     color = theme.entryHint,
                                     style = TextStyle(
                                         fontFamily = PresentlyFontFamilies.body,
-                                        fontSize = 20.sp,
-                                        lineHeight = 28.sp
+                                        fontSize = 16.sp,
+                                        lineHeight = 24.sp
                                     )
                                 )
                             }
