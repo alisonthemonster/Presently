@@ -27,37 +27,18 @@ import javax.inject.Inject
 class AppLockFragment : Fragment() {
 
     private var fingerprintLock: Boolean = false
+    private lateinit var biometricPrompt: BiometricPrompt
+    private lateinit var promptInfo: BiometricPrompt.PromptInfo
 
     @Inject lateinit var settings: PresentlySettings
     @Inject lateinit var analytics: AnalyticsLogger
     @Inject lateinit var crashReporter: CrashReporter
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View {
-        return View(context)
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        fingerprintLock = settings.isBiometricsEnabled()
-        if (!fingerprintLock) {
-            val screen = activity?.intent?.extras?.getString(ContainerActivity.NOTIFICATION_SCREEN_EXTRA) ?: TIMELINE_SCREEN
-            enterApp(screen)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        if (fingerprintLock)
-            showFingerprintLock()
-    }
-
-    private fun showFingerprintLock() {
         val executor = ContextCompat.getMainExecutor(requireContext())
-        val biometricPrompt = BiometricPrompt(this, executor,
+        biometricPrompt = BiometricPrompt(this, executor,
                 object : BiometricPrompt.AuthenticationCallback() {
                     override fun onAuthenticationError(
                             errorCode: Int,
@@ -116,13 +97,38 @@ class AppLockFragment : Fragment() {
                     }
                 })
 
-        val promptInfo = BiometricPrompt.PromptInfo.Builder().apply {
+        promptInfo = BiometricPrompt.PromptInfo.Builder().apply {
             setTitle(getString(R.string.lock_title))
             setSubtitle(getString(R.string.lock_summary))
             setConfirmationRequired(false)
             setAllowedAuthenticators(BIOMETRIC_WEAK or DEVICE_CREDENTIAL)
         }.build()
+    }
 
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View {
+        return View(context)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fingerprintLock = settings.isBiometricsEnabled()
+        if (!fingerprintLock) {
+            val screen = activity?.intent?.extras?.getString(ContainerActivity.NOTIFICATION_SCREEN_EXTRA) ?: TIMELINE_SCREEN
+            enterApp(screen)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (fingerprintLock)
+            showFingerprintLock()
+    }
+
+    private fun showFingerprintLock() {
         biometricPrompt.authenticate(promptInfo)
     }
 

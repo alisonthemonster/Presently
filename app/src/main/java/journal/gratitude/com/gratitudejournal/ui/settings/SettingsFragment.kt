@@ -17,6 +17,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.core.content.ContextCompat
 import androidx.biometric.BiometricManager
 import androidx.core.app.NotificationManagerCompat
@@ -208,7 +209,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val fingerprint = findPreference<Preference>(FINGERPRINT)
         val canAuthenticateUsingFingerPrint =
             BiometricManager.from(requireContext())
-                .canAuthenticate(BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS
+                .canAuthenticate(BIOMETRIC_WEAK or DEVICE_CREDENTIAL) == BiometricManager.BIOMETRIC_SUCCESS
         fingerprint?.parent!!.isEnabled = canAuthenticateUsingFingerPrint
 
         findPreference<SwitchPreference>(EXACT_ALARMS)?.apply {
