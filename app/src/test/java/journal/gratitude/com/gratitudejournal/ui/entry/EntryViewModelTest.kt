@@ -2,452 +2,329 @@ package journal.gratitude.com.gratitudejournal.ui.entry
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.paging.PagingData
-import com.airbnb.mvrx.test.MvRxTestRule
-import com.airbnb.mvrx.withState
 import com.google.common.truth.Truth.assertThat
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import junit.framework.TestCase.assertEquals
+import journal.gratitude.com.gratitudejournal.settings.BackupCadence
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.testUtils.MainDispatcherRule
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineScheduler
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalTime
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class EntryViewModelTest {
 
-    private lateinit var viewModel: EntryViewModel
-
-    private val repository = object : EntryRepository {
-        override suspend fun getEntry(date: LocalDate): Entry? {
-            return Entry(date, "hii there")
-        }
-
-        override suspend fun getEntriesFlow(): Flow<List<Entry>> {
-            return flowOf(listOf(Entry(LocalDate.of(2021, 2, 28), "hii there")))
-        }
-
-        override suspend fun getEntries(): List<Entry> {
-            return listOf(Entry(LocalDate.of(2021, 2, 28), "hii there"))
-        }
-
-        override fun getWrittenDates(): LiveData<List<LocalDate>> {
-            return MutableLiveData(listOf(LocalDate.of(2021, 2, 28)))
-        }
-
-        override suspend fun addEntry(entry: Entry) = Unit
-
-        override suspend fun addEntries(entries: List<Entry>) = Unit
-
-        override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
-    }
-    private val analytics = object : AnalyticsLogger {
-        override fun recordEvent(event: String) {}
-
-        override fun recordEvent(event: String, details: Map<String, Any>) {}
-
-        override fun recordSelectEvent(selectedContent: String, selectedContentType: String) {}
-
-        override fun recordEntryAdded(numEntries: Int)  {}
-
-        override fun recordView(viewName: String) {}
-
-        override fun optOutOfAnalytics() {}
-
-        override fun optIntoAnalytics() {}
-    }
-
     @get:Rule
-    val mvrxRule = MvRxTestRule(
-        testDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler())
+    val mainDispatcherRule = MainDispatcherRule()
+
+    private lateinit var repository: TestEntryRepository
+    private lateinit var analytics: TestAnalyticsLogger
+    private lateinit var settings: TestPresentlySettings
+
+    @Before
+    fun setUp() {
+        repository = TestEntryRepository()
+        analytics = TestAnalyticsLogger()
+        settings = TestPresentlySettings()
+    }
+
+    @Test
+    fun init_loadsExistingEntry() = runTest {
+        val date = LocalDate.of(2021, 2, 28)
+        repository.entryToReturn = Entry(date, "Saved entry")
+
+        val viewModel = createViewModel(
+            args = EntryArgs(
+                date = date.toString(),
+                isNewEntry = false,
+                numberExistingEntries = 3,
+                quote = "Quote",
+                firstHint = "Hint",
+                prompts = listOf("one", "two")
+            )
+        )
+        advanceUntilIdle()
+
+        assertThat(viewModel.state.value.entryContent).isEqualTo("Saved entry")
+        assertThat(viewModel.state.value.hasUnsavedChanges).isFalse()
+        assertThat(viewModel.state.value.isLoading).isFalse()
+    }
+
+    @Test
+    fun onPromptClicked_rotatesPromptAndRecordsAnalytics() = runTest {
+        val viewModel = createViewModel(
+            args = newEntryArgs(prompts = listOf("one", "two"))
+        )
+        advanceUntilIdle()
+
+        viewModel.onPromptClicked()
+
+        assertThat(viewModel.state.value.promptNumber).isEqualTo(1)
+        assertThat(viewModel.state.value.hint).isEqualTo("two")
+        assertThat(analytics.recordedEvents).contains("clickedNewPrompt")
+    }
+
+    @Test
+    fun onTextChanged_tracksUnsavedChangesAgainstOriginalEntry() = runTest {
+        val viewModel = createViewModel(args = newEntryArgs())
+        advanceUntilIdle()
+
+        viewModel.onTextChanged("new text")
+        assertThat(viewModel.state.value.hasUnsavedChanges).isTrue()
+
+        viewModel.onTextChanged("")
+        assertThat(viewModel.state.value.hasUnsavedChanges).isFalse()
+    }
+
+    @Test
+    fun onScreenShown_recordsViewOnlyOnce() = runTest {
+        val viewModel = createViewModel(args = newEntryArgs())
+        advanceUntilIdle()
+
+        viewModel.onScreenShown()
+        viewModel.onScreenShown()
+
+        assertThat(analytics.recordedViews).containsExactly("EntryFragment")
+    }
+
+    @Test
+    fun onShareClicked_emitsShareEffect() = runTest {
+        val date = LocalDate.of(2021, 2, 28)
+        val viewModel = createViewModel(args = newEntryArgs(date = date))
+        advanceUntilIdle()
+        viewModel.onTextChanged("Share me")
+
+        val effect = async(start = CoroutineStart.UNDISPATCHED) { viewModel.effects.first() }
+        viewModel.onShareClicked()
+
+        assertThat(effect.await()).isEqualTo(
+            EntryEffect.OpenShare("Share me", date)
+        )
+        assertThat(analytics.recordedEvents).contains("sharedEntry")
+    }
+
+    @Test
+    fun onQuoteLongClicked_emitsCopyEffect() = runTest {
+        val viewModel = createViewModel(args = newEntryArgs())
+        advanceUntilIdle()
+
+        val effect = async(start = CoroutineStart.UNDISPATCHED) { viewModel.effects.first() }
+        viewModel.onQuoteLongClicked()
+
+        assertThat(effect.await()).isEqualTo(EntryEffect.CopyQuote("Quote"))
+        assertThat(analytics.recordedEvents).contains("copiedQuote")
+    }
+
+    @Test
+    fun onBackPressed_withUnsavedChanges_showsDialogEffect() = runTest {
+        val viewModel = createViewModel(args = newEntryArgs())
+        advanceUntilIdle()
+        viewModel.onTextChanged("Changed")
+
+        val effect = async(start = CoroutineStart.UNDISPATCHED) { viewModel.effects.first() }
+        viewModel.onBackPressed()
+
+        assertThat(effect.await()).isEqualTo(EntryEffect.ShowUnsavedChangesDialog)
+    }
+
+    @Test
+    fun onBackPressed_withoutUnsavedChanges_navigatesBack() = runTest {
+        val viewModel = createViewModel(args = newEntryArgs())
+        advanceUntilIdle()
+
+        val effect = async(start = CoroutineStart.UNDISPATCHED) { viewModel.effects.first() }
+        viewModel.onBackPressed()
+
+        assertThat(effect.await()).isEqualTo(EntryEffect.NavigateBack)
+    }
+
+    @Test
+    fun onDiscardChangesConfirmed_navigatesBack() = runTest {
+        val viewModel = createViewModel(args = existingEntryArgs())
+        advanceUntilIdle()
+
+        val effect = async(start = CoroutineStart.UNDISPATCHED) { viewModel.effects.first() }
+        viewModel.onDiscardChangesConfirmed()
+
+        assertThat(effect.await()).isEqualTo(EntryEffect.NavigateBack)
+    }
+
+    @Test
+    fun saveEntry_forNewEntry_persistsAndEmitsSavedEffect() = runTest {
+        val viewModel = createViewModel(args = newEntryArgs(numberExistingEntries = 0))
+        advanceUntilIdle()
+        viewModel.onTextChanged("Saved text")
+
+        val effect = async(start = CoroutineStart.UNDISPATCHED) { viewModel.effects.first() }
+        viewModel.saveEntry()
+        advanceUntilIdle()
+
+        assertThat(repository.addedEntries).containsExactly(
+            Entry(LocalDate.now(), "Saved text")
+        )
+        assertThat(effect.await()).isEqualTo(
+            EntryEffect.EntrySaved(milestoneNumber = 0, shouldTriggerReminderOnboarding = true)
+        )
+        assertThat(analytics.recordedEntryTotals).containsExactly(1)
+        assertThat(viewModel.state.value.hasUnsavedChanges).isFalse()
+    }
+
+    @Test
+    fun saveEntry_forMilestoneEntry_emitsMilestoneEffect() = runTest {
+        val viewModel = createViewModel(args = newEntryArgs(numberExistingEntries = 4))
+        advanceUntilIdle()
+        viewModel.onTextChanged("Saved text")
+
+        val effect = async(start = CoroutineStart.UNDISPATCHED) { viewModel.effects.first() }
+        viewModel.saveEntry()
+        advanceUntilIdle()
+
+        assertThat(effect.await()).isEqualTo(
+            EntryEffect.EntrySaved(milestoneNumber = 5, shouldTriggerReminderOnboarding = false)
+        )
+    }
+
+    @Test
+    fun saveEntry_forExistingEntry_recordsEditEvent() = runTest {
+        val viewModel = createViewModel(args = existingEntryArgs())
+        advanceUntilIdle()
+        viewModel.onTextChanged("Updated")
+
+        val effect = async(start = CoroutineStart.UNDISPATCHED) { viewModel.effects.first() }
+        viewModel.saveEntry()
+        advanceUntilIdle()
+
+        assertThat(effect.await()).isEqualTo(
+            EntryEffect.EntrySaved(milestoneNumber = 0, shouldTriggerReminderOnboarding = false)
+        )
+        assertThat(analytics.recordedEvents).contains("editedExistingEntry")
+    }
+
+    private fun createViewModel(args: EntryArgs): EntryViewModel {
+        return EntryViewModel(
+            savedStateHandle = SavedStateHandle(mapOf(EntryFragment.ENTRY_ARGS_KEY to args)),
+            analytics = analytics,
+            repository = repository,
+            settings = settings
+        )
+    }
+
+    private fun newEntryArgs(
+        date: LocalDate = LocalDate.now(),
+        numberExistingEntries: Int = 0,
+        prompts: List<String> = listOf("one", "two")
+    ) = EntryArgs(
+        date = date.toString(),
+        isNewEntry = true,
+        numberExistingEntries = numberExistingEntries,
+        quote = "Quote",
+        firstHint = "Hint",
+        prompts = prompts
     )
 
-    @Test
-    fun `GIVEN entry view model WHEN changePrompt is called THEN the state is updated`() {
-        val initialState = EntryState(LocalDate.now(), "", true, null, "hint", "quote", false, 0, listOf("one", "two"), false)
-        viewModel = EntryViewModel(initialState, analytics, repository)
-        viewModel.changePrompt()
+    private fun existingEntryArgs(
+        date: LocalDate = LocalDate.now()
+    ) = EntryArgs(
+        date = date.toString(),
+        isNewEntry = false,
+        numberExistingEntries = 3,
+        quote = "Quote",
+        firstHint = "Hint",
+        prompts = listOf("one", "two")
+    )
+}
 
-        withState(viewModel) {
-            assertEquals(it.promptNumber, 1)
-            assertEquals(it.hint, "two")
-        }
+private class TestEntryRepository : EntryRepository {
+    var entryToReturn: Entry? = null
+    val addedEntries = mutableListOf<Entry>()
+
+    override suspend fun getEntry(date: LocalDate): Entry? = entryToReturn
+
+    override suspend fun getEntriesFlow(): Flow<List<Entry>> = flowOf(emptyList())
+
+    override suspend fun getEntries(): List<Entry> = emptyList()
+
+    override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
+
+    override suspend fun addEntry(entry: Entry) {
+        addedEntries += entry
     }
 
-    @Test
-    fun `GIVEN entry view model WHEN changePrompt is called THEN an analytics event is logged`() {
-        val initialState = EntryState(LocalDate.now(), "", true, null, "hint", "quote", false, 0, listOf("one", "two"), false)
-        var recordEventWasCalled = false
-        var eventName = ""
-        val analytics = object : AnalyticsLogger {
-            override fun recordEvent(event: String) {
-                recordEventWasCalled = true
-                eventName = event
-            }
+    override suspend fun addEntries(entries: List<Entry>) = Unit
 
-            override fun recordEvent(event: String, details: Map<String, Any>) {}
+    override fun searchEntries(query: String): Flow<PagingData<Entry>> = emptyFlow()
+}
 
-            override fun recordSelectEvent(selectedContent: String, selectedContentType: String) {}
+private class TestAnalyticsLogger : AnalyticsLogger {
+    val recordedEvents = mutableListOf<String>()
+    val recordedViews = mutableListOf<String>()
+    val recordedEntryTotals = mutableListOf<Int>()
 
-            override fun recordEntryAdded(numEntries: Int)  {}
-
-            override fun recordView(viewName: String) {}
-
-            override fun optOutOfAnalytics() {}
-
-            override fun optIntoAnalytics() {}
-        }
-
-        viewModel = EntryViewModel(initialState, analytics, repository)
-        viewModel.changePrompt()
-
-        assertThat(eventName).isEqualTo("clickedNewPrompt")
-        assertThat(recordEventWasCalled).isTrue()
+    override fun recordEvent(event: String) {
+        recordedEvents += event
     }
 
-    @Test
-    fun `GIVEN entry view model WHEN onTextChanged is called THEN the state is updated`() {
-        val initialState = EntryState(LocalDate.now(), "", true, null, "hint", "quote", false, 0, listOf("one", "two"), false)
-        viewModel = EntryViewModel(initialState, analytics, repository)
-        viewModel.onTextChanged("new text")
-
-        withState(viewModel) {
-            assertEquals(it.entryContent, "new text")
-            assertEquals(it.hasUserEdits, true)
-            assertEquals(it.editsWereMade, true)
-        }
+    override fun recordEvent(event: String, details: Map<String, Any>) {
+        recordedEvents += event
     }
 
-    @Test
-    fun `GIVEN entry view model WHEN text is cleared THEN the state is updated`() {
-        val initialState = EntryState(
-            LocalDate.now(),
-            "This is an entry",
-            true,
-            null,
-            "hint",
-            "quote",
-            false,
-            0,
-            listOf("one", "two"),
-            false
-        )
-        viewModel = EntryViewModel(initialState, analytics, repository)
-        viewModel.onTextChanged("")
+    override fun recordSelectEvent(selectedContent: String, selectedContentType: String) = Unit
 
-        withState(viewModel) {
-            assertEquals(it.entryContent, "")
-            assertEquals(it.hasUserEdits, true)
-            assertEquals(it.editsWereMade, false)
-        }
+    override fun recordEntryAdded(numEntries: Int) {
+        recordedEntryTotals += numEntries
     }
 
-    @Test
-    fun `GIVEN entry view model WHEN onCreate is called THEN the state is updated`() {
-        val initialState = EntryState(LocalDate.now(), "", true, null, "hint", "quote", false, 0, listOf("one", "two"), false)
-        var viewScreenWasCalled = false
-        var screenName = ""
-        val analytics = object : AnalyticsLogger {
-            override fun recordEvent(event: String) {}
-
-            override fun recordEvent(event: String, details: Map<String, Any>) {}
-
-            override fun recordSelectEvent(selectedContent: String, selectedContentType: String) {}
-
-            override fun recordEntryAdded(numEntries: Int)  {}
-
-            override fun recordView(viewName: String) {
-                viewScreenWasCalled = true
-                screenName = viewName
-            }
-
-            override fun optOutOfAnalytics() {}
-
-            override fun optIntoAnalytics() {}
-        }
-
-        viewModel = EntryViewModel(initialState, analytics, repository)
-        viewModel.onCreate()
-
-        assertThat(viewScreenWasCalled).isTrue()
-        assertThat(screenName).isEqualTo("EntryFragment")
+    override fun recordView(viewName: String) {
+        recordedViews += viewName
     }
 
-    @Test
-    fun `GIVEN an entry view model WHEN the view model is created THEN the entry is fetched`() {
-        val initialState = EntryState(LocalDate.now(), "", true, null, "hint", "quote", false, 0, listOf("one", "two"), false)
-        var getEntryWasCalled = false
-        val repository = object : EntryRepository {
-            override suspend fun getEntry(date: LocalDate): Entry? {
-                getEntryWasCalled = true
-                return Entry(date, "hii there")
-            }
-
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
-
-            override suspend fun getEntries(): List<Entry> = emptyList()
-
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
-
-            override suspend fun addEntry(entry: Entry) = Unit
-
-            override suspend fun addEntries(entries: List<Entry>) = Unit
-
-            override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
-        }
-
-        viewModel = EntryViewModel(initialState, analytics, repository)
-
-        assertThat(getEntryWasCalled).isTrue()
-    }
-
-    @Test
-    fun `GIVEN an entry view model WHEN saveEntry is called THEN the entry is added to the repository`() {
-        val initialState = EntryState(LocalDate.now(), "", true, null, "hint", "quote", false, 0, listOf("one", "two"), false)
-        var addEntryWasCalled = false
-        val repository = object : EntryRepository {
-            override suspend fun getEntry(date: LocalDate): Entry? = null
-
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
-
-            override suspend fun getEntries(): List<Entry> = emptyList()
-
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
-
-            override suspend fun addEntry(entry: Entry) {
-                addEntryWasCalled = true
-            }
-
-            override suspend fun addEntries(entries: List<Entry>) = Unit
-
-            override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
-        }
-
-        viewModel = EntryViewModel(initialState, analytics, repository)
-        viewModel.saveEntry()
-
-        assertThat(addEntryWasCalled).isTrue()
-    }
-
-    @Test
-    fun `GIVEN an entry view model AND an existing entry WHEN saveEntry is called THEN an analytics event was logged`() {
-        val initialState = EntryState(LocalDate.now(), "", false, null, "hint", "quote", false, 0, listOf("one", "two"), false)
-        var recordEventWasCalled = false
-        var eventName = ""
-        val analytics = object : AnalyticsLogger {
-            override fun recordEvent(event: String) {
-                recordEventWasCalled = true
-                eventName = event
-            }
-
-            override fun recordEvent(event: String, details: Map<String, Any>) {}
-
-            override fun recordSelectEvent(selectedContent: String, selectedContentType: String) {}
-
-            override fun recordEntryAdded(numEntries: Int)  {}
-
-            override fun recordView(viewName: String) {}
-
-            override fun optOutOfAnalytics() {}
-
-            override fun optIntoAnalytics() {}
-        }
-
-        viewModel = EntryViewModel(initialState, analytics, repository)
-        viewModel.saveEntry()
-
-        assertThat(recordEventWasCalled).isTrue()
-        assertThat(eventName).isEqualTo("editedExistingEntry")
-    }
-
-    @Test
-    fun `GIVEN an entry view model AND an new entry WHEN saveEntry is called THEN an analytics event was logged`() {
-        val initialState = EntryState(LocalDate.now(), "", true, 2, "hint", "quote", false, 0, listOf("one", "two"), false)
-        var recordEntryAddedWasCalled = false
-        var numEntries = 0
-        val analytics = object : AnalyticsLogger {
-            override fun recordEvent(event: String) {}
-
-            override fun recordEvent(event: String, details: Map<String, Any>) {}
-
-            override fun recordSelectEvent(selectedContent: String, selectedContentType: String) {}
-
-            override fun recordEntryAdded(num: Int)  {
-                recordEntryAddedWasCalled = true
-                numEntries = num
-            }
-
-            override fun recordView(viewName: String) {}
-
-            override fun optOutOfAnalytics() {}
-
-            override fun optIntoAnalytics() {}
-        }
-
-        viewModel = EntryViewModel(initialState, analytics, repository)
-        viewModel.saveEntry()
-
-        assertThat(recordEntryAddedWasCalled).isTrue()
-        assertThat(numEntries).isEqualTo(3)
-    }
-
-    @Test
-    fun `GIVEN an entry view model AND an new entry WHEN saveEntry is called THEN the state is updated`() {
-        val initialState = EntryState(LocalDate.now(), "", true, 0, "hint", "quote", false, 0, listOf("one", "two"), false)
-
-        viewModel = EntryViewModel(initialState, analytics, repository)
-        viewModel.saveEntry()
-
-        withState(viewModel) {
-            assertThat(it.isSaved).isTrue()
-        }
-    }
-
-    @Test
-    fun `GIVEN an entry view model AND an new entry AND 4 existing entries WHEN saveEntry is called THEN the state is updated`() {
-        val initialState = EntryState(LocalDate.now(), "", true, 4, "hint", "quote", false, 0, listOf("one", "two"), false)
-
-        viewModel = EntryViewModel(initialState, analytics, repository)
-        viewModel.saveEntry()
-
-        withState(viewModel) {
-            assertThat(it.milestoneNumber).isEqualTo(5)
-        }
-    }
-
-    @Test
-    fun `GIVEN an entry view model AND an existing entry WHEN saveEntry is called THEN the state is updated`() {
-        val initialState = EntryState(LocalDate.now(), "", false, 4, "hint", "quote", false, 0, listOf("one", "two"), false)
-
-        viewModel = EntryViewModel(initialState, analytics, repository)
-        viewModel.saveEntry()
-
-        withState(viewModel) {
-            assertThat(it.isSaved).isTrue()
-        }
-    }
-
-    @Test
-    fun `GIVEN EntryArgs AND a new entry WHEN the viewModel is created THEN the initial state is set`() {
-        val entryArgs = EntryArgs(LocalDate.now().toString(), true, 0, "Quote", "What are you grateful for?", listOf("one", "two", "three"))
-        val initialState = EntryState(entryArgs)
-        val repository = object : EntryRepository {
-            override suspend fun getEntry(date: LocalDate): Entry? = null
-
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
-
-            override suspend fun getEntries(): List<Entry> = emptyList()
-
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
-
-            override suspend fun addEntry(entry: Entry) {}
-
-            override suspend fun addEntries(entries: List<Entry>) = Unit
-
-            override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
-        }
-
-        viewModel = EntryViewModel(initialState, analytics, repository)
-
-        withState(viewModel) {
-            assertThat(it.date).isEqualTo(LocalDate.now())
-            assertThat(it.entryContent).isEqualTo("")
-            assertThat(it.isNewEntry).isTrue()
-            assertThat(it.numberExistingEntries).isEqualTo(0)
-            assertThat(it.hint).isEqualTo("What are you grateful for?")
-            assertThat(it.quote).isEqualTo("Quote")
-            assertThat(it.hasUserEdits).isFalse()
-            assertThat(it.promptNumber).isEqualTo(0)
-            assertThat(it.promptsList).isEqualTo(listOf("one", "two", "three"))
-            assertThat(it.isSaved).isFalse()
-            assertThat(it.milestoneNumber).isEqualTo(0)
-            assertThat(it.editsWereMade).isFalse()
-        }
-    }
-
-    @Test
-    fun `GIVEN EntryArgs AND a existing entry WHEN the viewModel is created THEN the initial state is set`() {
-        val entryArgs = EntryArgs(LocalDate.now().toString(), false, 0, "Quote", "What are you grateful for?", listOf("one", "two", "three"))
-        val initialState = EntryState(entryArgs)
-        val repository = object : EntryRepository {
-            override suspend fun getEntry(date: LocalDate): Entry? = null
-
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
-
-            override suspend fun getEntries(): List<Entry> = emptyList()
-
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
-
-            override suspend fun addEntry(entry: Entry) {}
-
-            override suspend fun addEntries(entries: List<Entry>) = Unit
-
-            override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
-        }
-        viewModel = EntryViewModel(initialState, analytics, repository)
-
-        withState(viewModel) {
-            assertThat(it.date).isEqualTo(LocalDate.now())
-            assertThat(it.entryContent).isEqualTo("")
-            assertThat(it.isNewEntry).isFalse()
-            assertThat(it.numberExistingEntries).isEqualTo(0)
-            assertThat(it.hint).isEqualTo("What are you grateful for?")
-            assertThat(it.quote).isEqualTo("Quote")
-            assertThat(it.hasUserEdits).isFalse()
-            assertThat(it.promptNumber).isEqualTo(0)
-            assertThat(it.promptsList).isEqualTo(listOf("one", "two", "three"))
-            assertThat(it.isSaved).isFalse()
-            assertThat(it.milestoneNumber).isEqualTo(0)
-            assertThat(it.editsWereMade).isFalse()
-        }
-    }
-
-    @Test
-    fun `GIVEN new entry When text is set and reset then state should be updated`() {
-        val entryArgs = EntryArgs(LocalDate.now().toString(), true, 0, "Quote", "What are you grateful for?", listOf("one", "two", "three"))
-        val initialState = EntryState(entryArgs)
-        val repository = object : EntryRepository {
-            override suspend fun getEntry(date: LocalDate): Entry? = null
-
-            override suspend fun getEntriesFlow(): Flow<List<Entry>> = emptyFlow()
-
-            override suspend fun getEntries(): List<Entry> = emptyList()
-
-            override fun getWrittenDates(): LiveData<List<LocalDate>> = MutableLiveData(emptyList())
-
-            override suspend fun addEntry(entry: Entry) {}
-
-            override suspend fun addEntries(entries: List<Entry>) = Unit
-
-            override fun searchEntries(query: String): Flow<PagingData<Entry>> = flowOf(PagingData.empty())
-        }
-        viewModel = EntryViewModel(initialState, analytics, repository)
-
-        withState(viewModel) {
-            assertThat(it.entryContent).isEqualTo("")
-            assertThat(it.hasUserEdits).isFalse()
-        }
-
-        viewModel.onTextChanged("I am grateful for each and everything")
-
-        withState(viewModel) {
-            assertThat(it.entryContent).isEqualTo("I am grateful for each and everything")
-            assertThat(it.hasUserEdits).isTrue()
-        }
-
-        viewModel.getEntry()
-
-        withState(viewModel) {
-            assertThat(it.entryContent).isEqualTo("")
-            assertThat(it.editsWereMade).isFalse()
-        }
-
-    }
+    override fun optOutOfAnalytics() = Unit
+
+    override fun optIntoAnalytics() = Unit
+}
+
+private class TestPresentlySettings : PresentlySettings {
+    override fun getCurrentTheme(): String = ""
+    override fun setTheme(themeName: String) = Unit
+    override fun isBiometricsEnabled(): Boolean = false
+    override fun shouldLockApp(): Boolean = false
+    override fun setOnPauseTime() = Unit
+    override fun getFirstDayOfWeek(): Int = 1
+    override fun shouldShowQuote(): Boolean = true
+    override fun getAutomaticBackupCadence(): BackupCadence = BackupCadence.DAILY
+    override fun getLocale(): String = "en"
+    override fun hasEnabledNotifications(): Boolean = false
+    override fun setNotificationsEnabled(enabled: Boolean) = Unit
+    override fun getNotificationTime(): LocalTime = LocalTime.NOON
+    override fun setNotificationTime(time: LocalTime) = Unit
+    override fun hasUserDisabledAlarmReminders(context: android.content.Context): Boolean = false
+    override fun hasSeenReminderOnboarding(): Boolean = false
+    override fun markReminderOnboardingSeen() = Unit
+    override fun clearReminderOnboardingSeen() = Unit
+    override fun hasRequestedNotificationPermission(): Boolean = false
+    override fun markNotificationPermissionRequested() = Unit
+    override fun getLinesPerEntryInTimeline(): Int = 3
+    override fun shouldShowDayOfWeekInTimeline(): Boolean = false
+    override fun getAccessToken(): com.dropbox.core.oauth.DbxCredential? = null
+    override fun setAccessToken(newToken: com.dropbox.core.oauth.DbxCredential) = Unit
+    override fun wasDropboxAuthInitiated(): Boolean = false
+    override fun markDropboxAuthAsCancelled() = Unit
+    override fun markDropboxAuthInitiated() = Unit
+    override fun clearAccessToken() = Unit
+    override fun isOptedIntoAnalytics(): Boolean = true
 }

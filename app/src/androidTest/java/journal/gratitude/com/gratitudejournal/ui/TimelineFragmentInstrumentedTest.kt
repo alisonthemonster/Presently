@@ -5,6 +5,10 @@ import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
@@ -12,8 +16,6 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
-import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
@@ -32,10 +34,8 @@ import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.testUtils.saveEntriesBlocking
 import journal.gratitude.com.gratitudejournal.testUtils.scroll
-import journal.gratitude.com.gratitudejournal.testUtils.waitFor
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.ui.DayOneDialogFragment
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
-import journal.gratitude.com.gratitudejournal.ui.entryviewpager.EntryViewPagerFragment
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
@@ -54,6 +54,9 @@ class TimelineFragmentInstrumentedTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
+
+    @get:Rule
+    val composeRule = createAndroidComposeRule<ContainerActivity>()
 
     @get:Rule
     val intentsRule = IntentsRule()
@@ -133,7 +136,7 @@ class TimelineFragmentInstrumentedTest {
     }
 
     @Test
-    fun timelineFragment_clickingTimelineEntry_opensEntryViewPagerScreen() {
+    fun timelineFragment_clickingTimelineEntry_opensEntryScreen() {
         val today = LocalDate.now()
         repository.saveEntriesBlocking(listOf(Entry(today, "Test timeline entry")))
         val scenario = launchTimelineInContainerActivity()
@@ -141,21 +144,23 @@ class TimelineFragmentInstrumentedTest {
         onView(withId(R.id.timeline_recycler_view))
             .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
-        assertCurrentFragmentIs<EntryViewPagerFragment>(scenario)
-        onView(withId(R.id.view_pager)).check(matches(isDisplayed()))
+        assertCurrentFragmentIs<EntryFragment>(scenario)
     }
 
     @Test
     fun timelineFragment_afterSavingFirstEntry_opensDayOneDialog() {
-        val scenario = launchTimelineWithFirstEntryScreen()
+        launchTimelineWithFirstEntryScreenForCompose()
 
-        onView(withId(R.id.entry_text)).perform(typeText("First entry"), closeSoftKeyboard())
-        onView(withId(R.id.save_button)).perform(click())
-        onView(isRoot()).perform(waitFor(500))
+        composeRule.onNodeWithTag("entry_text_field").performTextInput("First entry")
+        composeRule.onNodeWithTag("entry_save_button").performClick()
 
-        scenario.onActivity { activity ->
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            composeRule.activity.supportFragmentManager.findFragmentByTag(DayOneDialogFragment.TAG) != null
+        }
+
+        composeRule.activity.runOnUiThread {
             val dialogFragment =
-                activity.supportFragmentManager.findFragmentByTag(DayOneDialogFragment.TAG)
+                composeRule.activity.supportFragmentManager.findFragmentByTag(DayOneDialogFragment.TAG)
             assertThat(dialogFragment).isInstanceOf(DayOneDialogFragment::class.java)
         }
         assertThat(analytics.recordedEvents).contains(REMINDER_ONBOARDING_PROMPT_VIEWED)
@@ -229,6 +234,32 @@ class TimelineFragmentInstrumentedTest {
 
             activity.supportFragmentManager.executePendingTransactions()
         }
+    }
+
+    private fun launchTimelineWithFirstEntryScreenForCompose() {
+        composeRule.activity.runOnUiThread {
+            composeRule.activity.supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.container_fragment, TimelineFragment())
+                .commitNow()
+
+            composeRule.activity.supportFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.container_fragment,
+                    EntryFragment.newInstance(
+                        date = LocalDate.now(),
+                        numEntries = 0,
+                        isNewEntry = true,
+                        resources = composeRule.activity.resources
+                    )
+                )
+                .addToBackStack(TimelineFragment.TIMELINE_TO_ENTRY)
+                .commit()
+
+            composeRule.activity.supportFragmentManager.executePendingTransactions()
+        }
+        composeRule.waitForIdle()
     }
 
     private inline fun <reified T : Fragment> assertCurrentFragmentIs(
