@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.ui.search
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import journal.gratitude.com.gratitudejournal.model.Entry
+import journal.gratitude.com.gratitudejournal.testUtils.LocaleTestRule
 import journal.gratitude.com.gratitudejournal.testUtils.ScreenshotTest
 import journal.gratitude.com.gratitudejournal.testUtils.captureAcrossThemes
 import org.junit.Rule
@@ -12,12 +13,16 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.threeten.bp.LocalDate
+import java.util.Locale
 
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(sdk = [35], qualifiers = "w411dp-h891dp-xxhdpi")
+@Config(sdk = [35], qualifiers = "en-rUS-w411dp-h891dp-xxhdpi")
 @Category(ScreenshotTest::class)
 class SearchScreenRoborazziTest {
+
+    @get:Rule
+    val localeRule = LocaleTestRule(Locale.US)
 
     @get:Rule
     val composeRule = createComposeRule()
