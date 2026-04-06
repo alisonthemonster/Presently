@@ -42,8 +42,8 @@ jobs:
           name: Build
           command: ./gradlew -Pcoverage assembleDebug assembleDebugAndroidTest --stacktrace
       - run:
-          name: Run unit tests
-          command: ./gradlew -Pcoverage testDebugUnitTest --stacktrace
+          name: Run unit tests and screenshot verification
+          command: ./gradlew -Pcoverage :app:verifyRoborazziDebug --stacktrace
       - run:
           name: Test with Firebase Test Lab
           command: ./gradlew -Pcoverage -PenableFladle runFlank --stacktrace

@@ -155,7 +155,7 @@ Only translate the text inside each `<item>...</item>`.
 ### Local coverage
 
 Use the local coverage helper script:
-- Unit tests only: `./scripts/local_coverage.sh`
+- Unit tests + screenshot verification: `./scripts/local_coverage.sh`
 - Unit tests + connected Android tests for `app`: `./scripts/local_coverage.sh --connected`
 
 Reports are written to:

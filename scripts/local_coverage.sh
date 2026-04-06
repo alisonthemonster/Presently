@@ -20,7 +20,7 @@ Options:
 
 Default behavior runs:
   1. assembleDebug assembleDebugAndroidTest
-  2. testDebugUnitTest
+  2. :app:verifyRoborazziDebug
   3. jacocoFullReport
 
 With --connected it also runs:
@@ -64,8 +64,8 @@ rm -rf "$ROOT_DIR/build/reports/jacoco"
 echo "Building debug artifacts..."
 "$GRADLEW" "${COVERAGE_ARGS[@]}" assembleDebug assembleDebugAndroidTest
 
-echo "Running unit tests..."
-"$GRADLEW" "${COVERAGE_ARGS[@]}" testDebugUnitTest
+echo "Running unit tests and screenshot verification..."
+"$GRADLEW" "${COVERAGE_ARGS[@]}" :app:verifyRoborazziDebug
 
 if [[ "$MODE" == "connected" ]]; then
   echo "Running connected Android tests for the app module..."
