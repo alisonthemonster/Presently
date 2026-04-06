@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -41,9 +42,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -144,6 +145,9 @@ internal fun EntryScreenContent(
                     modifier = Modifier
                         .fillMaxSize()
                         .testTag("entry_text_field"),
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Sentences
+                    ),
                     textStyle = TextStyle(
                         color = theme.entryBody,
                         fontFamily = PresentlyFontFamilies.body,
@@ -382,7 +386,7 @@ private fun QuoteText(
             textAlign = TextAlign.Center,
             maxLines = 4,
             style = TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = PresentlyFontFamilies.body,
                 fontSize = 15.sp
             ),
             modifier = Modifier.combinedClickable(
