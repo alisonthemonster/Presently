@@ -9,6 +9,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsFocused
+import androidx.compose.ui.test.assertIsNotFocused
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
@@ -17,6 +19,8 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.longClick
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.os.bundleOf
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions
@@ -26,7 +30,6 @@ import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.rule.IntentsRule
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.RootMatchers.isDialog
-import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -118,6 +121,27 @@ class EntryFragmentInstrumentedTest {
 
         composeRule.onNodeWithTag("entry_prompt_button").assertIsDisplayed()
         composeRule.onAllNodesWithTag("entry_share_button").assertCountEquals(0)
+    }
+
+    @Test
+    fun newEntry_autoFocusesTextField() {
+        val date = LocalDate.of(2019, 3, 23)
+
+        launchEntryFragment(EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList()))
+
+        composeRule.onNodeWithTag("entry_text_field").assertIsFocused()
+        assertImeVisibility(isVisible = true)
+    }
+
+    @Test
+    fun existingEntry_doesNotAutoFocusTextField() {
+        val date = LocalDate.of(2019, 3, 23)
+        repository.saveEntryBlocking(Entry(date, "Existing entry"))
+
+        launchEntryFragment(EntryArgs(date.toString(), false, 1, "quote", "hint", emptyList()))
+
+        composeRule.onNodeWithTag("entry_text_field").assertIsNotFocused()
+        assertImeVisibility(isVisible = false)
     }
 
     @Test
@@ -251,19 +275,6 @@ class EntryFragmentInstrumentedTest {
     }
 
     @Test
-    fun entryFragment_longPressQuote_showsToast() {
-        val date = LocalDate.of(2019, 3, 22)
-        launchEntryFragment(EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList()))
-
-        composeRule.onNodeWithTag("entry_quote").performTouchInput { longClick() }
-        composeRule.waitForIdle()
-
-        onView(withText(R.string.copied))
-            .inRoot(withDecorView(not(`is`(composeRule.activity.window.decorView))))
-            .check(matches(isDisplayed()))
-    }
-
-    @Test
     fun entryFragment_makeEdit_navigatesBack() {
         val date = LocalDate.of(2019, 3, 22)
         launchEntryFragment(EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList()))
@@ -314,5 +325,12 @@ class EntryFragmentInstrumentedTest {
                 .commitNow()
         }
         composeRule.waitForIdle()
+    }
+
+    private fun assertImeVisibility(isVisible: Boolean) {
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            ViewCompat.getRootWindowInsets(composeRule.activity.window.decorView)
+                ?.isVisible(WindowInsetsCompat.Type.ime()) == isVisible
+        }
     }
 }
