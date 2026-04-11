@@ -1,428 +1,160 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagingData
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import com.google.common.truth.Truth.assertThat
+import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.model.Milestone
-import journal.gratitude.com.gratitudejournal.model.TimelineItem
+import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ShouldShowReminderOnboardingUseCase
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.testUtils.MainDispatcherRule
-import journal.gratitude.com.gratitudejournal.util.LiveDataTestUtil
-import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.threeten.bp.LocalDate
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class TimelineViewModelTest {
 
-    private val repository = mock<EntryRepository>()
-
-    @Rule
-    @JvmField
-    val rule = InstantTaskExecutorRule()
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
+    private lateinit var repository: TestTimelineRepository
+    private lateinit var settings: PresentlySettings
+    private lateinit var analytics: AnalyticsLogger
+
     @Before
     fun setUp() {
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(flowOf(emptyList()))
-            whenever(repository.getWrittenDates()).thenReturn(MutableLiveData(emptyList()))
-        }
+        repository = TestTimelineRepository()
+        settings = mock()
+        analytics = mock()
+        whenever(settings.shouldShowDayOfWeekInTimeline()).thenReturn(false)
+        whenever(settings.getLinesPerEntryInTimeline()).thenReturn(10)
+        whenever(settings.hasSeenReminderOnboarding()).thenReturn(false)
     }
 
     @Test
-    fun init_emptyList_returnListWithTodayEntry() {
-        val todayEntry = Entry(LocalDate.now(), "")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
+    fun init_loadsTimelineRowsAndWrittenDates() = runTest {
+        val today = LocalDate.now()
+        repository.entriesFlow.emit(
+            listOf(
+                Entry(today, "Today"),
+                Entry(today.minusDays(1), "Yesterday")
+            )
+        )
+        repository.writtenDates.value = listOf(today, today.minusDays(1))
 
-        val expectedLiveData = MutableLiveData<List<Entry>>()
-        expectedLiveData.postValue(emptyList())
+        val viewModel = createViewModel()
+        advanceUntilIdle()
 
-        val mockFlow = flow {
-            emit(emptyList<Entry>())
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
-        val viewModel = TimelineViewModel(repository)
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-
-        assertEquals(listOf(todayEntry, yesterdayEntry), actual)
+        assertThat(viewModel.state.value.items.filterIsInstance<TimelineEntryRowState>()).hasSize(2)
+        assertThat(viewModel.state.value.writtenDates).containsExactly(today, today.minusDays(1))
     }
 
     @Test
-    fun init_emptylistWithoutTodayOrYesterdayWritten_addsEmptyTodayAndYesterdayEntries() {
-        val todayEntry = Entry(LocalDate.now(), "")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-        val mockFlow = flow {
-            emit(emptyList<Entry>())
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
+    fun onTimelineEntryClicked_emitsEntryEffectAndRecordsAnalytics() = runTest {
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        val entry = TimelineEntryRowState(
+            date = LocalDate.of(2026, 3, 28),
+            dateText = "March 28, 2026",
+            content = "",
+            emptyHint = null,
+            isCurrentDate = false,
+            isNewEntry = true,
+            numberExistingEntries = 4,
+            maxLines = 10,
+            isLastItem = false
+        )
 
-        val expectedList = listOf(todayEntry, yesterdayEntry)
+        val effect = async(start = CoroutineStart.UNDISPATCHED) { viewModel.effects.first() }
+        viewModel.onTimelineEntryClicked(entry)
 
-        val viewModel = TimelineViewModel(repository)
-
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-        assertEquals(expectedList, actual)
+        assertThat(effect.await()).isEqualTo(
+            TimelineEffect.OpenEntry(
+                clickedDate = entry.date,
+                isNewEntry = true,
+                numberExistingEntries = 4
+            )
+        )
+        verify(analytics).recordEvent("clickedNewEntry")
     }
 
     @Test
-    fun init_listWithoutTodayOrYesterdayWritten_addsEmptyTodayAndYesterdayEntriesToList() {
-        val todayEntry = Entry(LocalDate.now(), "")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-        val oldEntry = Entry(LocalDate.of(2011, 11, 11), "")
-        val oldEntry1 = Entry(LocalDate.of(2011, 11, 10), "")
-        val oldEntry2 = Entry(LocalDate.of(2011, 11, 9), "")
+    fun onCalendarClicked_updatesState() = runTest {
+        val viewModel = createViewModel()
+        advanceUntilIdle()
 
-        val list = listOf(oldEntry, oldEntry1, oldEntry2)
-        val mockFlow = flow {
-            emit(list)
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
+        viewModel.onCalendarClicked()
 
-        val expectedList = listOf(todayEntry, yesterdayEntry, oldEntry, oldEntry1, oldEntry2)
-
-        val viewModel = TimelineViewModel(repository)
-
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-        assertEquals(expectedList, actual)
+        assertThat(viewModel.state.value.isCalendarVisible).isTrue()
+        verify(analytics).recordEvent("clickedCalendar")
     }
 
     @Test
-    fun init_listWithTodayAndYesterdayWritten_returnsOriginalList() {
-        val todayEntry = Entry(LocalDate.now(), "hello!")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "howdy")
-        val expectedList = listOf(todayEntry, yesterdayEntry)
-        val mockFlow = flow {
-            emit(expectedList)
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
+    fun onBackPressed_whenCalendarVisible_hidesCalendar() = runTest {
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onCalendarClicked()
 
-        val viewModel = TimelineViewModel(repository)
+        viewModel.onBackPressed()
 
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-        assertEquals(expectedList, actual)
+        assertThat(viewModel.state.value.isCalendarVisible).isFalse()
     }
 
     @Test
-    fun init_listWithTodayWrittenNoYesterday_returnsOriginalListPlusYesterday() {
-        val todayEntry = Entry(LocalDate.now(), "hello!")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-        val oldEntry = Entry(LocalDate.of(2011, 11, 11), "")
-        val expectedList = listOf(todayEntry, yesterdayEntry, oldEntry)
-        val mockFlow = flow {
-            emit(expectedList)
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
+    fun onReminderOnboardingResult_emitsPromptEffect() = runTest {
+        val viewModel = createViewModel()
+        advanceUntilIdle()
 
-        val viewModel = TimelineViewModel(repository)
+        viewModel.onReminderOnboardingResult(savedBrandNewFirstEntry = true)
 
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-        assertEquals(expectedList, actual)
+        assertThat(viewModel.state.value.showReminderOnboardingPrompt).isTrue()
     }
 
-    @Test
-    fun init_listWithTodayWrittenNoYesterday_returnsTodayPlusYesterday() {
-        val todayEntry = Entry(LocalDate.now(), "hello!")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-        val expectedList = listOf(todayEntry, yesterdayEntry)
-        val mockFlow = flow {
-            emit(expectedList)
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
-
-        val viewModel = TimelineViewModel(repository)
-
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-        assertEquals(expectedList, actual)
+    private fun createViewModel(): TimelineViewModel {
+        return TimelineViewModel(
+            repository = repository,
+            settings = settings,
+            analytics = analytics,
+            shouldShowReminderOnboarding = ShouldShowReminderOnboardingUseCase()
+        )
     }
+}
 
-    @Test
-    fun init_listWithYesterdayWrittenNoToday_returnsOriginalListPlusToday() {
-        val todayEntry = Entry(LocalDate.now(), "")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-        val oldEntry = Entry(LocalDate.of(2011, 11, 11), "")
-        val expectedList = listOf(todayEntry, yesterdayEntry, oldEntry)
-        val mockFlow = flow {
-            emit(expectedList)
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
+private class TestTimelineRepository : EntryRepository {
+    val entriesFlow = MutableSharedFlow<List<Entry>>(replay = 1)
+    val writtenDates = MutableLiveData<List<LocalDate>>(emptyList())
 
-        val viewModel = TimelineViewModel(repository)
+    override suspend fun getEntry(date: LocalDate): Entry? = null
 
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-        assertEquals(expectedList, actual)
-    }
+    override suspend fun getEntriesFlow(): Flow<List<Entry>> = entriesFlow
 
-    @Test
-    fun init_listWithYesterdayWrittenNoToday_returnsYesterdayPlusToday() {
-        val todayEntry = Entry(LocalDate.now(), "")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-        val expectedList = listOf(todayEntry, yesterdayEntry)
-        val mockFlow = flow {
-            emit(expectedList)
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
+    override suspend fun getEntries(): List<Entry> = emptyList()
 
-        val viewModel = TimelineViewModel(repository)
+    override fun getWrittenDates(): LiveData<List<LocalDate>> = writtenDates
 
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-        assertEquals(expectedList, actual)
-    }
+    override suspend fun addEntry(entry: Entry) = Unit
 
-    @Test
-    fun init_listWithFiveEntries_returnsFiveEntriesAndMilestone() {
-        val todayEntry = Entry(LocalDate.now(), "content")
-        val writtenDates = mutableListOf<Entry>()
-        val expectedList = mutableListOf<TimelineItem>()
-        writtenDates.add(todayEntry)
-        for (i in 1L until 5L) {
-            writtenDates.add(Entry(LocalDate.now().minusDays(i), "content"))
-        }
-        expectedList.add(Milestone.create(5))
-        expectedList.addAll(writtenDates)
+    override suspend fun addEntries(entries: List<Entry>) = Unit
 
-        val mockFlow = flow {
-            emit(writtenDates)
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
-
-        val viewModel = TimelineViewModel(repository)
-
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-        assertEquals(expectedList, actual)
-    }
-
-    @Test
-    fun init_listWithFiveEntriesWrittenThreeDaysAgo_returnsFiveEntriesAndMilestoneAndHints() {
-        val firstEntry = Entry(LocalDate.now().minusDays(3), "content")
-        val writtenDates = mutableListOf<Entry>()
-        val expectedList = mutableListOf<TimelineItem>()
-        writtenDates.add(firstEntry)
-        for (i in 1L until 5L) {
-            writtenDates.add(Entry(LocalDate.now().minusDays(3 + i), "content"))
-        }
-
-        //empty entries for user to fill in today and yesterday
-        val todayEntry = Entry(LocalDate.now(), "")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-
-        expectedList.add(todayEntry)
-        expectedList.add(yesterdayEntry)
-        expectedList.add(Milestone.create(5))
-        expectedList.addAll(writtenDates)
-
-        val mockFlow = flow {
-            emit(writtenDates)
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
-
-        val viewModel = TimelineViewModel(repository)
-
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-        assertEquals(expectedList, actual)
-    }
-
-    @Test
-    fun init_listWithFiveEntriesWrittenYesterday_returnsFiveEntriesAndMilestoneAndOneHint() {
-        val writtenDates = mutableListOf<Entry>()
-        val expectedList = mutableListOf<TimelineItem>()
-
-        val pastDays = mutableListOf<Entry>()
-        for (i in 0L until 5L) {
-            pastDays.add(Entry(LocalDate.now().minusDays(1 + i), "content"))
-        }
-        writtenDates.addAll(pastDays)
-
-        //empty entry for user to fill in today
-        val todayEntry = Entry(LocalDate.now(), "")
-
-        expectedList.add(todayEntry)
-        expectedList.add(Milestone.create(5))
-        expectedList.addAll(pastDays)
-
-        val mockFlow = flow {
-            emit(writtenDates)
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
-
-        val viewModel = TimelineViewModel(repository)
-
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-        assertEquals(expectedList, actual)
-    }
-
-    @Test
-    fun init_listWithFiveEntriesWrittenWithGapYesterday_returnsFiveEntriesAndMilestoneAndOneHintInCorrectOrder() {
-        //the milestone entry is written today and yesterday was not filled in
-        //the milestone should appear before today's entry which is followed by a hint
-
-        val todayEntry = Entry(LocalDate.now(), "content")
-        val writtenDates = mutableListOf<Entry>()
-        val expectedList = mutableListOf<TimelineItem>()
-        writtenDates.add(todayEntry)
-        val pastDays = mutableListOf<Entry>()
-        for (i in 1L until 5L) {
-            pastDays.add(Entry(LocalDate.now().minusDays(5 + i), "content"))
-        }
-        writtenDates.addAll(pastDays)
-
-        //empty entry for user to fill in yesterday
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-
-        expectedList.add(Milestone.create(5))
-        expectedList.add(todayEntry)
-        expectedList.add(yesterdayEntry)
-        expectedList.addAll(pastDays)
-
-        val mockFlow = flow {
-            emit(writtenDates)
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
-
-        val viewModel = TimelineViewModel(repository)
-
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-        assertEquals(expectedList, actual)
-    }
-
-    @Test
-    fun init_listWithMilestoneWrittenYesterday_returnsFiveEntriesAndMilestoneAndOneHintInCorrectOrder() {
-        //the milestone entry is written yesterday and today is not filled in
-        //the milestone should appear after today's entry and then followed by a hint
-
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "content")
-        val writtenDates = mutableListOf<Entry>()
-        val expectedList = mutableListOf<TimelineItem>()
-        writtenDates.add(yesterdayEntry)
-        val pastDays = mutableListOf<Entry>()
-        for (i in 1L until 5L) {
-            //write four entries in the past
-            pastDays.add(Entry(LocalDate.now().minusDays(10 + i), "content"))
-        }
-        writtenDates.addAll(pastDays)
-
-        //empty entry for user to fill in today
-        val todayEntry = Entry(LocalDate.now(), "")
-
-        expectedList.add(todayEntry)
-        expectedList.add(Milestone.create(5))
-        expectedList.add(yesterdayEntry)
-        expectedList.addAll(pastDays)
-
-        val mockFlow = flow {
-            emit(writtenDates)
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
-
-        val viewModel = TimelineViewModel(repository)
-
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-        assertEquals(expectedList, actual)
-    }
-
-    @Test
-    fun init_listWithMultipleMilestones_returnsCorrectOrderList() {
-        //multiple milestones written in the past
-
-        val writtenDates = mutableListOf<Entry>()
-        val expectedList = mutableListOf<TimelineItem>()
-        val pastDays = mutableListOf<Entry>()
-        for (i in 5L until 10L) {
-            //write five entries in the past
-            pastDays.add(Entry(LocalDate.now().minusDays(i), "content"))
-        }
-        val morePastDays = mutableListOf<Entry>()
-        for (i in 10L until 15L) {
-            //write five entries in the more distant past
-            morePastDays.add(Entry(LocalDate.now().minusDays(10 + i), "content"))
-        }
-        writtenDates.addAll(pastDays)
-        writtenDates.addAll(morePastDays)
-
-        //empty entries for user to fill in today and yesterday
-        val todayEntry = Entry(LocalDate.now(), "")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "")
-
-        expectedList.add(todayEntry)
-        expectedList.add(yesterdayEntry)
-        expectedList.add(Milestone.create(10))
-        expectedList.addAll(pastDays)
-        expectedList.add(Milestone.create(5))
-        expectedList.addAll(morePastDays)
-
-        val mockFlow = flow {
-            emit(writtenDates)
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
-
-        val viewModel = TimelineViewModel(repository)
-
-        val actual = LiveDataTestUtil.getValue(viewModel.entries)
-        assertEquals(expectedList, actual)
-    }
-
-    @Test
-    fun getEntriesList_returnsEntries() {
-        val todayEntry = Entry(LocalDate.now(), "hello!")
-        val yesterdayEntry = Entry(LocalDate.now().minusDays(1), "howdy")
-        val expectedList = listOf(todayEntry, yesterdayEntry)
-        val mockFlow = flow {
-            emit(expectedList)
-        }
-        runBlocking {
-            whenever(repository.getEntriesFlow()).thenReturn(mockFlow)
-        }
-
-        val viewModel = TimelineViewModel(repository)
-        LiveDataTestUtil.getValue(viewModel.entries) //observe entries
-
-        val actual = viewModel.getTimelineItems()
-
-        assertEquals(expectedList, actual)
-    }
-
-    @Test
-    fun init_callsGetWrittenDates() {
-        TimelineViewModel(repository)
-
-        verify(repository, times(1)).getWrittenDates()
-    }
+    override fun searchEntries(query: String): Flow<PagingData<Entry>> = emptyFlow()
 }

@@ -1,21 +1,31 @@
 package journal.gratitude.com.gratitudejournal.ui
 
+import android.app.Activity
+import android.app.Instrumentation
+import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.view.View
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
-import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
 import androidx.test.espresso.intent.rule.IntentsRule
-import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -24,16 +34,16 @@ import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_VIEWED
 import journal.gratitude.com.gratitudejournal.model.Entry
+import journal.gratitude.com.gratitudejournal.reminders.onboarding.ui.DayOneDialogFragment
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.testUtils.launchFragmentInHiltContainer
 import journal.gratitude.com.gratitudejournal.testUtils.saveEntriesBlocking
 import journal.gratitude.com.gratitudejournal.testUtils.scroll
-import journal.gratitude.com.gratitudejournal.reminders.onboarding.ui.DayOneDialogFragment
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
-import org.hamcrest.CoreMatchers.not
+import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineScreenTags
+import org.hamcrest.CoreMatchers.allOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -72,71 +82,88 @@ class TimelineFragmentInstrumentedTest {
 
     @Test
     fun timelineFragment_showsTimeline() {
-        launchFragmentInHiltContainer<TimelineFragment>(
-            themeResId = R.style.Base_AppTheme
-        )
-        onView(withId(R.id.timeline_recycler_view)).check(matches(isDisplayed()))
+        launchTimelineInComposeContainer()
+
+        composeRule.onNodeWithTag(TimelineScreenTags.LIST).assertIsDisplayed()
     }
 
     @Test
     fun timelineFragment_clickCalendar_opensCalendar() {
-        launchFragmentInHiltContainer<TimelineFragment>()
+        launchTimelineInComposeContainer()
 
-        onView(withId(R.id.cal_fab)).perform(click())
+        composeRule.onNodeWithTag(TimelineScreenTags.CALENDAR_BUTTON).performClick()
 
-        onView(withId(R.id.entry_calendar)).check(matches(isDisplayed()))
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            composeRule.activity.findViewById<View>(R.id.entry_calendar) != null
+        }
     }
 
     @Test
     fun timelineFragment_openCalendar_clickingBack_closesCal() {
-        launchFragmentInHiltContainer<TimelineFragment>()
+        launchTimelineInComposeContainer()
 
-        onView(withId(R.id.cal_fab)).perform(click())
+        composeRule.onNodeWithTag(TimelineScreenTags.CALENDAR_BUTTON).performClick()
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            composeRule.activity.findViewById<View>(R.id.entry_calendar) != null
+        }
 
         pressBack()
 
-        onView(withId(R.id.entry_calendar)).check(matches(not(isDisplayed())))
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            composeRule.activity.findViewById<View>(R.id.entry_calendar) == null
+        }
     }
 
     @Test
     fun timelineFragment_openCalendar_clickingClose_closesCal() {
-        launchFragmentInHiltContainer<TimelineFragment>()
+        launchTimelineInComposeContainer()
 
-        onView(withId(R.id.cal_fab)).perform(click())
+        composeRule.onNodeWithTag(TimelineScreenTags.CALENDAR_BUTTON).performClick()
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            composeRule.activity.findViewById<View>(R.id.entry_calendar) != null
+        }
 
         onView(withId(R.id.close_button)).perform(click())
 
-        onView(withId(R.id.entry_calendar)).check(matches(not(isDisplayed())))
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            composeRule.activity.findViewById<View>(R.id.entry_calendar) == null
+        }
     }
 
     @Test
     fun timelineFragment_clickingSearchIcon_opensSearchScreen() {
-        val scenario = launchTimelineInContainerActivity()
+        launchTimelineInComposeContainer()
 
-        onView(withId(R.id.search_icon)).perform(click())
+        composeRule.onNodeWithContentDescription(
+            composeRule.activity.getString(R.string.search)
+        ).performClick()
 
-        assertCurrentFragmentIs<SearchFragment>(scenario)
+        assertCurrentFragmentIs<SearchFragment>()
     }
 
     @Test
-    fun timelineFragment_clickingSettingsButton_opensSettingsScreen() {
-        val scenario = launchTimelineInContainerActivity()
+    fun timelineFragment_clickingSettingsMenu_opensSettingsScreen() {
+        launchTimelineInComposeContainer()
 
-        onView(withId(R.id.overflow_button)).perform(click())
+        composeRule.onNodeWithContentDescription(
+            composeRule.activity.getString(R.string.settings)
+        ).performClick()
+        composeRule.onNodeWithText(
+            composeRule.activity.getString(R.string.notification_settings)
+        ).performClick()
 
-        assertCurrentFragmentIs<SettingsFragment>(scenario)
+        assertCurrentFragmentIs<SettingsFragment>()
     }
 
     @Test
     fun timelineFragment_clickingTimelineEntry_opensEntryScreen() {
         val today = LocalDate.now()
         repository.saveEntriesBlocking(listOf(Entry(today, "Test timeline entry")))
-        val scenario = launchTimelineInContainerActivity()
+        launchTimelineInComposeContainer()
 
-        onView(withId(R.id.timeline_recycler_view))
-            .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        composeRule.onNodeWithText("Test timeline entry").performClick()
 
-        assertCurrentFragmentIs<EntryFragment>(scenario)
+        assertCurrentFragmentIs<EntryFragment>()
     }
 
     @Test
@@ -158,38 +185,50 @@ class TimelineFragmentInstrumentedTest {
         assertThat(analytics.recordedEvents).contains(REMINDER_ONBOARDING_PROMPT_VIEWED)
     }
 
-    private fun launchTimelineInContainerActivity(): ActivityScenario<ContainerActivity> {
-        return ActivityScenario.launch(ContainerActivity::class.java).onActivity { activity ->
-            activity.supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container_fragment, TimelineFragment())
-                .commitNow()
-        }
+    @Test
+    fun timelineFragment_clicksOverflow_opensContact() {
+        launchTimelineInComposeContainer()
+
+        val intent = Intent()
+        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+        Intents.intending(anyIntent()).respondWith(intentResult)
+
+        composeRule.onNodeWithContentDescription(
+            composeRule.activity.getString(R.string.settings)
+        ).performClick()
+        composeRule.onNodeWithText("Contact Us").performClick()
+
+        val emails = arrayOf("gratitude.journal.app@gmail.com")
+        val subject = "In App Feedback"
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val packageName = context.packageName
+        val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+        val text = """
+                Device: ${Build.MODEL}
+                OS Version: ${Build.VERSION.RELEASE}
+                App Version: ${packageInfo.versionName}
+                
+                
+                """.trimIndent()
+
+        Intents.intended(
+            allOf(
+                hasAction(Intent.ACTION_SENDTO),
+                hasExtra(Intent.EXTRA_EMAIL, emails),
+                hasExtra(Intent.EXTRA_SUBJECT, subject),
+                hasExtra(Intent.EXTRA_TEXT, text)
+            )
+        )
     }
 
-    private fun launchTimelineWithFirstEntryScreen(): ActivityScenario<ContainerActivity> {
-        return ActivityScenario.launch(ContainerActivity::class.java).onActivity { activity ->
-            activity.supportFragmentManager
+    private fun launchTimelineInComposeContainer() {
+        composeRule.activity.runOnUiThread {
+            composeRule.activity.supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.container_fragment, TimelineFragment())
                 .commitNow()
-
-            activity.supportFragmentManager
-                .beginTransaction()
-                .replace(
-                    R.id.container_fragment,
-                    EntryFragment.newInstance(
-                        date = LocalDate.now(),
-                        numEntries = 0,
-                        isNewEntry = true,
-                        resources = activity.resources
-                    )
-                )
-                .addToBackStack(TimelineFragment.TIMELINE_TO_ENTRY)
-                .commit()
-
-            activity.supportFragmentManager.executePendingTransactions()
         }
+        composeRule.waitForIdle()
     }
 
     private fun launchTimelineWithFirstEntryScreenForCompose() {
@@ -218,11 +257,10 @@ class TimelineFragmentInstrumentedTest {
         composeRule.waitForIdle()
     }
 
-    private inline fun <reified T : Fragment> assertCurrentFragmentIs(
-        scenario: ActivityScenario<ContainerActivity>
-    ) {
-        scenario.onActivity { activity ->
-            val fragment = activity.supportFragmentManager.findFragmentById(R.id.container_fragment)
+    private inline fun <reified T : Fragment> assertCurrentFragmentIs() {
+        composeRule.activity.runOnUiThread {
+            val fragment =
+                composeRule.activity.supportFragmentManager.findFragmentById(R.id.container_fragment)
             assertThat(fragment).isInstanceOf(T::class.java)
         }
     }
@@ -234,5 +272,4 @@ class TimelineFragmentInstrumentedTest {
             )
         }
     }
-
 }

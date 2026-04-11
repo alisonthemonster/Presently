@@ -1,113 +1,78 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
-import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_VIEWED
-import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.model.*
-import journal.gratitude.com.gratitudejournal.ui.calendar.CalendarAnimation
-import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener
-import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ShouldShowReminderOnboardingUseCase
+import journal.gratitude.com.gratitudejournal.logging.CrashReporter
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.ui.DayOneDialogFragment
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
-import journal.gratitude.com.gratitudejournal.ui.setStatusBarColorsForBackground
-import dagger.hilt.android.AndroidEntryPoint
-import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
+import journal.gratitude.com.gratitudejournal.ui.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
-import journal.gratitude.com.gratitudejournal.util.toLocalDate
-import org.threeten.bp.LocalDate
-import java.util.*
+import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyTheme
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class TimelineFragment : Fragment() {
 
     private val viewModel: TimelineViewModel by viewModels()
-    @Inject lateinit var settings: PresentlySettings
-    @Inject lateinit var analyticsLogger: AnalyticsLogger
-    @Inject lateinit var shouldShowReminderOnboarding: ShouldShowReminderOnboardingUseCase
-
-    private lateinit var adapter: TimelineAdapter
-
-    private var _binding: TimelineFragmentBinding? = null
-    private val binding get() = _binding!!
+    @Inject lateinit var crashReporter: CrashReporter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (!binding.entryCalendar.isVisible) {
-                    if (parentFragmentManager.backStackEntryCount > 0) {
-                        parentFragmentManager.popBackStack()
-                    } else {
-                        //nothing left in back stack we can finish the activity
-                        requireActivity().finish()
-                    }
-                } else {
-                    val animation = CalendarAnimation(binding.calFab, binding.entryCalendar)
-                    animation.closeCalendar()
-                }
+                viewModel.onBackPressed()
             }
-
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: android.view.LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = TimelineFragmentBinding.inflate(inflater, container, false)
-        return binding.root
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                PresentlyTheme {
+                    TimelineScreen(
+                        state = viewModel.state,
+                        onSearchClick = viewModel::onSearchClicked,
+                        onOverflowClick = viewModel::onOverflowMenuClicked,
+                        onOverflowDismiss = viewModel::onOverflowMenuDismissed,
+                        onSettingsClick = viewModel::onSettingsClicked,
+                        onContactClick = viewModel::onContactClicked,
+                        onTimelineEntryClick = viewModel::onTimelineEntryClicked,
+                        onCalendarClick = viewModel::onCalendarClicked,
+                        onCalendarClose = viewModel::onCalendarClosed,
+                        onCalendarDateClick = viewModel::onCalendarDateClicked
+                    )
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.timelineRecyclerView.layoutManager =
-            androidx.recyclerview.widget.LinearLayoutManager(context)
-
-        val showDayOfWeek = settings.shouldShowDayOfWeekInTimeline()
-        val linesPerEntry = settings.getLinesPerEntryInTimeline()
-        adapter = TimelineAdapter(
-            showDayOfWeek,
-            linesPerEntry,
-            object : OnClickListener {
-                override fun onClick(
-                    view: View,
-                    clickedDate: LocalDate,
-                    isNewEntry: Boolean,
-                    numEntries: Int
-                ) {
-                    if (isNewEntry) {
-                        analyticsLogger.recordEvent(CLICKED_NEW_ENTRY)
-                    } else {
-                        analyticsLogger.recordEvent(CLICKED_EXISTING_ENTRY)
-                    }
-                    navigateToDate(clickedDate, isNewEntry, numEntries)
-                }
-            })
-        binding.timelineRecyclerView.adapter = adapter
-
-        viewModel.entries.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
-        })
 
         parentFragmentManager.setFragmentResultListener(
             EntryFragment.REMINDER_ONBOARDING_TRIGGER_REQUEST_KEY,
@@ -115,65 +80,44 @@ class TimelineFragment : Fragment() {
         ) { _, bundle ->
             val savedBrandNewFirstEntry =
                 bundle.getBoolean(EntryFragment.REMINDER_ONBOARDING_TRIGGER_RESULT_KEY, false)
-
-            if (
-                shouldShowReminderOnboarding(
-                    savedBrandNewFirstEntry = savedBrandNewFirstEntry,
-                    hasSeenReminderOnboarding = settings.hasSeenReminderOnboarding()
-                )
-            ) {
-                openReminderOnboardingPrompt()
-            }
+            viewModel.onReminderOnboardingResult(savedBrandNewFirstEntry)
         }
 
-        binding.overflowButton.setOnClickListener { openSettings() }
-
-
-        viewModel.datesWritten.observe(viewLifecycleOwner, Observer { dates ->
-            binding.entryCalendar.setWrittenDates(dates)
-        })
-
-        binding.searchIcon.setOnClickListener {
-            analyticsLogger.recordEvent(CLICKED_SEARCH)
-            openSearchScreen()
-        }
-
-        binding.entryCalendar.setDayClickedListener(object : EntryCalendarListener {
-            override fun onCloseClicked() {
-                val animation = CalendarAnimation(binding.calFab, binding.entryCalendar)
-                animation.closeCalendar()
-            }
-
-            override fun onDateClicked(date: Date, isNewDate: Boolean, numberOfEntries: Int) {
-                if (isNewDate) {
-                    analyticsLogger.recordEvent(CLICKED_NEW_ENTRY_CALENDAR)
-                } else {
-                    analyticsLogger.recordEvent(CLICKED_EXISTING_ENTRY_CALENDAR)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.effects.collect { effect ->
+                    when (effect) {
+                        TimelineEffect.ExitTimeline -> {
+                            if (parentFragmentManager.backStackEntryCount > 0) {
+                                parentFragmentManager.popBackStack()
+                            } else {
+                                requireActivity().finish()
+                            }
+                        }
+                        is TimelineEffect.OpenEntry -> {
+                            navigateToDate(
+                                clickedDate = effect.clickedDate,
+                                isNewEntry = effect.isNewEntry,
+                                numEntries = effect.numberExistingEntries
+                            )
+                        }
+                        TimelineEffect.OpenSearch -> openSearchScreen()
+                        TimelineEffect.OpenSettings -> openSettings()
+                        TimelineEffect.OpenContactForm -> openContactForm()
+                    }
                 }
-
-                navigateToDate(date.toLocalDate(), isNewDate, numberOfEntries)
             }
-        })
-
-        binding.calFab.setOnClickListener {
-            analyticsLogger.recordEvent(OPENED_CALENDAR)
-
-            val animation = CalendarAnimation(binding.calFab, binding.entryCalendar)
-            animation.openCalendar()
         }
 
-        val titleTopMargin =
-            (binding.title.layoutParams as ViewGroup.MarginLayoutParams).topMargin
-
-        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
-            val statusBarTopInset = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-            v.updatePadding(
-                bottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-            )
-            binding.title.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                topMargin = titleTopMargin + statusBarTopInset
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { state ->
+                    if (state.showReminderOnboardingPrompt) {
+                        openReminderOnboardingPrompt()
+                        viewModel.onReminderOnboardingPromptHandled()
+                    }
+                }
             }
-            insets
         }
 
         val window = requireActivity().window
@@ -183,22 +127,25 @@ class TimelineFragment : Fragment() {
         setStatusBarColorsForBackground(window, typedValue.data)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onResume() {
+        super.onResume()
+        viewModel.onScreenResumed()
     }
 
     private fun openSearchScreen() {
         val fragment = SearchFragment()
         parentFragmentManager
             .beginTransaction()
-            .addSharedElement(binding.searchIcon, "search_transition")
             .replace(R.id.container_fragment, fragment)
             .addToBackStack(TIMELINE_TO_SEARCH)
             .commit()
     }
 
-    private fun navigateToDate(clickedDate: LocalDate, isNewEntry: Boolean, numEntries: Int) {
+    private fun navigateToDate(
+        clickedDate: org.threeten.bp.LocalDate,
+        isNewEntry: Boolean,
+        numEntries: Int
+    ) {
         val fragment = EntryFragment.newInstance(
             date = clickedDate,
             numEntries = numEntries,
@@ -212,9 +159,37 @@ class TimelineFragment : Fragment() {
             .commit()
     }
 
-    private fun openSettings() {
-        analyticsLogger.recordEvent(LOOKED_AT_SETTINGS)
+    private fun openContactForm() {
+        val context = context ?: return
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
 
+            val emails = arrayOf("gratitude.journal.app@gmail.com")
+            val subject = "In App Feedback"
+            putExtra(Intent.EXTRA_EMAIL, emails)
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+
+            val packageName = context.packageName
+            val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+            val text = """
+                Device: ${Build.MODEL}
+                OS Version: ${Build.VERSION.RELEASE}
+                App Version: ${packageInfo.versionName}
+                
+                
+                """.trimIndent()
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+
+        try {
+            startActivity(intent)
+        } catch (activityNotFoundException: ActivityNotFoundException) {
+            crashReporter.logHandledException(activityNotFoundException)
+            Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun openSettings() {
         val fragment = SettingsFragment()
         parentFragmentManager
             .beginTransaction()
@@ -231,7 +206,6 @@ class TimelineFragment : Fragment() {
             return
         }
 
-        analyticsLogger.recordEvent(REMINDER_ONBOARDING_PROMPT_VIEWED)
         DayOneDialogFragment()
             .show(parentFragmentManager, DayOneDialogFragment.TAG)
     }
