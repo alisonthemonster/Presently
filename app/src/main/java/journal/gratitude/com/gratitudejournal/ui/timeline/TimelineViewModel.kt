@@ -13,6 +13,7 @@ import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH
 import journal.gratitude.com.gratitudejournal.model.LOOKED_AT_SETTINGS
 import journal.gratitude.com.gratitudejournal.model.OPENED_CALENDAR
 import journal.gratitude.com.gratitudejournal.model.OPENED_CONTACT_FORM
+import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_VIEWED
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ShouldShowReminderOnboardingUseCase
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
@@ -144,6 +145,7 @@ class TimelineViewModel @Inject constructor(
                 hasSeenReminderOnboarding = settings.hasSeenReminderOnboarding()
             )
         ) {
+            analytics.recordEvent(REMINDER_ONBOARDING_PROMPT_VIEWED)
             _state.value = _state.value.copy(showReminderOnboardingPrompt = true)
         }
     }

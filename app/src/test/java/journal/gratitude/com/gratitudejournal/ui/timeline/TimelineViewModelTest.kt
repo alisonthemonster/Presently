@@ -9,6 +9,7 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.google.common.truth.Truth.assertThat
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
+import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_VIEWED
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ShouldShowReminderOnboardingUseCase
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
@@ -128,6 +129,7 @@ class TimelineViewModelTest {
         viewModel.onReminderOnboardingResult(savedBrandNewFirstEntry = true)
 
         assertThat(viewModel.state.value.showReminderOnboardingPrompt).isTrue()
+        verify(analytics).recordEvent(REMINDER_ONBOARDING_PROMPT_VIEWED)
     }
 
     private fun createViewModel(): TimelineViewModel {

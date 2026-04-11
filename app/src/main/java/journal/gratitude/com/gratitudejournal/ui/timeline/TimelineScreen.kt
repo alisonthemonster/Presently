@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.DropdownMenu
@@ -281,11 +283,12 @@ private fun TimelineEntryRow(
 ) {
     val theme = LocalPresentlyTheme.current
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
             .testTag(TimelineScreenTags.entry(state.date.toString()))
+            .padding(bottom = if (state.isLastItem) 14.dp else 0.dp)
     ) {
         Box(
             modifier = Modifier
@@ -294,8 +297,9 @@ private fun TimelineEntryRow(
         ) {
             Box(
                 modifier = Modifier
-                    .offset(x = 32.dp, y = 0.dp)
-                    .size(width = 3.dp, height = if (state.isLastItem) 184.dp else 170.dp)
+                    .offset(x = 32.dp)
+                    .fillMaxHeight()
+                    .width(3.dp)
                     .background(theme.timelineLine)
             )
 
@@ -341,23 +345,25 @@ private fun TimelineEntryRow(
                     }
                 }
 
-                Image(
-                    painter = painterResource(theme.timelineIconRes),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 80.dp, top = 16.dp, end = 80.dp, bottom = 32.dp)
-                        .height(80.dp),
-                    contentScale = ContentScale.Fit
-                )
+                if (state.isLastItem) {
+                    Image(
+                        painter = painterResource(theme.timelineIconRes),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 80.dp, top = 16.dp, end = 80.dp, bottom = 32.dp)
+                            .height(80.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                }
             }
         }
 
         if (state.isLastItem) {
             TimelineCircle(
                 modifier = Modifier
-                    .offset(x = 26.5.dp)
-                    .padding(bottom = 0.dp),
+                    .align(Alignment.BottomStart)
+                    .offset(x = 26.5.dp),
                 filled = true
             )
         }
@@ -376,8 +382,9 @@ private fun TimelineMilestoneRow(state: TimelineMilestoneRowState) {
     ) {
         Box(
             modifier = Modifier
-                .offset(x = 32.dp, y = 0.dp)
-                .size(width = 3.dp, height = 164.dp)
+                .offset(x = 32.dp)
+                .fillMaxHeight()
+                .width(3.dp)
                 .background(theme.timelineLine)
         )
 
