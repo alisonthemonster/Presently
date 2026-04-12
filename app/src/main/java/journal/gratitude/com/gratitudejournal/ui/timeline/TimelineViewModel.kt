@@ -10,6 +10,7 @@ import journal.gratitude.com.gratitudejournal.model.CLICKED_EXISTING_ENTRY_CALEN
 import journal.gratitude.com.gratitudejournal.model.CLICKED_NEW_ENTRY
 import journal.gratitude.com.gratitudejournal.model.CLICKED_NEW_ENTRY_CALENDAR
 import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH
+import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.LOOKED_AT_SETTINGS
 import journal.gratitude.com.gratitudejournal.model.OPENED_CALENDAR
 import journal.gratitude.com.gratitudejournal.model.OPENED_CONTACT_FORM
@@ -35,9 +36,8 @@ class TimelineViewModel @Inject constructor(
     private val shouldShowReminderOnboarding: ShouldShowReminderOnboardingUseCase
 ) : ViewModel() {
 
-    private val showDayOfWeek = settings.shouldShowDayOfWeekInTimeline()
-    private val linesPerEntry = settings.getLinesPerEntryInTimeline()
     private val writtenDatesLiveData = repository.getWrittenDates()
+    private var latestEntries = emptyList<Entry>()
 
     private val _state = MutableStateFlow(TimelineUiState())
     val state = _state.asStateFlow()
@@ -51,12 +51,8 @@ class TimelineViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             repository.getEntriesFlow().collect { entries ->
-                _state.value = _state.value.copy(
-                    items = entries.toTimelineRowStates(
-                        showDayOfWeek = showDayOfWeek,
-                        linesPerEntry = linesPerEntry
-                    )
-                )
+                latestEntries = entries
+                refreshTimelineRows()
             }
         }
 
@@ -138,6 +134,10 @@ class TimelineViewModel @Inject constructor(
         }
     }
 
+    fun onScreenResumed() {
+        refreshTimelineRows()
+    }
+
     fun onReminderOnboardingResult(savedBrandNewFirstEntry: Boolean) {
         if (
             shouldShowReminderOnboarding(
@@ -156,5 +156,14 @@ class TimelineViewModel @Inject constructor(
 
     private fun emitEffect(effect: TimelineEffect) {
         _effects.tryEmit(effect)
+    }
+
+    private fun refreshTimelineRows() {
+        _state.value = _state.value.copy(
+            items = latestEntries.toTimelineRowStates(
+                showDayOfWeek = settings.shouldShowDayOfWeekInTimeline(),
+                linesPerEntry = settings.getLinesPerEntryInTimeline()
+            )
+        )
     }
 }

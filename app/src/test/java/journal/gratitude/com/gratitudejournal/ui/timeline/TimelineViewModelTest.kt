@@ -28,6 +28,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.threeten.bp.LocalDate
+import journal.gratitude.com.gratitudejournal.util.toFullString
+import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class TimelineViewModelTest {
@@ -41,14 +43,16 @@ class TimelineViewModelTest {
     private lateinit var repository: TestTimelineRepository
     private lateinit var settings: PresentlySettings
     private lateinit var analytics: AnalyticsLogger
+    private var showDayOfWeek = false
+    private var linesPerEntry = 10
 
     @Before
     fun setUp() {
         repository = TestTimelineRepository()
         settings = mock()
         analytics = mock()
-        whenever(settings.shouldShowDayOfWeekInTimeline()).thenReturn(false)
-        whenever(settings.getLinesPerEntryInTimeline()).thenReturn(10)
+        whenever(settings.shouldShowDayOfWeekInTimeline()).thenAnswer { showDayOfWeek }
+        whenever(settings.getLinesPerEntryInTimeline()).thenAnswer { linesPerEntry }
         whenever(settings.hasSeenReminderOnboarding()).thenReturn(false)
     }
 
@@ -130,6 +134,33 @@ class TimelineViewModelTest {
 
         assertThat(viewModel.state.value.showReminderOnboardingPrompt).isTrue()
         verify(analytics).recordEvent(REMINDER_ONBOARDING_PROMPT_VIEWED)
+    }
+
+    @Test
+    fun onScreenResumed_refreshesRowsFromLatestSettings() = runTest {
+        val entryDate = LocalDate.of(2026, 4, 10)
+        repository.entriesFlow.emit(listOf(Entry(entryDate, "Entry content")))
+
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        val initialEntry = viewModel.state.value.items
+            .filterIsInstance<TimelineEntryRowState>()
+            .first { it.date == entryDate }
+        assertThat(initialEntry.dateText).isEqualTo(entryDate.toFullString())
+        assertThat(initialEntry.maxLines).isEqualTo(10)
+
+        showDayOfWeek = true
+        linesPerEntry = 2
+
+        viewModel.onScreenResumed()
+        advanceUntilIdle()
+
+        val refreshedEntry = viewModel.state.value.items
+            .filterIsInstance<TimelineEntryRowState>()
+            .first { it.date == entryDate }
+        assertThat(refreshedEntry.dateText).isEqualTo(entryDate.toStringWithDayOfWeek())
+        assertThat(refreshedEntry.maxLines).isEqualTo(2)
     }
 
     private fun createViewModel(): TimelineViewModel {
