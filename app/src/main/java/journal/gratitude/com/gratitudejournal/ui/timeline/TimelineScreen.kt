@@ -5,10 +5,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -195,6 +197,7 @@ fun TimelineScreenContent(
                     .align(Alignment.BottomEnd)
                     .padding(16.dp)
                     .testTag(TimelineScreenTags.CALENDAR_BUTTON),
+                shape = CircleShape,
                 containerColor = theme.fab,
                 contentColor = theme.fabText
             ) {
@@ -292,7 +295,7 @@ private fun TimelineEntryRow(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
+                .matchParentSize()
                 .clipToBounds()
         ) {
             Box(
@@ -302,60 +305,65 @@ private fun TimelineEntryRow(
                     .width(3.dp)
                     .background(theme.timelineLine)
             )
+        }
 
-            TimelineCircle(
-                modifier = Modifier.offset(x = 26.5.dp, y = 24.dp),
-                filled = state.isCurrentDate
-            )
-
-            Column(
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 24.dp)
+        ) {
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 55.dp, end = 24.dp, top = 18.dp)
+                    .padding(start = 26.5.dp, top = 24.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
+                TimelineCircle(
+                    filled = state.isCurrentDate
+                )
+                Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = state.dateText,
                     color = theme.timelineHeader,
                     fontFamily = PresentlyFontFamilies.accent,
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(top = 6.dp)
+                    fontSize = 20.sp
                 )
-                Box(
+            }
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp)
-                ) {
+                    .padding(start = 55.dp, top = 8.dp)
+            ) {
+                Text(
+                    text = state.content,
+                    color = theme.timelineBody,
+                    fontFamily = PresentlyFontFamilies.body,
+                    fontSize = 16.sp,
+                    minLines = 3,
+                    maxLines = state.maxLines,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                if (state.emptyHint != null) {
                     Text(
-                        text = state.content,
-                        color = theme.timelineBody,
+                        text = stringResource(state.emptyHint),
+                        color = theme.timelineHint,
                         fontFamily = PresentlyFontFamilies.body,
-                        fontSize = 16.sp,
-                        minLines = 3,
-                        maxLines = state.maxLines,
-                        overflow = TextOverflow.Ellipsis
-                    )
-
-                    if (state.emptyHint != null) {
-                        Text(
-                            text = stringResource(state.emptyHint),
-                            color = theme.timelineHint,
-                            fontFamily = PresentlyFontFamilies.body,
-                            fontSize = 16.sp
-                        )
-                    }
-                }
-
-                if (state.isLastItem) {
-                    Image(
-                        painter = painterResource(theme.timelineIconRes),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 80.dp, top = 16.dp, end = 80.dp, bottom = 32.dp)
-                            .height(80.dp),
-                        contentScale = ContentScale.Fit
+                        fontSize = 16.sp
                     )
                 }
+            }
+
+            if (state.isLastItem) {
+                Image(
+                    painter = painterResource(theme.timelineIconRes),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 80.dp, top = 16.dp, end = 80.dp, bottom = 32.dp)
+                        .height(80.dp),
+                    contentScale = ContentScale.Fit
+                )
             }
         }
 
@@ -377,44 +385,48 @@ private fun TimelineMilestoneRow(state: TimelineMilestoneRowState) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clipToBounds()
             .testTag(TimelineScreenTags.milestone(state.number))
     ) {
         Box(
             modifier = Modifier
-                .offset(x = 32.dp)
-                .fillMaxHeight()
-                .width(3.dp)
-                .background(theme.timelineLine)
-        )
-
-        TimelineCircle(
-            modifier = Modifier.offset(x = 26.5.dp, y = 24.dp),
-            filled = false
-        )
+                .matchParentSize()
+                .clipToBounds()
+        ) {
+            Box(
+                modifier = Modifier
+                    .offset(x = 32.dp)
+                    .fillMaxHeight()
+                    .width(3.dp)
+                    .background(theme.timelineLine)
+            )
+        }
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 55.dp, end = 24.dp, top = 18.dp)
+                .padding(end = 24.dp)
         ) {
             Row(
-                verticalAlignment = Alignment.Bottom,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 26.5.dp, top = 24.dp),
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
             ) {
+                TimelineCircle(filled = false)
+                Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = state.numberText,
                     color = theme.timelineHeader,
                     fontFamily = PresentlyFontFamilies.accent,
-                    fontSize = 36.sp,
-                    modifier = Modifier.padding(top = 6.dp)
+                    fontSize = 36.sp
                 )
                 Text(
                     text = stringResource(R.string.days_of),
                     color = theme.timelineHeader,
                     fontFamily = PresentlyFontFamilies.accent,
                     fontSize = 20.sp,
-                    modifier = Modifier.padding(start = 8.dp, bottom = 4.dp)
+                    modifier = Modifier.padding(start = 8.dp)
                 )
             }
 
@@ -433,7 +445,7 @@ private fun TimelineMilestoneRow(state: TimelineMilestoneRowState) {
 
 @Composable
 private fun TimelineCircle(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     filled: Boolean
 ) {
     val theme = LocalPresentlyTheme.current
