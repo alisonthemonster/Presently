@@ -34,6 +34,13 @@
             android:summaryOn="@string/exact_alarms_on"
             android:title="@string/exact_alarms_title" />
 
+        <!-- todo add an icon-->
+        <Preference
+            android:key="notification_troubleshooter"
+            android:singleLineTitle="false"
+            android:title="@string/notifications_not_working"
+            app:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
