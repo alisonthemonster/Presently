@@ -65,13 +65,14 @@ class SettingsFragmentInstrumentedTest {
         val packageName = context.packageName
         val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
         val emails = arrayOf("gratitude.journal.app@gmail.com")
-        val subject = context.getString(R.string.contact_us_email_subject)
-        val text = context.getString(
-            R.string.contact_us_email_body,
-            Build.MODEL,
-            Build.VERSION.RELEASE,
-            packageInfo.versionName
-        )
+        val subject = "In App Feedback"
+        val text = """
+            Device: ${Build.MODEL}
+            OS Version: ${Build.VERSION.RELEASE}
+            App Version: ${packageInfo.versionName}
+
+
+            """.trimIndent()
 
         Intents.intended(
             allOf(
@@ -82,4 +83,5 @@ class SettingsFragmentInstrumentedTest {
             )
         )
     }
+
 }
