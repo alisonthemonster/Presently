@@ -68,6 +68,7 @@ import java.nio.charset.Charset
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat(),
@@ -158,7 +159,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             openContactForm()
             true
         }
-        //endregion
 
         val theme = findPreference<Preference>(THEME_PREF)
         theme?.setOnPreferenceClickListener {
@@ -559,17 +559,19 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val context = context ?: return
         val packageName = context.packageName
         val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
-        val emailBody = getString(
-            R.string.contact_us_email_body,
-            Build.MODEL,
-            Build.VERSION.RELEASE,
-            packageInfo.versionName
-        )
+        val text = """
+                Device: ${Build.MODEL}
+                OS Version: ${Build.VERSION.RELEASE}
+                App Version: ${packageInfo.versionName}
+                
+                
+                """.trimIndent()
+        val subject = "In App Feedback"
         val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:")
+            data = "mailto:".toUri()
             putExtra(Intent.EXTRA_EMAIL, arrayOf("gratitude.journal.app@gmail.com"))
-            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact_us_email_subject))
-            putExtra(Intent.EXTRA_TEXT, emailBody)
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, text)
         }
 
         try {
