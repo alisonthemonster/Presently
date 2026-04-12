@@ -180,5 +180,10 @@
             android:icon="@drawable/ic_tiny_flower"
             android:key="@string/key_version"
             android:title="@string/version_number" />
+
+        <Preference
+            android:key="@string/key_contact_us"
+            android:icon="@drawable/email"
+            android:title="@string/contact_us" />
     </PreferenceCategory>
 </PreferenceScreen>

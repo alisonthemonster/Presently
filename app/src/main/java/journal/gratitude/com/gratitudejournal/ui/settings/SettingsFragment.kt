@@ -68,6 +68,7 @@ import java.nio.charset.Charset
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat(),
@@ -153,7 +154,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val version = findPreference<Preference>(VERSION_PREF)
         val versionNum = BuildConfig.VERSION_NAME
         version?.summary = versionNum
-        //endregion
+        val contactUs = findPreference<Preference>(getString(R.string.key_contact_us))
+        contactUs?.setOnPreferenceClickListener {
+            openContactForm()
+            true
+        }
 
         val theme = findPreference<Preference>(THEME_PREF)
         theme?.setOnPreferenceClickListener {
@@ -542,6 +547,35 @@ class SettingsFragment : PreferenceFragmentCompat(),
                         Uri.parse("https://presently-app.firebaseapp.com/faq.html")
                 )
             startActivity(browserIntent)
+        } catch (activityNotFoundException: ActivityNotFoundException) {
+            Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
+            crashReporter.logHandledException(activityNotFoundException)
+        }
+    }
+
+    private fun openContactForm() {
+        analytics.recordEvent(OPENED_CONTACT_FORM)
+
+        val context = context ?: return
+        val packageName = context.packageName
+        val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+        val text = """
+                Device: ${Build.MODEL}
+                OS Version: ${Build.VERSION.RELEASE}
+                App Version: ${packageInfo.versionName}
+                
+                
+                """.trimIndent()
+        val subject = "In App Feedback"
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = "mailto:".toUri()
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("gratitude.journal.app@gmail.com"))
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+
+        try {
+            startActivity(intent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
             crashReporter.logHandledException(activityNotFoundException)
