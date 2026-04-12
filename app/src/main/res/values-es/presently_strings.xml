@@ -10,8 +10,6 @@
     <string name="faq">Preguntas más frecuentes</string>
     <string name="read_faq">Leer las preguntas más frecuentes acerca de Presently</string>
     <string name="contact_us">Contacto</string>
-    <string name="contact_us_email_subject">Comentarios en la aplicación</string>
-    <string name="contact_us_email_body">Dispositivo: %1$s\nVersión del sistema operativo: %2$s\nVersión de la aplicación: %3$s\n\n</string>
     <string name="terms_conditions">Términos y condiciones</string>
     <string name="read_tc">Leer nuestros términos y condiciones</string>
     <string name="channel_name">Recordatorio de Presently</string>

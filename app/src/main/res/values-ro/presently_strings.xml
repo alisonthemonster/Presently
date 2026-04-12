@@ -11,8 +11,6 @@
     <string name="faq">Întrebări frecvente</string>
     <string name="read_faq">Citește întrebările frecvente</string>
     <string name="contact_us">Contactează-ne</string>
-    <string name="contact_us_email_subject">Feedback în aplicație</string>
-    <string name="contact_us_email_body">Dispozitiv: %1$s\nVersiunea sistemului de operare: %2$s\nVersiunea aplicației: %3$s\n\n</string>
     <string name="terms_conditions">Termeni &amp; Condiții</string>
     <string name="read_tc">Citește termenii &amp; condițiile</string>
     <string name="channel_name">Presently Reminder</string>

@@ -10,8 +10,6 @@
     <string name="faq">FAQ</string>
     <string name="read_faq">Prečitať najčastejšie otázky (EN)</string>
     <string name="contact_us">Kontakt</string>
-    <string name="contact_us_email_subject">Spätná väzba v aplikácii</string>
-    <string name="contact_us_email_body">Zariadenie: %1$s\nVerzia operačného systému: %2$s\nVerzia aplikácie: %3$s\n\n</string>
     <string name="terms_conditions">Podmienky</string>
     <string name="read_tc">Prečítať podmienky (EN)</string>
     <string name="channel_name">Presently pripomienka</string>
