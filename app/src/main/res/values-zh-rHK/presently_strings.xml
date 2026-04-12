@@ -12,6 +12,8 @@
     <string name="faq">常見問題</string>
     <string name="read_faq">閱讀 Presently 的常見問題</string>
     <string name="contact_us">聯繫我們</string>
+    <string name="contact_us_email_subject">應用程式內回饋</string>
+    <string name="contact_us_email_body">裝置：%1$s\n作業系統版本：%2$s\n應用程式版本：%3$s\n\n</string>
     <string name="terms_conditions">條款及細則</string>
     <string name="read_tc">閱讀條款及細則</string>
     <string name="channel_name">Presently 提醒</string>

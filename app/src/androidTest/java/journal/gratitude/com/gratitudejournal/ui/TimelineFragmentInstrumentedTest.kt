@@ -10,6 +10,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.fragment.app.Fragment
+import androidx.preference.R as PreferenceR
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ActivityScenario
@@ -126,11 +127,10 @@ class TimelineFragmentInstrumentedTest {
     }
 
     @Test
-    fun timelineFragment_clickingSettingsMenu_opensSettingsScreen() {
+    fun timelineFragment_clickingSettingsButton_opensSettingsScreen() {
         val scenario = launchTimelineInContainerActivity()
 
         onView(withId(R.id.overflow_button)).perform(click())
-        onView(withText(R.string.notification_settings)).perform(click())
 
         assertCurrentFragmentIs<SettingsFragment>(scenario)
     }
@@ -167,30 +167,32 @@ class TimelineFragmentInstrumentedTest {
     }
 
     @Test
-    fun timelineFragment_clicksOverflow_opensContact() {
-        launchFragmentInHiltContainer<TimelineFragment>()
+    fun settingsFragment_clickingContactUs_opensContact() {
+        launchFragmentInHiltContainer<SettingsFragment>()
 
         val intent = Intent()
         val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
         Intents.intending(anyIntent()).respondWith(intentResult)
 
-        onView(withId(R.id.overflow_button)).perform(click())
+        onView(withId(PreferenceR.id.recycler_view))
+            .perform(
+                androidx.test.espresso.contrib.RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(
+                    hasDescendant(withText(R.string.contact_us))
+                )
+            )
+        onView(withText(R.string.contact_us)).perform(click())
 
-        onView(withText("Contact Us"))
-            .perform(click())
-
-        val emails = arrayOf("gratitude.journal.app@gmail.com")
-        val subject = "In App Feedback"
         val context = ApplicationProvider.getApplicationContext<Context>()
         val packageName = context.packageName
         val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
-        val text = """
-                Device: ${Build.MODEL}
-                OS Version: ${Build.VERSION.RELEASE}
-                App Version: ${packageInfo.versionName}
-                
-                
-                """.trimIndent()
+        val emails = arrayOf("gratitude.journal.app@gmail.com")
+        val subject = context.getString(R.string.contact_us_email_subject)
+        val text = context.getString(
+            R.string.contact_us_email_body,
+            Build.MODEL,
+            Build.VERSION.RELEASE,
+            packageInfo.versionName
+        )
 
         Intents.intended(
             allOf(

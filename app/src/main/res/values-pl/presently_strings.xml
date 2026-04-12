@@ -9,6 +9,8 @@
     <string name="faq">FAQ</string>
     <string name="read_faq">Przeczytaj najczęściej zadawane pytania dotyczące Presently</string>
     <string name="contact_us">Skontaktuj się z nami</string>
+    <string name="contact_us_email_subject">Opinie w aplikacji</string>
+    <string name="contact_us_email_body">Urządzenie: %1$s\nWersja systemu operacyjnego: %2$s\nWersja aplikacji: %3$s\n\n</string>
     <string name="terms_conditions">Regulamin</string>
     <string name="read_tc">Przeczytaj nasz regulamin</string>
     <string name="channel_name">Przypomnienie o wpisie</string>

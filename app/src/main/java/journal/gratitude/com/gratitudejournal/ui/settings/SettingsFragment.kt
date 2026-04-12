@@ -153,6 +153,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val version = findPreference<Preference>(VERSION_PREF)
         val versionNum = BuildConfig.VERSION_NAME
         version?.summary = versionNum
+        val contactUs = findPreference<Preference>(getString(R.string.key_contact_us))
+        contactUs?.setOnPreferenceClickListener {
+            openContactForm()
+            true
+        }
         //endregion
 
         val theme = findPreference<Preference>(THEME_PREF)
@@ -542,6 +547,33 @@ class SettingsFragment : PreferenceFragmentCompat(),
                         Uri.parse("https://presently-app.firebaseapp.com/faq.html")
                 )
             startActivity(browserIntent)
+        } catch (activityNotFoundException: ActivityNotFoundException) {
+            Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
+            crashReporter.logHandledException(activityNotFoundException)
+        }
+    }
+
+    private fun openContactForm() {
+        analytics.recordEvent(OPENED_CONTACT_FORM)
+
+        val context = context ?: return
+        val packageName = context.packageName
+        val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+        val emailBody = getString(
+            R.string.contact_us_email_body,
+            Build.MODEL,
+            Build.VERSION.RELEASE,
+            packageInfo.versionName
+        )
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("gratitude.journal.app@gmail.com"))
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact_us_email_subject))
+            putExtra(Intent.EXTRA_TEXT, emailBody)
+        }
+
+        try {
+            startActivity(intent)
         } catch (activityNotFoundException: ActivityNotFoundException) {
             Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
             crashReporter.logHandledException(activityNotFoundException)
