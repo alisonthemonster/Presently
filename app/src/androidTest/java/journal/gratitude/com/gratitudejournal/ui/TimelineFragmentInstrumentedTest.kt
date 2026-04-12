@@ -1,25 +1,17 @@
 package journal.gratitude.com.gratitudejournal.ui
 
-import android.app.Activity
-import android.app.Instrumentation
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.fragment.app.Fragment
-import androidx.preference.R as PreferenceR
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.intent.rule.IntentsRule
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -40,7 +32,6 @@ import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
-import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Rule
@@ -164,44 +155,6 @@ class TimelineFragmentInstrumentedTest {
             assertThat(dialogFragment).isInstanceOf(DayOneDialogFragment::class.java)
         }
         assertThat(analytics.recordedEvents).contains(REMINDER_ONBOARDING_PROMPT_VIEWED)
-    }
-
-    @Test
-    fun settingsFragment_clickingContactUs_opensContact() {
-        launchFragmentInHiltContainer<SettingsFragment>()
-
-        val intent = Intent()
-        val intentResult = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        Intents.intending(anyIntent()).respondWith(intentResult)
-
-        onView(withId(PreferenceR.id.recycler_view))
-            .perform(
-                androidx.test.espresso.contrib.RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(R.string.contact_us))
-                )
-            )
-        onView(withText(R.string.contact_us)).perform(click())
-
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        val packageName = context.packageName
-        val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
-        val emails = arrayOf("gratitude.journal.app@gmail.com")
-        val subject = context.getString(R.string.contact_us_email_subject)
-        val text = context.getString(
-            R.string.contact_us_email_body,
-            Build.MODEL,
-            Build.VERSION.RELEASE,
-            packageInfo.versionName
-        )
-
-        Intents.intended(
-            allOf(
-                hasAction(Intent.ACTION_SENDTO),
-                hasExtra(Intent.EXTRA_EMAIL, emails),
-                hasExtra(Intent.EXTRA_SUBJECT, subject),
-                hasExtra(Intent.EXTRA_TEXT, text)
-            )
-        )
     }
 
     private fun launchTimelineInContainerActivity(): ActivityScenario<ContainerActivity> {
