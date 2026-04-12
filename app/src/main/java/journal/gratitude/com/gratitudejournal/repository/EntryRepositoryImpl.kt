@@ -48,11 +48,10 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         val escapedQuery = query.replace("\"", "")
         val wildcardQuery = String.format("*%s*", escapedQuery)
 
-        val searchAllEntries = entryDao.searchAllEntries(wildcardQuery)
         return Pager(
             PagingConfig(pageSize = PAGE_SIZE)
         ) {
-            searchAllEntries
+            entryDao.searchAllEntries(wildcardQuery)
         }.flow
 
     }

@@ -1,16 +1,25 @@
 package journal.gratitude.com.gratitudejournal.ui.repository
 
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.nhaarman.mockitokotlin2.*
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.repository.EntryRepositoryImpl
 import journal.gratitude.com.gratitudejournal.room.EntryDao
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.threeten.bp.LocalDate
 import kotlin.test.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class EntryRepositoryTest {
 
     private val entryDao = mock<EntryDao>()
@@ -18,7 +27,7 @@ class EntryRepositoryTest {
 
     @Before
     fun before() {
-        whenever(entryDao.searchAllEntries(any())).thenReturn(mock())
+        whenever(entryDao.searchAllEntries(any())).thenReturn(TestEntryPagingSource())
 
         repository = EntryRepositoryImpl(entryDao)
     }
@@ -102,26 +111,53 @@ class EntryRepositoryTest {
     fun searchEntries_callsDaoSearch() {
         repository.searchEntries("Howdy!")
 
+        verify(entryDao, never()).searchAllEntries(any())
+    }
+
+    @Test
+    fun searchEntries_collectingResultsCallsDaoSearch() = runTest {
+        repository.searchEntries("Howdy!").take(1).toList()
+
         verify(entryDao, times(1)).searchAllEntries(any())
     }
 
     @Test
-    fun searchEntries_callsDaoWithCorrectQuery() {
+    fun searchEntries_collectingResultsCallsDaoWithCorrectQuery() = runTest {
         val query = "Howdy!"
         val expectedQuery = "*$query*"
-        repository.searchEntries(query)
+        repository.searchEntries(query).take(1).toList()
 
         verify(entryDao).searchAllEntries(expectedQuery)
     }
 
     //Fixes crash with FTS and quotation marks
     @Test
-    fun searchEntries_removesQuotesFromQuery() {
+    fun searchEntries_removesQuotesFromQuery() = runTest {
         val query = "\"Howdy!\""
         val expectedQuery = "*Howdy!*"
-        repository.searchEntries(query)
+        repository.searchEntries(query).take(1).toList()
 
         verify(entryDao).searchAllEntries(expectedQuery)
+    }
+
+    @Test
+    fun searchEntries_invalidatingPagingSourceCreatesANewOne() = runTest {
+        val firstPagingSource = TestEntryPagingSource()
+        val secondPagingSource = TestEntryPagingSource()
+        whenever(entryDao.searchAllEntries(any())).thenReturn(firstPagingSource, secondPagingSource)
+
+        val collectJob = launch(UnconfinedTestDispatcher(testScheduler)) {
+            repository.searchEntries("Howdy!").take(2).toList()
+        }
+
+        advanceUntilIdle()
+        verify(entryDao, times(1)).searchAllEntries("*Howdy!*")
+
+        firstPagingSource.invalidate()
+        advanceUntilIdle()
+
+        verify(entryDao, times(2)).searchAllEntries("*Howdy!*")
+        collectJob.cancel()
     }
 
     @Test
@@ -129,5 +165,17 @@ class EntryRepositoryTest {
         repository.getWrittenDates()
 
         verify(entryDao, times(1)).getWrittenDates()
+    }
+
+    private class TestEntryPagingSource : PagingSource<Int, Entry>() {
+        override fun getRefreshKey(state: PagingState<Int, Entry>): Int? = null
+
+        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Entry> {
+            return LoadResult.Page(
+                data = emptyList(),
+                prevKey = null,
+                nextKey = null
+            )
+        }
     }
 }
