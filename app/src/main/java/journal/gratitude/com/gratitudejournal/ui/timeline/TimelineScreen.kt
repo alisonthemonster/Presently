@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.view.View
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,14 +34,22 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -49,8 +59,10 @@ import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarView
 import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyFontFamilies
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
+import kotlinx.coroutines.coroutineScope
 import org.threeten.bp.LocalDate
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 object TimelineScreenTags {
     const val ROOT = "timeline_root"
@@ -106,6 +118,75 @@ fun TimelineScreenContent(
     onCalendarDateClick: (LocalDate, Boolean, Int) -> Unit
 ) {
     val theme = LocalPresentlyTheme.current
+    val animationDurationMillis = 250
+    val calendarTopPadding = 64.dp
+    val density = androidx.compose.ui.platform.LocalDensity.current
+    val calendarTopPaddingPx = with(density) { calendarTopPadding.toPx() }
+    val fabTranslationX = remember { Animatable(0f) }
+    val fabTranslationY = remember { Animatable(0f) }
+    val calendarScale = remember { Animatable(0f) }
+    var rootSize by remember { mutableStateOf(IntSize.Zero) }
+    var fabCenterX by remember { mutableStateOf<Float?>(null) }
+    var fabCenterY by remember { mutableStateOf<Float?>(null) }
+    var isCalendarMounted by remember { mutableStateOf(state.isCalendarVisible) }
+
+    LaunchedEffect(state.isCalendarVisible, rootSize, fabCenterX, fabCenterY, calendarTopPaddingPx) {
+        val currentFabCenterX = fabCenterX
+        val currentFabCenterY = fabCenterY
+        if (rootSize == IntSize.Zero || currentFabCenterX == null || currentFabCenterY == null) {
+            return@LaunchedEffect
+        }
+
+        val calendarCenterX = rootSize.width / 2f
+        val calendarCenterY = calendarTopPaddingPx + ((rootSize.height - calendarTopPaddingPx) / 2f)
+        val targetTranslationX = calendarCenterX - currentFabCenterX
+        val targetTranslationY = calendarCenterY - currentFabCenterY
+
+        if (state.isCalendarVisible) {
+            coroutineScope {
+                launch {
+                    fabTranslationX.animateTo(
+                        targetValue = targetTranslationX,
+                        animationSpec = tween(durationMillis = animationDurationMillis)
+                    )
+                }
+                launch {
+                    fabTranslationY.animateTo(
+                        targetValue = targetTranslationY,
+                        animationSpec = tween(durationMillis = animationDurationMillis)
+                    )
+                }
+            }
+            isCalendarMounted = true
+            calendarScale.snapTo(0f)
+            calendarScale.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(durationMillis = animationDurationMillis)
+            )
+        } else {
+            if (isCalendarMounted) {
+                calendarScale.animateTo(
+                    targetValue = 0f,
+                    animationSpec = tween(durationMillis = animationDurationMillis)
+                )
+            }
+            isCalendarMounted = false
+            coroutineScope {
+                launch {
+                    fabTranslationX.animateTo(
+                        targetValue = 0f,
+                        animationSpec = tween(durationMillis = animationDurationMillis)
+                    )
+                }
+                launch {
+                    fabTranslationY.animateTo(
+                        targetValue = 0f,
+                        animationSpec = tween(durationMillis = animationDurationMillis)
+                    )
+                }
+            }
+        }
+    }
 
     Surface(
         modifier = Modifier
@@ -117,6 +198,9 @@ fun TimelineScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .navigationBarsPadding()
+                .onGloballyPositioned { coordinates ->
+                    rootSize = coordinates.size
+                }
         ) {
             Column(
                 modifier = Modifier.fillMaxSize()
@@ -155,7 +239,33 @@ fun TimelineScreenContent(
                 }
             }
 
-            if (state.isCalendarVisible) {
+            FloatingActionButton(
+                onClick = onCalendarClick,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+                    .onGloballyPositioned { coordinates ->
+                        val position = coordinates.positionInParent()
+                        fabCenterX = position.x + (coordinates.size.width / 2f)
+                        fabCenterY = position.y + (coordinates.size.height / 2f)
+                    }
+                    .graphicsLayer {
+                        translationX = fabTranslationX.value
+                        translationY = fabTranslationY.value
+                    }
+                    .testTag(TimelineScreenTags.CALENDAR_BUTTON),
+                shape = CircleShape,
+                containerColor = theme.fab,
+                contentColor = theme.fabText
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_calendar),
+                    contentDescription = null,
+                    tint = theme.fabText
+                )
+            }
+
+            if (isCalendarMounted) {
                 AndroidView(
                     factory = { context ->
                         EntryCalendarView(context).apply {
@@ -165,7 +275,11 @@ fun TimelineScreenContent(
                     },
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 64.dp)
+                        .padding(top = calendarTopPadding)
+                        .graphicsLayer {
+                            scaleX = calendarScale.value
+                            scaleY = calendarScale.value
+                        }
                         .testTag(TimelineScreenTags.CALENDAR),
                     update = { calendarView ->
                         calendarView.setWrittenDates(state.writtenDates)
@@ -189,23 +303,6 @@ fun TimelineScreenContent(
                             }
                         )
                     }
-                )
-            }
-
-            FloatingActionButton(
-                onClick = onCalendarClick,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp)
-                    .testTag(TimelineScreenTags.CALENDAR_BUTTON),
-                shape = CircleShape,
-                containerColor = theme.fab,
-                contentColor = theme.fabText
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_calendar),
-                    contentDescription = null,
-                    tint = theme.fabText
                 )
             }
         }
