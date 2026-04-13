@@ -69,7 +69,7 @@ class BackupSettingsViewModelTest {
 
         val repository: EntryRepository = FakeEntryRepository()
         val backupWorkScheduler = BackupWorkScheduler(context, backupPreferences)
-        val googleDriveBackupProvider = GoogleDriveBackupProvider(context, backupPreferences)
+        val googleDriveBackupProvider = GoogleDriveBackupProvider(context, backupPreferences, analytics)
         val backupRestoreManager = BackupRestoreManager(repository, googleDriveBackupProvider)
         val dropboxUploader = DropboxUploader(context, backupPreferences)
 

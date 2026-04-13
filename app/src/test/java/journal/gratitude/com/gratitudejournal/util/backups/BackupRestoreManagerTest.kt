@@ -34,19 +34,20 @@ class BackupRestoreManagerTest {
         )
 
         val context = ApplicationProvider.getApplicationContext<Context>()
+        val analytics = object : AnalyticsLogger {
+            override fun recordEvent(event: String) = Unit
+            override fun recordEvent(event: String, details: Map<String, Any>) = Unit
+            override fun recordSelectEvent(selectedContent: String, selectedContentType: String) = Unit
+            override fun recordEntryAdded(numEntries: Int) = Unit
+            override fun recordView(viewName: String) = Unit
+            override fun optOutOfAnalytics() = Unit
+            override fun optIntoAnalytics() = Unit
+        }
         val backupPreferences = BackupPreferences(
             PreferenceManager.getDefaultSharedPreferences(context),
-            object : AnalyticsLogger {
-                override fun recordEvent(event: String) = Unit
-                override fun recordEvent(event: String, details: Map<String, Any>) = Unit
-                override fun recordSelectEvent(selectedContent: String, selectedContentType: String) = Unit
-                override fun recordEntryAdded(numEntries: Int) = Unit
-                override fun recordView(viewName: String) = Unit
-                override fun optOutOfAnalytics() = Unit
-                override fun optIntoAnalytics() = Unit
-            }
+            analytics
         )
-        val googleDriveBackupProvider = GoogleDriveBackupProvider(context, backupPreferences)
+        val googleDriveBackupProvider = GoogleDriveBackupProvider(context, backupPreferences, analytics)
         restoreManager = BackupRestoreManager(repository, googleDriveBackupProvider)
     }
 
