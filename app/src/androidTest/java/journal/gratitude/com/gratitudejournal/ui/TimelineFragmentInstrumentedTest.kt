@@ -14,10 +14,14 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.intent.rule.IntentsRule
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
+import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
@@ -37,6 +41,9 @@ import journal.gratitude.com.gratitudejournal.ui.settings.BackupSettingsFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineScreenTags
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.containsString
+import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -194,8 +201,13 @@ class TimelineFragmentInstrumentedTest {
 
         onView(withId(R.id.overflow_button)).perform(click())
         onView(withText(R.string.notification_settings)).perform(click())
-        // Click the backup_and_restore preference using its title instead of summary
-        onView(withText(R.string.backup_and_restore)).perform(scrollTo(), click())
+
+        // Find and click the backup preference - it's below other settings
+        // Use containsString to match partial text "Backup" to handle the ampersand
+        onView(allOf(
+            withText(containsString("Backup")),
+            isDisplayed()
+        )).perform(scrollTo(), click())
 
         assertCurrentFragmentIs<BackupSettingsFragment>(scenario)
     }
