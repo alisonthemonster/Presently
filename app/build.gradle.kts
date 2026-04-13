@@ -271,7 +271,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.material)
     implementation(libs.google.play.services.oss.licenses)
-    implementation(libs.compact.calendar.view)
+    implementation(libs.kizitonwose.calendar.compose)
     implementation(libs.dropbox.core.sdk)
     implementation(libs.dropbox.android.sdk)
     implementation(libs.apache.text)

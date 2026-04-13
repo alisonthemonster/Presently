@@ -57,10 +57,7 @@ class TimelineScreenScreenshotTest {
                     )
                 ),
                 onSearchClick = {},
-                onOverflowClick = {},
-                onOverflowDismiss = {},
                 onSettingsClick = {},
-                onContactClick = {},
                 onTimelineEntryClick = {},
                 onCalendarClick = {},
                 onCalendarClose = {},
@@ -100,10 +97,7 @@ class TimelineScreenScreenshotTest {
                     )
                 ),
                 onSearchClick = {},
-                onOverflowClick = {},
-                onOverflowDismiss = {},
                 onSettingsClick = {},
-                onContactClick = {},
                 onTimelineEntryClick = {},
                 onCalendarClick = {},
                 onCalendarClose = {},

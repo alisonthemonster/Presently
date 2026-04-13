@@ -13,7 +13,6 @@ import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.LOOKED_AT_SETTINGS
 import journal.gratitude.com.gratitudejournal.model.OPENED_CALENDAR
-import journal.gratitude.com.gratitudejournal.model.OPENED_CONTACT_FORM
 import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_VIEWED
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ShouldShowReminderOnboardingUseCase
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
@@ -25,6 +24,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
+import java.util.Calendar
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
@@ -49,6 +50,13 @@ class TimelineViewModel @Inject constructor(
     val effects = _effects.asSharedFlow()
 
     init {
+        val firstDayOfWeek = when (settings.getFirstDayOfWeek()) {
+            Calendar.SATURDAY -> DayOfWeek.SATURDAY
+            Calendar.SUNDAY -> DayOfWeek.SUNDAY
+            else -> DayOfWeek.MONDAY
+        }
+        _state.value = _state.value.copy(firstDayOfWeek = firstDayOfWeek)
+
         viewModelScope.launch {
             repository.getEntriesFlow().collect { entries ->
                 latestEntries = entries
@@ -71,24 +79,9 @@ class TimelineViewModel @Inject constructor(
         emitEffect(TimelineEffect.OpenSearch)
     }
 
-    fun onOverflowMenuClicked() {
-        _state.value = _state.value.copy(isOverflowMenuExpanded = true)
-    }
-
-    fun onOverflowMenuDismissed() {
-        _state.value = _state.value.copy(isOverflowMenuExpanded = false)
-    }
-
     fun onSettingsClicked() {
         analytics.recordEvent(LOOKED_AT_SETTINGS)
-        _state.value = _state.value.copy(isOverflowMenuExpanded = false)
         emitEffect(TimelineEffect.OpenSettings)
-    }
-
-    fun onContactClicked() {
-        analytics.recordEvent(OPENED_CONTACT_FORM)
-        _state.value = _state.value.copy(isOverflowMenuExpanded = false)
-        emitEffect(TimelineEffect.OpenContactForm)
     }
 
     fun onTimelineEntryClicked(entry: TimelineEntryRowState) {

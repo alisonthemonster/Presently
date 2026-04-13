@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import androidx.annotation.StringRes
 import journal.gratitude.com.gratitudejournal.R
+import java.time.DayOfWeek
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.util.appendTodayAndYesterday
@@ -13,8 +14,8 @@ data class TimelineUiState(
     val items: List<TimelineRowState> = emptyList(),
     val writtenDates: List<LocalDate> = emptyList(),
     val isCalendarVisible: Boolean = false,
-    val isOverflowMenuExpanded: Boolean = false,
-    val showReminderOnboardingPrompt: Boolean = false
+    val showReminderOnboardingPrompt: Boolean = false,
+    val firstDayOfWeek: DayOfWeek = DayOfWeek.MONDAY
 )
 
 sealed interface TimelineRowState
@@ -39,7 +40,6 @@ data class TimelineMilestoneRowState(
 sealed interface TimelineEffect {
     data object OpenSearch : TimelineEffect
     data object OpenSettings : TimelineEffect
-    data object OpenContactForm : TimelineEffect
     data object ExitTimeline : TimelineEffect
     data class OpenEntry(
         val clickedDate: LocalDate,

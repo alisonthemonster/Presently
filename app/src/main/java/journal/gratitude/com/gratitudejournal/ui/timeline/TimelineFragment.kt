@@ -1,14 +1,9 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -19,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.logging.CrashReporter
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.ui.DayOneDialogFragment
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
@@ -27,13 +21,11 @@ import journal.gratitude.com.gratitudejournal.ui.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyTheme
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TimelineFragment : Fragment() {
 
     private val viewModel: TimelineViewModel by viewModels()
-    @Inject lateinit var crashReporter: CrashReporter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,10 +49,7 @@ class TimelineFragment : Fragment() {
                     TimelineScreen(
                         state = viewModel.state,
                         onSearchClick = viewModel::onSearchClicked,
-                        onOverflowClick = viewModel::onOverflowMenuClicked,
-                        onOverflowDismiss = viewModel::onOverflowMenuDismissed,
                         onSettingsClick = viewModel::onSettingsClicked,
-                        onContactClick = viewModel::onContactClicked,
                         onTimelineEntryClick = viewModel::onTimelineEntryClicked,
                         onCalendarClick = viewModel::onCalendarClicked,
                         onCalendarClose = viewModel::onCalendarClosed,
@@ -103,7 +92,6 @@ class TimelineFragment : Fragment() {
                         }
                         TimelineEffect.OpenSearch -> openSearchScreen()
                         TimelineEffect.OpenSettings -> openSettings()
-                        TimelineEffect.OpenContactForm -> openContactForm()
                     }
                 }
             }
@@ -157,36 +145,6 @@ class TimelineFragment : Fragment() {
             .replace(R.id.container_fragment, fragment)
             .addToBackStack(TIMELINE_TO_ENTRY)
             .commit()
-    }
-
-    private fun openContactForm() {
-        val context = context ?: return
-        val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:")
-
-            val emails = arrayOf("gratitude.journal.app@gmail.com")
-            val subject = "In App Feedback"
-            putExtra(Intent.EXTRA_EMAIL, emails)
-            putExtra(Intent.EXTRA_SUBJECT, subject)
-
-            val packageName = context.packageName
-            val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
-            val text = """
-                Device: ${Build.MODEL}
-                OS Version: ${Build.VERSION.RELEASE}
-                App Version: ${packageInfo.versionName}
-                
-                
-                """.trimIndent()
-            putExtra(Intent.EXTRA_TEXT, text)
-        }
-
-        try {
-            startActivity(intent)
-        } catch (activityNotFoundException: ActivityNotFoundException) {
-            crashReporter.logHandledException(activityNotFoundException)
-            Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun openSettings() {

@@ -1,6 +1,5 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
-import android.view.View
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -25,11 +24,8 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,13 +48,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarView
+import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendar
 import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyFontFamilies
-import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import kotlinx.coroutines.coroutineScope
 import org.threeten.bp.LocalDate
 import kotlinx.coroutines.flow.StateFlow
@@ -76,14 +70,12 @@ object TimelineScreenTags {
     fun milestone(number: Int) = "timeline_milestone_$number"
 }
 
+
 @Composable
 fun TimelineScreen(
     state: StateFlow<TimelineUiState>,
     onSearchClick: () -> Unit,
-    onOverflowClick: () -> Unit,
-    onOverflowDismiss: () -> Unit,
     onSettingsClick: () -> Unit,
-    onContactClick: () -> Unit,
     onTimelineEntryClick: (TimelineEntryRowState) -> Unit,
     onCalendarClick: () -> Unit,
     onCalendarClose: () -> Unit,
@@ -93,10 +85,7 @@ fun TimelineScreen(
     TimelineScreenContent(
         state = uiState,
         onSearchClick = onSearchClick,
-        onOverflowClick = onOverflowClick,
-        onOverflowDismiss = onOverflowDismiss,
         onSettingsClick = onSettingsClick,
-        onContactClick = onContactClick,
         onTimelineEntryClick = onTimelineEntryClick,
         onCalendarClick = onCalendarClick,
         onCalendarClose = onCalendarClose,
@@ -108,10 +97,7 @@ fun TimelineScreen(
 fun TimelineScreenContent(
     state: TimelineUiState,
     onSearchClick: () -> Unit,
-    onOverflowClick: () -> Unit,
-    onOverflowDismiss: () -> Unit,
     onSettingsClick: () -> Unit,
-    onContactClick: () -> Unit,
     onTimelineEntryClick: (TimelineEntryRowState) -> Unit,
     onCalendarClick: () -> Unit,
     onCalendarClose: () -> Unit,
@@ -207,11 +193,7 @@ fun TimelineScreenContent(
             ) {
                 TimelineToolbar(
                     onSearchClick = onSearchClick,
-                    onOverflowClick = onOverflowClick,
-                    onOverflowDismiss = onOverflowDismiss,
                     onSettingsClick = onSettingsClick,
-                    onContactClick = onContactClick,
-                    isOverflowExpanded = state.isOverflowMenuExpanded
                 )
 
                 LazyColumn(
@@ -266,13 +248,11 @@ fun TimelineScreenContent(
             }
 
             if (isCalendarMounted) {
-                AndroidView(
-                    factory = { context ->
-                        EntryCalendarView(context).apply {
-                            id = R.id.entry_calendar
-                            visibility = View.VISIBLE
-                        }
-                    },
+                EntryCalendar(
+                    writtenDates = state.writtenDates,
+                    firstDayOfWeek = state.firstDayOfWeek,
+                    onDateClick = onCalendarDateClick,
+                    onCloseClick = onCalendarClose,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = calendarTopPadding)
@@ -280,29 +260,7 @@ fun TimelineScreenContent(
                             scaleX = calendarScale.value
                             scaleY = calendarScale.value
                         }
-                        .testTag(TimelineScreenTags.CALENDAR),
-                    update = { calendarView ->
-                        calendarView.setWrittenDates(state.writtenDates)
-                        calendarView.setDayClickedListener(
-                            object : journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarListener {
-                                override fun onDateClicked(
-                                    date: java.util.Date,
-                                    isNewDate: Boolean,
-                                    numberOfEntries: Int
-                                ) {
-                                    onCalendarDateClick(
-                                        date.toLocalDate(),
-                                        isNewDate,
-                                        numberOfEntries
-                                    )
-                                }
-
-                                override fun onCloseClicked() {
-                                    onCalendarClose()
-                                }
-                            }
-                        )
-                    }
+                        .testTag(TimelineScreenTags.CALENDAR)
                 )
             }
         }
@@ -311,12 +269,8 @@ fun TimelineScreenContent(
 
 @Composable
 private fun TimelineToolbar(
-    isOverflowExpanded: Boolean,
     onSearchClick: () -> Unit,
-    onOverflowClick: () -> Unit,
-    onOverflowDismiss: () -> Unit,
-    onSettingsClick: () -> Unit,
-    onContactClick: () -> Unit
+    onSettingsClick: () -> Unit
 ) {
     val theme = LocalPresentlyTheme.current
 
@@ -349,32 +303,16 @@ private fun TimelineToolbar(
             contentScale = ContentScale.Fit
         )
 
-        Box {
-            Image(
-                painter = painterResource(R.drawable.ic_overflow),
-                contentDescription = stringResource(R.string.settings),
-                modifier = Modifier
-                    .padding(end = 16.dp)
-                    .size(width = 40.dp, height = 35.dp)
-                    .padding(4.dp)
-                    .clickable(onClick = onOverflowClick)
-                    .testTag(TimelineScreenTags.OVERFLOW)
-            )
-
-            DropdownMenu(
-                expanded = isOverflowExpanded,
-                onDismissRequest = onOverflowDismiss
-            ) {
-                DropdownMenuItem(
-                    text = { Text(text = stringResource(R.string.notification_settings)) },
-                    onClick = onSettingsClick
-                )
-                DropdownMenuItem(
-                    text = { Text(text = stringResource(R.string.contact_us)) },
-                    onClick = onContactClick
-                )
-            }
-        }
+        Image(
+            painter = painterResource(R.drawable.ic_overflow),
+            contentDescription = stringResource(R.string.settings),
+            modifier = Modifier
+                .padding(end = 16.dp)
+                .size(width = 40.dp, height = 35.dp)
+                .padding(4.dp)
+                .clickable(onClick = onSettingsClick)
+                .testTag(TimelineScreenTags.OVERFLOW)
+        )
     }
 }
 
