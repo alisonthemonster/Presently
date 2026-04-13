@@ -194,7 +194,8 @@ class TimelineFragmentInstrumentedTest {
 
         onView(withId(R.id.overflow_button)).perform(click())
         onView(withText(R.string.notification_settings)).perform(click())
-        onView(withText(R.string.backup_and_restore_summary)).perform(scrollTo(), click())
+        // Click the backup_and_restore preference using its title instead of summary
+        onView(withText(R.string.backup_and_restore)).perform(scrollTo(), click())
 
         assertCurrentFragmentIs<BackupSettingsFragment>(scenario)
     }
