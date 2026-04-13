@@ -164,7 +164,7 @@ class GoogleDriveBackupProvider @Inject constructor(
         val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestScopes(
-                Scope(DriveScopes.DRIVE_FILE),
+                Scope("https://www.googleapis.com/auth/drive.appdata"),
                 Scope(DriveScopes.DRIVE)
             )
             .build()
@@ -176,7 +176,10 @@ class GoogleDriveBackupProvider @Inject constructor(
             Log.d(TAG, "buildDriveService: creating Drive service for $accountEmail")
             val credential = GoogleAccountCredential.usingOAuth2(
                 context,
-                listOf(DriveScopes.DRIVE_FILE, DriveScopes.DRIVE)
+                listOf(
+                    "https://www.googleapis.com/auth/drive.appdata",
+                    DriveScopes.DRIVE
+                )
             )
             val account = android.accounts.Account(accountEmail, GOOGLE_ACCOUNT_TYPE)
             credential.selectedAccount = account
