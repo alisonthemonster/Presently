@@ -70,11 +70,16 @@ class GoogleDriveBackupProvider @Inject constructor(
                     )
 
                 val csvBytes = file.readBytes()
-                val existingFileId = findBackupFileId(drive)
+                val backupFolderId = getOrCreateBackupFolder(drive)
+                    ?: return@withContext BackupUploadFailure(
+                        IOException("Failed to get or create backup folder")
+                    )
+
+                val existingFileId = findBackupFileId(drive, backupFolderId)
                 Log.d(TAG, "uploadToCloud: existingFileId=$existingFileId, csvBytes=${csvBytes.size}")
 
                 if (existingFileId == null) {
-                    createBackupFile(drive, csvBytes)
+                    createBackupFile(drive, csvBytes, backupFolderId)
                 } else {
                     updateBackupFile(drive, existingFileId, csvBytes)
                 }
@@ -101,7 +106,10 @@ class GoogleDriveBackupProvider @Inject constructor(
                     ?: return@withContext null
 
                 Log.d(TAG, "getBackupForRestore: looking for backup file")
-                val fileId = findBackupFileId(drive) ?: return@withContext null
+                val backupFolderId = getOrCreateBackupFolder(drive)
+                    ?: return@withContext null
+
+                val fileId = findBackupFileId(drive, backupFolderId) ?: return@withContext null
 
                 val contents = downloadBackup(drive, fileId)
                 val parser = CSVParser.parse(
@@ -164,8 +172,7 @@ class GoogleDriveBackupProvider @Inject constructor(
         val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestScopes(
-                Scope("https://www.googleapis.com/auth/drive.appdata"),
-                Scope(DriveScopes.DRIVE)
+                Scope(DriveScopes.DRIVE_FILE)
             )
             .build()
         return GoogleSignIn.getClient(context, signInOptions)
@@ -176,10 +183,7 @@ class GoogleDriveBackupProvider @Inject constructor(
             Log.d(TAG, "buildDriveService: creating Drive service for $accountEmail")
             val credential = GoogleAccountCredential.usingOAuth2(
                 context,
-                listOf(
-                    "https://www.googleapis.com/auth/drive.appdata",
-                    DriveScopes.DRIVE
-                )
+                listOf(DriveScopes.DRIVE_FILE)
             )
             val account = android.accounts.Account(accountEmail, GOOGLE_ACCOUNT_TYPE)
             credential.selectedAccount = account
@@ -195,13 +199,47 @@ class GoogleDriveBackupProvider @Inject constructor(
         }
     }
 
-    private fun findBackupFileId(drive: Drive): String? {
+    private fun getOrCreateBackupFolder(drive: Drive): String? {
         return try {
-            Log.d(TAG, "findBackupFileId: searching for backup file")
+            Log.d(TAG, "getOrCreateBackupFolder: looking for existing folder")
+            // Search for existing folder
             val result = drive.files().list()
-                .setSpaces("appDataFolder")
                 .setFields("files(id, name)")
-                .setQ("name='$BACKUP_FILE_NAME' and trashed=false")
+                .setQ("name='$BACKUP_FOLDER_NAME' and mimeType='application/vnd.google-apps.folder' and trashed=false")
+                .setPageSize(1)
+                .execute()
+
+            val existingFolderId = result.files?.firstOrNull()?.id
+            if (existingFolderId != null) {
+                Log.d(TAG, "getOrCreateBackupFolder: found existing folder $existingFolderId")
+                return existingFolderId
+            }
+
+            // Create new folder
+            Log.d(TAG, "getOrCreateBackupFolder: creating new folder")
+            val folderMetadata = DriveFile().apply {
+                name = BACKUP_FOLDER_NAME
+                mimeType = "application/vnd.google-apps.folder"
+            }
+
+            val createdFolder = drive.files().create(folderMetadata)
+                .setFields("id")
+                .execute()
+
+            Log.d(TAG, "getOrCreateBackupFolder: created folder ${createdFolder.id}")
+            createdFolder.id
+        } catch (e: Exception) {
+            Log.e(TAG, "getOrCreateBackupFolder: failed", e)
+            null
+        }
+    }
+
+    private fun findBackupFileId(drive: Drive, backupFolderId: String): String? {
+        return try {
+            Log.d(TAG, "findBackupFileId: searching for backup file in folder $backupFolderId")
+            val result = drive.files().list()
+                .setFields("files(id, name)")
+                .setQ("'$backupFolderId' in parents and name='$BACKUP_FILE_NAME' and trashed=false")
                 .setPageSize(1)
                 .execute()
 
@@ -217,12 +255,12 @@ class GoogleDriveBackupProvider @Inject constructor(
         }
     }
 
-    private fun createBackupFile(drive: Drive, csvBytes: ByteArray) {
+    private fun createBackupFile(drive: Drive, csvBytes: ByteArray, backupFolderId: String) {
         try {
-            Log.d(TAG, "createBackupFile: uploading new file")
+            Log.d(TAG, "createBackupFile: uploading new file to folder $backupFolderId")
             val fileMetadata = DriveFile().apply {
                 name = BACKUP_FILE_NAME
-                setParents(arrayListOf("appDataFolder"))
+                setParents(arrayListOf(backupFolderId))
             }
             val tempFile = File.createTempFile("backup", ".csv", context.cacheDir)
             tempFile.writeBytes(csvBytes)
@@ -281,6 +319,7 @@ class GoogleDriveBackupProvider @Inject constructor(
     }
 
     companion object {
+        const val BACKUP_FOLDER_NAME = "Presently Backups"
         const val BACKUP_FILE_NAME = "presently_backup.csv"
         private const val GOOGLE_ACCOUNT_TYPE = "com.google"
         private const val TAG = "GoogleDriveBackup"
