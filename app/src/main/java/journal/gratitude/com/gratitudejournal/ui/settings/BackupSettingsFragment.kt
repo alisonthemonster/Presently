@@ -31,6 +31,7 @@ import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.util.backups.google.GoogleDriveBackupProvider
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -237,12 +238,12 @@ class BackupSettingsFragment : Fragment() {
             return
         }
 
-        Log.d(TAG, "handleGoogleAuthorizationResult: no resolution needed, resolving account email")
+        Log.d(TAG, "handleGoogleAuthorizationResult: no resolution needed, fetching account email via userinfo")
         viewLifecycleOwner.lifecycleScope.launch {
             val accountEmail = runCatching {
-                googleDriveBackupProvider.resolveAuthorizedAccountEmail(authorizationResult)
+                fetchUserEmailFromToken(authorizationResult.accessToken ?: return@runCatching null)
             }.getOrElse { throwable ->
-                Log.e(TAG, "resolveAuthorizedAccountEmail failed", throwable)
+                Log.e(TAG, "fetchUserEmailFromToken failed", throwable)
                 viewModel.onGoogleDriveSignInFailed(
                     if (throwable is Exception) throwable else Exception(throwable)
                 )
@@ -250,13 +251,43 @@ class BackupSettingsFragment : Fragment() {
             }
 
             if (accountEmail.isNullOrBlank()) {
-                Log.e(TAG, "resolveAuthorizedAccountEmail returned null/blank (accessToken was ${if (authorizationResult.accessToken != null) "present" else "null"})")
+                Log.e(TAG, "fetchUserEmailFromToken returned null/blank (accessToken was ${if (authorizationResult.accessToken != null) "present" else "null"})")
                 viewModel.onGoogleDriveSignInFailed(
                     IllegalStateException("Google Drive authorization succeeded but account email was unavailable")
                 )
             } else {
                 Log.d(TAG, "Google Drive sign-in succeeded for account: $accountEmail")
                 viewModel.onGoogleDriveSignedIn(accountEmail)
+            }
+        }
+    }
+
+    private suspend fun fetchUserEmailFromToken(accessToken: String): String? {
+        return withContext(kotlinx.coroutines.Dispatchers.IO) {
+            try {
+                val url = java.net.URL("https://www.googleapis.com/oauth2/v2/userinfo")
+                val connection = url.openConnection() as java.net.HttpURLConnection
+                connection.requestMethod = "GET"
+                connection.setRequestProperty("Authorization", "Bearer $accessToken")
+                connection.setRequestProperty("Accept", "application/json")
+                connection.connectTimeout = 15_000
+                connection.readTimeout = 15_000
+
+                val responseCode = connection.responseCode
+                Log.d(TAG, "fetchUserEmailFromToken: response code=$responseCode")
+
+                if (responseCode !in 200..299) {
+                    Log.e(TAG, "fetchUserEmailFromToken: HTTP error $responseCode")
+                    return@withContext null
+                }
+
+                val response = connection.inputStream.bufferedReader().use { it.readText() }
+                val email = org.json.JSONObject(response).optString("email").takeIf { it.isNotBlank() }
+                Log.d(TAG, "fetchUserEmailFromToken: email=${if (email != null) "present" else "null"}")
+                email
+            } catch (e: Exception) {
+                Log.e(TAG, "fetchUserEmailFromToken: exception", e)
+                null
             }
         }
     }

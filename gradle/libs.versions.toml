@@ -35,6 +35,9 @@ espresso = "3.7.0"
 firebase-bom = "33.10.0"
 firebase-crashlytics-plugin = "3.0.6"
 fulladle = "0.19.0"
+google-api-client = "2.0.0"
+google-api-client-android = "1.32.1"
+google-api-services-drive = "v3-rev20220815-2.0.0"
 google-oss-licenses-plugin = "0.10.10"
 google-services-plugin = "4.4.4"
 google-play-services-auth = "21.5.1"
@@ -120,6 +123,9 @@ dropbox-core-sdk = { module = "com.dropbox.core:dropbox-core-sdk", version.ref =
 firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+google-api-client = { module = "com.google.api-client:google-api-client", version.ref = "google-api-client" }
+google-api-client-android = { module = "com.google.api-client:google-api-client-android", version.ref = "google-api-client-android" }
+google-api-services-drive = { module = "com.google.apis:google-api-services-drive", version.ref = "google-api-services-drive" }
 google-oss-licenses-plugin = { module = "com.google.android.gms:oss-licenses-plugin", version.ref = "google-oss-licenses-plugin" }
 google-play-feature-delivery = { module = "com.google.android.play:feature-delivery", version.ref = "play-core" }
 google-play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "google-play-services-auth" }
