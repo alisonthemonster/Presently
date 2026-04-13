@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import androidx.preference.PreferenceManager
 import org.threeten.bp.LocalTime
 import java.util.*
@@ -32,7 +33,7 @@ abstract class FakeSettingsModule {
 
     companion object {
         @Provides
-        fun providesSharedPreferences(context: Context): SharedPreferences {
+        fun providesSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
             return PreferenceManager.getDefaultSharedPreferences(context)
         }
     }
