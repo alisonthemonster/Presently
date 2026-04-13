@@ -43,6 +43,8 @@ import java.time.LocalDate as JavaLocalDate
 object EntryCalendarTags {
     const val CLOSE_BUTTON = "entry_calendar_close"
     const val RANDOM_BUTTON = "entry_calendar_random"
+
+    fun day(date: LocalDate) = "entry_calendar_day_$date"
 }
 
 @Composable
@@ -143,6 +145,7 @@ fun EntryCalendar(
                             day = day,
                             today = today,
                             isWritten = writtenDatesSet.contains(day.date),
+                            dayTag = EntryCalendarTags.day(day.date.toThreetenLocalDate()),
                             onDateClick = { clickedDate ->
                                 val threetenDate = clickedDate.toThreetenLocalDate()
                                 onDateClick(
@@ -188,6 +191,7 @@ private fun CalendarDay(
     day: CalendarDay,
     today: JavaLocalDate,
     isWritten: Boolean,
+    dayTag: String,
     onDateClick: (JavaLocalDate) -> Unit
 ) {
     val theme = LocalPresentlyTheme.current
@@ -198,6 +202,7 @@ private fun CalendarDay(
     Box(
         modifier = Modifier
             .aspectRatio(1f)
+            .testTag(dayTag)
             .then(
                 if (isInMonth && !isFuture) Modifier.clickable { onDateClick(day.date) }
                 else Modifier

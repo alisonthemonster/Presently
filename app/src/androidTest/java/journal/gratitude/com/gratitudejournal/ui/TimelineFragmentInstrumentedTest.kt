@@ -99,7 +99,6 @@ class TimelineFragmentInstrumentedTest {
         composeRule.waitUntil(timeoutMillis = 5_000) {
             composeRule.onAllNodesWithTag(TimelineScreenTags.CALENDAR).fetchSemanticsNodes().isEmpty()
         }
-        composeRule.onNodeWithTag(TimelineScreenTags.CALENDAR).assertDoesNotExist()
     }
 
     @Test
@@ -116,7 +115,48 @@ class TimelineFragmentInstrumentedTest {
         composeRule.waitUntil(timeoutMillis = 5_000) {
             composeRule.onAllNodesWithTag(TimelineScreenTags.CALENDAR).fetchSemanticsNodes().isEmpty()
         }
-        composeRule.onNodeWithTag(TimelineScreenTags.CALENDAR).assertDoesNotExist()
+    }
+
+    @Test
+    fun timelineFragment_openCalendar_clickingWrittenDate_opensEntryScreen() {
+        val today = LocalDate.now()
+        repository.saveEntriesBlocking(listOf(Entry(today, "Calendar entry")))
+        launchTimelineInComposeContainer()
+
+        composeRule.onNodeWithTag(TimelineScreenTags.CALENDAR_BUTTON).performClick()
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            composeRule.onAllNodesWithTag(TimelineScreenTags.CALENDAR).fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeRule.onNodeWithTag(EntryCalendarTags.day(today)).performClick()
+
+        assertCurrentFragmentIs<EntryFragment>()
+    }
+
+    @Test
+    fun timelineFragment_openCalendar_withEntries_showsRandomButton() {
+        repository.saveEntriesBlocking(listOf(Entry(LocalDate.now(), "Calendar entry")))
+        launchTimelineInComposeContainer()
+
+        composeRule.onNodeWithTag(TimelineScreenTags.CALENDAR_BUTTON).performClick()
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            composeRule.onAllNodesWithTag(TimelineScreenTags.CALENDAR).fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeRule.onNodeWithTag(EntryCalendarTags.RANDOM_BUTTON).assertIsDisplayed()
+    }
+
+    @Test
+    fun timelineFragment_openCalendar_withoutEntries_hidesRandomButton() {
+        launchTimelineInComposeContainer()
+
+        composeRule.onNodeWithTag(TimelineScreenTags.CALENDAR_BUTTON).performClick()
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            composeRule.onAllNodesWithTag(TimelineScreenTags.CALENDAR).fetchSemanticsNodes().isNotEmpty()
+        }
+        assertThat(
+            composeRule.onAllNodesWithTag(EntryCalendarTags.RANDOM_BUTTON).fetchSemanticsNodes()
+        ).isEmpty()
     }
 
     @Test
