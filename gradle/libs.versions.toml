@@ -41,6 +41,7 @@ google-api-services-drive = "v3-rev20220815-2.0.0"
 google-oss-licenses-plugin = "0.10.10"
 google-services-plugin = "4.4.4"
 google-play-services-auth = "21.5.1"
+google-play-services-identity = "18.1.0"
 hilt-plugin = "2.57.2"
 junit4 = "4.13.2"
 kotlin = "2.1.20"
@@ -129,6 +130,7 @@ google-api-services-drive = { module = "com.google.apis:google-api-services-driv
 google-oss-licenses-plugin = { module = "com.google.android.gms:oss-licenses-plugin", version.ref = "google-oss-licenses-plugin" }
 google-play-feature-delivery = { module = "com.google.android.play:feature-delivery", version.ref = "play-core" }
 google-play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "google-play-services-auth" }
+google-play-services-identity = { module = "com.google.android.gms:play-services-identity", version.ref = "google-play-services-identity" }
 google-play-services-oss-licenses = { module = "com.google.android.gms:play-services-oss-licenses", version.ref = "oss-licenses" }
 hamcrest = { module = "org.hamcrest:hamcrest", version = "2.2" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }

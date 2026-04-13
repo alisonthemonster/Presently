@@ -1,20 +1,19 @@
 package journal.gratitude.com.gratitudejournal.util.backups.google
 
-import android.accounts.Account
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.work.WorkManager
-import com.google.android.gms.auth.api.identity.AuthorizationRequest
-import com.google.android.gms.auth.api.identity.AuthorizationResult
-import com.google.android.gms.auth.api.identity.Identity
-import com.google.android.gms.auth.api.identity.RevokeAccessRequest
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.Scope
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.client.http.FileContent
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
+import com.google.api.services.drive.DriveScopes
 import com.google.api.services.drive.model.File as DriveFile
 import dagger.hilt.android.qualifiers.ApplicationContext
 import journal.gratitude.com.gratitudejournal.model.Entry
@@ -29,7 +28,6 @@ import journal.gratitude.com.gratitudejournal.util.backups.CloudBackupProvider
 import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.convertCsvToEntries
 import journal.gratitude.com.gratitudejournal.util.backups.RealCsvParser
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -48,7 +46,11 @@ class GoogleDriveBackupProvider @Inject constructor(
 ) : CloudBackupProvider {
 
     override val provider: BackupProvider = BackupProvider.GOOGLE_DRIVE
-    private val authorizationClient = Identity.getAuthorizationClient(context)
+    private lateinit var googleSignInClient: GoogleSignInClient
+
+    init {
+        googleSignInClient = getGoogleSignInClient()
+    }
 
     override suspend fun uploadToCloud(file: File): BackupUploadResult {
         return withContext(Dispatchers.IO) {
@@ -122,51 +124,51 @@ class GoogleDriveBackupProvider @Inject constructor(
         }
     }
 
-    suspend fun beginInteractiveAuthorization(): AuthorizationResult {
-        return authorizationClient
-            .authorize(authorizationRequest(promptSelectAccount = true))
-            .await()
+    fun getSignInIntent(): Intent {
+        Log.d(TAG, "getSignInIntent: returning Google Sign-In intent")
+        return googleSignInClient.signInIntent
     }
 
-    fun getAuthorizationResultFromIntent(data: Intent?): AuthorizationResult {
-        requireNotNull(data) {
-            "Authorization intent was null"
+    suspend fun handleSignInResult(data: Intent?): String? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+                task.result?.let { account ->
+                    Log.d(TAG, "handleSignInResult: signed in as ${account.email}")
+                    account.email
+                } ?: run {
+                    Log.e(TAG, "handleSignInResult: account is null")
+                    null
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "handleSignInResult: failed", e)
+                null
+            }
         }
-        return authorizationClient.getAuthorizationResultFromIntent(data)
-    }
-
-    suspend fun resolveAuthorizedAccountEmail(result: AuthorizationResult): String? {
-        val accessToken = result.accessToken
-        if (accessToken == null) {
-            Log.w(TAG, "resolveAuthorizedAccountEmail: accessToken is null in AuthorizationResult (grantedScopes=${result.grantedScopes})")
-            return null
-        }
-        Log.d(TAG, "resolveAuthorizedAccountEmail: access token obtained")
-        // For the library approach, we just need to confirm we can access Drive API
-        // The actual email retrieval happens when building the Drive service
-        return null // Will be populated via other means
     }
 
     override suspend fun disconnect() {
-        val accountEmail = backupPreferences.getGoogleDriveState().accountEmail
-        if (accountEmail != null) {
-            runCatching {
-                authorizationClient.revokeAccess(
-                    RevokeAccessRequest.builder()
-                        .setAccount(Account(accountEmail, GOOGLE_ACCOUNT_TYPE))
-                        .setScopes(requestedScopes())
-                        .build()
-                ).await()
-            }
-        } else {
-            runCatching {
-                authorizationClient.revokeAccess(
-                    RevokeAccessRequest.builder().build()
-                ).await()
-            }
+        Log.d(TAG, "disconnect: signing out and revoking access")
+        try {
+            googleSignInClient.signOut()
+            googleSignInClient.revokeAccess()
+        } catch (e: Exception) {
+            Log.e(TAG, "disconnect: failed to sign out", e)
         }
         backupPreferences.clearGoogleDriveConnection()
         WorkManager.getInstance(context).cancelAllWorkByTag(BackupProvider.GOOGLE_DRIVE.workerTag)
+    }
+
+    private fun getGoogleSignInClient(): GoogleSignInClient {
+        Log.d(TAG, "getGoogleSignInClient: creating GoogleSignInClient")
+        val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .requestScopes(
+                Scope(DriveScopes.DRIVE_FILE),
+                Scope(DriveScopes.DRIVE)
+            )
+            .build()
+        return GoogleSignIn.getClient(context, signInOptions)
     }
 
     private fun buildDriveService(accountEmail: String): Drive? {
@@ -174,7 +176,7 @@ class GoogleDriveBackupProvider @Inject constructor(
             Log.d(TAG, "buildDriveService: creating Drive service for $accountEmail")
             val credential = GoogleAccountCredential.usingOAuth2(
                 context,
-                requestedScopes().map { it.scopeUri }
+                listOf(DriveScopes.DRIVE_FILE, DriveScopes.DRIVE)
             )
             val account = android.accounts.Account(accountEmail, GOOGLE_ACCOUNT_TYPE)
             credential.selectedAccount = account
@@ -201,7 +203,7 @@ class GoogleDriveBackupProvider @Inject constructor(
                 .execute()
 
             val fileId = result.files?.firstOrNull()?.id
-            Log.d(TAG, "findBackupFileId: found=${ fileId != null}")
+            Log.d(TAG, "findBackupFileId: found=${fileId != null}")
             fileId
         } catch (e: Exception) {
             Log.e(TAG, "findBackupFileId: failed", e)
@@ -275,34 +277,9 @@ class GoogleDriveBackupProvider @Inject constructor(
         }
     }
 
-    private fun authorizationRequest(
-        account: Account? = null,
-        promptSelectAccount: Boolean = false
-    ): AuthorizationRequest {
-        val builder = AuthorizationRequest.builder()
-            .setRequestedScopes(requestedScopes())
-
-        if (account != null) {
-            builder.setAccount(account)
-        }
-        if (promptSelectAccount) {
-            builder.setPrompt(AuthorizationRequest.Prompt.SELECT_ACCOUNT)
-        }
-        return builder.build()
-    }
-
-    private fun requestedScopes(): List<Scope> {
-        return listOf(
-            Scope(DRIVE_APPDATA_SCOPE),
-            Scope(USERINFO_EMAIL_SCOPE)
-        )
-    }
-
     companion object {
         const val BACKUP_FILE_NAME = "presently_backup.csv"
         private const val GOOGLE_ACCOUNT_TYPE = "com.google"
-        private const val DRIVE_APPDATA_SCOPE = "https://www.googleapis.com/auth/drive.appdata"
-        private const val USERINFO_EMAIL_SCOPE = "https://www.googleapis.com/auth/userinfo.email"
         private const val TAG = "GoogleDriveBackup"
     }
 }

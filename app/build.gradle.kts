@@ -285,6 +285,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.material)
     implementation(libs.google.play.services.auth)
+    implementation(libs.google.play.services.identity)
     implementation(libs.google.play.services.oss.licenses)
     implementation(libs.kizitonwose.calendar.compose)
     implementation(libs.google.api.client)

@@ -43,16 +43,16 @@ class BackupSettingsFragment : Fragment() {
     @Inject lateinit var crashReporter: CrashReporter
     @Inject lateinit var googleDriveBackupProvider: GoogleDriveBackupProvider
 
-    private val googleAuthorizationLauncher =
-        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
-            Log.d(TAG, "googleAuthorizationLauncher: resultCode=${result.resultCode} (RESULT_OK=${Activity.RESULT_OK})")
+    private val googleSignInLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            Log.d(TAG, "googleSignInLauncher: resultCode=${result.resultCode} (RESULT_OK=${Activity.RESULT_OK})")
             if (result.resultCode != Activity.RESULT_OK) {
-                Log.e(TAG, "googleAuthorizationLauncher: authorization activity returned non-OK result, user may have cancelled or OAuth client is misconfigured")
+                Log.e(TAG, "googleSignInLauncher: sign-in activity returned non-OK result, user may have cancelled")
                 viewModel.onGoogleDriveSignInFailed(null)
                 return@registerForActivityResult
             }
 
-            handleGoogleAuthorizationResultIntent(result.data)
+            handleGoogleSignInResult(result.data)
         }
 
     private val readCsvResultContract =
@@ -184,110 +184,24 @@ class BackupSettingsFragment : Fragment() {
     }
 
     private fun startGoogleDriveAuthorization() {
-        Log.d(TAG, "startGoogleDriveAuthorization: beginning interactive authorization")
-        viewLifecycleOwner.lifecycleScope.launch {
-            runCatching {
-                googleDriveBackupProvider.beginInteractiveAuthorization()
-            }.onSuccess { authorizationResult ->
-                Log.d(TAG, "beginInteractiveAuthorization succeeded: hasResolution=${authorizationResult.hasResolution()}, hasAccessToken=${authorizationResult.accessToken != null}")
-                handleGoogleAuthorizationResult(authorizationResult)
-            }.onFailure { throwable ->
-                Log.e(TAG, "beginInteractiveAuthorization failed", throwable)
-                viewModel.onGoogleDriveSignInFailed(
-                    if (throwable is Exception) throwable else Exception(throwable)
-                )
-            }
-        }
+        Log.d(TAG, "startGoogleDriveAuthorization: launching Google Sign-In")
+        val signInIntent = googleDriveBackupProvider.getSignInIntent()
+        googleSignInLauncher.launch(signInIntent)
     }
 
-    private fun handleGoogleAuthorizationResultIntent(data: Intent?) {
-        Log.d(TAG, "handleGoogleAuthorizationResultIntent: data=${data != null}")
-        runCatching {
-            googleDriveBackupProvider.getAuthorizationResultFromIntent(data)
-        }.onSuccess { authorizationResult ->
-            Log.d(TAG, "getAuthorizationResultFromIntent succeeded: hasResolution=${authorizationResult.hasResolution()}, hasAccessToken=${authorizationResult.accessToken != null}")
-            handleGoogleAuthorizationResult(authorizationResult)
-        }.onFailure { throwable ->
-            Log.e(TAG, "getAuthorizationResultFromIntent failed", throwable)
-            if (throwable is ApiException) {
-                viewModel.onGoogleDriveSignInFailed(throwable)
-            } else {
-                viewModel.onGoogleDriveSignInFailed(
-                    if (throwable is Exception) throwable else Exception(throwable)
-                )
-            }
-        }
-    }
-
-    private fun handleGoogleAuthorizationResult(
-        authorizationResult: com.google.android.gms.auth.api.identity.AuthorizationResult
-    ) {
-        if (authorizationResult.hasResolution()) {
-            val pendingIntent = authorizationResult.pendingIntent
-            if (pendingIntent == null) {
-                Log.e(TAG, "handleGoogleAuthorizationResult: hasResolution=true but pendingIntent is null")
-                viewModel.onGoogleDriveSignInFailed(
-                    IllegalStateException("Authorization requires resolution but no PendingIntent was provided")
-                )
-                return
-            }
-            Log.d(TAG, "handleGoogleAuthorizationResult: launching resolution pending intent")
-            googleAuthorizationLauncher.launch(
-                IntentSenderRequest.Builder(pendingIntent.intentSender).build()
-            )
-            return
-        }
-
-        Log.d(TAG, "handleGoogleAuthorizationResult: no resolution needed, fetching account email via userinfo")
+    private fun handleGoogleSignInResult(data: Intent?) {
+        Log.d(TAG, "handleGoogleSignInResult: processing Google Sign-In result")
         viewLifecycleOwner.lifecycleScope.launch {
-            val accountEmail = runCatching {
-                fetchUserEmailFromToken(authorizationResult.accessToken ?: return@runCatching null)
-            }.getOrElse { throwable ->
-                Log.e(TAG, "fetchUserEmailFromToken failed", throwable)
-                viewModel.onGoogleDriveSignInFailed(
-                    if (throwable is Exception) throwable else Exception(throwable)
-                )
-                null
-            }
+            val accountEmail = googleDriveBackupProvider.handleSignInResult(data)
 
             if (accountEmail.isNullOrBlank()) {
-                Log.e(TAG, "fetchUserEmailFromToken returned null/blank (accessToken was ${if (authorizationResult.accessToken != null) "present" else "null"})")
+                Log.e(TAG, "handleGoogleSignInResult: account email is null/blank")
                 viewModel.onGoogleDriveSignInFailed(
-                    IllegalStateException("Google Drive authorization succeeded but account email was unavailable")
+                    IllegalStateException("Google Sign-In succeeded but account email was unavailable")
                 )
             } else {
-                Log.d(TAG, "Google Drive sign-in succeeded for account: $accountEmail")
+                Log.d(TAG, "handleGoogleSignInResult: Google Drive sign-in succeeded for account: $accountEmail")
                 viewModel.onGoogleDriveSignedIn(accountEmail)
-            }
-        }
-    }
-
-    private suspend fun fetchUserEmailFromToken(accessToken: String): String? {
-        return withContext(kotlinx.coroutines.Dispatchers.IO) {
-            try {
-                val url = java.net.URL("https://www.googleapis.com/oauth2/v2/userinfo")
-                val connection = url.openConnection() as java.net.HttpURLConnection
-                connection.requestMethod = "GET"
-                connection.setRequestProperty("Authorization", "Bearer $accessToken")
-                connection.setRequestProperty("Accept", "application/json")
-                connection.connectTimeout = 15_000
-                connection.readTimeout = 15_000
-
-                val responseCode = connection.responseCode
-                Log.d(TAG, "fetchUserEmailFromToken: response code=$responseCode")
-
-                if (responseCode !in 200..299) {
-                    Log.e(TAG, "fetchUserEmailFromToken: HTTP error $responseCode")
-                    return@withContext null
-                }
-
-                val response = connection.inputStream.bufferedReader().use { it.readText() }
-                val email = org.json.JSONObject(response).optString("email").takeIf { it.isNotBlank() }
-                Log.d(TAG, "fetchUserEmailFromToken: email=${if (email != null) "present" else "null"}")
-                email
-            } catch (e: Exception) {
-                Log.e(TAG, "fetchUserEmailFromToken: exception", e)
-                null
             }
         }
     }
