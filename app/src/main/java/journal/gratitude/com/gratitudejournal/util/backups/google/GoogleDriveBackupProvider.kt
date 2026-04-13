@@ -17,6 +17,7 @@ import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
 import com.google.api.services.drive.model.File as DriveFile
 import dagger.hilt.android.qualifiers.ApplicationContext
+import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.settings.BackupPreferences
 import journal.gratitude.com.gratitudejournal.settings.BackupProvider
@@ -43,7 +44,8 @@ import javax.inject.Singleton
 @Singleton
 class GoogleDriveBackupProvider @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val backupPreferences: BackupPreferences
+    private val backupPreferences: BackupPreferences,
+    private val analytics: AnalyticsLogger
 ) : CloudBackupProvider {
 
     override val provider: BackupProvider = BackupProvider.GOOGLE_DRIVE
@@ -89,12 +91,15 @@ class GoogleDriveBackupProvider @Inject constructor(
                 BackupUploadSuccess
             } catch (exception: UserRecoverableAuthIOException) {
                 Log.e(TAG, "uploadToCloud: recoverable auth exception", exception)
+                analytics.recordEvent("google_drive_auth_failure", mapOf("reason" to "recoverable_auth_io"))
                 BackupAuthFailure(exception)
             } catch (exception: GoogleDriveQuotaException) {
                 Log.e(TAG, "uploadToCloud: storage quota exceeded", exception)
+                analytics.recordEvent("google_drive_backup_failure", mapOf("reason" to "storage_quota_exceeded"))
                 BackupStorageFullFailure(exception)
             } catch (exception: GoogleDriveAuthException) {
                 Log.e(TAG, "uploadToCloud: auth exception", exception)
+                analytics.recordEvent("google_drive_auth_failure", mapOf("reason" to "auth_exception"))
                 BackupAuthFailure(exception)
             } catch (exception: IOException) {
                 Log.e(TAG, "uploadToCloud: IO exception", exception)
@@ -232,6 +237,10 @@ class GoogleDriveBackupProvider @Inject constructor(
 
             Log.d(TAG, "getOrCreateBackupFolder: created folder ${createdFolder.id}")
             createdFolder.id
+        } catch (e: UserRecoverableAuthIOException) {
+            Log.e(TAG, "getOrCreateBackupFolder: auth failure", e)
+            analytics.recordEvent("google_drive_auth_failure", mapOf("reason" to "recoverable_auth_io", "operation" to "get_or_create_folder"))
+            throw e
         } catch (e: Exception) {
             Log.e(TAG, "getOrCreateBackupFolder: failed", e)
             null
