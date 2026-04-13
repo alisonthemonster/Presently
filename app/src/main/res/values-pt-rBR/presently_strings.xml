@@ -149,4 +149,29 @@
     <string name="dropbox_auth_failed">Erro ao vincular a conta do Dropbox</string>
     <string name="learn_more">Saber mais</string>
     <string name="gratitude_quote_widget_description">Inspire-se com uma citação diária sobre gratidão</string>
+
+    <string name="back">Voltar</string>
+    <string name="disconnect">Desconectar</string>
+    <string name="restore">Restaurar</string>
+    <string name="skip">Pular</string>
+    <string name="monthly">Mensal</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Frequência do backup</string>
+    <string name="backup_and_restore_summary">Gerencie os backups do Dropbox e do Google Drive, além da importação e exportação manuais</string>
+    <string name="manual_backup_section">Backup manual</string>
+    <string name="connect_dropbox">Conectar Dropbox</string>
+    <string name="sign_in_with_google">Fazer login com Google</string>
+    <string name="not_connected">Não conectado</string>
+    <string name="last_backup_label">Último backup: %1$s</string>
+    <string name="unknown_backup_date">Data desconhecida</string>
+    <string name="checking_for_backup">Verificando se existe um backup...</string>
+    <string name="google_drive_restore_found">Encontramos um backup de %1$s com %2$d entradas. Restaurar?</string>
+    <string name="google_drive_restore_merge_warning">Isto será mesclado com suas %1$d entradas existentes.</string>
+    <string name="google_drive_too_full_notif_body">O Presently não conseguiu fazer backup dos seus dados porque o armazenamento do Google Drive está cheio. Toque para ver seu armazenamento do Google.</string>
+    <string name="google_drive_sync_error_notif_body">Houve um problema com sua conta do Google Drive. Toque aqui para reconectar o Google Drive e retomar os backups automáticos.</string>
+    <string name="google_drive_auth_failed">Erro ao vincular a conta do Google Drive</string>
+    <string name="import_success">Importado com sucesso!</string>
+    <string name="restore_success">Backup restaurado com sucesso</string>
+    <string name="export_error_message">Erro: %1$s</string>
 </resources>

@@ -3,32 +3,45 @@ package journal.gratitude.com.gratitudejournal.util.backups.dropbox
 import android.content.Context
 import androidx.work.WorkManager
 import com.dropbox.core.DbxException
+import com.dropbox.core.InvalidAccessTokenException
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.android.Auth
 import com.dropbox.core.v2.DbxClientV2
 import com.dropbox.core.v2.files.WriteMode
-import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.BuildConfig
-import journal.gratitude.com.gratitudejournal.model.CloudUploadResult
-import journal.gratitude.com.gratitudejournal.model.UploadError
-import journal.gratitude.com.gratitudejournal.model.UploadSuccess
+import com.dropbox.core.v2.files.UploadErrorException
+import dagger.hilt.android.qualifiers.ApplicationContext
+import journal.gratitude.com.gratitudejournal.settings.BackupPreferences
+import journal.gratitude.com.gratitudejournal.settings.BackupProvider
+import journal.gratitude.com.gratitudejournal.util.backups.BackupAuthFailure
+import journal.gratitude.com.gratitudejournal.util.backups.BackupStorageFullFailure
+import journal.gratitude.com.gratitudejournal.util.backups.BackupUploadFailure
+import journal.gratitude.com.gratitudejournal.util.backups.BackupUploadResult
+import journal.gratitude.com.gratitudejournal.util.backups.BackupUploadSuccess
+import journal.gratitude.com.gratitudejournal.util.backups.CloudBackupProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-interface CloudProvider {
-    suspend fun uploadToCloud(file: File): CloudUploadResult
-}
+@Singleton
+class DropboxUploader @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val backupPreferences: BackupPreferences
+) : CloudBackupProvider {
 
-class DropboxUploader(val context: Context, val settings: PresentlySettings):
-    CloudProvider {
+    override val provider: BackupProvider = BackupProvider.DROPBOX
 
-    override suspend fun uploadToCloud(file: File): CloudUploadResult {
+    override suspend fun uploadToCloud(file: File): BackupUploadResult {
         return withContext(Dispatchers.IO) {
-            val accessToken = settings.getAccessToken()
+            val accessToken = backupPreferences.getDropboxCredential()
+                ?: return@withContext BackupAuthFailure(
+                    IllegalStateException("Dropbox credential missing during backup")
+                )
             val requestConfig = DbxRequestConfig.newBuilder("PresentlyAndroid")
                 .build()
 
@@ -39,20 +52,42 @@ class DropboxUploader(val context: Context, val settings: PresentlySettings):
                     client.files().uploadBuilder("/presently-backup.csv")
                         .withMode(WriteMode.OVERWRITE)
                         .uploadAndFinish(inputStream)
-                    UploadSuccess
+                    BackupUploadSuccess
+                }
+            } catch (e: InvalidAccessTokenException) {
+                BackupAuthFailure(e)
+            } catch (e: UploadErrorException) {
+                if (e.userMessage.text.contains("insufficient_space")) {
+                    BackupStorageFullFailure(e)
+                } else {
+                    BackupUploadFailure(e)
                 }
             } catch (e: DbxException) {
-                UploadError(e)
+                BackupUploadFailure(e)
             } catch (e: IOException) {
-                UploadError(e)
+                BackupUploadFailure(e)
             }
         }
     }
 
+    suspend fun fetchCurrentAccountEmail(): String? {
+        return withContext(Dispatchers.IO) {
+            val accessToken = backupPreferences.getDropboxCredential() ?: return@withContext null
+            val requestConfig = DbxRequestConfig.newBuilder("PresentlyAndroid").build()
+            runCatching {
+                DbxClientV2(requestConfig, accessToken).users().currentAccount.email
+            }.getOrNull()
+        }
+    }
+
+    override suspend fun disconnect() {
+        deauthorizeDropboxAccess(context, backupPreferences)
+    }
+
     companion object {
 
-        fun authorizeDropboxAccess(context: Context, settings: PresentlySettings) {
-            settings.markDropboxAuthInitiated()
+        fun authorizeDropboxAccess(context: Context, backupPreferences: BackupPreferences) {
+            backupPreferences.markDropboxAuthInitiated()
 
             val clientIdentifier = "PresentlyAndroid/${BuildConfig.VERSION_NAME}"
             val requestConfig = DbxRequestConfig(clientIdentifier)
@@ -61,24 +96,22 @@ class DropboxUploader(val context: Context, val settings: PresentlySettings):
 
         suspend fun deauthorizeDropboxAccess(
             context: Context,
-            settings: PresentlySettings,
+            backupPreferences: BackupPreferences,
             dispatcher: CoroutineDispatcher = Dispatchers.IO
         ) {
             withContext(dispatcher) {
-                val accessToken = settings.getAccessToken()
+                val accessToken = backupPreferences.getDropboxCredential()
                 if (accessToken != null) {
                     val requestConfig = DbxRequestConfig.newBuilder("PresentlyAndroid")
                         .build()
-                    val client = DbxClientV2(requestConfig, accessToken)
-                    client.auth().tokenRevoke()
+                    runCatching {
+                        DbxClientV2(requestConfig, accessToken).auth().tokenRevoke()
+                    }
                 }
 
-                settings.clearAccessToken()
-                WorkManager.getInstance(context).cancelAllWorkByTag(PRESENTLY_BACKUP)
+                backupPreferences.clearDropboxConnection()
+                WorkManager.getInstance(context).cancelAllWorkByTag(BackupProvider.DROPBOX.workerTag)
             }
         }
-
-        const val PRESENTLY_BACKUP = "PRESENTLY_BACKUP"
     }
-
 }

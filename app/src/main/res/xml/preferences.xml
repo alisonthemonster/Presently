@@ -112,34 +112,11 @@
         android:key="backups_category"
         android:layout="@layout/preference_category_view"
         android:title="@string/backup_and_restore">
-        <SwitchPreference
-            android:icon="@drawable/ic_dropbox"
-            android:key="dropbox_pref"
-            android:summaryOff="@string/dropbox_summary_off"
-            android:summaryOn="@string/dropbox_summary_on"
-            android:title="@string/dropbox_setting_title" />
-
-        <ListPreference
-            android:defaultValue="0"
-            android:dependency="dropbox_pref"
-            android:entries="@array/BackupCadence"
-            android:entryValues="@array/BackupCadenceValues"
-            android:icon="@drawable/ic_cloud_time"
-            android:key="dropbox_cadence"
-            android:summary="%s"
-            android:title="@string/dropbox_backup_frequency" />
-
         <Preference
-            android:icon="@drawable/ic_export"
-            android:key="one_time_export"
-            android:summary="@string/one_time_export_summary"
-            android:title="@string/one_time_export" />
-
-        <Preference
-            android:icon="@drawable/ic_import"
-            android:key="import_entries"
-            android:summary="@string/import_summary"
-            android:title="@string/import_entries_from_backup" />
+            android:icon="@drawable/ic_cloud"
+            android:key="backup_settings_navigation"
+            android:summary="@string/backup_and_restore_summary"
+            android:title="@string/backup_and_restore" />
     </PreferenceCategory>
 
     <PreferenceCategory

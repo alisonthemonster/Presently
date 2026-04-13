@@ -149,4 +149,29 @@
     <string name="dropbox_auth_failed">Fehler beim Verknüpfen des Dropbox-Kontos</string>
     <string name="learn_more">Mehr erfahren</string>
     <string name="gratitude_quote_widget_description">Lass dich täglich von einem Dankbarkeitszitat inspirieren</string>
+
+    <string name="back">Zurück</string>
+    <string name="disconnect">Trennen</string>
+    <string name="restore">Wiederherstellen</string>
+    <string name="skip">Überspringen</string>
+    <string name="monthly">Monatlich</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Sicherungsintervall</string>
+    <string name="backup_and_restore_summary">Verwalte Dropbox- und Google-Drive-Backups sowie manuellen Import und Export</string>
+    <string name="manual_backup_section">Manuelle Sicherung</string>
+    <string name="connect_dropbox">Dropbox verbinden</string>
+    <string name="sign_in_with_google">Mit Google anmelden</string>
+    <string name="not_connected">Nicht verbunden</string>
+    <string name="last_backup_label">Letzte Sicherung: %1$s</string>
+    <string name="unknown_backup_date">Unbekanntes Datum</string>
+    <string name="checking_for_backup">Vorhandene Sicherung wird gesucht...</string>
+    <string name="google_drive_restore_found">Wir haben eine Sicherung vom %1$s mit %2$d Einträgen gefunden. Wiederherstellen?</string>
+    <string name="google_drive_restore_merge_warning">Dies wird mit deinen vorhandenen %1$d Einträgen zusammengeführt.</string>
+    <string name="google_drive_too_full_notif_body">Presently konnte deine Daten nicht sichern, weil dein Google-Drive-Speicher voll ist. Tippe hier, um deinen Google-Speicher anzusehen.</string>
+    <string name="google_drive_sync_error_notif_body">Es gab ein Problem mit deinem Google-Drive-Konto. Tippe hier, um Google Drive erneut zu verbinden und automatische Sicherungen fortzusetzen.</string>
+    <string name="google_drive_auth_failed">Fehler beim Verbinden des Google-Drive-Kontos</string>
+    <string name="import_success">Erfolgreich importiert!</string>
+    <string name="restore_success">Sicherung erfolgreich wiederhergestellt</string>
+    <string name="export_error_message">Fehler: %1$s</string>
 </resources>

@@ -150,4 +150,29 @@
     <string name="dropbox_auth_failed">Erreur lors de la liaison du compte Dropbox</string>
     <string name="learn_more">Apprendre encore plus</string>
     <string name="gratitude_quote_widget_description">Inspirez-vous avec une citation quotidienne sur la gratitude</string>
+
+    <string name="back">Retour</string>
+    <string name="disconnect">Déconnecter</string>
+    <string name="restore">Restaurer</string>
+    <string name="skip">Ignorer</string>
+    <string name="monthly">Mensuel</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Fréquence de sauvegarde</string>
+    <string name="backup_and_restore_summary">Gérez les sauvegardes Dropbox et Google Drive, ainsi que l’importation et l’exportation manuelles</string>
+    <string name="manual_backup_section">Sauvegarde manuelle</string>
+    <string name="connect_dropbox">Connecter Dropbox</string>
+    <string name="sign_in_with_google">Se connecter avec Google</string>
+    <string name="not_connected">Non connecté</string>
+    <string name="last_backup_label">Dernière sauvegarde : %1$s</string>
+    <string name="unknown_backup_date">Date inconnue</string>
+    <string name="checking_for_backup">Recherche de sauvegarde existante...</string>
+    <string name="google_drive_restore_found">Nous avons trouvé une sauvegarde du %1$s avec %2$d entrées. La restaurer ?</string>
+    <string name="google_drive_restore_merge_warning">Cela sera fusionné avec vos %1$d entrées existantes.</string>
+    <string name="google_drive_too_full_notif_body">La sauvegarde de vos données par Presently a échoué, car votre espace Google Drive est plein. Appuyez pour voir votre espace Google.</string>
+    <string name="google_drive_sync_error_notif_body">Un problème est survenu avec votre compte Google Drive. Appuyez ici pour reconnecter Google Drive et reprendre les sauvegardes automatiques.</string>
+    <string name="google_drive_auth_failed">Erreur lors de la connexion du compte Google Drive</string>
+    <string name="import_success">Importation réussie !</string>
+    <string name="restore_success">Sauvegarde restaurée avec succès</string>
+    <string name="export_error_message">Erreur : %1$s</string>
 </resources>

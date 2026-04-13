@@ -151,4 +151,29 @@
     <string name="dropbox_auth_failed">Chyba pri prepájaní účtu Dropbox</string>
     <string name="learn_more">Uč sa viac</string>
     <string name="gratitude_quote_widget_description">Nechajte sa inšpirovať každodenným citátom o vďačnosti</string>
+
+    <string name="back">Späť</string>
+    <string name="disconnect">Odpojiť</string>
+    <string name="restore">Obnoviť</string>
+    <string name="skip">Preskočiť</string>
+    <string name="monthly">Mesačne</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Frekvencia zálohovania</string>
+    <string name="backup_and_restore_summary">Spravujte zálohy Dropboxu a Google Drive, plus manuálny import a export</string>
+    <string name="manual_backup_section">Manuálna záloha</string>
+    <string name="connect_dropbox">Pripojiť Dropbox</string>
+    <string name="sign_in_with_google">Prihlásiť sa cez Google</string>
+    <string name="not_connected">Nepripojené</string>
+    <string name="last_backup_label">Posledná záloha: %1$s</string>
+    <string name="unknown_backup_date">Neznámy dátum</string>
+    <string name="checking_for_backup">Kontroluje sa existujúca záloha...</string>
+    <string name="google_drive_restore_found">Našli sme zálohu z %1$s s %2$d záznamami. Obnoviť ju?</string>
+    <string name="google_drive_restore_merge_warning">Toto sa zlúči s vašimi existujúcimi %1$d záznamami.</string>
+    <string name="google_drive_too_full_notif_body">Presently nemohol zálohovať vaše údaje, pretože úložisko Google Drive je plné. Klepnutím zobrazíte svoje úložisko Google.</string>
+    <string name="google_drive_sync_error_notif_body">Vyskytol sa problém s vaším účtom Google Drive. Klepnite sem a znova pripojte Google Drive, aby sa obnovilo automatické zálohovanie.</string>
+    <string name="google_drive_auth_failed">Chyba pri prepájaní účtu Google Drive</string>
+    <string name="import_success">Import bol úspešný!</string>
+    <string name="restore_success">Záloha bola úspešne obnovená</string>
+    <string name="export_error_message">Chyba: %1$s</string>
 </resources>

@@ -10,8 +10,13 @@ import androidx.compose.ui.test.performClick
 import androidx.fragment.app.Fragment
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.intent.rule.IntentsRule
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -28,6 +33,7 @@ import journal.gratitude.com.gratitudejournal.testUtils.saveEntriesBlocking
 import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarTags
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
+import journal.gratitude.com.gratitudejournal.ui.settings.BackupSettingsFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineScreenTags
@@ -180,6 +186,17 @@ class TimelineFragmentInstrumentedTest {
         ).performClick()
 
         assertCurrentFragmentIs<SettingsFragment>()
+    }
+
+    @Test
+    fun settingsScreen_clickingBackupAndRestore_opensBackupSettingsScreen() {
+        val scenario = launchTimelineInContainerActivity()
+
+        onView(withId(R.id.overflow_button)).perform(click())
+        onView(withText(R.string.notification_settings)).perform(click())
+        onView(withText(R.string.backup_and_restore_summary)).perform(scrollTo(), click())
+
+        assertCurrentFragmentIs<BackupSettingsFragment>(scenario)
     }
 
     @Test

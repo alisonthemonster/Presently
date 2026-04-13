@@ -22,18 +22,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.settings.BackupCadence
-import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.sharing.view.SharingFragment
 import journal.gratitude.com.gratitudejournal.ui.dialog.CelebrateDialogFragment
 import journal.gratitude.com.gratitudejournal.ui.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyTheme
-import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
-import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
+import journal.gratitude.com.gratitudejournal.util.backups.BackupWorkScheduler
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
@@ -44,8 +39,7 @@ class EntryFragment : Fragment() {
 
     private val viewModel: EntryViewModel by viewModels()
 
-    @Inject
-    lateinit var settings: PresentlySettings
+    @Inject lateinit var backupWorkScheduler: BackupWorkScheduler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -143,14 +137,7 @@ class EntryFragment : Fragment() {
     }
 
     private fun backupEntryIfNeeded() {
-        val dbxCredential = settings.getAccessToken()
-        val cadence = settings.getAutomaticBackupCadence()
-        if (dbxCredential != null && cadence == BackupCadence.EVERY_CHANGE) {
-            val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
-                .addTag(DropboxUploader.PRESENTLY_BACKUP)
-                .build()
-            WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
-        }
+        backupWorkScheduler.triggerOnEveryChangeBackups()
     }
 
     private fun onEntrySaved(shouldTriggerReminderOnboarding: Boolean) {

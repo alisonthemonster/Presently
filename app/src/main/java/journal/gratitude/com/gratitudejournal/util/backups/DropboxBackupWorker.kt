@@ -6,14 +6,17 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
 
 @HiltWorker
-class UploadToCloudWorker @AssistedInject constructor(
-    @Assisted val appContext: Context,
+class DropboxBackupWorker @AssistedInject constructor(
+    @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
-    private val uploader: Uploader
+    private val runner: BackupWorkerRunner,
+    private val dropboxUploader: DropboxUploader
 ) : CoroutineWorker(appContext, workerParams) {
+
     override suspend fun doWork(): Result {
-        return uploader.uploadEntries(appContext)
+        return runner.run(applicationContext, dropboxUploader)
     }
 }

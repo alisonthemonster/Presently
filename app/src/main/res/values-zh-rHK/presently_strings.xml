@@ -151,4 +151,29 @@
     <string name="dropbox_auth_failed">連結 Dropbox 帳戶時發生錯誤</string>
     <string name="learn_more">学到更多</string>
     <string name="gratitude_quote_widget_description">每天獲取一句感恩語錄，激勵您的生活</string>
+
+    <string name="back">返回</string>
+    <string name="disconnect">中斷連線</string>
+    <string name="restore">還原</string>
+    <string name="skip">略過</string>
+    <string name="monthly">每月</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">備份頻率</string>
+    <string name="backup_and_restore_summary">管理 Dropbox 和 Google Drive 備份，以及手動匯入和匯出</string>
+    <string name="manual_backup_section">手動備份</string>
+    <string name="connect_dropbox">連接 Dropbox</string>
+    <string name="sign_in_with_google">使用 Google 登入</string>
+    <string name="not_connected">未連接</string>
+    <string name="last_backup_label">上次備份：%1$s</string>
+    <string name="unknown_backup_date">未知日期</string>
+    <string name="checking_for_backup">正在檢查是否已有備份...</string>
+    <string name="google_drive_restore_found">我們找到一個來自 %1$s、包含 %2$d 筆項目的備份。要還原嗎？</string>
+    <string name="google_drive_restore_merge_warning">這會與你現有的 %1$d 筆項目合併。</string>
+    <string name="google_drive_too_full_notif_body">Presently 無法備份你的資料，因為你的 Google Drive 儲存空間已滿。點按以查看你的 Google 儲存空間。</string>
+    <string name="google_drive_sync_error_notif_body">你的 Google Drive 帳戶出現問題。點按此處以重新連接 Google Drive 並恢復自動備份。</string>
+    <string name="google_drive_auth_failed">連接 Google Drive 帳戶時發生錯誤</string>
+    <string name="import_success">匯入成功！</string>
+    <string name="restore_success">備份已成功還原</string>
+    <string name="export_error_message">錯誤：%1$s</string>
 </resources>

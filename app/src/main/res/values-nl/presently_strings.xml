@@ -148,4 +148,29 @@
     <string name="dropbox_auth_failed">Fout bij koppelen van Dropbox-account</string>
     <string name="learn_more">Leer meer</string>
     <string name="gratitude_quote_widget_description">Laat je inspireren door een dagelijks dankbaarheidscitaat</string>
+
+    <string name="back">Terug</string>
+    <string name="disconnect">Verbinding verbreken</string>
+    <string name="restore">Herstellen</string>
+    <string name="skip">Overslaan</string>
+    <string name="monthly">Maandelijks</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Back-upfrequentie</string>
+    <string name="backup_and_restore_summary">Beheer Dropbox- en Google Drive-back-ups, plus handmatig importeren en exporteren</string>
+    <string name="manual_backup_section">Handmatige back-up</string>
+    <string name="connect_dropbox">Dropbox verbinden</string>
+    <string name="sign_in_with_google">Inloggen met Google</string>
+    <string name="not_connected">Niet verbonden</string>
+    <string name="last_backup_label">Laatste back-up: %1$s</string>
+    <string name="unknown_backup_date">Onbekende datum</string>
+    <string name="checking_for_backup">Bestaande back-up wordt gecontroleerd...</string>
+    <string name="google_drive_restore_found">We hebben een back-up van %1$s met %2$d items gevonden. Herstellen?</string>
+    <string name="google_drive_restore_merge_warning">Dit wordt samengevoegd met je bestaande %1$d items.</string>
+    <string name="google_drive_too_full_notif_body">Presently kon geen back-up van je gegevens maken omdat je Google Drive-opslag vol is. Tik om je Google-opslag te bekijken.</string>
+    <string name="google_drive_sync_error_notif_body">Er was een probleem met je Google Drive-account. Tik hier om Google Drive opnieuw te verbinden en automatische back-ups te hervatten.</string>
+    <string name="google_drive_auth_failed">Fout bij het koppelen van het Google Drive-account</string>
+    <string name="import_success">Succesvol geïmporteerd!</string>
+    <string name="restore_success">Back-up succesvol hersteld</string>
+    <string name="export_error_message">Fout: %1$s</string>
 </resources>

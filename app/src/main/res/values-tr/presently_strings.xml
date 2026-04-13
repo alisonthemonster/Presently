@@ -151,4 +151,29 @@
     <string name="dropbox_auth_failed">Dropbox hesabı bağlanırken hata oluştu</string>
     <string name="learn_more">Daha fazla bilgi edin</string>
     <string name="gratitude_quote_widget_description">Günlük bir minnettarlık alıntısıyla ilham alın</string>
+
+    <string name="back">Geri</string>
+    <string name="disconnect">Bağlantıyı kes</string>
+    <string name="restore">Geri yükle</string>
+    <string name="skip">Atla</string>
+    <string name="monthly">Aylık</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Yedekleme sıklığı</string>
+    <string name="backup_and_restore_summary">Dropbox ve Google Drive yedeklerini, ayrıca manuel içe aktarma ve dışa aktarmayı yönetin</string>
+    <string name="manual_backup_section">Manuel yedekleme</string>
+    <string name="connect_dropbox">Dropbox bağla</string>
+    <string name="sign_in_with_google">Google ile oturum aç</string>
+    <string name="not_connected">Bağlı değil</string>
+    <string name="last_backup_label">Son yedekleme: %1$s</string>
+    <string name="unknown_backup_date">Bilinmeyen tarih</string>
+    <string name="checking_for_backup">Mevcut bir yedek kontrol ediliyor...</string>
+    <string name="google_drive_restore_found">%1$s tarihli ve %2$d kayıt içeren bir yedek bulduk. Geri yüklensin mi?</string>
+    <string name="google_drive_restore_merge_warning">Bu, mevcut %1$d kaydınızla birleştirilecektir.</string>
+    <string name="google_drive_too_full_notif_body">Presently, Google Drive depolama alanınız dolu olduğu için verilerinizi yedekleyemedi. Google depolama alanınızı görmek için dokunun.</string>
+    <string name="google_drive_sync_error_notif_body">Google Drive hesabınızla ilgili bir sorun oluştu. Google Driveı yeniden bağlamak ve otomatik yedeklemeleri sürdürmek için buraya dokunun.</string>
+    <string name="google_drive_auth_failed">Google Drive hesabı bağlanırken hata oluştu</string>
+    <string name="import_success">İçe aktarma başarılı!</string>
+    <string name="restore_success">Yedek başarıyla geri yüklendi</string>
+    <string name="export_error_message">Hata: %1$s</string>
 </resources>

@@ -8,7 +8,6 @@ import com.google.common.truth.Truth.assertThat
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.settings.BackupCadence
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.testUtils.MainDispatcherRule
 import kotlinx.coroutines.CoroutineStart
@@ -306,7 +305,6 @@ private class TestPresentlySettings : PresentlySettings {
     override fun setOnPauseTime() = Unit
     override fun getFirstDayOfWeek(): Int = 1
     override fun shouldShowQuote(): Boolean = true
-    override fun getAutomaticBackupCadence(): BackupCadence = BackupCadence.DAILY
     override fun getLocale(): String = "en"
     override fun hasEnabledNotifications(): Boolean = false
     override fun setNotificationsEnabled(enabled: Boolean) = Unit
@@ -320,11 +318,5 @@ private class TestPresentlySettings : PresentlySettings {
     override fun markNotificationPermissionRequested() = Unit
     override fun getLinesPerEntryInTimeline(): Int = 3
     override fun shouldShowDayOfWeekInTimeline(): Boolean = false
-    override fun getAccessToken(): com.dropbox.core.oauth.DbxCredential? = null
-    override fun setAccessToken(newToken: com.dropbox.core.oauth.DbxCredential) = Unit
-    override fun wasDropboxAuthInitiated(): Boolean = false
-    override fun markDropboxAuthAsCancelled() = Unit
-    override fun markDropboxAuthInitiated() = Unit
-    override fun clearAccessToken() = Unit
     override fun isOptedIntoAnalytics(): Boolean = true
 }

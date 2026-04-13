@@ -25,16 +25,10 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import com.dropbox.core.android.Auth
-import com.dropbox.core.android.AuthActivity
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.logging.CrashReporter
-import journal.gratitude.com.gratitudejournal.settings.BackupCadence
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.settings.model.*
 import journal.gratitude.com.gratitudejournal.BuildConfig
@@ -43,9 +37,6 @@ import journal.gratitude.com.gratitudejournal.model.*
 import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.convertCsvToEntries
 import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.exportEntriesToCsvFile
 import journal.gratitude.com.gratitudejournal.util.backups.RealCsvParser
-import journal.gratitude.com.gratitudejournal.util.backups.UploadToCloudWorker
-import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
-import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader.Companion.PRESENTLY_BACKUP
 import journal.gratitude.com.gratitudejournal.util.AppLocaleManager
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.TimePreference
@@ -58,7 +49,6 @@ import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.reminders.troubleshooter.ui.NotificationTroubleshooterFragment
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
-import journal.gratitude.com.gratitudejournal.util.backups.RealUploader.Companion.BACKUP_NOTIFICATION_ID
 import kotlinx.coroutines.launch
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -165,51 +155,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
 
-        val dropbox = findPreference<Preference>(BACKUP_TOKEN)
-        val cadencePref = (findPreference<Preference>(BACKUP_CADENCE) as ListPreference)
-
-        dropbox?.setOnPreferenceClickListener {
-            val wantsToLogin = preferenceScreen.sharedPreferences?.getBoolean(BACKUP_TOKEN, false) ?: false
-            if (!wantsToLogin) {
-                analytics.recordEvent(DROPBOX_DEAUTH)
-                lifecycleScope.launch {
-                    DropboxUploader.deauthorizeDropboxAccess(requireContext(), settings)
-                }
-            } else {
-                analytics.recordEvent(DROPBOX_AUTH_ATTEMPT)
-                try {
-                    val appKey = BuildConfig.DROPBOX_APP_KEY
-                    val manifestCheckPassed =
-                        AuthActivity.checkAppBeforeAuth(requireContext(), appKey, false)
-                    if (!manifestCheckPassed) {
-                        val exception = IllegalStateException(
-                            "Dropbox manifest/auth precheck failed before auth start"
-                        )
-                        crashReporter.logHandledException(exception)
-                        Toast.makeText(context, R.string.dropbox_auth_failed, Toast.LENGTH_SHORT).show()
-                        return@setOnPreferenceClickListener true
-                    }
-                    DropboxUploader.authorizeDropboxAccess(requireContext(), settings)
-                } catch (exception: Exception) {
-                    crashReporter.logHandledException(exception)
-                    Toast.makeText(context, R.string.dropbox_auth_failed, Toast.LENGTH_SHORT).show()
-                }
-            }
-            true
-        }
-
-        val cadence = settings.getAutomaticBackupCadence()
-        val index = cadence.index
-        cadencePref.setValueIndex(index)
-        val oneTimeExport = findPreference<Preference>(ONE_TIME_EXPORT_PREF)
-        oneTimeExport?.setOnPreferenceClickListener {
-            createFileOnDevice()
-            true
-        }
-
-        val import = findPreference<Preference>(IMPORT_PREF)
-        import?.setOnPreferenceClickListener {
-            importFromCsv()
+        findPreference<Preference>(BACKUP_SETTINGS_NAVIGATION_PREF)?.setOnPreferenceClickListener {
+            openBackupSettings()
             true
         }
 
@@ -249,24 +196,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         syncReminderPreferencesWithSystemState()
         refreshReminderPreferences()
 
-        // If we just resumed after launching the Dropbox activity
-        if (settings.wasDropboxAuthInitiated()) {
-            val token = Auth.getDbxCredential() //get token from Dropbox Auth activity
-            if (token == null) {
-                //user started to auth and didn't succeed
-                val exception = IllegalStateException(
-                    "Dropbox auth resumed without a credential. data=${activity?.intent?.data}"
-                )
-                crashReporter.logHandledException(exception)
-                settings.markDropboxAuthAsCancelled()
-                Toast.makeText(context, R.string.dropbox_auth_failed, Toast.LENGTH_SHORT).show()
-                activity?.recreate()
-            } else {
-                settings.setAccessToken(token)
-                createDropboxUploaderWorker(settings.getAutomaticBackupCadence())
-                cancelDropboxFailureNotifications() //now that user has auth'd cancel any notifs about previous failure
-            }
-        }
     }
 
     private fun refreshReminderPreferences() {
@@ -407,12 +336,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     analytics.recordEvent(BIOMETRICS_DESELECT)
                 }
             }
-            BACKUP_CADENCE -> {
-                //todo test cadence works properly with dropbox
-                val cadence = settings.getAutomaticBackupCadence()
-                analytics.recordSelectEvent(cadence.string, "cadence")
-                createDropboxUploaderWorker(cadence)
-            }
             APP_LANGUAGE -> {
                 val language = settings.getLocale()
                 updateLanguage(language)
@@ -436,39 +359,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         if (AppCompatDelegate.getApplicationLocales() != locales) {
             AppCompatDelegate.setApplicationLocales(locales)
         }
-    }
-
-    private fun createDropboxUploaderWorker(cadence: BackupCadence) {
-        WorkManager.getInstance(requireContext()).cancelAllWorkByTag(PRESENTLY_BACKUP)
-
-        when (cadence) {
-            BackupCadence.DAILY -> {
-                val uploadWorkRequest =
-                    PeriodicWorkRequestBuilder<UploadToCloudWorker>(1, TimeUnit.DAYS)
-                        .addTag(PRESENTLY_BACKUP)
-                        .build()
-                WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
-            }
-            BackupCadence.WEEKLY -> {
-                val uploadWorkRequest =
-                    PeriodicWorkRequestBuilder<UploadToCloudWorker>(7, TimeUnit.DAYS)
-                        .addTag(PRESENTLY_BACKUP)
-                        .build()
-                WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
-            }
-            BackupCadence.EVERY_CHANGE -> {
-                //every change so do an upload now
-                val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadToCloudWorker>()
-                    .addTag(PRESENTLY_BACKUP)
-                    .build()
-                WorkManager.getInstance(requireContext()).enqueue(uploadWorkRequest)
-            }
-        }
-    }
-
-    private fun cancelDropboxFailureNotifications() {
-        val notificationManager = NotificationManagerCompat.from(requireContext())
-        notificationManager.cancel(BACKUP_NOTIFICATION_ID)
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
@@ -510,6 +400,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
             .beginTransaction()
             .replace(R.id.container_fragment, fragment)
             .addToBackStack(SETTINGS_TO_NOTIFICATION_TROUBLESHOOTER)
+            .commit()
+    }
+
+    private fun openBackupSettings() {
+        parentFragmentManager
+            .beginTransaction()
+            .replace(R.id.container_fragment, BackupSettingsFragment())
+            .addToBackStack(SETTINGS_TO_BACKUP)
             .commit()
     }
 
@@ -703,8 +601,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 parentFragmentManager.popBackStack()
             }
 
-            //TODO move this hardcoded string to strings.xml
-            Toast.makeText(context, "Imported successfully!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.import_success, Toast.LENGTH_SHORT).show()
         } catch (exception: Exception) {
             analytics.recordEvent(IMPORTING_BACKUP_ERROR)
             crashReporter.logHandledException(exception)
@@ -772,7 +669,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             crashReporter.logHandledException(exception)
             Toast.makeText(
                     context,
-                    "Error : ${exception.localizedMessage}",
+                    getString(R.string.export_error_message, exception.localizedMessage),
                     Toast.LENGTH_SHORT
             )
                 .show()
@@ -780,10 +677,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     companion object {
-        const val BACKUP_TOKEN = "dropbox_pref"
         const val SETTINGS_TO_THEME = "SETTINGS_TO_THEME"
         const val SETTINGS_TO_NOTIFICATION_TROUBLESHOOTER =
             "SETTINGS_TO_NOTIFICATION_TROUBLESHOOTER"
+        const val SETTINGS_TO_BACKUP = "SETTINGS_TO_BACKUP"
     }
 }
 

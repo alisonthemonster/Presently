@@ -148,4 +148,29 @@
     <string name="dropbox_auth_failed">Błąd podczas łączenia konta Dropbox</string>
     <string name="learn_more">Ucz się więcej</string>
     <string name="gratitude_quote_widget_description">Zainspiruj się codziennym cytatem o wdzięczności</string>
+
+    <string name="back">Wstecz</string>
+    <string name="disconnect">Rozłącz</string>
+    <string name="restore">Przywróć</string>
+    <string name="skip">Pomiń</string>
+    <string name="monthly">Miesięcznie</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Częstotliwość kopii zapasowej</string>
+    <string name="backup_and_restore_summary">Zarządzaj kopiami zapasowymi Dropbox i Google Drive oraz ręcznym importem i eksportem</string>
+    <string name="manual_backup_section">Ręczna kopia zapasowa</string>
+    <string name="connect_dropbox">Połącz Dropbox</string>
+    <string name="sign_in_with_google">Zaloguj się przez Google</string>
+    <string name="not_connected">Nie połączono</string>
+    <string name="last_backup_label">Ostatnia kopia zapasowa: %1$s</string>
+    <string name="unknown_backup_date">Nieznana data</string>
+    <string name="checking_for_backup">Sprawdzanie istniejącej kopii zapasowej...</string>
+    <string name="google_drive_restore_found">Znaleźliśmy kopię zapasową z %1$s zawierającą %2$d wpisów. Przywrócić ją?</string>
+    <string name="google_drive_restore_merge_warning">To zostanie scalone z Twoimi istniejącymi %1$d wpisami.</string>
+    <string name="google_drive_too_full_notif_body">Presently nie mógł wykonać kopii zapasowej Twoich danych, ponieważ miejsce w Google Drive jest pełne. Dotknij, aby zobaczyć miejsce Google.</string>
+    <string name="google_drive_sync_error_notif_body">Wystąpił problem z Twoim kontem Google Drive. Dotknij tutaj, aby ponownie połączyć Google Drive i wznowić automatyczne kopie zapasowe.</string>
+    <string name="google_drive_auth_failed">Błąd podczas łączenia konta Google Drive</string>
+    <string name="import_success">Import zakończony pomyślnie!</string>
+    <string name="restore_success">Kopia zapasowa została pomyślnie przywrócona</string>
+    <string name="export_error_message">Błąd: %1$s</string>
 </resources>

@@ -281,7 +281,9 @@ dependencies {
 
     implementation(libs.three.ten.abp)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.material)
+    implementation(libs.google.play.services.auth)
     implementation(libs.google.play.services.oss.licenses)
     implementation(libs.kizitonwose.calendar.compose)
     implementation(libs.dropbox.core.sdk)

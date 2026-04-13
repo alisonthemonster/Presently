@@ -2,14 +2,12 @@ package journal.gratitude.com.gratitudejournal.reminders.onboarding.ui
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.dropbox.core.oauth.DbxCredential
 import com.google.common.truth.Truth.assertThat
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.data.ReminderOnboardingRepository
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.BuildReminderOnboardingStepsUseCase
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ReminderOnboardingStep
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ReminderPermissionSnapshot
-import journal.gratitude.com.gratitudejournal.settings.BackupCadence
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.testUtils.MainDispatcherRule
 import kotlinx.coroutines.CoroutineStart
@@ -452,7 +450,6 @@ class ReminderOnboardingViewModelTest {
         override fun setOnPauseTime() = Unit
         override fun getFirstDayOfWeek(): Int = Calendar.MONDAY
         override fun shouldShowQuote(): Boolean = true
-        override fun getAutomaticBackupCadence(): BackupCadence = BackupCadence.DAILY
         override fun getLocale(): String = "en-US"
         override fun hasEnabledNotifications(): Boolean = notificationsEnabledValue
         override fun setNotificationsEnabled(enabled: Boolean) {
@@ -476,12 +473,6 @@ class ReminderOnboardingViewModelTest {
         }
         override fun getLinesPerEntryInTimeline(): Int = 10
         override fun shouldShowDayOfWeekInTimeline(): Boolean = false
-        override fun getAccessToken(): DbxCredential? = null
-        override fun setAccessToken(newToken: DbxCredential) = Unit
-        override fun wasDropboxAuthInitiated(): Boolean = false
-        override fun markDropboxAuthAsCancelled() = Unit
-        override fun markDropboxAuthInitiated() = Unit
-        override fun clearAccessToken() = Unit
         override fun isOptedIntoAnalytics(): Boolean = true
     }
 }

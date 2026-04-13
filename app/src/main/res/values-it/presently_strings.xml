@@ -150,4 +150,29 @@
     <string name="dropbox_auth_failed">Errore durante il collegamento dell\'account Dropbox</string>
     <string name="learn_more">Scopri di più</string>
     <string name="gratitude_quote_widget_description">Lasciati ispirare da una citazione quotidiana sulla gratitudine</string>
+
+    <string name="back">Indietro</string>
+    <string name="disconnect">Disconnetti</string>
+    <string name="restore">Ripristina</string>
+    <string name="skip">Salta</string>
+    <string name="monthly">Mensile</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Frequenza di backup</string>
+    <string name="backup_and_restore_summary">Gestisci i backup di Dropbox e Google Drive, oltre all’importazione e all’esportazione manuali</string>
+    <string name="manual_backup_section">Backup manuale</string>
+    <string name="connect_dropbox">Collega Dropbox</string>
+    <string name="sign_in_with_google">Accedi con Google</string>
+    <string name="not_connected">Non connesso</string>
+    <string name="last_backup_label">Ultimo backup: %1$s</string>
+    <string name="unknown_backup_date">Data sconosciuta</string>
+    <string name="checking_for_backup">Controllo di un backup esistente...</string>
+    <string name="google_drive_restore_found">Abbiamo trovato un backup del %1$s con %2$d voci. Ripristinarlo?</string>
+    <string name="google_drive_restore_merge_warning">Questo verrà unito alle tue %1$d voci esistenti.</string>
+    <string name="google_drive_too_full_notif_body">Presently non è riuscito a eseguire il backup dei tuoi dati perché lo spazio di Google Drive è pieno. Tocca per vedere il tuo spazio Google.</string>
+    <string name="google_drive_sync_error_notif_body">Si è verificato un problema con il tuo account Google Drive. Tocca qui per ricollegare Google Drive e riprendere i backup automatici.</string>
+    <string name="google_drive_auth_failed">Errore durante il collegamento dell’account Google Drive</string>
+    <string name="import_success">Importazione completata!</string>
+    <string name="restore_success">Backup ripristinato correttamente</string>
+    <string name="export_error_message">Errore: %1$s</string>
 </resources>

@@ -150,4 +150,29 @@
     <string name="dropbox_auth_failed">Ошибка при подключении аккаунта Dropbox</string>
     <string name="learn_more">Выучить больше</string>
     <string name="gratitude_quote_widget_description">Вдохновляйтесь ежедневной цитатой о благодарности</string>
+
+    <string name="back">Назад</string>
+    <string name="disconnect">Отключить</string>
+    <string name="restore">Восстановить</string>
+    <string name="skip">Пропустить</string>
+    <string name="monthly">Ежемесячно</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Частота резервного копирования</string>
+    <string name="backup_and_restore_summary">Управляйте резервными копиями Dropbox и Google Drive, а также ручным импортом и экспортом</string>
+    <string name="manual_backup_section">Ручное резервное копирование</string>
+    <string name="connect_dropbox">Подключить Dropbox</string>
+    <string name="sign_in_with_google">Войти через Google</string>
+    <string name="not_connected">Не подключено</string>
+    <string name="last_backup_label">Последняя резервная копия: %1$s</string>
+    <string name="unknown_backup_date">Неизвестная дата</string>
+    <string name="checking_for_backup">Проверка наличия резервной копии...</string>
+    <string name="google_drive_restore_found">Мы нашли резервную копию от %1$s с %2$d записями. Восстановить ее?</string>
+    <string name="google_drive_restore_merge_warning">Это будет объединено с вашими существующими %1$d записями.</string>
+    <string name="google_drive_too_full_notif_body">Presently не смог создать резервную копию данных, потому что хранилище Google Drive заполнено. Нажмите, чтобы открыть хранилище Google.</string>
+    <string name="google_drive_sync_error_notif_body">Возникла проблема с вашим аккаунтом Google Drive. Нажмите здесь, чтобы заново подключить Google Drive и возобновить автоматическое резервное копирование.</string>
+    <string name="google_drive_auth_failed">Ошибка при подключении аккаунта Google Drive</string>
+    <string name="import_success">Импорт выполнен успешно!</string>
+    <string name="restore_success">Резервная копия успешно восстановлена</string>
+    <string name="export_error_message">Ошибка: %1$s</string>
 </resources>

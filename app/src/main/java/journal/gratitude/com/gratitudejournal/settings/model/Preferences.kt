@@ -1,8 +1,5 @@
 package journal.gratitude.com.gratitudejournal.settings.model
 
-const val BACKUP_TOKEN = "dropbox_pref"
-const val ACCESS_TOKEN = "access-token"
-const val BACKUP_CADENCE = "dropbox_cadence"
 const val FINGERPRINT = "fingerprint_lock"
 const val NOTIFS_CATEGORY = "key_notifs_category"
 const val NOTIFS = "notif_parent"
@@ -23,3 +20,4 @@ const val VERSION_PREF = "version"
 const val ONE_TIME_EXPORT_PREF = "one_time_export"
 const val IMPORT_PREF = "import_entries"
 const val ANALYTICS_OPT_IN_PREF = "analytics_opt_out"
+const val BACKUP_SETTINGS_NAVIGATION_PREF = "backup_settings_navigation"

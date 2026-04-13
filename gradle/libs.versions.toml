@@ -37,6 +37,7 @@ firebase-crashlytics-plugin = "3.0.6"
 fulladle = "0.19.0"
 google-oss-licenses-plugin = "0.10.10"
 google-services-plugin = "4.4.4"
+google-play-services-auth = "21.5.1"
 hilt-plugin = "2.57.2"
 junit4 = "4.13.2"
 kotlin = "2.1.20"
@@ -121,6 +122,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 google-oss-licenses-plugin = { module = "com.google.android.gms:oss-licenses-plugin", version.ref = "google-oss-licenses-plugin" }
 google-play-feature-delivery = { module = "com.google.android.play:feature-delivery", version.ref = "play-core" }
+google-play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "google-play-services-auth" }
 google-play-services-oss-licenses = { module = "com.google.android.gms:play-services-oss-licenses", version.ref = "oss-licenses" }
 hamcrest = { module = "org.hamcrest:hamcrest", version = "2.2" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
@@ -130,6 +132,7 @@ junit4 = { module = "junit:junit", version.ref = "junit4" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlin-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
 material = { module = "com.google.android.material:material", version.ref = "material" }

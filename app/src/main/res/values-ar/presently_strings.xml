@@ -151,4 +151,29 @@
     <string name="dropbox_auth_failed">حدث خطأ أثناء ربط حساب Dropbox</string>
     <string name="learn_more">يتعلم أكثر</string>
     <string name="gratitude_quote_widget_description">اشعر بالإلهام من خلال اقتباس يومي عن الامتنان</string>
+
+    <string name="back">رجوع</string>
+    <string name="disconnect">قطع الاتصال</string>
+    <string name="restore">استعادة</string>
+    <string name="skip">تخطي</string>
+    <string name="monthly">شهريًا</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">تكرار النسخ الاحتياطي</string>
+    <string name="backup_and_restore_summary">إدارة النسخ الاحتياطي إلى Dropbox وGoogle Drive، بالإضافة إلى الاستيراد والتصدير اليدويين</string>
+    <string name="manual_backup_section">نسخ احتياطي يدوي</string>
+    <string name="connect_dropbox">ربط Dropbox</string>
+    <string name="sign_in_with_google">تسجيل الدخول باستخدام Google</string>
+    <string name="not_connected">غير متصل</string>
+    <string name="last_backup_label">آخر نسخة احتياطية: %1$s</string>
+    <string name="unknown_backup_date">تاريخ غير معروف</string>
+    <string name="checking_for_backup">جار التحقق من وجود نسخة احتياطية...</string>
+    <string name="google_drive_restore_found">عثرنا على نسخة احتياطية من %1$s تحتوي على %2$d من الإدخالات. هل تريد استعادتها؟</string>
+    <string name="google_drive_restore_merge_warning">سيتم دمجها مع %1$d من إدخالاتك الحالية.</string>
+    <string name="google_drive_too_full_notif_body">تعذر على Presently نسخ بياناتك احتياطيًا لأن مساحة Google Drive ممتلئة. اضغط لعرض مساحة Google.</string>
+    <string name="google_drive_sync_error_notif_body">حدثت مشكلة في حساب Google Drive الخاص بك. اضغط هنا لإعادة ربط Google Drive واستئناف النسخ الاحتياطية التلقائية.</string>
+    <string name="google_drive_auth_failed">حدث خطأ أثناء ربط حساب Google Drive</string>
+    <string name="import_success">تم الاستيراد بنجاح!</string>
+    <string name="restore_success">تمت استعادة النسخة الاحتياطية بنجاح</string>
+    <string name="export_error_message">خطأ: %1$s</string>
 </resources>

@@ -151,4 +151,29 @@
     <string name="dropbox_auth_failed">Error al vincular la cuenta de Dropbox</string>
     <string name="learn_more">Aprende más</string>
     <string name="gratitude_quote_widget_description">Inspírate con una cita de gratitud diaria</string>
+
+    <string name="back">Atrás</string>
+    <string name="disconnect">Desconectar</string>
+    <string name="restore">Restaurar</string>
+    <string name="skip">Omitir</string>
+    <string name="monthly">Mensual</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Frecuencia de copia de seguridad</string>
+    <string name="backup_and_restore_summary">Administra las copias de seguridad de Dropbox y Google Drive, además de la importación y exportación manuales</string>
+    <string name="manual_backup_section">Copia de seguridad manual</string>
+    <string name="connect_dropbox">Conectar Dropbox</string>
+    <string name="sign_in_with_google">Iniciar sesión con Google</string>
+    <string name="not_connected">No conectado</string>
+    <string name="last_backup_label">Última copia de seguridad: %1$s</string>
+    <string name="unknown_backup_date">Fecha desconocida</string>
+    <string name="checking_for_backup">Buscando una copia de seguridad existente...</string>
+    <string name="google_drive_restore_found">Encontramos una copia de seguridad del %1$s con %2$d entradas. ¿Restaurarla?</string>
+    <string name="google_drive_restore_merge_warning">Esto se fusionará con tus %1$d entradas existentes.</string>
+    <string name="google_drive_too_full_notif_body">Presently no pudo hacer una copia de seguridad de tus datos porque el almacenamiento de Google Drive está lleno. Toca para ver tu almacenamiento de Google.</string>
+    <string name="google_drive_sync_error_notif_body">Hubo un problema con tu cuenta de Google Drive. Toca aquí para volver a conectar Google Drive y reanudar las copias de seguridad automáticas.</string>
+    <string name="google_drive_auth_failed">Error al vincular la cuenta de Google Drive</string>
+    <string name="import_success">¡Importado correctamente!</string>
+    <string name="restore_success">Copia de seguridad restaurada correctamente</string>
+    <string name="export_error_message">Error: %1$s</string>
 </resources>

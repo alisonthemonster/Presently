@@ -150,4 +150,29 @@
     <string name="dropbox_auth_failed">Virhe yhdistettäessä Dropbox-tiliä</string>
     <string name="learn_more">Lue lisää</string>
     <string name="gratitude_quote_widget_description">Inspiroidu päivittäisestä kiitollisuuslainauksesta</string>
+
+    <string name="back">Takaisin</string>
+    <string name="disconnect">Katkaise yhteys</string>
+    <string name="restore">Palauta</string>
+    <string name="skip">Ohita</string>
+    <string name="monthly">Kuukausittain</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Varmuuskopioinnin tiheys</string>
+    <string name="backup_and_restore_summary">Hallitse Dropbox- ja Google Drive -varmuuskopioita sekä manuaalista tuontia ja vientiä</string>
+    <string name="manual_backup_section">Manuaalinen varmuuskopio</string>
+    <string name="connect_dropbox">Yhdistä Dropbox</string>
+    <string name="sign_in_with_google">Kirjaudu Googleen</string>
+    <string name="not_connected">Ei yhdistetty</string>
+    <string name="last_backup_label">Viimeisin varmuuskopio: %1$s</string>
+    <string name="unknown_backup_date">Tuntematon päivämäärä</string>
+    <string name="checking_for_backup">Tarkistetaan olemassa olevaa varmuuskopiota...</string>
+    <string name="google_drive_restore_found">Löysimme varmuuskopion ajalta %1$s, jossa on %2$d merkintää. Palautetaanko se?</string>
+    <string name="google_drive_restore_merge_warning">Tämä yhdistetään nykyisiin %1$d merkintääsi.</string>
+    <string name="google_drive_too_full_notif_body">Presently ei voinut varmuuskopioida tietojasi, koska Google Drive -tallennustilasi on täynnä. Napauta nähdäksesi Google-tallennustilasi.</string>
+    <string name="google_drive_sync_error_notif_body">Google Drive -tilissäsi ilmeni ongelma. Napauta tästä yhdistääksesi Google Driven uudelleen ja jatkaaksesi automaattisia varmuuskopioita.</string>
+    <string name="google_drive_auth_failed">Virhe Google Drive -tilin yhdistämisessä</string>
+    <string name="import_success">Tuonti onnistui!</string>
+    <string name="restore_success">Varmuuskopio palautettiin onnistuneesti</string>
+    <string name="export_error_message">Virhe: %1$s</string>
 </resources>

@@ -1,8 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui
 
 import android.content.Context
-import com.dropbox.core.oauth.DbxCredential
-import journal.gratitude.com.gratitudejournal.settings.BackupCadence
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.settings.wiring.PresentlySettingsModule
 import dagger.Binds
@@ -61,10 +59,6 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
         return true
     }
 
-    override fun getAutomaticBackupCadence(): BackupCadence {
-        return BackupCadence.DAILY
-    }
-
     override fun getLocale(): String {
         return "en-US"
     }
@@ -116,20 +110,6 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
     override fun shouldShowDayOfWeekInTimeline(): Boolean {
         return false
     }
-
-    override fun getAccessToken(): DbxCredential? {
-        return null
-    }
-
-    override fun setAccessToken(newToken: DbxCredential) {}
-
-    override fun wasDropboxAuthInitiated(): Boolean = false
-
-    override fun markDropboxAuthAsCancelled() {}
-
-    override fun markDropboxAuthInitiated() {}
-
-    override fun clearAccessToken() { }
 
     override fun isOptedIntoAnalytics(): Boolean = true
 }

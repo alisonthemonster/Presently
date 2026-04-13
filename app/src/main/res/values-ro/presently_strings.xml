@@ -151,4 +151,29 @@
     <string name="dropbox_auth_failed">Eroare la conectarea contului Dropbox</string>
     <string name="learn_more">Află mai multe</string>
     <string name="gratitude_quote_widget_description">Inspirați-vă cu un citat zilnic despre recunoștință</string>
+
+    <string name="back">Înapoi</string>
+    <string name="disconnect">Deconectează</string>
+    <string name="restore">Restaurează</string>
+    <string name="skip">Omite</string>
+    <string name="monthly">Lunar</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Frecvența copierii de rezervă</string>
+    <string name="backup_and_restore_summary">Gestionați copiile de rezervă Dropbox și Google Drive, plus importul și exportul manual</string>
+    <string name="manual_backup_section">Copie de rezervă manuală</string>
+    <string name="connect_dropbox">Conectează Dropbox</string>
+    <string name="sign_in_with_google">Conectează-te cu Google</string>
+    <string name="not_connected">Neconectat</string>
+    <string name="last_backup_label">Ultima copie de rezervă: %1$s</string>
+    <string name="unknown_backup_date">Dată necunoscută</string>
+    <string name="checking_for_backup">Se verifică o copie de rezervă existentă...</string>
+    <string name="google_drive_restore_found">Am găsit o copie de rezervă din %1$s cu %2$d înregistrări. Doriți să o restaurați?</string>
+    <string name="google_drive_restore_merge_warning">Aceasta se va combina cu cele %1$d înregistrări existente.</string>
+    <string name="google_drive_too_full_notif_body">Presently nu a putut face copia de rezervă a datelor tale deoarece spațiul Google Drive este plin. Atinge pentru a vedea spațiul tău Google.</string>
+    <string name="google_drive_sync_error_notif_body">A apărut o problemă cu contul tău Google Drive. Atinge aici pentru a reconecta Google Drive și a relua copiile de rezervă automate.</string>
+    <string name="google_drive_auth_failed">Eroare la conectarea contului Google Drive</string>
+    <string name="import_success">Import realizat cu succes!</string>
+    <string name="restore_success">Copia de rezervă a fost restaurată cu succes</string>
+    <string name="export_error_message">Eroare: %1$s</string>
 </resources>

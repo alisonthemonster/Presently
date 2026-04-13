@@ -151,4 +151,29 @@
     <string name="dropbox_auth_failed">Kon nie Dropbox-rekening koppel nie</string>
     <string name="learn_more">Leer meer</string>
     <string name="gratitude_quote_widget_description">Daaglikse dankbaarheidssitate vir inspirasie</string>
+
+    <string name="back">Terug</string>
+    <string name="disconnect">Ontkoppel</string>
+    <string name="restore">Herstel</string>
+    <string name="skip">Slaan oor</string>
+    <string name="monthly">Maandeliks</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Rugsteunfrekwensie</string>
+    <string name="backup_and_restore_summary">Bestuur Dropbox- en Google Drive-rugsteun, plus handmatige invoer en uitvoer</string>
+    <string name="manual_backup_section">Handmatige rugsteun</string>
+    <string name="connect_dropbox">Koppel Dropbox</string>
+    <string name="sign_in_with_google">Meld aan met Google</string>
+    <string name="not_connected">Nie gekoppel nie</string>
+    <string name="last_backup_label">Laaste rugsteun: %1$s</string>
+    <string name="unknown_backup_date">Onbekende datum</string>
+    <string name="checking_for_backup">Kontroleer vir bestaande rugsteun...</string>
+    <string name="google_drive_restore_found">Rugsteun van %1$s met %2$d inskrywings gevind. Herstel dit?</string>
+    <string name="google_drive_restore_merge_warning">Dit sal met jou bestaande %1$d inskrywings saamgevoeg word.</string>
+    <string name="google_drive_too_full_notif_body">Presently kon nie jou data rugsteun nie omdat jou Google Drive-berging vol is. Tik om jou Google-berging te sien.</string>
+    <string name="google_drive_sync_error_notif_body">Daar was ’n probleem met jou Google Drive-rekening. Tik hier om Google Drive weer te koppel en outomatiese rugsteun te hervat.</string>
+    <string name="google_drive_auth_failed">Kon Google Drive-rekening nie koppel nie</string>
+    <string name="import_success">Suksesvol ingevoer!</string>
+    <string name="restore_success">Rugsteun suksesvol herstel</string>
+    <string name="export_error_message">Fout: %1$s</string>
 </resources>

@@ -149,4 +149,29 @@
     <string name="dropbox_auth_failed">Pogreška pri povezivanju Dropbox računa</string>
     <string name="learn_more">Tudj meg többet</string>
     <string name="gratitude_quote_widget_description">Inspirirajte se svakodnevnim citatom zahvalnosti</string>
+
+    <string name="back">Natrag</string>
+    <string name="disconnect">Prekini vezu</string>
+    <string name="restore">Vrati</string>
+    <string name="skip">Preskoči</string>
+    <string name="monthly">Mjesečno</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="backup_frequency">Učestalost sigurnosnog kopiranja</string>
+    <string name="backup_and_restore_summary">Upravljajte sigurnosnim kopijama za Dropbox i Google Drive te ručnim uvozom i izvozom</string>
+    <string name="manual_backup_section">Ručno sigurnosno kopiranje</string>
+    <string name="connect_dropbox">Poveži Dropbox</string>
+    <string name="sign_in_with_google">Prijavi se putem Googlea</string>
+    <string name="not_connected">Nije povezano</string>
+    <string name="last_backup_label">Posljednja sigurnosna kopija: %1$s</string>
+    <string name="unknown_backup_date">Nepoznat datum</string>
+    <string name="checking_for_backup">Provjera postojeće sigurnosne kopije...</string>
+    <string name="google_drive_restore_found">Pronašli smo sigurnosnu kopiju od %1$s s %2$d unosa. Vratiti je?</string>
+    <string name="google_drive_restore_merge_warning">Ovo će se spojiti s vaših postojećih %1$d unosa.</string>
+    <string name="google_drive_too_full_notif_body">Presently nije uspio sigurnosno kopirati vaše podatke jer je vaš Google Drive prostor pun. Dodirnite za prikaz Google prostora.</string>
+    <string name="google_drive_sync_error_notif_body">Došlo je do problema s vašim Google Drive računom. Dodirnite ovdje da ponovno povežete Google Drive i nastavite automatsko sigurnosno kopiranje.</string>
+    <string name="google_drive_auth_failed">Pogreška pri povezivanju Google Drive računa</string>
+    <string name="import_success">Uvoz je uspio!</string>
+    <string name="restore_success">Sigurnosna kopija je uspješno vraćena</string>
+    <string name="export_error_message">Pogreška: %1$s</string>
 </resources>
