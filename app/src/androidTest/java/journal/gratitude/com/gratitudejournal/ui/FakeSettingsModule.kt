@@ -1,12 +1,15 @@
 package journal.gratitude.com.gratitudejournal.ui
 
 import android.content.Context
+import android.content.SharedPreferences
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.settings.wiring.PresentlySettingsModule
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import androidx.preference.PreferenceManager
 import org.threeten.bp.LocalTime
 import java.util.*
 import javax.inject.Inject
@@ -26,6 +29,13 @@ abstract class FakeSettingsModule {
     @Singleton
     @Binds
     abstract fun bindSettings(repo: FakePresentlySettings): PresentlySettings
+
+    companion object {
+        @Provides
+        fun providesSharedPreferences(context: Context): SharedPreferences {
+            return PreferenceManager.getDefaultSharedPreferences(context)
+        }
+    }
 }
 
 @Singleton
