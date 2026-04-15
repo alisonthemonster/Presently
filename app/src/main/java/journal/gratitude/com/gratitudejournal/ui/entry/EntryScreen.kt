@@ -194,14 +194,6 @@ internal fun EntryScreenContent(
                                     EditorInfo.IME_FLAG_NO_ENTER_ACTION or
                                         EditorInfo.IME_FLAG_NO_FULLSCREEN
                                 setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
-                                setLineSpacing(
-                                    TypedValue.applyDimension(
-                                        TypedValue.COMPLEX_UNIT_SP,
-                                        8f,
-                                        resources.displayMetrics
-                                    ),
-                                    1f
-                                )
                                 typeface = ResourcesCompat.getFont(viewContext, R.font.larsseit_medium)
                                 doAfterTextChanged { editable ->
                                     onTextChangedState.value(editable?.toString().orEmpty())
