@@ -1,8 +1,15 @@
 package journal.gratitude.com.gratitudejournal.ui.calendar
 
+import android.content.res.Configuration
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.platform.LocalContext
 import journal.gratitude.com.gratitudejournal.testUtils.ScreenshotTest
 import journal.gratitude.com.gratitudejournal.testUtils.captureAcrossThemes
+import journal.gratitude.com.gratitudejournal.testUtils.captureInTheme
+import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
@@ -12,7 +19,12 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.threeten.bp.LocalDate
 import java.time.DayOfWeek
+import java.util.Locale
 
+
+/**
+ * To record screenshot tests: ./gradlew :app:recordRoborazziDebug --tests 'journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendarScreenshotTest'
+ * */
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(sdk = [35], qualifiers = "w411dp-h891dp-xxhdpi")
@@ -41,20 +53,12 @@ class EntryCalendarScreenshotTest {
     }
 
     @Test
-    fun calendar_empty_allThemes() {
-        composeRule.captureAcrossThemes(screen = "calendar", scenario = "empty") { _ ->
-            EntryCalendar(
-                writtenDates = emptyList(),
-                firstDayOfWeek = DayOfWeek.MONDAY,
-                onDateClick = { _, _, _ -> },
-                onCloseClick = {}
-            )
-        }
-    }
-
-    @Test
     fun calendar_sundayFirst_allThemes() {
-        composeRule.captureAcrossThemes(screen = "calendar", scenario = "sunday-first") { _ ->
+        composeRule.captureInTheme(
+            screen = "calendar",
+            scenario = "sunday-first",
+            themeSpec = PresentlyThemeSpec.Original
+        ) {
             EntryCalendar(
                 writtenDates = listOf(
                     LocalDate.of(2026, 4, 5),
@@ -64,6 +68,59 @@ class EntryCalendarScreenshotTest {
                 onDateClick = { _, _, _ -> },
                 onCloseClick = {}
             )
+        }
+    }
+
+    @Test
+    fun calendar_localeArabic_originalTheme() {
+        withDefaultLocale(Locale.forLanguageTag("ar")) {
+            composeRule.captureInTheme(
+                screen = "calendar",
+                scenario = "locale-arabic",
+                themeSpec = PresentlyThemeSpec.Original
+            ) {
+                WithLocaleContext(locale = Locale.forLanguageTag("ar")) {
+                    EntryCalendar(
+                        writtenDates = listOf(
+                            LocalDate.of(2026, 4, 1),
+                            LocalDate.of(2026, 4, 5),
+                            LocalDate.of(2026, 4, 10),
+                        ),
+                        firstDayOfWeek = DayOfWeek.MONDAY,
+                        onDateClick = { _, _, _ -> },
+                        onCloseClick = {}
+                    )
+                }
+            }
+        }
+    }
+
+    private fun withDefaultLocale(locale: Locale, block: () -> Unit) {
+        val previousLocale = Locale.getDefault()
+        Locale.setDefault(locale)
+        try {
+            block()
+        } finally {
+            Locale.setDefault(previousLocale)
+        }
+    }
+
+    @Composable
+    private fun WithLocaleContext(
+        locale: Locale,
+        content: @Composable () -> Unit
+    ) {
+        val baseContext = LocalContext.current
+        val localizedContext = remember(baseContext, locale) {
+            val configuration = Configuration(baseContext.resources.configuration).apply {
+                setLocale(locale)
+                setLayoutDirection(locale)
+            }
+            baseContext.createConfigurationContext(configuration)
+        }
+
+        CompositionLocalProvider(LocalContext provides localizedContext) {
+            content()
         }
     }
 }

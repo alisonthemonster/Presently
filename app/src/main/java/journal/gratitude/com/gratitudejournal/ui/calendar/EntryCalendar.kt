@@ -36,6 +36,7 @@ import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
 import org.threeten.bp.LocalDate
 import java.time.DayOfWeek
 import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 import java.time.LocalDate as JavaLocalDate
@@ -63,8 +64,10 @@ fun EntryCalendar(
     val currentMonth = remember { YearMonth.now() }
     val startMonth = remember { currentMonth.minusMonths(120) }
     val daysOfWeek = remember(firstDayOfWeek) { daysOfWeek(firstDayOfWeek) }
-    val displayLocale = if (Locale.getDefault().language == "ar") Locale.ENGLISH else Locale.getDefault()
-
+    val displayLocale = Locale.getDefault()
+    val monthTitleFormatter = remember(displayLocale) {
+        DateTimeFormatter.ofPattern("LLLL yyyy", displayLocale)
+    }
     val calendarState = rememberCalendarState(
         startMonth = startMonth,
         endMonth = currentMonth,
@@ -72,10 +75,9 @@ fun EntryCalendar(
         firstDayOfWeek = firstDayOfWeek
     )
 
-    val visibleMonthTitle = remember(calendarState) {
+    val visibleMonthTitle = remember(calendarState, monthTitleFormatter) {
         derivedStateOf {
-            val ym = calendarState.firstVisibleMonth.yearMonth
-            "${ym.month.getDisplayName(TextStyle.FULL, displayLocale)} ${ym.year}"
+            calendarState.firstVisibleMonth.yearMonth.atDay(1).format(monthTitleFormatter)
         }
     }
 
