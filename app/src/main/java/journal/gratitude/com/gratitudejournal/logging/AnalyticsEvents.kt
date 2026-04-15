@@ -14,3 +14,8 @@ const val REMINDER_ONBOARDING_PERMISSION_DENIED = "reminderOnboardingPermissionD
 const val REMINDER_ONBOARDING_STEP_VIEWED = "reminderOnboardingStepViewed"
 const val REMINDER_ONBOARDING_STEP_COMPLETED = "reminderOnboardingStepCompleted"
 const val REMINDER_ONBOARDING_PERMISSION_RESULT = "reminderOnboardingPermissionResult"
+const val NOTIFICATION_TROUBLESHOOTER_OPENED = "notification_troubleshooter_opened"
+const val NOTIFICATION_TROUBLESHOOTER_CHECK_FAILED = "notification_troubleshooter_check_failed"
+const val NOTIFICATION_TROUBLESHOOTER_FIX_IT_TAPPED = "notification_troubleshooter_fix_it_tapped"
+const val NOTIFICATION_TROUBLESHOOTER_CONTACT_SUPPORT_TAPPED =
+    "notification_troubleshooter_contact_support_tapped"

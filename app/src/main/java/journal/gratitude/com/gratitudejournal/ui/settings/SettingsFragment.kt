@@ -10,8 +10,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS
-import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.provider.Settings.EXTRA_APP_PACKAGE
+import android.provider.Settings
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
@@ -57,6 +57,7 @@ import journal.gratitude.com.gratitudejournal.ui.security.BIOMETRIC_SOURCE_SETTI
 import journal.gratitude.com.gratitudejournal.ui.security.BiometricTelemetry
 import journal.gratitude.com.gratitudejournal.ui.themes.ThemeFragment
 import dagger.hilt.android.AndroidEntryPoint
+import journal.gratitude.com.gratitudejournal.reminders.troubleshooter.ui.NotificationTroubleshooterFragment
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.util.backups.RealUploader.Companion.BACKUP_NOTIFICATION_ID
 import kotlinx.coroutines.launch
@@ -233,6 +234,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
             }
         }
 
+        findPreference<Preference>(NOTIFICATION_TROUBLESHOOTER)?.setOnPreferenceClickListener {
+            openNotificationTroubleshooter()
+            true
+        }
+
         refreshReminderPreferences()
     }
 
@@ -272,12 +278,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val notifs = findPreference<SwitchPreference>(NOTIFS)
         val prefTime = findPreference<Preference>(NOTIF_PREF_TIME)
         val exactAlarms = findPreference<SwitchPreference>(EXACT_ALARMS)
+        val troubleshooter = findPreference<Preference>(NOTIFICATION_TROUBLESHOOTER)
 
         notifs?.isChecked = remindersEnabled
         notifs?.isEnabled = true
         prefTime?.isEnabled = remindersEnabled
         exactAlarms?.isEnabled = remindersEnabled
         exactAlarms?.isChecked = !hasDisabledAlarmReminders
+        troubleshooter?.isVisible = hasAnyNotificationPermissionSet()
     }
 
     private fun syncReminderPreferencesWithSystemState() {
@@ -339,8 +347,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun openExactAlarmPermissionSettings() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            return
+        }
+
         awaitingExactAlarmSettingsResult = true
-        Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+        Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
             data = Uri.parse("package:${requireContext().packageName}")
         }.also {
             startActivity(it)
@@ -353,6 +365,16 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 requireContext(),
                 Manifest.permission.POST_NOTIFICATIONS
             ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun hasAnyNotificationPermissionSet(): Boolean {
+        if (!settings.hasEnabledNotifications()) {
+            return false
+        }
+
+        return hasNotificationPermission() ||
+            NotificationManagerCompat.from(requireContext()).areNotificationsEnabled() ||
+            !settings.hasUserDisabledAlarmReminders(requireContext())
     }
 
     override fun onPause() {
@@ -481,6 +503,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
             .beginTransaction()
             .replace(R.id.container_fragment, fragment)
             .addToBackStack(SETTINGS_TO_THEME)
+            .commit()
+    }
+
+    private fun openNotificationTroubleshooter() {
+        val fragment = NotificationTroubleshooterFragment()
+        parentFragmentManager
+            .beginTransaction()
+            .replace(R.id.container_fragment, fragment)
+            .addToBackStack(SETTINGS_TO_NOTIFICATION_TROUBLESHOOTER)
             .commit()
     }
 
@@ -753,6 +784,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
     companion object {
         const val BACKUP_TOKEN = "dropbox_pref"
         const val SETTINGS_TO_THEME = "SETTINGS_TO_THEME"
+        const val SETTINGS_TO_NOTIFICATION_TROUBLESHOOTER =
+            "SETTINGS_TO_NOTIFICATION_TROUBLESHOOTER"
     }
 }
 
