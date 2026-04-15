@@ -9,10 +9,9 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.PowerManager
 import android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS
-import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.provider.Settings.EXTRA_APP_PACKAGE
+import android.provider.Settings
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
@@ -343,8 +342,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun openExactAlarmPermissionSettings() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            return
+        }
+
         awaitingExactAlarmSettingsResult = true
-        Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+        Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
             data = Uri.parse("package:${requireContext().packageName}")
         }.also {
             startActivity(it)
@@ -360,16 +363,13 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun hasAnyNotificationPermissionSet(): Boolean {
-        //todo an make sure user setting for notifications is on too
+        if (!settings.hasEnabledNotifications()) {
+            return false
+        }
+
         return hasNotificationPermission() ||
             NotificationManagerCompat.from(requireContext()).areNotificationsEnabled() ||
-            !settings.hasUserDisabledAlarmReminders(requireContext()) ||
-            isIgnoringBatteryOptimizations()
-    }
-
-    private fun isIgnoringBatteryOptimizations(): Boolean {
-        val powerManager = requireContext().getSystemService(PowerManager::class.java)
-        return powerManager?.isIgnoringBatteryOptimizations(requireContext().packageName) == true
+            !settings.hasUserDisabledAlarmReminders(requireContext())
     }
 
     override fun onPause() {

@@ -2,41 +2,41 @@ package journal.gratitude.com.gratitudejournal.reminders.troubleshooter.data
 
 import android.Manifest
 import android.app.AlarmManager
-import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.os.PowerManager
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import journal.gratitude.com.gratitudejournal.BuildConfig
-import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.reminders.troubleshooter.ui.NotificationTroubleshooterCheck
 import journal.gratitude.com.gratitudejournal.reminders.troubleshooter.ui.NotificationTroubleshooterCheckResult
 import journal.gratitude.com.gratitudejournal.reminders.troubleshooter.ui.SupportEmailData
-import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import javax.inject.Inject
 
 open class NotificationTroubleshooterRepository @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val settings: PresentlySettings
+    @ApplicationContext private val context: Context
 ) {
 
     open fun runChecks(): List<NotificationTroubleshooterCheckResult> {
-        return listOf(
-            //todo what is the difference between POST_NOTIFICATIONS and APP_NOTIFICATIONS
-            NotificationTroubleshooterCheck.POST_NOTIFICATIONS.resultFor(
-                hasPostNotificationsPermission()
-            ),
-            NotificationTroubleshooterCheck.APP_NOTIFICATIONS.resultFor(
-                NotificationManagerCompat.from(context).areNotificationsEnabled()
-            ),
-            NotificationTroubleshooterCheck.EXACT_ALARM.resultFor(hasExactAlarmAccess()),
-            NotificationTroubleshooterCheck.BATTERY_OPTIMIZATION.resultFor(
-                isIgnoringBatteryOptimizations()
-            ),
-        )
+        return buildList {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // The Android 13 runtime permission is separate from the app-wide notifications toggle.
+                add(
+                    NotificationTroubleshooterCheck.POST_NOTIFICATIONS.resultFor(
+                        hasPostNotificationsPermission()
+                    )
+                )
+            }
+            add(
+                NotificationTroubleshooterCheck.APP_NOTIFICATIONS.resultFor(
+                    NotificationManagerCompat.from(context).areNotificationsEnabled()
+                )
+            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                add(NotificationTroubleshooterCheck.EXACT_ALARM.resultFor(hasExactAlarmAccess()))
+            }
+        }
     }
 
     open fun buildSupportEmailData(): SupportEmailData {
@@ -50,7 +50,7 @@ open class NotificationTroubleshooterRepository @Inject constructor(
             """.trimIndent()
 
         return SupportEmailData(
-            recipient = SUPPORT_EMAIL,
+            recipients = arrayOf(SUPPORT_EMAIL),
             subject = "Presently notification troubleshooting",
             body = body
         )
@@ -77,11 +77,6 @@ open class NotificationTroubleshooterRepository @Inject constructor(
                 ) == PackageManager.PERMISSION_GRANTED
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         return hasUseExactAlarmPermission || alarmManager.canScheduleExactAlarms()
-    }
-
-    private fun isIgnoringBatteryOptimizations(): Boolean {
-        val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        return powerManager.isIgnoringBatteryOptimizations(context.packageName)
     }
 
     private companion object {

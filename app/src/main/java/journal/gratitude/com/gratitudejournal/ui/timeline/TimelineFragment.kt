@@ -36,6 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
+import journal.gratitude.com.gratitudejournal.util.createSupportEmailIntent
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import org.threeten.bp.LocalDate
 import java.util.*
@@ -242,25 +243,19 @@ class TimelineFragment : Fragment() {
         analyticsLogger.recordEvent(OPENED_CONTACT_FORM)
 
         val context = context ?: return
-        val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:")
-
-            val emails = arrayOf("gratitude.journal.app@gmail.com")
-            val subject = "In App Feedback"
-            putExtra(Intent.EXTRA_EMAIL, emails)
-            putExtra(Intent.EXTRA_SUBJECT, subject)
-
-            val packageName = context.packageName
-            val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
-            val text = """
+        val packageName = context.packageName
+        val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+        val intent = createSupportEmailIntent(
+            recipients = arrayOf("gratitude.journal.app@gmail.com"),
+            subject = "In App Feedback",
+            body = """
                 Device: ${Build.MODEL}
                 OS Version: ${Build.VERSION.RELEASE}
                 App Version: ${packageInfo.versionName}
                 
                 
                 """.trimIndent()
-            putExtra(Intent.EXTRA_TEXT, text)
-        }
+        )
 
         try {
             startActivity(intent)

@@ -11,8 +11,7 @@ data class NotificationTroubleshooterState(
 enum class NotificationTroubleshooterCheck {
     POST_NOTIFICATIONS,
     APP_NOTIFICATIONS,
-    EXACT_ALARM,
-    BATTERY_OPTIMIZATION;
+    EXACT_ALARM;
 
     fun resultFor(passed: Boolean) = NotificationTroubleshooterCheckResult(
         check = this,
@@ -24,7 +23,6 @@ enum class NotificationTroubleshooterCheck {
             POST_NOTIFICATIONS -> "post_notifications"
             APP_NOTIFICATIONS -> "app_notifications"
             EXACT_ALARM -> "exact_alarm"
-            BATTERY_OPTIMIZATION -> "battery_optimization"
         }
 }
 
@@ -34,7 +32,7 @@ data class NotificationTroubleshooterCheckResult(
 )
 
 data class SupportEmailData(
-    val recipient: String,
+    val recipients: Array<String>,
     val subject: String,
     val body: String
 )
@@ -42,6 +40,5 @@ data class SupportEmailData(
 sealed interface NotificationTroubleshooterEffect {
     data object OpenAppNotificationSettings : NotificationTroubleshooterEffect
     data object OpenExactAlarmSettings : NotificationTroubleshooterEffect
-    data object OpenBatteryOptimizationSettings : NotificationTroubleshooterEffect
     data class ContactSupport(val emailData: SupportEmailData) : NotificationTroubleshooterEffect
 }

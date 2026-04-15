@@ -68,12 +68,11 @@ class NotificationTroubleshooterViewModel @Inject constructor(
         )
         when (check) {
             NotificationTroubleshooterCheck.POST_NOTIFICATIONS,
-            NotificationTroubleshooterCheck.APP_NOTIFICATIONS,
+            NotificationTroubleshooterCheck.APP_NOTIFICATIONS -> {
+                _effects.tryEmit(NotificationTroubleshooterEffect.OpenAppNotificationSettings)
+            }
             NotificationTroubleshooterCheck.EXACT_ALARM -> {
                 _effects.tryEmit(NotificationTroubleshooterEffect.OpenExactAlarmSettings)
-            }
-            NotificationTroubleshooterCheck.BATTERY_OPTIMIZATION -> {
-                _effects.tryEmit(NotificationTroubleshooterEffect.OpenBatteryOptimizationSettings)
             }
         }
     }
