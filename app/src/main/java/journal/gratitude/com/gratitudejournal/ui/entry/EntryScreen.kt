@@ -192,7 +192,7 @@ internal fun EntryScreenContent(
                                 imeOptions =
                                     EditorInfo.IME_FLAG_NO_ENTER_ACTION or
                                         EditorInfo.IME_FLAG_NO_FULLSCREEN
-                                setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+                                setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
                                 setLineSpacing(
                                     TypedValue.applyDimension(
                                         TypedValue.COMPLEX_UNIT_SP,
