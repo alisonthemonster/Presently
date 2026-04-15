@@ -4,9 +4,12 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextInput
 import androidx.fragment.app.Fragment
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -58,7 +61,7 @@ class DayOneDialogFragmentInstrumentedTest {
     fun savingFirstEntry_dismissingDayOneDialog_closesPromptAndStaysOnTimeline() {
         launchTimelineWithFirstEntryScreen()
 
-        composeRule.onNodeWithTag("entry_text_field").performTextInput("First entry")
+        onView(withId(R.id.entry_text)).perform(replaceText("First entry"), closeSoftKeyboard())
         composeRule.onNodeWithTag("entry_save_button").performClick()
 
         composeRule.waitUntil(timeoutMillis = 5_000) {
@@ -81,7 +84,7 @@ class DayOneDialogFragmentInstrumentedTest {
     fun savingFirstEntry_dayOneDialogCtaOpensReminderOnboarding() {
         launchTimelineWithFirstEntryScreen()
 
-        composeRule.onNodeWithTag("entry_text_field").performTextInput("First entry")
+        onView(withId(R.id.entry_text)).perform(replaceText("First entry"), closeSoftKeyboard())
         composeRule.onNodeWithTag("entry_save_button").performClick()
 
         composeRule.waitUntil(timeoutMillis = 5_000) {

@@ -177,6 +177,7 @@ internal fun EntryScreenContent(
                         factory = { viewContext ->
                             AppCompatEditText(viewContext).apply {
                                 entryEditText = this
+                                id = R.id.entry_text
                                 background = null
                                 gravity = Gravity.TOP or Gravity.START
                                 textAlignment = View.TEXT_ALIGNMENT_VIEW_START
