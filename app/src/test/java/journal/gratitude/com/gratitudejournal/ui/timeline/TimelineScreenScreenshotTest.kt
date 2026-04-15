@@ -12,6 +12,11 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.threeten.bp.LocalDate
 
+/**
+ * To update tests run ./gradlew :app:recordRoborazziDebug --tests 'journal.gratitude.com.gratitudejournal.ui.timeline.TimelineScreenScreenshotTest'
+ *
+ * */
+
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(sdk = [35], qualifiers = "w411dp-h891dp-xxhdpi")

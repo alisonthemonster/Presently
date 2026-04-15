@@ -392,15 +392,22 @@ private fun TimelineEntryRow(
             }
 
             if (state.isLastItem) {
-                Image(
-                    painter = painterResource(theme.timelineIconRes),
-                    contentDescription = null,
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 80.dp, top = 16.dp, end = 80.dp, bottom = 32.dp)
-                        .height(80.dp),
-                    contentScale = ContentScale.Fit
-                )
+                        .padding(start = 55.dp, top = 16.dp, end = 24.dp, bottom = 32.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(theme.timelineIconRes),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 25.dp)
+                            .height(80.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                }
             }
         }
 
@@ -467,15 +474,22 @@ private fun TimelineMilestoneRow(state: TimelineMilestoneRowState) {
                 )
             }
 
-            Image(
-                painter = painterResource(theme.timelineIconRes),
-                contentDescription = null,
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 80.dp, top = 8.dp, end = 80.dp, bottom = 32.dp)
-                    .height(80.dp),
-                contentScale = ContentScale.Fit
-            )
+                    .padding(start = 55.dp, top = 8.dp, end = 24.dp, bottom = 32.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(theme.timelineIconRes),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 25.dp)
+                        .height(80.dp),
+                    contentScale = ContentScale.Fit
+                )
+            }
         }
     }
 }
