@@ -9,20 +9,19 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertIsFocused
-import androidx.compose.ui.test.assertIsNotFocused
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.longClick
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.os.bundleOf
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.intended
@@ -31,7 +30,9 @@ import androidx.test.espresso.intent.rule.IntentsRule
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isFocused
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withHint
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -129,7 +130,7 @@ class EntryFragmentInstrumentedTest {
 
         launchEntryFragment(EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList()))
 
-        composeRule.onNodeWithTag("entry_text_field").assertIsFocused()
+        onView(withId(R.id.entry_text)).check(matches(isFocused()))
         assertImeVisibility(isVisible = true)
     }
 
@@ -140,7 +141,7 @@ class EntryFragmentInstrumentedTest {
 
         launchEntryFragment(EntryArgs(date.toString(), false, 1, "quote", "hint", emptyList()))
 
-        composeRule.onNodeWithTag("entry_text_field").assertIsNotFocused()
+        onView(withId(R.id.entry_text)).check(matches(not(isFocused())))
         assertImeVisibility(isVisible = false)
     }
 
@@ -152,9 +153,9 @@ class EntryFragmentInstrumentedTest {
             EntryArgs(date.toString(), true, 0, "quote", "first hint", listOf("second hint"))
         )
 
-        composeRule.onNodeWithText("first hint").assertIsDisplayed()
+        onView(withId(R.id.entry_text)).check(matches(withHint("first hint")))
         composeRule.onNodeWithTag("entry_prompt_button").performClick()
-        composeRule.onNodeWithText("second hint").assertIsDisplayed()
+        onView(withId(R.id.entry_text)).check(matches(withHint("second hint")))
     }
 
     @Test
@@ -162,13 +163,13 @@ class EntryFragmentInstrumentedTest {
         val date = LocalDate.of(2019, 3, 23)
         launchEntryFragment(EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList()))
 
-        composeRule.onNodeWithTag("entry_text_field").performTextInput("Draft that should survive")
+        enterEntryText("Draft that should survive")
         composeRule.waitForIdle()
 
         composeRule.activityRule.scenario.recreate()
         composeRule.waitForIdle()
 
-        composeRule.onNodeWithText("Draft that should survive").assertIsDisplayed()
+        onView(withId(R.id.entry_text)).check(matches(withText("Draft that should survive")))
         composeRule.onNodeWithTag("entry_save_button").assertIsDisplayed()
     }
 
@@ -178,7 +179,7 @@ class EntryFragmentInstrumentedTest {
 
         launchEntryFragment(EntryArgs(date.toString(), true, 4, "quote", "hint", emptyList()))
 
-        composeRule.onNodeWithTag("entry_text_field").performTextInput("Test string!")
+        enterEntryText("Test string!")
         composeRule.onNodeWithTag("entry_save_button").performClick()
         composeRule.waitForIdle()
 
@@ -206,7 +207,7 @@ class EntryFragmentInstrumentedTest {
 
         launchEntryFragment(EntryArgs(date.toString(), true, 4, "quote", "hint", emptyList()))
 
-        composeRule.onNodeWithTag("entry_text_field").performTextInput("Test string!")
+        enterEntryText("Test string!")
         composeRule.onNodeWithTag("entry_save_button").performClick()
         composeRule.waitForIdle()
 
@@ -232,7 +233,7 @@ class EntryFragmentInstrumentedTest {
 
         launchEntryFragment(EntryArgs(date.toString(), true, 4, "quote", "hint", emptyList()))
 
-        composeRule.onNodeWithTag("entry_text_field").performTextInput("Test string!")
+        enterEntryText("Test string!")
         composeRule.onNodeWithTag("entry_save_button").performClick()
         composeRule.waitForIdle()
 
@@ -279,7 +280,7 @@ class EntryFragmentInstrumentedTest {
         val date = LocalDate.of(2019, 3, 22)
         launchEntryFragment(EntryArgs(date.toString(), true, 0, "quote", "hint", emptyList()))
 
-        composeRule.onNodeWithTag("entry_text_field").performTextInput("Test string!Yeehaw!")
+        enterEntryText("Test string!Yeehaw!")
         composeRule.waitForIdle()
 
         composeRule.activity.runOnUiThread {
@@ -332,5 +333,9 @@ class EntryFragmentInstrumentedTest {
             ViewCompat.getRootWindowInsets(composeRule.activity.window.decorView)
                 ?.isVisible(WindowInsetsCompat.Type.ime()) == isVisible
         }
+    }
+
+    private fun enterEntryText(text: String) {
+        onView(withId(R.id.entry_text)).perform(replaceText(text), closeSoftKeyboard())
     }
 }

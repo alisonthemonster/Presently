@@ -4,13 +4,14 @@ import android.content.Intent
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextInput
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.rule.IntentsRule
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
@@ -142,7 +143,7 @@ class TimelineFragmentInstrumentedTest {
     fun timelineFragment_afterSavingFirstEntry_opensDayOneDialog() {
         launchTimelineWithFirstEntryScreenForCompose()
 
-        composeRule.onNodeWithTag("entry_text_field").performTextInput("First entry")
+        onView(withId(R.id.entry_text)).perform(replaceText("First entry"), closeSoftKeyboard())
         composeRule.onNodeWithTag("entry_save_button").performClick()
 
         composeRule.waitUntil(timeoutMillis = 5_000) {
