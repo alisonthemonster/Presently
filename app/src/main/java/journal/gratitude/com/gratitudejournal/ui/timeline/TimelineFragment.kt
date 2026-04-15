@@ -1,16 +1,10 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -21,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
-import journal.gratitude.com.gratitudejournal.logging.CrashReporter
 import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_VIEWED
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.R
@@ -36,7 +29,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.databinding.TimelineFragmentBinding
 import journal.gratitude.com.gratitudejournal.ui.search.SearchFragment
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
-import journal.gratitude.com.gratitudejournal.util.createSupportEmailIntent
 import journal.gratitude.com.gratitudejournal.util.toLocalDate
 import org.threeten.bp.LocalDate
 import java.util.*
@@ -48,7 +40,6 @@ class TimelineFragment : Fragment() {
     private val viewModel: TimelineViewModel by viewModels()
     @Inject lateinit var settings: PresentlySettings
     @Inject lateinit var analyticsLogger: AnalyticsLogger
-    @Inject lateinit var crashReporter: CrashReporter
     @Inject lateinit var shouldShowReminderOnboarding: ShouldShowReminderOnboardingUseCase
 
     private lateinit var adapter: TimelineAdapter
@@ -135,25 +126,7 @@ class TimelineFragment : Fragment() {
             }
         }
 
-        binding.overflowButton.setOnClickListener {
-            PopupMenu(context, it).apply {
-                setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.notification_settings -> {
-                            openSettings()
-                            true
-                        }
-                        R.id.contact_us -> {
-                            openContactForm()
-                            true
-                        }
-                        else -> false
-                    }
-                }
-                inflate(R.menu.overflow_menu)
-                show()
-            }
-        }
+        binding.overflowButton.setOnClickListener { openSettings() }
 
 
         viewModel.datesWritten.observe(viewLifecycleOwner, Observer { dates ->
@@ -237,32 +210,6 @@ class TimelineFragment : Fragment() {
             .replace(R.id.container_fragment, fragment)
             .addToBackStack(TIMELINE_TO_ENTRY)
             .commit()
-    }
-
-    private fun openContactForm() {
-        analyticsLogger.recordEvent(OPENED_CONTACT_FORM)
-
-        val context = context ?: return
-        val packageName = context.packageName
-        val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
-        val intent = createSupportEmailIntent(
-            recipients = arrayOf("gratitude.journal.app@gmail.com"),
-            subject = "In App Feedback",
-            body = """
-                Device: ${Build.MODEL}
-                OS Version: ${Build.VERSION.RELEASE}
-                App Version: ${packageInfo.versionName}
-                
-                
-                """.trimIndent()
-        )
-
-        try {
-            startActivity(intent)
-        } catch (activityNotFoundException: ActivityNotFoundException) {
-            crashReporter.logHandledException(activityNotFoundException)
-            Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun openSettings() {

@@ -1,5 +1,11 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
+import android.text.InputType
+import android.util.TypedValue
+import android.view.Gravity
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.graphics.drawable.Animatable
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -18,8 +24,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -33,14 +37,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -48,12 +51,14 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.doAfterTextChanged
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyFontFamilies
@@ -143,53 +148,78 @@ internal fun EntryScreenContent(
                     .weight(5f)
                     .fillMaxWidth()
             ) {
-                val focusRequester = remember { FocusRequester() }
-                val keyboardController = LocalSoftwareKeyboardController.current
+                val context = LocalContext.current
+                val onTextChangedState = rememberUpdatedState(onTextChanged)
+                var entryEditText by remember { mutableStateOf<AppCompatEditText?>(null) }
+                var didRequestInitialFocus by remember(state.isNewEntry) { mutableStateOf(false) }
 
-                LaunchedEffect(state.isNewEntry) {
-                    if (state.isNewEntry) {
-                        focusRequester.requestFocus()
-                        keyboardController?.show()
+                LaunchedEffect(state.isNewEntry, entryEditText) {
+                    val editText = entryEditText
+                    if (state.isNewEntry && !didRequestInitialFocus && editText != null) {
+                        didRequestInitialFocus = true
+                        editText.requestFocus()
+                        val inputMethodManager = context.getSystemService(InputMethodManager::class.java)
+                        editText.post {
+                            inputMethodManager?.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+                        }
                     }
                 }
 
-                BasicTextField(
-                    value = state.entryContent,
-                    onValueChange = onTextChanged,
+                Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .focusRequester(focusRequester)
-                        .testTag("entry_text_field"),
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Sentences
-                    ),
-                    textStyle = TextStyle(
-                        color = theme.entryBody,
-                        fontFamily = PresentlyFontFamilies.body,
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp
-                    ),
-                    decorationBox = { innerTextField ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(top = 16.dp, bottom = 20.dp)
-                        ) {
-                            if (state.entryContent.isEmpty() && !state.isLoading) {
-                                Text(
-                                    text = state.hint,
-                                    color = theme.entryHint,
-                                    style = TextStyle(
-                                        fontFamily = PresentlyFontFamilies.body,
-                                        fontSize = 16.sp,
-                                        lineHeight = 24.sp
-                                    )
+                        .padding(bottom = 20.dp)
+                ) {
+                    AndroidView(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .testTag("entry_text_field"),
+                        factory = { viewContext ->
+                            AppCompatEditText(viewContext).apply {
+                                entryEditText = this
+                                id = R.id.entry_text
+                                background = null
+                                gravity = Gravity.TOP or Gravity.START
+                                textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+                                setSingleLine(false)
+                                setHorizontallyScrolling(false)
+                                // Compose BasicTextField could not stop Samsung Keyboard from
+                                // committing the highlighted suggestion on Enter, so this screen
+                                // uses AppCompatEditText to set TYPE_TEXT_FLAG_NO_SUGGESTIONS.
+                                inputType = InputType.TYPE_CLASS_TEXT or
+                                    InputType.TYPE_TEXT_FLAG_MULTI_LINE or
+                                    InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or
+                                    InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                                imeOptions =
+                                    EditorInfo.IME_FLAG_NO_ENTER_ACTION or
+                                        EditorInfo.IME_FLAG_NO_FULLSCREEN
+                                setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                                setLineSpacing(
+                                    TypedValue.applyDimension(
+                                        TypedValue.COMPLEX_UNIT_SP,
+                                        8f,
+                                        resources.displayMetrics
+                                    ),
+                                    1f
                                 )
+                                typeface = ResourcesCompat.getFont(viewContext, R.font.larsseit_medium)
+                                doAfterTextChanged { editable ->
+                                    onTextChangedState.value(editable?.toString().orEmpty())
+                                }
                             }
-                            innerTextField()
+                        },
+                        update = { editText ->
+                            entryEditText = editText
+                            editText.setTextColor(theme.entryBody.toArgb())
+                            editText.setHintTextColor(theme.entryHint.toArgb())
+                            editText.hint = state.hint
+                            if (editText.text?.toString().orEmpty() != state.entryContent) {
+                                editText.setText(state.entryContent)
+                                editText.setSelection(editText.text?.length ?: 0)
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
 
             Row(
