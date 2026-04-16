@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.settings.BackupFrequency
+import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
 import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,6 +54,10 @@ fun BackupSettingsScreen(
     onRestoreDismissed: () -> Unit,
     onRestoreConfirmed: () -> Unit
 ) {
+    //todo use the theme to style this screen
+    val theme = LocalPresentlyTheme.current
+    //todo use fonts like timeline or entry screen did
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -90,7 +96,7 @@ fun BackupSettingsScreen(
             BackupProviderCard(
                 title = stringResource(R.string.google_drive),
                 state = state.googleDrive,
-                iconRes = R.drawable.ic_google_drive,
+                iconRes = R.drawable.ic_drive,
                 connectLabel = stringResource(R.string.sign_in_with_google),
                 disconnectLabel = stringResource(R.string.disconnect),
                 notConnectedLabel = stringResource(R.string.not_connected),
@@ -211,12 +217,13 @@ private fun BackupProviderCard(
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
                     painter = painterResource(iconRes),
-                    contentDescription = null
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
                 )
                 Text(
                     text = title,
