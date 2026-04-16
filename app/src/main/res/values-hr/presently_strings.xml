@@ -158,7 +158,7 @@
     <string name="dropbox">Dropbox</string>
     <string name="google_drive">Google Drive</string>
     <string name="backup_frequency">Učestalost sigurnosnog kopiranja</string>
-    <string name="backup_and_restore_summary">Upravljajte sigurnosnim kopijama za Dropbox i Google Drive te ručnim uvozom i izvozom</string>
+    <string name="backup_and_restore_summary">Pročitajte o sigurnosnim kopijama i pronađite odgovore na često postavljana pitanja.</string>
     <string name="manual_backup_section">Ručno sigurnosno kopiranje</string>
     <string name="connect_dropbox">Poveži Dropbox</string>
     <string name="sign_in_with_google">Prijavi se putem Googlea</string>

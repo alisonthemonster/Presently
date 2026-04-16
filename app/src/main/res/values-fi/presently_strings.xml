@@ -159,7 +159,7 @@
     <string name="dropbox">Dropbox</string>
     <string name="google_drive">Google Drive</string>
     <string name="backup_frequency">Varmuuskopioinnin tiheys</string>
-    <string name="backup_and_restore_summary">Hallitse Dropbox- ja Google Drive -varmuuskopioita sekä manuaalista tuontia ja vientiä</string>
+    <string name="backup_and_restore_summary">Lue varmuuskopioista ja löydä vastaukset usein kysyttyihin kysymyksiin.</string>
     <string name="manual_backup_section">Manuaalinen varmuuskopio</string>
     <string name="connect_dropbox">Yhdistä Dropbox</string>
     <string name="sign_in_with_google">Kirjaudu Googleen</string>

@@ -160,7 +160,7 @@
     <string name="dropbox">Dropbox</string>
     <string name="google_drive">Google Drive</string>
     <string name="backup_frequency">Yedekleme sıklığı</string>
-    <string name="backup_and_restore_summary">Dropbox ve Google Drive yedeklerini, ayrıca manuel içe aktarma ve dışa aktarmayı yönetin</string>
+    <string name="backup_and_restore_summary">Yedeklemeler hakkında bilgi alın ve sık sorulan soruların yanıtlarını bulun.</string>
     <string name="manual_backup_section">Manuel yedekleme</string>
     <string name="connect_dropbox">Dropbox bağla</string>
     <string name="sign_in_with_google">Google ile oturum aç</string>

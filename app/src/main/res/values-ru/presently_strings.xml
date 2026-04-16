@@ -159,7 +159,7 @@
     <string name="dropbox">Dropbox</string>
     <string name="google_drive">Google Drive</string>
     <string name="backup_frequency">Частота резервного копирования</string>
-    <string name="backup_and_restore_summary">Управляйте резервными копиями Dropbox и Google Drive, а также ручным импортом и экспортом</string>
+    <string name="backup_and_restore_summary">Читайте о резервных копиях и находите ответы на часто задаваемые вопросы.</string>
     <string name="manual_backup_section">Ручное резервное копирование</string>
     <string name="connect_dropbox">Подключить Dropbox</string>
     <string name="sign_in_with_google">Войти через Google</string>

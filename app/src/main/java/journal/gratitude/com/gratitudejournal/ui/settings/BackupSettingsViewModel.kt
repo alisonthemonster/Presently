@@ -21,6 +21,8 @@ import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUpload
 import journal.gratitude.com.gratitudejournal.util.backups.google.GoogleDriveBackupFile
 import journal.gratitude.com.gratitudejournal.util.backups.google.GoogleDriveBackupProvider
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.settings.BackupProviderState
+import journal.gratitude.com.gratitudejournal.util.backups.RestorePreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -269,7 +271,7 @@ class BackupSettingsViewModel @Inject constructor(
         )
     }
 
-    private fun journal.gratitude.com.gratitudejournal.settings.BackupProviderState.toUiState():
+    private fun BackupProviderState.toUiState():
         BackupProviderUiState {
         return BackupProviderUiState(
             isConnected = isConnected,
@@ -279,7 +281,7 @@ class BackupSettingsViewModel @Inject constructor(
         )
     }
 
-    private fun journal.gratitude.com.gratitudejournal.util.backups.RestorePreview.toUiState():
+    private fun RestorePreview.toUiState():
         RestoreOfferUiState {
         return RestoreOfferUiState(
             backupDateTimestamp = runCatching {

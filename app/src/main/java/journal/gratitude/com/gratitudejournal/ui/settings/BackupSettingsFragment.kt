@@ -113,6 +113,7 @@ class BackupSettingsFragment : Fragment() {
                         onImportDismissed = viewModel::onImportDismissed,
                         onImportConfirmed = viewModel::onImportConfirmed,
                         onExportClick = viewModel::onExportClicked,
+                        onBackupGuideClick = ::openBackupGuide,
                         onRestoreDismissed = viewModel::onRestoreDismissed,
                         onRestoreConfirmed = viewModel::onRestoreConfirmed
                     )
@@ -183,6 +184,17 @@ class BackupSettingsFragment : Fragment() {
         }.show()
     }
 
+    private fun openBackupGuide() {
+        try {
+            startActivity(
+                Intent(Intent.ACTION_VIEW, Uri.parse(BACKUP_GUIDE_URL))
+            )
+        } catch (exception: ActivityNotFoundException) {
+            crashReporter.logHandledException(exception)
+            Toast.makeText(context, R.string.no_app_found, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun startGoogleDriveAuthorization() {
         Log.d(TAG, "startGoogleDriveAuthorization: launching Google Sign-In")
         val signInIntent = googleDriveBackupProvider.getSignInIntent()
@@ -208,5 +220,6 @@ class BackupSettingsFragment : Fragment() {
 
     companion object {
         private const val TAG = "BackupSettings"
+        private const val BACKUP_GUIDE_URL = "https://presently-app.firebaseapp.com/export.html"
     }
 }

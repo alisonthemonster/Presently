@@ -160,7 +160,7 @@
     <string name="dropbox">Dropbox</string>
     <string name="google_drive">Google Drive</string>
     <string name="backup_frequency">تكرار النسخ الاحتياطي</string>
-    <string name="backup_and_restore_summary">إدارة النسخ الاحتياطي إلى Dropbox وGoogle Drive، بالإضافة إلى الاستيراد والتصدير اليدويين</string>
+    <string name="backup_and_restore_summary">اقرأ عن النسخ الاحتياطي واحصل على إجابات للأسئلة الشائعة.</string>
     <string name="manual_backup_section">نسخ احتياطي يدوي</string>
     <string name="connect_dropbox">ربط Dropbox</string>
     <string name="sign_in_with_google">تسجيل الدخول باستخدام Google</string>

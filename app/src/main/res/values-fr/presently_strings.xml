@@ -159,7 +159,7 @@
     <string name="dropbox">Dropbox</string>
     <string name="google_drive">Google Drive</string>
     <string name="backup_frequency">Fréquence de sauvegarde</string>
-    <string name="backup_and_restore_summary">Gérez les sauvegardes Dropbox et Google Drive, ainsi que l’importation et l’exportation manuelles</string>
+    <string name="backup_and_restore_summary">Lisez des informations sur les sauvegardes et obtenez des réponses aux questions fréquentes.</string>
     <string name="manual_backup_section">Sauvegarde manuelle</string>
     <string name="connect_dropbox">Connecter Dropbox</string>
     <string name="sign_in_with_google">Se connecter avec Google</string>

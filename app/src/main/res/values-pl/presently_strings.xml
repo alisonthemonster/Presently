@@ -157,7 +157,7 @@
     <string name="dropbox">Dropbox</string>
     <string name="google_drive">Google Drive</string>
     <string name="backup_frequency">Częstotliwość kopii zapasowej</string>
-    <string name="backup_and_restore_summary">Zarządzaj kopiami zapasowymi Dropbox i Google Drive oraz ręcznym importem i eksportem</string>
+    <string name="backup_and_restore_summary">Przeczytaj o kopiach zapasowych i znajdź odpowiedzi na często zadawane pytania.</string>
     <string name="manual_backup_section">Ręczna kopia zapasowa</string>
     <string name="connect_dropbox">Połącz Dropbox</string>
     <string name="sign_in_with_google">Zaloguj się przez Google</string>

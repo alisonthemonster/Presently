@@ -128,7 +128,7 @@
     <string name="one_time_export">Export entries to CSV</string>
     <string name="import_summary">Select a backed up CSV file to import</string>
     <string name="backup_and_restore">Backup &amp; Restore</string>
-    <string name="backup_and_restore_summary">Manage Dropbox and Google Drive backups, plus manual import and export</string>
+    <string name="backup_and_restore_summary">Read about backups and get answers to commonly asked questions.</string>
     <string name="manual_backup_section">Manual backup</string>
     <string name="connect_dropbox">Connect Dropbox</string>
     <string name="sign_in_with_google">Sign in with Google</string>

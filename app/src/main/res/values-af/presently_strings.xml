@@ -160,7 +160,7 @@
     <string name="dropbox">Dropbox</string>
     <string name="google_drive">Google Drive</string>
     <string name="backup_frequency">Rugsteunfrekwensie</string>
-    <string name="backup_and_restore_summary">Bestuur Dropbox- en Google Drive-rugsteun, plus handmatige invoer en uitvoer</string>
+    <string name="backup_and_restore_summary">Lees oor rugsteun en kry antwoorde op gereeld gevraagde vrae.</string>
     <string name="manual_backup_section">Handmatige rugsteun</string>
     <string name="connect_dropbox">Koppel Dropbox</string>
     <string name="sign_in_with_google">Meld aan met Google</string>

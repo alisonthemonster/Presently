@@ -160,7 +160,7 @@
     <string name="dropbox">Dropbox</string>
     <string name="google_drive">Google Drive</string>
     <string name="backup_frequency">備份頻率</string>
-    <string name="backup_and_restore_summary">管理 Dropbox 和 Google Drive 備份，以及手動匯入和匯出</string>
+    <string name="backup_and_restore_summary">閱讀有關備份的說明，並取得常見問題的答案。</string>
     <string name="manual_backup_section">手動備份</string>
     <string name="connect_dropbox">連接 Dropbox</string>
     <string name="sign_in_with_google">使用 Google 登入</string>

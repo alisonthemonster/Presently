@@ -160,7 +160,7 @@
     <string name="dropbox">Dropbox</string>
     <string name="google_drive">Google Drive</string>
     <string name="backup_frequency">Frekvencia zálohovania</string>
-    <string name="backup_and_restore_summary">Spravujte zálohy Dropboxu a Google Drive, plus manuálny import a export</string>
+    <string name="backup_and_restore_summary">Prečítajte si o zálohách a získajte odpovede na často kladené otázky.</string>
     <string name="manual_backup_section">Manuálna záloha</string>
     <string name="connect_dropbox">Pripojiť Dropbox</string>
     <string name="sign_in_with_google">Prihlásiť sa cez Google</string>

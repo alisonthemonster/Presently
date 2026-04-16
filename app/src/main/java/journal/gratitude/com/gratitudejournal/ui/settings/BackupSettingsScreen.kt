@@ -11,22 +11,30 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,22 +59,33 @@ fun BackupSettingsScreen(
     onImportDismissed: () -> Unit,
     onImportConfirmed: () -> Unit,
     onExportClick: () -> Unit,
+    onBackupGuideClick: () -> Unit,
     onRestoreDismissed: () -> Unit,
     onRestoreConfirmed: () -> Unit
 ) {
-    //todo use the theme to style this screen
     val theme = LocalPresentlyTheme.current
-    //todo use fonts like timeline or entry screen did
 
     Scaffold(
+        containerColor = theme.timelineHeader,
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.backup_and_restore)) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = theme.toolbar,
+                    titleContentColor = theme.toolbarItem,
+                    navigationIconContentColor = theme.toolbarItem
+                ),
+                title = {
+                    Text(
+                        stringResource(R.string.backup_and_restore),
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                },
                 navigationIcon = {
                     TextButton(onClick = onBackClick) {
                         Icon(
                             painter = painterResource(R.drawable.ic_back),
-                            contentDescription = stringResource(R.string.back)
+                            contentDescription = stringResource(R.string.back),
+                            tint = theme.toolbarItem
                         )
                     }
                 }
@@ -105,27 +124,76 @@ fun BackupSettingsScreen(
                 onFrequencySelected = onGoogleDriveFrequencySelected
             )
 
-            Card(modifier = Modifier.fillMaxWidth()) {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = theme.entryBackground,
+                    contentColor = theme.entryBody
+                )
+            ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.manual_backup_section),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold
+                        style = MaterialTheme.typography.titleLarge
                     )
-                    OutlinedButton(
+                    Button(
+                        onClick = onExportClick,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = theme.entryBody,
+                            contentColor = theme.entryBackground
+                        ),
+                        shape = RoundedCornerShape(8.dp),
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = onExportClick
                     ) {
                         Text(stringResource(R.string.one_time_export))
                     }
-                    OutlinedButton(
+                    Button(
                         modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = theme.entryBody,
+                            contentColor = theme.entryBackground
+                        ),
+                        shape = RoundedCornerShape(8.dp),
                         onClick = onImportClick
                     ) {
                         Text(stringResource(R.string.import_entries_from_backup))
+                    }
+                }
+            }
+
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = theme.entryBackground,
+                    contentColor = theme.entryBody
+                )
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.learn_more),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                    Text(
+                        text = stringResource(R.string.backup_and_restore_summary),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = theme.entryHint
+                    )
+                    Button(
+                        onClick = onBackupGuideClick,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = theme.entryBody,
+                            contentColor = theme.entryBackground
+                        ),
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(stringResource(R.string.learn_more))
                     }
                 }
             }
@@ -152,7 +220,10 @@ fun BackupSettingsScreen(
 
     state.restoreOffer?.let { restoreOffer ->
         ModalBottomSheet(
-            onDismissRequest = onRestoreDismissed
+            onDismissRequest = onRestoreDismissed,
+            containerColor = theme.entryBackground,
+            contentColor = theme.entryBody,
+            scrimColor = theme.toolbar.copy(alpha = 0.42f)
         ) {
             Column(
                 modifier = Modifier
@@ -166,7 +237,7 @@ fun BackupSettingsScreen(
                         formatTimestamp(restoreOffer.backupDateTimestamp),
                         restoreOffer.entryCount
                     ),
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.SemiBold
                 )
                 if (restoreOffer.existingEntryCount > 0) {
@@ -174,23 +245,35 @@ fun BackupSettingsScreen(
                         text = stringResource(
                             R.string.google_drive_restore_merge_warning,
                             restoreOffer.existingEntryCount
-                        )
+                        ),
+                        color = theme.entryHint
                     )
                 }
                 if (state.isCheckingGoogleRestore) {
-                    Text(stringResource(R.string.checking_for_backup))
+                    Text(
+                        stringResource(R.string.checking_for_backup),
+                        color = theme.entryHint
+                    )
                 }
-                OutlinedButton(
+                Button(
                     modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = theme.entryBody,
+                        contentColor = theme.entryBackground
+                    ),
+                    shape = RoundedCornerShape(8.dp),
                     onClick = onRestoreConfirmed
                 ) {
                     Text(stringResource(R.string.restore))
                 }
                 TextButton(
-                    modifier = Modifier.align(Alignment.End),
+                    modifier = Modifier.fillMaxWidth(),
                     onClick = onRestoreDismissed
                 ) {
-                    Text(stringResource(R.string.skip))
+                    Text(
+                        stringResource(R.string.skip),
+                        color = theme.entryBody
+                    )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -210,7 +293,16 @@ private fun BackupProviderCard(
     onDisconnectClick: () -> Unit,
     onFrequencySelected: (BackupFrequency) -> Unit
 ) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    val theme = LocalPresentlyTheme.current
+    val disabledAlpha = 0.45f
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = theme.timelineBackground,
+            contentColor = theme.timelineBody
+        )
+    ) {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -223,11 +315,12 @@ private fun BackupProviderCard(
                 Icon(
                     painter = painterResource(iconRes),
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(32.dp),
+                    tint = theme.entryHeader
                 )
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -246,13 +339,15 @@ private fun BackupProviderCard(
                             R.string.last_backup_label,
                             formatTimestamp(state.lastBackupTimestamp)
                         ),
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = theme.timelineHint
                     )
                 }
 
                 Text(
                     text = stringResource(R.string.backup_frequency),
-                    style = MaterialTheme.typography.labelLarge
+                    style = MaterialTheme.typography.labelLarge,
+                    color = theme.timelineHint
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -262,14 +357,19 @@ private fun BackupProviderCard(
                         FilterChip(
                             selected = state.frequency == frequency,
                             onClick = { onFrequencySelected(frequency) },
-                            label = { Text(stringResource(frequency.labelRes)) }
+                            label = { Text(stringResource(frequency.labelRes)) },
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = theme.highlight,
+                                selectedLabelColor = theme.timelineBackground
+                            )
                         )
                     }
                 }
 
                 OutlinedButton(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = onDisconnectClick
+                    onClick = onDisconnectClick,
+                    shape = RoundedCornerShape(8.dp),
                 ) {
                     Text(disconnectLabel)
                 }
@@ -277,14 +377,27 @@ private fun BackupProviderCard(
                 Text(
                     text = notConnectedLabel,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = theme.timelineHint
                 )
-                OutlinedButton(
+                Text(
+                    text = stringResource(R.string.backup_frequency),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = theme.timelineHint,
+                    modifier = Modifier.alpha(disabledAlpha)
+                )
+
+                Button(
+                    onClick = onConnectClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = theme.entryBody,
+                        contentColor = theme.entryBackground
+                    ),
+                    shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = onConnectClick
                 ) {
                     Text(connectLabel)
                 }
+
             }
         }
     }
@@ -300,8 +413,8 @@ private val BackupFrequency.labelRes: Int
 @Composable
 private fun formatTimestamp(timestamp: Long?): String {
     if (timestamp == null) return stringResource(R.string.unknown_backup_date)
-    return DateFormat.getMediumDateFormat(androidx.compose.ui.platform.LocalContext.current)
+    return DateFormat.getMediumDateFormat(LocalContext.current)
         .format(Date(timestamp)) + " " +
-        DateFormat.getTimeFormat(androidx.compose.ui.platform.LocalContext.current)
-            .format(Date(timestamp))
+            DateFormat.getTimeFormat(LocalContext.current)
+                .format(Date(timestamp))
 }
