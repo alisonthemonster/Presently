@@ -44,6 +44,17 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="backups_category"
+        android:layout="@layout/preference_category_view"
+        android:title="@string/backup_and_restore">
+        <Preference
+            android:icon="@drawable/ic_cloud"
+            android:key="backup_settings_navigation"
+            android:summary="@string/backup_and_restore_summary"
+            android:title="@string/backup_and_restore" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:layout="@layout/preference_category_view"
         android:title="@string/appearance">
 
@@ -106,17 +117,6 @@
             android:summaryOff="@string/lock_setting_summary_off"
             android:summaryOn="@string/lock_setting_summary_on"
             android:title="@string/lock_title" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="backups_category"
-        android:layout="@layout/preference_category_view"
-        android:title="@string/backup_and_restore">
-        <Preference
-            android:icon="@drawable/ic_cloud"
-            android:key="backup_settings_navigation"
-            android:summary="@string/backup_and_restore_summary"
-            android:title="@string/backup_and_restore" />
     </PreferenceCategory>
 
     <PreferenceCategory
