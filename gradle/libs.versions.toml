@@ -27,7 +27,7 @@ appVersionMajor = "1"
 appVersionMinor = "26"
 appVersionPatch = "1"
 compileSdk = "35"
-compact-calendar-view = "3.0.0"
+kizitonwose-calendar = "2.6.2"
 dagger = "2.57.2"
 dropbox-sdk = "7.0.0"
 espresso = "3.7.0"
@@ -107,7 +107,7 @@ androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
 apache-csv = { module = "org.apache.commons:commons-csv", version.ref = "apache" }
 apache-text = { module = "org.apache.commons:commons-text", version.ref = "apache" }
-compact-calendar-view = { module = "com.github.sundeepk:compact-calendar-view", version.ref = "compact-calendar-view" }
+kizitonwose-calendar-compose = { module = "com.kizitonwose.calendar:compose", version.ref = "kizitonwose-calendar" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-android-processor = { module = "com.google.dagger:dagger-android-processor", version.ref = "dagger" }
 dagger-android-support = { module = "com.google.dagger:dagger-android-support", version.ref = "dagger" }

@@ -58,11 +58,9 @@ subprojects { prj ->
                               'android/**/*.*',
                               '**/ui/settings/*.*',
                               '**/model/*.*',
-                              '**/room/*.*',
                               '**/di/*.*',
                               '**/dropbox/*.*',
                               '**/*Module*.*',
-                              '**/reminders/*.*',
                               '**/backups/Dropbox/*.*',
                               '**/backups/UploadToCloudWorker*',
                               '**/*Binding*.*',
@@ -83,8 +81,7 @@ subprojects { prj ->
                               '**/ContainerActivity*',
                               '**/AppLockFragment*',
                               '**/LocaleHelper*',
-                              '**/RealFirebaseAnalytics*', // not going to test 3rd party wrapper code
-                              '**/calendar/*.*',]
+                              '**/RealFirebaseAnalytics*'] // not going to test 3rd party wrapper code
 
             final kotlinTree = fileTree(dir: "${prj.buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
             final javacTree = fileTree(dir: "${prj.buildDir}/intermediates/javac/debug", excludes: fileFilter)
