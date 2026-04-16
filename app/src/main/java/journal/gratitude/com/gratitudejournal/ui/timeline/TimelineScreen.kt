@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -106,7 +107,7 @@ fun TimelineScreenContent(
     val theme = LocalPresentlyTheme.current
     val animationDurationMillis = 250
     val calendarTopPadding = 64.dp
-    val density = androidx.compose.ui.platform.LocalDensity.current
+    val density = LocalDensity.current
     val calendarTopPaddingPx = with(density) { calendarTopPadding.toPx() }
     val fabTranslationX = remember { Animatable(0f) }
     val fabTranslationY = remember { Animatable(0f) }

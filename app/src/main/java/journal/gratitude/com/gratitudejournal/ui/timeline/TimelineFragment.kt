@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
@@ -39,7 +40,7 @@ class TimelineFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: android.view.LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         return ComposeView(requireContext()).apply {
