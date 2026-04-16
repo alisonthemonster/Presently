@@ -50,13 +50,6 @@ class TimelineViewModel @Inject constructor(
     val effects = _effects.asSharedFlow()
 
     init {
-        val firstDayOfWeek = when (settings.getFirstDayOfWeek()) {
-            Calendar.SATURDAY -> DayOfWeek.SATURDAY
-            Calendar.SUNDAY -> DayOfWeek.SUNDAY
-            else -> DayOfWeek.MONDAY
-        }
-        _state.value = _state.value.copy(firstDayOfWeek = firstDayOfWeek)
-
         viewModelScope.launch {
             repository.getEntriesFlow().collect { entries ->
                 latestEntries = entries
@@ -153,10 +146,19 @@ class TimelineViewModel @Inject constructor(
 
     private fun refreshTimelineRows() {
         _state.value = _state.value.copy(
+            firstDayOfWeek = settings.getFirstDayOfWeek().toDayOfWeek(),
             items = latestEntries.toTimelineRowStates(
                 showDayOfWeek = settings.shouldShowDayOfWeekInTimeline(),
                 linesPerEntry = settings.getLinesPerEntryInTimeline()
             )
         )
+    }
+
+    private fun Int.toDayOfWeek(): DayOfWeek {
+        return when (this) {
+            Calendar.SATURDAY -> DayOfWeek.SATURDAY
+            Calendar.SUNDAY -> DayOfWeek.SUNDAY
+            else -> DayOfWeek.MONDAY
+        }
     }
 }

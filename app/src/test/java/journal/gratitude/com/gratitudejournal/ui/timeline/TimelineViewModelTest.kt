@@ -30,6 +30,8 @@ import org.junit.Test
 import org.threeten.bp.LocalDate
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
+import java.util.Calendar
+import java.time.DayOfWeek
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class TimelineViewModelTest {
@@ -45,6 +47,7 @@ class TimelineViewModelTest {
     private lateinit var analytics: AnalyticsLogger
     private var showDayOfWeek = false
     private var linesPerEntry = 10
+    private var firstDayOfWeek = Calendar.MONDAY
 
     @Before
     fun setUp() {
@@ -53,6 +56,7 @@ class TimelineViewModelTest {
         analytics = mock()
         whenever(settings.shouldShowDayOfWeekInTimeline()).thenAnswer { showDayOfWeek }
         whenever(settings.getLinesPerEntryInTimeline()).thenAnswer { linesPerEntry }
+        whenever(settings.getFirstDayOfWeek()).thenAnswer { firstDayOfWeek }
         whenever(settings.hasSeenReminderOnboarding()).thenReturn(false)
     }
 
@@ -149,9 +153,11 @@ class TimelineViewModelTest {
             .first { it.date == entryDate }
         assertThat(initialEntry.dateText).isEqualTo(entryDate.toFullString())
         assertThat(initialEntry.maxLines).isEqualTo(10)
+        assertThat(viewModel.state.value.firstDayOfWeek).isEqualTo(DayOfWeek.MONDAY)
 
         showDayOfWeek = true
         linesPerEntry = 2
+        firstDayOfWeek = Calendar.SUNDAY
 
         viewModel.onScreenResumed()
         advanceUntilIdle()
@@ -161,6 +167,7 @@ class TimelineViewModelTest {
             .first { it.date == entryDate }
         assertThat(refreshedEntry.dateText).isEqualTo(entryDate.toStringWithDayOfWeek())
         assertThat(refreshedEntry.maxLines).isEqualTo(2)
+        assertThat(viewModel.state.value.firstDayOfWeek).isEqualTo(DayOfWeek.SUNDAY)
     }
 
     private fun createViewModel(): TimelineViewModel {
