@@ -38,16 +38,12 @@ import org.threeten.bp.LocalDate
 class GratitudeQuoteWidget : GlanceAppWidget() {
 
     companion object {
-        private val SMALL = DpSize(80.dp, 80.dp)
-        private val MEDIUM_WIDE = DpSize(180.dp, 80.dp)
-        private val LARGE_WIDE = DpSize(260.dp, 80.dp)
-        private val TALL = DpSize(80.dp, 160.dp)
-        private val MEDIUM = DpSize(180.dp, 160.dp)
-        private val LARGE = DpSize(260.dp, 160.dp)
+        val MEDIUM = DpSize(110.dp, 110.dp)
+        val LARGE = DpSize(180.dp, 110.dp)
     }
 
     override val sizeMode = SizeMode.Responsive(
-        setOf(SMALL, MEDIUM_WIDE, LARGE_WIDE, TALL, MEDIUM, LARGE)
+        setOf(MEDIUM, LARGE)
     )
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
@@ -101,11 +97,6 @@ private fun WidgetContent(
     textColor: Color,
     hintColor: Color,
 ) {
-    val size = LocalSize.current
-    val isWide = size.width >= 180.dp
-    val isExtraWide = size.width >= 260.dp
-    val isTall = size.height >= 160.dp
-
     Box(
         modifier = GlanceModifier
             .fillMaxSize()
@@ -115,13 +106,9 @@ private fun WidgetContent(
             .padding(12.dp),
         contentAlignment = Alignment.TopStart,
     ) {
-        when {
-            isExtraWide && isTall -> QuoteLayout(quote, author, textColor, hintColor, quoteFontSize = 22, authorFontSize = 14)
-            isWide && isTall -> QuoteLayout(quote, author, textColor, hintColor, quoteFontSize = 18, authorFontSize = 13)
-            isTall -> QuoteLayout(quote, author, textColor, hintColor, quoteFontSize = 17, authorFontSize = 12)
-            isExtraWide -> QuoteLayout(quote, author, textColor, hintColor, quoteFontSize = 16, authorFontSize = 13, maxLines = 3)
-            isWide -> QuoteLayout(quote, author, textColor, hintColor, quoteFontSize = 14, authorFontSize = 12, maxLines = 3)
-            else -> QuoteLayout(quote, author, textColor, hintColor, quoteFontSize = 12, authorFontSize = 0, maxLines = 5)
+        when (LocalSize.current) {
+            GratitudeQuoteWidget.LARGE -> QuoteLayout(quote, author, textColor, hintColor, quoteFontSize = 18, authorFontSize = 13)
+            else                       -> QuoteLayout(quote, author, textColor, hintColor, quoteFontSize = 14, authorFontSize = 12)
         }
     }
 }
@@ -134,7 +121,6 @@ private fun QuoteLayout(
     hintColor: Color,
     quoteFontSize: Int,
     authorFontSize: Int,
-    maxLines: Int = Int.MAX_VALUE,
 ) {
     Box(modifier = GlanceModifier.fillMaxSize()) {
         Text(
@@ -143,7 +129,6 @@ private fun QuoteLayout(
                 color = ColorProvider(textColor),
                 fontSize = quoteFontSize.sp,
             ),
-            maxLines = maxLines,
             modifier = GlanceModifier.fillMaxWidth(),
         )
         if (author.isNotEmpty() && authorFontSize > 0) {
