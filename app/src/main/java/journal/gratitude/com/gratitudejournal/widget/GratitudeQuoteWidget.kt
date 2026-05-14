@@ -7,15 +7,16 @@ import android.view.ContextThemeWrapper
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.createBitmap
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
-import androidx.glance.layout.ContentScale
 import androidx.glance.action.ActionParameters
 import androidx.glance.action.actionParametersOf
 import androidx.glance.action.actionStartActivity
@@ -26,25 +27,24 @@ import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Alignment
-import androidx.glance.layout.Alignment.Vertical
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
+import androidx.glance.layout.ColumnScope
+import androidx.glance.layout.ContentScale
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
-import androidx.glance.layout.size
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import androidx.preference.PreferenceManager
+import dagger.hilt.android.EntryPointAccessors
 import journal.gratitude.com.gratitudejournal.ContainerActivity
-import journal.gratitude.com.gratitudejournal.model.CAME_FROM_WIDGET
 import journal.gratitude.com.gratitudejournal.R
-import journal.gratitude.com.gratitudejournal.settings.model.THEME_PREF
+import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
+import journal.gratitude.com.gratitudejournal.model.CAME_FROM_WIDGET
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import org.threeten.bp.LocalDate
-import androidx.core.graphics.createBitmap
 
 class GratitudeQuoteWidget : GlanceAppWidget() {
 
@@ -55,6 +55,11 @@ class GratitudeQuoteWidget : GlanceAppWidget() {
         val HORIZONTAL_RECTANGLE = DpSize(250.dp, 100.dp)
         val TALL = DpSize(100.dp, 250.dp)
         val BIG_SQUARE = DpSize(250.dp, 250.dp)
+
+        private const val ICON_SIZE_PX = 192
+        private val PREVIEW_QUOTE = "\"Gratitude turns what we have into enough.\""
+        private const val PREVIEW_AUTHOR = "Melody Beattie"
+        private const val PREVIEW_THEME = "original"
     }
 
     override val sizeMode = SizeMode.Responsive(
@@ -66,72 +71,54 @@ class GratitudeQuoteWidget : GlanceAppWidget() {
     )
 
     override suspend fun providePreview(context: Context, widgetCategory: Int) {
-        val theme = PresentlyThemeSpec.fromStorageValue("original")
-        val themedContext = ContextThemeWrapper(context, theme.styleRes)
-        val attrs = themedContext.obtainStyledAttributes(
-            intArrayOf(
-                R.attr.timelineBackgroundColor,
-                R.attr.timelineHeaderColor,
-                R.attr.timelineHintColor,
-                R.attr.timelineIcon,
-            )
-        )
-        val backgroundColor = Color(attrs.getColor(0, 0xFFDBD1C7.toInt()))
-        val textColor = Color(attrs.getColor(1, 0xFF000000.toInt()))
-        val hintColor = Color(attrs.getColor(2, 0xFF79736A.toInt()))
-        val iconResId = attrs.getResourceId(3, R.drawable.ic_flower)
-        attrs.recycle()
-
-        val iconBitmap = rasterizeDrawable(themedContext, iconResId, 192)
-
+        val assets = loadThemeAssets(context, PREVIEW_THEME)
         provideContent {
             WidgetContent(
-                quote = "\"Gratitude turns what we have into enough.\"",
-                author = "Melody Beattie",
-                backgroundColor = backgroundColor,
-                textColor = textColor,
-                hintColor = hintColor,
-                iconBitmap = iconBitmap,
+                quote = PREVIEW_QUOTE,
+                author = PREVIEW_AUTHOR,
+                assets = assets,
             )
         }
     }
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val themeName = prefs.getString(THEME_PREF, "original") ?: "original"
-        val theme = PresentlyThemeSpec.fromStorageValue(themeName)
-
-        val themedContext = ContextThemeWrapper(context, theme.styleRes)
-        val attrs = themedContext.obtainStyledAttributes(
-            intArrayOf(
-                R.attr.timelineBackgroundColor,
-                R.attr.timelineHeaderColor,
-                R.attr.timelineHintColor,
-                R.attr.timelineIcon,
-            )
-        )
-        val backgroundColor = Color(attrs.getColor(0, 0xFFDBD1C7.toInt()))
-        val textColor = Color(attrs.getColor(1, 0xFF000000.toInt()))
-        val hintColor = Color(attrs.getColor(2, 0xFF79736A.toInt()))
-        val iconResId = attrs.getResourceId(3, R.drawable.ic_flower)
-        attrs.recycle()
-
-        val iconBitmap = rasterizeDrawable(themedContext, iconResId, 192)
+        val settings = EntryPointAccessors
+            .fromApplication(context, SettingsEntryPoint::class.java)
+            .settings
+        val assets = loadThemeAssets(context, settings.getCurrentTheme())
 
         val quotes = context.resources.getStringArray(R.array.inspirations)
-        val index = LocalDate.now().dayOfYear % quotes.size
+        val index = selectQuoteIndex(LocalDate.now().dayOfYear, quotes.size)
         val (quoteText, author) = parseQuote(quotes[index])
 
         provideContent {
             WidgetContent(
                 quote = quoteText,
                 author = author,
-                backgroundColor = backgroundColor,
-                textColor = textColor,
-                hintColor = hintColor,
-                iconBitmap = iconBitmap,
+                assets = assets,
             )
         }
+    }
+
+    private fun loadThemeAssets(context: Context, themeName: String): ThemeAssets {
+        val theme = PresentlyThemeSpec.fromStorageValue(themeName)
+        val themedContext = ContextThemeWrapper(context, theme.styleRes)
+        val attrs = themedContext.obtainStyledAttributes(
+            intArrayOf(
+                R.attr.timelineBackgroundColor,
+                R.attr.timelineHeaderColor,
+                R.attr.timelineHintColor,
+                R.attr.timelineIcon,
+            )
+        )
+        val backgroundColor = Color(attrs.getColor(0, 0xFFDBD1C7.toInt()))
+        val textColor = Color(attrs.getColor(1, 0xFF000000.toInt()))
+        val hintColor = Color(attrs.getColor(2, 0xFF79736A.toInt()))
+        val iconResId = attrs.getResourceId(3, R.drawable.ic_flower)
+        attrs.recycle()
+
+        val iconBitmap = rasterizeDrawable(themedContext, iconResId, ICON_SIZE_PX)
+        return ThemeAssets(backgroundColor, textColor, hintColor, iconBitmap)
     }
 
     private fun rasterizeDrawable(context: Context, resId: Int, sizePx: Int): Bitmap {
@@ -148,32 +135,25 @@ class GratitudeQuoteWidget : GlanceAppWidget() {
         drawable.draw(canvas)
         return bitmap
     }
-
-    private fun parseQuote(raw: String): Pair<String, String> {
-        val idx = raw.lastIndexOf('\n')
-        return if (idx >= 0) {
-            raw.substring(0, idx).trim() to raw.substring(idx + 1).trim()
-        } else {
-            raw.trim() to ""
-        }
-    }
-
-
 }
+
+internal data class ThemeAssets(
+    val backgroundColor: Color,
+    val textColor: Color,
+    val hintColor: Color,
+    val iconBitmap: Bitmap,
+)
 
 @Composable
 private fun WidgetContent(
     quote: String,
     author: String,
-    backgroundColor: Color,
-    textColor: Color,
-    hintColor: Color,
-    iconBitmap: Bitmap,
+    assets: ThemeAssets,
 ) {
     Box(
         modifier = GlanceModifier
             .fillMaxSize()
-            .background(backgroundColor)
+            .background(assets.backgroundColor)
             .cornerRadius(16.dp)
             .clickable(actionStartActivity<ContainerActivity>(
                 parameters = actionParametersOf(GratitudeQuoteWidget.cameFromWidgetKey to true)
@@ -182,16 +162,24 @@ private fun WidgetContent(
         contentAlignment = Alignment.TopStart,
     ) {
         val size = LocalSize.current
-        when {
-            size.width >= GratitudeQuoteWidget.BIG_SQUARE.width && size.height >= GratitudeQuoteWidget.BIG_SQUARE.height ->
-                TallQuoteLayout(quote, author, iconBitmap, textColor, hintColor, quoteFontSize = 20, authorFontSize = 14)
-            size.height >= GratitudeQuoteWidget.TALL.height ->
-                TallQuoteLayout(quote, author, iconBitmap, textColor, hintColor, quoteFontSize = 16, authorFontSize = 12)
-            size.width >= GratitudeQuoteWidget.HORIZONTAL_RECTANGLE.width ->
-                WideQuoteLayout(quote, author, iconBitmap, textColor, hintColor, quoteFontSize = 18, authorFontSize = 13)
-            else ->
-                QuoteLayout(quote, author, iconBitmap, textColor, hintColor, quoteFontSize = 14, authorFontSize = 12)
+        val isWide = size.width >= GratitudeQuoteWidget.HORIZONTAL_RECTANGLE.width &&
+            size.height < GratitudeQuoteWidget.TALL.height
+        val (quoteFontSize, authorFontSize) = when {
+            size.width >= GratitudeQuoteWidget.BIG_SQUARE.width &&
+                size.height >= GratitudeQuoteWidget.BIG_SQUARE.height -> 20 to 14
+            size.height >= GratitudeQuoteWidget.TALL.height -> 16 to 12
+            isWide -> 18 to 13
+            else -> 14 to 12
         }
+        QuoteLayout(
+            quote = quote,
+            author = author,
+            assets = assets,
+            quoteFontSize = quoteFontSize,
+            authorFontSize = authorFontSize,
+            centerHorizontally = !isWide,
+            iconPadding = if (isWide) 16.dp else 8.dp,
+        )
     }
 }
 
@@ -199,136 +187,64 @@ private fun WidgetContent(
 private fun QuoteLayout(
     quote: String,
     author: String,
-    iconBitmap: Bitmap,
-    textColor: Color,
-    hintColor: Color,
+    assets: ThemeAssets,
     quoteFontSize: Int,
     authorFontSize: Int,
+    centerHorizontally: Boolean,
+    iconPadding: Dp,
 ) {
-    Column(
-        modifier = GlanceModifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            text = quote,
-            style = TextStyle(
-                color = ColorProvider(textColor),
-                fontSize = quoteFontSize.sp,
-            ),
-            modifier = GlanceModifier.fillMaxWidth(),
-        )
-        Box(
-            modifier = GlanceModifier.fillMaxWidth().defaultWeight().padding(8.dp),
-            contentAlignment = Alignment.Center,
+    val columnModifier = GlanceModifier.fillMaxSize()
+    if (centerHorizontally) {
+        Column(
+            modifier = columnModifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Image(
-                provider = ImageProvider(iconBitmap),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = GlanceModifier.fillMaxSize(),
-            )
+            QuoteLayoutContent(quote, author, assets, quoteFontSize, authorFontSize, iconPadding)
         }
-        if (author.isNotEmpty()) {
-            Text(
-                text = author,
-                style = TextStyle(
-                    color = ColorProvider(hintColor),
-                    fontSize = authorFontSize.sp,
-                    textAlign = TextAlign.End,
-                ),
-                modifier = GlanceModifier.fillMaxWidth(),
-            )
+    } else {
+        Column(modifier = columnModifier) {
+            QuoteLayoutContent(quote, author, assets, quoteFontSize, authorFontSize, iconPadding)
         }
     }
 }
 
 @Composable
-private fun WideQuoteLayout(
+private fun ColumnScope.QuoteLayoutContent(
     quote: String,
     author: String,
-    iconBitmap: Bitmap,
-    textColor: Color,
-    hintColor: Color,
+    assets: ThemeAssets,
     quoteFontSize: Int,
     authorFontSize: Int,
+    iconPadding: Dp,
 ) {
-    Column(modifier = GlanceModifier.fillMaxSize()) {
-        Text(
-            text = quote,
-            style = TextStyle(
-                color = ColorProvider(textColor),
-                fontSize = quoteFontSize.sp,
-            ),
-            modifier = GlanceModifier.fillMaxWidth(),
-        )
-        Box(
-            modifier = GlanceModifier.fillMaxWidth().defaultWeight().padding(16.dp),
-            contentAlignment = Alignment.Center,
-        ) {
-            Image(
-                provider = ImageProvider(iconBitmap),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = GlanceModifier.fillMaxSize(),
-            )
-        }
-        if (author.isNotEmpty()) {
-            Text(
-                text = author,
-                style = TextStyle(
-                    color = ColorProvider(hintColor),
-                    fontSize = authorFontSize.sp,
-                    textAlign = TextAlign.End,
-                ),
-                modifier = GlanceModifier.fillMaxWidth(),
-            )
-        }
-    }
-}
-
-@Composable
-private fun TallQuoteLayout(
-    quote: String,
-    author: String,
-    iconBitmap: Bitmap,
-    textColor: Color,
-    hintColor: Color,
-    quoteFontSize: Int,
-    authorFontSize: Int,
-) {
-    Column(
-        modifier = GlanceModifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Text(
+        text = quote,
+        style = TextStyle(
+            color = ColorProvider(assets.textColor),
+            fontSize = quoteFontSize.sp,
+        ),
+        modifier = GlanceModifier.fillMaxWidth(),
+    )
+    Box(
+        modifier = GlanceModifier.fillMaxWidth().defaultWeight().padding(iconPadding),
+        contentAlignment = Alignment.Center,
     ) {
+        Image(
+            provider = ImageProvider(assets.iconBitmap),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = GlanceModifier.fillMaxSize(),
+        )
+    }
+    if (author.isNotEmpty()) {
         Text(
-            text = quote,
+            text = author,
             style = TextStyle(
-                color = ColorProvider(textColor),
-                fontSize = quoteFontSize.sp,
+                color = ColorProvider(assets.hintColor),
+                fontSize = authorFontSize.sp,
+                textAlign = TextAlign.End,
             ),
             modifier = GlanceModifier.fillMaxWidth(),
         )
-        Box(
-            modifier = GlanceModifier.fillMaxWidth().defaultWeight().padding(8.dp),
-            contentAlignment = Alignment.Center,
-        ) {
-            Image(
-                provider = ImageProvider(iconBitmap),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = GlanceModifier.fillMaxSize(),
-            )
-        }
-        if (author.isNotEmpty()) {
-            Text(
-                text = author,
-                style = TextStyle(
-                    color = ColorProvider(hintColor),
-                    fontSize = authorFontSize.sp,
-                    textAlign = TextAlign.End,
-                ),
-                modifier = GlanceModifier.fillMaxWidth(),
-            )
-        }
     }
 }

@@ -3,15 +3,17 @@ package journal.gratitude.com.gratitudejournal
 import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetProviderInfo
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import android.appwidget.AppWidgetProviderInfo
 import androidx.collection.intSetOf
+import androidx.core.view.WindowCompat
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.ConnectionResult
@@ -56,28 +58,11 @@ class ContainerActivity : AppCompatActivity() {
 
         createNotificationChannels()
 
-        intent.extras?.let {
-            val cameFromNotification = it.getBoolean(fromNotification, false)
-            if (cameFromNotification) {
-                analyticsLogger.recordEvent(CAME_FROM_NOTIFICATION)
-            }
-            val cameFromWidget = it.getBoolean(GratitudeQuoteWidget.cameFromWidgetKey.name, false)
-            if (cameFromWidget) {
-                analyticsLogger.recordEvent(CAME_FROM_WIDGET)
-            }
-        }
+        logLaunchSourceFromIntent(intent)
 
         NotificationScheduler().configureNotifications(this, settings)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-            lifecycleScope.launch {
-                GlanceAppWidgetManager(this@ContainerActivity)
-                    .setWidgetPreviews(
-                        GratitudeQuoteWidgetReceiver::class,
-                        intSetOf(AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN)
-                    )
-            }
-        }
+        maybePublishWidgetPreview()
 
         if (resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
             //lays app behind system bars
@@ -94,6 +79,34 @@ class ContainerActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
+        logLaunchSourceFromIntent(intent)
+    }
+
+    private fun logLaunchSourceFromIntent(intent: Intent) {
+        val extras = intent.extras ?: return
+        if (extras.getBoolean(fromNotification, false)) {
+            analyticsLogger.recordEvent(CAME_FROM_NOTIFICATION)
+        }
+        if (extras.getBoolean(GratitudeQuoteWidget.cameFromWidgetKey.name, false)) {
+            analyticsLogger.recordEvent(CAME_FROM_WIDGET)
+        }
+    }
+
+    private fun maybePublishWidgetPreview() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) return
+        val componentName = ComponentName(this, GratitudeQuoteWidgetReceiver::class.java)
+        val providerInfo = AppWidgetManager.getInstance(this).installedProviders
+            .firstOrNull { it.provider == componentName }
+        val alreadyPublished = (providerInfo?.generatedPreviewCategories ?: 0) and
+            AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN != 0
+        if (alreadyPublished) return
+        lifecycleScope.launch {
+            GlanceAppWidgetManager(this@ContainerActivity)
+                .setWidgetPreviews(
+                    GratitudeQuoteWidgetReceiver::class,
+                    intSetOf(AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN)
+                )
+        }
     }
 
     private fun isGooglePlayServicesAvailable(activity: Activity): Boolean {
