@@ -16,6 +16,8 @@ import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
 import androidx.glance.layout.ContentScale
+import androidx.glance.action.ActionParameters
+import androidx.glance.action.actionParametersOf
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
@@ -37,6 +39,7 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import androidx.preference.PreferenceManager
 import journal.gratitude.com.gratitudejournal.ContainerActivity
+import journal.gratitude.com.gratitudejournal.model.CAME_FROM_WIDGET
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.settings.model.THEME_PREF
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
@@ -46,6 +49,8 @@ import androidx.core.graphics.createBitmap
 class GratitudeQuoteWidget : GlanceAppWidget() {
 
     companion object {
+        val cameFromWidgetKey = ActionParameters.Key<Boolean>(CAME_FROM_WIDGET)
+
         val SMALL_SQUARE = DpSize(100.dp, 100.dp)
         val HORIZONTAL_RECTANGLE = DpSize(250.dp, 100.dp)
         val TALL = DpSize(100.dp, 250.dp)
@@ -170,7 +175,9 @@ private fun WidgetContent(
             .fillMaxSize()
             .background(backgroundColor)
             .cornerRadius(16.dp)
-            .clickable(actionStartActivity<ContainerActivity>())
+            .clickable(actionStartActivity<ContainerActivity>(
+                parameters = actionParametersOf(GratitudeQuoteWidget.cameFromWidgetKey to true)
+            ))
             .padding(12.dp),
         contentAlignment = Alignment.TopStart,
     ) {

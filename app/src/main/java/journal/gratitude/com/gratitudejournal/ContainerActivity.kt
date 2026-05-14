@@ -20,6 +20,8 @@ import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
+import journal.gratitude.com.gratitudejournal.model.CAME_FROM_WIDGET
+import journal.gratitude.com.gratitudejournal.widget.GratitudeQuoteWidget
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import journal.gratitude.com.gratitudejournal.util.AppLocaleManager
@@ -58,6 +60,10 @@ class ContainerActivity : AppCompatActivity() {
             val cameFromNotification = it.getBoolean(fromNotification, false)
             if (cameFromNotification) {
                 analyticsLogger.recordEvent(CAME_FROM_NOTIFICATION)
+            }
+            val cameFromWidget = it.getBoolean(GratitudeQuoteWidget.cameFromWidgetKey.name, false)
+            if (cameFromWidget) {
+                analyticsLogger.recordEvent(CAME_FROM_WIDGET)
             }
         }
 
