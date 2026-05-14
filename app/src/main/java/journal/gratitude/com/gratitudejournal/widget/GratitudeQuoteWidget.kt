@@ -57,7 +57,7 @@ class GratitudeQuoteWidget : GlanceAppWidget() {
     )
 
     override val previewSizeMode = SizeMode.Responsive(
-        setOf(HORIZONTAL_RECTANGLE, BIG_SQUARE)
+        setOf(SMALL_SQUARE, HORIZONTAL_RECTANGLE, TALL, BIG_SQUARE)
     )
 
     override suspend fun providePreview(context: Context, widgetCategory: Int) {
