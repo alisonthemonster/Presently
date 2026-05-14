@@ -56,6 +56,41 @@ class GratitudeQuoteWidget : GlanceAppWidget() {
         setOf(SMALL_SQUARE, HORIZONTAL_RECTANGLE, TALL, BIG_SQUARE)
     )
 
+    override val previewSizeMode = SizeMode.Responsive(
+        setOf(HORIZONTAL_RECTANGLE, BIG_SQUARE)
+    )
+
+    override suspend fun providePreview(context: Context, widgetCategory: Int) {
+        val theme = PresentlyThemeSpec.fromStorageValue("original")
+        val themedContext = ContextThemeWrapper(context, theme.styleRes)
+        val attrs = themedContext.obtainStyledAttributes(
+            intArrayOf(
+                R.attr.timelineBackgroundColor,
+                R.attr.timelineHeaderColor,
+                R.attr.timelineHintColor,
+                R.attr.timelineIcon,
+            )
+        )
+        val backgroundColor = Color(attrs.getColor(0, 0xFFDBD1C7.toInt()))
+        val textColor = Color(attrs.getColor(1, 0xFF000000.toInt()))
+        val hintColor = Color(attrs.getColor(2, 0xFF79736A.toInt()))
+        val iconResId = attrs.getResourceId(3, R.drawable.ic_flower)
+        attrs.recycle()
+
+        val iconBitmap = rasterizeDrawable(themedContext, iconResId, 192)
+
+        provideContent {
+            WidgetContent(
+                quote = "\"Gratitude turns what we have into enough.\"",
+                author = "Melody Beattie",
+                backgroundColor = backgroundColor,
+                textColor = textColor,
+                hintColor = hintColor,
+                iconBitmap = iconBitmap,
+            )
+        }
+    }
+
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val themeName = prefs.getString(THEME_PREF, "original") ?: "original"
@@ -117,6 +152,8 @@ class GratitudeQuoteWidget : GlanceAppWidget() {
             raw.trim() to ""
         }
     }
+
+
 }
 
 @Composable
@@ -146,7 +183,7 @@ private fun WidgetContent(
             size.width >= GratitudeQuoteWidget.HORIZONTAL_RECTANGLE.width ->
                 WideQuoteLayout(quote, author, iconBitmap, textColor, hintColor, quoteFontSize = 18, authorFontSize = 13)
             else ->
-                QuoteLayout(quote, author, textColor, hintColor, quoteFontSize = 14, authorFontSize = 12)
+                QuoteLayout(quote, author, iconBitmap, textColor, hintColor, quoteFontSize = 14, authorFontSize = 12)
         }
     }
 }
@@ -155,40 +192,45 @@ private fun WidgetContent(
 private fun QuoteLayout(
     quote: String,
     author: String,
+    iconBitmap: Bitmap,
     textColor: Color,
     hintColor: Color,
     quoteFontSize: Int,
     authorFontSize: Int,
 ) {
-    Box(modifier = GlanceModifier.fillMaxSize()) {
+    Column(
+        modifier = GlanceModifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = quote,
+            style = TextStyle(
+                color = ColorProvider(textColor),
+                fontSize = quoteFontSize.sp,
+            ),
+            modifier = GlanceModifier.fillMaxWidth(),
+        )
         Box(
-            modifier = GlanceModifier.fillMaxSize(),
+            modifier = GlanceModifier.fillMaxWidth().defaultWeight().padding(8.dp),
             contentAlignment = Alignment.Center,
         ) {
-            Text(
-                text = quote,
-                style = TextStyle(
-                    color = ColorProvider(textColor),
-                    fontSize = quoteFontSize.sp,
-                ),
-                modifier = GlanceModifier.fillMaxWidth(),
+            Image(
+                provider = ImageProvider(iconBitmap),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                modifier = GlanceModifier.fillMaxSize(),
             )
         }
         if (author.isNotEmpty()) {
-            Column(
-                modifier = GlanceModifier.fillMaxSize(),
-                verticalAlignment = Vertical.Bottom,
-            ) {
-                Text(
-                    text = author,
-                    style = TextStyle(
-                        color = ColorProvider(hintColor),
-                        fontSize = authorFontSize.sp,
-                        textAlign = TextAlign.End,
-                    ),
-                    modifier = GlanceModifier.fillMaxWidth(),
-                )
-            }
+            Text(
+                text = author,
+                style = TextStyle(
+                    color = ColorProvider(hintColor),
+                    fontSize = authorFontSize.sp,
+                    textAlign = TextAlign.End,
+                ),
+                modifier = GlanceModifier.fillMaxWidth(),
+            )
         }
     }
 }

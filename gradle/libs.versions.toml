@@ -1,6 +1,6 @@
 [versions]
 android-gradle-plugin = "8.8.2"
-androidx-glance = "1.1.1"
+androidx-glance = "1.2.0-alpha01"
 androidx-activity-compose = "1.10.1"
 androidx-appcompat = "1.7.0"
 androidx-arch-core = "2.1.0"

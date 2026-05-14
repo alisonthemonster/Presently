@@ -147,4 +147,5 @@
     <string name="dropbox_sync_error_notif_body">Er was een probleem met je Dropbox-account. Klik hier om opnieuw verbinding te maken met Dropbox om de automatische back-ups te hervatten.</string>
     <string name="dropbox_auth_failed">Fout bij koppelen van Dropbox-account</string>
     <string name="learn_more">Leer meer</string>
+    <string name="gratitude_quote_widget_description">Laat je inspireren door een dagelijks dankbaarheidscitaat</string>
 </resources>

@@ -10,6 +10,8 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.glance.appwidget.GlanceAppWidgetManager
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
@@ -21,6 +23,8 @@ import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import journal.gratitude.com.gratitudejournal.util.AppLocaleManager
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
+import journal.gratitude.com.gratitudejournal.widget.GratitudeQuoteWidgetReceiver
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -56,6 +60,12 @@ class ContainerActivity : AppCompatActivity() {
         }
 
         NotificationScheduler().configureNotifications(this, settings)
+
+        lifecycleScope.launch {
+            val result = GlanceAppWidgetManager(this@ContainerActivity)
+                .setWidgetPreviews(GratitudeQuoteWidgetReceiver::class)
+            android.util.Log.d("WidgetPreview", "setWidgetPreviews result: $result")
+        }
 
         if (resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
             //lays app behind system bars

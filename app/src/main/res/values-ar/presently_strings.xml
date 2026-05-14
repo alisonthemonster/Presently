@@ -150,4 +150,5 @@
     <string name="dropbox_sync_error_notif_body">كانت هناك مشكلة في حساب Dropbox الخاص بك ، انقر هنا لإعادة الاتصال بـ Dropbox لاستئناف النسخ الاحتياطية التلقائية.</string>
     <string name="dropbox_auth_failed">حدث خطأ أثناء ربط حساب Dropbox</string>
     <string name="learn_more">يتعلم أكثر</string>
+    <string name="gratitude_quote_widget_description">اشعر بالإلهام من خلال اقتباس يومي عن الامتنان</string>
 </resources>

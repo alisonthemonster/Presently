@@ -148,4 +148,5 @@
     <string name="dropbox_sync_error_notif_body">Probléma lépett fel a Dropbox-fiókjával. Kattintson ide, hogy újra csatlakozzon a Dropboxhoz az automatikus biztonsági mentések folytatásához.</string>
     <string name="dropbox_auth_failed">Pogreška pri povezivanju Dropbox računa</string>
     <string name="learn_more">Tudj meg többet</string>
+    <string name="gratitude_quote_widget_description">Inspirirajte se svakodnevnim citatom zahvalnosti</string>
 </resources>

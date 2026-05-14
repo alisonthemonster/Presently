@@ -7,7 +7,7 @@
     <string name="key_open_source" translatable="false">open_source</string>
     <string name="key_version" translatable="false">version</string>
     <string name="key_opt_out" translatable="false">analytics_opt_out</string>
-    <string name="gratitude_quote_widget_description">Displays a daily gratitude quote from Presently</string>
+    <string name="gratitude_quote_widget_description">Feel inspired by a once daily gratitude quote</string>
     <string name="key_contact_us" translatable="false">contact_us</string>
 
     <string name="language_en" translatable="false">English</string>
