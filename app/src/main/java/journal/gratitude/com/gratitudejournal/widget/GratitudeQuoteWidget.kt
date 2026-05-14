@@ -1,7 +1,10 @@
 package journal.gratitude.com.gratitudejournal.widget
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.view.ContextThemeWrapper
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
@@ -12,6 +15,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
+import androidx.glance.layout.ContentScale
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
@@ -37,6 +41,7 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.settings.model.THEME_PREF
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import org.threeten.bp.LocalDate
+import androidx.core.graphics.createBitmap
 
 class GratitudeQuoteWidget : GlanceAppWidget() {
 
@@ -60,7 +65,7 @@ class GratitudeQuoteWidget : GlanceAppWidget() {
         val attrs = themedContext.obtainStyledAttributes(
             intArrayOf(
                 R.attr.timelineBackgroundColor,
-                R.attr.timelineLineColor,
+                R.attr.timelineHeaderColor,
                 R.attr.timelineHintColor,
                 R.attr.timelineIcon,
             )
@@ -70,6 +75,8 @@ class GratitudeQuoteWidget : GlanceAppWidget() {
         val hintColor = Color(attrs.getColor(2, 0xFF79736A.toInt()))
         val iconResId = attrs.getResourceId(3, R.drawable.ic_flower)
         attrs.recycle()
+
+        val iconBitmap = rasterizeDrawable(themedContext, iconResId, 192)
 
         val quotes = context.resources.getStringArray(R.array.inspirations)
         val index = LocalDate.now().dayOfYear % quotes.size
@@ -82,9 +89,24 @@ class GratitudeQuoteWidget : GlanceAppWidget() {
                 backgroundColor = backgroundColor,
                 textColor = textColor,
                 hintColor = hintColor,
-                iconResId = iconResId,
+                iconBitmap = iconBitmap,
             )
         }
+    }
+
+    private fun rasterizeDrawable(context: Context, resId: Int, sizePx: Int): Bitmap {
+        val drawable = AppCompatResources.getDrawable(context, resId)
+            ?: return createBitmap(sizePx, sizePx)
+        val intrinsicW = drawable.intrinsicWidth.takeIf { it > 0 } ?: sizePx
+        val intrinsicH = drawable.intrinsicHeight.takeIf { it > 0 } ?: sizePx
+        val scale = sizePx.toFloat() / maxOf(intrinsicW, intrinsicH)
+        val w = (intrinsicW * scale).toInt().coerceAtLeast(1)
+        val h = (intrinsicH * scale).toInt().coerceAtLeast(1)
+        val bitmap = createBitmap(w, h)
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, w, h)
+        drawable.draw(canvas)
+        return bitmap
     }
 
     private fun parseQuote(raw: String): Pair<String, String> {
@@ -104,7 +126,7 @@ private fun WidgetContent(
     backgroundColor: Color,
     textColor: Color,
     hintColor: Color,
-    iconResId: Int,
+    iconBitmap: Bitmap,
 ) {
     Box(
         modifier = GlanceModifier
@@ -118,11 +140,11 @@ private fun WidgetContent(
         val size = LocalSize.current
         when {
             size.width >= GratitudeQuoteWidget.BIG_SQUARE.width && size.height >= GratitudeQuoteWidget.BIG_SQUARE.height ->
-                TallQuoteLayout(quote, author, iconResId, textColor, hintColor, quoteFontSize = 20, authorFontSize = 14, iconSize = 96)
+                TallQuoteLayout(quote, author, iconBitmap, textColor, hintColor, quoteFontSize = 20, authorFontSize = 14)
             size.height >= GratitudeQuoteWidget.TALL.height ->
-                TallQuoteLayout(quote, author, iconResId, textColor, hintColor, quoteFontSize = 16, authorFontSize = 12, iconSize = 64)
+                TallQuoteLayout(quote, author, iconBitmap, textColor, hintColor, quoteFontSize = 16, authorFontSize = 12)
             size.width >= GratitudeQuoteWidget.HORIZONTAL_RECTANGLE.width ->
-                WideQuoteLayout(quote, author, iconResId, textColor, hintColor, quoteFontSize = 18, authorFontSize = 13)
+                WideQuoteLayout(quote, author, iconBitmap, textColor, hintColor, quoteFontSize = 18, authorFontSize = 13)
             else ->
                 QuoteLayout(quote, author, textColor, hintColor, quoteFontSize = 14, authorFontSize = 12)
         }
@@ -175,7 +197,7 @@ private fun QuoteLayout(
 private fun WideQuoteLayout(
     quote: String,
     author: String,
-    iconResId: Int,
+    iconBitmap: Bitmap,
     textColor: Color,
     hintColor: Color,
     quoteFontSize: Int,
@@ -191,13 +213,14 @@ private fun WideQuoteLayout(
             modifier = GlanceModifier.fillMaxWidth(),
         )
         Box(
-            modifier = GlanceModifier.fillMaxWidth().defaultWeight(),
+            modifier = GlanceModifier.fillMaxWidth().defaultWeight().padding(16.dp),
             contentAlignment = Alignment.Center,
         ) {
             Image(
-                provider = ImageProvider(iconResId),
+                provider = ImageProvider(iconBitmap),
                 contentDescription = null,
-                modifier = GlanceModifier.size(48.dp),
+                contentScale = ContentScale.Fit,
+                modifier = GlanceModifier.fillMaxSize(),
             )
         }
         if (author.isNotEmpty()) {
@@ -218,12 +241,11 @@ private fun WideQuoteLayout(
 private fun TallQuoteLayout(
     quote: String,
     author: String,
-    iconResId: Int,
+    iconBitmap: Bitmap,
     textColor: Color,
     hintColor: Color,
     quoteFontSize: Int,
     authorFontSize: Int,
-    iconSize: Int = 64,
 ) {
     Column(
         modifier = GlanceModifier.fillMaxSize(),
@@ -238,13 +260,14 @@ private fun TallQuoteLayout(
             modifier = GlanceModifier.fillMaxWidth(),
         )
         Box(
-            modifier = GlanceModifier.fillMaxWidth().defaultWeight(),
+            modifier = GlanceModifier.fillMaxWidth().defaultWeight().padding(8.dp),
             contentAlignment = Alignment.Center,
         ) {
             Image(
-                provider = ImageProvider(iconResId),
+                provider = ImageProvider(iconBitmap),
                 contentDescription = null,
-                modifier = GlanceModifier.size(iconSize.dp),
+                contentScale = ContentScale.Fit,
+                modifier = GlanceModifier.fillMaxSize(),
             )
         }
         if (author.isNotEmpty()) {
