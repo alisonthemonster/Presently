@@ -10,6 +10,8 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import android.appwidget.AppWidgetProviderInfo
+import androidx.collection.intSetOf
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.ConnectionResult
@@ -61,10 +63,14 @@ class ContainerActivity : AppCompatActivity() {
 
         NotificationScheduler().configureNotifications(this, settings)
 
-        lifecycleScope.launch {
-            val result = GlanceAppWidgetManager(this@ContainerActivity)
-                .setWidgetPreviews(GratitudeQuoteWidgetReceiver::class)
-            android.util.Log.d("WidgetPreview", "setWidgetPreviews result: $result")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            lifecycleScope.launch {
+                GlanceAppWidgetManager(this@ContainerActivity)
+                    .setWidgetPreviews(
+                        GratitudeQuoteWidgetReceiver::class,
+                        intSetOf(AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN)
+                    )
+            }
         }
 
         if (resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
