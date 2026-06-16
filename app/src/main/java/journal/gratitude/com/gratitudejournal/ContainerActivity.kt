@@ -21,6 +21,11 @@ import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import journal.gratitude.com.gratitudejournal.util.AppLocaleManager
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
+import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidget
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
+import java.util.Locale
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,6 +35,9 @@ class ContainerActivity : AppCompatActivity() {
         const val CHANNEL_ID = "Presently Gratitude Reminder"
         const val BACKUP_STATUS_CHANNEL = "Presently Automatic Backup Status"
         const val NOTIFICATION_SCREEN_EXTRA = "NOTIFICATION_EXTRA"
+
+        // Custom screen token for widget navigation
+        const val WIDGET_ENTRY_SCREEN = "WidgetEntry"
     }
 
     @Inject lateinit var settings: PresentlySettings
@@ -58,10 +66,10 @@ class ContainerActivity : AppCompatActivity() {
         NotificationScheduler().configureNotifications(this, settings)
 
         if (resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
-            //lays app behind system bars
-                //not in landscape mode so navigation bar doesn't block UI
             WindowCompat.setDecorFitsSystemWindows(window, false)
         }
+
+        handleWidgetIntent(intent)
     }
 
     override fun onResume() {
@@ -72,6 +80,47 @@ class ContainerActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
+        handleWidgetIntent(intent)
+    }
+
+    private fun handleWidgetIntent(intent: Intent?) {
+        if (intent?.action == RandomEntryWidget.ACTION_OPEN_ENTRY) {
+            val selectedDate = intent.getStringExtra(RandomEntryWidget.EXTRA_SELECTED_DATE)
+            if (!selectedDate.isNullOrEmpty()) {
+                if (settings.isBiometricsEnabled() && settings.shouldLockApp()) {
+                    // Inject routing destinations directly into intent data so AppLockFragment can read them
+                    intent.putExtra(NOTIFICATION_SCREEN_EXTRA, WIDGET_ENTRY_SCREEN)
+                    intent.putExtra(RandomEntryWidget.EXTRA_SELECTED_DATE, selectedDate)
+                } else {
+                    // Safe to navigate directly if the app isn't locked right now
+                    window.decorView.post {
+                        navigateToEntry(selectedDate)
+                    }
+                }
+            }
+        }
+    }
+
+    fun navigateToEntry(dateString: String) {
+        try {
+            val formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.getDefault())
+            val localDate = LocalDate.parse(dateString, formatter)
+
+            val fragment = EntryFragment.newInstance(
+                date = localDate,
+                numEntries = 0,
+                isNewEntry = false,
+                resources = resources
+            )
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container_fragment, fragment)
+                .addToBackStack(null)
+                .commit()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun isGooglePlayServicesAvailable(activity: Activity): Boolean {
@@ -110,7 +159,7 @@ class ContainerActivity : AppCompatActivity() {
 
     private fun createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(CHANNEL_ID, getString(R.string.channel_name),  NotificationManager.IMPORTANCE_DEFAULT)
+            val notificationChannel = NotificationChannel(CHANNEL_ID, getString(R.string.channel_name), NotificationManager.IMPORTANCE_DEFAULT)
             notificationChannel.description = getString(R.string.channel_description)
             notificationChannel.enableVibration(true)
 
@@ -119,9 +168,7 @@ class ContainerActivity : AppCompatActivity() {
             backupChannel.enableVibration(true)
 
             val notificationManager = getSystemService(NotificationManager::class.java)
-
             notificationManager.createNotificationChannels(listOf(notificationChannel, backupChannel))
-
         }
     }
 
@@ -129,5 +176,4 @@ class ContainerActivity : AppCompatActivity() {
         val themeSpec = PresentlyThemeSpec.fromStorageValue(currentTheme)
         setTheme(themeSpec.styleRes)
     }
-
 }
