@@ -62,8 +62,7 @@ class UploaderTest {
             return listOf(Entry(LocalDate.of(2021, 12, 25), "Merry Christmas!"))
         }
 
-        override suspend fun getEntry(date: LocalDate): Entry? = fail("Not needed in this test")
-        override suspend fun getRandomEntry(): Entry? = fail("Not needed in this test")
+        override suspend fun getEntry(date: LocalDate): Entry = fail("Not needed in this test")
         override suspend fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
         override fun getWrittenDates(): LiveData<List<LocalDate>> = fail("Not needed in this test")
         override suspend fun addEntry(entry: Entry) = fail("Not needed in this test")
@@ -103,7 +102,6 @@ class UploaderTest {
         override fun setTheme(themeName: String) = fail("Not needed in this test")
         override fun isBiometricsEnabled(): Boolean = fail("Not needed in this test")
         override fun shouldLockApp(): Boolean = fail("Not needed in this test")
-        override fun forceLock() = fail("Not needed in this test")
         override fun setOnPauseTime() = fail("Not needed in this test")
         override fun getFirstDayOfWeek(): Int = fail("Not needed in this test")
         override fun shouldShowQuote(): Boolean = fail("Not needed in this test")
@@ -135,8 +133,7 @@ class UploaderTest {
             override suspend fun getEntries(): List<Entry> {
                 return emptyList()
             }
-            override suspend fun getEntry(date: LocalDate): Entry? = fail("Not needed in this test")
-            override suspend fun getRandomEntry(): Entry? = fail("Not needed in this test")
+            override suspend fun getEntry(date: LocalDate): Entry = fail("Not needed in this test")
             override suspend fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
             override fun getWrittenDates(): LiveData<List<LocalDate>> = fail("Not needed in this test")
             override suspend fun addEntry(entry: Entry) = fail("Not needed in this test")
