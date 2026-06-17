@@ -5,6 +5,7 @@
     android:minHeight="110dp"
     android:description="@string/widget_description"
     android:previewImage="@drawable/ic_app_icon"
+    android:previewLayout="@layout/random_entry_widget_preview"
     android:updatePeriodMillis="86400000"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen" />

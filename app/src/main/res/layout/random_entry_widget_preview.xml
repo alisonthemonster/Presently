@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/shape_rounded_rect"
+        android:scaleType="fitXY"
+        android:contentDescription="@null"
+        android:tint="@color/originalBackgroundColor"
+        tools:ignore="UseAppTint" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="18dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="60dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Beautiful sunshine"
+                android:textColor="@color/originalTimelineColor"
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="March 28, 2026"
+                android:textColor="@color/originalHintTextColor"
+                android:textSize="12sp"
+                android:paddingTop="4dp"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_popup_sync"
+                android:contentDescription="@string/widget_refresh"
+                android:tint="@color/originalTimelineColor"
+                tools:ignore="UseAppTint" />
+        </FrameLayout>
+
+    </RelativeLayout>
+</FrameLayout>
