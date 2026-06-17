@@ -36,6 +36,9 @@ class RealPresentlySettings @Inject constructor(
 
     override fun shouldLockApp(): Boolean {
         val lastDestroyTime = sharedPrefs.getLong(ON_PAUSE_TIME, -1L)
+        if (lastDestroyTime == -1L) return false
+        if (lastDestroyTime == 0L) return true
+
         val currentTime = Date(System.currentTimeMillis()).time
         val diff = currentTime - lastDestroyTime
         //if more than 5 minutes (300000ms) have passed since last destroy, lock out user
@@ -45,6 +48,10 @@ class RealPresentlySettings @Inject constructor(
     override fun setOnPauseTime() {
         val date = Date(System.currentTimeMillis())
         sharedPrefs.edit().putLong(ON_PAUSE_TIME, date.time).apply()
+    }
+
+    override fun forceLock() {
+        sharedPrefs.edit().putLong(ON_PAUSE_TIME, 0L).apply()
     }
 
     override fun getFirstDayOfWeek(): Int {

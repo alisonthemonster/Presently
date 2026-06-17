@@ -15,6 +15,7 @@ import com.google.android.gms.common.GoogleApiAvailability
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
+import android.util.Log
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
@@ -72,6 +73,10 @@ class ContainerActivity : AppCompatActivity() {
         }
 
         handleWidgetIntent(intent)
+
+        if (settings.isBiometricsEnabled()) {
+            startService(Intent(this, journal.gratitude.com.gratitudejournal.ui.security.LockingService::class.java))
+        }
     }
 
     override fun onResume() {
@@ -83,6 +88,10 @@ class ContainerActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         handleWidgetIntent(intent)
+
+        if (settings.isBiometricsEnabled()) {
+            startService(Intent(this, journal.gratitude.com.gratitudejournal.ui.security.LockingService::class.java))
+        }
     }
 
     private fun handleWidgetIntent(intent: Intent?) {
@@ -139,23 +148,55 @@ class ContainerActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        Log.d("ContainerActivity", "onStart: Biometrics enabled: ${settings.isBiometricsEnabled()}, shouldLock: ${settings.shouldLockApp()}")
 
         val isBiometricsEnabled = settings.isBiometricsEnabled()
         if (isBiometricsEnabled) {
             if (settings.shouldLockApp()) {
+                Log.d("ContainerActivity", "onStart: Locking app")
                 val fragment = AppLockFragment()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.container_fragment, fragment)
                     .commit()
+            } else {
+                // Reset the timer so the widget doesn't lock while we're using the app.
+                Log.d("ContainerActivity", "onStart: App not locked, resetting timer")
+                settings.setOnPauseTime()
             }
         }
     }
 
     override fun onPause() {
         super.onPause()
+        Log.d("ContainerActivity", "onPause: isFinishing: $isFinishing")
         if (settings.isBiometricsEnabled()) {
-            settings.setOnPauseTime()
+            if (isFinishing) {
+                Log.d("ContainerActivity", "onPause: Forcing lock")
+                settings.forceLock()
+            } else {
+                Log.d("ContainerActivity", "onPause: Setting pause time")
+                settings.setOnPauseTime()
+            }
+
+            // Notify widget to update and lock if necessary
+            Log.d("ContainerActivity", "onPause: Notifying widget")
+            val intent = Intent(this, RandomEntryWidget::class.java).apply {
+                action = RandomEntryWidget.ACTION_REFRESH
+            }
+            sendBroadcast(intent)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("ContainerActivity", "onDestroy")
+        if (settings.isBiometricsEnabled()) {
+            settings.forceLock()
+            val intent = Intent(this, RandomEntryWidget::class.java).apply {
+                action = RandomEntryWidget.ACTION_REFRESH
+            }
+            sendBroadcast(intent)
         }
     }
 

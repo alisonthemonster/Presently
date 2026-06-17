@@ -5,6 +5,7 @@ import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import dagger.hilt.android.EntryPointAccessors
+import android.util.Log
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.EntryPoint
 import journal.gratitude.com.gratitudejournal.R
@@ -47,6 +48,12 @@ class WidgetScrollFactory(
     }
 
     override fun onDataSetChanged() {
+        val entryPoint = EntryPointAccessors.fromApplication(
+            context,
+            WidgetSettingsEntryPoint::class.java
+        )
+        settings = entryPoint.presentlySettings()
+
         extractIntentData()
     }
 
@@ -65,7 +72,9 @@ class WidgetScrollFactory(
         val views = RemoteViews(context.packageName, R.layout.widget_row)
 
         // Securely check if biometrics are active before revealing journal entries
-        if (settings.isBiometricsEnabled() && settings.shouldLockApp()) {
+        val shouldLock = settings.isBiometricsEnabled() && settings.shouldLockApp()
+        Log.d("WidgetScrollFactory", "getViewAt: shouldLock: $shouldLock")
+        if (shouldLock) {
             views.setTextViewText(R.id.widget_content, context.getString(R.string.unlock_to_view_entries, "Unlock the app to view your journal entries."))
             views.setTextViewText(R.id.widget_date, "")
         } else {

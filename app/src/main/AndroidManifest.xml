@@ -87,6 +87,10 @@
             android:permission="android.permission.BIND_REMOTEVIEWS"
             android:exported="false" />
 
+        <service
+            android:name=".ui.security.LockingService"
+            android:exported="false" />
+
         <provider
             android:name="journal.gratitude.com.gratitudejournal.sharing.data.SharingFileProvider"
             android:authorities="${applicationId}.fileprovider"

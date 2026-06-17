@@ -134,7 +134,7 @@ class RandomEntryWidget : AppWidgetProvider() {
     }
 
     companion object {
-        private const val ACTION_REFRESH = "journal.gratitude.com.gratitudejournal.widget.ACTION_REFRESH"
+        const val ACTION_REFRESH = "journal.gratitude.com.gratitudejournal.widget.ACTION_REFRESH"
 
         // New explicit action and key names for opening entries
         const val ACTION_OPEN_ENTRY = "journal.gratitude.com.gratitudejournal.widget.ACTION_OPEN_ENTRY"
