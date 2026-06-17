@@ -54,13 +54,13 @@
             android:paddingEnd="8dp"
             android:paddingBottom="8dp">
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/widget_refresh_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@android:drawable/ic_popup_sync"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/widget_refresh"
-                android:tint="@color/originalTimelineColor"
-                tools:ignore="UseAppTint" />
+                android:src="@android:drawable/ic_popup_sync" />
         </FrameLayout>
 
     </RelativeLayout>
