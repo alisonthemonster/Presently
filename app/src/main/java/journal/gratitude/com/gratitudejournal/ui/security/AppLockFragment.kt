@@ -179,11 +179,17 @@ class AppLockFragment : Fragment() {
             ContainerActivity.WIDGET_ENTRY_SCREEN -> {
                 val selectedDate = activity?.intent?.getStringExtra(RandomEntryWidget.EXTRA_SELECTED_DATE) ?: ""
                 if (selectedDate.isNotEmpty() && container != null) {
-                    // Navigate to entry view safely from container activity reference
+                    // First, ensure the Timeline is the base fragment so "back" works correctly
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.container_fragment, TimelineFragment.newInstance())
+                        .commitNow()
+                    // Then navigate to the specific entry (which adds to backstack)
                     container.navigateToEntry(selectedDate)
                 } else {
-                    // Fallback securely to Timeline layout if parsing errors show up
-                    TimelineFragment.newInstance()
+                    // Fallback to Timeline if parsing fails
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.container_fragment, TimelineFragment.newInstance())
+                        .commit()
                 }
                 return
             }
