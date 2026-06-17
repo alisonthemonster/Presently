@@ -66,6 +66,8 @@ class ContainerActivity : AppCompatActivity() {
         NotificationScheduler().configureNotifications(this, settings)
 
         if (resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            //lays app behind system bars
+                //not in landscape mode so navigation bar doesn't block UI
             WindowCompat.setDecorFitsSystemWindows(window, false)
         }
 
