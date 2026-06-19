@@ -149,4 +149,5 @@
     <string name="dropbox_sync_error_notif_body">Возникла проблема с вашей учетной записью Dropbox. Нажмите здесь, чтобы повторно подключиться к Dropbox и возобновить автоматическое резервное копирование.</string>
     <string name="dropbox_auth_failed">Ошибка при подключении аккаунта Dropbox</string>
     <string name="learn_more">Выучить больше</string>
+    <string name="gratitude_quote_widget_description">Вдохновляйтесь ежедневной цитатой о благодарности</string>
 </resources>

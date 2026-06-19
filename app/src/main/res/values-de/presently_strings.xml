@@ -148,4 +148,5 @@
     <string name="dropbox_sync_error_notif_body">Es ist ein Problem mit Ihrem Dropbox-Konto aufgetreten. Klicken Sie hier, um sich erneut mit Dropbox zu verbinden und die automatischen Backups fortzusetzen.</string>
     <string name="dropbox_auth_failed">Fehler beim Verknüpfen des Dropbox-Kontos</string>
     <string name="learn_more">Mehr erfahren</string>
+    <string name="gratitude_quote_widget_description">Lass dich täglich von einem Dankbarkeitszitat inspirieren</string>
 </resources>
