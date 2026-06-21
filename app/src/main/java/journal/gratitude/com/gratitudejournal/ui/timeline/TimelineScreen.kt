@@ -377,7 +377,7 @@ private fun TimelineEntryRow(
                     color = theme.timelineBody,
                     fontFamily = PresentlyFontFamilies.body,
                     fontSize = 16.sp,
-                    minLines = 3,
+                    minLines = minOf(3, state.maxLines),
                     maxLines = state.maxLines,
                     overflow = TextOverflow.Ellipsis
                 )

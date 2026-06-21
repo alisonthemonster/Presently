@@ -53,6 +53,9 @@ const val CLICKED_SEARCH_ITEM = "clickedSearchItem"
 const val CLICKED_RATE = "clickedRate"
 const val CLICKED_SHARE_MILESTONE= "clickedShareMilestone"
 
+//WIDGET EVENTS
+const val CAME_FROM_WIDGET = "cameFromWidget"
+
 //USER PROPERTIES
 const val HAS_NOTIFICATIONS_TURNED_ON = "hasNotificationsTurnedOn"
 const val NOTIF_TIME = "notifTime"

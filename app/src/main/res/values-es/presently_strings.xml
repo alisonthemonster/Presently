@@ -150,4 +150,5 @@
     <string name="dropbox_sync_error_notif_body">Hubo un problema con su cuenta de Dropbox, haga clic aquí para volver a conectarse a Dropbox y reanudar las copias de respaldo automáticos.</string>
     <string name="dropbox_auth_failed">Error al vincular la cuenta de Dropbox</string>
     <string name="learn_more">Aprende más</string>
+    <string name="gratitude_quote_widget_description">Inspírate con una cita de gratitud diaria</string>
 </resources>
