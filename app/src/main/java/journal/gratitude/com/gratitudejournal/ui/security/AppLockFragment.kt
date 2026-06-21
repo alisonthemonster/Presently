@@ -181,7 +181,7 @@ class AppLockFragment : Fragment() {
                     // First, ensure the Timeline is the base fragment so "back" works correctly
                     parentFragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, TimelineFragment.newInstance())
-                        .commitNow()
+                        .commit()
                     // Then navigate to the specific entry (which adds to backstack)
                     container.navigateToEntry(selectedDate)
                 } else {

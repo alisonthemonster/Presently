@@ -45,7 +45,6 @@ import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import journal.gratitude.com.gratitudejournal.util.toFullString
-import org.threeten.bp.format.DateTimeFormatter
 
 class RandomEntryWidget : GlanceAppWidget() {
 

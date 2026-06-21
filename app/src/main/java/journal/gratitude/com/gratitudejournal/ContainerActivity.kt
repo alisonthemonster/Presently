@@ -19,24 +19,22 @@ import androidx.glance.appwidget.updateAll
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.logging.CrashReporter
-import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
-import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_WIDGET
-import journal.gratitude.com.gratitudejournal.widget.GratitudeQuoteWidget
+import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import journal.gratitude.com.gratitudejournal.util.AppLocaleManager
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
+import journal.gratitude.com.gratitudejournal.widget.GratitudeQuoteWidget
 import journal.gratitude.com.gratitudejournal.widget.GratitudeQuoteWidgetReceiver
 import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidget
-import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidgetReceiver
-import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
-import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
-import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
@@ -84,10 +82,6 @@ class ContainerActivity : AppCompatActivity() {
         }
 
         handleWidgetIntent(intent)
-
-        if (settings.isBiometricsEnabled()) {
-            startService(Intent(this, journal.gratitude.com.gratitudejournal.ui.security.LockingService::class.java))
-        }
     }
 
     override fun onResume() {
@@ -146,6 +140,8 @@ class ContainerActivity : AppCompatActivity() {
 
         val isBiometricsEnabled = settings.isBiometricsEnabled()
         if (isBiometricsEnabled) {
+            startService(Intent(this, journal.gratitude.com.gratitudejournal.ui.security.LockingService::class.java))
+
             if (settings.shouldLockApp()) {
                 val fragment = AppLockFragment()
                 supportFragmentManager

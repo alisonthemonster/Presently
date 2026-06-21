@@ -9,7 +9,8 @@ import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.logging.DROPBOX_AUTH_QUIT
 import journal.gratitude.com.gratitudejournal.logging.DROPBOX_AUTH_SUCCESS
 import journal.gratitude.com.gratitudejournal.settings.model.*
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 import org.threeten.bp.LocalTime
 import javax.inject.Inject
 
@@ -39,15 +40,15 @@ class RealPresentlySettings @Inject constructor(
         if (lastDestroyTime == NOT_PAUSED) return false
         if (lastDestroyTime == FORCE_LOCK) return true
 
-        val currentTime = Date(System.currentTimeMillis()).time
+        val currentTime = System.currentTimeMillis()
         val diff = currentTime - lastDestroyTime
         //if more than 5 minutes (300000ms) have passed since last destroy, lock out user
         return diff > 300000L
     }
 
     override fun setOnPauseTime() {
-        val date = Date(System.currentTimeMillis())
-        sharedPrefs.edit().putLong(ON_PAUSE_TIME, date.time).apply()
+        val currentTime = System.currentTimeMillis()
+        sharedPrefs.edit().putLong(ON_PAUSE_TIME, currentTime).apply()
     }
 
     override fun forceLock() {
