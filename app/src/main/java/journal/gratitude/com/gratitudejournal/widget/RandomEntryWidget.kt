@@ -2,6 +2,7 @@ package journal.gratitude.com.gratitudejournal.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.view.ContextThemeWrapper
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.createBitmap
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.ColorFilter
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
@@ -23,9 +25,11 @@ import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
+import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
+import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -41,10 +45,10 @@ import dagger.hilt.android.EntryPointAccessors
 import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.di.EntryRepositoryEntryPoint
-import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import journal.gratitude.com.gratitudejournal.util.toFullString
+import kotlinx.coroutines.withContext
 
 class RandomEntryWidget : GlanceAppWidget() {
 
@@ -62,18 +66,18 @@ class RandomEntryWidget : GlanceAppWidget() {
     }
 
     override val sizeMode = SizeMode.Responsive(
-        setOf(SMALL_SQUARE, HORIZONTAL_RECTANGLE, TALL, BIG_SQUARE)
+        setOf(SMALL_SQUARE, HORIZONTAL_RECTANGLE, TALL, BIG_SQUARE),
     )
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val entryRepository = EntryPointAccessors
-            .fromApplication(context, EntryRepositoryEntryPoint::class.java)
-            .entryRepository()
-        val settings = EntryPointAccessors
-            .fromApplication(context, SettingsEntryPoint::class.java)
-            .settings
+        val entryPoint = EntryPointAccessors.fromApplication(context, EntryRepositoryEntryPoint::class.java)
+        val entryRepository = entryPoint.entryRepository()
+        val dispatchers = entryPoint.coroutineDispatchers()
+        val settings = EntryPointAccessors.fromApplication(context, journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint::class.java).settings
 
-        val entry = entryRepository.getRandomEntry()
+        val entry = withContext(dispatchers.io) {
+            entryRepository.getRandomEntry()
+        }
         val isLocked = settings.isBiometricsEnabled() && settings.shouldLockApp()
         val assets = loadThemeAssets(context, settings.getCurrentTheme())
 
@@ -135,13 +139,6 @@ private fun WidgetContent(
             .fillMaxSize()
             .background(assets.backgroundColor)
             .cornerRadius(16.dp)
-            .clickable(actionStartActivity<ContainerActivity>(
-                parameters = if (entry != null && !isLocked) {
-                    actionParametersOf(RandomEntryWidget.selectedDateKey to entry.entryDate.toString())
-                } else {
-                    actionParametersOf()
-                }
-            ))
             .padding(12.dp),
         contentAlignment = Alignment.TopStart,
     ) {
@@ -152,13 +149,44 @@ private fun WidgetContent(
             else -> 12 to 12
         }
 
-        Column(modifier = GlanceModifier.fillMaxSize()) {
-            if (isLocked) {
-                LockedContent(assets, contentFontSize)
-            } else if (entry == null) {
-                NoEntriesContent(assets, contentFontSize)
-            } else {
-                EntryContent(entry, assets, headerFontSize, contentFontSize)
+        Box(
+            modifier = GlanceModifier.fillMaxSize()
+                .clickable(actionStartActivity<ContainerActivity>(
+                    parameters = if (entry != null && !isLocked) {
+                        actionParametersOf(RandomEntryWidget.selectedDateKey to entry.entryDate.toString())
+                    } else {
+                        actionParametersOf()
+                    }
+                ))
+        ) {
+            Column(modifier = GlanceModifier.fillMaxSize()) {
+                if (isLocked) {
+                    LockedContent(assets, contentFontSize)
+                } else if (entry == null) {
+                    NoEntriesContent(assets, contentFontSize)
+                } else {
+                    EntryContent(entry, assets, headerFontSize, contentFontSize)
+                }
+            }
+        }
+
+        // Refresh button in the top right
+        Box(
+            modifier = GlanceModifier.fillMaxSize(),
+            contentAlignment = Alignment.TopEnd
+        ) {
+            Box(
+                modifier = GlanceModifier
+                    .size(40.dp)
+                    .clickable(actionRunCallback<RefreshActionCallback>()),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    provider = ImageProvider(R.drawable.ic_auto_renew),
+                    contentDescription = "Refresh",
+                    modifier = GlanceModifier.size(24.dp),
+                    colorFilter = ColorFilter.tint(ColorProvider(assets.hintColor, assets.hintColor))
+                )
             }
         }
     }
@@ -173,7 +201,7 @@ private fun LockedContent(assets: ThemeAssets, fontSize: Int) {
         Text(
             text = androidx.glance.LocalContext.current.getString(R.string.unlock_to_view_entries),
             style = TextStyle(
-                color = androidx.glance.color.ColorProvider(assets.textColor, assets.textColor),
+                color = ColorProvider(assets.textColor, assets.textColor),
                 fontSize = fontSize.sp,
                 textAlign = androidx.glance.text.TextAlign.Center
             )
@@ -190,7 +218,7 @@ private fun NoEntriesContent(assets: ThemeAssets, fontSize: Int) {
         Text(
             text = androidx.glance.LocalContext.current.getString(R.string.widget_no_entries),
             style = TextStyle(
-                color = androidx.glance.color.ColorProvider(assets.textColor, assets.textColor),
+                color = ColorProvider(assets.textColor, assets.textColor),
                 fontSize = fontSize.sp,
                 textAlign = androidx.glance.text.TextAlign.Center
             )
@@ -208,7 +236,7 @@ private fun ColumnScope.EntryContent(
     Text(
         text = entry.entryDate.toFullString(),
         style = TextStyle(
-            color = androidx.glance.color.ColorProvider(assets.hintColor, assets.hintColor),
+            color = ColorProvider(assets.hintColor, assets.hintColor),
             fontSize = headerFontSize.sp,
             fontWeight = FontWeight.Bold
         )
@@ -217,19 +245,32 @@ private fun ColumnScope.EntryContent(
     Text(
         text = entry.entryContent,
         style = TextStyle(
-            color = androidx.glance.color.ColorProvider(assets.textColor, assets.textColor),
+            color = ColorProvider(assets.textColor, assets.textColor),
             fontSize = contentFontSize.sp
         ),
         modifier = GlanceModifier.fillMaxWidth().defaultWeight()
     )
     Box(
         modifier = GlanceModifier.fillMaxWidth().padding(top = 4.dp),
-        contentAlignment = Alignment.BottomEnd
+        contentAlignment = Alignment.BottomStart
     ) {
         Image(
             provider = ImageProvider(assets.iconBitmap),
             contentDescription = null,
             modifier = GlanceModifier.size(24.dp)
         )
+    }
+}
+
+class RefreshActionCallback : androidx.glance.appwidget.action.ActionCallback {
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
+        val intent = Intent(context, RandomEntryWidgetReceiver::class.java).apply {
+            action = RandomEntryWidget.ACTION_REFRESH
+        }
+        context.sendBroadcast(intent)
     }
 }
