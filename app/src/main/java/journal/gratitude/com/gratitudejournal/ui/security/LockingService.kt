@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
-import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidget
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -17,7 +16,7 @@ class LockingService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return START_STICKY
+        return START_NOT_STICKY
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
@@ -25,10 +24,10 @@ class LockingService : Service() {
         if (settings.isBiometricsEnabled()) {
             settings.forceLock()
             // Notify widget to lock immediately
-            val refreshIntent = Intent(this, RandomEntryWidget::class.java).apply {
-                action = RandomEntryWidget.ACTION_REFRESH
+            val intent = Intent(this, journal.gratitude.com.gratitudejournal.widget.RandomEntryWidgetReceiver::class.java).apply {
+                action = android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE
             }
-            sendBroadcast(refreshIntent)
+            sendBroadcast(intent)
         }
         stopSelf()
     }

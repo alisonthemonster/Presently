@@ -15,13 +15,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.collection.intSetOf
 import androidx.core.view.WindowCompat
 import androidx.glance.appwidget.GlanceAppWidgetManager
+import androidx.glance.appwidget.updateAll
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
+import journal.gratitude.com.gratitudejournal.logging.CrashReporter
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
-import android.util.Log
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_WIDGET
 import journal.gratitude.com.gratitudejournal.widget.GratitudeQuoteWidget
@@ -31,7 +32,13 @@ import journal.gratitude.com.gratitudejournal.util.AppLocaleManager
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
 import journal.gratitude.com.gratitudejournal.widget.GratitudeQuoteWidgetReceiver
+import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidget
+import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidgetReceiver
+import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
+import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
+import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -48,6 +55,8 @@ class ContainerActivity : AppCompatActivity() {
 
     @Inject lateinit var settings: PresentlySettings
     @Inject lateinit var analyticsLogger: AnalyticsLogger
+    @Inject lateinit var repository: EntryRepository
+    @Inject lateinit var crashReporter: CrashReporter
 
     override fun attachBaseContext(newBase: Context) {
         AppLocaleManager.applyStoredApplicationLocales(newBase)
@@ -90,6 +99,7 @@ class ContainerActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         logLaunchSourceFromIntent(intent)
+        handleWidgetIntent(intent)
     }
 
     private fun logLaunchSourceFromIntent(intent: Intent) {
@@ -133,12 +143,10 @@ class ContainerActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d("ContainerActivity", "onStart: Biometrics enabled: ${settings.isBiometricsEnabled()}, shouldLock: ${settings.shouldLockApp()}")
 
         val isBiometricsEnabled = settings.isBiometricsEnabled()
         if (isBiometricsEnabled) {
             if (settings.shouldLockApp()) {
-                Log.d("ContainerActivity", "onStart: Locking app")
                 val fragment = AppLockFragment()
                 supportFragmentManager
                     .beginTransaction()
@@ -146,7 +154,6 @@ class ContainerActivity : AppCompatActivity() {
                     .commit()
             } else {
                 // Reset the timer so the widget doesn't lock while we're using the app.
-                Log.d("ContainerActivity", "onStart: App not locked, resetting timer")
                 settings.setOnPauseTime()
             }
         }
@@ -154,34 +161,62 @@ class ContainerActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        Log.d("ContainerActivity", "onPause: isFinishing: $isFinishing")
         if (settings.isBiometricsEnabled()) {
             if (isFinishing) {
-                Log.d("ContainerActivity", "onPause: Forcing lock")
                 settings.forceLock()
             } else {
-                Log.d("ContainerActivity", "onPause: Setting pause time")
                 settings.setOnPauseTime()
             }
 
             // Notify widget to update and lock if necessary
-            Log.d("ContainerActivity", "onPause: Notifying widget")
-            val intent = Intent(this, RandomEntryWidget::class.java).apply {
-                action = RandomEntryWidget.ACTION_REFRESH
+            lifecycleScope.launch {
+                RandomEntryWidget().updateAll(this@ContainerActivity)
             }
-            sendBroadcast(intent)
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("ContainerActivity", "onDestroy")
         if (settings.isBiometricsEnabled()) {
             settings.forceLock()
-            val intent = Intent(this, RandomEntryWidget::class.java).apply {
-                action = RandomEntryWidget.ACTION_REFRESH
+            lifecycleScope.launch {
+                RandomEntryWidget().updateAll(this@ContainerActivity)
             }
-            sendBroadcast(intent)
+        }
+    }
+
+    private fun handleWidgetIntent(intent: Intent) {
+        val extras = intent.extras ?: return
+        if (extras.containsKey(RandomEntryWidget.selectedDateKey.name)) {
+            val date = extras.getString(RandomEntryWidget.selectedDateKey.name)
+            if (date != null) {
+                intent.putExtra(NOTIFICATION_SCREEN_EXTRA, WIDGET_ENTRY_SCREEN)
+                intent.putExtra(RandomEntryWidget.EXTRA_SELECTED_DATE, date)
+            }
+        }
+    }
+
+    fun navigateToEntry(date: String) {
+        try {
+            val localDate = LocalDate.parse(date)
+            lifecycleScope.launch {
+                val entries = repository.getEntries()
+                val numEntries = entries.size
+                val entry = entries.find { it.entryDate == localDate }
+
+                val fragment = EntryFragment.newInstance(
+                    date = localDate,
+                    numEntries = numEntries,
+                    isNewEntry = entry == null,
+                    resources = resources
+                )
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container_fragment, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        } catch (e: Exception) {
+            crashReporter.logHandledException(e)
         }
     }
 

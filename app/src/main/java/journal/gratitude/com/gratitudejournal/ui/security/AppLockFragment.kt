@@ -24,7 +24,7 @@ import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_USER_CANCELLED
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidget
-import android.util.Log
+import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidgetReceiver
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -107,10 +107,9 @@ class AppLockFragment : Fragment() {
                         BIOMETRICS_AUTH_SUCCEEDED,
                         mapOf("source" to BIOMETRIC_SOURCE_APP_LOCK)
                     )
-                    Log.d("AppLockFragment", "onAuthenticationSucceeded: Resetting timer and notifying widget")
                     settings.setOnPauseTime()
 
-                    val refreshIntent = Intent(context, RandomEntryWidget::class.java).apply {
+                    val refreshIntent = Intent(context, RandomEntryWidgetReceiver::class.java).apply {
                         action = RandomEntryWidget.ACTION_REFRESH
                     }
                     context?.sendBroadcast(refreshIntent)

@@ -63,11 +63,11 @@
         <receiver android:name=".util.reminders.ReminderReceiver" />
 
         <receiver
-            android:name=".widget.RandomEntryWidget"
-            android:exported="false">
+            android:name=".widget.RandomEntryWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="journal.gratitude.com.gratitudejournal.widget.ACTION_REFRESH" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -94,10 +94,6 @@
             </intent-filter>
         </receiver>
 
-        <service
-            android:name=".widget.WidgetScrollService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"
-            android:exported="false" />
 
         <service
             android:name=".ui.security.LockingService"

@@ -37,7 +37,6 @@ import androidx.glance.layout.padding
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
-import androidx.glance.unit.ColorProvider
 import dagger.hilt.android.EntryPointAccessors
 import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
@@ -220,7 +219,7 @@ private fun ColumnScope.QuoteLayoutContent(
     Text(
         text = quote,
         style = TextStyle(
-            color = ColorProvider(assets.textColor),
+            color = androidx.glance.color.ColorProvider(assets.textColor, assets.textColor),
             fontSize = quoteFontSize.sp,
         ),
         modifier = GlanceModifier.fillMaxWidth(),
@@ -240,7 +239,7 @@ private fun ColumnScope.QuoteLayoutContent(
         Text(
             text = author,
             style = TextStyle(
-                color = ColorProvider(assets.hintColor),
+                color = androidx.glance.color.ColorProvider(assets.hintColor, assets.hintColor),
                 fontSize = authorFontSize.sp,
                 textAlign = TextAlign.End,
             ),
