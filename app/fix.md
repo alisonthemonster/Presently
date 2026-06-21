@@ -1,3 +1,6 @@
+## TODO
+Make reloadable, make sure widget passes specifications below.
+
 Thank you for this, got a minute to look it over and also passed it along to Claude who wrote this review below! Essentially if you follow the approach I used with `Glance` in #321 you'll be a lot closer!
 
 
