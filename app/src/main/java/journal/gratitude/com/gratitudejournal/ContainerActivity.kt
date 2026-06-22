@@ -83,6 +83,10 @@ class ContainerActivity : AppCompatActivity() {
         }
 
         handleWidgetIntent(intent)
+
+        if (settings.isBiometricsEnabled()) {
+            startService(Intent(this, journal.gratitude.com.gratitudejournal.ui.security.LockingService::class.java))
+        }
     }
 
     override fun onResume() {
@@ -156,8 +160,6 @@ class ContainerActivity : AppCompatActivity() {
 
         val isBiometricsEnabled = settings.isBiometricsEnabled()
         if (isBiometricsEnabled) {
-            startService(Intent(this, journal.gratitude.com.gratitudejournal.ui.security.LockingService::class.java))
-
             if (settings.shouldLockApp()) {
                 val fragment = AppLockFragment()
                 supportFragmentManager

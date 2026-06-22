@@ -48,11 +48,11 @@ class RealPresentlySettings @Inject constructor(
 
     override fun setOnPauseTime() {
         val currentTime = System.currentTimeMillis()
-        sharedPrefs.edit().putLong(ON_PAUSE_TIME, currentTime).apply()
+        sharedPrefs.edit().putLong(ON_PAUSE_TIME, currentTime).commit()
     }
 
     override fun forceLock() {
-        sharedPrefs.edit().putLong(ON_PAUSE_TIME, FORCE_LOCK).apply()
+        sharedPrefs.edit().putLong(ON_PAUSE_TIME, FORCE_LOCK).commit()
     }
 
     override fun getFirstDayOfWeek(): Int {
