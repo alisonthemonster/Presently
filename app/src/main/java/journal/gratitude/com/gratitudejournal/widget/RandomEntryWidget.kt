@@ -198,6 +198,7 @@ private fun WidgetContent(
         actionParametersOf(GratitudeQuoteWidget.cameFromWidgetKey to true)
     }
 
+    // Root container with a single click listener covering the whole widget
     Box(
         modifier = GlanceModifier
             .fillMaxSize()
@@ -216,7 +217,6 @@ private fun WidgetContent(
             modifier = GlanceModifier
                 .fillMaxSize()
                 .padding(12.dp)
-                .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
         ) {
             if (isLocked) {
                 LockedContent(assets, contentFontSize)
@@ -229,10 +229,12 @@ private fun WidgetContent(
                         color = ColorProvider(assets.hintColor, assets.hintColor),
                         fontSize = headerFontSize.sp,
                         fontWeight = FontWeight.Bold
-                    ),
-                    modifier = GlanceModifier.clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+                    )
                 )
                 Box(modifier = GlanceModifier.padding(vertical = 4.dp)) {}
+                
+                // LazyColumn needs its own clickable modifier to handle taps on the scrollable area
+                // IMPORTANT: We also need to make the item content clickable because LazyColumn modifier doesn't always work
                 LazyColumn(
                     modifier = GlanceModifier
                         .fillMaxWidth()
@@ -251,12 +253,21 @@ private fun WidgetContent(
                                 .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
                         )
                     }
+                    // Add a blank item at the end that is also clickable to cover more area
+                    item {
+                        Box(
+                            modifier = GlanceModifier
+                                .fillMaxWidth()
+                                .size(200.dp) // Large enough to cover remaining space in most cases
+                                .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+                        ) {}
+                    }
                 }
+                
                 Box(
                     modifier = GlanceModifier
                         .fillMaxWidth()
-                        .padding(top = 4.dp)
-                        .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters)),
+                        .padding(top = 4.dp),
                     contentAlignment = Alignment.BottomStart
                 ) {
                     Image(
