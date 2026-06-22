@@ -113,8 +113,9 @@ class AppLockFragment : Fragment() {
 
                     // Update widget after unlock to show entry content
                     context?.let { ctx ->
-                        lifecycleScope.launch {
-                            RandomEntryWidget().updateAll(ctx)
+                        // Use a scope that survives fragment destruction
+                        kotlinx.coroutines.GlobalScope.launch {
+                            RandomEntryWidget.updateLockState(ctx, false)
                         }
                     }
 
