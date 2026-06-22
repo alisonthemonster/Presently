@@ -29,6 +29,7 @@ import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
+import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.util.AppLocaleManager
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
 import journal.gratitude.com.gratitudejournal.util.reminders.ReminderReceiver.Companion.fromNotification
@@ -94,6 +95,21 @@ class ContainerActivity : AppCompatActivity() {
         setIntent(intent)
         logLaunchSourceFromIntent(intent)
         handleWidgetIntent(intent)
+
+        if (!settings.isBiometricsEnabled() || !settings.shouldLockApp()) {
+            val extras = intent.extras
+            if (extras?.getString(NOTIFICATION_SCREEN_EXTRA) == WIDGET_ENTRY_SCREEN) {
+                val date = extras.getString(RandomEntryWidget.EXTRA_SELECTED_DATE)
+                if (date != null) {
+                    // Ensure the Timeline is the base fragment
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container_fragment, TimelineFragment.newInstance())
+                        .commit()
+                    // Then navigate to the specific entry
+                    navigateToEntry(date)
+                }
+            }
+        }
     }
 
     private fun logLaunchSourceFromIntent(intent: Intent) {
