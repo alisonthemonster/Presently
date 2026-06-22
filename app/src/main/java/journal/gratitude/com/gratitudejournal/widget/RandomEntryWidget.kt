@@ -20,6 +20,7 @@ import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.background
@@ -167,13 +168,55 @@ private fun WidgetContent(
             modifier = GlanceModifier
                 .fillMaxSize()
                 .padding(12.dp)
+                .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
         ) {
             if (isLocked) {
                 LockedContent(assets, contentFontSize)
             } else if (entry == null) {
                 NoEntriesContent(assets, contentFontSize)
             } else {
-                EntryContent(entry, assets, headerFontSize, contentFontSize)
+                Text(
+                    text = entry.entryDate.toFullString(),
+                    style = TextStyle(
+                        color = ColorProvider(assets.hintColor, assets.hintColor),
+                        fontSize = headerFontSize.sp,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    modifier = GlanceModifier.clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+                )
+                Box(modifier = GlanceModifier.padding(vertical = 4.dp)) {}
+                LazyColumn(
+                    modifier = GlanceModifier
+                        .fillMaxWidth()
+                        .defaultWeight()
+                        .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+                ) {
+                    item {
+                        Text(
+                            text = entry.entryContent,
+                            style = TextStyle(
+                                color = ColorProvider(assets.textColor, assets.textColor),
+                                fontSize = contentFontSize.sp
+                            ),
+                            modifier = GlanceModifier
+                                .fillMaxWidth()
+                                .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+                        )
+                    }
+                }
+                Box(
+                    modifier = GlanceModifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp)
+                        .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters)),
+                    contentAlignment = Alignment.BottomStart
+                ) {
+                    Image(
+                        provider = ImageProvider(assets.iconBitmap),
+                        contentDescription = null,
+                        modifier = GlanceModifier.size(24.dp)
+                    )
+                }
             }
         }
     }
@@ -209,42 +252,6 @@ private fun ColumnScope.NoEntriesContent(assets: ThemeAssets, fontSize: Int) {
                 fontSize = fontSize.sp,
                 textAlign = androidx.glance.text.TextAlign.Center
             )
-        )
-    }
-}
-
-@Composable
-private fun ColumnScope.EntryContent(
-    entry: Entry,
-    assets: ThemeAssets,
-    headerFontSize: Int,
-    contentFontSize: Int
-) {
-    Text(
-        text = entry.entryDate.toFullString(),
-        style = TextStyle(
-            color = ColorProvider(assets.hintColor, assets.hintColor),
-            fontSize = headerFontSize.sp,
-            fontWeight = FontWeight.Bold
-        )
-    )
-    Box(modifier = GlanceModifier.padding(vertical = 4.dp)) {}
-    Text(
-        text = entry.entryContent,
-        style = TextStyle(
-            color = ColorProvider(assets.textColor, assets.textColor),
-            fontSize = contentFontSize.sp
-        ),
-        modifier = GlanceModifier.fillMaxWidth().defaultWeight()
-    )
-    Box(
-        modifier = GlanceModifier.fillMaxWidth().padding(top = 4.dp),
-        contentAlignment = Alignment.BottomStart
-    ) {
-        Image(
-            provider = ImageProvider(assets.iconBitmap),
-            contentDescription = null,
-            modifier = GlanceModifier.size(24.dp)
         )
     }
 }
