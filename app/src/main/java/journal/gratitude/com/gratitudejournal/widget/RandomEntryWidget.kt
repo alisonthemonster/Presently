@@ -152,7 +152,7 @@ private fun WidgetContent(
             .fillMaxSize()
             .background(assets.backgroundColor)
             .cornerRadius(16.dp)
-            .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+            .clickable(actionStartActivity<ContainerActivity>(parameters = actionParametersOf(GratitudeQuoteWidget.cameFromWidgetKey to true)))
             .padding(12.dp),
     ) {
         val size = LocalSize.current
