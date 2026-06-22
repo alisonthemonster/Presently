@@ -10,6 +10,8 @@ interface EntryRepository {
 
     suspend fun getEntry(date: LocalDate): Entry?
 
+    suspend fun getRandomEntry(): Entry?
+
     suspend fun getEntriesFlow(): Flow<List<Entry>>
 
     suspend fun getEntries(): List<Entry>

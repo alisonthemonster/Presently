@@ -449,6 +449,7 @@ class ReminderOnboardingViewModelTest {
         override fun setTheme(themeName: String) = Unit
         override fun isBiometricsEnabled(): Boolean = false
         override fun shouldLockApp(): Boolean = false
+        override fun forceLock() {}
         override fun setOnPauseTime() = Unit
         override fun getFirstDayOfWeek(): Int = Calendar.MONDAY
         override fun shouldShowQuote(): Boolean = true

@@ -21,6 +21,9 @@ interface EntryDao {
     @Query("SELECT * FROM entries WHERE entryDate = :date")
     suspend fun getEntry(date: LocalDate): Entry
 
+    @Query("SELECT * FROM entries ORDER BY RANDOM() LIMIT 1")
+    suspend fun getRandomEntry(): Entry?
+
     @Delete
     fun delete(entry: Entry)
 

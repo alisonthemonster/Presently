@@ -77,6 +77,19 @@ class EntryDaoTest {
         assertEquals(listOf(entryOne, entryThree), actualEntry)
     }
 
+    @Test
+    fun getRandomEntryReturnsEntry() = runTest {
+        entryDao.insertEntries(mockEntriesSorted)
+        val randomEntry = entryDao.getRandomEntry()
+        assert(mockEntriesSorted.contains(randomEntry))
+    }
+
+    @Test
+    fun getRandomEntryWithNoEntriesReturnsNull() = runTest {
+        val randomEntry = entryDao.getRandomEntry()
+        assert(randomEntry == null)
+    }
+
     private val entryOne = Entry(LocalDate.of(2013, 1, 1), "Test content")
     private val entryTwo = Entry(LocalDate.of(2012, 1, 1), "Test content1")
     private val entryThree = Entry(LocalDate.of(2011, 1, 1), "Test content2")
