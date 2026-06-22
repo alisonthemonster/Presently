@@ -226,7 +226,7 @@ class ContainerActivity : AppCompatActivity() {
                 )
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container_fragment, fragment)
-                    .addToBackStack(null)
+                    .addToBackStack(TimelineFragment.TIMELINE_TO_ENTRY)
                     .commit()
             }
         } catch (e: Exception) {

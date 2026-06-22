@@ -155,5 +155,4 @@
     <string name="widget_name">Random Entry</string>
     <string name="widget_description">Displays a random gratitude entry from your journal.</string>
     <string name="widget_no_entries">Write your first gratitude entry to see it here!</string>
-    <string name="widget_refresh">Refresh</string>
 </resources>

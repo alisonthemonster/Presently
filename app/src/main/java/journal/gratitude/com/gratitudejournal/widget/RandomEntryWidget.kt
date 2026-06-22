@@ -142,9 +142,12 @@ private fun WidgetContent(
     assets: ThemeAssets,
 ) {
     val actionParameters = if (entry != null && !isLocked) {
-        actionParametersOf(RandomEntryWidget.selectedDateKey to entry.entryDate.toString())
+        actionParametersOf(
+            RandomEntryWidget.selectedDateKey to entry.entryDate.toString(),
+            GratitudeQuoteWidget.cameFromWidgetKey to true
+        )
     } else {
-        actionParametersOf()
+        actionParametersOf(GratitudeQuoteWidget.cameFromWidgetKey to true)
     }
 
     Box(
@@ -152,8 +155,7 @@ private fun WidgetContent(
             .fillMaxSize()
             .background(assets.backgroundColor)
             .cornerRadius(16.dp)
-            .clickable(actionStartActivity<ContainerActivity>(parameters = actionParametersOf(GratitudeQuoteWidget.cameFromWidgetKey to true)))
-            .padding(12.dp),
+            .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
     ) {
         val size = LocalSize.current
         val (headerFontSize, contentFontSize) = when {
@@ -162,22 +164,23 @@ private fun WidgetContent(
             else -> 12 to 12
         }
 
-        LazyColumn(
-            modifier = GlanceModifier
-                .fillMaxSize()
-                .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
-        ) {
-            item {
-                Column(
-                    modifier = GlanceModifier
-                        .fillMaxSize()
-                        .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
-                ) {
-                    if (isLocked) {
-                        LockedContent(assets, contentFontSize)
-                    } else if (entry == null) {
-                        NoEntriesContent(assets, contentFontSize)
-                    } else {
+        if (isLocked) {
+            LockedContent(assets, contentFontSize, actionParameters)
+        } else if (entry == null) {
+            NoEntriesContent(assets, contentFontSize, actionParameters)
+        } else {
+            LazyColumn(
+                modifier = GlanceModifier
+                    .fillMaxSize()
+                    .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+            ) {
+                item {
+                    Column(
+                        modifier = GlanceModifier
+                            .fillMaxWidth()
+                            .padding(12.dp)
+                            .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+                    ) {
                         EntryContent(entry, assets, headerFontSize, contentFontSize)
                     }
                 }
@@ -187,9 +190,12 @@ private fun WidgetContent(
 }
 
 @Composable
-private fun LockedContent(assets: ThemeAssets, fontSize: Int) {
+private fun LockedContent(assets: ThemeAssets, fontSize: Int, actionParameters: ActionParameters) {
     Box(
-        modifier = GlanceModifier.fillMaxSize(),
+        modifier = GlanceModifier
+            .fillMaxSize()
+            .padding(12.dp)
+            .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters)),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -204,9 +210,12 @@ private fun LockedContent(assets: ThemeAssets, fontSize: Int) {
 }
 
 @Composable
-private fun NoEntriesContent(assets: ThemeAssets, fontSize: Int) {
+private fun NoEntriesContent(assets: ThemeAssets, fontSize: Int, actionParameters: ActionParameters) {
     Box(
-        modifier = GlanceModifier.fillMaxSize(),
+        modifier = GlanceModifier
+            .fillMaxSize()
+            .padding(12.dp)
+            .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters)),
         contentAlignment = Alignment.Center
     ) {
         Text(

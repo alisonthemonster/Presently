@@ -140,7 +140,7 @@ class AppLockFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fingerprintLock = settings.isBiometricsEnabled()
+        fingerprintLock = settings.isBiometricsEnabled() && settings.shouldLockApp()
         if (!fingerprintLock) {
             val screen = activity?.intent?.extras?.getString(ContainerActivity.NOTIFICATION_SCREEN_EXTRA) ?: TIMELINE_SCREEN
             enterApp(screen)
