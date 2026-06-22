@@ -20,7 +20,6 @@ import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
-import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.background
@@ -164,38 +163,26 @@ private fun WidgetContent(
             else -> 12 to 12
         }
 
-        if (isLocked) {
-            LockedContent(assets, contentFontSize, actionParameters)
-        } else if (entry == null) {
-            NoEntriesContent(assets, contentFontSize, actionParameters)
-        } else {
-            LazyColumn(
-                modifier = GlanceModifier
-                    .fillMaxSize()
-                    .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
-            ) {
-                item {
-                    Column(
-                        modifier = GlanceModifier
-                            .fillMaxWidth()
-                            .padding(12.dp)
-                            .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
-                    ) {
-                        EntryContent(entry, assets, headerFontSize, contentFontSize)
-                    }
-                }
+        Column(
+            modifier = GlanceModifier
+                .fillMaxSize()
+                .padding(12.dp)
+        ) {
+            if (isLocked) {
+                LockedContent(assets, contentFontSize)
+            } else if (entry == null) {
+                NoEntriesContent(assets, contentFontSize)
+            } else {
+                EntryContent(entry, assets, headerFontSize, contentFontSize)
             }
         }
     }
 }
 
 @Composable
-private fun LockedContent(assets: ThemeAssets, fontSize: Int, actionParameters: ActionParameters) {
+private fun ColumnScope.LockedContent(assets: ThemeAssets, fontSize: Int) {
     Box(
-        modifier = GlanceModifier
-            .fillMaxSize()
-            .padding(12.dp)
-            .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters)),
+        modifier = GlanceModifier.fillMaxSize().defaultWeight(),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -210,12 +197,9 @@ private fun LockedContent(assets: ThemeAssets, fontSize: Int, actionParameters: 
 }
 
 @Composable
-private fun NoEntriesContent(assets: ThemeAssets, fontSize: Int, actionParameters: ActionParameters) {
+private fun ColumnScope.NoEntriesContent(assets: ThemeAssets, fontSize: Int) {
     Box(
-        modifier = GlanceModifier
-            .fillMaxSize()
-            .padding(12.dp)
-            .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters)),
+        modifier = GlanceModifier.fillMaxSize().defaultWeight(),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -251,7 +235,7 @@ private fun ColumnScope.EntryContent(
             color = ColorProvider(assets.textColor, assets.textColor),
             fontSize = contentFontSize.sp
         ),
-        modifier = GlanceModifier.fillMaxWidth()
+        modifier = GlanceModifier.fillMaxWidth().defaultWeight()
     )
     Box(
         modifier = GlanceModifier.fillMaxWidth().padding(top = 4.dp),
