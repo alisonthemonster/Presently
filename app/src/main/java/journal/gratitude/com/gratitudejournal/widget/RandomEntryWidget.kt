@@ -152,8 +152,8 @@ private fun WidgetContent(
             .fillMaxSize()
             .background(assets.backgroundColor)
             .cornerRadius(16.dp)
-            .padding(12.dp)
-            .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters)),
+            .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+            .padding(12.dp),
     ) {
         val size = LocalSize.current
         val (headerFontSize, contentFontSize) = when {
