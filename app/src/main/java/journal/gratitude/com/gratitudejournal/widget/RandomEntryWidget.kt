@@ -5,9 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -22,6 +20,7 @@ import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.background
@@ -163,13 +162,25 @@ private fun WidgetContent(
             else -> 12 to 12
         }
 
-        Column(modifier = GlanceModifier.fillMaxSize()) {
-            if (isLocked) {
-                LockedContent(assets, contentFontSize)
-            } else if (entry == null) {
-                NoEntriesContent(assets, contentFontSize)
-            } else {
-                EntryContent(entry, assets, headerFontSize, contentFontSize)
+        LazyColumn(
+            modifier = GlanceModifier
+                .fillMaxSize()
+                .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+        ) {
+            item {
+                Column(
+                    modifier = GlanceModifier
+                        .fillMaxSize()
+                        .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+                ) {
+                    if (isLocked) {
+                        LockedContent(assets, contentFontSize)
+                    } else if (entry == null) {
+                        NoEntriesContent(assets, contentFontSize)
+                    } else {
+                        EntryContent(entry, assets, headerFontSize, contentFontSize)
+                    }
+                }
             }
         }
     }
@@ -231,7 +242,7 @@ private fun ColumnScope.EntryContent(
             color = ColorProvider(assets.textColor, assets.textColor),
             fontSize = contentFontSize.sp
         ),
-        modifier = GlanceModifier.fillMaxWidth().defaultWeight()
+        modifier = GlanceModifier.fillMaxWidth()
     )
     Box(
         modifier = GlanceModifier.fillMaxWidth().padding(top = 4.dp),
