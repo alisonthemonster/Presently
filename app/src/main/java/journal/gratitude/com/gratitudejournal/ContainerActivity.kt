@@ -163,11 +163,11 @@ class ContainerActivity : AppCompatActivity() {
             } else {
                 settings.setOnPauseTime()
             }
+        }
 
-            // Notify widget to update and lock if necessary
-            lifecycleScope.launch {
-                RandomEntryWidget().updateAll(this@ContainerActivity)
-            }
+        // Notify widget to update so it shows a fresh entry next time the user sees it
+        lifecycleScope.launch {
+            RandomEntryWidget().updateAll(this@ContainerActivity)
         }
     }
 
@@ -175,9 +175,9 @@ class ContainerActivity : AppCompatActivity() {
         super.onDestroy()
         if (settings.isBiometricsEnabled()) {
             settings.forceLock()
-            lifecycleScope.launch {
-                RandomEntryWidget().updateAll(this@ContainerActivity)
-            }
+        }
+        lifecycleScope.launch {
+            RandomEntryWidget().updateAll(this@ContainerActivity)
         }
     }
 

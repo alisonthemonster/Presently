@@ -1,17 +1,11 @@
 package journal.gratitude.com.gratitudejournal.widget
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.view.ContextThemeWrapper
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.createBitmap
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
@@ -42,7 +36,6 @@ import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_WIDGET
-import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import org.threeten.bp.LocalDate
 
 class GratitudeQuoteWidget : GlanceAppWidget() {
@@ -55,8 +48,7 @@ class GratitudeQuoteWidget : GlanceAppWidget() {
         val TALL = DpSize(100.dp, 250.dp)
         val BIG_SQUARE = DpSize(250.dp, 250.dp)
 
-        private const val ICON_SIZE_PX = 192
-        private val PREVIEW_QUOTE = "\"Gratitude turns what we have into enough.\""
+        private const val PREVIEW_QUOTE = "\"Gratitude turns what we have into enough.\""
         private const val PREVIEW_AUTHOR = "Melody Beattie"
         private const val PREVIEW_THEME = "original"
     }
@@ -98,50 +90,7 @@ class GratitudeQuoteWidget : GlanceAppWidget() {
             )
         }
     }
-
-    private fun loadThemeAssets(context: Context, themeName: String): ThemeAssets {
-        val theme = PresentlyThemeSpec.fromStorageValue(themeName)
-        val themedContext = ContextThemeWrapper(context, theme.styleRes)
-        val attrs = themedContext.obtainStyledAttributes(
-            intArrayOf(
-                R.attr.timelineBackgroundColor,
-                R.attr.timelineHeaderColor,
-                R.attr.timelineHintColor,
-                R.attr.timelineIcon,
-            )
-        )
-        val backgroundColor = Color(attrs.getColor(0, 0xFFDBD1C7.toInt()))
-        val textColor = Color(attrs.getColor(1, 0xFF000000.toInt()))
-        val hintColor = Color(attrs.getColor(2, 0xFF79736A.toInt()))
-        val iconResId = attrs.getResourceId(3, R.drawable.ic_flower)
-        attrs.recycle()
-
-        val iconBitmap = rasterizeDrawable(themedContext, iconResId, ICON_SIZE_PX)
-        return ThemeAssets(backgroundColor, textColor, hintColor, iconBitmap)
-    }
-
-    private fun rasterizeDrawable(context: Context, resId: Int, sizePx: Int): Bitmap {
-        val drawable = AppCompatResources.getDrawable(context, resId)
-            ?: return createBitmap(sizePx, sizePx)
-        val intrinsicW = drawable.intrinsicWidth.takeIf { it > 0 } ?: sizePx
-        val intrinsicH = drawable.intrinsicHeight.takeIf { it > 0 } ?: sizePx
-        val scale = sizePx.toFloat() / maxOf(intrinsicW, intrinsicH)
-        val w = (intrinsicW * scale).toInt().coerceAtLeast(1)
-        val h = (intrinsicH * scale).toInt().coerceAtLeast(1)
-        val bitmap = createBitmap(w, h)
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, w, h)
-        drawable.draw(canvas)
-        return bitmap
-    }
 }
-
-internal data class ThemeAssets(
-    val backgroundColor: Color,
-    val textColor: Color,
-    val hintColor: Color,
-    val iconBitmap: Bitmap,
-)
 
 @Composable
 private fun WidgetContent(

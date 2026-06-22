@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.logging.CrashReporter
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
@@ -21,10 +22,11 @@ import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_PROMPT_ERROR
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_PROMPT_SHOWN
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_LOCKOUT
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_USER_CANCELLED
+import androidx.glance.appwidget.updateAll
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
 import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidget
-import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidgetReceiver
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -109,10 +111,12 @@ class AppLockFragment : Fragment() {
                     )
                     settings.setOnPauseTime()
 
-                    val refreshIntent = Intent(context, RandomEntryWidgetReceiver::class.java).apply {
-                        action = RandomEntryWidget.ACTION_REFRESH
+                    // Update widget after unlock to show entry content
+                    context?.let { ctx ->
+                        lifecycleScope.launch {
+                            RandomEntryWidget().updateAll(ctx)
+                        }
                     }
-                    context?.sendBroadcast(refreshIntent)
 
                     val screen = activity?.intent?.extras?.getString(ContainerActivity.NOTIFICATION_SCREEN_EXTRA) ?: TIMELINE_SCREEN
                     enterApp(screen)

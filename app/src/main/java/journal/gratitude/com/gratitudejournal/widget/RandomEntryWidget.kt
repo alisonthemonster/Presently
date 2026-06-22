@@ -1,23 +1,19 @@
 package journal.gratitude.com.gratitudejournal.widget
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.view.ContextThemeWrapper
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.createBitmap
+import androidx.datastore.preferences.core.MutablePreferences
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
-import androidx.glance.ColorFilter
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
 import androidx.glance.LocalSize
 import androidx.glance.action.ActionParameters
 import androidx.glance.action.actionParametersOf
@@ -25,11 +21,12 @@ import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
-import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
+import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.background
 import androidx.glance.color.ColorProvider
+import androidx.glance.currentState
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -38,6 +35,8 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
+import androidx.glance.state.GlanceStateDefinition
+import androidx.glance.state.PreferencesGlanceStateDefinition
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
@@ -45,15 +44,17 @@ import dagger.hilt.android.EntryPointAccessors
 import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.di.EntryRepositoryEntryPoint
+import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
 import journal.gratitude.com.gratitudejournal.model.Entry
-import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import kotlinx.coroutines.withContext
+import org.threeten.bp.LocalDate
 
 class RandomEntryWidget : GlanceAppWidget() {
 
+    override val stateDefinition: GlanceStateDefinition<*> = PreferencesGlanceStateDefinition
+
     companion object {
-        const val ACTION_REFRESH = "journal.gratitude.com.gratitudejournal.widget.ACTION_REFRESH"
         const val EXTRA_SELECTED_DATE = "extra_selected_date"
         val selectedDateKey = ActionParameters.Key<String>("selected_date")
 
@@ -62,69 +63,76 @@ class RandomEntryWidget : GlanceAppWidget() {
         private val TALL = DpSize(100.dp, 250.dp)
         private val BIG_SQUARE = DpSize(250.dp, 250.dp)
 
-        private const val ICON_SIZE_PX = 192
+        private const val PREVIEW_DATE = "2026-03-28"
+        private const val PREVIEW_CONTENT = "I am grateful for a beautiful sunny day."
+        private const val PREVIEW_THEME = "original"
+
+        val KEY_ENTRY_DATE = stringPreferencesKey("entry_date")
+        val KEY_ENTRY_CONTENT = stringPreferencesKey("entry_content")
     }
 
     override val sizeMode = SizeMode.Responsive(
         setOf(SMALL_SQUARE, HORIZONTAL_RECTANGLE, TALL, BIG_SQUARE),
     )
 
+    override val previewSizeMode = SizeMode.Responsive(
+        setOf(SMALL_SQUARE, HORIZONTAL_RECTANGLE, TALL, BIG_SQUARE)
+    )
+
+    override suspend fun providePreview(context: Context, widgetCategory: Int) {
+        val assets = loadThemeAssets(context, PREVIEW_THEME)
+        val entry = Entry(LocalDate.parse(PREVIEW_DATE), PREVIEW_CONTENT)
+        provideContent {
+            WidgetContent(
+                entry = entry,
+                isLocked = false,
+                assets = assets,
+            )
+        }
+    }
+
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val entryPoint = EntryPointAccessors.fromApplication(context, EntryRepositoryEntryPoint::class.java)
         val entryRepository = entryPoint.entryRepository()
         val dispatchers = entryPoint.coroutineDispatchers()
-        val settings = EntryPointAccessors.fromApplication(context, journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint::class.java).settings
+        val settings = EntryPointAccessors.fromApplication(context, SettingsEntryPoint::class.java).settings
 
-        val entry = withContext(dispatchers.io) {
+        val newEntry = withContext(dispatchers.io) {
             entryRepository.getRandomEntry()
         }
+
+        updateAppWidgetState(context, PreferencesGlanceStateDefinition, id) { prefs ->
+            prefs.toMutablePreferences().apply {
+                if (newEntry != null) {
+                    this[KEY_ENTRY_DATE] = newEntry.entryDate.toString()
+                    this[KEY_ENTRY_CONTENT] = newEntry.entryContent
+                } else {
+                    remove(KEY_ENTRY_DATE)
+                    remove(KEY_ENTRY_CONTENT)
+                }
+            }
+        }
+
         val isLocked = settings.isBiometricsEnabled() && settings.shouldLockApp()
         val assets = loadThemeAssets(context, settings.getCurrentTheme())
 
         provideContent {
+            val prefs = currentState<Preferences>()
+            val entryDate = prefs[KEY_ENTRY_DATE]
+            val entryContent = prefs[KEY_ENTRY_CONTENT]
+
+            val entry = if (entryDate != null && entryContent != null) {
+                Entry(LocalDate.parse(entryDate), entryContent)
+            } else {
+                null
+            }
+
             WidgetContent(
                 entry = entry,
                 isLocked = isLocked,
                 assets = assets,
             )
         }
-    }
-
-    @SuppressLint("ResourceType")
-    private fun loadThemeAssets(context: Context, themeName: String): ThemeAssets {
-        val theme = PresentlyThemeSpec.fromStorageValue(themeName)
-        val themedContext = ContextThemeWrapper(context, theme.styleRes)
-        val attrs = themedContext.obtainStyledAttributes(
-            intArrayOf(
-                R.attr.timelineBackgroundColor,
-                R.attr.timelineHeaderColor,
-                R.attr.timelineHintColor,
-                R.attr.timelineIcon,
-            )
-        )
-        val backgroundColor = Color(attrs.getColor(0, 0xFFDBD1C7.toInt()))
-        val textColor = Color(attrs.getColor(1, 0xFF000000.toInt()))
-        val hintColor = Color(attrs.getColor(2, 0xFF79736A.toInt()))
-        val iconResId = attrs.getResourceId(3, R.drawable.ic_flower)
-        attrs.recycle()
-
-        val iconBitmap = rasterizeDrawable(themedContext, iconResId, ICON_SIZE_PX)
-        return ThemeAssets(backgroundColor, textColor, hintColor, iconBitmap)
-    }
-
-    private fun rasterizeDrawable(context: Context, resId: Int, sizePx: Int): Bitmap {
-        val drawable = AppCompatResources.getDrawable(context, resId)
-            ?: return createBitmap(sizePx, sizePx)
-        val intrinsicW = drawable.intrinsicWidth.takeIf { it > 0 } ?: sizePx
-        val intrinsicH = drawable.intrinsicHeight.takeIf { it > 0 } ?: sizePx
-        val scale = sizePx.toFloat() / maxOf(intrinsicW, intrinsicH)
-        val w = (intrinsicW * scale).toInt().coerceAtLeast(1)
-        val h = (intrinsicH * scale).toInt().coerceAtLeast(1)
-        val bitmap = createBitmap(w, h)
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, w, h)
-        drawable.draw(canvas)
-        return bitmap
     }
 }
 
@@ -134,13 +142,19 @@ private fun WidgetContent(
     isLocked: Boolean,
     assets: ThemeAssets,
 ) {
+    val actionParameters = if (entry != null && !isLocked) {
+        actionParametersOf(RandomEntryWidget.selectedDateKey to entry.entryDate.toString())
+    } else {
+        actionParametersOf()
+    }
+
     Box(
         modifier = GlanceModifier
             .fillMaxSize()
             .background(assets.backgroundColor)
             .cornerRadius(16.dp)
-            .padding(12.dp),
-        contentAlignment = Alignment.TopStart,
+            .padding(12.dp)
+            .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters)),
     ) {
         val size = LocalSize.current
         val (headerFontSize, contentFontSize) = when {
@@ -149,44 +163,13 @@ private fun WidgetContent(
             else -> 12 to 12
         }
 
-        Box(
-            modifier = GlanceModifier.fillMaxSize()
-                .clickable(actionStartActivity<ContainerActivity>(
-                    parameters = if (entry != null && !isLocked) {
-                        actionParametersOf(RandomEntryWidget.selectedDateKey to entry.entryDate.toString())
-                    } else {
-                        actionParametersOf()
-                    }
-                ))
-        ) {
-            Column(modifier = GlanceModifier.fillMaxSize()) {
-                if (isLocked) {
-                    LockedContent(assets, contentFontSize)
-                } else if (entry == null) {
-                    NoEntriesContent(assets, contentFontSize)
-                } else {
-                    EntryContent(entry, assets, headerFontSize, contentFontSize)
-                }
-            }
-        }
-
-        // Refresh button in the top right
-        Box(
-            modifier = GlanceModifier.fillMaxSize(),
-            contentAlignment = Alignment.TopEnd
-        ) {
-            Box(
-                modifier = GlanceModifier
-                    .size(40.dp)
-                    .clickable(actionRunCallback<RefreshActionCallback>()),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    provider = ImageProvider(R.drawable.ic_auto_renew),
-                    contentDescription = "Refresh",
-                    modifier = GlanceModifier.size(24.dp),
-                    colorFilter = ColorFilter.tint(ColorProvider(assets.hintColor, assets.hintColor))
-                )
+        Column(modifier = GlanceModifier.fillMaxSize()) {
+            if (isLocked) {
+                LockedContent(assets, contentFontSize)
+            } else if (entry == null) {
+                NoEntriesContent(assets, contentFontSize)
+            } else {
+                EntryContent(entry, assets, headerFontSize, contentFontSize)
             }
         }
     }
@@ -199,7 +182,7 @@ private fun LockedContent(assets: ThemeAssets, fontSize: Int) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = androidx.glance.LocalContext.current.getString(R.string.unlock_to_view_entries),
+            text = LocalContext.current.getString(R.string.unlock_to_view_entries),
             style = TextStyle(
                 color = ColorProvider(assets.textColor, assets.textColor),
                 fontSize = fontSize.sp,
@@ -216,7 +199,7 @@ private fun NoEntriesContent(assets: ThemeAssets, fontSize: Int) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = androidx.glance.LocalContext.current.getString(R.string.widget_no_entries),
+            text = LocalContext.current.getString(R.string.widget_no_entries),
             style = TextStyle(
                 color = ColorProvider(assets.textColor, assets.textColor),
                 fontSize = fontSize.sp,
@@ -259,18 +242,5 @@ private fun ColumnScope.EntryContent(
             contentDescription = null,
             modifier = GlanceModifier.size(24.dp)
         )
-    }
-}
-
-class RefreshActionCallback : androidx.glance.appwidget.action.ActionCallback {
-    override suspend fun onAction(
-        context: Context,
-        glanceId: GlanceId,
-        parameters: ActionParameters
-    ) {
-        val intent = Intent(context, RandomEntryWidgetReceiver::class.java).apply {
-            action = RandomEntryWidget.ACTION_REFRESH
-        }
-        context.sendBroadcast(intent)
     }
 }
