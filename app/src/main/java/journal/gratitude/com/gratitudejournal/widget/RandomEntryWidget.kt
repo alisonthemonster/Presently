@@ -6,6 +6,8 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -18,10 +20,13 @@ import androidx.glance.action.actionParametersOf
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
+import androidx.glance.appwidget.updateAll
 import androidx.glance.background
 import androidx.glance.color.ColorProvider
 import androidx.glance.currentState
@@ -67,6 +72,25 @@ class RandomEntryWidget : GlanceAppWidget() {
 
         val KEY_ENTRY_DATE = stringPreferencesKey("entry_date")
         val KEY_ENTRY_CONTENT = stringPreferencesKey("entry_content")
+        val KEY_IS_LOCKED = booleanPreferencesKey("is_locked")
+        val KEY_LAST_FETCH_DATE = stringPreferencesKey("last_fetch_date")
+        val KEY_UNLOCKED_UNTIL = longPreferencesKey("unlocked_until")
+
+        suspend fun updateLockState(context: Context, isLocked: Boolean) {
+            val unlockedUntil = if (isLocked) 0L else System.currentTimeMillis() + 300000L // 5 mins
+            
+            val manager = GlanceAppWidgetManager(context)
+            val ids = manager.getGlanceIds(RandomEntryWidget::class.java)
+            for (id in ids) {
+                updateAppWidgetState(context, PreferencesGlanceStateDefinition, id) { prefs ->
+                    prefs.toMutablePreferences().apply {
+                        this[KEY_UNLOCKED_UNTIL] = unlockedUntil
+                        this[KEY_IS_LOCKED] = isLocked
+                    }
+                }
+            }
+            RandomEntryWidget().updateAll(context)
+        }
     }
 
     override val sizeMode = SizeMode.Responsive(
@@ -95,29 +119,54 @@ class RandomEntryWidget : GlanceAppWidget() {
         val dispatchers = entryPoint.coroutineDispatchers()
         val settings = EntryPointAccessors.fromApplication(context, SettingsEntryPoint::class.java).settings
 
-        val newEntry = withContext(dispatchers.io) {
-            entryRepository.getRandomEntry()
-        }
+        val assets = loadThemeAssets(context, settings.getCurrentTheme())
+        val today = LocalDate.now().toString()
 
         updateAppWidgetState(context, PreferencesGlanceStateDefinition, id) { prefs ->
-            prefs.toMutablePreferences().apply {
-                if (newEntry != null) {
-                    this[KEY_ENTRY_DATE] = newEntry.entryDate.toString()
-                    this[KEY_ENTRY_CONTENT] = newEntry.entryContent
+            val lastFetchDate = prefs[KEY_LAST_FETCH_DATE]
+            val hasEntry = prefs[KEY_ENTRY_DATE] != null
+            val unlockedUntil = prefs[KEY_UNLOCKED_UNTIL] ?: 0L
+            
+            val isLockedNow = if (settings.isBiometricsEnabled()) {
+                if (System.currentTimeMillis() < unlockedUntil) {
+                    false
                 } else {
-                    remove(KEY_ENTRY_DATE)
-                    remove(KEY_ENTRY_CONTENT)
+                    settings.shouldLockApp()
+                }
+            } else {
+                false
+            }
+
+            // Update entry if it's a new day or we don't have one
+            if (!hasEntry || lastFetchDate != today) {
+                val newEntry = withContext(dispatchers.io) {
+                    entryRepository.getRandomEntry()
+                }
+                prefs.toMutablePreferences().apply {
+                    if (newEntry != null) {
+                        this[KEY_ENTRY_DATE] = newEntry.entryDate.toString()
+                        this[KEY_ENTRY_CONTENT] = newEntry.entryContent
+                        this[KEY_LAST_FETCH_DATE] = today
+                    } else {
+                        remove(KEY_ENTRY_DATE)
+                        remove(KEY_ENTRY_CONTENT)
+                        remove(KEY_LAST_FETCH_DATE)
+                    }
+                    this[KEY_IS_LOCKED] = isLockedNow
+                }
+            } else {
+                // Just update the lock status
+                prefs.toMutablePreferences().apply {
+                    this[KEY_IS_LOCKED] = isLockedNow
                 }
             }
         }
-
-        val isLocked = settings.isBiometricsEnabled() && settings.shouldLockApp()
-        val assets = loadThemeAssets(context, settings.getCurrentTheme())
 
         provideContent {
             val prefs = currentState<Preferences>()
             val entryDate = prefs[KEY_ENTRY_DATE]
             val entryContent = prefs[KEY_ENTRY_CONTENT]
+            val isLocked = prefs[KEY_IS_LOCKED] ?: true
 
             val entry = if (entryDate != null && entryContent != null) {
                 Entry(LocalDate.parse(entryDate), entryContent)
@@ -149,6 +198,7 @@ private fun WidgetContent(
         actionParametersOf(GratitudeQuoteWidget.cameFromWidgetKey to true)
     }
 
+    // Root container with a single click listener covering the whole widget
     Box(
         modifier = GlanceModifier
             .fillMaxSize()
@@ -173,7 +223,59 @@ private fun WidgetContent(
             } else if (entry == null) {
                 NoEntriesContent(assets, contentFontSize)
             } else {
-                EntryContent(entry, assets, headerFontSize, contentFontSize)
+                Text(
+                    text = entry.entryDate.toFullString(),
+                    style = TextStyle(
+                        color = ColorProvider(assets.hintColor, assets.hintColor),
+                        fontSize = headerFontSize.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+                Box(modifier = GlanceModifier.padding(vertical = 4.dp)) {}
+                
+                // LazyColumn needs its own clickable modifier to handle taps on the scrollable area
+                // IMPORTANT: We also need to make the item content clickable because LazyColumn modifier doesn't always work
+                LazyColumn(
+                    modifier = GlanceModifier
+                        .fillMaxWidth()
+                        .defaultWeight()
+                        .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+                ) {
+                    item {
+                        Text(
+                            text = entry.entryContent,
+                            style = TextStyle(
+                                color = ColorProvider(assets.textColor, assets.textColor),
+                                fontSize = contentFontSize.sp
+                            ),
+                            modifier = GlanceModifier
+                                .fillMaxWidth()
+                                .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+                        )
+                    }
+                    // Add a blank item at the end that is also clickable to cover more area
+                    item {
+                        Box(
+                            modifier = GlanceModifier
+                                .fillMaxWidth()
+                                .size(200.dp) // Large enough to cover remaining space in most cases
+                                .clickable(actionStartActivity<ContainerActivity>(parameters = actionParameters))
+                        ) {}
+                    }
+                }
+                
+                Box(
+                    modifier = GlanceModifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp),
+                    contentAlignment = Alignment.BottomStart
+                ) {
+                    Image(
+                        provider = ImageProvider(assets.iconBitmap),
+                        contentDescription = null,
+                        modifier = GlanceModifier.size(24.dp)
+                    )
+                }
             }
         }
     }
@@ -209,42 +311,6 @@ private fun ColumnScope.NoEntriesContent(assets: ThemeAssets, fontSize: Int) {
                 fontSize = fontSize.sp,
                 textAlign = androidx.glance.text.TextAlign.Center
             )
-        )
-    }
-}
-
-@Composable
-private fun ColumnScope.EntryContent(
-    entry: Entry,
-    assets: ThemeAssets,
-    headerFontSize: Int,
-    contentFontSize: Int
-) {
-    Text(
-        text = entry.entryDate.toFullString(),
-        style = TextStyle(
-            color = ColorProvider(assets.hintColor, assets.hintColor),
-            fontSize = headerFontSize.sp,
-            fontWeight = FontWeight.Bold
-        )
-    )
-    Box(modifier = GlanceModifier.padding(vertical = 4.dp)) {}
-    Text(
-        text = entry.entryContent,
-        style = TextStyle(
-            color = ColorProvider(assets.textColor, assets.textColor),
-            fontSize = contentFontSize.sp
-        ),
-        modifier = GlanceModifier.fillMaxWidth().defaultWeight()
-    )
-    Box(
-        modifier = GlanceModifier.fillMaxWidth().padding(top = 4.dp),
-        contentAlignment = Alignment.BottomStart
-    ) {
-        Image(
-            provider = ImageProvider(assets.iconBitmap),
-            contentDescription = null,
-            modifier = GlanceModifier.size(24.dp)
         )
     }
 }

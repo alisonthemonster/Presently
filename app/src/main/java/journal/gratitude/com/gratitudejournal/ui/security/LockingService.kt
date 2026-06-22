@@ -3,7 +3,6 @@ package journal.gratitude.com.gratitudejournal.ui.security
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import androidx.glance.appwidget.updateAll
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidget
@@ -29,7 +28,7 @@ class LockingService : Service() {
             settings.forceLock()
             // Notify widget to lock immediately
             MainScope().launch {
-                RandomEntryWidget().updateAll(this@LockingService)
+                RandomEntryWidget.updateLockState(this@LockingService, true)
             }
         }
     }

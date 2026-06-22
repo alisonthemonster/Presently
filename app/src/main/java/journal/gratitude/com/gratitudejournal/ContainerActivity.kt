@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.collection.intSetOf
 import androidx.core.view.WindowCompat
 import androidx.glance.appwidget.GlanceAppWidgetManager
-import androidx.glance.appwidget.updateAll
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -185,7 +184,7 @@ class ContainerActivity : AppCompatActivity() {
 
         // Notify widget to update so it shows a fresh entry next time the user sees it
         lifecycleScope.launch {
-            RandomEntryWidget().updateAll(this@ContainerActivity)
+            RandomEntryWidget.updateLockState(this@ContainerActivity, settings.shouldLockApp())
         }
     }
 
@@ -195,7 +194,7 @@ class ContainerActivity : AppCompatActivity() {
             settings.forceLock()
         }
         lifecycleScope.launch {
-            RandomEntryWidget().updateAll(this@ContainerActivity)
+            RandomEntryWidget.updateLockState(this@ContainerActivity, true)
         }
     }
 
