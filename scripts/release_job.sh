@@ -430,6 +430,55 @@ authenticated_git_url() {
   esac
 }
 
+resolve_version_commit_branch() {
+  local branch="$GIT_BRANCH"
+
+  if [[ -z "$branch" ]]; then
+    branch="${CIRCLE_BRANCH:-$(git rev-parse --abbrev-ref HEAD)}"
+  fi
+
+  if [[ "$branch" == "HEAD" || -z "$branch" ]]; then
+    echo "Unable to determine git branch for push. Pass --git-branch explicitly." >&2
+    exit 1
+  fi
+
+  echo "$branch"
+}
+
+# Verify GITHUB_BOT_TOKEN can actually reach the repo BEFORE running the build
+# and, crucially, before uploading to Google Play. A stale/invalid token used to
+# fail only at the final push -- after Play had already consumed the versionCode
+# -- leaving git behind and breaking every subsequent release. Fail fast instead.
+preflight_git_auth() {
+  if [[ "$GIT_COMMIT_VERSION" != true ]]; then
+    return
+  fi
+
+  local branch remote_url authed_url
+  branch="$(resolve_version_commit_branch)"
+  remote_url="$(git remote get-url "$GIT_REMOTE")"
+  authed_url="$(authenticated_git_url "$remote_url")"
+
+  echo "Preflight: verifying GITHUB_BOT_TOKEN can reach ${GIT_REMOTE} (${branch})..."
+  if git ls-remote --heads "$authed_url" "$branch" >/dev/null 2>&1; then
+    echo "Preflight git authentication check passed."
+    return
+  fi
+
+  cat >&2 <<EOF
+Preflight git authentication check FAILED.
+
+GITHUB_BOT_TOKEN cannot authenticate to the release repository. Aborting BEFORE
+the build and the Google Play upload, so this run does not consume a versionCode
+that would never get persisted back to git.
+
+The token is expired, revoked, has the wrong value in CircleCI, or is missing
+'Contents: Read and write' for this repository. Fix GITHUB_BOT_TOKEN in the
+CircleCI 'presently-release' context, then re-run the release.
+EOF
+  exit 1
+}
+
 create_version_commit() {
   if [[ "$GIT_COMMIT_VERSION" != true ]]; then
     return
@@ -445,15 +494,7 @@ create_version_commit() {
   local git_user_name
   local git_user_email
 
-  branch="$GIT_BRANCH"
-  if [[ -z "$branch" ]]; then
-    branch="${CIRCLE_BRANCH:-$(git rev-parse --abbrev-ref HEAD)}"
-  fi
-
-  if [[ "$branch" == "HEAD" || -z "$branch" ]]; then
-    echo "Unable to determine git branch for push. Pass --git-branch explicitly." >&2
-    exit 1
-  fi
+  branch="$(resolve_version_commit_branch)"
 
   version_name="$(current_version_name)"
   git_user_name="${GIT_USER_NAME:-Presently Release Bot}"
@@ -512,6 +553,7 @@ push_version_commit() {
   exit 1
 }
 
+preflight_git_auth
 stage_google_services
 stage_release_fonts
 stage_gcloud_key
