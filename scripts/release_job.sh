@@ -477,13 +477,39 @@ push_version_commit() {
 
   local original_remote_url
   local push_remote_url
+  local max_attempts=5
+  local attempt
 
   original_remote_url="$(git remote get-url "$GIT_REMOTE")"
   push_remote_url="$(authenticated_git_url "$original_remote_url")"
 
-  git push "$push_remote_url" "HEAD:${VERSION_COMMIT_BRANCH}"
+  # The build/test/upload steps between creating this commit and pushing it can
+  # take long enough for other commits to land on the target branch. Rebase the
+  # (single) version-bump commit onto the latest remote tip right before each
+  # push attempt, instead of pushing a possibly-stale local commit, so a
+  # rejected non-fast-forward push can't silently drop the bump.
+  for ((attempt = 1; attempt <= max_attempts; attempt++)); do
+    git fetch "$push_remote_url" "$VERSION_COMMIT_BRANCH"
 
-  echo "Pushed release version commit: ${VERSION_COMMIT_SHA}"
+    if ! git rebase --onto FETCH_HEAD "${VERSION_COMMIT_SHA}^" "$VERSION_COMMIT_SHA"; then
+      git rebase --abort || true
+      echo "Failed to rebase the version bump commit onto the latest ${VERSION_COMMIT_BRANCH}: ${VERSIONS_FILE} was also changed upstream. Resolve manually and resync gradle/libs.versions.toml." >&2
+      exit 1
+    fi
+
+    VERSION_COMMIT_SHA="$(git rev-parse HEAD)"
+
+    if git push "$push_remote_url" "HEAD:${VERSION_COMMIT_BRANCH}"; then
+      echo "Pushed release version commit: ${VERSION_COMMIT_SHA}"
+      return
+    fi
+
+    echo "Push rejected (attempt ${attempt}/${max_attempts}); retrying after rebasing onto the latest ${VERSION_COMMIT_BRANCH}..." >&2
+    sleep $((attempt * 2))
+  done
+
+  echo "Failed to push the release version commit after ${max_attempts} attempts. The Play upload for this release already succeeded, but the versionCode bump was NOT persisted to git. The next release will fail until gradle/libs.versions.toml is resynced manually." >&2
+  exit 1
 }
 
 stage_google_services
