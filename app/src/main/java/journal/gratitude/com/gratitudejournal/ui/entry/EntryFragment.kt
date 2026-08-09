@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -117,7 +116,6 @@ class EntryFragment : Fragment() {
 
     private fun prepareWindow() {
         val window = requireActivity().window
-        window.statusBarColor = Color.TRANSPARENT
         val typedValue = TypedValue()
         requireActivity().theme.resolveAttribute(R.attr.timelineBackgroundColor, typedValue, true)
         setStatusBarColorsForBackground(window, typedValue.data)
