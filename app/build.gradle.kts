@@ -148,6 +148,17 @@ android {
     }
 }
 
+// Robolectric requires JDK 21 to emulate Android SDK 36 (the android-all jars for
+// SDK 36 are compiled with Java 21). Only the unit-test JVM uses 21; app compilation
+// and bytecode still target Java 17 (see compileOptions/kotlinOptions above).
+tasks.withType<Test>().configureEach {
+    javaLauncher.set(
+        javaToolchains.launcherFor {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
+    )
+}
+
 play {
     defaultToAppBundles.set(true)
 
