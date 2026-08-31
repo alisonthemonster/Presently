@@ -105,6 +105,7 @@
     <string name="lock_setting_summary_on">Presently will lock with your device\'s biometric scanner.</string>
     <string name="lock_setting_summary_off">Presently can lock with your device\'s biometric scanner (if supported by device).</string>
     <string name="fingerprint_error_lockout_too_many">Too many biometric authentication attempts. Please try again in a few minutes.</string>
+    <string name="unlock_to_view_entries">Tap to unlock the app and view a journal entry.</string>
     <string name="continue_to_exit">Continue</string>
     <string name="are_you_sure">Are you sure you want to go back?</string>
     <string name="unsaved_text">Your entry is unsaved and your changes will be lost!</string>
@@ -150,4 +151,8 @@
     <string name="dropbox_sync_error_notif_body">There was a problem with your Dropbox account, click here to reconnect to Dropbox to resume automatic backups.</string>
     <string name="dropbox_auth_failed">Error linking Dropbox account</string>
     <string name="learn_more">Learn more</string>
+
+    <string name="widget_name">Random Entry</string>
+    <string name="widget_description">Displays a random gratitude entry from your journal.</string>
+    <string name="widget_no_entries">Write your first gratitude entry to see it here!</string>
 </resources>

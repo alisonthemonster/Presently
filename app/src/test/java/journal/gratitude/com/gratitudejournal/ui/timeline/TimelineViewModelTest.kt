@@ -186,6 +186,8 @@ private class TestTimelineRepository : EntryRepository {
 
     override suspend fun getEntry(date: LocalDate): Entry? = null
 
+    override suspend fun getRandomEntry(): Entry? = null
+
     override suspend fun getEntriesFlow(): Flow<List<Entry>> = entriesFlow
 
     override suspend fun getEntries(): List<Entry> = emptyList()
