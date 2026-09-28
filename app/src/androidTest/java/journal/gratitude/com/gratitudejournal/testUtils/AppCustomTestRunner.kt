@@ -7,14 +7,13 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.test.runner.AndroidJUnitRunner
-import com.facebook.testing.screenshot.ScreenshotRunner
 import dagger.hilt.android.testing.HiltTestApplication
 import journal.gratitude.com.gratitudejournal.util.reminders.AlarmPermissionReceiver
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationResetReceiver
 
 /**
- * A custom [AndroidJUnitRunner] used to set up the Screenshot Runner, and update coverage filenames
- * after tests complete.
+ * A custom [AndroidJUnitRunner] used to disable/re-enable reminder receivers around instrumented
+ * tests, and update coverage filenames after tests complete.
  */
 class AppCustomTestRunner : AndroidJUnitRunner() {
 
@@ -23,7 +22,6 @@ class AppCustomTestRunner : AndroidJUnitRunner() {
     }
 
     override fun onCreate(args: Bundle) {
-        ScreenshotRunner.onCreate(this, args)
         super.onCreate(args)
         setReminderReceiversEnabled(enabled = false)
     }
@@ -33,7 +31,6 @@ class AppCustomTestRunner : AndroidJUnitRunner() {
             setReminderReceiversEnabled(enabled = true)
         } finally {
             FileRenamer.write(this)
-            ScreenshotRunner.onDestroy()
             super.finish(resultCode, results)
         }
     }
