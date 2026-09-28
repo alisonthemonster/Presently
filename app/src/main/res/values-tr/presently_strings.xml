@@ -125,6 +125,13 @@
     <string name="day_of_week_title">Tarih stili</string>
     <string name="max_lines_title">Zaman Çizelgesi Yazı Uzunluğu</string>
     <string name="max_lines_summary">Zaman çizelgesinde gösterilen satır sayısı. Girişe tıkladığında tam metin görünür.</string>
+    <string name="timeline_text_size_title">Zaman Çizelgesi Yazı Boyutu</string>
+    <string name="timeline_text_size_summary">Zaman çizelgesinde gösterilen metnin boyutunu ayarlayın</string>
+    <string name="font_size_x_small">Çok Küçük</string>
+    <string name="font_size_small">Küçük</string>
+    <string name="font_size_default">Varsayılan</string>
+    <string name="font_size_large">Büyük</string>
+    <string name="font_size_x_large">Çok Büyük</string>
     <string name="saturday">Cumartesi</string>
     <string name="sunday">Pazar</string>
     <string name="monday">Pazartesi</string>

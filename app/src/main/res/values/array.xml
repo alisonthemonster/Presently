@@ -45,6 +45,14 @@
         <item>@string/language_zh_hk</item>
     </string-array>
 
+    <string-array name="TimelineFontScaleLabels">
+        <item>@string/font_size_x_small</item>
+        <item>@string/font_size_small</item>
+        <item>@string/font_size_default</item>
+        <item>@string/font_size_large</item>
+        <item>@string/font_size_x_large</item>
+    </string-array>
+
     <string-array name="AppLanguageValues">
         <item>en</item>
         <item>ar</item>

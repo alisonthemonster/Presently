@@ -125,6 +125,13 @@
     <string name="day_of_week_title">Datumstyl</string>
     <string name="max_lines_title">Tydlyn Inskrywing Lengte</string>
     <string name="max_lines_summary">Aantal lyne in die tydlyn. Die volledige teks is sigbaar as u op die inskrywing klik.</string>
+    <string name="timeline_text_size_title">Tydlyn Teksgrootte</string>
+    <string name="timeline_text_size_summary">Verstel die grootte van die teks wat in die tydlyn gewys word</string>
+    <string name="font_size_x_small">X-Klein</string>
+    <string name="font_size_small">Klein</string>
+    <string name="font_size_default">Verstek</string>
+    <string name="font_size_large">Groot</string>
+    <string name="font_size_x_large">X-Groot</string>
     <string name="saturday">Saterdag</string>
     <string name="sunday">Sondag</string>
     <string name="monday">Maandag</string>

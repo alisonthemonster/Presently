@@ -143,6 +143,10 @@ class RealPresentlySettings @Inject constructor(
         return sharedPrefs.getBoolean(DAY_OF_WEEK, false)
     }
 
+    override fun getTimelineFontScale(): Int {
+        return sharedPrefs.getInt(TIMELINE_FONT_SCALE, 100)
+    }
+
     override fun getAccessToken(): DbxCredential? {
         val serializedToken = sharedPrefs.getString(ACCESS_TOKEN, null)
         return when {

@@ -320,6 +320,7 @@ private class TestPresentlySettings : PresentlySettings {
     override fun markNotificationPermissionRequested() = Unit
     override fun getLinesPerEntryInTimeline(): Int = 3
     override fun shouldShowDayOfWeekInTimeline(): Boolean = false
+    override fun getTimelineFontScale(): Int = 100
     override fun getAccessToken(): com.dropbox.core.oauth.DbxCredential? = null
     override fun setAccessToken(newToken: com.dropbox.core.oauth.DbxCredential) = Unit
     override fun wasDropboxAuthInitiated(): Boolean = false

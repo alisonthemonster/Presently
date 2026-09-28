@@ -122,6 +122,13 @@
     <string name="day_of_week_title">Štýl dátumu</string>
     <string name="max_lines_title">Dĺžka ukážky záznamu</string>
     <string name="max_lines_summary">Počet riadkov zobrazených na časovej osi. Po kliknutí na položku sa zobrazí celý text.</string>
+    <string name="timeline_text_size_title">Veľkosť textu na časovej osi</string>
+    <string name="timeline_text_size_summary">Upravte veľkosť textu zobrazeného na časovej osi</string>
+    <string name="font_size_x_small">Veľmi malé</string>
+    <string name="font_size_small">Malé</string>
+    <string name="font_size_default">Predvolené</string>
+    <string name="font_size_large">Veľké</string>
+    <string name="font_size_x_large">Veľmi veľké</string>
     <string name="saturday">Sobota</string>
     <string name="sunday">Nedeľa</string>
     <string name="monday">Pondelok</string>

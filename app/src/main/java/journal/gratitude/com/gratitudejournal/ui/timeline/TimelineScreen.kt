@@ -364,7 +364,7 @@ private fun TimelineEntryRow(
                     text = state.dateText,
                     color = theme.timelineHeader,
                     fontFamily = PresentlyFontFamilies.accent,
-                    fontSize = 20.sp
+                    fontSize = 20.sp * state.fontScale
                 )
             }
             Box(
@@ -376,7 +376,7 @@ private fun TimelineEntryRow(
                     text = state.content,
                     color = theme.timelineBody,
                     fontFamily = PresentlyFontFamilies.body,
-                    fontSize = 16.sp,
+                    fontSize = 16.sp * state.fontScale,
                     minLines = minOf(3, state.maxLines),
                     maxLines = state.maxLines,
                     overflow = TextOverflow.Ellipsis
@@ -387,7 +387,7 @@ private fun TimelineEntryRow(
                         text = stringResource(state.emptyHint),
                         color = theme.timelineHint,
                         fontFamily = PresentlyFontFamilies.body,
-                        fontSize = 16.sp
+                        fontSize = 16.sp * state.fontScale
                     )
                 }
             }

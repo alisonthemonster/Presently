@@ -125,6 +125,13 @@
     <string name="day_of_week_title">Date Style</string>
     <string name="max_lines_title">Timeline Entry Length</string>
     <string name="max_lines_summary">Number of lines shown in the timeline. The full text is visible when you click the entry.</string>
+    <string name="timeline_text_size_title">Timeline Text Size</string>
+    <string name="timeline_text_size_summary">Adjust the size of the text shown in the timeline</string>
+    <string name="font_size_x_small">X-Small</string>
+    <string name="font_size_small">Small</string>
+    <string name="font_size_default">Default</string>
+    <string name="font_size_large">Large</string>
+    <string name="font_size_x_large">X-Large</string>
     <string name="saturday">Saturday</string>
     <string name="sunday">Sunday</string>
     <string name="monday">Monday</string>

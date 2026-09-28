@@ -117,6 +117,10 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
         return false
     }
 
+    override fun getTimelineFontScale(): Int {
+        return 100
+    }
+
     override fun getAccessToken(): DbxCredential? {
         return null
     }
