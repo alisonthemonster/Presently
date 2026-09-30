@@ -364,7 +364,7 @@ private fun TimelineEntryRow(
                     text = state.dateText,
                     color = theme.timelineHeader,
                     fontFamily = PresentlyFontFamilies.accent,
-                    fontSize = 20.sp * state.fontScale
+                    fontSize = 20.sp
                 )
             }
             Box(

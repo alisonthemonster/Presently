@@ -66,11 +66,11 @@
             android:defaultValue="100"
             android:icon="@drawable/ic_font_size"
             android:key="timeline_font_scale"
-            android:max="150"
+            android:max="120"
             android:summary="@string/timeline_text_size_summary"
             android:title="@string/timeline_text_size_title"
-            app:min="50"
-            app:seekBarIncrement="25"
+            app:min="80"
+            app:seekBarIncrement="10"
             app:showSeekBarValue="true"
             app:stepLabels="@array/TimelineFontScaleLabels" />
         <SwitchPreference
