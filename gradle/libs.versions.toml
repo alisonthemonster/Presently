@@ -1,5 +1,5 @@
 [versions]
-android-gradle-plugin = "8.9.3"
+android-gradle-plugin = "9.4.0"
 androidx-glance = "1.2.0-alpha01"
 androidx-activity-compose = "1.10.1"
 androidx-appcompat = "1.7.0"
@@ -29,17 +29,18 @@ appVersionMinor = "26"
 appVersionPatch = "3"
 compileSdk = "36"
 kizitonwose-calendar = "2.6.2"
-dagger = "2.57.2"
+dagger = "2.60.1"
 dropbox-sdk = "7.0.0"
 espresso = "3.7.0"
-firebase-bom = "33.10.0"
+firebase-bom = "34.19.0"
 firebase-crashlytics-plugin = "3.0.6"
-fulladle = "0.19.0"
+fulladle = "0.21.0"
 google-oss-licenses-plugin = "0.10.10"
 google-services-plugin = "4.4.4"
-hilt-plugin = "2.57.2"
+hilt-plugin = "2.60.1"
 junit4 = "4.13.2"
-kotlin = "2.1.20"
+kotlin = "2.3.21"
+ksp = "2.3.12"
 kotlin-coroutines = "1.8.1"
 lottie = "6.4.1"
 material = "1.12.0"
@@ -49,13 +50,12 @@ mockito-android = "2.23.0"
 mockito-kotlin = "2.0.0"
 oss-licenses = "17.1.0"
 play-core = "2.1.0"
-play-publisher = "3.13.0"
+play-publisher = "4.1.1"
 robolectric = "4.16.1"
-roborazzi = "1.52.0"
+roborazzi = "1.75.0"
 rx-android = "2.1.1"
 rx-binding = "2.1.1"
 rx-java = "2.2.9"
-screenshotbot = "0.18.0"
 targetSdk = "36"
 test-orchestrator = "1.6.1"
 three-ten-abp = "1.4.9"
@@ -111,12 +111,10 @@ apache-csv = { module = "org.apache.commons:commons-csv", version.ref = "apache"
 apache-text = { module = "org.apache.commons:commons-text", version.ref = "apache" }
 kizitonwose-calendar-compose = { module = "com.kizitonwose.calendar:compose", version.ref = "kizitonwose-calendar" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
-dagger-android-processor = { module = "com.google.dagger:dagger-android-processor", version.ref = "dagger" }
-dagger-android-support = { module = "com.google.dagger:dagger-android-support", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 dropbox-android-sdk = { module = "com.dropbox.core:dropbox-android-sdk", version.ref = "dropbox-sdk" }
 dropbox-core-sdk = { module = "com.dropbox.core:dropbox-core-sdk", version.ref = "dropbox-sdk" }
-firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 google-oss-licenses-plugin = { module = "com.google.android.gms:oss-licenses-plugin", version.ref = "google-oss-licenses-plugin" }
@@ -154,10 +152,9 @@ firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "
 fulladle = { id = "com.osacky.fulladle", version.ref = "fulladle" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services-plugin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-plugin" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 play-publisher = { id = "com.github.triplet.play", version.ref = "play-publisher" }
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
-screenshotbot = { id = "io.screenshotbot.screenshot-tests-for-android", version.ref = "screenshotbot" }
+room = { id = "androidx.room", version.ref = "androidx-room" }

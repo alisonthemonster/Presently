@@ -4,12 +4,11 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.play.publisher)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
     alias(libs.plugins.roborazzi)
-    alias(libs.plugins.screenshotbot)
     alias(libs.plugins.hilt.android)
     id("com.google.android.gms.oss-licenses-plugin")
     alias(libs.plugins.google.services)
@@ -71,12 +70,6 @@ android {
 
         testInstrumentationRunner = "journal.gratitude.com.gratitudejournal.testUtils.AppCustomTestRunner"
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
-            }
-        }
-
         val dropboxKey = getDropboxKey()
         buildConfigField("String", "DROPBOX_APP_KEY", "\"${dropboxKey}\"")
         manifestPlaceholders["dropboxAppKey"] = dropboxKey
@@ -111,7 +104,8 @@ android {
             versionNameSuffix = "-DEBUG"
         }
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             val releaseStoreFile = getReleaseStoreFile()
             if (releaseStoreFile != null) {
@@ -142,21 +136,22 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 }
 
 // Robolectric requires JDK 21 to emulate Android SDK 36 (the android-all jars for
 // SDK 36 are compiled with Java 21). Only the unit-test JVM uses 21; app compilation
-// and bytecode still target Java 17 (see compileOptions/kotlinOptions above).
+// and bytecode still target Java 17 (see compileOptions above; built-in Kotlin's
+// jvmTarget defaults to compileOptions.targetCompatibility).
 tasks.withType<Test>().configureEach {
     javaLauncher.set(
         javaToolchains.launcherFor {
             languageVersion.set(JavaLanguageVersion.of(21))
         }
     )
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 play {
@@ -261,13 +256,13 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    kapt(libs.androidx.lifecycle.compiler)
+    ksp(libs.androidx.lifecycle.compiler)
 
     implementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -297,16 +292,14 @@ dependencies {
     implementation(libs.mavericks.mocking)
 
     implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics.ktx)
+    implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
 
     implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
-    implementation(libs.dagger.android.support)
-    kapt(libs.dagger.android.processor)
+    ksp(libs.dagger.compiler)
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
-    kapt(libs.androidx.hilt.compiler)
+    ksp(libs.hilt.android.compiler)
+    ksp(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.work)
 
     testImplementation(libs.junit4)
@@ -347,7 +340,7 @@ dependencies {
     androidTestImplementation(libs.androidx.work.testing)
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    kaptAndroidTest(libs.hilt.android.compiler)
+    kspAndroidTest(libs.hilt.android.compiler)
     debugImplementation(libs.androidx.test.core.ktx)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
