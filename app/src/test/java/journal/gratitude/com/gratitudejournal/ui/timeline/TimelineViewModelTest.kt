@@ -56,6 +56,7 @@ class TimelineViewModelTest {
         analytics = mock()
         whenever(settings.shouldShowDayOfWeekInTimeline()).thenAnswer { showDayOfWeek }
         whenever(settings.getLinesPerEntryInTimeline()).thenAnswer { linesPerEntry }
+        whenever(settings.getTimelineFontScale()).thenReturn(100)
         whenever(settings.getFirstDayOfWeek()).thenAnswer { firstDayOfWeek }
         whenever(settings.hasSeenReminderOnboarding()).thenReturn(false)
     }

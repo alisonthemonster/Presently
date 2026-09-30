@@ -124,6 +124,13 @@
     <string name="day_of_week_title">Stil Dată</string>
     <string name="max_lines_title">Numărul de linii afișate</string>
     <string name="max_lines_summary">Numărul de linii afișate în cronologie. Textul complet este vizibil când faceți click pe dată.</string>
+    <string name="timeline_text_size_title">Dimensiune text cronologie</string>
+    <string name="timeline_text_size_summary">Ajustează dimensiunea textului afișat în cronologie</string>
+    <string name="font_size_x_small">Foarte mic</string>
+    <string name="font_size_small">Mic</string>
+    <string name="font_size_default">Implicit</string>
+    <string name="font_size_large">Mare</string>
+    <string name="font_size_x_large">Foarte mare</string>
     <string name="saturday">Sâmbătă</string>
     <string name="sunday">Duminică</string>
     <string name="monday">Luni</string>

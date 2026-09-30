@@ -120,6 +120,13 @@
     <string name="day_of_week_title">Estilo da data</string>
     <string name="max_lines_title">Comprimento pré-visualização entrada</string>
     <string name="max_lines_summary">Número de linhas mostradas na linha do tempo. O texto completo fica visível quando você clica na entrada.</string>
+    <string name="timeline_text_size_title">Tamanho do texto da linha do tempo</string>
+    <string name="timeline_text_size_summary">Ajuste o tamanho do texto mostrado na linha do tempo</string>
+    <string name="font_size_x_small">Muito pequeno</string>
+    <string name="font_size_small">Pequeno</string>
+    <string name="font_size_default">Padrão</string>
+    <string name="font_size_large">Grande</string>
+    <string name="font_size_x_large">Muito grande</string>
     <string name="saturday">sábado</string>
     <string name="sunday">domingo</string>
     <string name="monday">Segunda-feira</string>

@@ -119,6 +119,7 @@ class UploaderTest {
         override fun markNotificationPermissionRequested() = fail("Not needed in this test")
         override fun getLinesPerEntryInTimeline(): Int = fail("Not needed in this test")
         override fun shouldShowDayOfWeekInTimeline(): Boolean = fail("Not needed in this test")
+        override fun getTimelineFontScale(): Int = fail("Not needed in this test")
         override fun wasDropboxAuthInitiated(): Boolean = fail("Not needed in this test")
         override fun markDropboxAuthAsCancelled() = fail("Not needed in this test")
         override fun markDropboxAuthInitiated() = fail("Not needed in this test")

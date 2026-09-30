@@ -15,8 +15,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import journal.gratitude.com.gratitudejournal.R
 
 @Immutable
@@ -61,23 +64,33 @@ object PresentlyFontFamilies {
     val accent = FontFamily(Font(R.font.value_serif))
 }
 
+// Material3's baseline Typography() carries its own letterSpacing (~0.5sp) and lineHeight
+// (~1.5x fontSize) on every style. Those are cleared here (not just given fontFamily) so
+// Compose text app-wide matches the tighter, native TextView/EditText spacing this app has
+// always used, rather than each screen having to re-clear them locally.
+private fun TextStyle.withPresentlySpacing(fontFamily: FontFamily) = copy(
+    fontFamily = fontFamily,
+    letterSpacing = 0.sp,
+    lineHeight = TextUnit.Unspecified
+)
+
 private val PresentlyTypography = Typography().run {
     copy(
-        displayLarge = displayLarge.copy(fontFamily = PresentlyFontFamilies.body),
-        displayMedium = displayMedium.copy(fontFamily = PresentlyFontFamilies.body),
-        displaySmall = displaySmall.copy(fontFamily = PresentlyFontFamilies.body),
-        bodyLarge = bodyLarge.copy(fontFamily = PresentlyFontFamilies.body),
-        bodyMedium = bodyMedium.copy(fontFamily = PresentlyFontFamilies.body),
-        bodySmall = bodySmall.copy(fontFamily = PresentlyFontFamilies.body),
-        labelLarge = labelLarge.copy(fontFamily = PresentlyFontFamilies.body),
-        labelMedium = labelMedium.copy(fontFamily = PresentlyFontFamilies.body),
-        labelSmall = labelSmall.copy(fontFamily = PresentlyFontFamilies.body),
-        titleLarge = titleLarge.copy(fontFamily = PresentlyFontFamilies.accent),
-        titleMedium = titleMedium.copy(fontFamily = PresentlyFontFamilies.accent),
-        titleSmall = titleSmall.copy(fontFamily = PresentlyFontFamilies.accent),
-        headlineLarge = headlineLarge.copy(fontFamily = PresentlyFontFamilies.accent),
-        headlineMedium = headlineMedium.copy(fontFamily = PresentlyFontFamilies.accent),
-        headlineSmall = headlineSmall.copy(fontFamily = PresentlyFontFamilies.accent)
+        displayLarge = displayLarge.withPresentlySpacing(PresentlyFontFamilies.body),
+        displayMedium = displayMedium.withPresentlySpacing(PresentlyFontFamilies.body),
+        displaySmall = displaySmall.withPresentlySpacing(PresentlyFontFamilies.body),
+        bodyLarge = bodyLarge.withPresentlySpacing(PresentlyFontFamilies.body),
+        bodyMedium = bodyMedium.withPresentlySpacing(PresentlyFontFamilies.body),
+        bodySmall = bodySmall.withPresentlySpacing(PresentlyFontFamilies.body),
+        labelLarge = labelLarge.withPresentlySpacing(PresentlyFontFamilies.body),
+        labelMedium = labelMedium.withPresentlySpacing(PresentlyFontFamilies.body),
+        labelSmall = labelSmall.withPresentlySpacing(PresentlyFontFamilies.body),
+        titleLarge = titleLarge.withPresentlySpacing(PresentlyFontFamilies.accent),
+        titleMedium = titleMedium.withPresentlySpacing(PresentlyFontFamilies.accent),
+        titleSmall = titleSmall.withPresentlySpacing(PresentlyFontFamilies.accent),
+        headlineLarge = headlineLarge.withPresentlySpacing(PresentlyFontFamilies.accent),
+        headlineMedium = headlineMedium.withPresentlySpacing(PresentlyFontFamilies.accent),
+        headlineSmall = headlineSmall.withPresentlySpacing(PresentlyFontFamilies.accent)
     )
 }
 

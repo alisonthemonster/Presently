@@ -122,6 +122,13 @@
     <string name="day_of_week_title">Stil Datuma</string>
     <string name="max_lines_title">Duljina Unosa Vremenske Trake</string>
     <string name="max_lines_summary">Broj linija prikazanih na vremenskoj traci. Puni tekst vidljiv je kada kliknete na unos.</string>
+    <string name="timeline_text_size_title">Veličina teksta vremenske trake</string>
+    <string name="timeline_text_size_summary">Prilagodite veličinu teksta prikazanog na vremenskoj traci</string>
+    <string name="font_size_x_small">Vrlo malo</string>
+    <string name="font_size_small">Malo</string>
+    <string name="font_size_default">Zadano</string>
+    <string name="font_size_large">Veliko</string>
+    <string name="font_size_x_large">Vrlo veliko</string>
     <string name="saturday">Subota</string>
     <string name="sunday">Nedjelja</string>
     <string name="monday">Ponedjeljak</string>

@@ -120,6 +120,13 @@
     <string name="day_of_week_title">Datumsstil</string>
     <string name="max_lines_title">Textzeilen in Zeitstrahl</string>
     <string name="max_lines_summary">Anzahl der Textzeilen, die im Zeitstrahl angezeigt werden. Du kannst den vollständigen Text sehen, indem du auf den Eintrag tippst.</string>
+    <string name="timeline_text_size_title">Textgröße im Zeitstrahl</string>
+    <string name="timeline_text_size_summary">Passe die Größe des im Zeitstrahl angezeigten Textes an</string>
+    <string name="font_size_x_small">Sehr klein</string>
+    <string name="font_size_small">Klein</string>
+    <string name="font_size_default">Standard</string>
+    <string name="font_size_large">Groß</string>
+    <string name="font_size_x_large">Sehr groß</string>
     <string name="saturday">Samstag</string>
     <string name="sunday">Sonntag</string>
     <string name="monday">Montag</string>

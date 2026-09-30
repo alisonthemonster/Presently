@@ -269,6 +269,15 @@ class PresentlySettingsTest {
     }
 
     @Test
+    fun `GIVEN RealPresentlySettings WHEN getTimelineFontScale is called THEN shared preferences is called`() {
+        val expected = 125
+        val sharedPrefs = getFakeSharedPreferences(int = expected)
+        val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
+        val actual = settings.getTimelineFontScale()
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
     fun `GIVEN RealPresentlySettings and no token WHEN getAccessToken is called THEN shared preferences is called`() {
         val expected =  null
         val sharedPrefs = getFakeSharedPreferences(string = expected)

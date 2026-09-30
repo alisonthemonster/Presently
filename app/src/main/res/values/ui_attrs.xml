@@ -21,4 +21,8 @@
         <attr name="fabColor" format="color" />
         <attr name="fabTextColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="SteppedSeekBarPreference">
+        <attr name="stepLabels" format="reference" />
+    </declare-styleable>
 </resources>

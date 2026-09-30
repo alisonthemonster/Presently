@@ -122,6 +122,13 @@
     <string name="day_of_week_title">نمط التاريخ</string>
     <string name="max_lines_title">طول معاينة الإدخال</string>
     <string name="max_lines_summary">عدد الأسطر الموضحة في المخطط الزمني. النص الكامل مرئي عند النقر فوق الإدخال.</string>
+    <string name="timeline_text_size_title">حجم نص المخطط الزمني</string>
+    <string name="timeline_text_size_summary">اضبط حجم النص المعروض في المخطط الزمني</string>
+    <string name="font_size_x_small">صغير جدًا</string>
+    <string name="font_size_small">صغير</string>
+    <string name="font_size_default">افتراضي</string>
+    <string name="font_size_large">كبير</string>
+    <string name="font_size_x_large">كبير جدًا</string>
     <string name="saturday">يوم السبت</string>
     <string name="sunday">الأحد</string>
     <string name="monday">الإثنين</string>

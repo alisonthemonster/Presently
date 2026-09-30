@@ -121,6 +121,13 @@
     <string name="day_of_week_title">Style de date</string>
     <string name="max_lines_title">Longueur d\'entrée</string>
     <string name="max_lines_summary">Nombre de lignes affichées dans la chronologie. Le texte intégral est visible lorsque vous cliquez sur l\'entrée.</string>
+    <string name="timeline_text_size_title">Taille du texte de la chronologie</string>
+    <string name="timeline_text_size_summary">Ajustez la taille du texte affiché dans la chronologie</string>
+    <string name="font_size_x_small">Très petit</string>
+    <string name="font_size_small">Petit</string>
+    <string name="font_size_default">Par défaut</string>
+    <string name="font_size_large">Grand</string>
+    <string name="font_size_x_large">Très grand</string>
     <string name="saturday">Samedi</string>
     <string name="sunday">Dimanche</string>
     <string name="monday">Lundi</string>
