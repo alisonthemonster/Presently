@@ -26,7 +26,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,10 +45,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -200,30 +197,26 @@ fun TimelineScreenContent(
                     onSettingsClick = onSettingsClick,
                 )
 
-                ProvideTextStyle(
-                    value = TextStyle(letterSpacing = 0.sp, lineHeight = TextUnit.Unspecified)
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .testTag(TimelineScreenTags.LIST)
                 ) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .testTag(TimelineScreenTags.LIST)
-                    ) {
-                        items(
-                            items = state.items,
-                            key = { item ->
-                                when (item) {
-                                    is TimelineEntryRowState -> item.date.toString()
-                                    is TimelineMilestoneRowState -> "milestone-${item.number}"
-                                }
-                            }
-                        ) { item ->
+                    items(
+                        items = state.items,
+                        key = { item ->
                             when (item) {
-                                is TimelineEntryRowState -> TimelineEntryRow(
-                                    state = item,
-                                    onClick = { onTimelineEntryClick(item) }
-                                )
-                                is TimelineMilestoneRowState -> TimelineMilestoneRow(state = item)
+                                is TimelineEntryRowState -> item.date.toString()
+                                is TimelineMilestoneRowState -> "milestone-${item.number}"
                             }
+                        }
+                    ) { item ->
+                        when (item) {
+                            is TimelineEntryRowState -> TimelineEntryRow(
+                                state = item,
+                                onClick = { onTimelineEntryClick(item) }
+                            )
+                            is TimelineMilestoneRowState -> TimelineMilestoneRow(state = item)
                         }
                     }
                 }
