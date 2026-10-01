@@ -50,6 +50,16 @@ class EntryDaoTest {
     }
 
     @Test
+    @Throws(Exception::class)
+    fun getEntryForDateWithNoEntryReturnsNull() = runTest {
+        val date = LocalDate.of(2012, 1, 1)
+
+        val actualEntry = entryDao.getEntry(date)
+
+        assertEquals(null, actualEntry)
+    }
+
+    @Test
     fun writeMultipleEntries() {
         entryDao.insertEntries(mockEntriesSorted)
 
