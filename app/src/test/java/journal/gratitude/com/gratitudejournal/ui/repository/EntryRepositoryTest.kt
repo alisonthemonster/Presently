@@ -167,6 +167,13 @@ class EntryRepositoryTest {
         verify(entryDao, times(1)).getWrittenDates()
     }
 
+    @Test
+    fun getRandomEntry_CallsDaoOnce() = runTest {
+        repository.getRandomEntry()
+
+        verify(entryDao, times(1)).getRandomEntry()
+    }
+
     private class TestEntryPagingSource : PagingSource<Int, Entry>() {
         override fun getRefreshKey(state: PagingState<Int, Entry>): Int? = null
 

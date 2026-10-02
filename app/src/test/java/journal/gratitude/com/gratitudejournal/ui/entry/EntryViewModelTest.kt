@@ -255,6 +255,8 @@ private class TestEntryRepository : EntryRepository {
 
     override suspend fun getEntry(date: LocalDate): Entry? = entryToReturn
 
+    override suspend fun getRandomEntry(): Entry? = null
+
     override suspend fun getEntriesFlow(): Flow<List<Entry>> = flowOf(emptyList())
 
     override suspend fun getEntries(): List<Entry> = emptyList()
@@ -303,6 +305,7 @@ private class TestPresentlySettings : PresentlySettings {
     override fun setTheme(themeName: String) = Unit
     override fun isBiometricsEnabled(): Boolean = false
     override fun shouldLockApp(): Boolean = false
+    override fun forceLock() = Unit
     override fun setOnPauseTime() = Unit
     override fun getFirstDayOfWeek(): Int = 1
     override fun shouldShowQuote(): Boolean = true

@@ -54,7 +54,7 @@ class PresentlySettingsTest {
     }
 
     @Test
-    fun `GIVEN RealPresentlySettings with more than 5 minutes WHEN shouldLockApp is called THEN shared preferences is called`() {
+    fun `GIVEN RealPresentlySettings with more than 5 minutes WHEN shouldLockApp is called THEN it returns true`() {
         val expected = true
         val fiveMinutesInThePast = Date(System.currentTimeMillis()).time - 300001L
         val sharedPrefs = getFakeSharedPreferences(long = fiveMinutesInThePast)
@@ -64,10 +64,28 @@ class PresentlySettingsTest {
     }
 
     @Test
-    fun `GIVEN RealPresentlySettings with less than 5 minutes WHEN shouldLockApp is called THEN shared preferences is called`() {
+    fun `GIVEN RealPresentlySettings with less than 5 minutes WHEN shouldLockApp is called THEN it returns false`() {
         val expected = false
         val now = Date(System.currentTimeMillis()).time
         val sharedPrefs = getFakeSharedPreferences(long = now)
+        val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
+        val actual = settings.shouldLockApp()
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `GIVEN RealPresentlySettings with force lock WHEN shouldLockApp is called THEN it returns true`() {
+        val expected = true
+        val sharedPrefs = getFakeSharedPreferences(long = 0L)
+        val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
+        val actual = settings.shouldLockApp()
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `GIVEN RealPresentlySettings with no previous pause WHEN shouldLockApp is called THEN it returns false`() {
+        val expected = false
+        val sharedPrefs = getFakeSharedPreferences(long = -1L)
         val settings = RealPresentlySettings(sharedPrefs, fakeAnalyticsLogger)
         val actual = settings.shouldLockApp()
         assertThat(actual).isEqualTo(expected)
