@@ -5,9 +5,6 @@ import android.content.Intent
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
-import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidget
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -26,10 +23,6 @@ class LockingService : Service() {
         super.onTaskRemoved(rootIntent)
         if (settings.isBiometricsEnabled()) {
             settings.forceLock()
-            // Notify widget to lock immediately
-            MainScope().launch {
-                RandomEntryWidget.updateLockState(this@LockingService, true)
-            }
         }
     }
 }

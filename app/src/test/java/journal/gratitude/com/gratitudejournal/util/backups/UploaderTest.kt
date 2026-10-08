@@ -63,6 +63,7 @@ class UploaderTest {
         }
 
         override suspend fun getEntry(date: LocalDate): Entry = fail("Not needed in this test")
+        override suspend fun getRandomEntry(): Entry? = fail("Not needed in this test")
         override suspend fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
         override fun getWrittenDates(): LiveData<List<LocalDate>> = fail("Not needed in this test")
         override suspend fun addEntry(entry: Entry) = fail("Not needed in this test")
@@ -103,6 +104,7 @@ class UploaderTest {
         override fun isBiometricsEnabled(): Boolean = fail("Not needed in this test")
         override fun shouldLockApp(): Boolean = fail("Not needed in this test")
         override fun setOnPauseTime() = fail("Not needed in this test")
+        override fun forceLock() = fail("Not needed in this test")
         override fun getFirstDayOfWeek(): Int = fail("Not needed in this test")
         override fun shouldShowQuote(): Boolean = fail("Not needed in this test")
         override fun getAutomaticBackupCadence(): BackupCadence = fail("Not needed in this test")
@@ -135,6 +137,7 @@ class UploaderTest {
                 return emptyList()
             }
             override suspend fun getEntry(date: LocalDate): Entry = fail("Not needed in this test")
+            override suspend fun getRandomEntry(): Entry? = fail("Not needed in this test")
             override suspend fun getEntriesFlow(): Flow<List<Entry>> = fail("Not needed in this test")
             override fun getWrittenDates(): LiveData<List<LocalDate>> = fail("Not needed in this test")
             override suspend fun addEntry(entry: Entry) = fail("Not needed in this test")

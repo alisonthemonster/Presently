@@ -182,19 +182,12 @@ class ContainerActivity : AppCompatActivity() {
             }
         }
 
-        // Notify widget to update so it shows a fresh entry next time the user sees it
-        lifecycleScope.launch {
-            RandomEntryWidget.updateLockState(this@ContainerActivity, settings.shouldLockApp())
-        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         if (settings.isBiometricsEnabled()) {
             settings.forceLock()
-        }
-        lifecycleScope.launch {
-            RandomEntryWidget.updateLockState(this@ContainerActivity, true)
         }
     }
 

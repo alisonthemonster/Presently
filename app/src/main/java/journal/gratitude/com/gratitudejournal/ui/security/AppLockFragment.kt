@@ -22,10 +22,9 @@ import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_PROMPT_ERROR
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_PROMPT_SHOWN
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_LOCKOUT
 import journal.gratitude.com.gratitudejournal.model.BIOMETRICS_USER_CANCELLED
-import androidx.glance.appwidget.updateAll
+import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidget
 import journal.gratitude.com.gratitudejournal.ui.settings.SettingsFragment
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
-import journal.gratitude.com.gratitudejournal.widget.RandomEntryWidget
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -110,14 +109,6 @@ class AppLockFragment : Fragment() {
                         mapOf("source" to BIOMETRIC_SOURCE_APP_LOCK)
                     )
                     settings.setOnPauseTime()
-
-                    // Update widget after unlock to show entry content
-                    context?.let { ctx ->
-                        // Use a scope that survives fragment destruction
-                        kotlinx.coroutines.GlobalScope.launch {
-                            RandomEntryWidget.updateLockState(ctx, false)
-                        }
-                    }
 
                     val screen = activity?.intent?.extras?.getString(ContainerActivity.NOTIFICATION_SCREEN_EXTRA) ?: TIMELINE_SCREEN
                     enterApp(screen)

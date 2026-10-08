@@ -6,8 +6,6 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -20,13 +18,11 @@ import androidx.glance.action.actionParametersOf
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
-import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
-import androidx.glance.appwidget.updateAll
 import androidx.glance.background
 import androidx.glance.color.ColorProvider
 import androidx.glance.currentState
@@ -72,25 +68,7 @@ class RandomEntryWidget : GlanceAppWidget() {
 
         val KEY_ENTRY_DATE = stringPreferencesKey("entry_date")
         val KEY_ENTRY_CONTENT = stringPreferencesKey("entry_content")
-        val KEY_IS_LOCKED = booleanPreferencesKey("is_locked")
         val KEY_LAST_FETCH_DATE = stringPreferencesKey("last_fetch_date")
-        val KEY_UNLOCKED_UNTIL = longPreferencesKey("unlocked_until")
-
-        suspend fun updateLockState(context: Context, isLocked: Boolean) {
-            val unlockedUntil = if (isLocked) 0L else System.currentTimeMillis() + 300000L // 5 mins
-            
-            val manager = GlanceAppWidgetManager(context)
-            val ids = manager.getGlanceIds(RandomEntryWidget::class.java)
-            for (id in ids) {
-                updateAppWidgetState(context, PreferencesGlanceStateDefinition, id) { prefs ->
-                    prefs.toMutablePreferences().apply {
-                        this[KEY_UNLOCKED_UNTIL] = unlockedUntil
-                        this[KEY_IS_LOCKED] = isLocked
-                    }
-                }
-            }
-            RandomEntryWidget().updateAll(context)
-        }
     }
 
     override val sizeMode = SizeMode.Responsive(
@@ -107,7 +85,6 @@ class RandomEntryWidget : GlanceAppWidget() {
         provideContent {
             WidgetContent(
                 entry = entry,
-                isLocked = false,
                 assets = assets,
             )
         }
@@ -125,17 +102,6 @@ class RandomEntryWidget : GlanceAppWidget() {
         updateAppWidgetState(context, PreferencesGlanceStateDefinition, id) { prefs ->
             val lastFetchDate = prefs[KEY_LAST_FETCH_DATE]
             val hasEntry = prefs[KEY_ENTRY_DATE] != null
-            val unlockedUntil = prefs[KEY_UNLOCKED_UNTIL] ?: 0L
-            
-            val isLockedNow = if (settings.isBiometricsEnabled()) {
-                if (System.currentTimeMillis() < unlockedUntil) {
-                    false
-                } else {
-                    settings.shouldLockApp()
-                }
-            } else {
-                false
-            }
 
             // Update entry if it's a new day or we don't have one
             if (!hasEntry || lastFetchDate != today) {
@@ -152,13 +118,9 @@ class RandomEntryWidget : GlanceAppWidget() {
                         remove(KEY_ENTRY_CONTENT)
                         remove(KEY_LAST_FETCH_DATE)
                     }
-                    this[KEY_IS_LOCKED] = isLockedNow
                 }
             } else {
-                // Just update the lock status
-                prefs.toMutablePreferences().apply {
-                    this[KEY_IS_LOCKED] = isLockedNow
-                }
+                prefs
             }
         }
 
@@ -166,7 +128,6 @@ class RandomEntryWidget : GlanceAppWidget() {
             val prefs = currentState<Preferences>()
             val entryDate = prefs[KEY_ENTRY_DATE]
             val entryContent = prefs[KEY_ENTRY_CONTENT]
-            val isLocked = prefs[KEY_IS_LOCKED] ?: true
 
             val entry = if (entryDate != null && entryContent != null) {
                 Entry(LocalDate.parse(entryDate), entryContent)
@@ -176,7 +137,6 @@ class RandomEntryWidget : GlanceAppWidget() {
 
             WidgetContent(
                 entry = entry,
-                isLocked = isLocked,
                 assets = assets,
             )
         }
@@ -186,10 +146,9 @@ class RandomEntryWidget : GlanceAppWidget() {
 @Composable
 private fun WidgetContent(
     entry: Entry?,
-    isLocked: Boolean,
     assets: ThemeAssets,
 ) {
-    val actionParameters = if (entry != null && !isLocked) {
+    val actionParameters = if (entry != null) {
         actionParametersOf(
             RandomEntryWidget.selectedDateKey to entry.entryDate.toString(),
             GratitudeQuoteWidget.cameFromWidgetKey to true
@@ -218,9 +177,7 @@ private fun WidgetContent(
                 .fillMaxSize()
                 .padding(12.dp)
         ) {
-            if (isLocked) {
-                LockedContent(assets, contentFontSize)
-            } else if (entry == null) {
+            if (entry == null) {
                 NoEntriesContent(assets, contentFontSize)
             } else {
                 Text(
@@ -278,23 +235,6 @@ private fun WidgetContent(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun ColumnScope.LockedContent(assets: ThemeAssets, fontSize: Int) {
-    Box(
-        modifier = GlanceModifier.fillMaxSize().defaultWeight(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = LocalContext.current.getString(R.string.unlock_to_view_entries),
-            style = TextStyle(
-                color = ColorProvider(assets.textColor, assets.textColor),
-                fontSize = fontSize.sp,
-                textAlign = androidx.glance.text.TextAlign.Center
-            )
-        )
     }
 }
 
