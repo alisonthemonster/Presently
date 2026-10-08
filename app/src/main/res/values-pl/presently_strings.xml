@@ -119,6 +119,13 @@
     <string name="day_of_week_title">Styl daty</string>
     <string name="max_lines_title">Długość podglądu wpisu</string>
     <string name="max_lines_summary">Liczba wierszy wyświetlanych na osi czasu. Pełny tekst jest widoczny po kliknięciu wpisu.</string>
+    <string name="timeline_text_size_title">Rozmiar tekstu na osi czasu</string>
+    <string name="timeline_text_size_summary">Dostosuj rozmiar tekstu wyświetlanego na osi czasu</string>
+    <string name="font_size_x_small">Bardzo mały</string>
+    <string name="font_size_small">Mały</string>
+    <string name="font_size_default">Domyślny</string>
+    <string name="font_size_large">Duży</string>
+    <string name="font_size_x_large">Bardzo duży</string>
     <string name="saturday">sobota</string>
     <string name="sunday">niedziela</string>
     <string name="monday">poniedziałek</string>

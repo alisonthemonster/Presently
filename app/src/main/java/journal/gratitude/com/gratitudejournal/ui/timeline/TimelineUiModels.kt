@@ -29,7 +29,8 @@ data class TimelineEntryRowState(
     val isNewEntry: Boolean,
     val numberExistingEntries: Int,
     val maxLines: Int,
-    val isLastItem: Boolean
+    val isLastItem: Boolean,
+    val fontScale: Float = 1f
 ) : TimelineRowState
 
 data class TimelineMilestoneRowState(
@@ -50,7 +51,8 @@ sealed interface TimelineEffect {
 
 internal fun List<Entry>.toTimelineRowStates(
     showDayOfWeek: Boolean,
-    linesPerEntry: Int
+    linesPerEntry: Int,
+    fontScale: Float = 1f
 ): List<TimelineRowState> {
     val listWithAppendedTodayAndYesterday = appendTodayAndYesterday(this)
     val totalWrittenEntries = listWithAppendedTodayAndYesterday.count { it.entryContent.isNotEmpty() }
@@ -82,7 +84,8 @@ internal fun List<Entry>.toTimelineRowStates(
                 isNewEntry = entry.entryContent.isEmpty(),
                 numberExistingEntries = totalWrittenEntries,
                 maxLines = linesPerEntry,
-                isLastItem = false
+                isLastItem = false,
+                fontScale = fontScale
             )
         )
 

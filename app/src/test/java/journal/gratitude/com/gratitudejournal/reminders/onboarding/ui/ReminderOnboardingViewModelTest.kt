@@ -477,6 +477,7 @@ class ReminderOnboardingViewModelTest {
         }
         override fun getLinesPerEntryInTimeline(): Int = 10
         override fun shouldShowDayOfWeekInTimeline(): Boolean = false
+        override fun getTimelineFontScale(): Int = 100
         override fun getAccessToken(): DbxCredential? = null
         override fun setAccessToken(newToken: DbxCredential) = Unit
         override fun wasDropboxAuthInitiated(): Boolean = false

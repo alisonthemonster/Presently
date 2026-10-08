@@ -121,6 +121,13 @@
     <string name="day_of_week_title">Stile data</string>
     <string name="max_lines_title">Lunghezza anteprima voce</string>
     <string name="max_lines_summary">Numero di righe visualizzate nella sequenza temporale. Il testo completo è visibile quando si fa clic sulla voce.</string>
+    <string name="timeline_text_size_title">Dimensione testo sequenza temporale</string>
+    <string name="timeline_text_size_summary">Regola la dimensione del testo visualizzato nella sequenza temporale</string>
+    <string name="font_size_x_small">Molto piccolo</string>
+    <string name="font_size_small">Piccolo</string>
+    <string name="font_size_default">Predefinito</string>
+    <string name="font_size_large">Grande</string>
+    <string name="font_size_x_large">Molto grande</string>
     <string name="saturday">Sabato</string>
     <string name="sunday">Domenica</string>
     <string name="monday">Lunedi</string>

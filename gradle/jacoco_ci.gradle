@@ -1,3 +1,5 @@
+import groovy.xml.XmlParser
+
 /**
  * Presently now builds as a single app module, so no subprojects are excluded from coverage.
  */

@@ -50,6 +50,8 @@ interface PresentlySettings {
 
     fun shouldShowDayOfWeekInTimeline(): Boolean
 
+    fun getTimelineFontScale(): Int
+
     fun getAccessToken(): DbxCredential?
 
     fun setAccessToken(newToken: DbxCredential)

@@ -19,7 +19,7 @@ interface EntryDao {
     fun getWrittenDates(): LiveData<List<LocalDate>>
 
     @Query("SELECT * FROM entries WHERE entryDate = :date")
-    suspend fun getEntry(date: LocalDate): Entry
+    suspend fun getEntry(date: LocalDate): Entry?
 
     @Query("SELECT * FROM entries ORDER BY RANDOM() LIMIT 1")
     suspend fun getRandomEntry(): Entry?

@@ -14,6 +14,7 @@ const val NOTIFICATION_PERMISSION_REQUESTED = "notification_permission_requested
 const val THEME_PREF = "current_theme"
 const val SHOW_QUOTE = "show_quote"
 const val LINES_PER_ENTRY_IN_TIMELINE = "lines_per_entry_in_timeline"
+const val TIMELINE_FONT_SCALE = "timeline_font_scale"
 const val FIRST_DAY_OF_WEEK = "first_day_of_week"
 const val APP_LANGUAGE = "app_language"
 const val DAY_OF_WEEK = "day_of_week"

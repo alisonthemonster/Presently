@@ -62,6 +62,17 @@
             android:title="@string/max_lines_title"
             app:min="1"
             app:showSeekBarValue="true" />
+        <journal.gratitude.com.gratitudejournal.ui.settings.SteppedSeekBarPreference
+            android:defaultValue="100"
+            android:icon="@drawable/ic_font_size"
+            android:key="timeline_font_scale"
+            android:max="120"
+            android:summary="@string/timeline_text_size_summary"
+            android:title="@string/timeline_text_size_title"
+            app:min="80"
+            app:seekBarIncrement="10"
+            app:showSeekBarValue="true"
+            app:stepLabels="@array/TimelineFontScaleLabels" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="show_quote"

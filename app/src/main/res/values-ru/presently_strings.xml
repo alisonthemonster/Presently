@@ -121,6 +121,13 @@
     <string name="day_of_week_title">Стиль Даты</string>
     <string name="max_lines_title">Длина предварительного просмотра записи</string>
     <string name="max_lines_summary">Количество строк показано на временной шкале. Полный текст виден при нажатии на запись.</string>
+    <string name="timeline_text_size_title">Размер текста на временной шкале</string>
+    <string name="timeline_text_size_summary">Настройте размер текста, отображаемого на временной шкале</string>
+    <string name="font_size_x_small">Очень маленький</string>
+    <string name="font_size_small">Маленький</string>
+    <string name="font_size_default">Стандартный</string>
+    <string name="font_size_large">Большой</string>
+    <string name="font_size_x_large">Очень большой</string>
     <string name="saturday">Суббота</string>
     <string name="sunday">Воскресенье</string>
     <string name="monday">понедельник</string>

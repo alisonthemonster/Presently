@@ -149,7 +149,8 @@ class TimelineViewModel @Inject constructor(
             firstDayOfWeek = settings.getFirstDayOfWeek().toDayOfWeek(),
             items = latestEntries.toTimelineRowStates(
                 showDayOfWeek = settings.shouldShowDayOfWeekInTimeline(),
-                linesPerEntry = settings.getLinesPerEntryInTimeline()
+                linesPerEntry = settings.getLinesPerEntryInTimeline(),
+                fontScale = settings.getTimelineFontScale() / 100f
             )
         )
     }

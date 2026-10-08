@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  play-services-oss-licenses resolves its own layouts by name via
+  Resources.getIdentifier() at runtime (not via an R constant), so this app's
+  resource shrinker has no static reference to trace and drops them as
+  "unused" once isShrinkResources is enabled. That crashes
+  OssLicensesMenuActivity with Resources$NotFoundException: Resource ID #0x0.
+  This is a known AGP 9 regression: https://github.com/google/play-services-plugins/issues/460
+-->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="
+        @layout/libraries_social_licenses_license,
+        @layout/libraries_social_licenses_license_activity,
+        @layout/libraries_social_licenses_license_loading,
+        @layout/libraries_social_licenses_license_menu_activity,
+        @layout/license_menu_activity_loading,
+        @layout/license_menu_activity_no_licenses,
+        @id/license,
+        @id/license_activity_scrollview,
+        @id/license_activity_textview,
+        @id/license_list,
+        @id/no_licenses_text" />
