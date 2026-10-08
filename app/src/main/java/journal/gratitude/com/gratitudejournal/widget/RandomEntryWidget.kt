@@ -23,6 +23,7 @@ import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
+import androidx.glance.appwidget.updateAll
 import androidx.glance.background
 import androidx.glance.color.ColorProvider
 import androidx.glance.currentState
@@ -69,6 +70,10 @@ class RandomEntryWidget : GlanceAppWidget() {
         val KEY_ENTRY_DATE = stringPreferencesKey("entry_date")
         val KEY_ENTRY_CONTENT = stringPreferencesKey("entry_content")
         val KEY_LAST_FETCH_DATE = stringPreferencesKey("last_fetch_date")
+
+        suspend fun refresh(context: Context) {
+            RandomEntryWidget().updateAll(context)
+        }
     }
 
     override val sizeMode = SizeMode.Responsive(
