@@ -16,6 +16,8 @@ interface PresentlySettings {
 
     fun setOnPauseTime()
 
+    fun forceLock()
+
     fun getFirstDayOfWeek(): Int
 
     fun shouldShowQuote(): Boolean

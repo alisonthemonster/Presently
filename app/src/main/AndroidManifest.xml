@@ -63,6 +63,18 @@
         <receiver android:name=".util.reminders.ReminderReceiver" />
 
         <receiver
+            android:name=".widget.RandomEntryWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/random_entry_widget_info" />
+        </receiver>
+
+        <receiver
             android:name=".util.reminders.AlarmPermissionReceiver"
             android:enabled="true"
             android:exported="false"> <!-- If "false", the only messages the broadcast receiver can receive are those sent by the system, components of the same application, or applications with the same user ID.-->
@@ -81,6 +93,11 @@
                 <action android:name="android.intent.action.TIME_SET" />
             </intent-filter>
         </receiver>
+
+
+        <service
+            android:name=".ui.security.LockingService"
+            android:exported="false" />
 
         <provider
             android:name="journal.gratitude.com.gratitudejournal.sharing.data.SharingFileProvider"

@@ -24,6 +24,10 @@ class FakeEntryRepository @Inject constructor() : EntryRepository {
         return entriesDatabase[date] ?: Entry(date, "")
     }
 
+    override suspend fun getRandomEntry(): Entry? {
+        return entriesDatabase.values.randomOrNull()
+    }
+
     override suspend fun getEntries(): List<Entry> {
         val list = mutableListOf<Entry>()
         entriesDatabase.forEach { (_, entry) -> list.add(entry) }
