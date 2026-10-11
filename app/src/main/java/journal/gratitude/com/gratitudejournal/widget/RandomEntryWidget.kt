@@ -104,7 +104,7 @@ class RandomEntryWidget : GlanceAppWidget() {
         val assets = loadThemeAssets(context, settings.getCurrentTheme())
         val today = LocalDate.now().toString()
 
-        updateAppWidgetState(context, PreferencesGlanceStateDefinition, id) { prefs ->
+        val prefs = updateAppWidgetState(context, PreferencesGlanceStateDefinition, id) { prefs ->
             val lastFetchDate = prefs[KEY_LAST_FETCH_DATE]
             val hasEntry = prefs[KEY_ENTRY_DATE] != null
 
@@ -129,17 +129,16 @@ class RandomEntryWidget : GlanceAppWidget() {
             }
         }
 
+        val entryDate = prefs[KEY_ENTRY_DATE]
+        val entryContent = prefs[KEY_ENTRY_CONTENT]
+
+        val entry = if (entryDate != null && entryContent != null) {
+            Entry(LocalDate.parse(entryDate), entryContent)
+        } else {
+            null
+        }
+
         provideContent {
-            val prefs = currentState<Preferences>()
-            val entryDate = prefs[KEY_ENTRY_DATE]
-            val entryContent = prefs[KEY_ENTRY_CONTENT]
-
-            val entry = if (entryDate != null && entryContent != null) {
-                Entry(LocalDate.parse(entryDate), entryContent)
-            } else {
-                null
-            }
-
             WidgetContent(
                 entry = entry,
                 assets = assets,
