@@ -157,4 +157,12 @@
     <string name="dropbox_auth_failed">Erro ao ligar a conta Dropbox</string>
     <string name="learn_more">Saber mais</string>
     <string name="gratitude_quote_widget_description">Inspire-se com uma citação diária sobre gratidão</string>
+    <string name="erase_category">Apagar entradas</string>
+    <string name="erase_all_entries">Apagar todas as entradas</string>
+    <string name="erase_all_entries_summary">Apague permanentemente tudo o que escreveu</string>
+    <string name="erase_all_dialog_title">Apagar todas as entradas?</string>
+    <string name="erase_all_dialog_message">Isto irá apagar permanentemente todas as entradas do seu diário. Não é possível desfazer. Considere exportar as suas entradas primeiro.\n\nEscreva %1$s para confirmar.</string>
+    <string name="erase_all_confirm_word">APAGAR</string>
+    <string name="erase_all_confirm_button">Confirmar</string>
+    <string name="erase_all_success">Todas as entradas apagadas</string>
 </resources>

@@ -156,4 +156,12 @@
     <string name="dropbox_auth_failed">Fehler beim Verknüpfen des Dropbox-Kontos</string>
     <string name="learn_more">Mehr erfahren</string>
     <string name="gratitude_quote_widget_description">Lass dich täglich von einem Dankbarkeitszitat inspirieren</string>
+    <string name="erase_category">Einträge löschen</string>
+    <string name="erase_all_entries">Alle Einträge löschen</string>
+    <string name="erase_all_entries_summary">Alles, was du geschrieben hast, dauerhaft löschen</string>
+    <string name="erase_all_dialog_title">Alle Einträge löschen?</string>
+    <string name="erase_all_dialog_message">Dadurch wird jeder Eintrag in deinem Tagebuch dauerhaft gelöscht. Das kann nicht rückgängig gemacht werden. Exportiere deine Einträge vorher am besten.\n\nGib zur Bestätigung %1$s ein.</string>
+    <string name="erase_all_confirm_word">LÖSCHEN</string>
+    <string name="erase_all_confirm_button">Bestätigen</string>
+    <string name="erase_all_success">Alle Einträge gelöscht</string>
 </resources>

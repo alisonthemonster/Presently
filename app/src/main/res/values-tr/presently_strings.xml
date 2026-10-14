@@ -158,4 +158,12 @@
     <string name="dropbox_auth_failed">Dropbox hesabı bağlanırken hata oluştu</string>
     <string name="learn_more">Daha fazla bilgi edin</string>
     <string name="gratitude_quote_widget_description">Günlük bir minnettarlık alıntısıyla ilham alın</string>
+    <string name="erase_category">Girdileri sil</string>
+    <string name="erase_all_entries">Tüm girdileri sil</string>
+    <string name="erase_all_entries_summary">Yazdığın her şeyi kalıcı olarak sil</string>
+    <string name="erase_all_dialog_title">Tüm girdiler silinsin mi?</string>
+    <string name="erase_all_dialog_message">Bu işlem günlüğündeki tüm girdileri kalıcı olarak siler ve geri alınamaz. Önce girdilerini dışa aktarmayı düşünebilirsin.\n\nOnaylamak için %1$s yaz.</string>
+    <string name="erase_all_confirm_word">SİL</string>
+    <string name="erase_all_confirm_button">Onayla</string>
+    <string name="erase_all_success">Tüm girdiler silindi</string>
 </resources>

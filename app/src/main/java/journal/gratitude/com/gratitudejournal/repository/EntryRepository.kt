@@ -20,5 +20,7 @@ interface EntryRepository {
 
     suspend fun addEntries(entries: List<Entry>)
 
+    suspend fun deleteAllEntries()
+
     fun searchEntries(query: String): Flow<PagingData<Entry>>
 }

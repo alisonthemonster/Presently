@@ -108,6 +108,13 @@ class EntryRepositoryTest {
     }
 
     @Test
+    fun deleteAllEntries_callsDaoDeleteAll() = runTest {
+        repository.deleteAllEntries()
+
+        verify(entryDao).deleteAll()
+    }
+
+    @Test
     fun searchEntries_callsDaoSearch() {
         repository.searchEntries("Howdy!")
 

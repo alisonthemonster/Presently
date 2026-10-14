@@ -156,4 +156,12 @@
     <string name="dropbox_auth_failed">Pogreška pri povezivanju Dropbox računa</string>
     <string name="learn_more">Tudj meg többet</string>
     <string name="gratitude_quote_widget_description">Inspirirajte se svakodnevnim citatom zahvalnosti</string>
+    <string name="erase_category">Izbriši zapise</string>
+    <string name="erase_all_entries">Izbriši sve zapise</string>
+    <string name="erase_all_entries_summary">Trajno izbriši sve što si napisao/la</string>
+    <string name="erase_all_dialog_title">Izbrisati sve zapise?</string>
+    <string name="erase_all_dialog_message">Ovo će trajno izbrisati svaki zapis u tvom dnevniku. Radnja se ne može poništiti. Razmisli o prethodnom izvozu zapisa.\n\nUpiši %1$s za potvrdu.</string>
+    <string name="erase_all_confirm_word">OBRIŠI</string>
+    <string name="erase_all_confirm_button">Potvrdi</string>
+    <string name="erase_all_success">Svi zapisi su izbrisani</string>
 </resources>

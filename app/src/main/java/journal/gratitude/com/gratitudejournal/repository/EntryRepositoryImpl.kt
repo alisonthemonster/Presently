@@ -44,6 +44,10 @@ class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): E
         entryDao.insertEntries(entries)
     }
 
+    override suspend fun deleteAllEntries() = withContext(Dispatchers.IO) {
+        entryDao.deleteAll()
+    }
+
     override fun searchEntries(query: String): Flow<PagingData<Entry>> {
         val escapedQuery = query.replace("\"", "")
         val wildcardQuery = String.format("*%s*", escapedQuery)

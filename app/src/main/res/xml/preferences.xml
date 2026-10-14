@@ -153,6 +153,7 @@
             android:title="@string/import_entries_from_backup" />
     </PreferenceCategory>
 
+
     <PreferenceCategory
         android:layout="@layout/preference_category_view"
         android:title="@string/about">
@@ -203,5 +204,15 @@
             android:key="@string/key_contact_us"
             android:icon="@drawable/email"
             android:title="@string/contact_us" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_view"
+        android:title="@string/erase_category">
+        <Preference
+            android:icon="@drawable/ic_erase"
+            android:key="erase_all_entries"
+            android:summary="@string/erase_all_entries_summary"
+            android:title="@string/erase_all_entries" />
     </PreferenceCategory>
 </PreferenceScreen>

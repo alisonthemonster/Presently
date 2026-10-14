@@ -157,4 +157,12 @@
     <string name="dropbox_sync_error_notif_body">There was a problem with your Dropbox account, click here to reconnect to Dropbox to resume automatic backups.</string>
     <string name="dropbox_auth_failed">Error linking Dropbox account</string>
     <string name="learn_more">Learn more</string>
+    <string name="erase_category">Erase entries</string>
+    <string name="erase_all_entries">Erase all entries</string>
+    <string name="erase_all_entries_summary">Permanently erase everything you\'ve written</string>
+    <string name="erase_all_dialog_title">Erase all entries?</string>
+    <string name="erase_all_dialog_message">This will permanently erase every entry in your journal. This can\'t be undone. Consider exporting your entries first.\n\nType %1$s to confirm.</string>
+    <string name="erase_all_confirm_word" translatable="true">ERASE</string>
+    <string name="erase_all_confirm_button">Confirm</string>
+    <string name="erase_all_success">All entries erased</string>
 </resources>

@@ -157,4 +157,12 @@
     <string name="dropbox_auth_failed">Errore durante il collegamento dell\'account Dropbox</string>
     <string name="learn_more">Scopri di più</string>
     <string name="gratitude_quote_widget_description">Lasciati ispirare da una citazione quotidiana sulla gratitudine</string>
+    <string name="erase_category">Cancella voci</string>
+    <string name="erase_all_entries">Cancella tutte le voci</string>
+    <string name="erase_all_entries_summary">Cancella definitivamente tutto ciò che hai scritto</string>
+    <string name="erase_all_dialog_title">Cancellare tutte le voci?</string>
+    <string name="erase_all_dialog_message">Questa azione cancellerà definitivamente ogni voce del tuo diario e non può essere annullata. Valuta di esportare prima le tue voci.\n\nScrivi %1$s per confermare.</string>
+    <string name="erase_all_confirm_word">CANCELLA</string>
+    <string name="erase_all_confirm_button">Conferma</string>
+    <string name="erase_all_success">Tutte le voci sono state cancellate</string>
 </resources>

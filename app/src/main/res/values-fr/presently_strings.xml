@@ -157,4 +157,12 @@
     <string name="dropbox_auth_failed">Erreur lors de la liaison du compte Dropbox</string>
     <string name="learn_more">Apprendre encore plus</string>
     <string name="gratitude_quote_widget_description">Inspirez-vous avec une citation quotidienne sur la gratitude</string>
+    <string name="erase_category">Effacer les entrées</string>
+    <string name="erase_all_entries">Effacer toutes les entrées</string>
+    <string name="erase_all_entries_summary">Effacer définitivement tout ce que vous avez écrit</string>
+    <string name="erase_all_dialog_title">Effacer toutes les entrées ?</string>
+    <string name="erase_all_dialog_message">Cela effacera définitivement toutes les entrées de votre journal. Cette action est irréversible. Pensez à exporter vos entrées d’abord.\n\nSaisissez %1$s pour confirmer.</string>
+    <string name="erase_all_confirm_word">EFFACER</string>
+    <string name="erase_all_confirm_button">Confirmer</string>
+    <string name="erase_all_success">Toutes les entrées ont été effacées</string>
 </resources>

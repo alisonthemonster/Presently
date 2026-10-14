@@ -158,4 +158,12 @@
     <string name="dropbox_auth_failed">Chyba pri prepájaní účtu Dropbox</string>
     <string name="learn_more">Uč sa viac</string>
     <string name="gratitude_quote_widget_description">Nechajte sa inšpirovať každodenným citátom o vďačnosti</string>
+    <string name="erase_category">Vymazať záznamy</string>
+    <string name="erase_all_entries">Vymazať všetky záznamy</string>
+    <string name="erase_all_entries_summary">Natrvalo vymazať všetko, čo ste napísali</string>
+    <string name="erase_all_dialog_title">Vymazať všetky záznamy?</string>
+    <string name="erase_all_dialog_message">Týmto sa natrvalo vymaže každý záznam vo vašom denníku. Túto akciu nie je možné vrátiť späť. Zvážte najprv export záznamov.\n\nNa potvrdenie napíšte %1$s.</string>
+    <string name="erase_all_confirm_word">VYMAZAŤ</string>
+    <string name="erase_all_confirm_button">Potvrdiť</string>
+    <string name="erase_all_success">Všetky záznamy boli vymazané</string>
 </resources>

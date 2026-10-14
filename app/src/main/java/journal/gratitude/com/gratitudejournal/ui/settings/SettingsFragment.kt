@@ -11,8 +11,11 @@ import android.os.Bundle
 import android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS
 import android.provider.Settings.EXTRA_APP_PACKAGE
 import android.provider.Settings
+import android.text.InputType
 import android.util.TypedValue
 import android.view.View
+import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
@@ -69,6 +72,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import androidx.core.net.toUri
+import androidx.core.widget.addTextChangedListener
 
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat(),
@@ -210,6 +214,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val import = findPreference<Preference>(IMPORT_PREF)
         import?.setOnPreferenceClickListener {
             importFromCsv()
+            true
+        }
+
+        val eraseAll = findPreference<Preference>(ERASE_ALL_PREF)
+        eraseAll?.setOnPreferenceClickListener {
+            confirmEraseAllEntries()
             true
         }
 
@@ -633,6 +643,48 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     /**
+     * Asks the user to type a confirmation word before permanently erasing every entry.
+     * The localized word is shown in the dialog; the English word is always accepted too.
+     * */
+    private fun confirmEraseAllEntries() {
+        val ctx = context ?: return
+        val confirmWord = getString(R.string.erase_all_confirm_word)
+        val padding = (24 * resources.displayMetrics.density).toInt()
+        val input = EditText(ctx).apply {
+            hint = confirmWord
+            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+            maxLines = 1
+        }
+        val container = FrameLayout(ctx).apply {
+            setPadding(padding, 0, padding, 0)
+            addView(input)
+        }
+
+        val dialog = AlertDialog.Builder(ctx)
+            .setTitle(R.string.erase_all_dialog_title)
+            .setMessage(getString(R.string.erase_all_dialog_message, confirmWord))
+            .setView(container)
+            .setPositiveButton(R.string.erase_all_confirm_button) { _, _ ->
+                lifecycleScope.launch {
+                    repository.deleteAllEntries()
+                    analytics.recordEvent(ERASED_ALL_ENTRIES)
+                    Toast.makeText(context, R.string.erase_all_success, Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton(R.string.cancel) { _, _ -> }
+            .create()
+        dialog.show()
+
+        val eraseButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        eraseButton.isEnabled = false
+        input.addTextChangedListener { text ->
+            val typed = text?.toString().orEmpty().trim()
+            eraseButton.isEnabled = typed.equals(confirmWord, ignoreCase = true) ||
+                typed.equals(ENGLISH_ERASE_CONFIRM_WORD, ignoreCase = true)
+        }
+    }
+
+    /**
      * Result contract for activity result to read from the backup CSV file
      * */
     private val readCsvResultContact =
@@ -782,6 +834,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     companion object {
         const val BACKUP_TOKEN = "dropbox_pref"
+        private const val ENGLISH_ERASE_CONFIRM_WORD = "ERASE"
         const val SETTINGS_TO_THEME = "SETTINGS_TO_THEME"
         const val SETTINGS_TO_NOTIFICATION_TROUBLESHOOTER =
             "SETTINGS_TO_NOTIFICATION_TROUBLESHOOTER"

@@ -155,4 +155,12 @@
     <string name="dropbox_auth_failed">Fout bij koppelen van Dropbox-account</string>
     <string name="learn_more">Leer meer</string>
     <string name="gratitude_quote_widget_description">Laat je inspireren door een dagelijks dankbaarheidscitaat</string>
+    <string name="erase_category">Notities wissen</string>
+    <string name="erase_all_entries">Alle notities wissen</string>
+    <string name="erase_all_entries_summary">Wis permanent alles wat je hebt geschreven</string>
+    <string name="erase_all_dialog_title">Alle notities wissen?</string>
+    <string name="erase_all_dialog_message">Hiermee worden alle notities in je dagboek permanent gewist. Dit kan niet ongedaan worden gemaakt. Overweeg om je notities eerst te exporteren.\n\nTyp %1$s om te bevestigen.</string>
+    <string name="erase_all_confirm_word">WISSEN</string>
+    <string name="erase_all_confirm_button">Bevestigen</string>
+    <string name="erase_all_success">Alle notities gewist</string>
 </resources>

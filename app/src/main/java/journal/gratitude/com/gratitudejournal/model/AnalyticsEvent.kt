@@ -8,6 +8,7 @@ const val EXPORTED_DATA = "exportedData"
 const val LOOKED_FOR_DATA = "lookedForData"
 const val IMPORTED_DATA_SUCCESS = "importedData"
 const val IMPORTING_BACKUP_ERROR = "importedDataError"
+const val ERASED_ALL_ENTRIES = "erasedAllEntries"
 
 const val CLICKED_SEARCH = "clickedSearch"
 const val CLICKED_NEW_ENTRY = "clickedNewEntry"

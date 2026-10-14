@@ -55,6 +55,10 @@ class FakeEntryRepository @Inject constructor() : EntryRepository {
         }
     }
 
+    override suspend fun deleteAllEntries() {
+        entriesDatabase.clear()
+    }
+
     override fun searchEntries(query: String): Flow<PagingData<Entry>> {
         val results = if (query == "query with no result") {
             emptyList()

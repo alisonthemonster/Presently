@@ -67,6 +67,7 @@ class UploaderTest {
         override fun getWrittenDates(): LiveData<List<LocalDate>> = fail("Not needed in this test")
         override suspend fun addEntry(entry: Entry) = fail("Not needed in this test")
         override suspend fun addEntries(entries: List<Entry>) = fail("Not needed in this test")
+        override suspend fun deleteAllEntries() = fail("Not needed in this test")
         override fun searchEntries(query: String): Flow<PagingData<Entry>> =
             fail("Not needed in this test")
     }
@@ -139,6 +140,7 @@ class UploaderTest {
             override fun getWrittenDates(): LiveData<List<LocalDate>> = fail("Not needed in this test")
             override suspend fun addEntry(entry: Entry) = fail("Not needed in this test")
             override suspend fun addEntries(entries: List<Entry>) = fail("Not needed in this test")
+            override suspend fun deleteAllEntries() = fail("Not needed in this test")
             override fun searchEntries(query: String): Flow<PagingData<Entry>> =
                 fail("Not needed in this test")
         }
