@@ -7,8 +7,6 @@ import android.net.Uri
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.ListenableWorker
-import com.dropbox.core.InvalidAccessTokenException
-import com.dropbox.core.v2.files.UploadErrorException
 import journal.gratitude.com.gratitudejournal.coroutine_utils.AppCoroutineDispatchers
 import journal.gratitude.com.gratitudejournal.logging.CrashReporter
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
@@ -19,6 +17,8 @@ import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment.Companion.SETTINGS_SCREEN
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.CloudProvider
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
+import journal.gratitude.com.gratitudejournal.util.backups.status.UploadFailureClassifier
+import journal.gratitude.com.gratitudejournal.util.backups.status.UploadFailureType
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileWriter
@@ -62,12 +62,15 @@ class RealUploader @Inject constructor(
                 //upload to cloud
                 when (val result = cloudProvider.uploadToCloud(csvResult.file)) {
                     is UploadError -> {
-                        if (result.exception is InvalidAccessTokenException) {
-                            sendDropboxAuthFailureNotification(appContext)
-                            DropboxUploader.deauthorizeDropboxAccess(appContext, settings, dispatchers.io)
-                        }
-                        if (result.exception.isInsufficientSpace()) {
-                            sendDropboxTooFullNotification(appContext)
+                        when (UploadFailureClassifier.classify(result.exception)) {
+                            UploadFailureType.AUTH -> {
+                                sendDropboxAuthFailureNotification(appContext)
+                                DropboxUploader.deauthorizeDropboxAccess(appContext, settings, dispatchers.io)
+                            }
+                            UploadFailureType.STORAGE_FULL -> sendDropboxTooFullNotification(appContext)
+                            UploadFailureType.NETWORK,
+                            UploadFailureType.TRANSIENT_SERVER,
+                            UploadFailureType.OTHER -> Unit
                         }
 
                         crashReporter.logHandledException(result.exception)
@@ -168,10 +171,6 @@ class RealUploader @Inject constructor(
         notificationManager.notify(BACKUP_NOTIFICATION_ID, builder.build())
     }
 
-
-    private fun Exception.isInsufficientSpace(): Boolean {
-        return this is UploadErrorException && this.userMessage.text.contains("insufficient_space")
-    }
 
     companion object {
         val BACKUP_NOTIFICATION_ID = 98104
