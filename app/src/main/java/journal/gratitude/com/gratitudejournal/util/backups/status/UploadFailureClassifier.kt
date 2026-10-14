@@ -5,7 +5,6 @@ import com.dropbox.core.NetworkIOException
 import com.dropbox.core.RetryException
 import com.dropbox.core.ServerException
 import com.dropbox.core.v2.files.UploadErrorException
-import java.io.IOException
 
 object UploadFailureClassifier {
 
@@ -16,12 +15,11 @@ object UploadFailureClassifier {
         // RateLimitException extends RetryException
         exception is RetryException || exception is ServerException ->
             UploadFailureType.TRANSIENT_SERVER
-        // Plain IOException is a local failure (e.g. reading the temp file), not the network.
-        exception is IOException -> UploadFailureType.OTHER
+        // Includes plain IOException, a local failure (e.g. reading the temp file), not the network.
         else -> UploadFailureType.OTHER
     }
 
-    fun Exception.isInsufficientSpace(): Boolean {
+    private fun Exception.isInsufficientSpace(): Boolean {
         if (this !is UploadErrorException) return false
         val typed = errorValue?.takeIf { it.isPath }?.pathValue?.reason?.isInsufficientSpace == true
         // Fallback for responses that only carry the message text.

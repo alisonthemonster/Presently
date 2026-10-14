@@ -20,7 +20,7 @@ class BackupStatusResolverTest {
         lastSuccess: Long? = null,
         failure: UploadFailure? = null,
         lastManualExport: Long? = null,
-        totalEntries: Int = 0,
+        totalEntries: Int = 5,
         entriesSinceExport: Int = 0
     ) = BackupStatusInput(
         nowMillis = now,
@@ -32,7 +32,7 @@ class BackupStatusResolverTest {
         lastUploadFailure = failure,
         lastManualExportAtMillis = lastManualExport,
         totalEntries = totalEntries,
-        entriesSinceLastManualExport = entriesSinceExport
+        entriesSinceLastBackup = entriesSinceExport
     )
 
     // --- not connected -------------------------------------------------
@@ -55,7 +55,7 @@ class BackupStatusResolverTest {
         val status = BackupStatusResolver.resolve(
             input(lastManualExport = export, totalEntries = 50, entriesSinceExport = 12)
         )
-        assertThat(status).isEqualTo(BackupStatus.Stale(export, 12))
+        assertThat(status).isEqualTo(BackupStatus.Stale(export, BackupSource.MANUAL, 12))
     }
 
     @Test
@@ -208,6 +208,14 @@ class BackupStatusResolverTest {
     }
 
     @Test
+    fun `GIVEN empty journal and enabled long ago THEN healthy because uploader no-ops`() {
+        val status = BackupStatusResolver.resolve(
+            input(dropboxConnected = true, enabledAt = now - days(3), totalEntries = 0)
+        )
+        assertThat(status).isEqualTo(BackupStatus.Healthy)
+    }
+
+    @Test
     fun `GIVEN enabled long ago with no success THEN failing overdue`() {
         val status = BackupStatusResolver.resolve(
             input(dropboxConnected = true, enabledAt = now - days(3))
@@ -274,14 +282,14 @@ class BackupStatusResolverTest {
 
     @Test
     fun `low dismissal snoozes for 30 days`() {
-        val status = BackupStatus.Stale(now - days(40), 3)
+        val status = BackupStatus.Stale(now - days(40), BackupSource.MANUAL, 3)
         val dismissal = BackupBannerDismissal(BackupStatusType.STALE, now - days(29))
         assertThat(BackupStatusResolver.shouldShowBanner(status, dismissal, now)).isFalse()
     }
 
     @Test
     fun `dismissal of a different state does not hide the banner`() {
-        val status = BackupStatus.Stale(now - days(40), 3)
+        val status = BackupStatus.Stale(now - days(40), BackupSource.MANUAL, 3)
         val dismissal = BackupBannerDismissal(BackupStatusType.NEVER_BACKED_UP, now - days(1))
         assertThat(BackupStatusResolver.shouldShowBanner(status, dismissal, now)).isTrue()
     }
@@ -290,5 +298,156 @@ class BackupStatusResolverTest {
     fun `no dismissal shows banner`() {
         val status = BackupStatus.NeverBackedUp(20)
         assertThat(BackupStatusResolver.shouldShowBanner(status, null, now)).isTrue()
+    }
+
+    // --- merged-in review fixes ----------------------------------------
+
+    @Test
+    fun `GIVEN disconnected dropbox with an old dropbox backup THEN stale from dropbox`() {
+        val success = now - days(40)
+        val status = BackupStatusResolver.resolve(
+            input(lastSuccess = success, totalEntries = 200, entriesSinceExport = 15)
+        )
+        assertThat(status).isEqualTo(BackupStatus.Stale(success, BackupSource.DROPBOX, 15))
+    }
+
+    @Test
+    fun `GIVEN disconnected dropbox with a recent dropbox backup THEN healthy`() {
+        val status = BackupStatusResolver.resolve(
+            input(lastSuccess = now - days(3), totalEntries = 200, entriesSinceExport = 15)
+        )
+        assertThat(status).isEqualTo(BackupStatus.Healthy)
+    }
+
+    @Test
+    fun `GIVEN dropbox backup older than manual export THEN source is manual`() {
+        val export = now - days(35)
+        val status = BackupStatusResolver.resolve(
+            input(
+                lastSuccess = now - days(100),
+                lastManualExport = export,
+                totalEntries = 50,
+                entriesSinceExport = 2
+            )
+        )
+        assertThat(status).isEqualTo(BackupStatus.Stale(export, BackupSource.MANUAL, 2))
+    }
+
+    @Test
+    fun `GIVEN exactly 36h since daily success THEN healthy and just past THEN failing`() {
+        val atBoundary = BackupStatusResolver.resolve(
+            input(dropboxConnected = true, lastSuccess = now - hours(36))
+        )
+        assertThat(atBoundary).isEqualTo(BackupStatus.Healthy)
+
+        val past = BackupStatusResolver.resolve(
+            input(dropboxConnected = true, lastSuccess = now - hours(36) - 1)
+        )
+        assertThat(past).isInstanceOf(BackupStatus.DropboxFailing::class.java)
+    }
+
+    @Test
+    fun `GIVEN exactly 30 days since export THEN healthy and just past THEN stale`() {
+        val atBoundary = BackupStatusResolver.resolve(
+            input(lastManualExport = now - days(30), totalEntries = 50, entriesSinceExport = 1)
+        )
+        assertThat(atBoundary).isEqualTo(BackupStatus.Healthy)
+
+        val past = BackupStatusResolver.resolve(
+            input(lastManualExport = now - days(30) - 1, totalEntries = 50, entriesSinceExport = 1)
+        )
+        assertThat(past).isInstanceOf(BackupStatus.Stale::class.java)
+    }
+
+    @Test
+    fun `GIVEN storage full failure older than latest success THEN healthy`() {
+        val status = BackupStatusResolver.resolve(
+            input(
+                dropboxConnected = true,
+                lastSuccess = now - hours(1),
+                failure = UploadFailure(UploadFailureType.STORAGE_FULL, now - hours(5))
+            )
+        )
+        assertThat(status).isEqualTo(BackupStatus.Healthy)
+    }
+
+    @Test
+    fun `GIVEN auth failure while still connected THEN failing`() {
+        val status = BackupStatusResolver.resolve(
+            input(
+                dropboxConnected = true,
+                lastSuccess = now - hours(2),
+                failure = UploadFailure(UploadFailureType.AUTH, now - hours(1))
+            )
+        )
+        assertThat(status).isEqualTo(BackupStatus.DropboxFailing(true, now - hours(2)))
+    }
+
+    @Test
+    fun `GIVEN disconnect flag with connected healthy input THEN disconnected wins`() {
+        val status = BackupStatusResolver.resolve(
+            input(
+                dropboxConnected = true,
+                disconnectedUnexpectedly = true,
+                lastSuccess = now - hours(1)
+            )
+        )
+        assertThat(status).isEqualTo(BackupStatus.DropboxDisconnected)
+    }
+
+    @Test
+    fun `GIVEN every change cadence and non transient failure THEN failing`() {
+        val status = BackupStatusResolver.resolve(
+            input(
+                dropboxConnected = true,
+                cadence = BackupCadence.EVERY_CHANGE,
+                lastSuccess = now - hours(2),
+                failure = UploadFailure(UploadFailureType.OTHER, now - hours(1))
+            )
+        )
+        assertThat(status).isInstanceOf(BackupStatus.DropboxFailing::class.java)
+    }
+
+    @Test
+    fun `dismissal exactly at snooze boundary shows banner`() {
+        val status = BackupStatus.Stale(now - days(60), BackupSource.MANUAL, 3)
+        val dismissal = BackupBannerDismissal(BackupStatusType.STALE, now - days(30))
+        assertThat(BackupStatusResolver.shouldShowBanner(status, dismissal, now)).isTrue()
+    }
+
+    @Test
+    fun `dismissal in the future is treated as expired`() {
+        val status = BackupStatus.NeverBackedUp(20)
+        val dismissal = BackupBannerDismissal(BackupStatusType.NEVER_BACKED_UP, now + days(5))
+        assertThat(BackupStatusResolver.shouldShowBanner(status, dismissal, now)).isTrue()
+    }
+
+    // --- failure merging -----------------------------------------------
+
+    @Test
+    fun `transient failure does not overwrite an actionable one`() {
+        val full = UploadFailure(UploadFailureType.STORAGE_FULL, now - hours(2))
+        val network = UploadFailure(UploadFailureType.NETWORK, now)
+        assertThat(UploadFailure.merge(full, network)).isEqualTo(full)
+    }
+
+    @Test
+    fun `actionable failure replaces a transient one`() {
+        val network = UploadFailure(UploadFailureType.NETWORK, now - hours(2))
+        val full = UploadFailure(UploadFailureType.STORAGE_FULL, now)
+        assertThat(UploadFailure.merge(network, full)).isEqualTo(full)
+    }
+
+    @Test
+    fun `newer actionable failure replaces an older actionable one`() {
+        val full = UploadFailure(UploadFailureType.STORAGE_FULL, now - hours(2))
+        val other = UploadFailure(UploadFailureType.OTHER, now)
+        assertThat(UploadFailure.merge(full, other)).isEqualTo(other)
+    }
+
+    @Test
+    fun `no existing failure stores the incoming one`() {
+        val network = UploadFailure(UploadFailureType.NETWORK, now)
+        assertThat(UploadFailure.merge(null, network)).isEqualTo(network)
     }
 }

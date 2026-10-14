@@ -17,7 +17,23 @@ enum class UploadFailureType {
     val isTransient: Boolean get() = this == NETWORK || this == TRANSIENT_SERVER
 }
 
-data class UploadFailure(val type: UploadFailureType, val atMillis: Long)
+data class UploadFailure(val type: UploadFailureType, val atMillis: Long) {
+    companion object {
+        /**
+         * Decides which failure to persist after a new one. A transient failure carries no new
+         * information about an unresolved actionable one (full, auth, other), so it must not
+         * overwrite it; only a success clears it.
+         */
+        fun merge(existing: UploadFailure?, incoming: UploadFailure): UploadFailure =
+            if (existing != null && !existing.type.isTransient && incoming.type.isTransient) {
+                existing
+            } else {
+                incoming
+            }
+    }
+}
+
+enum class BackupSource { MANUAL, DROPBOX }
 
 enum class BackupSeverity { NONE, LOW, MEDIUM, HIGH }
 
@@ -61,8 +77,9 @@ sealed interface BackupStatus {
     }
 
     data class Stale(
-        val lastExportAtMillis: Long,
-        val entriesSinceExport: Int
+        val lastBackupAtMillis: Long,
+        val lastBackupSource: BackupSource,
+        val entriesSinceBackup: Int
     ) : BackupStatus {
         override val type = BackupStatusType.STALE
     }
@@ -78,7 +95,8 @@ data class BackupStatusInput(
     val lastUploadFailure: UploadFailure?,
     val lastManualExportAtMillis: Long?,
     val totalEntries: Int,
-    val entriesSinceLastManualExport: Int
+    /** Entries added or changed since the most recent backup of either kind. */
+    val entriesSinceLastBackup: Int
 )
 
 data class BackupBannerDismissal(val type: BackupStatusType, val atMillis: Long)
@@ -138,9 +156,16 @@ object BackupStatusResolver {
     }
 
     private fun resolveNotConnected(input: BackupStatusInput): BackupStatus {
-        val lastExport = input.lastManualExportAtMillis
+        // Past Dropbox backups still count once Dropbox has been turned off.
+        val manual = input.lastManualExportAtMillis
+        val dropbox = input.lastDropboxSuccessAtMillis
+        val (lastBackup, source) = when {
+            manual != null && (dropbox == null || manual >= dropbox) -> manual to BackupSource.MANUAL
+            dropbox != null -> dropbox to BackupSource.DROPBOX
+            else -> null to null
+        }
 
-        if (lastExport == null) {
+        if (lastBackup == null || source == null) {
             return if (input.totalEntries >= NEVER_BACKED_UP_MIN_ENTRIES) {
                 BackupStatus.NeverBackedUp(input.totalEntries)
             } else {
@@ -148,15 +173,18 @@ object BackupStatusResolver {
             }
         }
 
-        val isOld = input.nowMillis - lastExport > STALE_AFTER_MILLIS
-        return if (isOld && input.entriesSinceLastManualExport > 0) {
-            BackupStatus.Stale(lastExport, input.entriesSinceLastManualExport)
+        val isOld = input.nowMillis - lastBackup > STALE_AFTER_MILLIS
+        return if (isOld && input.entriesSinceLastBackup > 0) {
+            BackupStatus.Stale(lastBackup, source, input.entriesSinceLastBackup)
         } else {
             BackupStatus.Healthy
         }
     }
 
     private fun isOverdue(input: BackupStatusInput): Boolean {
+        // The uploader no-ops (and records no success) for an empty journal, so there's nothing to be overdue on.
+        if (input.totalEntries == 0) return false
+
         val threshold = when (input.cadence) {
             BackupCadence.DAILY -> DAILY_OVERDUE_MILLIS
             BackupCadence.WEEKLY -> WEEKLY_OVERDUE_MILLIS
@@ -188,6 +216,8 @@ object BackupStatusResolver {
             BackupSeverity.LOW -> LOW_SNOOZE_MILLIS
         }
         if (dismissal == null || dismissal.type != status.type) return true
-        return nowMillis - dismissal.atMillis >= snooze
+        val elapsed = nowMillis - dismissal.atMillis
+        // A dismissal in the future (clock moved backwards) is treated as expired.
+        return elapsed < 0 || elapsed >= snooze
     }
 }
