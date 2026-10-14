@@ -157,4 +157,12 @@
     <string name="dropbox_auth_failed">Virhe yhdistettäessä Dropbox-tiliä</string>
     <string name="learn_more">Lue lisää</string>
     <string name="gratitude_quote_widget_description">Inspiroidu päivittäisestä kiitollisuuslainauksesta</string>
+    <string name="erase_category">Poista merkinnät</string>
+    <string name="erase_all_entries">Poista kaikki merkinnät</string>
+    <string name="erase_all_entries_summary">Poista pysyvästi kaikki kirjoittamasi</string>
+    <string name="erase_all_dialog_title">Poistetaanko kaikki merkinnät?</string>
+    <string name="erase_all_dialog_message">Tämä poistaa pysyvästi jokaisen päiväkirjasi merkinnän. Toimintoa ei voi perua. Harkitse merkintöjesi viemistä ensin.\n\nKirjoita %1$s vahvistaaksesi.</string>
+    <string name="erase_all_confirm_word">POISTA</string>
+    <string name="erase_all_confirm_button">Vahvista</string>
+    <string name="erase_all_success">Kaikki merkinnät poistettu</string>
 </resources>

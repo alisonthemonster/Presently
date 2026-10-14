@@ -87,6 +87,14 @@ class EntryDaoTest {
         assertEquals(listOf(entryOne, entryThree), actualEntry)
     }
 
+    @Test
+    fun deleteAllRemovesAllEntries() {
+        entryDao.insertEntries(mockEntriesSorted)
+        entryDao.deleteAll()
+
+        assertEquals(emptyList<Entry>(), entryDao.getEntries())
+    }
+
     private val entryOne = Entry(LocalDate.of(2013, 1, 1), "Test content")
     private val entryTwo = Entry(LocalDate.of(2012, 1, 1), "Test content1")
     private val entryThree = Entry(LocalDate.of(2011, 1, 1), "Test content2")

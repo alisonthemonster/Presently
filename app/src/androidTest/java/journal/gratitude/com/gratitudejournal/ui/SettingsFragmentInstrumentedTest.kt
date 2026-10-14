@@ -10,18 +10,30 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.RootMatchers.isDialog
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isEnabled
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import android.widget.EditText
+import kotlinx.coroutines.runBlocking
+import journal.gratitude.com.gratitudejournal.repository.EntryRepository
+import journal.gratitude.com.gratitudejournal.model.Entry
+import org.junit.Assert.assertEquals
+import org.hamcrest.CoreMatchers.not
+import org.threeten.bp.LocalDate
+import javax.inject.Inject
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
 import androidx.test.espresso.intent.rule.IntentsRule
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.rule.GrantPermissionRule
 import org.junit.Assume.assumeTrue
-import javax.inject.Inject
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -57,9 +69,74 @@ class SettingsFragmentInstrumentedTest {
     @Inject
     lateinit var settings: FakePresentlySettings
 
+    @Inject
+    lateinit var repository: EntryRepository
+
     @Before
     fun init() {
         hiltRule.inject()
+    }
+
+    private fun scrollToEraseRowAndClick() {
+        onView(withId(PreferenceR.id.recycler_view))
+            .perform(
+                androidx.test.espresso.contrib.RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(
+                    hasDescendant(withText(R.string.erase_all_entries))
+                )
+            )
+        onView(withText(R.string.erase_all_entries)).perform(click())
+    }
+
+    @Test
+    fun eraseAll_eraseButtonDisabledUntilConfirmWordTyped() {
+        launchFragmentInHiltContainer<SettingsFragment>()
+
+        scrollToEraseRowAndClick()
+
+        onView(withText(R.string.erase_all_confirm_button))
+            .inRoot(isDialog())
+            .check(matches(not(isEnabled())))
+
+        onView(isAssignableFrom(EditText::class.java))
+            .inRoot(isDialog())
+            .perform(typeText("nope"), closeSoftKeyboard())
+        onView(withText(R.string.erase_all_confirm_button))
+            .inRoot(isDialog())
+            .check(matches(not(isEnabled())))
+    }
+
+    @Test
+    fun eraseAll_typingConfirmWordAndConfirming_erasesAllEntries() {
+        runBlocking {
+            repository.addEntry(Entry(LocalDate.of(2020, 1, 1), "First"))
+            repository.addEntry(Entry(LocalDate.of(2020, 1, 2), "Second"))
+        }
+        launchFragmentInHiltContainer<SettingsFragment>()
+
+        scrollToEraseRowAndClick()
+
+        val confirmWord = ApplicationProvider.getApplicationContext<Context>()
+            .getString(R.string.erase_all_confirm_word)
+        onView(isAssignableFrom(EditText::class.java))
+            .inRoot(isDialog())
+            .perform(typeText(confirmWord), closeSoftKeyboard())
+        onView(withText(R.string.erase_all_confirm_button))
+            .inRoot(isDialog())
+            .check(matches(isEnabled()))
+            .perform(click())
+
+        assertEquals(emptyList<Entry>(), runBlocking { repository.getEntries() })
+    }
+
+    @Test
+    fun eraseAll_cancelling_keepsEntries() {
+        runBlocking { repository.addEntry(Entry(LocalDate.of(2020, 1, 1), "First")) }
+        launchFragmentInHiltContainer<SettingsFragment>()
+
+        scrollToEraseRowAndClick()
+        onView(withText(R.string.cancel)).inRoot(isDialog()).perform(click())
+
+        assertEquals(1, runBlocking { repository.getEntries() }.size)
     }
 
     @Test

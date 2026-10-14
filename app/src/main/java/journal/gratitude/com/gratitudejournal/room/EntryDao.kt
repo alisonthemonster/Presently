@@ -24,6 +24,9 @@ interface EntryDao {
     @Delete
     fun delete(entry: Entry)
 
+    @Query("DELETE FROM entries")
+    fun deleteAll()
+
     @Query("SELECT entries.* FROM entries JOIN entriesFts ON (entries.`rowid` = entriesFts.`rowid`) WHERE entriesFts MATCH :query ORDER BY datetime(entriesFts.entryDate) DESC")
     fun searchAllEntries(query: String): PagingSource<Int, Entry>
 

@@ -158,4 +158,12 @@
     <string name="dropbox_auth_failed">Error al vincular la cuenta de Dropbox</string>
     <string name="learn_more">Aprende más</string>
     <string name="gratitude_quote_widget_description">Inspírate con una cita de gratitud diaria</string>
+    <string name="erase_category">Borrar entradas</string>
+    <string name="erase_all_entries">Borrar todas las entradas</string>
+    <string name="erase_all_entries_summary">Borra de forma permanente todo lo que has escrito</string>
+    <string name="erase_all_dialog_title">¿Borrar todas las entradas?</string>
+    <string name="erase_all_dialog_message">Esto borrará de forma permanente todas las entradas de tu diario. No se puede deshacer. Considera exportar tus entradas primero.\n\nEscribe %1$s para confirmar.</string>
+    <string name="erase_all_confirm_word">BORRAR</string>
+    <string name="erase_all_confirm_button">Confirmar</string>
+    <string name="erase_all_success">Todas las entradas borradas</string>
 </resources>

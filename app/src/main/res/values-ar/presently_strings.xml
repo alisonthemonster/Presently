@@ -158,4 +158,12 @@
     <string name="dropbox_auth_failed">حدث خطأ أثناء ربط حساب Dropbox</string>
     <string name="learn_more">يتعلم أكثر</string>
     <string name="gratitude_quote_widget_description">اشعر بالإلهام من خلال اقتباس يومي عن الامتنان</string>
+    <string name="erase_category">مسح المدخلات</string>
+    <string name="erase_all_entries">مسح جميع المدخلات</string>
+    <string name="erase_all_entries_summary">مسح كل ما كتبته بشكل نهائي</string>
+    <string name="erase_all_dialog_title">مسح جميع المدخلات؟</string>
+    <string name="erase_all_dialog_message">سيؤدي هذا إلى مسح كل مدخل في مذكراتك بشكل نهائي. لا يمكن التراجع عن ذلك. يُرجى التفكير في تصدير مدخلاتك أولاً.\n\nاكتب %1$s للتأكيد.</string>
+    <string name="erase_all_confirm_word">مسح</string>
+    <string name="erase_all_confirm_button">تأكيد</string>
+    <string name="erase_all_success">تم مسح جميع المدخلات</string>
 </resources>

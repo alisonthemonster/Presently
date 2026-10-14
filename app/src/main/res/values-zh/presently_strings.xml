@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="gratitude_quote_widget_description">每天获取一句感恩语录，激励您的生活</string>
+    <string name="erase_category">清除日记</string>
+    <string name="erase_all_entries">清除所有日记</string>
+    <string name="erase_all_entries_summary">永久清除你写下的所有内容</string>
+    <string name="erase_all_dialog_title">清除所有日记？</string>
+    <string name="erase_all_dialog_message">这将永久清除日记中的每一条内容，且无法恢复。建议先导出你的日记。\n\n请输入 %1$s 以确认。</string>
+    <string name="erase_all_confirm_word">清除</string>
+    <string name="erase_all_confirm_button">确认</string>
+    <string name="erase_all_success">已清除所有日记</string>
 </resources>

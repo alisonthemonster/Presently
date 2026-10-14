@@ -158,4 +158,12 @@
     <string name="dropbox_auth_failed">Kon nie Dropbox-rekening koppel nie</string>
     <string name="learn_more">Leer meer</string>
     <string name="gratitude_quote_widget_description">Daaglikse dankbaarheidssitate vir inspirasie</string>
+    <string name="erase_category">Vee inskrywings uit</string>
+    <string name="erase_all_entries">Vee alle inskrywings uit</string>
+    <string name="erase_all_entries_summary">Vee permanent alles uit wat jy geskryf het</string>
+    <string name="erase_all_dialog_title">Vee alle inskrywings uit?</string>
+    <string name="erase_all_dialog_message">Dit sal elke inskrywing in jou joernaal permanent uitvee. Dit kan nie ongedaan gemaak word nie. Oorweeg dit om eers jou inskrywings uit te voer.\n\nTik %1$s om te bevestig.</string>
+    <string name="erase_all_confirm_word">VEE</string>
+    <string name="erase_all_confirm_button">Bevestig</string>
+    <string name="erase_all_success">Alle inskrywings uitgevee</string>
 </resources>

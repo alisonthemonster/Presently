@@ -267,6 +267,8 @@ private class TestEntryRepository : EntryRepository {
 
     override suspend fun addEntries(entries: List<Entry>) = Unit
 
+    override suspend fun deleteAllEntries() = Unit
+
     override fun searchEntries(query: String): Flow<PagingData<Entry>> = emptyFlow()
 }
 

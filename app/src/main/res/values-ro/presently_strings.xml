@@ -158,4 +158,12 @@
     <string name="dropbox_auth_failed">Eroare la conectarea contului Dropbox</string>
     <string name="learn_more">Află mai multe</string>
     <string name="gratitude_quote_widget_description">Inspirați-vă cu un citat zilnic despre recunoștință</string>
+    <string name="erase_category">Șterge notițele</string>
+    <string name="erase_all_entries">Șterge toate notițele</string>
+    <string name="erase_all_entries_summary">Șterge definitiv tot ce ai scris</string>
+    <string name="erase_all_dialog_title">Ștergi toate notițele?</string>
+    <string name="erase_all_dialog_message">Această acțiune va șterge definitiv toate notițele din jurnalul tău și nu poate fi anulată. Ia în considerare exportarea notițelor mai întâi.\n\nScrie %1$s pentru confirmare.</string>
+    <string name="erase_all_confirm_word">ȘTERGE</string>
+    <string name="erase_all_confirm_button">Confirmă</string>
+    <string name="erase_all_success">Toate notițele au fost șterse</string>
 </resources>

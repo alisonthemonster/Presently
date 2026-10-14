@@ -157,4 +157,12 @@
     <string name="dropbox_auth_failed">Ошибка при подключении аккаунта Dropbox</string>
     <string name="learn_more">Выучить больше</string>
     <string name="gratitude_quote_widget_description">Вдохновляйтесь ежедневной цитатой о благодарности</string>
+    <string name="erase_category">Стереть записи</string>
+    <string name="erase_all_entries">Стереть все записи</string>
+    <string name="erase_all_entries_summary">Безвозвратно стереть всё, что вы написали</string>
+    <string name="erase_all_dialog_title">Стереть все записи?</string>
+    <string name="erase_all_dialog_message">Все записи в вашем дневнике будут безвозвратно стёрты. Это действие нельзя отменить. Рекомендуем сначала экспортировать записи.\n\nВведите %1$s для подтверждения.</string>
+    <string name="erase_all_confirm_word">СТЕРЕТЬ</string>
+    <string name="erase_all_confirm_button">Подтвердить</string>
+    <string name="erase_all_success">Все записи стёрты</string>
 </resources>

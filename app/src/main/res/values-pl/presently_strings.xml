@@ -155,4 +155,12 @@
     <string name="dropbox_auth_failed">Błąd podczas łączenia konta Dropbox</string>
     <string name="learn_more">Ucz się więcej</string>
     <string name="gratitude_quote_widget_description">Zainspiruj się codziennym cytatem o wdzięczności</string>
+    <string name="erase_category">Wymaż wpisy</string>
+    <string name="erase_all_entries">Wymaż wszystkie wpisy</string>
+    <string name="erase_all_entries_summary">Trwale wymaż wszystko, co napisałeś/aś</string>
+    <string name="erase_all_dialog_title">Wymazać wszystkie wpisy?</string>
+    <string name="erase_all_dialog_message">Spowoduje to trwałe wymazanie każdego wpisu w Twoim dzienniku. Tej operacji nie można cofnąć. Rozważ wcześniejszy eksport wpisów.\n\nWpisz %1$s, aby potwierdzić.</string>
+    <string name="erase_all_confirm_word">WYMAŻ</string>
+    <string name="erase_all_confirm_button">Potwierdź</string>
+    <string name="erase_all_success">Wszystkie wpisy wymazane</string>
 </resources>

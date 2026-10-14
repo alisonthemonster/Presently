@@ -20,7 +20,8 @@
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">?attr/timelineBodyColor</item>
+        <!-- selector: body color when enabled, hint color when disabled -->
+        <item name="android:textColor">@color/text_color</item>
     </style>
 
     <style name="TextAppearance.Title" parent="Theme.MaterialComponents.Light.NoActionBar">

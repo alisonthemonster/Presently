@@ -156,4 +156,12 @@
     <string name="dropbox_auth_failed">Erro ao vincular a conta do Dropbox</string>
     <string name="learn_more">Saber mais</string>
     <string name="gratitude_quote_widget_description">Inspire-se com uma citação diária sobre gratidão</string>
+    <string name="erase_category">Apagar anotações</string>
+    <string name="erase_all_entries">Apagar todas as anotações</string>
+    <string name="erase_all_entries_summary">Apague permanentemente tudo o que você escreveu</string>
+    <string name="erase_all_dialog_title">Apagar todas as anotações?</string>
+    <string name="erase_all_dialog_message">Isso apagará permanentemente todas as anotações do seu diário. Não é possível desfazer. Considere exportar suas anotações primeiro.\n\nDigite %1$s para confirmar.</string>
+    <string name="erase_all_confirm_word">APAGAR</string>
+    <string name="erase_all_confirm_button">Confirmar</string>
+    <string name="erase_all_success">Todas as anotações apagadas</string>
 </resources>

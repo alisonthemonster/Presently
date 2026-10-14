@@ -112,6 +112,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        parentFragmentManager.setFragmentResultListener(
+            EraseAllEntriesDialogFragment.REQUEST_KEY,
+            this
+        ) { _, _ -> eraseAllEntries() }
+
 
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
@@ -210,6 +215,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val import = findPreference<Preference>(IMPORT_PREF)
         import?.setOnPreferenceClickListener {
             importFromCsv()
+            true
+        }
+
+        val eraseAll = findPreference<Preference>(ERASE_ALL_PREF)
+        eraseAll?.setOnPreferenceClickListener {
+            confirmEraseAllEntries()
             true
         }
 
@@ -630,6 +641,23 @@ class SettingsFragment : PreferenceFragmentCompat(),
             builder.create()
         }
         alertDialog?.show()
+    }
+
+    /**
+     * Shows the type-to-confirm dialog; the actual erase happens when it reports a confirmation.
+     * */
+    private fun confirmEraseAllEntries() {
+        if (parentFragmentManager.findFragmentByTag(EraseAllEntriesDialogFragment.TAG) != null) return
+        EraseAllEntriesDialogFragment()
+            .show(parentFragmentManager, EraseAllEntriesDialogFragment.TAG)
+    }
+
+    private fun eraseAllEntries() {
+        lifecycleScope.launch {
+            repository.deleteAllEntries()
+            analytics.recordEvent(ERASED_ALL_ENTRIES)
+            Toast.makeText(context, R.string.erase_all_success, Toast.LENGTH_SHORT).show()
+        }
     }
 
     /**
