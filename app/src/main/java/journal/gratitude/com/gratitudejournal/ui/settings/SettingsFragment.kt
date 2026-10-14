@@ -178,7 +178,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
             if (!wantsToLogin) {
                 analytics.recordEvent(DROPBOX_DEAUTH)
                 lifecycleScope.launch {
-                    DropboxUploader.deauthorizeDropboxAccess(requireContext(), settings)
+                    DropboxUploader.deauthorizeDropboxAccess(
+                        requireContext(),
+                        settings,
+                        onRevokeFailure = { crashReporter.logHandledException(it) }
+                    )
                 }
             } else {
                 analytics.recordEvent(DROPBOX_AUTH_ATTEMPT)

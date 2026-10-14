@@ -65,7 +65,12 @@ class RealUploader @Inject constructor(
                         when (UploadFailureClassifier.classify(result.exception)) {
                             UploadFailureType.AUTH -> {
                                 sendDropboxAuthFailureNotification(appContext)
-                                DropboxUploader.deauthorizeDropboxAccess(appContext, settings, dispatchers.io)
+                                DropboxUploader.deauthorizeDropboxAccess(
+                                    appContext,
+                                    settings,
+                                    dispatchers.io,
+                                    onRevokeFailure = { crashReporter.logHandledException(it) }
+                                )
                             }
                             UploadFailureType.STORAGE_FULL -> sendDropboxTooFullNotification(appContext)
                             UploadFailureType.NETWORK,
