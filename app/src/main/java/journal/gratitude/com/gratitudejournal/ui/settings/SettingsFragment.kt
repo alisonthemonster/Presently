@@ -35,6 +35,7 @@ import com.google.android.material.snackbar.Snackbar
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.logging.CrashReporter
 import journal.gratitude.com.gratitudejournal.settings.BackupCadence
+import journal.gratitude.com.gratitudejournal.settings.BackupStatusStore
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.settings.model.*
 import journal.gratitude.com.gratitudejournal.BuildConfig
@@ -76,6 +77,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     @Inject lateinit var repository: EntryRepository
     @Inject lateinit var settings: PresentlySettings
+    @Inject lateinit var backupStatusStore: BackupStatusStore
     @Inject lateinit var analytics: AnalyticsLogger
     @Inject lateinit var crashReporter: CrashReporter
 
@@ -179,6 +181,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 analytics.recordEvent(DROPBOX_DEAUTH)
                 lifecycleScope.launch {
                     DropboxUploader.deauthorizeDropboxAccess(requireContext(), settings)
+                    //after, so the store never claims a disconnect that didn't happen
+                    backupStatusStore.recordDropboxDisconnectedByUser()
                 }
             } else {
                 analytics.recordEvent(DROPBOX_AUTH_ATTEMPT)
@@ -274,6 +278,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 activity?.recreate()
             } else {
                 settings.setAccessToken(token)
+                backupStatusStore.recordDropboxConnected()
                 createDropboxUploaderWorker(settings.getAutomaticBackupCadence())
                 cancelDropboxFailureNotifications() //now that user has auth'd cancel any notifs about previous failure
             }
@@ -756,7 +761,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     )
                     when (csvResult) {
                         is CsvUriError -> exportCallback.onFailure(csvResult.exception)
-                        is CsvUriCreated -> exportCallback.onSuccess(csvResult.uri)
+                        is CsvUriCreated -> {
+                            backupStatusStore.recordManualExport()
+                            exportCallback.onSuccess(csvResult.uri)
+                        }
                     }
                 }
             } else {
