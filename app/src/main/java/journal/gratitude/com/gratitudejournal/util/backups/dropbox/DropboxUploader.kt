@@ -4,7 +4,10 @@ import android.content.Context
 import androidx.work.WorkManager
 import com.dropbox.core.DbxException
 import com.dropbox.core.DbxRequestConfig
+import com.dropbox.core.InvalidAccessTokenException
+import com.dropbox.core.NetworkIOException
 import com.dropbox.core.android.Auth
+import com.dropbox.core.oauth.DbxCredential
 import com.dropbox.core.v2.DbxClientV2
 import com.dropbox.core.v2.files.WriteMode
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
@@ -59,23 +62,41 @@ class DropboxUploader(val context: Context, val settings: PresentlySettings):
             Auth.startOAuth2PKCE(context, BuildConfig.DROPBOX_APP_KEY, requestConfig)
         }
 
+        /**
+         * Disconnects Dropbox locally. Revoking the token with Dropbox is best effort: the token
+         * may already be invalid (that is often why we're here) or the device may be offline, and
+         * neither should stop the token being cleared and scheduled backups being cancelled.
+         * Those two expected cases are ignored; anything else is passed to [onRevokeFailure].
+         */
         suspend fun deauthorizeDropboxAccess(
             context: Context,
             settings: PresentlySettings,
-            dispatcher: CoroutineDispatcher = Dispatchers.IO
+            dispatcher: CoroutineDispatcher = Dispatchers.IO,
+            onRevokeFailure: (DbxException) -> Unit = {},
+            revokeToken: (DbxCredential) -> Unit = ::revokeWithDropbox
         ) {
             withContext(dispatcher) {
                 val accessToken = settings.getAccessToken()
                 if (accessToken != null) {
-                    val requestConfig = DbxRequestConfig.newBuilder("PresentlyAndroid")
-                        .build()
-                    val client = DbxClientV2(requestConfig, accessToken)
-                    client.auth().tokenRevoke()
+                    try {
+                        revokeToken(accessToken)
+                    } catch (e: InvalidAccessTokenException) {
+                        // already invalid, nothing left to revoke
+                    } catch (e: NetworkIOException) {
+                        // offline, nothing we can do about it
+                    } catch (e: DbxException) {
+                        onRevokeFailure(e)
+                    }
                 }
 
                 settings.clearAccessToken()
                 WorkManager.getInstance(context).cancelAllWorkByTag(PRESENTLY_BACKUP)
             }
+        }
+
+        private fun revokeWithDropbox(credential: DbxCredential) {
+            val requestConfig = DbxRequestConfig.newBuilder("PresentlyAndroid").build()
+            DbxClientV2(requestConfig, credential).auth().tokenRevoke()
         }
 
         const val PRESENTLY_BACKUP = "PRESENTLY_BACKUP"
