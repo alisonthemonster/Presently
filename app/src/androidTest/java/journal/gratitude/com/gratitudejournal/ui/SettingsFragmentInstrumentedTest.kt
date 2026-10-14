@@ -15,7 +15,13 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
 import androidx.test.espresso.intent.rule.IntentsRule
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.rule.GrantPermissionRule
+import org.junit.Assume.assumeTrue
+import javax.inject.Inject
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -39,6 +45,17 @@ class SettingsFragmentInstrumentedTest {
 
     @get:Rule
     val intentsRule = IntentsRule()
+
+    @get:Rule
+    val permissionRule: GrantPermissionRule =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            GrantPermissionRule.grant(android.Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            GrantPermissionRule.grant()
+        }
+
+    @Inject
+    lateinit var settings: FakePresentlySettings
 
     @Before
     fun init() {
@@ -84,4 +101,33 @@ class SettingsFragmentInstrumentedTest {
         )
     }
 
+    @Test
+    fun settingsFragment_remindersOff_hidesTimeAndExactAlarmSettings() {
+        settings.notificationsEnabledValue = false
+        launchFragmentInHiltContainer<SettingsFragment>()
+
+        onView(withText(R.string.notifs)).check(matches(isDisplayed()))
+        onView(withText(R.string.time_title)).check(doesNotExist())
+        onView(withText(R.string.exact_alarms_title)).check(doesNotExist())
+    }
+
+    @Test
+    fun settingsFragment_remindersOn_showsTimeAndExactAlarmSettings() {
+        assumeTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        settings.notificationsEnabledValue = true
+        launchFragmentInHiltContainer<SettingsFragment>()
+
+        onView(withText(R.string.time_title)).check(matches(isDisplayed()))
+        onView(withText(R.string.exact_alarms_title)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun settingsFragment_remindersOnBeforeS_showsTimeSettingOnly() {
+        assumeTrue(Build.VERSION.SDK_INT < Build.VERSION_CODES.S)
+        settings.notificationsEnabledValue = true
+        launchFragmentInHiltContainer<SettingsFragment>()
+
+        onView(withText(R.string.time_title)).check(matches(isDisplayed()))
+        onView(withText(R.string.exact_alarms_title)).check(doesNotExist())
+    }
 }

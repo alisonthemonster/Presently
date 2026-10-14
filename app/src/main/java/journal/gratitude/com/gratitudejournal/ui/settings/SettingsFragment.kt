@@ -280,7 +280,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         notifs?.isChecked = remindersEnabled
         notifs?.isEnabled = true
-        prefTime?.isEnabled = remindersEnabled
+        prefTime?.isVisible = remindersEnabled
+        exactAlarms?.isVisible = remindersEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
         exactAlarms?.isEnabled = remindersEnabled
         exactAlarms?.isChecked = !hasDisabledAlarmReminders
         troubleshooter?.isVisible = hasAnyNotificationPermissionSet()
