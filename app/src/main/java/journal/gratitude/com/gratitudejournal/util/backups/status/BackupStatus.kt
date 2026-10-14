@@ -3,18 +3,25 @@ package journal.gratitude.com.gratitudejournal.util.backups.status
 import journal.gratitude.com.gratitudejournal.settings.BackupCadence
 import java.util.concurrent.TimeUnit
 
-enum class UploadFailureType {
-    AUTH,
-    STORAGE_FULL,
+/**
+ * [code] is what gets persisted, so it must never change for an existing value.
+ */
+enum class UploadFailureType(val code: String) {
+    AUTH("auth"),
+    STORAGE_FULL("storage_full"),
 
     /** Offline, DNS, timeouts. Usually self-heals, so it surfaces through the overdue check. */
-    NETWORK,
+    NETWORK("network"),
 
     /** Rate limiting or Dropbox 5xx. Usually self-heals, so it surfaces through the overdue check. */
-    TRANSIENT_SERVER,
-    OTHER;
+    TRANSIENT_SERVER("transient_server"),
+    OTHER("other");
 
     val isTransient: Boolean get() = this == NETWORK || this == TRANSIENT_SERVER
+
+    companion object {
+        fun fromCode(code: String?): UploadFailureType? = entries.firstOrNull { it.code == code }
+    }
 }
 
 data class UploadFailure(val type: UploadFailureType, val atMillis: Long) {

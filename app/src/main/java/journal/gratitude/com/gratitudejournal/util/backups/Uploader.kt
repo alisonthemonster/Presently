@@ -9,6 +9,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.ListenableWorker
 import journal.gratitude.com.gratitudejournal.coroutine_utils.AppCoroutineDispatchers
 import journal.gratitude.com.gratitudejournal.logging.CrashReporter
+import journal.gratitude.com.gratitudejournal.settings.BackupStatusStore
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.ContainerActivity
 import journal.gratitude.com.gratitudejournal.R
@@ -34,9 +35,13 @@ class RealUploader @Inject constructor(
     private val repository: EntryRepository,
     private val cloudProvider: CloudProvider,
     private val crashReporter: CrashReporter,
-    private val settings: PresentlySettings
+    private val settings: PresentlySettings,
+    private val backupStatusStore: BackupStatusStore
 ) : Uploader {
     override suspend fun uploadEntries(appContext: Context): ListenableWorker.Result {
+        //users connected before backup status existed get a baseline on their first run
+        backupStatusStore.seedDropboxBaselineIfMissing()
+
         //get items
         val items = repository.getEntries()
 
@@ -62,8 +67,12 @@ class RealUploader @Inject constructor(
                 //upload to cloud
                 when (val result = cloudProvider.uploadToCloud(csvResult.file)) {
                     is UploadError -> {
-                        when (UploadFailureClassifier.classify(result.exception)) {
+                        val failureType = UploadFailureClassifier.classify(result.exception)
+                        backupStatusStore.recordDropboxUploadFailure(failureType)
+                        when (failureType) {
                             UploadFailureType.AUTH -> {
+                                //flag before deauthorizing, which clears the token
+                                backupStatusStore.markDropboxDisconnectedUnexpectedly()
                                 sendDropboxAuthFailureNotification(appContext)
                                 DropboxUploader.deauthorizeDropboxAccess(appContext, settings, dispatchers.io)
                             }
@@ -76,10 +85,17 @@ class RealUploader @Inject constructor(
                         crashReporter.logHandledException(result.exception)
                         ListenableWorker.Result.failure()
                     }
-                    is UploadSuccess -> ListenableWorker.Result.success()
+                    is UploadSuccess -> {
+                        backupStatusStore.recordDropboxUploadSuccess()
+                        ListenableWorker.Result.success()
+                    }
                 }
             }
-            is CsvFileError -> ListenableWorker.Result.failure()
+            is CsvFileError -> {
+                //a local failure; retrying is the only remedy so surface it like any other failure
+                backupStatusStore.recordDropboxUploadFailure(UploadFailureType.OTHER)
+                ListenableWorker.Result.failure()
+            }
         }
 
         //delete temp file
