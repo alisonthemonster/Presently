@@ -8,7 +8,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.ListenableWorker
 import com.dropbox.core.InvalidAccessTokenException
-import com.dropbox.core.v2.files.UploadErrorException
 import journal.gratitude.com.gratitudejournal.coroutine_utils.AppCoroutineDispatchers
 import journal.gratitude.com.gratitudejournal.logging.CrashReporter
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
@@ -19,6 +18,7 @@ import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.ui.security.AppLockFragment.Companion.SETTINGS_SCREEN
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.CloudProvider
 import journal.gratitude.com.gratitudejournal.util.backups.dropbox.DropboxUploader
+import journal.gratitude.com.gratitudejournal.util.backups.status.UploadFailureClassifier.isInsufficientSpace
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileWriter
@@ -168,10 +168,6 @@ class RealUploader @Inject constructor(
         notificationManager.notify(BACKUP_NOTIFICATION_ID, builder.build())
     }
 
-
-    private fun Exception.isInsufficientSpace(): Boolean {
-        return this is UploadErrorException && this.userMessage.text.contains("insufficient_space")
-    }
 
     companion object {
         val BACKUP_NOTIFICATION_ID = 98104
