@@ -96,16 +96,20 @@ class ContainerActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) return
         val componentName = ComponentName(this, GratitudeQuoteWidgetReceiver::class.java)
         val providerInfo = AppWidgetManager.getInstance(this).installedProviders
-            .firstOrNull { it.provider == componentName }
-        val alreadyPublished = (providerInfo?.generatedPreviewCategories ?: 0) and
+            .firstOrNull { it.provider == componentName } ?: return
+        val alreadyPublished = providerInfo.generatedPreviewCategories and
             AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN != 0
         if (alreadyPublished) return
         lifecycleScope.launch {
-            GlanceAppWidgetManager(this@ContainerActivity)
-                .setWidgetPreviews(
-                    GratitudeQuoteWidgetReceiver::class,
-                    intSetOf(AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN)
-                )
+            try {
+                GlanceAppWidgetManager(this@ContainerActivity)
+                    .setWidgetPreviews(
+                        GratitudeQuoteWidgetReceiver::class,
+                        intSetOf(AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN)
+                    )
+            } catch (e: IllegalArgumentException) {
+                // Some OEM builds reject the provider even though it is declared; the preview is optional.
+            }
         }
     }
 
