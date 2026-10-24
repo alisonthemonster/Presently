@@ -37,6 +37,9 @@ class PresentlyFirebaseAnalyticsTest {
                 fail("bundle deleteAllAnalyticsDataForUser shouldn't be called")
             }
 
+            override fun setUserProperty(name: String, value: String) {}
+
+
             override fun setAnalyticsCollection(enabled: Boolean) {
                 fail("bundle setAnalyticsCollection shouldn't be called")
             }
@@ -70,6 +73,9 @@ class PresentlyFirebaseAnalyticsTest {
             override fun deleteAllAnalyticsDataForUser() {
                 fail("bundle deleteAllAnalyticsDataForUser shouldn't be called")
             }
+
+            override fun setUserProperty(name: String, value: String) {}
+
 
             override fun setAnalyticsCollection(enabled: Boolean) {
                 fail("bundle setAnalyticsCollection shouldn't be called")
@@ -106,6 +112,9 @@ class PresentlyFirebaseAnalyticsTest {
             override fun deleteAllAnalyticsDataForUser() {
                 fail("bundle deleteAllAnalyticsDataForUser shouldn't be called")
             }
+
+            override fun setUserProperty(name: String, value: String) {}
+
 
             override fun setAnalyticsCollection(enabled: Boolean) {
                 fail("bundle setAnalyticsCollection shouldn't be called")
@@ -147,6 +156,9 @@ class PresentlyFirebaseAnalyticsTest {
                 fail("bundle deleteAllAnalyticsDataForUser shouldn't be called")
             }
 
+            override fun setUserProperty(name: String, value: String) {}
+
+
             override fun setAnalyticsCollection(enabled: Boolean) {
                 fail("bundle setAnalyticsCollection shouldn't be called")
             }
@@ -184,6 +196,9 @@ class PresentlyFirebaseAnalyticsTest {
                 fail("bundle deleteAllAnalyticsDataForUser shouldn't be called")
             }
 
+            override fun setUserProperty(name: String, value: String) {}
+
+
             override fun setAnalyticsCollection(enabled: Boolean) {
                 fail("bundle setAnalyticsCollection shouldn't be called")
             }
@@ -219,6 +234,9 @@ class PresentlyFirebaseAnalyticsTest {
             override fun deleteAllAnalyticsDataForUser() {
                 deleteAllWasCalled = true
             }
+
+            override fun setUserProperty(name: String, value: String) {}
+
 
             override fun setAnalyticsCollection(enabled: Boolean) {
                 if (!enabled) {
@@ -261,6 +279,9 @@ class PresentlyFirebaseAnalyticsTest {
             override fun deleteAllAnalyticsDataForUser() {
                 fail("deleteAllAnalyticsDataForUser shouldn't be called")
             }
+
+            override fun setUserProperty(name: String, value: String) {}
+
 
             override fun setAnalyticsCollection(enabled: Boolean) {
                 if (enabled) {

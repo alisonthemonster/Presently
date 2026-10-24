@@ -10,15 +10,17 @@ import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
  */
 internal const val DROPBOX_BACKUP_PROPERTY = "dropbox_backup"
 
-internal fun dropboxBackupPropertyValue(dropboxOn: Boolean, cadence: BackupCadence): String =
-    when {
-        !dropboxOn -> "off"
-        cadence == BackupCadence.DAILY -> "daily"
-        cadence == BackupCadence.WEEKLY -> "weekly"
-        else -> "every_change"
+internal fun dropboxBackupPropertyValue(dropboxOn: Boolean, cadence: BackupCadence): String {
+    if (!dropboxOn) return "off"
+    // Exhaustive on purpose: a new cadence must be named here, not reported as another one.
+    return when (cadence) {
+        BackupCadence.DAILY -> "daily"
+        BackupCadence.WEEKLY -> "weekly"
+        BackupCadence.EVERY_CHANGE -> "every_change"
     }
+}
 
-/** Call at launch and whenever the token or cadence changes. */
+/** Call at launch and whenever the token or cadence changes. Token changes are handled in [RealPresentlySettings]. */
 internal fun AnalyticsLogger.updateDropboxBackupProperty(settings: PresentlySettings) {
     setUserProperty(
         DROPBOX_BACKUP_PROPERTY,

@@ -31,6 +31,8 @@ class FakeAnalyticsLogger @Inject constructor() : AnalyticsLogger {
 
     override fun optOutOfAnalytics() = Unit
 
+    override fun setUserProperty(name: String, value: String) = Unit
+
     override fun optIntoAnalytics() = Unit
 
     fun reset() {

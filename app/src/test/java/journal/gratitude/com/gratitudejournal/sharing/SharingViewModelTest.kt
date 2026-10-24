@@ -30,6 +30,8 @@ class SharingViewModelTest {
 
         override fun optOutOfAnalytics() {}
 
+        override fun setUserProperty(name: String, value: String) = Unit
+
         override fun optIntoAnalytics() {}
     }
 
@@ -92,6 +94,8 @@ class SharingViewModelTest {
             override fun recordView(viewName: String) {}
 
             override fun optOutOfAnalytics() {}
+
+            override fun setUserProperty(name: String, value: String) = Unit
 
             override fun optIntoAnalytics() {}
         }
@@ -158,6 +162,8 @@ class SharingViewModelTest {
             override fun recordView(viewName: String) {}
 
             override fun optOutOfAnalytics() {}
+
+            override fun setUserProperty(name: String, value: String) = Unit
 
             override fun optIntoAnalytics() {}
         }

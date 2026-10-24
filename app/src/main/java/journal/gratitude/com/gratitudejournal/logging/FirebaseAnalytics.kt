@@ -12,8 +12,7 @@ interface FirebaseAnalytics {
 
     fun setAnalyticsCollection(enabled: Boolean)
 
-    // Has a default so the many test fakes of this interface don't each need to implement it.
-    fun setUserProperty(name: String, value: String) {}
+    fun setUserProperty(name: String, value: String)
 
 }
 

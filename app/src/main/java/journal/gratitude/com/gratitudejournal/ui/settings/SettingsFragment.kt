@@ -184,7 +184,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     DropboxUploader.deauthorizeDropboxAccess(requireContext(), settings)
                     //after, so the store never claims a disconnect that didn't happen
                     backupStatusStore.recordDropboxDisconnectedByUser()
-                    analytics.updateDropboxBackupProperty(settings)
                 }
             } else {
                 analytics.recordEvent(DROPBOX_AUTH_ATTEMPT)
@@ -281,7 +280,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             } else {
                 settings.setAccessToken(token)
                 backupStatusStore.recordDropboxConnected()
-                analytics.updateDropboxBackupProperty(settings)
                 createDropboxUploaderWorker(settings.getAutomaticBackupCadence())
                 cancelDropboxFailureNotifications() //now that user has auth'd cancel any notifs about previous failure
             }
