@@ -79,4 +79,8 @@ internal class PresentlyFirebaseAnalytics(
         firebaseAnalytics.setAnalyticsCollection(enabled = true)
         crashReporter.optIntoCrashReporting()
     }
+
+    override fun setUserProperty(name: String, value: String) {
+        firebaseAnalytics.setUserProperty(name, value)
+    }
 }

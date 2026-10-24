@@ -36,6 +36,8 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
     var notificationTimeValue: LocalTime = LocalTime.parse("21:00")
     var reminderOnboardingSeenValue = false
     var notificationPermissionRequestedValue = false
+    var accessTokenValue: DbxCredential? = null
+    var cadenceValue = BackupCadence.DAILY
 
     override fun getCurrentTheme(): String {
         return "Original"
@@ -62,7 +64,7 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
     }
 
     override fun getAutomaticBackupCadence(): BackupCadence {
-        return BackupCadence.DAILY
+        return cadenceValue
     }
 
     override fun getLocale(): String {
@@ -122,7 +124,7 @@ class FakePresentlySettings @Inject constructor(): PresentlySettings {
     }
 
     override fun getAccessToken(): DbxCredential? {
-        return null
+        return accessTokenValue
     }
 
     override fun setAccessToken(newToken: DbxCredential) {}

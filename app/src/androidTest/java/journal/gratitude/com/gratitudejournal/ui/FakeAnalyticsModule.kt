@@ -13,6 +13,7 @@ import javax.inject.Singleton
 class FakeAnalyticsLogger @Inject constructor() : AnalyticsLogger {
     val recordedEvents = mutableListOf<String>()
     val recordedDetailedEvents = mutableListOf<Pair<String, Map<String, Any>>>()
+    val userProperties = mutableMapOf<String, String>()
 
     override fun recordEvent(event: String) {
         recordedEvents += event
@@ -31,11 +32,16 @@ class FakeAnalyticsLogger @Inject constructor() : AnalyticsLogger {
 
     override fun optOutOfAnalytics() = Unit
 
+    override fun setUserProperty(name: String, value: String) {
+        userProperties[name] = value
+    }
+
     override fun optIntoAnalytics() = Unit
 
     fun reset() {
         recordedEvents.clear()
         recordedDetailedEvents.clear()
+        userProperties.clear()
     }
 }
 

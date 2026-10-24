@@ -436,6 +436,7 @@ class ReminderOnboardingViewModelTest {
         override fun recordEntryAdded(numEntries: Int) = Unit
         override fun recordView(viewName: String) = Unit
         override fun optOutOfAnalytics() = Unit
+        override fun setUserProperty(name: String, value: String) = Unit
         override fun optIntoAnalytics() = Unit
     }
 
