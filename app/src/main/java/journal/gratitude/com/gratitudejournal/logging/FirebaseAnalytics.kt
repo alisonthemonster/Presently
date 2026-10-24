@@ -12,6 +12,9 @@ interface FirebaseAnalytics {
 
     fun setAnalyticsCollection(enabled: Boolean)
 
+    // Has a default so the many test fakes of this interface don't each need to implement it.
+    fun setUserProperty(name: String, value: String) {}
+
 }
 
 class RealFirebaseAnalytics(private val firebaseAnalytics: com.google.firebase.analytics.FirebaseAnalytics) :
@@ -32,5 +35,9 @@ class RealFirebaseAnalytics(private val firebaseAnalytics: com.google.firebase.a
     override fun setAnalyticsCollection(enabled: Boolean) {
         //Sets whether analytics collection is enabled for this app on this device.
         firebaseAnalytics.setAnalyticsCollectionEnabled(enabled)
+    }
+
+    override fun setUserProperty(name: String, value: String) {
+        firebaseAnalytics.setUserProperty(name, value)
     }
 }

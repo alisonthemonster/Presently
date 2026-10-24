@@ -284,4 +284,27 @@ class PresentlyFirebaseAnalyticsTest {
         assertThat(optIntoCrashReportingWasCalled).isTrue()
         assertThat(setAnalyticsCollectionWasCalled).isTrue()
     }
+
+    @Test
+    fun `GIVEN PresentlyFirebaseAnalytics WHEN setUserProperty called THEN firebase is called`() {
+        var propertyName = ""
+        var propertyValue = ""
+        val firebaseAnalytics = object : FirebaseAnalytics {
+            override fun logEvent(event: String) = fail("logEvent shouldn't be called")
+            override fun logEvent(event: String, bundle: Bundle) = fail("logEvent shouldn't be called")
+            override fun deleteAllAnalyticsDataForUser() = fail("shouldn't be called")
+            override fun setAnalyticsCollection(enabled: Boolean) = fail("shouldn't be called")
+
+            override fun setUserProperty(name: String, value: String) {
+                propertyName = name
+                propertyValue = value
+            }
+        }
+        val presentlyAnalytics = PresentlyFirebaseAnalytics(firebaseAnalytics, crashReporter)
+
+        presentlyAnalytics.setUserProperty("automatic_backup", "daily")
+
+        assertThat(propertyName).isEqualTo("automatic_backup")
+        assertThat(propertyValue).isEqualTo("daily")
+    }
 }
