@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
+import journal.gratitude.com.gratitudejournal.logging.updateDropboxBackupProperty
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
@@ -59,6 +60,7 @@ class ContainerActivity : AppCompatActivity() {
         createNotificationChannels()
 
         logLaunchSourceFromIntent(intent)
+        analyticsLogger.updateDropboxBackupProperty(settings)
 
         NotificationScheduler().configureNotifications(this, settings)
 

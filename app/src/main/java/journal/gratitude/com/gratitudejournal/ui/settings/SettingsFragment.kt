@@ -34,6 +34,7 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.snackbar.Snackbar
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.logging.CrashReporter
+import journal.gratitude.com.gratitudejournal.logging.updateDropboxBackupProperty
 import journal.gratitude.com.gratitudejournal.settings.BackupCadence
 import journal.gratitude.com.gratitudejournal.settings.BackupStatusStore
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
@@ -428,6 +429,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 //todo test cadence works properly with dropbox
                 val cadence = settings.getAutomaticBackupCadence()
                 analytics.recordSelectEvent(cadence.string, "cadence")
+                analytics.updateDropboxBackupProperty(settings)
                 createDropboxUploaderWorker(cadence)
             }
             APP_LANGUAGE -> {

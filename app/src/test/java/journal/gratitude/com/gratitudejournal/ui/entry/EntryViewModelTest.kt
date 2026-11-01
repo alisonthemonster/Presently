@@ -297,6 +297,8 @@ private class TestAnalyticsLogger : AnalyticsLogger {
 
     override fun optOutOfAnalytics() = Unit
 
+    override fun setUserProperty(name: String, value: String) = Unit
+
     override fun optIntoAnalytics() = Unit
 }
 

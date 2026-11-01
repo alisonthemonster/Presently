@@ -14,4 +14,6 @@ interface AnalyticsLogger {
     fun optOutOfAnalytics()
 
     fun optIntoAnalytics()
+
+    fun setUserProperty(name: String, value: String)
 }

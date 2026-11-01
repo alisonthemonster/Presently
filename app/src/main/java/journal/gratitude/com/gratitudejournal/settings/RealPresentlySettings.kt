@@ -8,6 +8,7 @@ import com.dropbox.core.oauth.DbxCredential
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.logging.DROPBOX_AUTH_QUIT
 import journal.gratitude.com.gratitudejournal.logging.DROPBOX_AUTH_SUCCESS
+import journal.gratitude.com.gratitudejournal.logging.updateDropboxBackupProperty
 import journal.gratitude.com.gratitudejournal.settings.model.*
 import java.util.*
 import org.threeten.bp.LocalTime
@@ -167,6 +168,7 @@ class RealPresentlySettings @Inject constructor(
     override fun setAccessToken(newToken: DbxCredential) {
         analytics.recordEvent(DROPBOX_AUTH_SUCCESS)
         sharedPrefs.edit().putString(ACCESS_TOKEN, newToken.toString()).apply()
+        analytics.updateDropboxBackupProperty(this)
     }
 
     override fun markDropboxAuthInitiated() {
@@ -182,11 +184,13 @@ class RealPresentlySettings @Inject constructor(
         sharedPrefs.edit().putBoolean(BACKUP_TOKEN, false).apply() //reset the switch preference
         sharedPrefs.edit().remove(ACCESS_TOKEN).apply()
         analytics.recordEvent(DROPBOX_AUTH_QUIT)
+        analytics.updateDropboxBackupProperty(this)
     }
 
     override fun clearAccessToken() {
         sharedPrefs.edit().remove(ACCESS_TOKEN).apply()
         sharedPrefs.edit().putBoolean(BACKUP_TOKEN, false).apply()
+        analytics.updateDropboxBackupProperty(this)
     }
 
     override fun isOptedIntoAnalytics(): Boolean {

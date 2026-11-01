@@ -440,6 +440,8 @@ class PresentlySettingsTest {
             analyticsIsOptedIn = false
         }
 
+        override fun setUserProperty(name: String, value: String) = Unit
+
         override fun optIntoAnalytics() {
             analyticsIsOptedIn = true
         }
