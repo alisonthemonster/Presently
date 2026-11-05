@@ -49,19 +49,20 @@ class NotificationScheduler {
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
 
-        val alarmTimeCal = if (LocalTime.now().isAfter(alarmTime)) {
-            //today's alarm already happened use start the next one tomorrow
-            Calendar.getInstance().apply {
-                timeInMillis = System.currentTimeMillis()
-                set(Calendar.HOUR_OF_DAY, alarmTime.hour)
-                set(Calendar.MINUTE, alarmTime.minute)
+        // Use java.util.Calendar for both the comparison and the target time so they share the
+        // device's own (up to date) time zone rules. ThreeTenABP bundles its own tz database, which
+        // goes stale when a region changes its rules (e.g. Alberta) and made "now" an hour off,
+        // so we scheduled an alarm in the past and it re-fired in a loop.
+        val now = System.currentTimeMillis()
+        val alarmTimeCal = Calendar.getInstance().apply {
+            timeInMillis = now
+            set(Calendar.HOUR_OF_DAY, alarmTime.hour)
+            set(Calendar.MINUTE, alarmTime.minute)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            if (timeInMillis <= now) {
+                //today's alarm already happened, start the next one tomorrow
                 add(Calendar.DATE, 1)
-            }
-        } else {
-            Calendar.getInstance().apply {
-                timeInMillis = System.currentTimeMillis()
-                set(Calendar.HOUR_OF_DAY, alarmTime.hour)
-                set(Calendar.MINUTE, alarmTime.minute)
             }
         }
 
