@@ -17,7 +17,9 @@ import java.util.*
  * Schedules or cancels broadcasts to the ReminderReceiver at the specified time
  *
  */
-class NotificationScheduler {
+class NotificationScheduler(
+    private val currentTimeMillis: () -> Long = System::currentTimeMillis
+) {
 
     companion object {
         const val ALARM_TYPE_RTC = 100
@@ -53,7 +55,7 @@ class NotificationScheduler {
         // device's own (up to date) time zone rules. ThreeTenABP bundles its own tz database, which
         // goes stale when a region changes its rules (e.g. Alberta) and made "now" an hour off,
         // so we scheduled an alarm in the past and it re-fired in a loop.
-        val now = System.currentTimeMillis()
+        val now = currentTimeMillis()
         val alarmTimeCal = Calendar.getInstance().apply {
             timeInMillis = now
             set(Calendar.HOUR_OF_DAY, alarmTime.hour)
