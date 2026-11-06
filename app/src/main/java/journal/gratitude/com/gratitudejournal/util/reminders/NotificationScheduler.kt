@@ -10,7 +10,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.core.app.NotificationManagerCompat
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
-import org.threeten.bp.LocalTime
+import java.time.LocalTime
 import java.util.*
 
 /**

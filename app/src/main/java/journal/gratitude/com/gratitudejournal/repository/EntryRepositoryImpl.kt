@@ -7,7 +7,7 @@ import journal.gratitude.com.gratitudejournal.room.EntryDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import javax.inject.Inject
 
 class EntryRepositoryImpl @Inject constructor(private val entryDao: EntryDao): EntryRepository {

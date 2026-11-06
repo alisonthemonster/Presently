@@ -58,7 +58,6 @@ rx-binding = "2.1.1"
 rx-java = "2.2.9"
 targetSdk = "36"
 test-orchestrator = "1.6.1"
-three-ten-abp = "1.4.9"
 truth = "1.1.3"
 
 [libraries]
@@ -142,8 +141,6 @@ roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose"
 rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rx-android" }
 rxbinding = { module = "com.jakewharton.rxbinding2:rxbinding", version.ref = "rx-binding" }
 rxjava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rx-java" }
-three-ten-abp = { module = "com.jakewharton.threetenabp:threetenabp", version.ref = "three-ten-abp" }
-three-ten-bp = { module = "org.threeten:threetenbp", version.ref = "three-ten-abp" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]

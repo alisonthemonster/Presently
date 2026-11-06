@@ -1,10 +1,10 @@
 package journal.gratitude.com.gratitudejournal.reminders.onboarding.ui
 
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ReminderOnboardingStep
-import org.threeten.bp.LocalTime
+import java.time.LocalTime
 
 data class ReminderOnboardingState(
-    val selectedTime: LocalTime = LocalTime.parse("21:00"),
+    val selectedTime: LocalTime = LocalTime.of(21, 0),
     val steps: List<ReminderOnboardingStep> = listOf(
         ReminderOnboardingStep.TIME,
         ReminderOnboardingStep.SUCCESS

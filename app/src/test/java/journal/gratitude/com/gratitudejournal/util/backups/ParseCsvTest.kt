@@ -3,8 +3,8 @@ package journal.gratitude.com.gratitudejournal.util.backups
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.LocalExporter.convertCsvToEntries
 import org.junit.Test
-import org.threeten.bp.LocalDate
 import java.io.IOException
+import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 

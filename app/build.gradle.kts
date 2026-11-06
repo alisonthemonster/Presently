@@ -274,7 +274,6 @@ dependencies {
     implementation(libs.androidx.compose.runtime.livedata)
     implementation(libs.lottie.compose)
 
-    implementation(libs.three.ten.abp)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.material)
     implementation(libs.google.play.services.oss.licenses)
@@ -303,9 +302,6 @@ dependencies {
     implementation(libs.androidx.hilt.work)
 
     testImplementation(libs.junit4)
-    testImplementation(libs.three.ten.bp) {
-        exclude(group = "com.jakewharton.threetenabp", module = "threetenabp")
-    }
     testImplementation(libs.androidx.room.testing)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.androidx.arch.core.testing)
@@ -331,7 +327,6 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso.intents)
     androidTestImplementation(libs.truth)
     androidTestImplementation(libs.mockito.kotlin)
-    androidTestImplementation(libs.three.ten.bp)
     androidTestImplementation(libs.androidx.test.uiautomator)
     androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(libs.kotlinx.coroutines.test)

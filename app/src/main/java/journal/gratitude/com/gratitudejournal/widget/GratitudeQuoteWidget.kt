@@ -44,7 +44,7 @@ import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_WIDGET
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 class GratitudeQuoteWidget : GlanceAppWidget() {
 

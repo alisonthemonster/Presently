@@ -131,7 +131,7 @@ class TimelineFragment : Fragment() {
     }
 
     private fun navigateToDate(
-        clickedDate: org.threeten.bp.LocalDate,
+        clickedDate: java.time.LocalDate,
         isNewEntry: Boolean,
         numEntries: Int
     ) {

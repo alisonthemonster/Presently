@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.model.Entry
 import org.junit.Test
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 class TimelineUiModelsTest {
 

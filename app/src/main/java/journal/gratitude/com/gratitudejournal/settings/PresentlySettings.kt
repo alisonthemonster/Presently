@@ -2,7 +2,7 @@ package journal.gratitude.com.gratitudejournal.settings
 
 import android.content.Context
 import com.dropbox.core.oauth.DbxCredential
-import org.threeten.bp.LocalTime
+import java.time.LocalTime
 
 interface PresentlySettings {
 

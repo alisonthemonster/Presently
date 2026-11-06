@@ -55,9 +55,9 @@ import journal.gratitude.com.gratitudejournal.ui.calendar.EntryCalendar
 import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyFontFamilies
 import kotlinx.coroutines.coroutineScope
-import org.threeten.bp.LocalDate
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 object TimelineScreenTags {
     const val ROOT = "timeline_root"

@@ -10,8 +10,8 @@ import journal.gratitude.com.gratitudejournal.logging.DROPBOX_AUTH_QUIT
 import journal.gratitude.com.gratitudejournal.logging.DROPBOX_AUTH_SUCCESS
 import journal.gratitude.com.gratitudejournal.logging.updateDropboxBackupProperty
 import journal.gratitude.com.gratitudejournal.settings.model.*
+import java.time.LocalTime
 import java.util.*
-import org.threeten.bp.LocalTime
 import javax.inject.Inject
 
 class RealPresentlySettings @Inject constructor(

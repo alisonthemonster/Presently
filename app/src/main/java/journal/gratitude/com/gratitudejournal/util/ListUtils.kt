@@ -1,7 +1,7 @@
 package journal.gratitude.com.gratitudejournal.util
 
 import journal.gratitude.com.gratitudejournal.model.Entry
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 fun appendTodayAndYesterday(list: List<Entry>): List<Entry> {
     var entries: List<Entry>

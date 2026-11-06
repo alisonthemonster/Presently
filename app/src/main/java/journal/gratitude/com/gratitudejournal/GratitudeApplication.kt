@@ -4,7 +4,6 @@ import android.app.Application
 import com.airbnb.mvrx.Mavericks
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EarlyEntryPoint
 import dagger.hilt.android.EarlyEntryPoints
@@ -35,7 +34,6 @@ open class BaseGratitudeApplication : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
 
-        AndroidThreeTen.init(this)
         Mavericks.initialize(this)
         // TODO: If Mavericks runtime mocking is needed again, re-enable it only after upgrading
         // to a version that is compatible with Android 13+ dynamic receiver registration rules.

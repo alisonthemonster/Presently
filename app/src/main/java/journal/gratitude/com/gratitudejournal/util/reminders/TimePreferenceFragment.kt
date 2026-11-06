@@ -6,7 +6,7 @@ import android.widget.TimePicker
 import androidx.preference.PreferenceDialogFragmentCompat
 import dagger.hilt.android.EntryPointAccessors
 import journal.gratitude.com.gratitudejournal.di.SettingsEntryPoint
-import org.threeten.bp.LocalTime
+import java.time.LocalTime
 
 class TimePreferenceFragment: PreferenceDialogFragmentCompat() {
 

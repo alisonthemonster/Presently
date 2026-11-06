@@ -19,7 +19,7 @@ import journal.gratitude.com.gratitudejournal.ui.entry.EntryFragment
 import journal.gratitude.com.gratitudejournal.ui.setStatusBarColorsForBackground
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.ui.timeline.TimelineFragment
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import javax.inject.Inject
 
 @AndroidEntryPoint
