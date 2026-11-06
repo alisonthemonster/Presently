@@ -5,6 +5,7 @@ import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import java.time.LocalDate
 import androidx.preference.R as PreferenceR
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
@@ -23,7 +24,6 @@ import journal.gratitude.com.gratitudejournal.repository.EntryRepository
 import journal.gratitude.com.gratitudejournal.model.Entry
 import org.junit.Assert.assertEquals
 import org.hamcrest.CoreMatchers.not
-import org.threeten.bp.LocalDate
 import javax.inject.Inject
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent

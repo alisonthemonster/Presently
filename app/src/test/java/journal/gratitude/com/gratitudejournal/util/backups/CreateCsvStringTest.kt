@@ -3,7 +3,7 @@ package journal.gratitude.com.gratitudejournal.util.backups
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.util.backups.CsvWriter.createCsvString
 import org.junit.Test
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import kotlin.test.assertEquals
 
 class CreateCsvStringTest {

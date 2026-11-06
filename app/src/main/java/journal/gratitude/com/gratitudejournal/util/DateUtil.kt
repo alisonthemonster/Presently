@@ -1,23 +1,23 @@
 package journal.gratitude.com.gratitudejournal.util
 
-import org.threeten.bp.Instant
-import org.threeten.bp.LocalDate
-import org.threeten.bp.Month
-import org.threeten.bp.ZoneId
-import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.format.FormatStyle
-import org.threeten.bp.format.TextStyle
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.Month
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.time.format.TextStyle
 import java.util.*
 
+private val databaseDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
 fun String.toLocalDate(): LocalDate {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    return LocalDate.parse(this, formatter)
+    return LocalDate.parse(this, databaseDateFormatter)
 }
 
 fun LocalDate.toDatabaseString(): String {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    return this.format(formatter)
+    return this.format(databaseDateFormatter)
 }
 
 fun LocalDate.toFullString(): String {
@@ -56,7 +56,5 @@ fun Date.toLocalDate(): LocalDate {
 }
 
 fun LocalDate.toDate(): Date {
-    val cal = Calendar.getInstance()
-    cal.set(this.year, this.monthValue - 1, this.dayOfMonth)
-    return cal.time
+    return Date.from(atStartOfDay(ZoneId.systemDefault()).toInstant())
 }

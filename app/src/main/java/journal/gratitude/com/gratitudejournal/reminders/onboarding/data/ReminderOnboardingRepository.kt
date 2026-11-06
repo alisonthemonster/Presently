@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.util.reminders.NotificationScheduler
-import org.threeten.bp.LocalTime
+import java.time.LocalTime
 import javax.inject.Inject
 
 class ReminderOnboardingRepository @Inject constructor(

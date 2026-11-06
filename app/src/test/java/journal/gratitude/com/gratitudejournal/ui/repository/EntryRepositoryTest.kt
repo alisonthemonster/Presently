@@ -16,7 +16,7 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import kotlin.test.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)

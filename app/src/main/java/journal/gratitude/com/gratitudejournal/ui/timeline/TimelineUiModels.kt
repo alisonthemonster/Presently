@@ -2,13 +2,13 @@ package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import androidx.annotation.StringRes
 import journal.gratitude.com.gratitudejournal.R
-import java.time.DayOfWeek
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.Milestone
 import journal.gratitude.com.gratitudejournal.util.appendTodayAndYesterday
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
-import org.threeten.bp.LocalDate
+import java.time.DayOfWeek
+import java.time.LocalDate
 
 data class TimelineUiState(
     val items: List<TimelineRowState> = emptyList(),

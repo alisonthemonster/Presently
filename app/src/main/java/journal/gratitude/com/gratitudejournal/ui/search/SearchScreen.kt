@@ -53,7 +53,7 @@ import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyFontFamilies
 import journal.gratitude.com.gratitudejournal.util.toShortMonthString
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 object SearchScreenTags {
     const val SEARCH_INPUT = "search_input"

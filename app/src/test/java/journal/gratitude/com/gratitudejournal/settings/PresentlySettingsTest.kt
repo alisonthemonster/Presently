@@ -6,7 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import junit.framework.Assert.fail
 import org.junit.Test
-import org.threeten.bp.LocalTime
+import java.time.LocalTime
 import java.util.*
 
 class PresentlySettingsTest {

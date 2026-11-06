@@ -3,8 +3,8 @@ package journal.gratitude.com.gratitudejournal.ui.util
 import journal.gratitude.com.gratitudejournal.util.*
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
-import org.threeten.bp.LocalDate
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 class DateUtilTest {
@@ -128,6 +128,19 @@ class DateUtilTest {
 
         val fmt = SimpleDateFormat("yyyyMMdd")
         assertEquals(fmt.format(expected), fmt.format(localDate.toDate()))
+    }
+
+    @Test
+    fun convertLocalDateToDateIsStartOfDayAndRoundTrips() {
+        val localDate = LocalDate.of(2019, 3, 22)
+
+        val date = localDate.toDate()
+
+        val cal = Calendar.getInstance().apply { time = date }
+        assertEquals(0, cal.get(Calendar.HOUR_OF_DAY))
+        assertEquals(0, cal.get(Calendar.MINUTE))
+        assertEquals(0, cal.get(Calendar.MILLISECOND))
+        assertEquals(localDate, date.toLocalDate())
     }
 }
 

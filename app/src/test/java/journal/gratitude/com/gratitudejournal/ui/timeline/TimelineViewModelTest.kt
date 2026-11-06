@@ -27,11 +27,11 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.threeten.bp.LocalDate
 import journal.gratitude.com.gratitudejournal.util.toFullString
 import journal.gratitude.com.gratitudejournal.util.toStringWithDayOfWeek
-import java.util.Calendar
 import java.time.DayOfWeek
+import java.time.LocalDate
+import java.util.Calendar
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class TimelineViewModelTest {

@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.threeten.bp.LocalTime
+import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel

@@ -33,13 +33,12 @@ import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.daysOfWeek
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
-import org.threeten.bp.LocalDate
 import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
-import java.time.LocalDate as JavaLocalDate
 
 object EntryCalendarTags {
     const val CLOSE_BUTTON = "entry_calendar_close"
@@ -58,9 +57,9 @@ fun EntryCalendar(
 ) {
     val theme = LocalPresentlyTheme.current
     val writtenDatesSet = remember(writtenDates) {
-        writtenDates.mapTo(HashSet()) { it.toJavaLocalDate() }
+        HashSet(writtenDates)
     }
-    val today = remember { JavaLocalDate.now() }
+    val today = remember { LocalDate.now() }
     val currentMonth = remember { YearMonth.now() }
     val startMonth = remember { currentMonth.minusMonths(120) }
     val daysOfWeek = remember(firstDayOfWeek) { daysOfWeek(firstDayOfWeek) }
@@ -147,12 +146,11 @@ fun EntryCalendar(
                             day = day,
                             today = today,
                             isWritten = writtenDatesSet.contains(day.date),
-                            dayTag = EntryCalendarTags.day(day.date.toThreetenLocalDate()),
+                            dayTag = EntryCalendarTags.day(day.date),
                             onDateClick = { clickedDate ->
-                                val threetenDate = clickedDate.toThreetenLocalDate()
                                 onDateClick(
-                                    threetenDate,
-                                    !writtenDates.contains(threetenDate),
+                                    clickedDate,
+                                    !writtenDates.contains(clickedDate),
                                     writtenDates.size
                                 )
                             }
@@ -191,10 +189,10 @@ fun EntryCalendar(
 @Composable
 private fun CalendarDay(
     day: CalendarDay,
-    today: JavaLocalDate,
+    today: LocalDate,
     isWritten: Boolean,
     dayTag: String,
-    onDateClick: (JavaLocalDate) -> Unit
+    onDateClick: (LocalDate) -> Unit
 ) {
     val theme = LocalPresentlyTheme.current
     val isInMonth = day.position == DayPosition.MonthDate
@@ -243,9 +241,3 @@ private fun CalendarDay(
         }
     }
 }
-
-private fun LocalDate.toJavaLocalDate(): JavaLocalDate =
-    JavaLocalDate.of(year, monthValue, dayOfMonth)
-
-private fun JavaLocalDate.toThreetenLocalDate(): LocalDate =
-    LocalDate.of(year, monthValue, dayOfMonth)

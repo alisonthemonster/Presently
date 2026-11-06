@@ -25,8 +25,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
+import java.time.LocalDate
 import java.util.Calendar
-import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
