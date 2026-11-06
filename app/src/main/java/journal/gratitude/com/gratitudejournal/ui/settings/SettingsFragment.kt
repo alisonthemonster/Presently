@@ -37,6 +37,7 @@ import journal.gratitude.com.gratitudejournal.logging.CrashReporter
 import journal.gratitude.com.gratitudejournal.logging.updateDropboxBackupProperty
 import journal.gratitude.com.gratitudejournal.settings.BackupCadence
 import journal.gratitude.com.gratitudejournal.settings.BackupStatusStore
+import journal.gratitude.com.gratitudejournal.settings.ManualExportRecorder
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import journal.gratitude.com.gratitudejournal.settings.model.*
 import journal.gratitude.com.gratitudejournal.BuildConfig
@@ -79,6 +80,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     @Inject lateinit var repository: EntryRepository
     @Inject lateinit var settings: PresentlySettings
     @Inject lateinit var backupStatusStore: BackupStatusStore
+    private val manualExportRecorder by lazy { ManualExportRecorder(backupStatusStore, analytics) }
     @Inject lateinit var analytics: AnalyticsLogger
     @Inject lateinit var crashReporter: CrashReporter
 
@@ -762,9 +764,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
                             repository.getEntries()
                     )
                     when (csvResult) {
-                        is CsvUriError -> exportCallback.onFailure(csvResult.exception)
+                        is CsvUriError -> {
+                            manualExportRecorder.onExportFailed()
+                            exportCallback.onFailure(csvResult.exception)
+                        }
                         is CsvUriCreated -> {
-                            backupStatusStore.recordManualExport()
+                            manualExportRecorder.onExported()
                             exportCallback.onSuccess(csvResult.uri)
                         }
                     }

@@ -20,6 +20,8 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.logging.updateDropboxBackupProperty
+import journal.gratitude.com.gratitudejournal.settings.BackupStatusStore
+import journal.gratitude.com.gratitudejournal.settings.updateLastBackupAgeProperty
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
 import dagger.hilt.android.AndroidEntryPoint
 import journal.gratitude.com.gratitudejournal.model.CAME_FROM_NOTIFICATION
@@ -45,6 +47,7 @@ class ContainerActivity : AppCompatActivity() {
 
     @Inject lateinit var settings: PresentlySettings
     @Inject lateinit var analyticsLogger: AnalyticsLogger
+    @Inject lateinit var backupStatusStore: BackupStatusStore
 
     override fun attachBaseContext(newBase: Context) {
         AppLocaleManager.applyStoredApplicationLocales(newBase)
@@ -61,6 +64,7 @@ class ContainerActivity : AppCompatActivity() {
 
         logLaunchSourceFromIntent(intent)
         analyticsLogger.updateDropboxBackupProperty(settings)
+        analyticsLogger.updateLastBackupAgeProperty(settings, backupStatusStore)
 
         NotificationScheduler().configureNotifications(this, settings)
 
