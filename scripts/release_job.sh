@@ -470,6 +470,22 @@ create_version_commit() {
   echo "Created release version commit: ${version_name}"
 }
 
+check_git_push_access() {
+  if [[ "$VERSION_COMMIT_CREATED" != true ]]; then
+    return
+  fi
+
+  local push_remote_url
+  push_remote_url="$(authenticated_git_url "$(git remote get-url "$GIT_REMOTE")")"
+
+  # Fail before the build and Play upload if the token is expired or read-only.
+  # A dry-run push to a new ref authenticates for writing without touching the branch.
+  if ! git push --dry-run "$push_remote_url" "HEAD:refs/heads/release-preflight-check" >/dev/null 2>&1; then
+    echo "Unable to push to ${GIT_REMOTE} with GITHUB_BOT_TOKEN. The token is likely expired or lacks write access; refresh it in the CircleCI context before releasing." >&2
+    exit 1
+  fi
+}
+
 push_version_commit() {
   if [[ "$VERSION_COMMIT_CREATED" != true ]]; then
     return
@@ -508,7 +524,7 @@ push_version_commit() {
     sleep $((attempt * 2))
   done
 
-  echo "Failed to push the release version commit after ${max_attempts} attempts. The Play upload for this release already succeeded, but the versionCode bump was NOT persisted to git. The next release will fail until gradle/libs.versions.toml is resynced manually." >&2
+  echo "Failed to push the release version commit after ${max_attempts} attempts. Nothing was uploaded to Play; fix the git push access and rerun the release." >&2
   exit 1
 }
 
@@ -517,6 +533,7 @@ stage_release_fonts
 stage_gcloud_key
 apply_version_update
 create_version_commit
+check_git_push_access
 
 if [[ "$RUN_UNIT_TESTS" == true || "$INSTRUMENTED_MODE" != "skip" ]]; then
   echo "Building debug test artifacts..."
@@ -546,6 +563,10 @@ fi
 echo "Building release artifacts..."
 run_gradle "${RELEASE_TASKS[@]}"
 
+# Persist the version bump before uploading so a git failure can't leave Play
+# ahead of gradle/libs.versions.toml.
+push_version_commit
+
 if [[ -n "$PLAY_TRACK" ]]; then
   PLAY_TASKS=(publishReleaseBundle --artifact-dir "${ROOT_DIR}/app/build/outputs/bundle/release" --track "$PLAY_TRACK")
   if [[ -n "$PLAY_RELEASE_NAME" ]]; then
@@ -555,8 +576,6 @@ if [[ -n "$PLAY_TRACK" ]]; then
   echo "Uploading release bundle to Google Play track: $PLAY_TRACK"
   run_gradle "${PLAY_TASKS[@]}"
 fi
-
-push_version_commit
 
 echo
 echo "Release outputs:"
