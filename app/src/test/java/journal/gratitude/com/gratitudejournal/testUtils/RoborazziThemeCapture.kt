@@ -10,9 +10,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.unit.dp
+import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.captureRoboImage
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyTheme
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyThemeSpec
+
+/**
+ * Baselines are recorded on CI (Linux) but are also recorded and verified on developer Macs,
+ * where native text rendering differs by a few hundred pixels per image (~0.01%). Allow up to
+ * 0.1% of pixels to change so that doesn't fail verification. Real UI changes move far more
+ * pixels than this (a moved or restyled element is typically several percent).
+ */
+internal val ScreenshotRoborazziOptions = RoborazziOptions(
+    compareOptions = RoborazziOptions.CompareOptions(changeThreshold = 0.001f)
+)
 
 data class ScreenshotDevice(
     val widthDp: Int,
@@ -57,7 +68,7 @@ fun ComposeContentTestRule.captureAcrossThemes(
             currentTheme = themeSpec
         }
         waitForIdle()
-        onRoot().captureRoboImage("$screen/$scenario/${themeSpec.name.lowercase()}.png")
+        onRoot().captureRoboImage("$screen/$scenario/${themeSpec.name.lowercase()}.png", roborazziOptions = ScreenshotRoborazziOptions)
     }
 }
 
@@ -82,5 +93,8 @@ fun ComposeContentTestRule.captureInTheme(
     }
 
     waitForIdle()
-    onRoot().captureRoboImage("$screen/${scenario}-${themeSpec.name.lowercase()}.png")
+    onRoot().captureRoboImage(
+        "$screen/${scenario}-${themeSpec.name.lowercase()}.png",
+        roborazziOptions = ScreenshotRoborazziOptions
+    )
 }
