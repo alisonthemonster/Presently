@@ -165,4 +165,5 @@
     <string name="erase_all_confirm_word" translatable="true">ERASE</string>
     <string name="erase_all_confirm_button">Confirm</string>
     <string name="erase_all_success">All entries erased</string>
+    <string name="timeline_scrubber">Timeline scrubber</string>
 </resources>

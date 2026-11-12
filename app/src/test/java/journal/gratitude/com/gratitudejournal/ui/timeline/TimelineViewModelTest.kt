@@ -120,6 +120,16 @@ class TimelineViewModelTest {
     }
 
     @Test
+    fun onScrubberUsed_recordsAnalytics() = runTest {
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.onScrubberUsed()
+
+        verify(analytics).recordEvent("timelineScrubberUsed")
+    }
+
+    @Test
     fun onBackPressed_whenCalendarVisible_hidesCalendar() = runTest {
         val viewModel = createViewModel()
         advanceUntilIdle()

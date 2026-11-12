@@ -19,6 +19,8 @@ const val OPENED_CALENDAR = "clickedCalendar"
 const val CLICKED_NEW_ENTRY_CALENDAR = "clickedNewEntryFromCal"
 const val CLICKED_EXISTING_ENTRY_CALENDAR = "clickedExistingEntryFromCal"
 
+const val TIMELINE_SCRUBBER_USED = "timelineScrubberUsed"
+
 //SETTINGS EVENTS
 const val LOOKED_AT_SETTINGS = "lookedAtSettings"
 const val OPENED_CONTACT_FORM = "openedContactForm"

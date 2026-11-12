@@ -42,6 +42,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
@@ -72,6 +74,9 @@ object TimelineScreenTags {
     const val OVERFLOW = "timeline_overflow"
     const val CALENDAR_BUTTON = "timeline_calendar_button"
     const val CALENDAR = "timeline_calendar"
+    const val SCRUBBER_HANDLE = "timeline_scrubber_handle"
+    const val SCRUBBER_BUBBLE = "timeline_scrubber_bubble"
+    const val SCRUBBER_SEMANTICS = "timeline_scrubber_semantics"
 
     fun entry(date: String) = "timeline_entry_$date"
     fun milestone(number: Int) = "timeline_milestone_$number"
@@ -86,7 +91,8 @@ fun TimelineScreen(
     onTimelineEntryClick: (TimelineEntryRowState) -> Unit,
     onCalendarClick: () -> Unit,
     onCalendarClose: () -> Unit,
-    onCalendarDateClick: (LocalDate, Boolean, Int) -> Unit
+    onCalendarDateClick: (LocalDate, Boolean, Int) -> Unit,
+    onScrubberUsed: () -> Unit
 ) {
     val uiState by state.collectAsStateWithLifecycle()
     TimelineScreenContent(
@@ -96,7 +102,8 @@ fun TimelineScreen(
         onTimelineEntryClick = onTimelineEntryClick,
         onCalendarClick = onCalendarClick,
         onCalendarClose = onCalendarClose,
-        onCalendarDateClick = onCalendarDateClick
+        onCalendarDateClick = onCalendarDateClick,
+        onScrubberUsed = onScrubberUsed
     )
 }
 
@@ -108,10 +115,12 @@ fun TimelineScreenContent(
     onTimelineEntryClick: (TimelineEntryRowState) -> Unit,
     onCalendarClick: () -> Unit,
     onCalendarClose: () -> Unit,
-    onCalendarDateClick: (LocalDate, Boolean, Int) -> Unit
+    onCalendarDateClick: (LocalDate, Boolean, Int) -> Unit,
+    onScrubberUsed: () -> Unit
 ) {
     val theme = LocalPresentlyTheme.current
     val listState = rememberLazyListState()
+    var isListTouched by remember { mutableStateOf(false) }
     val animationDurationMillis = 250
     val calendarTopPadding = 64.dp
     val density = LocalDensity.current
@@ -218,28 +227,53 @@ fun TimelineScreenContent(
                     onSettingsClick = onSettingsClick,
                 )
 
-                LazyColumn(
-                    state = listState,
+                Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .testTag(TimelineScreenTags.LIST)
-                ) {
-                    items(
-                        items = state.items,
-                        key = { item ->
-                            when (item) {
-                                is TimelineEntryRowState -> item.date.toString()
-                                is TimelineMilestoneRowState -> "milestone-${item.number}"
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .pointerInput(Unit) {
+                            // Observe (never consume) touches so the scrubber handle stays visible.
+                            awaitPointerEventScope {
+                                while (true) {
+                                    val event = awaitPointerEvent(PointerEventPass.Initial)
+                                    isListTouched = event.changes.any { it.pressed }
+                                }
                             }
                         }
-                    ) { item ->
-                        when (item) {
-                            is TimelineEntryRowState -> TimelineEntryRow(
-                                state = item,
-                                onClick = { onTimelineEntryClick(item) }
-                            )
-                            is TimelineMilestoneRowState -> TimelineMilestoneRow(state = item)
+                ) {
+                    LazyColumn(
+                        state = listState,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .testTag(TimelineScreenTags.LIST)
+                    ) {
+                        items(
+                            items = state.items,
+                            key = { item ->
+                                when (item) {
+                                    is TimelineEntryRowState -> item.date.toString()
+                                    is TimelineMilestoneRowState -> "milestone-${item.number}"
+                                }
+                            }
+                        ) { item ->
+                            when (item) {
+                                is TimelineEntryRowState -> TimelineEntryRow(
+                                    state = item,
+                                    onClick = { onTimelineEntryClick(item) }
+                                )
+                                is TimelineMilestoneRowState -> TimelineMilestoneRow(state = item)
+                            }
                         }
+                    }
+
+                    if (state.items.size >= MIN_ROWS_FOR_SCRUBBER) {
+                        TimelineScrubber(
+                            listState = listState,
+                            items = state.items,
+                            hidden = state.isCalendarVisible || isCalendarMounted,
+                            isListTouched = { isListTouched },
+                            onDragStarted = onScrubberUsed
+                        )
                     }
                 }
             }
