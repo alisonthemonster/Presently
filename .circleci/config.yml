@@ -48,9 +48,6 @@ jobs:
           name: Run unit tests
           command: ./gradlew -Pcoverage testDebugUnitTest --stacktrace
       - run:
-          name: Verify Roborazzi screenshots
-          command: ./gradlew verifyRoborazziDebug -Pscreenshot --stacktrace
-      - run:
           name: Test with Firebase Test Lab
           command: ./gradlew -Pcoverage -PenableFladle runFlank --stacktrace
       - run:
@@ -59,6 +56,11 @@ jobs:
       - run:
           name: Generate JaCoCo report
           command: ./gradlew -Pcoverage jacocoFullReport --stacktrace
+      # Must run after the JaCoCo report: it re-runs a subset of the unit tests and
+      # would overwrite the coverage data collected by testDebugUnitTest above.
+      - run:
+          name: Verify Roborazzi screenshots
+          command: ./gradlew verifyRoborazziDebug -Pscreenshot --stacktrace
       - store_artifacts:
           path: app/build/outputs/roborazzi/
           destination: screenshot-diffs/
