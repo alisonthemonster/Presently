@@ -1,5 +1,6 @@
 package journal.gratitude.com.gratitudejournal.ui.entry
 
+import java.time.LocalDate
 import android.text.InputType
 import android.util.TypedValue
 import android.view.Gravity
@@ -91,6 +92,7 @@ fun EntryScreen(
 @Composable
 internal fun EntryScreenContent(
     state: EntryUiState,
+    today: LocalDate = LocalDate.now(),
     onPromptClick: () -> Unit,
     onShareClick: () -> Unit,
     onSaveClick: () -> Unit,
@@ -98,7 +100,7 @@ internal fun EntryScreenContent(
     onTextChanged: (String) -> Unit
 ) {
     val theme = LocalPresentlyTheme.current
-    val headerMode = state.date.toEntryHeaderMode()
+    val headerMode = state.date.toEntryHeaderMode(today)
     val dateText = when (headerMode) {
         EntryHeaderMode.TODAY -> stringResource(R.string.today)
         EntryHeaderMode.YESTERDAY -> stringResource(R.string.yesterday)

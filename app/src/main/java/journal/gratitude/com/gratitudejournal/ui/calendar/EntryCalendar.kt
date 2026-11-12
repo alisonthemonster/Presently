@@ -53,14 +53,14 @@ fun EntryCalendar(
     firstDayOfWeek: DayOfWeek,
     onDateClick: (LocalDate, isNewDate: Boolean, numberOfEntries: Int) -> Unit,
     onCloseClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    today: LocalDate = LocalDate.now()
 ) {
     val theme = LocalPresentlyTheme.current
     val writtenDatesSet = remember(writtenDates) {
         HashSet(writtenDates)
     }
-    val today = remember { LocalDate.now() }
-    val currentMonth = remember { YearMonth.now() }
+    val currentMonth = remember(today) { YearMonth.from(today) }
     val startMonth = remember { currentMonth.minusMonths(120) }
     val daysOfWeek = remember(firstDayOfWeek) { daysOfWeek(firstDayOfWeek) }
     val displayLocale = Locale.getDefault()

@@ -24,12 +24,18 @@ class EntryScreenScreenshotTest {
     @get:Rule
     val composeRule = createComposeRule()
 
+    private companion object {
+        // Fixed "today" so baselines don't depend on when the tests run.
+        val TEST_TODAY: LocalDate = LocalDate.of(2026, 4, 15)
+    }
+
     @Test
     fun emptyDraft_allThemes() {
         composeRule.captureAcrossThemes(screen = "entry", scenario = "empty-draft") { _ ->
             EntryScreenContent(
+                today = TEST_TODAY,
                 state = EntryUiState(
-                    date = LocalDate.now(),
+                    date = TEST_TODAY,
                     entryContent = "",
                     isNewEntry = true,
                     numberExistingEntries = 0,
@@ -54,6 +60,7 @@ class EntryScreenScreenshotTest {
     fun writtenEntry_allThemes() {
         composeRule.captureAcrossThemes(screen = "entry", scenario = "written-entry") { _ ->
             EntryScreenContent(
+                today = TEST_TODAY,
                 state = EntryUiState(
                     date = LocalDate.of(2026, 3, 28),
                     entryContent = "Sunshine on the balcony",
@@ -86,6 +93,7 @@ class EntryScreenScreenshotTest {
             device = ScreenshotDevices.TabletPortrait
         ) {
             EntryScreenContent(
+                today = TEST_TODAY,
                 state = EntryUiState(
                     date = LocalDate.of(2026, 3, 28),
                     entryContent = "Sunshine on the balcony",
