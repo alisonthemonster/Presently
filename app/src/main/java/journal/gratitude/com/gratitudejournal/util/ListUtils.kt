@@ -3,42 +3,21 @@ package journal.gratitude.com.gratitudejournal.util
 import journal.gratitude.com.gratitudejournal.model.Entry
 import java.time.LocalDate
 
+/**
+ * Returns [list] (newest first) with empty placeholder entries for today and yesterday added
+ * when missing. Placeholders are added by date rather than by list position so a future-dated
+ * entry at the top of the list can never cause a date to appear twice (the timeline uses the
+ * date as a unique LazyColumn key).
+ */
 fun appendTodayAndYesterday(list: List<Entry>): List<Entry> {
-    var entries: List<Entry>
     val today = LocalDate.now()
-    val yesterday = LocalDate.now().minusDays(1)
-    when {
-        list.isEmpty() -> {
-            entries = listOf<Entry>(
-                Entry(today, ""),
-                Entry(yesterday, "")
-            )
-        }
-        list.size < 2 -> {
-            //user has only ever written one day
-            val newList = mutableListOf<Entry>()
-            newList.addAll(list)
-            if (list[0].entryDate != today) {
-                newList.add(0, Entry(today, ""))
-            }
-            if (list[0].entryDate != yesterday) {
-                newList.add(1, Entry(yesterday, ""))
-            }
-            entries = newList
-        }
-        else -> {
-            val latest = list[0]
-            val newList = mutableListOf<Entry>()
-            newList.addAll(list)
-            if (latest.entryDate != today) {
-                newList.add(0, Entry(today, ""))
-            }
-            if (newList[1].entryDate != yesterday) {
-                newList.add(1, Entry(yesterday, ""))
-            }
-            entries = newList
-        }
+    val yesterday = today.minusDays(1)
+    val entries = list.distinctBy { it.entryDate }.toMutableList()
+    if (entries.none { it.entryDate == today }) {
+        entries.add(Entry(today, ""))
     }
-
-    return entries
+    if (entries.none { it.entryDate == yesterday }) {
+        entries.add(Entry(yesterday, ""))
+    }
+    return entries.sortedByDescending { it.entryDate }
 }
