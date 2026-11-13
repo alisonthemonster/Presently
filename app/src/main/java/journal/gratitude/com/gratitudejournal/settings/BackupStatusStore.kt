@@ -1,5 +1,7 @@
 package journal.gratitude.com.gratitudejournal.settings
 
+import journal.gratitude.com.gratitudejournal.util.backups.status.BackupBannerDismissal
+import journal.gratitude.com.gratitudejournal.util.backups.status.BackupStatusType
 import journal.gratitude.com.gratitudejournal.util.backups.status.UploadFailure
 import journal.gratitude.com.gratitudejournal.util.backups.status.UploadFailureType
 
@@ -42,4 +44,10 @@ interface BackupStatusStore {
 
     /** Dropbox access was lost without the user asking (revoked or expired token). */
     fun markDropboxDisconnectedUnexpectedly()
+
+    /** The last time the user dismissed the backup card, for the snooze in [journal.gratitude.com.gratitudejournal.util.backups.status.BackupStatusResolver.shouldShowBanner]. */
+    fun getBannerDismissal(): BackupBannerDismissal?
+
+    /** The user dismissed the card for a status of this [type]. Replaces any earlier dismissal. */
+    fun recordBannerDismissal(type: BackupStatusType)
 }

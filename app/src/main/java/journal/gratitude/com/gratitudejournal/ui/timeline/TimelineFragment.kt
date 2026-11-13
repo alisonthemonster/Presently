@@ -54,7 +54,9 @@ class TimelineFragment : Fragment() {
                         onTimelineEntryClick = viewModel::onTimelineEntryClicked,
                         onCalendarClick = viewModel::onCalendarClicked,
                         onCalendarClose = viewModel::onCalendarClosed,
-                        onCalendarDateClick = viewModel::onCalendarDateClicked
+                        onCalendarDateClick = viewModel::onCalendarDateClicked,
+                        onCardActionClick = viewModel::onTimelineCardActionClicked,
+                        onCardDismiss = viewModel::onTimelineCardDismissed
                     )
                 }
             }
@@ -93,6 +95,9 @@ class TimelineFragment : Fragment() {
                         }
                         TimelineEffect.OpenSearch -> openSearchScreen()
                         TimelineEffect.OpenSettings -> openSettings()
+                        TimelineEffect.OpenBackupSettings -> openSettings()
+                        TimelineEffect.ReconnectDropbox -> openSettings(SettingsFragment.ACTION_RECONNECT_DROPBOX)
+                        TimelineEffect.ExportBackup -> openSettings(SettingsFragment.ACTION_EXPORT_BACKUP)
                     }
                 }
             }
@@ -148,8 +153,8 @@ class TimelineFragment : Fragment() {
             .commit()
     }
 
-    private fun openSettings() {
-        val fragment = SettingsFragment()
+    private fun openSettings(launchAction: String? = null) {
+        val fragment = SettingsFragment.newInstance(launchAction)
         parentFragmentManager
             .beginTransaction()
             .replace(R.id.container_fragment, fragment)

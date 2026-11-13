@@ -45,6 +45,8 @@ class TimelineViewModelTest {
     private lateinit var repository: TestTimelineRepository
     private lateinit var settings: PresentlySettings
     private lateinit var analytics: AnalyticsLogger
+    private lateinit var backupStatusStore: journal.gratitude.com.gratitudejournal.settings.BackupStatusStore
+    private val clock = java.time.Clock.fixed(java.time.Instant.parse("2026-11-13T12:00:00Z"), java.time.ZoneOffset.UTC)
     private var showDayOfWeek = false
     private var linesPerEntry = 10
     private var firstDayOfWeek = Calendar.MONDAY
@@ -54,6 +56,12 @@ class TimelineViewModelTest {
         repository = TestTimelineRepository()
         settings = mock()
         analytics = mock()
+        backupStatusStore = mock()
+        // A Mockito mock returns 0 for a nullable Long, which would read as a backup in 1970.
+        whenever(backupStatusStore.getLastDropboxSuccessAt()).thenReturn(null)
+        whenever(backupStatusStore.getLastManualExportAt()).thenReturn(null)
+        whenever(backupStatusStore.getDropboxEnabledAt()).thenReturn(null)
+        whenever(settings.getAutomaticBackupCadence()).thenReturn(journal.gratitude.com.gratitudejournal.settings.BackupCadence.DAILY)
         whenever(settings.shouldShowDayOfWeekInTimeline()).thenAnswer { showDayOfWeek }
         whenever(settings.getLinesPerEntryInTimeline()).thenAnswer { linesPerEntry }
         whenever(settings.getTimelineFontScale()).thenReturn(100)
@@ -171,12 +179,54 @@ class TimelineViewModelTest {
         assertThat(viewModel.state.value.firstDayOfWeek).isEqualTo(DayOfWeek.SUNDAY)
     }
 
+    @Test
+    fun neverBackedUp_showsCardFirst_andDismissRecordsAndHidesIt() = runTest {
+        val today = LocalDate.now()
+        repository.entriesFlow.emit((0 until 12).map { Entry(today.minusDays(it.toLong()), "x") })
+        var dismissal: journal.gratitude.com.gratitudejournal.util.backups.status.BackupBannerDismissal? = null
+        whenever(backupStatusStore.getBannerDismissal()).thenAnswer { dismissal }
+        whenever(backupStatusStore.recordBannerDismissal(com.nhaarman.mockitokotlin2.any())).thenAnswer {
+            dismissal = journal.gratitude.com.gratitudejournal.util.backups.status.BackupBannerDismissal(
+                journal.gratitude.com.gratitudejournal.util.backups.status.BackupStatusType.NEVER_BACKED_UP,
+                clock.millis()
+            )
+            Unit
+        }
+
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        val card = viewModel.state.value.items.first() as TimelineCardRowState
+        assertThat(card.isDismissible).isTrue()
+
+        verify(analytics).recordEvent("backupCardViewed", mapOf("status" to "never_backed_up"))
+
+        viewModel.onTimelineCardActionClicked(card.action)
+        verify(analytics).recordEvent("backupCardActionClicked", mapOf("status" to "never_backed_up"))
+
+        viewModel.onTimelineCardDismissed(card)
+        verify(analytics).recordEvent("backupCardDismissed", mapOf("status" to "never_backed_up"))
+
+        assertThat(viewModel.state.value.items.filterIsInstance<TimelineCardRowState>()).isEmpty()
+    }
+
+    @Test
+    fun healthy_showsNoCard() = runTest {
+        repository.entriesFlow.emit(listOf(Entry(LocalDate.now(), "x")))
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        assertThat(viewModel.state.value.items.filterIsInstance<TimelineCardRowState>()).isEmpty()
+    }
+
     private fun createViewModel(): TimelineViewModel {
         return TimelineViewModel(
             repository = repository,
             settings = settings,
+            backupStatusStore = backupStatusStore,
             analytics = analytics,
-            shouldShowReminderOnboarding = ShouldShowReminderOnboardingUseCase()
+            shouldShowReminderOnboarding = ShouldShowReminderOnboardingUseCase(),
+            clock = clock,
+            defaultDispatcher = mainDispatcherRule.dispatcher
         )
     }
 }

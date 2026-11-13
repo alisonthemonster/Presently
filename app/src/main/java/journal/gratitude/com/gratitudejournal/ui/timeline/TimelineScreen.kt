@@ -80,7 +80,9 @@ fun TimelineScreen(
     onTimelineEntryClick: (TimelineEntryRowState) -> Unit,
     onCalendarClick: () -> Unit,
     onCalendarClose: () -> Unit,
-    onCalendarDateClick: (LocalDate, Boolean, Int) -> Unit
+    onCalendarDateClick: (LocalDate, Boolean, Int) -> Unit,
+    onCardActionClick: (TimelineCardAction) -> Unit = {},
+    onCardDismiss: (TimelineCardRowState) -> Unit = {}
 ) {
     val uiState by state.collectAsStateWithLifecycle()
     TimelineScreenContent(
@@ -90,7 +92,9 @@ fun TimelineScreen(
         onTimelineEntryClick = onTimelineEntryClick,
         onCalendarClick = onCalendarClick,
         onCalendarClose = onCalendarClose,
-        onCalendarDateClick = onCalendarDateClick
+        onCalendarDateClick = onCalendarDateClick,
+        onCardActionClick = onCardActionClick,
+        onCardDismiss = onCardDismiss
     )
 }
 
@@ -102,7 +106,9 @@ fun TimelineScreenContent(
     onTimelineEntryClick: (TimelineEntryRowState) -> Unit,
     onCalendarClick: () -> Unit,
     onCalendarClose: () -> Unit,
-    onCalendarDateClick: (LocalDate, Boolean, Int) -> Unit
+    onCalendarDateClick: (LocalDate, Boolean, Int) -> Unit,
+    onCardActionClick: (TimelineCardAction) -> Unit = {},
+    onCardDismiss: (TimelineCardRowState) -> Unit = {}
 ) {
     val theme = LocalPresentlyTheme.current
     val animationDurationMillis = 250
@@ -208,6 +214,7 @@ fun TimelineScreenContent(
                             when (item) {
                                 is TimelineEntryRowState -> item.date.toString()
                                 is TimelineMilestoneRowState -> "milestone-${item.number}"
+                                is TimelineCardRowState -> "card-${item.id}"
                             }
                         }
                     ) { item ->
@@ -217,6 +224,11 @@ fun TimelineScreenContent(
                                 onClick = { onTimelineEntryClick(item) }
                             )
                             is TimelineMilestoneRowState -> TimelineMilestoneRow(state = item)
+                            is TimelineCardRowState -> TimelineCard(
+                                state = item,
+                                onActionClick = { onCardActionClick(item.action) },
+                                onDismiss = { onCardDismiss(item) }
+                            )
                         }
                     }
                 }

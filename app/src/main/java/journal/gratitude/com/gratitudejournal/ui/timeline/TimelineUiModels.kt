@@ -38,7 +38,36 @@ data class TimelineMilestoneRowState(
     val numberText: String
 ) : TimelineRowState
 
+enum class TimelineCardTone { WARNING, DANGER }
+
+/** What a card's button does. Add a case here for a new kind of card. */
+sealed interface TimelineCardAction {
+    data object ReconnectDropbox : TimelineCardAction
+    data object ExportBackup : TimelineCardAction
+    data object OpenSettings : TimelineCardAction
+}
+
+/** A string resource with optional format arguments, resolved in the UI. */
+data class TimelineCardText(@StringRes val res: Int, val args: List<Any> = emptyList())
+
+/**
+ * A compact card shown in the timeline, such as the backup status card. Reusable: a new kind of
+ * card only needs its own [id], copy and [action].
+ */
+data class TimelineCardRowState(
+    val id: String,
+    val title: TimelineCardText,
+    val body: TimelineCardText,
+    @StringRes val actionLabel: Int,
+    val action: TimelineCardAction,
+    val tone: TimelineCardTone,
+    val isDismissible: Boolean
+) : TimelineRowState
+
 sealed interface TimelineEffect {
+    data object ReconnectDropbox : TimelineEffect
+    data object ExportBackup : TimelineEffect
+    data object OpenBackupSettings : TimelineEffect
     data object OpenSearch : TimelineEffect
     data object OpenSettings : TimelineEffect
     data object ExitTimeline : TimelineEffect

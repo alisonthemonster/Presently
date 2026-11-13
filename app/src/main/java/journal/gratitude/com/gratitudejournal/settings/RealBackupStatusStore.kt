@@ -1,6 +1,8 @@
 package journal.gratitude.com.gratitudejournal.settings
 
 import android.content.SharedPreferences
+import journal.gratitude.com.gratitudejournal.util.backups.status.BackupBannerDismissal
+import journal.gratitude.com.gratitudejournal.util.backups.status.BackupStatusType
 import journal.gratitude.com.gratitudejournal.util.backups.status.UploadFailure
 import journal.gratitude.com.gratitudejournal.util.backups.status.UploadFailureType
 
@@ -84,6 +86,22 @@ class RealBackupStatusStore(
         sharedPrefs.edit().putBoolean(DROPBOX_DISCONNECTED_UNEXPECTEDLY, true).apply()
     }
 
+    override fun getBannerDismissal(): BackupBannerDismissal? {
+        val type = sharedPrefs.getString(BANNER_DISMISSED_TYPE, null)
+            ?.let { name -> BackupStatusType.entries.firstOrNull { it.name == name } }
+            ?: return null
+        val at = sharedPrefs.getLongOrNull(BANNER_DISMISSED_AT) ?: return null
+        return BackupBannerDismissal(type, at)
+    }
+
+    @Synchronized
+    override fun recordBannerDismissal(type: BackupStatusType) {
+        sharedPrefs.edit()
+            .putString(BANNER_DISMISSED_TYPE, type.name)
+            .putLong(BANNER_DISMISSED_AT, now())
+            .apply()
+    }
+
     private fun SharedPreferences.getLongOrNull(key: String): Long? =
         if (contains(key)) getLong(key, 0L) else null
 
@@ -93,6 +111,8 @@ class RealBackupStatusStore(
         const val LAST_FAILURE_TYPE = "backup_last_failure_type"
         const val LAST_FAILURE_AT = "backup_last_failure_at"
         const val DROPBOX_ENABLED_AT = "backup_dropbox_enabled_at"
+        const val BANNER_DISMISSED_TYPE = "backup_banner_dismissed_type"
+        const val BANNER_DISMISSED_AT = "backup_banner_dismissed_at"
         const val DROPBOX_DISCONNECTED_UNEXPECTEDLY = "backup_dropbox_disconnected_unexpectedly"
     }
 }

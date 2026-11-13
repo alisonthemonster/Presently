@@ -19,3 +19,9 @@ const val NOTIFICATION_TROUBLESHOOTER_CHECK_FAILED = "notification_troubleshoote
 const val NOTIFICATION_TROUBLESHOOTER_FIX_IT_TAPPED = "notification_troubleshooter_fix_it_tapped"
 const val NOTIFICATION_TROUBLESHOOTER_CONTACT_SUPPORT_TAPPED =
     "notification_troubleshooter_contact_support_tapped"
+
+/** Backup status card on the timeline. Each carries [BACKUP_CARD_STATUS_KEY], e.g. `dropbox_full`. */
+const val BACKUP_CARD_VIEWED = "backupCardViewed"
+const val BACKUP_CARD_ACTION_CLICKED = "backupCardActionClicked"
+const val BACKUP_CARD_DISMISSED = "backupCardDismissed"
+const val BACKUP_CARD_STATUS_KEY = "status"

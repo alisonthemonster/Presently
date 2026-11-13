@@ -28,4 +28,18 @@
     <string name="language_tr" translatable="false">Türkçe</string>
     <string name="language_af" translatable="false">Afrikaans</string>
     <string name="language_zh_hk" translatable="false">繁體中文(香港)</string>
+    <!-- Backup status card on the timeline (placeholder copy) -->
+    <string name="backup_card_dropbox_stopped_title">Dropbox backup stopped</string>
+    <string name="backup_card_dropbox_stopped_body">Reconnect so your entries stay safe.</string>
+    <string name="backup_card_dropbox_full_title">Dropbox is full</string>
+    <string name="backup_card_dropbox_full_body">Free up space so your entries can back up again.</string>
+    <string name="backup_card_never_title">You\'ve never backed up</string>
+    <string name="backup_card_never_body">Your entries only live on this phone.</string>
+    <string name="backup_card_stale_title">No backup in %1$d weeks</string>
+    <string name="backup_card_stale_body">Export a copy so your entries aren\'t only on this phone.</string>
+    <string name="backup_card_reconnect">Reconnect</string>
+    <string name="backup_card_open_settings">Open settings</string>
+    <string name="backup_card_set_up">Set up backup</string>
+    <string name="backup_card_export">Export</string>
+    <string name="backup_card_dismiss">Dismiss</string>
 </resources>

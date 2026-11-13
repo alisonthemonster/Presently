@@ -114,6 +114,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val typedValue = TypedValue()
         requireActivity().theme.resolveAttribute(R.attr.timelineBackgroundColor, typedValue, true)
         setStatusBarColorsForBackground(window, typedValue.data)
+
+        if (savedInstanceState == null) view.post { if (isAdded) runLaunchActionOnce() }
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -188,24 +190,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     backupStatusStore.recordDropboxDisconnectedByUser()
                 }
             } else {
-                analytics.recordEvent(DROPBOX_AUTH_ATTEMPT)
-                try {
-                    val appKey = BuildConfig.DROPBOX_APP_KEY
-                    val manifestCheckPassed =
-                        AuthActivity.checkAppBeforeAuth(requireContext(), appKey, false)
-                    if (!manifestCheckPassed) {
-                        val exception = IllegalStateException(
-                            "Dropbox manifest/auth precheck failed before auth start"
-                        )
-                        crashReporter.logHandledException(exception)
-                        Toast.makeText(context, R.string.dropbox_auth_failed, Toast.LENGTH_SHORT).show()
-                        return@setOnPreferenceClickListener true
-                    }
-                    DropboxUploader.authorizeDropboxAccess(requireContext(), settings)
-                } catch (exception: Exception) {
-                    crashReporter.logHandledException(exception)
-                    Toast.makeText(context, R.string.dropbox_auth_failed, Toast.LENGTH_SHORT).show()
-                }
+                startDropboxAuth()
             }
             true
         }
@@ -285,6 +270,37 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 createDropboxUploaderWorker(settings.getAutomaticBackupCadence())
                 cancelDropboxFailureNotifications() //now that user has auth'd cancel any notifs about previous failure
             }
+        }
+    }
+
+    private fun startDropboxAuth() {
+        analytics.recordEvent(DROPBOX_AUTH_ATTEMPT)
+        try {
+            val appKey = BuildConfig.DROPBOX_APP_KEY
+            val manifestCheckPassed =
+                AuthActivity.checkAppBeforeAuth(requireContext(), appKey, false)
+            if (!manifestCheckPassed) {
+                val exception = IllegalStateException(
+                    "Dropbox manifest/auth precheck failed before auth start"
+                )
+                crashReporter.logHandledException(exception)
+                Toast.makeText(context, R.string.dropbox_auth_failed, Toast.LENGTH_SHORT).show()
+                return
+            }
+            DropboxUploader.authorizeDropboxAccess(requireContext(), settings)
+        } catch (exception: Exception) {
+            crashReporter.logHandledException(exception)
+            Toast.makeText(context, R.string.dropbox_auth_failed, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /** Runs the action the timeline backup card asked for, once. */
+    private fun runLaunchActionOnce() {
+        val action = arguments?.getString(ARG_LAUNCH_ACTION) ?: return
+        arguments?.remove(ARG_LAUNCH_ACTION)
+        when (action) {
+            ACTION_RECONNECT_DROPBOX -> startDropboxAuth()
+            ACTION_EXPORT_BACKUP -> createFileOnDevice()
         }
     }
 
@@ -824,6 +840,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     companion object {
+        fun newInstance(launchAction: String? = null) = SettingsFragment().apply {
+            if (launchAction != null) {
+                arguments = Bundle().apply { putString(ARG_LAUNCH_ACTION, launchAction) }
+            }
+        }
+
+        private const val ARG_LAUNCH_ACTION = "launch_action"
+        const val ACTION_RECONNECT_DROPBOX = "reconnect_dropbox"
+        const val ACTION_EXPORT_BACKUP = "export_backup"
         const val BACKUP_TOKEN = "dropbox_pref"
         const val SETTINGS_TO_THEME = "SETTINGS_TO_THEME"
         const val SETTINGS_TO_NOTIFICATION_TROUBLESHOOTER =
