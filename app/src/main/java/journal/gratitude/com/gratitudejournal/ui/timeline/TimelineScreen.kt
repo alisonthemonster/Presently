@@ -121,6 +121,7 @@ fun TimelineScreenContent(
     val theme = LocalPresentlyTheme.current
     val listState = rememberLazyListState()
     var isListTouched by remember { mutableStateOf(false) }
+    var isScrubbing by remember { mutableStateOf(false) }
     val animationDurationMillis = 250
     val calendarTopPadding = 64.dp
     val density = LocalDensity.current
@@ -133,13 +134,13 @@ fun TimelineScreenContent(
     var fabCenterY by remember { mutableStateOf<Float?>(null) }
     var isCalendarMounted by remember { mutableStateOf(state.isCalendarVisible) }
 
-    // The calendar button gets out of the way while the list scrolls (but never while the
-    // calendar is open, since the button animates into it). `state` is a plain parameter, so read
-    // it through rememberUpdatedState: a bare capture inside remember { derivedStateOf } would
-    // keep the first composition's value forever.
+    // The calendar button gets out of the way while the list scrolls or the scrubber is dragged
+    // (but never while the calendar is open, since the button animates into it). `state` is a plain
+    // parameter, so read it through rememberUpdatedState: a bare capture inside
+    // remember { derivedStateOf } would keep the first composition's value forever.
     val isCalendarVisible by rememberUpdatedState(state.isCalendarVisible)
     val hideCalendarButton by remember {
-        derivedStateOf { listState.isScrollInProgress && !isCalendarVisible && !isCalendarMounted }
+        derivedStateOf { (listState.isScrollInProgress || isScrubbing) && !isCalendarVisible && !isCalendarMounted }
     }
     val calendarButtonVisibility by animateFloatAsState(
         targetValue = if (hideCalendarButton) 0f else 1f,
@@ -272,7 +273,8 @@ fun TimelineScreenContent(
                             items = state.items,
                             hidden = state.isCalendarVisible || isCalendarMounted,
                             isListTouched = { isListTouched },
-                            onDragStarted = onScrubberUsed
+                            onDragStarted = onScrubberUsed,
+                            onDraggingChanged = { isScrubbing = it }
                         )
                     }
                 }

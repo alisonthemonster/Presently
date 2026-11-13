@@ -212,4 +212,58 @@ class TimelineScrubberComposeTest {
         composeRule.runOnIdle { items.value = emptyList() }
         advance(1000)
     }
+
+    private fun calendarButtonHidden(): Boolean = composeRule.onNodeWithTag(TimelineScreenTags.CALENDAR_BUTTON)
+        .fetchSemanticsNode().config.contains(SemanticsProperties.InvisibleToUser)
+
+    @Test
+    fun calendarButton_hiddenWhileScrubbing_andBackAfterwards() {
+        setScreen(sparseRows(100))
+        assertTrue(!calendarButtonHidden())
+
+        scrollList(1)
+        composeRule.onNodeWithTag(handle).performTouchInput {
+            down(center)
+            moveBy(Offset(0f, 20f))
+            moveBy(Offset(0f, 200f))
+        }
+        advance(400)
+        assertTrue(calendarButtonHidden())
+
+        // Held still: still hidden, even though the list is no longer scrolling.
+        advance(2000)
+        assertTrue(calendarButtonHidden())
+
+        composeRule.onNodeWithTag(handle).performTouchInput { up() }
+        assertTrue(advanceUntil(3000) { !calendarButtonHidden() })
+    }
+
+    @Test
+    fun calendarButton_comesBack_ifScrubberLeavesCompositionMidDrag() {
+        val items = mutableStateOf(sparseRows(100))
+        composeRule.mainClock.autoAdvance = false
+        composeRule.setContent {
+            PresentlyTheme(themeSpec = PresentlyThemeSpec.entries.first()) {
+                TimelineScreenContent(
+                    state = TimelineUiState(items = items.value),
+                    onSearchClick = {}, onSettingsClick = {}, onTimelineEntryClick = {},
+                    onCalendarClick = {}, onCalendarClose = {}, onCalendarDateClick = { _, _, _ -> },
+                    onScrubberUsed = {}
+                )
+            }
+        }
+        advance(100)
+        scrollList(10)
+        composeRule.onNodeWithTag(handle).performTouchInput {
+            down(center)
+            moveBy(Offset(0f, 20f))
+            moveBy(Offset(0f, 200f))
+        }
+        advance(400)
+        assertTrue(calendarButtonHidden())
+
+        // Below the threshold the scrubber is removed while the finger is still down.
+        composeRule.runOnIdle { items.value = sparseRows(10) }
+        assertTrue(advanceUntil(3000) { !calendarButtonHidden() })
+    }
 }
