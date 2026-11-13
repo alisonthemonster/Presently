@@ -9,6 +9,7 @@ import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.logging.DROPBOX_AUTH_QUIT
 import journal.gratitude.com.gratitudejournal.logging.DROPBOX_AUTH_SUCCESS
 import journal.gratitude.com.gratitudejournal.logging.updateDropboxBackupProperty
+import journal.gratitude.com.gratitudejournal.logging.updateThemeProperty
 import journal.gratitude.com.gratitudejournal.settings.model.*
 import java.time.LocalTime
 import java.util.*
@@ -29,6 +30,7 @@ class RealPresentlySettings @Inject constructor(
             .apply()
 
         analytics.recordSelectEvent(themeName, "theme")
+        analytics.updateThemeProperty(this)
     }
 
     override fun isBiometricsEnabled(): Boolean {
