@@ -20,6 +20,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.logging.updateDropboxBackupProperty
+import journal.gratitude.com.gratitudejournal.logging.updateThemeProperty
 import journal.gratitude.com.gratitudejournal.settings.BackupStatusStore
 import journal.gratitude.com.gratitudejournal.settings.updateLastBackupAgeProperty
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
@@ -65,6 +66,7 @@ class ContainerActivity : AppCompatActivity() {
         logLaunchSourceFromIntent(intent)
         analyticsLogger.updateDropboxBackupProperty(settings)
         analyticsLogger.updateLastBackupAgeProperty(settings, backupStatusStore)
+        analyticsLogger.updateThemeProperty(settings)
 
         NotificationScheduler().configureNotifications(this, settings)
 
