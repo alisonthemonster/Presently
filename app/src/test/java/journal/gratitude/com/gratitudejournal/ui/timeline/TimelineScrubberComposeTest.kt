@@ -62,6 +62,20 @@ class TimelineScrubberComposeTest {
 
     private fun advance(ms: Long) = composeRule.mainClock.advanceTimeBy(ms)
 
+    /**
+     * Steps the manual clock in small increments (one big jump would skip animation frames) until
+     * [condition] holds, polling the semantics tree like a real consumer would.
+     */
+    private fun advanceUntil(maxMs: Long, stepMs: Long = 50, condition: () -> Boolean): Boolean {
+        var elapsed = 0L
+        while (elapsed < maxMs) {
+            if (condition()) return true
+            advance(stepMs)
+            elapsed += stepMs
+        }
+        return condition()
+    }
+
     private fun scrollList(index: Int) {
         composeRule.onNodeWithTag(TimelineScreenTags.LIST).performScrollToIndex(index)
         advance(300)

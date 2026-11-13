@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.systemGestureExclusion
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -90,11 +91,13 @@ internal val SCRUBBER_HAPTIC_BOUNDARY = TimelineScrubberMath.HapticBoundary.MONT
 internal const val SCRUBBER_LABEL_MIN_GAP_DP = 20f
 
 private val HandleTouchSize = 48.dp
-private val HandleWidth = 36.dp
+/** Handle is a perfect circle of this diameter, centred in a 48dp-tall touch row. */
+private val HandleDiameter = 40.dp
 private val HandleHeight = 48.dp
-private val HandleEndInset = 4.dp
-/** Gap from the end edge to year labels and the bubble: handle inset + width + 8dp. */
-private val LabelEndInset = 48.dp
+/** How far the circle hangs off the end edge (cut off by the screen, like Google Photos). */
+private val HandleHang = 8.dp
+/** Gap from the end edge to year labels and the bubble: visible part of the handle + 8dp. */
+private val LabelEndInset = HandleDiameter - HandleHang + 8.dp
 private val LabelHeight = SCRUBBER_LABEL_MIN_GAP_DP.dp
 
 /**
@@ -103,6 +106,7 @@ private val LabelHeight = SCRUBBER_LABEL_MIN_GAP_DP.dp
  * @param hidden true while the calendar overlay is up: the handle is hidden and not interactive.
  * @param isListTouched whether a finger is currently down on the list (keeps the handle visible).
  * @param onDragStarted called once per drag session.
+ * @param onDraggingChanged called whenever a drag starts or ends.
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -112,6 +116,7 @@ internal fun TimelineScrubber(
     hidden: Boolean,
     isListTouched: () -> Boolean,
     onDragStarted: () -> Unit,
+    onDraggingChanged: (Boolean) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val theme = LocalPresentlyTheme.current
@@ -124,6 +129,7 @@ internal fun TimelineScrubber(
     val scrubberIndex = remember(items) { TimelineScrubberIndex.from(items) }
     val currentIndex by rememberUpdatedState(scrubberIndex)
     val currentOnDragStarted by rememberUpdatedState(onDragStarted)
+    val currentOnDraggingChanged by rememberUpdatedState(onDraggingChanged)
 
     var dragFraction by remember { mutableStateOf<Float?>(null) }
 
@@ -196,6 +202,13 @@ internal fun TimelineScrubber(
                 }
             }
     }
+    LaunchedEffect(Unit) {
+        snapshotFlow { dragFraction != null }.collect { currentOnDraggingChanged(it) }
+    }
+    // If the scrubber leaves composition mid-drag (e.g. the list shrinks below the threshold) the
+    // collector above is cancelled before it can report the end of the drag.
+    DisposableEffect(Unit) { onDispose { currentOnDraggingChanged(false) } }
+
     // Bubble + ticks + labels: while dragging, plus a short linger.
     var overlayVisible by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
@@ -220,6 +233,8 @@ internal fun TimelineScrubber(
         val handleHeightPx = with(density) { HandleHeight.toPx() }
         val travelPx = (with(density) { maxHeight.toPx() } - handleHeightPx).coerceAtLeast(0f)
         val travelDp = with(density) { travelPx.toDp().value }
+        // Read through State so the drag detector never has to restart when the size changes.
+        val currentTravelPx by rememberUpdatedState(travelPx)
         val handleYPx: () -> Int = {
             ((dragFraction ?: scrollFraction) * travelPx).roundToInt()
         }
@@ -324,22 +339,29 @@ internal fun TimelineScrubber(
                         if (handleShown) {
                             Modifier
                                 .systemGestureExclusion()
-                                .pointerInput(travelPx) {
-                                    detectDragGestures(
-                                        onDragStart = {
-                                            dragFraction = scrollFraction
-                                            currentOnDragStarted()
-                                        },
-                                        onDragEnd = { dragFraction = null },
-                                        onDragCancel = { dragFraction = null }
-                                    ) { change, dragAmount ->
-                                        change.consume()
-                                        val current = dragFraction ?: return@detectDragGestures
-                                        dragFraction = if (travelPx > 0f) {
-                                            (current + dragAmount.y / travelPx).coerceIn(0f, 1f)
-                                        } else {
-                                            current
+                                .pointerInput(Unit) {
+                                    // Whatever ends this gesture (finger up, cancel, or the handle leaving
+                                    // composition mid-drag), the drag state must not outlive it.
+                                    try {
+                                        detectDragGestures(
+                                            onDragStart = {
+                                                dragFraction = scrollFraction
+                                                currentOnDragStarted()
+                                            },
+                                            onDragEnd = { dragFraction = null },
+                                            onDragCancel = { dragFraction = null }
+                                        ) { change, dragAmount ->
+                                            change.consume()
+                                            val current = dragFraction ?: return@detectDragGestures
+                                            val travel = currentTravelPx
+                                            dragFraction = if (travel > 0f) {
+                                                (current + dragAmount.y / travel).coerceIn(0f, 1f)
+                                            } else {
+                                                current
+                                            }
                                         }
+                                    } finally {
+                                        dragFraction = null
                                     }
                                 }
                         } else {
@@ -351,19 +373,19 @@ internal fun TimelineScrubber(
             ) {
                 Canvas(
                     modifier = Modifier
-                        .padding(end = HandleEndInset)
-                        .size(width = HandleWidth, height = HandleHeight)
+                        .offset(x = HandleHang)
+                        .size(HandleDiameter)
                         .graphicsLayer { alpha = handleAlpha }
                 ) {
-                    // Google Photos style: a wide pill with an up and a down chevron.
+                    // Google Photos style: a circle with an up and a down chevron.
                     drawRoundRect(
                         color = theme.fab,
                         cornerRadius = CornerRadius(size.width / 2f, size.width / 2f)
                     )
                     val cx = size.width / 2f
-                    val half = size.width * 0.2f
+                    val half = size.width * 0.1f
                     val stroke = 2.dp.toPx()
-                    listOf(1f to size.height / 2f - half * 1.2f, -1f to size.height / 2f + half * 1.2f)
+                    listOf(1f to size.height / 2f - half * 1.6f, -1f to size.height / 2f + half * 1.6f)
                         .forEach { (dir, y) ->
                             val path = Path().apply {
                                 moveTo(cx - half, y + dir * half * 0.5f)
