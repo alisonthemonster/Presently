@@ -1,7 +1,5 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
-import android.os.Build
-import android.os.SystemClock
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -19,17 +17,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.systemGestureExclusion
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -40,11 +31,9 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
@@ -60,10 +49,6 @@ import androidx.compose.ui.unit.sp
 import journal.gratitude.com.gratitudejournal.R
 import journal.gratitude.com.gratitudejournal.ui.theme.LocalPresentlyTheme
 import journal.gratitude.com.gratitudejournal.ui.theme.PresentlyFontFamilies
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -122,109 +107,21 @@ internal fun TimelineScrubber(
     val theme = LocalPresentlyTheme.current
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()
-    val haptics = LocalHapticFeedback.current
     val locale = LocalConfiguration.current.locales[0]
     val labels = remember(locale) { TimelineScrubberLabels(locale) }
 
     val scrubberIndex = remember(items) { TimelineScrubberIndex.from(items) }
-    val currentIndex by rememberUpdatedState(scrubberIndex)
-    val currentOnDragStarted by rememberUpdatedState(onDragStarted)
-    val currentOnDraggingChanged by rememberUpdatedState(onDraggingChanged)
+    val state = rememberTimelineScrubberState(
+        listState = listState,
+        index = scrubberIndex,
+        isListTouched = isListTouched,
+        onDragStarted = onDragStarted,
+        onDraggingChanged = onDraggingChanged
+    )
 
-    var dragFraction by remember { mutableStateOf<Float?>(null) }
-
-    val scrollFraction by remember(listState) {
-        derivedStateOf {
-            val layoutInfo = listState.layoutInfo
-            val first = layoutInfo.visibleItemsInfo.firstOrNull()
-            TimelineScrubberMath.scrollFraction(
-                firstVisibleIndex = listState.firstVisibleItemIndex,
-                firstItemOffsetPx = listState.firstVisibleItemScrollOffset,
-                firstItemSizePx = first?.size ?: 0,
-                size = currentIndex.size,
-                canScrollForward = listState.canScrollForward
-            )
-        }
-    }
-
-    // Month under the finger while dragging (null when not dragging). Changes only on month change.
-    val dragMonthKey by remember {
-        derivedStateOf {
-            dragFraction?.let {
-                currentIndex.monthKeyAt(TimelineScrubberMath.fractionToIndex(it, currentIndex.size))
-            }
-        }
-    }
-    val scrollMonthKey by remember(listState) {
-        derivedStateOf { currentIndex.monthKeyAt(listState.firstVisibleItemIndex) }
-    }
-    var lastDragMonthKey by remember { mutableIntStateOf(TimelineScrubberIndex.NO_MONTH) }
-    LaunchedEffect(dragMonthKey) { dragMonthKey?.let { lastDragMonthKey = it } }
-
-    // Dragging scrolls the list instantly (no animation, no fling).
-    LaunchedEffect(listState) {
-        snapshotFlow {
-            dragFraction?.let { TimelineScrubberMath.fractionToIndex(it, currentIndex.size) }
-        }
-            .filterNotNull()
-            .distinctUntilChanged()
-            .collectLatest { listState.scrollToItem(it) }
-    }
-
-    // Haptic tick when the dragged position crosses a month (or year) boundary. API 34+ only.
-    LaunchedEffect(haptics) {
-        var previous: Int? = null
-        var lastHapticMs: Long? = null
-        snapshotFlow { dragMonthKey }.collect { key ->
-            val before = previous
-            previous = key
-            if (key == null || before == null) return@collect
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) return@collect
-            if (!TimelineScrubberMath.crossedBoundary(before, key, SCRUBBER_HAPTIC_BOUNDARY)) return@collect
-            val now = SystemClock.elapsedRealtime()
-            if (TimelineScrubberMath.shouldPerformHaptic(lastHapticMs, now, SCRUBBER_HAPTIC_MIN_INTERVAL_MS)) {
-                lastHapticMs = now
-                haptics.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
-            }
-        }
-    }
-
-    // Handle visibility: shown while scrolling / touched / dragged, hidden after a quiet period.
-    var recentlyActive by remember { mutableStateOf(false) }
-    LaunchedEffect(listState) {
-        snapshotFlow { listState.isScrollInProgress || isListTouched() || dragFraction != null }
-            .collectLatest { active ->
-                if (active) {
-                    recentlyActive = true
-                } else {
-                    delay(SCRUBBER_HIDE_DELAY_MS)
-                    recentlyActive = false
-                }
-            }
-    }
-    LaunchedEffect(Unit) {
-        snapshotFlow { dragFraction != null }.collect { currentOnDraggingChanged(it) }
-    }
-    // If the scrubber leaves composition mid-drag (e.g. the list shrinks below the threshold) the
-    // collector above is cancelled before it can report the end of the drag.
-    DisposableEffect(Unit) { onDispose { currentOnDraggingChanged(false) } }
-
-    // Bubble + ticks + labels: while dragging, plus a short linger.
-    var overlayVisible by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) {
-        snapshotFlow { dragFraction != null }.collectLatest { dragging ->
-            if (dragging) {
-                overlayVisible = true
-            } else {
-                delay(SCRUBBER_OVERLAY_LINGER_MS)
-                overlayVisible = false
-            }
-        }
-    }
-
-    val handleShown = recentlyActive && !hidden
+    val handleShown = state.isHandleActive && !hidden
     val handleAlpha by animateFloatAsState(if (handleShown) 1f else 0f, tween(200), label = "scrubberHandleAlpha")
-    val overlayShown = overlayVisible && !hidden
+    val overlayShown = state.isOverlayActive && !hidden
     val overlayAlpha by animateFloatAsState(if (overlayShown) 1f else 0f, tween(150), label = "scrubberOverlayAlpha")
 
     if (hidden && handleAlpha == 0f && overlayAlpha == 0f) return
@@ -236,7 +133,7 @@ internal fun TimelineScrubber(
         // Read through State so the drag detector never has to restart when the size changes.
         val currentTravelPx by rememberUpdatedState(travelPx)
         val handleYPx: () -> Int = {
-            ((dragFraction ?: scrollFraction) * travelPx).roundToInt()
+            (state.handleFraction * travelPx).roundToInt()
         }
 
         val placements = remember(scrubberIndex, travelDp) {
@@ -249,7 +146,7 @@ internal fun TimelineScrubber(
         }
 
         // Year labels in small bubbles (orientation only: no touch handling).
-        if (overlayAlpha > 0f && lastDragMonthKey != TimelineScrubberIndex.NO_MONTH) {
+        if (overlayAlpha > 0f && state.lastDragMonthKey != TimelineScrubberIndex.NO_MONTH) {
             val handleHalfPx = handleHeightPx / 2f
             val labelHalfPx = with(density) { LabelHeight.toPx() } / 2f
             placements.forEach { tick ->
@@ -278,7 +175,7 @@ internal fun TimelineScrubber(
         }
 
         // Month and year bubble: on top of the year labels, hugging the handle.
-        val bubbleKey = dragMonthKey ?: lastDragMonthKey
+        val bubbleKey = state.dragMonthKey ?: state.lastDragMonthKey
         val bubbleText = if (overlayAlpha > 0f) labels.monthYear(bubbleKey) else null
         if (bubbleText != null) {
             // Sits right beside the handle and is drawn over the year labels (Google Photos style).
@@ -317,11 +214,10 @@ internal fun TimelineScrubber(
                 .testTag(TimelineScreenTags.SCRUBBER_SEMANTICS)
                 .semantics {
                     contentDescription = a11yLabel
-                    labels.monthYear(dragMonthKey ?: scrollMonthKey)?.let { stateDescription = it }
-                    progressBarRangeInfo = ProgressBarRangeInfo(dragFraction ?: scrollFraction, 0f..1f)
+                    labels.monthYear(state.dragMonthKey ?: state.scrollMonthKey)?.let { stateDescription = it }
+                    progressBarRangeInfo = ProgressBarRangeInfo(state.handleFraction, 0f..1f)
                     setProgress { value ->
-                        val target = TimelineScrubberMath.fractionToIndex(value, currentIndex.size)
-                        scope.launch { listState.scrollToItem(target) }
+                        scope.launch { state.scrollToFraction(value) }
                         true
                     }
                 }
@@ -341,27 +237,19 @@ internal fun TimelineScrubber(
                                 .systemGestureExclusion()
                                 .pointerInput(Unit) {
                                     // Whatever ends this gesture (finger up, cancel, or the handle leaving
-                                    // composition mid-drag), the drag state must not outlive it.
+                                    // composition mid-drag), the drag must not outlive it.
                                     try {
                                         detectDragGestures(
-                                            onDragStart = {
-                                                dragFraction = scrollFraction
-                                                currentOnDragStarted()
-                                            },
-                                            onDragEnd = { dragFraction = null },
-                                            onDragCancel = { dragFraction = null }
+                                            onDragStart = { state.startDrag() },
+                                            onDragEnd = { state.endDrag() },
+                                            onDragCancel = { state.endDrag() }
                                         ) { change, dragAmount ->
                                             change.consume()
-                                            val current = dragFraction ?: return@detectDragGestures
                                             val travel = currentTravelPx
-                                            dragFraction = if (travel > 0f) {
-                                                (current + dragAmount.y / travel).coerceIn(0f, 1f)
-                                            } else {
-                                                current
-                                            }
+                                            if (travel > 0f) state.dragBy(dragAmount.y / travel)
                                         }
                                     } finally {
-                                        dragFraction = null
+                                        state.endDrag()
                                     }
                                 }
                         } else {
