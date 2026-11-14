@@ -176,13 +176,13 @@ internal fun TimelineScrubber(
                             .padding(end = LabelEndInset)
                             .height(labelHeight)
                             .graphicsLayer { alpha = overlayAlpha }
-                            .background(theme.timelineHint, RoundedCornerShape(10.dp))
+                            .background(theme.fab, RoundedCornerShape(10.dp))
                             .padding(horizontal = 8.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = labels.year(tick.year),
-                            color = theme.timelineHeader,
+                            color = theme.fabText,
                             fontFamily = PresentlyFontFamilies.accent,
                             fontSize = LabelTextSize
                         )
