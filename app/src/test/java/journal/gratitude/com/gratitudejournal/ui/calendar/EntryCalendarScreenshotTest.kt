@@ -48,7 +48,7 @@ class EntryCalendarScreenshotTest {
                 firstDayOfWeek = DayOfWeek.MONDAY,
                 onDateClick = { _, _, _ -> },
                 onCloseClick = {},
-                today = TEST_TODAY
+                currentDate = LocalDate.of(2026, 4, 15)
             )
         }
     }
@@ -68,7 +68,7 @@ class EntryCalendarScreenshotTest {
                 firstDayOfWeek = DayOfWeek.SUNDAY,
                 onDateClick = { _, _, _ -> },
                 onCloseClick = {},
-                today = TEST_TODAY
+                currentDate = LocalDate.of(2026, 4, 15)
             )
         }
     }
@@ -91,16 +91,11 @@ class EntryCalendarScreenshotTest {
                         firstDayOfWeek = DayOfWeek.MONDAY,
                         onDateClick = { _, _, _ -> },
                         onCloseClick = {},
-                today = TEST_TODAY
+                currentDate = LocalDate.of(2026, 4, 15)
                     )
                 }
             }
         }
-    }
-
-    private companion object {
-        // Fixed "today" so baselines don't depend on when the tests run.
-        val TEST_TODAY: LocalDate = LocalDate.of(2026, 4, 15)
     }
 
     private fun withDefaultLocale(locale: Locale, block: () -> Unit) {
