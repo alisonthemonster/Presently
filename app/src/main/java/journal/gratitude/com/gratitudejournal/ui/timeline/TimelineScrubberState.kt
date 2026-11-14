@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 /**
  * Everything the timeline scrubber *does*, separate from how it is drawn: where the handle is, what
@@ -63,6 +64,9 @@ internal class TimelineScrubberState(
             canScrollForward = listState.canScrollForward
         )
     }
+
+    /** [handleFraction] in 1% steps, for accessibility: it changes far less often than every frame. */
+    val semanticsProgress: Float by derivedStateOf { (handleFraction * 100f).roundToInt() / 100f }
 
     /** Where the handle is drawn: under the finger while dragging, else following the list. */
     val handleFraction: Float get() = dragFraction ?: scrollFraction
