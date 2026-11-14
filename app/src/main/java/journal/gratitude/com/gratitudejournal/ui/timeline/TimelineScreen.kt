@@ -1,6 +1,7 @@
 package journal.gratitude.com.gratitudejournal.ui.timeline
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,15 +25,18 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,6 +50,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -105,6 +111,7 @@ fun TimelineScreenContent(
     onCalendarDateClick: (LocalDate, Boolean, Int) -> Unit
 ) {
     val theme = LocalPresentlyTheme.current
+    val listState = rememberLazyListState()
     val animationDurationMillis = 250
     val calendarTopPadding = 64.dp
     val density = LocalDensity.current
@@ -116,6 +123,20 @@ fun TimelineScreenContent(
     var fabCenterX by remember { mutableStateOf<Float?>(null) }
     var fabCenterY by remember { mutableStateOf<Float?>(null) }
     var isCalendarMounted by remember { mutableStateOf(state.isCalendarVisible) }
+
+    // The calendar button gets out of the way while the list scrolls (but never while the
+    // calendar is open, since the button animates into it). `state` is a plain parameter, so read
+    // it through rememberUpdatedState: a bare capture inside remember { derivedStateOf } would
+    // keep the first composition's value forever.
+    val isCalendarVisible by rememberUpdatedState(state.isCalendarVisible)
+    val hideCalendarButton by remember {
+        derivedStateOf { listState.isScrollInProgress && !isCalendarVisible && !isCalendarMounted }
+    }
+    val calendarButtonVisibility by animateFloatAsState(
+        targetValue = if (hideCalendarButton) 0f else 1f,
+        animationSpec = tween(durationMillis = 150),
+        label = "calendarButtonVisibility"
+    )
 
     LaunchedEffect(state.isCalendarVisible, rootSize, fabCenterX, fabCenterY, calendarTopPaddingPx) {
         val currentFabCenterX = fabCenterX
@@ -198,6 +219,7 @@ fun TimelineScreenContent(
                 )
 
                 LazyColumn(
+                    state = listState,
                     modifier = Modifier
                         .fillMaxSize()
                         .testTag(TimelineScreenTags.LIST)
@@ -223,7 +245,7 @@ fun TimelineScreenContent(
             }
 
             FloatingActionButton(
-                onClick = onCalendarClick,
+                onClick = { if (calendarButtonVisibility > 0.5f) onCalendarClick() },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(16.dp)
@@ -235,7 +257,12 @@ fun TimelineScreenContent(
                     .graphicsLayer {
                         translationX = fabTranslationX.value
                         translationY = fabTranslationY.value
+                        alpha = calendarButtonVisibility
+                        scaleX = 0.8f + 0.2f * calendarButtonVisibility
+                        scaleY = 0.8f + 0.2f * calendarButtonVisibility
                     }
+                    // A faded-out button must not stay focusable for TalkBack.
+                    .semantics { if (calendarButtonVisibility < 0.5f) invisibleToUser() }
                     .testTag(TimelineScreenTags.CALENDAR_BUTTON),
                 shape = CircleShape,
                 containerColor = theme.fab,
