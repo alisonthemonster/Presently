@@ -55,7 +55,8 @@ class TimelineCalendarButtonTest {
                     onTimelineEntryClick = {},
                     onCalendarClick = {},
                     onCalendarClose = {},
-                    onCalendarDateClick = { _, _, _ -> }
+                    onCalendarDateClick = { _, _, _ -> },
+                    onScrubberUsed = {}
                 )
             }
         }

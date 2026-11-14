@@ -54,7 +54,8 @@ class TimelineFragment : Fragment() {
                         onTimelineEntryClick = viewModel::onTimelineEntryClicked,
                         onCalendarClick = viewModel::onCalendarClicked,
                         onCalendarClose = viewModel::onCalendarClosed,
-                        onCalendarDateClick = viewModel::onCalendarDateClicked
+                        onCalendarDateClick = viewModel::onCalendarDateClicked,
+                        onScrubberUsed = viewModel::onScrubberUsed
                     )
                 }
             }

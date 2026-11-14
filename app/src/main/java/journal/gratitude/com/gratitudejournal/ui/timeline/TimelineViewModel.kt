@@ -13,6 +13,7 @@ import journal.gratitude.com.gratitudejournal.model.CLICKED_SEARCH
 import journal.gratitude.com.gratitudejournal.model.Entry
 import journal.gratitude.com.gratitudejournal.model.LOOKED_AT_SETTINGS
 import journal.gratitude.com.gratitudejournal.model.OPENED_CALENDAR
+import journal.gratitude.com.gratitudejournal.model.TIMELINE_SCRUBBER_USED
 import journal.gratitude.com.gratitudejournal.logging.REMINDER_ONBOARDING_PROMPT_VIEWED
 import journal.gratitude.com.gratitudejournal.reminders.onboarding.domain.ShouldShowReminderOnboardingUseCase
 import journal.gratitude.com.gratitudejournal.repository.EntryRepository
@@ -93,6 +94,10 @@ class TimelineViewModel @Inject constructor(
     fun onCalendarClicked() {
         analytics.recordEvent(OPENED_CALENDAR)
         _state.value = _state.value.copy(isCalendarVisible = true)
+    }
+
+    fun onScrubberUsed() {
+        analytics.recordEvent(TIMELINE_SCRUBBER_USED)
     }
 
     fun onCalendarClosed() {
