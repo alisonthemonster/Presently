@@ -16,6 +16,7 @@ import com.dropbox.core.v2.files.UploadError.OTHER
 import com.dropbox.core.v2.files.UploadErrorException
 import com.google.common.truth.Truth.assertThat
 import journal.gratitude.com.gratitudejournal.coroutine_utils.AppCoroutineDispatchers
+import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.logging.CrashReporter
 import journal.gratitude.com.gratitudejournal.settings.BackupCadence
 import journal.gratitude.com.gratitudejournal.settings.RealBackupStatusStore
@@ -91,6 +92,22 @@ class UploaderTest {
         }
     }
 
+    private val analytics = object : AnalyticsLogger {
+        val events = mutableListOf<Pair<String, Map<String, Any>>>()
+        override fun recordEvent(event: String) {
+            events += event to emptyMap()
+        }
+        override fun recordEvent(event: String, details: Map<String, Any>) {
+            events += event to details
+        }
+        override fun recordSelectEvent(selectedContent: String, selectedContentType: String) = fail("Not needed in this test")
+        override fun recordEntryAdded(numEntries: Int) = fail("Not needed in this test")
+        override fun recordView(viewName: String) = fail("Not needed in this test")
+        override fun optOutOfAnalytics() = fail("Not needed in this test")
+        override fun optIntoAnalytics() = fail("Not needed in this test")
+        override fun setUserProperty(name: String, value: String) = fail("Not needed in this test")
+    }
+
     private val crashReporter = object : CrashReporter {
         var loggedException: Exception? = null
         override fun logHandledException(exception: Exception) {
@@ -155,7 +172,7 @@ class UploaderTest {
                 fail("Not needed in this test")
         }
 
-        val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store)
+        val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store, analytics)
 
         val actual = uploader.uploadEntries(context)
 
@@ -163,13 +180,14 @@ class UploaderTest {
         assertThat(wasCloudProviderCalled).isFalse()
         assertThat(store.getLastDropboxSuccessAt()).isNull()
         assertThat(store.getLastUploadFailure()).isNull()
+        assertThat(analytics.events).containsExactly(ATTEMPTED)
     }
 
     @Test
     fun successfulUpload() = runTest {
         wasCloudProviderCalled = false
         val dispatchers = createDispatchers()
-        val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store)
+        val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store, analytics)
         val actual = uploader.uploadEntries(context)
 
         assertThat(actual).isEqualTo(ListenableWorker.Result.success())
@@ -177,6 +195,7 @@ class UploaderTest {
         assertThat(store.getLastDropboxSuccessAt()).isEqualTo(1_000L)
         assertThat(store.getLastUploadFailure()).isNull()
         assertThat(store.getDropboxEnabledAt()).isEqualTo(1_000L)
+        assertThat(analytics.events).containsExactly(ATTEMPTED, "dropboxUploadSucceeded" to emptyMap<String, Any>())
     }
 
     @Test
@@ -191,7 +210,7 @@ class UploaderTest {
             }
         }
 
-        val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store)
+        val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store, analytics)
         val actual = uploader.uploadEntries(context)
 
         assertThat(actual).isEqualTo(ListenableWorker.Result.failure())
@@ -200,6 +219,7 @@ class UploaderTest {
         assertThat(store.getLastUploadFailure())
             .isEqualTo(UploadFailure(UploadFailureType.AUTH, 1_000L))
         assertThat(store.wasDropboxDisconnectedUnexpectedly()).isTrue()
+        assertFailedEvent("auth")
     }
 
     @Test
@@ -219,7 +239,7 @@ class UploaderTest {
             }
         }
 
-        val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store)
+        val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store, analytics)
         val actual = uploader.uploadEntries(context)
 
         assertThat(actual).isEqualTo(ListenableWorker.Result.failure())
@@ -228,6 +248,7 @@ class UploaderTest {
         assertThat(store.getLastUploadFailure())
             .isEqualTo(UploadFailure(UploadFailureType.STORAGE_FULL, 1_000L))
         assertThat(store.wasDropboxDisconnectedUnexpectedly()).isFalse()
+        assertFailedEvent("storage_full")
     }
 
     @Test
@@ -240,7 +261,7 @@ class UploaderTest {
             }
         }
 
-        val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store)
+        val uploader = RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store, analytics)
         val actual = uploader.uploadEntries(context)
 
         assertThat(actual).isEqualTo(ListenableWorker.Result.failure())
@@ -248,6 +269,54 @@ class UploaderTest {
         assertThat(store.getLastUploadFailure())
             .isEqualTo(UploadFailure(UploadFailureType.NETWORK, 1_000L))
         assertThat(store.wasDropboxDisconnectedUnexpectedly()).isFalse()
+        assertFailedEvent("network")
+    }
+
+    @Test
+    fun transientServerFailureLogsFailedEvent() = runTest {
+        val cloudProvider = object : CloudProvider {
+            override suspend fun uploadToCloud(file: File): CloudUploadResult =
+                UploadError(com.dropbox.core.ServerException("requestId", "boom"))
+        }
+        RealUploader(createDispatchers(), repo, cloudProvider, crashReporter, settings, store, analytics)
+            .uploadEntries(context)
+        assertFailedEvent(UploadFailureType.TRANSIENT_SERVER.code)
+    }
+
+    @Test
+    fun otherFailureLogsFailedEvent() = runTest {
+        val cloudProvider = object : CloudProvider {
+            override suspend fun uploadToCloud(file: File): CloudUploadResult =
+                UploadError(IllegalStateException("weird"))
+        }
+        RealUploader(createDispatchers(), repo, cloudProvider, crashReporter, settings, store, analytics)
+            .uploadEntries(context)
+        assertFailedEvent("other")
+    }
+
+    @Test
+    fun csvFailureLogsOtherFailedEvent() = runTest {
+        wasCloudProviderCalled = false
+        //an entry with a null date makes CSV creation throw, which surfaces as CsvFileError
+        val brokenEntry = Entry(LocalDate.of(2021, 12, 25), "x").also {
+            Entry::class.java.getDeclaredField("entryDate").apply { isAccessible = true }.set(it, null)
+        }
+        val repo = object : EntryRepository by this@UploaderTest.repo {
+            override suspend fun getEntries(): List<Entry> = listOf(brokenEntry)
+        }
+        val actual = RealUploader(createDispatchers(), repo, cloudProvider, crashReporter, settings, store, analytics)
+            .uploadEntries(context)
+
+        assertThat(actual).isEqualTo(ListenableWorker.Result.failure())
+        assertThat(wasCloudProviderCalled).isFalse()
+        assertFailedEvent("other")
+    }
+
+    private val ATTEMPTED = "dropboxUploadAttempted" to emptyMap<String, Any>()
+
+    private fun assertFailedEvent(code: String) {
+        assertThat(analytics.events)
+            .containsExactly(ATTEMPTED, "dropboxUploadFailed" to mapOf<String, Any>("failureType" to code))
     }
 
     @Test
@@ -262,7 +331,7 @@ class UploaderTest {
             }
         }
 
-        RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store)
+        RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store, analytics)
             .uploadEntries(context)
 
         assertThat(store.getLastUploadFailure())
@@ -276,7 +345,7 @@ class UploaderTest {
         nowMillis = 9_999L
         val dispatchers = createDispatchers()
 
-        RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store)
+        RealUploader(dispatchers, repo, cloudProvider, crashReporter, settings, store, analytics)
             .uploadEntries(context)
 
         assertThat(store.getDropboxEnabledAt()).isEqualTo(123L)
