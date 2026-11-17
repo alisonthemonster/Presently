@@ -9,4 +9,12 @@
     <string name="erase_all_confirm_word">清除</string>
     <string name="erase_all_confirm_button">确认</string>
     <string name="erase_all_success">已清除所有日记</string>
+    <string name="entry_count_widget_name">日记数量</string>
+    <string name="entry_count_widget_description">查看您已写了多少篇日记</string>
+    <plurals name="widget_entries_label">
+        <item quantity="other">篇日记</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="other">%d 篇日记</item>
+    </plurals>
 </resources>

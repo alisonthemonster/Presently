@@ -166,4 +166,12 @@
     <string name="erase_all_confirm_word">清除</string>
     <string name="erase_all_confirm_button">確認</string>
     <string name="erase_all_success">已清除所有日記</string>
+    <string name="entry_count_widget_name">日記數量</string>
+    <string name="entry_count_widget_description">查看您已寫了多少篇日記</string>
+    <plurals name="widget_entries_label">
+        <item quantity="other">篇日記</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="other">%d 篇日記</item>
+    </plurals>
 </resources>

@@ -165,4 +165,14 @@
     <string name="erase_all_confirm_word">POISTA</string>
     <string name="erase_all_confirm_button">Vahvista</string>
     <string name="erase_all_success">Kaikki merkinnät poistettu</string>
+    <string name="entry_count_widget_name">Merkintöjen määrä</string>
+    <string name="entry_count_widget_description">Katso, kuinka monta merkintää olet kirjoittanut</string>
+    <plurals name="widget_entries_label">
+        <item quantity="one">merkintä</item>
+        <item quantity="other">merkintää</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="one">%d merkintä</item>
+        <item quantity="other">%d merkintää</item>
+    </plurals>
 </resources>

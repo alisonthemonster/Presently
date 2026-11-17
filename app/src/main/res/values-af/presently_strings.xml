@@ -166,4 +166,14 @@
     <string name="erase_all_confirm_word">VEE</string>
     <string name="erase_all_confirm_button">Bevestig</string>
     <string name="erase_all_success">Alle inskrywings uitgevee</string>
+    <string name="entry_count_widget_name">Inskrywingtelling</string>
+    <string name="entry_count_widget_description">Sien hoeveel inskrywings jy geskryf het</string>
+    <plurals name="widget_entries_label">
+        <item quantity="one">inskrywing</item>
+        <item quantity="other">inskrywings</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="one">%d inskrywing</item>
+        <item quantity="other">%d inskrywings</item>
+    </plurals>
 </resources>

@@ -18,6 +18,9 @@ interface EntryDao {
     @Query("SELECT entryDate FROM entries ORDER BY datetime(entryDate) DESC")
     fun getWrittenDates(): LiveData<List<LocalDate>>
 
+    @Query("SELECT COUNT(*) FROM entries")
+    fun getEntryCount(): Flow<Int>
+
     @Query("SELECT * FROM entries WHERE entryDate = :date")
     suspend fun getEntry(date: LocalDate): Entry?
 

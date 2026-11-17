@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="what_are_you_thankful_for">За что вы благодарны?</string>
     <string name="what_were_you_thankful_for">За что вы были благодарны?</string>
     <string name="what_are_you_thankful_for_today">За что вы благодарны сегодня?</string>
@@ -165,4 +165,18 @@
     <string name="erase_all_confirm_word">СТЕРЕТЬ</string>
     <string name="erase_all_confirm_button">Подтвердить</string>
     <string name="erase_all_success">Все записи стёрты</string>
+    <string name="entry_count_widget_name">Количество записей</string>
+    <string name="entry_count_widget_description">Посмотрите, сколько записей вы написали</string>
+    <plurals name="widget_entries_label" tools:ignore="ImpliedQuantity">
+        <item quantity="one">запись</item>
+        <item quantity="few">записи</item>
+        <item quantity="many">записей</item>
+        <item quantity="other">записи</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="one">%d запись</item>
+        <item quantity="few">%d записи</item>
+        <item quantity="many">%d записей</item>
+        <item quantity="other">%d записи</item>
+    </plurals>
 </resources>

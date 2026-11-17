@@ -163,4 +163,18 @@
     <string name="erase_all_confirm_word">WYMAŻ</string>
     <string name="erase_all_confirm_button">Potwierdź</string>
     <string name="erase_all_success">Wszystkie wpisy wymazane</string>
+    <string name="entry_count_widget_name">Liczba wpisów</string>
+    <string name="entry_count_widget_description">Sprawdź, ile wpisów już powstało</string>
+    <plurals name="widget_entries_label">
+        <item quantity="one">wpis</item>
+        <item quantity="few">wpisy</item>
+        <item quantity="many">wpisów</item>
+        <item quantity="other">wpisu</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="one">%d wpis</item>
+        <item quantity="few">%d wpisy</item>
+        <item quantity="many">%d wpisów</item>
+        <item quantity="other">%d wpisu</item>
+    </plurals>
 </resources>

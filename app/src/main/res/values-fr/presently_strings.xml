@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="what_are_you_thankful_for">Qu\'est-ce qui vous fait ressentir de la gratitude?</string>
     <string name="what_were_you_thankful_for">Qu\'est-ce qui vous a fait ressentir de la gratitude?</string>
     <string name="what_are_you_thankful_for_today">Pour quelle raison ressentez-vous de la reconnaissance aujourd\'hui?</string>
@@ -165,4 +165,16 @@
     <string name="erase_all_confirm_word">EFFACER</string>
     <string name="erase_all_confirm_button">Confirmer</string>
     <string name="erase_all_success">Toutes les entrées ont été effacées</string>
+    <string name="entry_count_widget_name">Nombre d\'entrées</string>
+    <string name="entry_count_widget_description">Voyez combien d\'entrées vous avez écrites</string>
+    <plurals name="widget_entries_label" tools:ignore="ImpliedQuantity">
+        <item quantity="one">entrée</item>
+        <item quantity="many">entrées</item>
+        <item quantity="other">entrées</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="one">%d entrée</item>
+        <item quantity="many">%d entrées</item>
+        <item quantity="other">%d entrées</item>
+    </plurals>
 </resources>

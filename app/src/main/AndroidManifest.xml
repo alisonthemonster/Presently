@@ -60,6 +60,18 @@
                 android:resource="@xml/gratitude_quote_widget_info" />
         </receiver>
 
+        <receiver
+            android:name=".widget.EntryCountWidgetReceiver"
+            android:exported="true"
+            android:label="@string/entry_count_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/entry_count_widget_info" />
+        </receiver>
+
         <receiver android:name=".util.reminders.ReminderReceiver" />
 
         <receiver
