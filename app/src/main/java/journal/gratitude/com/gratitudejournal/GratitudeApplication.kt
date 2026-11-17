@@ -9,42 +9,10 @@ import dagger.hilt.android.EarlyEntryPoint
 import dagger.hilt.android.EarlyEntryPoints
 import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.components.SingletonComponent
-import androidx.glance.appwidget.updateAll
-import dagger.hilt.android.EntryPointAccessors
-import journal.gratitude.com.gratitudejournal.di.WidgetEntryPoint
-import journal.gratitude.com.gratitudejournal.widget.EntryCountWidget
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltAndroidApp
-class GratitudeApplication : BaseGratitudeApplication() {
-
-    private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-
-    override fun onCreate() {
-        super.onCreate()
-        refreshWidgetOnEntryCountChange()
-    }
-
-    // Keeps the home screen widget's entry count current whenever entries are added,
-    // deleted or restored. Lives here (not in the base class) because instrumented tests
-    // replace the database module.
-    private fun refreshWidgetOnEntryCountChange() {
-        applicationScope.launch {
-            EntryPointAccessors.fromApplication(this@GratitudeApplication, WidgetEntryPoint::class.java)
-                .entryDao
-                .getEntryCount()
-                .distinctUntilChanged()
-                .drop(1) // the widget renders its own initial value
-                .collect { EntryCountWidget().updateAll(this@GratitudeApplication) }
-        }
-    }
-}
+class GratitudeApplication : BaseGratitudeApplication()
 
 open class BaseGratitudeApplication : Application(), Configuration.Provider {
 
