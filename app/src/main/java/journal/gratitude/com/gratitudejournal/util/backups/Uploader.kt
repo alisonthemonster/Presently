@@ -8,6 +8,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.ListenableWorker
 import journal.gratitude.com.gratitudejournal.coroutine_utils.AppCoroutineDispatchers
+import journal.gratitude.com.gratitudejournal.logging.AnalyticsLogger
 import journal.gratitude.com.gratitudejournal.logging.CrashReporter
 import journal.gratitude.com.gratitudejournal.settings.BackupStatusStore
 import journal.gratitude.com.gratitudejournal.settings.PresentlySettings
@@ -36,11 +37,15 @@ class RealUploader @Inject constructor(
     private val cloudProvider: CloudProvider,
     private val crashReporter: CrashReporter,
     private val settings: PresentlySettings,
-    private val backupStatusStore: BackupStatusStore
+    private val backupStatusStore: BackupStatusStore,
+    private val analytics: AnalyticsLogger
 ) : Uploader {
     override suspend fun uploadEntries(appContext: Context): ListenableWorker.Result {
         //users connected before backup status existed get a baseline on their first run
         backupStatusStore.seedDropboxBaselineIfMissing()
+
+        //lets analytics tell "never ran" apart from "ran and failed"; also fires for an empty journal
+        analytics.recordEvent(DROPBOX_UPLOAD_ATTEMPTED)
 
         //get items
         val items = repository.getEntries()
@@ -69,6 +74,7 @@ class RealUploader @Inject constructor(
                     is UploadError -> {
                         val failureType = UploadFailureClassifier.classify(result.exception)
                         backupStatusStore.recordDropboxUploadFailure(failureType)
+                        recordUploadFailed(failureType)
                         when (failureType) {
                             UploadFailureType.AUTH -> {
                                 //flag before deauthorizing, which clears the token
@@ -87,6 +93,7 @@ class RealUploader @Inject constructor(
                     }
                     is UploadSuccess -> {
                         backupStatusStore.recordDropboxUploadSuccess()
+                        analytics.recordEvent(DROPBOX_UPLOAD_SUCCEEDED)
                         ListenableWorker.Result.success()
                     }
                 }
@@ -94,6 +101,7 @@ class RealUploader @Inject constructor(
             is CsvFileError -> {
                 //a local failure; retrying is the only remedy so surface it like any other failure
                 backupStatusStore.recordDropboxUploadFailure(UploadFailureType.OTHER)
+                recordUploadFailed(UploadFailureType.OTHER)
                 ListenableWorker.Result.failure()
             }
         }
@@ -102,6 +110,10 @@ class RealUploader @Inject constructor(
         file.delete()
 
         return csvResult
+    }
+
+    private fun recordUploadFailed(failureType: UploadFailureType) {
+        analytics.recordEvent(DROPBOX_UPLOAD_FAILED, mapOf(FAILURE_TYPE_KEY to failureType.code))
     }
 
     private fun sendDropboxTooFullNotification(appContext: Context) {
@@ -190,6 +202,7 @@ class RealUploader @Inject constructor(
 
     companion object {
         val BACKUP_NOTIFICATION_ID = 98104
+        const val FAILURE_TYPE_KEY = "failureType"
     }
 
 }
