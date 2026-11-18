@@ -18,14 +18,8 @@ import androidx.core.view.WindowCompat
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import kotlin.reflect.KClass
-import journal.gratitude.com.gratitudejournal.widget.EntryCountWidget
 import journal.gratitude.com.gratitudejournal.widget.EntryCountWidgetReceiver
-import journal.gratitude.com.gratitudejournal.di.WidgetEntryPoint
 import androidx.glance.appwidget.updateAll
-import dagger.hilt.android.EntryPointAccessors
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.drop
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -80,7 +74,6 @@ class ContainerActivity : AppCompatActivity() {
         NotificationScheduler().configureNotifications(this, settings)
 
         maybePublishWidgetPreview()
-        refreshWidgetOnEntryCountChange()
 
         if (resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
             //lays app behind system bars
@@ -107,25 +100,6 @@ class ContainerActivity : AppCompatActivity() {
         }
         if (extras.getBoolean(GratitudeQuoteWidget.cameFromWidgetKey.name, false)) {
             analyticsLogger.recordEvent(CAME_FROM_WIDGET)
-        }
-    }
-
-    // Keeps the Entry count widget current whenever entries are added, deleted or restored.
-    private fun refreshWidgetOnEntryCountChange() {
-        lifecycleScope.launch {
-            try {
-                EntryPointAccessors.fromApplication(applicationContext, WidgetEntryPoint::class.java)
-                    .entryDao
-                    .getEntryCount()
-                    .distinctUntilChanged()
-                    .drop(1) // the widget renders its own initial value
-                    .collect { EntryCountWidget().updateAll(applicationContext) }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                // The widget is a nicety: never let a failure here (or a test graph without a
-                // real database) affect the app itself.
-            }
         }
     }
 
