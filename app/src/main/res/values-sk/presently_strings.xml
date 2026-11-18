@@ -166,4 +166,18 @@
     <string name="erase_all_confirm_word">VYMAZAŤ</string>
     <string name="erase_all_confirm_button">Potvrdiť</string>
     <string name="erase_all_success">Všetky záznamy boli vymazané</string>
+    <string name="entry_count_widget_name">Počet záznamov</string>
+    <string name="entry_count_widget_description">Pozrite si, koľko záznamov ste napísali</string>
+    <plurals name="widget_entries_label">
+        <item quantity="one">záznam</item>
+        <item quantity="few">záznamy</item>
+        <item quantity="many">záznamu</item>
+        <item quantity="other">záznamov</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="one">%d záznam</item>
+        <item quantity="few">%d záznamy</item>
+        <item quantity="many">%d záznamu</item>
+        <item quantity="other">%d záznamov</item>
+    </plurals>
 </resources>

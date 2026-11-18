@@ -9,7 +9,7 @@ import dagger.hilt.android.EarlyEntryPoint
 import dagger.hilt.android.EarlyEntryPoints
 import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
+import journal.gratitude.com.gratitudejournal.widget.EntryCountWidgetUpdater
 
 @HiltAndroidApp
 class GratitudeApplication : BaseGratitudeApplication()
@@ -21,6 +21,7 @@ open class BaseGratitudeApplication : Application(), Configuration.Provider {
     @InstallIn(SingletonComponent::class)
     interface ApplicationEarlyEntryPoint {
         fun getWorkerFactory(): HiltWorkerFactory
+        fun getEntryCountWidgetUpdater(): EntryCountWidgetUpdater
     }
 
     override val workManagerConfiguration: Configuration
@@ -35,6 +36,9 @@ open class BaseGratitudeApplication : Application(), Configuration.Provider {
         super.onCreate()
 
         Mavericks.initialize(this)
+        EarlyEntryPoints.get(this, ApplicationEarlyEntryPoint::class.java)
+            .getEntryCountWidgetUpdater()
+            .start()
         // TODO: If Mavericks runtime mocking is needed again, re-enable it only after upgrading
         // to a version that is compatible with Android 13+ dynamic receiver registration rules.
     }

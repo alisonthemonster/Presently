@@ -164,4 +164,14 @@
     <string name="erase_all_confirm_word">LÖSCHEN</string>
     <string name="erase_all_confirm_button">Bestätigen</string>
     <string name="erase_all_success">Alle Einträge gelöscht</string>
+    <string name="entry_count_widget_name">Eintragszähler</string>
+    <string name="entry_count_widget_description">Sieh, wie viele Einträge du geschrieben hast</string>
+    <plurals name="widget_entries_label">
+        <item quantity="one">Eintrag</item>
+        <item quantity="other">Einträge</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="one">%d Eintrag</item>
+        <item quantity="other">%d Einträge</item>
+    </plurals>
 </resources>

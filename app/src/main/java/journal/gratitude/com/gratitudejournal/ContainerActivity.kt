@@ -11,10 +11,15 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.collection.intSetOf
 import androidx.core.view.WindowCompat
 import androidx.glance.appwidget.GlanceAppWidgetManager
+import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import kotlin.reflect.KClass
+import journal.gratitude.com.gratitudejournal.widget.EntryCountWidgetReceiver
+import androidx.glance.appwidget.updateAll
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -100,7 +105,13 @@ class ContainerActivity : AppCompatActivity() {
 
     private fun maybePublishWidgetPreview() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) return
-        val componentName = ComponentName(this, GratitudeQuoteWidgetReceiver::class.java)
+        publishWidgetPreview(GratitudeQuoteWidgetReceiver::class)
+        publishWidgetPreview(EntryCountWidgetReceiver::class)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+    private fun publishWidgetPreview(receiver: KClass<out GlanceAppWidgetReceiver>) {
+        val componentName = ComponentName(this, receiver.java)
         val providerInfo = AppWidgetManager.getInstance(this).installedProviders
             .firstOrNull { it.provider == componentName } ?: return
         val alreadyPublished = providerInfo.generatedPreviewCategories and
@@ -110,7 +121,7 @@ class ContainerActivity : AppCompatActivity() {
             try {
                 GlanceAppWidgetManager(this@ContainerActivity)
                     .setWidgetPreviews(
-                        GratitudeQuoteWidgetReceiver::class,
+                        receiver,
                         intSetOf(AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN)
                     )
             } catch (e: IllegalArgumentException) {

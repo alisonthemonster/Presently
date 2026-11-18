@@ -166,4 +166,16 @@
     <string name="erase_all_confirm_word">ȘTERGE</string>
     <string name="erase_all_confirm_button">Confirmă</string>
     <string name="erase_all_success">Toate notițele au fost șterse</string>
+    <string name="entry_count_widget_name">Număr de notițe</string>
+    <string name="entry_count_widget_description">Vedeți câte notițe ați scris</string>
+    <plurals name="widget_entries_label">
+        <item quantity="one">notiță</item>
+        <item quantity="few">notițe</item>
+        <item quantity="other">de notițe</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="one">%d notiță</item>
+        <item quantity="few">%d notițe</item>
+        <item quantity="other">%d de notițe</item>
+    </plurals>
 </resources>

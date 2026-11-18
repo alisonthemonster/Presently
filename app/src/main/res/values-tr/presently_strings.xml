@@ -166,4 +166,14 @@
     <string name="erase_all_confirm_word">SİL</string>
     <string name="erase_all_confirm_button">Onayla</string>
     <string name="erase_all_success">Tüm girdiler silindi</string>
+    <string name="entry_count_widget_name">Girdi sayısı</string>
+    <string name="entry_count_widget_description">Kaç girdi yazdığınızı görün</string>
+    <plurals name="widget_entries_label">
+        <item quantity="one">girdi</item>
+        <item quantity="other">girdi</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="one">%d girdi</item>
+        <item quantity="other">%d girdi</item>
+    </plurals>
 </resources>

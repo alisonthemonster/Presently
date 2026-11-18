@@ -165,4 +165,16 @@
     <string name="erase_all_confirm_word">CANCELLA</string>
     <string name="erase_all_confirm_button">Conferma</string>
     <string name="erase_all_success">Tutte le voci sono state cancellate</string>
+    <string name="entry_count_widget_name">Numero di voci</string>
+    <string name="entry_count_widget_description">Scopri quante voci hai scritto</string>
+    <plurals name="widget_entries_label">
+        <item quantity="one">voce</item>
+        <item quantity="many">voci</item>
+        <item quantity="other">voci</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="one">%d voce</item>
+        <item quantity="many">%d voci</item>
+        <item quantity="other">%d voci</item>
+    </plurals>
 </resources>

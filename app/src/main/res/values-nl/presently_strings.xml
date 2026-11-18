@@ -163,4 +163,14 @@
     <string name="erase_all_confirm_word">WISSEN</string>
     <string name="erase_all_confirm_button">Bevestigen</string>
     <string name="erase_all_success">Alle notities gewist</string>
+    <string name="entry_count_widget_name">Aantal notities</string>
+    <string name="entry_count_widget_description">Zie hoeveel notities je hebt geschreven</string>
+    <plurals name="widget_entries_label">
+        <item quantity="one">notitie</item>
+        <item quantity="other">notities</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="one">%d notitie</item>
+        <item quantity="other">%d notities</item>
+    </plurals>
 </resources>

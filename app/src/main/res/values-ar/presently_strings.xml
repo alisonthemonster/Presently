@@ -166,4 +166,22 @@
     <string name="erase_all_confirm_word">مسح</string>
     <string name="erase_all_confirm_button">تأكيد</string>
     <string name="erase_all_success">تم مسح جميع المدخلات</string>
+    <string name="entry_count_widget_name">عدد المدخلات</string>
+    <string name="entry_count_widget_description">اعرف عدد المدخلات التي كتبتها</string>
+    <plurals name="widget_entries_label">
+        <item quantity="zero">مدخلات</item>
+        <item quantity="one">مدخل</item>
+        <item quantity="two">مدخلان</item>
+        <item quantity="few">مدخلات</item>
+        <item quantity="many">مدخلًا</item>
+        <item quantity="other">مدخل</item>
+    </plurals>
+    <plurals name="widget_entries_description">
+        <item quantity="zero">%d مدخلات</item>
+        <item quantity="one">%d مدخل</item>
+        <item quantity="two">%d مدخلان</item>
+        <item quantity="few">%d مدخلات</item>
+        <item quantity="many">%d مدخلًا</item>
+        <item quantity="other">%d مدخل</item>
+    </plurals>
 </resources>
